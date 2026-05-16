@@ -22,6 +22,17 @@ DEFAULT_CONFIG = {
     "online_news": os.getenv("ONLINE_NEWS_ENABLED", "true").lower() == "true", 
     "realtime_data": os.getenv("REALTIME_DATA_ENABLED", "false").lower() == "true",
 
+    # Checkpoint / resume
+    "checkpoint_enabled": os.getenv("CHECKPOINT_ENABLED", "false").lower() == "true",
+    "checkpoint_dir": os.getenv("CHECKPOINT_DIR", ".checkpoints"),
+
+    # Output language control
+    "output_language": os.getenv("OUTPUT_LANGUAGE", "Chinese"),
+
+    # Sentiment pre-fetch sources (comma-separated)
+    "sentiment_sources": os.getenv("SENTIMENT_SOURCES", "eastmoney,wechat_mp").split(","),
+    "wechat_mp_base_url": os.getenv("WECHAT_MP_BASE_URL", "http://localhost:8001"),
+
     # Note: Database and cache configuration is now managed by .env file and config.database_manager
     # No database/cache settings in default config to avoid configuration conflicts
 }

@@ -1,0 +1,97 @@
+name: tradingagents-cn
+description: "多智能体 A股/港股 金融交易分析系统（基于 TradingAgents）"
+version: 1.0.1
+
+tech_stack:
+  frontend: vue-ts
+  backend: python-fastapi
+  database: mongodb+redis
+
+services:
+  database:
+    type: mongodb
+    port: 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tradingagents
+      MONGO_INITDB_ROOT_PASSWORD: tradingagents_pass
+
+  cache:
+    type: redis
+    port: 6379
+
+  backend:
+    port: 8000
+    dependencies:
+      - database
+      - cache
+    environment:
+      MONGODB_URL: "mongodb://tradingagents:tradingagents_pass@localhost:27017"
+      REDIS_URL: "redis://localhost:6379/0"
+      PYTHONUNBUFFERED: 1
+
+  frontend:
+    port: 3000
+    dependencies:
+      - backend
+    environment:
+      VITE_API_BASE_URL: "http://localhost:8000"
+
+scripts:
+  # Development
+  dev:cli: "python cli/run.py"
+  dev:backend: "uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
+  dev:frontend: "cd frontend && npm run dev"
+
+  # Database
+  db:mongo: "docker compose up -d db"
+  db:seed: "python scripts/seed_db.py"
+
+  # Build
+  build:frontend: "cd frontend && npm run build"
+
+  # Test
+  test:unit: "python -m pytest tests/ -v"
+  test:frontend: "cd frontend && npm run test"
+
+lifecycle:
+  pid_dir: .pids
+  log_dir: .logs
+  health_check:
+    backend: /api/health
+    timeout: 30
+
+coding_standards:
+  backend:
+    - "遵循 tradingagents 包现有设计模式"
+    - "FastAPI 路由统一前缀 /api/"
+    - "Pydantic v2 模型定义请求/响应"
+    - "异步优先（async/await），IO 操作用 httpx"
+    - "异常统一由全局异常处理器捕获"
+  frontend:
+    - "Vue 3 Composition API + script setup"
+    - "Element Plus UI 组件"
+    - "API 调用封装在 src/api/ 目录"
+    - "TypeScript 严格模式"
+  api:
+    - "统一响应格式: { code: number, msg: string, data?: any }"
+    - "认证: JWT Bearer Token"
+    - "分页: ?page=1&page_size=20"
+
+testing:
+  unit_test_coverage: 60
+  e2e_test_required: false
+  test_framework: pytest
+  test_commands:
+    unit: "python -m pytest tests/ -v"
+    integration: "python -m pytest tests/integration/ -v"
+
+knowledge:
+  always_load:
+    - path: docs/wiki/index.md
+      desc: 项目知识库导航入口
+  on_demand:
+    - path: docs/wiki/
+      trigger: "涉及项目知识、技术方案、业务规则时"
+
+planning:
+  current_version: v0.1

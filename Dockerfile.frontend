@@ -27,6 +27,8 @@ COPY assets /app/frontend/public/assets
 COPY docs /app/docs
 
 # 构建生产版本（跳过类型检查以加快构建速度）
+ARG VITE_API_BASE_URL=http://localhost:8000
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 RUN yarn vite build
 
 # 运行阶段：使用Nginx提供静态文件服务

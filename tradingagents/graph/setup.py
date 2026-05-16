@@ -30,6 +30,24 @@ from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
 
 
+def _run_async(coro):
+    """Run an async coroutine safely from sync/async mixed contexts.
+
+    Uses asyncio.run() when no loop is running; falls back to a fresh
+    thread+loop when one is (e.g. FastAPI → LangGraph invoke).
+    """
+    import asyncio as _asyncio
+
+    try:
+        return _asyncio.run(coro)
+    except RuntimeError:
+        # Event loop already running — run in a separate thread
+        import concurrent.futures
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as _pool:
+            return _pool.submit(_asyncio.run, coro).result()
+
+
 class GraphSetup:
     """Handles the setup and configuration of the agent graph."""
 
@@ -62,8 +80,66 @@ class GraphSetup:
         self.config = config or {}
         self.react_llm = react_llm
 
+    def _build_sentiment_node(self):
+        """Build the sentiment pre-fetch node if sources are configured.
+
+        Returns:
+            A callable(state) -> state if sentiment is enabled, else None.
+        """
+        source_names = self.config.get("sentiment_sources", [])
+        if not source_names:
+            return None
+
+        try:
+            from tradingagents.agents.analysts.sentiment_analyst import (
+                create_sentiment_analyst,
+            )
+            # Build per-source config from domain config
+            source_config = {}
+            wechat_url = self.config.get("wechat_mp_base_url")
+            if wechat_url:
+                source_config["wechat_mp"] = {"base_url": wechat_url}
+            analyst = create_sentiment_analyst(
+                source_names, source_config=source_config or None
+            )
+        except Exception as e:
+            logger.warning("Failed to create sentiment analyst: %s", e)
+            return None
+
+        def sentiment_node(state):
+            """Pre-fetch sentiment data and inject into state."""
+            import asyncio
+
+            tickers = [state.get("company_of_interest", "")]
+            tickers = [t for t in tickers if t]
+            if not tickers:
+                logger.debug("Sentiment pre-fetch: no tickers in state, skipping")
+                return state
+
+            try:
+                reports = _run_async(analyst.fetch_all(tickers))
+                text = analyst.format_state_text(reports)
+                if text:
+                    state["sentiment_context"] = text
+                    logger.info(
+                        "Sentiment pre-fetch: %d reports for %s",
+                        len(reports), ", ".join(tickers)
+                    )
+                else:
+                    state["sentiment_context"] = ""
+                    logger.debug("Sentiment pre-fetch: no data returned")
+            except Exception as e:
+                logger.warning("Sentiment pre-fetch error: %s", e)
+                state["sentiment_context"] = ""
+
+            return state
+
+        return sentiment_node
+
     def setup_graph(
-        self, selected_analysts=["market", "social", "news", "fundamentals"]
+        self,
+        selected_analysts=["market", "social", "news", "fundamentals"],
+        checkpointer=None,
     ):
         """Set up and compile the agent workflow graph.
 
@@ -173,6 +249,11 @@ class GraphSetup:
         # Create workflow
         workflow = StateGraph(AgentState)
 
+        # Add sentiment pre-fetch node (optional, based on config)
+        sentiment_node = self._build_sentiment_node()
+        if sentiment_node is not None:
+            workflow.add_node("Sentiment Prefetch", sentiment_node)
+
         # Add analyst nodes to the graph
         for analyst_type, node in analyst_nodes.items():
             workflow.add_node(f"{analyst_type.capitalize()} Analyst", node)
@@ -192,9 +273,15 @@ class GraphSetup:
         workflow.add_node("Risk Judge", risk_manager_node)
 
         # Define edges
-        # Start with the first analyst
         first_analyst = selected_analysts[0]
-        workflow.add_edge(START, f"{first_analyst.capitalize()} Analyst")
+        first_analyst_node = f"{first_analyst.capitalize()} Analyst"
+
+        # Route through sentiment pre-fetch first (if available)
+        if sentiment_node is not None:
+            workflow.add_edge(START, "Sentiment Prefetch")
+            workflow.add_edge("Sentiment Prefetch", first_analyst_node)
+        else:
+            workflow.add_edge(START, first_analyst_node)
 
         # Connect analysts in sequence
         for i, analyst_type in enumerate(selected_analysts):
@@ -264,4 +351,7 @@ class GraphSetup:
         workflow.add_edge("Risk Judge", END)
 
         # Compile and return
-        return workflow.compile()
+        compile_kwargs = {}
+        if checkpointer is not None:
+            compile_kwargs["checkpointer"] = checkpointer
+        return workflow.compile(**compile_kwargs)
