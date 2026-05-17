@@ -193,16 +193,16 @@ class ConditionalLogic:
         logger.info(f"🔍 [风险讨论控制] 最后发言者: {latest_speaker}")
 
         if current_count >= max_count:
-            logger.info(f"✅ [风险讨论控制] 达到最大次数，结束讨论 -> Risk Judge")
-            return "Risk Judge"
+            logger.info(f"✅ [风险讨论控制] 达到最大次数，结束讨论 -> Portfolio Manager")
+            return "Portfolio Manager"
 
         # 确定下一个发言者
-        if latest_speaker.startswith("Risky"):
-            next_speaker = "Safe Analyst"
-        elif latest_speaker.startswith("Safe"):
+        if latest_speaker.startswith("Aggressive"):
+            next_speaker = "Conservative Analyst"
+        elif latest_speaker.startswith("Conservative"):
             next_speaker = "Neutral Analyst"
         else:
-            next_speaker = "Risky Analyst"
+            next_speaker = "Aggressive Analyst"
 
         logger.info(f"🔄 [风险讨论控制] 继续讨论 -> {next_speaker}")
         return next_speaker

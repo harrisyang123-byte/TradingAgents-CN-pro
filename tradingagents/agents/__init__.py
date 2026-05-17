@@ -19,10 +19,10 @@ _EXPORTS: Dict[str, Tuple[str, str]] = {
     "create_market_analyst": ("tradingagents.agents.analysts.market_analyst", "create_market_analyst"),
     "create_news_analyst": ("tradingagents.agents.analysts.news_analyst", "create_news_analyst"),
     "create_sentiment_analyst": ("tradingagents.agents.analysts.sentiment_analyst", "create_sentiment_analyst"),
-    "create_risky_debator": ("tradingagents.agents.risk_mgmt.aggresive_debator", "create_risky_debator"),
-    "create_safe_debator": ("tradingagents.agents.risk_mgmt.conservative_debator", "create_safe_debator"),
+    "create_aggressive_debator": ("tradingagents.agents.risk_mgmt.aggresive_debator", "create_aggressive_debator"),
+    "create_conservative_debator": ("tradingagents.agents.risk_mgmt.conservative_debator", "create_conservative_debator"),
     "create_neutral_debator": ("tradingagents.agents.risk_mgmt.neutral_debator", "create_neutral_debator"),
-    "create_risk_manager": ("tradingagents.agents.managers.risk_manager", "create_risk_manager"),
+    "create_portfolio_manager": ("tradingagents.agents.managers.portfolio_manager", "create_portfolio_manager"),
     "create_trader": ("tradingagents.agents.trader.trader", "create_trader"),
 }
 
@@ -40,9 +40,9 @@ __all__ = [
     "create_market_analyst",
     "create_neutral_debator",
     "create_news_analyst",
-    "create_risky_debator",
-    "create_risk_manager",
-    "create_safe_debator",
+    "create_aggressive_debator",
+    "create_portfolio_manager",
+    "create_conservative_debator",
     "create_sentiment_analyst",
     "create_trader",
 ]

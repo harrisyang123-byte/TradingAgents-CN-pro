@@ -1,4 +1,4 @@
-"""Risk Manager: synthesises the risk-analyst debate into the final decision."""
+"""Portfolio Manager: synthesises the risk-analyst debate into the final decision."""
 
 from __future__ import annotations
 
@@ -15,10 +15,10 @@ from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
 
 
-def create_risk_manager(llm, memory):
-    structured_llm = bind_structured(llm, PortfolioDecision, "Risk Manager")
+def create_portfolio_manager(llm, memory):
+    structured_llm = bind_structured(llm, PortfolioDecision, "Portfolio Manager")
 
-    def risk_manager_node(state) -> dict:
+    def portfolio_manager_node(state) -> dict:
         company_name = state["company_of_interest"]
         instrument_context = build_instrument_context(company_name)
 
@@ -71,7 +71,7 @@ def create_risk_manager(llm, memory):
 
         prompt_length = len(prompt)
         estimated_tokens = int(prompt_length / 1.8)
-        logger.info(f"[Risk Manager] Prompt 统计: {prompt_length} 字符, ~{estimated_tokens} tokens")
+        logger.info(f"[Portfolio Manager] Prompt 统计: {prompt_length} 字符, ~{estimated_tokens} tokens")
 
         start_time = time.time()
 
@@ -80,21 +80,21 @@ def create_risk_manager(llm, memory):
             llm,
             prompt,
             render_pm_decision,
-            "Risk Manager",
+            "Portfolio Manager",
         )
 
         elapsed_time = time.time() - start_time
-        logger.info(f"[Risk Manager] LLM调用耗时: {elapsed_time:.2f}秒, 响应: {len(final_trade_decision)} 字符")
+        logger.info(f"[Portfolio Manager] LLM调用耗时: {elapsed_time:.2f}秒, 响应: {len(final_trade_decision)} 字符")
 
         new_risk_debate_state = {
             "judge_decision": final_trade_decision,
             "history": risk_debate_state["history"],
-            "risky_history": risk_debate_state["risky_history"],
-            "safe_history": risk_debate_state["safe_history"],
+            "aggressive_history": risk_debate_state["aggressive_history"],
+            "conservative_history": risk_debate_state["conservative_history"],
             "neutral_history": risk_debate_state["neutral_history"],
             "latest_speaker": "Judge",
-            "current_risky_response": risk_debate_state["current_risky_response"],
-            "current_safe_response": risk_debate_state["current_safe_response"],
+            "current_aggressive_response": risk_debate_state["current_aggressive_response"],
+            "current_conservative_response": risk_debate_state["current_conservative_response"],
             "current_neutral_response": risk_debate_state["current_neutral_response"],
             "count": risk_debate_state["count"],
         }
@@ -104,4 +104,4 @@ def create_risk_manager(llm, memory):
             "final_trade_decision": final_trade_decision,
         }
 
-    return risk_manager_node
+    return portfolio_manager_node

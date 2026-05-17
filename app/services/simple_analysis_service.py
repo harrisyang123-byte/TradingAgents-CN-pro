@@ -1571,10 +1571,10 @@ class SimpleAnalysisService:
                     risk_state = getattr(state, 'risk_debate_state', None) if hasattr(state, 'risk_debate_state') else state.get('risk_debate_state')
                     if risk_state:
                         # 提取激进分析师历史
-                        if hasattr(risk_state, 'risky_history'):
-                            risky_content = getattr(risk_state, 'risky_history', "")
-                        elif isinstance(risk_state, dict) and 'risky_history' in risk_state:
-                            risky_content = risk_state['risky_history']
+                        if hasattr(risk_state, 'aggressive_history'):
+                            risky_content = getattr(risk_state, 'aggressive_history', "")
+                        elif isinstance(risk_state, dict) and 'aggressive_history' in risk_state:
+                            risky_content = risk_state['aggressive_history']
                         else:
                             risky_content = ""
 
@@ -1583,10 +1583,10 @@ class SimpleAnalysisService:
                             logger.info(f"📊 [REPORTS] 提取报告: risky_analyst - 长度: {len(risky_content.strip())}")
 
                         # 提取保守分析师历史
-                        if hasattr(risk_state, 'safe_history'):
-                            safe_content = getattr(risk_state, 'safe_history', "")
-                        elif isinstance(risk_state, dict) and 'safe_history' in risk_state:
-                            safe_content = risk_state['safe_history']
+                        if hasattr(risk_state, 'conservative_history'):
+                            safe_content = getattr(risk_state, 'conservative_history', "")
+                        elif isinstance(risk_state, dict) and 'conservative_history' in risk_state:
+                            safe_content = risk_state['conservative_history']
                         else:
                             safe_content = ""
 
@@ -2438,10 +2438,10 @@ class SimpleAnalysisService:
                         risk_state = getattr(state, 'risk_debate_state', None) if hasattr(state, 'risk_debate_state') else state.get('risk_debate_state')
                         if risk_state:
                             # 提取激进分析师历史
-                            if hasattr(risk_state, 'risky_history'):
-                                risky_content = getattr(risk_state, 'risky_history', "")
-                            elif isinstance(risk_state, dict) and 'risky_history' in risk_state:
-                                risky_content = risk_state['risky_history']
+                            if hasattr(risk_state, 'aggressive_history'):
+                                risky_content = getattr(risk_state, 'aggressive_history', "")
+                            elif isinstance(risk_state, dict) and 'aggressive_history' in risk_state:
+                                risky_content = risk_state['aggressive_history']
                             else:
                                 risky_content = ""
 
@@ -2449,10 +2449,10 @@ class SimpleAnalysisService:
                                 reports['risky_analyst'] = risky_content.strip()
 
                             # 提取保守分析师历史
-                            if hasattr(risk_state, 'safe_history'):
-                                safe_content = getattr(risk_state, 'safe_history', "")
-                            elif isinstance(risk_state, dict) and 'safe_history' in risk_state:
-                                safe_content = risk_state['safe_history']
+                            if hasattr(risk_state, 'conservative_history'):
+                                safe_content = getattr(risk_state, 'conservative_history', "")
+                            elif isinstance(risk_state, dict) and 'conservative_history' in risk_state:
+                                safe_content = risk_state['conservative_history']
                             else:
                                 safe_content = ""
 

@@ -748,7 +748,7 @@ class TradingAgentsGraph:
         - "Msg Clear Market", "Msg Clear Fundamentals", etc.
         - "Bull Researcher", "Bear Researcher", "Research Manager"
         - "Trader"
-        - "Risky Analyst", "Safe Analyst", "Neutral Analyst", "Risk Judge"
+        - "Aggressive Analyst", "Conservative Analyst", "Neutral Analyst", "Portfolio Manager"
         """
         try:
             # 从chunk中提取当前执行的节点信息
@@ -796,10 +796,10 @@ class TradingAgentsGraph:
                 # 交易员节点
                 'Trader': "💼 交易员决策",
                 # 风险评估节点
-                'Risky Analyst': "🔥 激进风险评估",
-                'Safe Analyst': "🛡️ 保守风险评估",
+                'Aggressive Analyst': "🔥 激进风险评估",
+                'Conservative Analyst': "🛡️ 保守风险评估",
                 'Neutral Analyst': "⚖️ 中性风险评估",
-                'Risk Judge': "🎯 风险经理",
+                'Portfolio Manager': "🎯 风险经理",
             }
 
             # 查找映射的消息
@@ -843,7 +843,7 @@ class TradingAgentsGraph:
 
         for node_name, elapsed in node_timings.items():
             # 优先匹配风险管理团队（因为它们也包含'Analyst'）
-            if 'Risky' in node_name or 'Safe' in node_name or 'Neutral' in node_name or 'Risk Judge' in node_name:
+            if 'Aggressive' in node_name or 'Conservative' in node_name or 'Neutral' in node_name or 'Portfolio Manager' in node_name:
                 risk_nodes[node_name] = elapsed
             # 然后匹配分析师团队
             elif 'Analyst' in node_name:
@@ -953,7 +953,7 @@ class TradingAgentsGraph:
 
         for node_name, elapsed in node_timings.items():
             # 优先匹配风险管理团队（因为它们也包含'Analyst'）
-            if 'Risky' in node_name or 'Safe' in node_name or 'Neutral' in node_name or 'Risk Judge' in node_name:
+            if 'Aggressive' in node_name or 'Conservative' in node_name or 'Neutral' in node_name or 'Portfolio Manager' in node_name:
                 risk_nodes.append((node_name, elapsed))
             # 然后匹配分析师团队
             elif 'Analyst' in node_name:
@@ -1035,8 +1035,8 @@ class TradingAgentsGraph:
             },
             "trader_investment_decision": final_state["trader_investment_plan"],
             "risk_debate_state": {
-                "risky_history": final_state["risk_debate_state"]["risky_history"],
-                "safe_history": final_state["risk_debate_state"]["safe_history"],
+                "aggressive_history": final_state["risk_debate_state"]["aggressive_history"],
+                "conservative_history": final_state["risk_debate_state"]["conservative_history"],
                 "neutral_history": final_state["risk_debate_state"]["neutral_history"],
                 "history": final_state["risk_debate_state"]["history"],
                 "judge_decision": final_state["risk_debate_state"]["judge_decision"],

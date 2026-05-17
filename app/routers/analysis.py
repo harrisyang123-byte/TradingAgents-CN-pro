@@ -442,12 +442,12 @@ async def get_task_result(
                     risk_debate_state = state.get('risk_debate_state', {})
                     if isinstance(risk_debate_state, dict):
                         # 提取激进分析师历史
-                        risky_content = risk_debate_state.get('risky_history', "")
+                        risky_content = risk_debate_state.get('aggressive_history', "")
                         if isinstance(risky_content, str) and len(risky_content.strip()) > 10:
                             reports['risky_analyst'] = risky_content.strip()
 
                         # 提取保守分析师历史
-                        safe_content = risk_debate_state.get('safe_history', "")
+                        safe_content = risk_debate_state.get('conservative_history', "")
                         if isinstance(safe_content, str) and len(safe_content.strip()) > 10:
                             reports['safe_analyst'] = safe_content.strip()
 
