@@ -20,6 +20,9 @@
 ### 项目起源
 - [项目起源与合并思路](project-genesis.md) — TG + TG-CN 合并策略、吸收原则、演进方向
 
+### 认证与安全
+- [认证引导与首次部署](auth-bootstrap.md) — 初始 admin 创建、鸡蛋问题、ValidationError 分层
+
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
