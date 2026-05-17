@@ -35,6 +35,7 @@ DEFAULT_CONFIG = {
         os.path.join(os.path.expanduser("~"), ".tradingagents", "memory", "trading_memory.md"),
     ),
     "memory_log_max_entries": None,
+    "benchmark_ticker": os.getenv("TRADINGAGENTS_BENCHMARK_TICKER", None),
     "benchmark_map": {
         ".SH": "sh000300",
         ".SS": "sh000300",

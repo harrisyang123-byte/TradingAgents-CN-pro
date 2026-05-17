@@ -151,40 +151,76 @@ app = typer.Typer(
 
 # Create a deque to store recent messages with a maximum length
 class MessageBuffer:
+    FIXED_AGENTS = {
+        "Research Team": ["Bull Researcher", "Bear Researcher", "Research Manager"],
+        "Trading Team": ["Trader"],
+        "Risk Management": ["Risky Analyst", "Neutral Analyst", "Safe Analyst"],
+        "Portfolio Management": ["Portfolio Manager"],
+    }
+
+    ANALYST_MAPPING = {
+        "market": "Market Analyst",
+        "social": "Social Analyst",
+        "news": "News Analyst",
+        "fundamentals": "Fundamentals Analyst",
+    }
+
+    REPORT_SECTIONS = {
+        "market_report": ("market", "Market Analyst"),
+        "sentiment_report": ("social", "Social Analyst"),
+        "news_report": ("news", "News Analyst"),
+        "fundamentals_report": ("fundamentals", "Fundamentals Analyst"),
+        "investment_plan": (None, "Research Manager"),
+        "trader_investment_plan": (None, "Trader"),
+        "final_trade_decision": (None, "Portfolio Manager"),
+    }
+
     def __init__(self, max_length=DEFAULT_MESSAGE_BUFFER_SIZE):
         self.messages = deque(maxlen=max_length)
         self.tool_calls = deque(maxlen=max_length)
         self.current_report = None
-        self.final_report = None  # Store the complete final report
-        self.agent_status = {
-            # Analyst Team
-            "Market Analyst": "pending",
-            "Social Analyst": "pending",
-            "News Analyst": "pending",
-            "Fundamentals Analyst": "pending",
-            # Research Team
-            "Bull Researcher": "pending",
-            "Bear Researcher": "pending",
-            "Research Manager": "pending",
-            # Trading Team
-            "Trader": "pending",
-            # Risk Management Team
-            "Risky Analyst": "pending",
-            "Neutral Analyst": "pending",
-            "Safe Analyst": "pending",
-            # Portfolio Management Team
-            "Portfolio Manager": "pending",
-        }
+        self.final_report = None
+        self.agent_status = {}
         self.current_agent = None
-        self.report_sections = {
-            "market_report": None,
-            "sentiment_report": None,
-            "news_report": None,
-            "fundamentals_report": None,
-            "investment_plan": None,
-            "trader_investment_plan": None,
-            "final_trade_decision": None,
-        }
+        self.report_sections = {}
+        self.selected_analysts = []
+        self._processed_message_ids = set()
+
+    def init_for_analysis(self, selected_analysts):
+        self.selected_analysts = [a.lower() for a in selected_analysts]
+
+        self.agent_status = {}
+        for analyst_key in self.selected_analysts:
+            if analyst_key in self.ANALYST_MAPPING:
+                self.agent_status[self.ANALYST_MAPPING[analyst_key]] = "pending"
+
+        for team_agents in self.FIXED_AGENTS.values():
+            for agent in team_agents:
+                self.agent_status[agent] = "pending"
+
+        self.report_sections = {}
+        for section, (analyst_key, _) in self.REPORT_SECTIONS.items():
+            if analyst_key is None or analyst_key in self.selected_analysts:
+                self.report_sections[section] = None
+
+        self.current_report = None
+        self.final_report = None
+        self.current_agent = None
+        self.messages.clear()
+        self.tool_calls.clear()
+        self._processed_message_ids.clear()
+
+    def get_completed_reports_count(self):
+        count = 0
+        for section in self.report_sections:
+            if section not in self.REPORT_SECTIONS:
+                continue
+            _, finalizing_agent = self.REPORT_SECTIONS[section]
+            has_content = self.report_sections.get(section) is not None
+            agent_done = self.agent_status.get(finalizing_agent) == "completed"
+            if has_content and agent_done:
+                count += 1
+        return count
 
     def add_message(self, message_type, content):
         timestamp = datetime.datetime.now().strftime("%H:%M:%S")
@@ -340,24 +376,23 @@ def update_display(layout, spinner_text=None):
     progress_table.add_column("Agent", style="green", justify="center", width=20)
     progress_table.add_column("Status", style="yellow", justify="center", width=20)
 
-    # Group agents by team
-    teams = {
-        "Analyst Team": [
-            "Market Analyst",
-            "Social Analyst",
-            "News Analyst",
-            "Fundamentals Analyst",
-        ],
-        "Research Team": ["Bull Researcher", "Bear Researcher", "Research Manager"],
-        "Trading Team": ["Trader"],
-        "Risk Management": ["Risky Analyst", "Neutral Analyst", "Safe Analyst"],
-        "Portfolio Management": ["Portfolio Manager"],
-    }
+    # Build teams dynamically from agent_status
+    active_agents = set(message_buffer.agent_status.keys())
+    analyst_order = ["Market Analyst", "Social Analyst", "News Analyst", "Fundamentals Analyst"]
+    selected_analysts = [a for a in analyst_order if a in active_agents]
+
+    teams = {}
+    if selected_analysts:
+        teams["Analyst Team"] = selected_analysts
+    for team_name, team_agents in MessageBuffer.FIXED_AGENTS.items():
+        present = [a for a in team_agents if a in active_agents]
+        if present:
+            teams[team_name] = present
 
     for team, agents in teams.items():
         # Add first agent with team name
         first_agent = agents[0]
-        status = message_buffer.agent_status[first_agent]
+        status = message_buffer.agent_status.get(first_agent, "pending")
         if status == "in_progress":
             spinner = Spinner(
                 "dots", text="[blue]in_progress[/blue]", style="bold cyan"
@@ -374,7 +409,7 @@ def update_display(layout, spinner_text=None):
 
         # Add remaining agents in team
         for agent in agents[1:]:
-            status = message_buffer.agent_status[agent]
+            status = message_buffer.agent_status.get(agent, "pending")
             if status == "in_progress":
                 spinner = Spinner(
                     "dots", text="[blue]in_progress[/blue]", style="bold cyan"
@@ -1159,15 +1194,9 @@ def run_analysis():
         )
         update_display(layout)
 
-        # Reset agent statuses
-        for agent in message_buffer.agent_status:
-            message_buffer.update_agent_status(agent, "pending")
-
-        # Reset report sections
-        for section in message_buffer.report_sections:
-            message_buffer.report_sections[section] = None
-        message_buffer.current_report = None
-        message_buffer.final_report = None
+        # Initialize MessageBuffer with selected analysts
+        selected_analyst_keys = [a.value for a in selections["analysts"]]
+        message_buffer.init_for_analysis(selected_analyst_keys)
 
         # Update agent status to in_progress for the first analyst
         first_analyst = f"{selections['analysts'][0].value.capitalize()} Analyst"

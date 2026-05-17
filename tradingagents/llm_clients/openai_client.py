@@ -77,16 +77,18 @@ _PASSTHROUGH_KWARGS = (
     "callbacks",
     "http_client",
     "http_async_client",
+    "reasoning_effort",
 )
 
 _PROVIDER_CONFIG = {
     "deepseek": ("https://api.deepseek.com", "DEEPSEEK_API_KEY"),
+    "xai": ("https://api.x.ai/v1", "XAI_API_KEY"),
     "qwen": ("https://dashscope.aliyuncs.com/compatible-mode/v1", "DASHSCOPE_API_KEY"),
     "glm": ("https://open.bigmodel.cn/api/paas/v4/", "ZHIPU_API_KEY"),
     "qianfan": ("https://qianfan.baidubce.com/v2", "QIANFAN_API_KEY"),
     "openrouter": ("https://openrouter.ai/api/v1", "OPENROUTER_API_KEY"),
     "aihubmix": ("https://aihubmix.com/v1", "AIHUBMIX_API_KEY"),
-    "ollama": ("http://localhost:11434/v1", None),
+    "ollama": (os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1"), None),
     "custom_openai": (None, "CUSTOM_OPENAI_API_KEY"),
 }
 
@@ -126,6 +128,9 @@ class OpenAIClient(BaseLLMClient):
         for key in _PASSTHROUGH_KWARGS:
             if key in self.kwargs:
                 llm_kwargs[key] = self.kwargs[key]
+
+        if self.provider == "openai":
+            llm_kwargs["use_responses_api"] = True
 
         if self.provider == "deepseek":
             chat_cls = DeepSeekChatOpenAI

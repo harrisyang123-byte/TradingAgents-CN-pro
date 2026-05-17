@@ -14,6 +14,7 @@ _PROVIDER_ALIASES = {
 _OPENAI_COMPATIBLE = {
     "openai",
     "deepseek",
+    "xai",
     "qwen",
     "glm",
     "qianfan",

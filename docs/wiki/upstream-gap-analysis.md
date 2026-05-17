@@ -38,12 +38,12 @@
 
 ### P3 — 长尾
 
-| # | 能力 | 说明 |
-|---|------|------|
-| 13 | xAI/Grok, Responses API | 新 provider 支持 |
-| 14 | vendor-routing 架构 | 数据源路由抽象 |
-| 15 | benchmark alpha 计算 | 收益归因 |
-| 16 | dynamic MessageBuffer.init_for_analysis | CLI 动态分析师选择 |
+| # | 能力 | 说明 | 状态 |
+|---|------|------|------|
+| 13 | ~~xAI/Grok, Responses API~~ | ~~新 provider 支持~~ | **已完成** — factory/client/provider_keys 全链路 + Responses API + reasoning_effort |
+| 14 | ~~vendor-routing 架构~~ | ~~数据源路由抽象~~ | **已适配** — TG-CN 用 data_source_manager.py (DB驱动) 实现等效路由，含 Alpha Vantage fallback |
+| 15 | ~~benchmark alpha 计算~~ | ~~收益归因~~ | **已完成** — benchmark_ticker 显式覆盖 + 环境变量 |
+| 16 | ~~dynamic MessageBuffer.init_for_analysis~~ | ~~CLI 动态分析师选择~~ | **已完成** — 类级映射 + 动态初始化 + 双条件完成检测 + 消息去重 |
 
 ## TG-CN 独有能力（不可覆盖）
 
