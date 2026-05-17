@@ -13,15 +13,15 @@
 
 ## 2. 工具架构回到独立 @tool
 
-- [ ] 2.1 从原版移植 `agents/utils/core_stock_tools.py`（`get_stock_data`），底层改为调用 `route_to_vendor()`
-- [ ] 2.2 从原版移植 `agents/utils/technical_indicators_tools.py`（`get_indicators`），底层调用 `route_to_vendor()`
-- [ ] 2.3 从原版移植 `agents/utils/fundamental_data_tools.py`（`get_fundamentals` 等 4 个函数），底层调用 `route_to_vendor()`
-- [ ] 2.4 从原版移植 `agents/utils/news_data_tools.py`（`get_news`, `get_global_news`），底层调用 `route_to_vendor()`；A股跳过 FinnHub/Google News（修复 #18）
-- [ ] 2.5 `agents/utils/agent_utils.py`: 删除 unified 函数（`get_stock_fundamentals_unified`, `get_stock_market_data_unified` 等 ~1300 行），回到原版的 import + re-export 模式（~63 行）
-- [ ] 2.6 删除 `tradingagents/tools/` 目录（`unified_news_tool.py` 等）
-- [ ] 2.7 `graph/trading_graph.py`: 移植原版 `_create_tool_nodes()` 方法，替换当前的 tool binding 逻辑
-- [ ] 2.8 分析师 agent（market/fundamentals/news/sentiment）更新 tool import 和 binding
-- [ ] 2.9 验证：确认 `from tradingagents.tools` 无任何 import
+- [x] 2.1 从原版移植 `agents/utils/core_stock_tools.py`（`get_stock_data`），底层改为调用 `route_to_vendor()`
+- [x] 2.2 从原版移植 `agents/utils/technical_indicators_tools.py`（`get_indicators`），底层调用 `route_to_vendor()`
+- [x] 2.3 从原版移植 `agents/utils/fundamental_data_tools.py`（`get_fundamentals` 等 4 个函数），底层调用 `route_to_vendor()`
+- [x] 2.4 从原版移植 `agents/utils/news_data_tools.py`（`get_news`, `get_global_news`），底层调用 `route_to_vendor()`；A股跳过 FinnHub/Google News（修复 #18）
+- [x] 2.5 `agents/utils/agent_utils.py`: 删除 unified 函数（`get_stock_fundamentals_unified`, `get_stock_market_data_unified` 等 ~1300 行），回到原版的 import + re-export 模式（~63 行）
+- [x] 2.6 删除 `tradingagents/tools/` 目录（`unified_news_tool.py` 等）
+- [x] 2.7 `graph/trading_graph.py`: 移植原版 `_create_tool_nodes()` 方法，替换当前的 tool binding 逻辑
+- [x] 2.8 分析师 agent（market/fundamentals/news/sentiment）更新 tool import 和 binding
+- [x] 2.9 验证：确认 `from tradingagents.tools` 无任何 import
 
 ## 3. 记忆系统对齐
 

@@ -2,7 +2,7 @@ import math
 import pandas as pd
 import numpy as np
 
-from tradingagents.tools.analysis.indicators import (
+from tradingagents.dataflows.indicators import (
     IndicatorSpec,
     compute_many,
 )

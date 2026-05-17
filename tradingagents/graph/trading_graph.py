@@ -12,7 +12,17 @@ from tradingagents.llm_clients.provider_keys import env_key_for_provider, normal
 
 from langgraph.prebuilt import ToolNode
 
-from tradingagents.agents import Toolkit
+from tradingagents.agents.utils.agent_utils import (
+    get_stock_data,
+    get_indicators,
+    get_fundamentals,
+    get_balance_sheet,
+    get_cashflow,
+    get_income_statement,
+    get_news,
+    get_global_news,
+    get_insider_transactions,
+)
 from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.agents.utils.memory import FinancialSituationMemory
 from tradingagents.agents.utils.trading_memory_log import TradingMemoryLog
@@ -302,8 +312,6 @@ class TradingAgentsGraph:
             )
             logger.info(f"✅ [{normalized_provider or self.config['llm_provider']}] LLM 初始化完成")
         
-        self.toolkit = Toolkit(config=self.config)
-
         # Initialize memories (如果启用)
         memory_enabled = self.config.get("memory_enabled", True)
         if memory_enabled:
@@ -337,7 +345,6 @@ class TradingAgentsGraph:
         self.graph_setup = GraphSetup(
             self.quick_thinking_llm,
             self.deep_thinking_llm,
-            self.toolkit,
             self.tool_nodes,
             self.bull_memory,
             self.bear_memory,
@@ -392,51 +399,12 @@ class TradingAgentsGraph:
         return default_backend_url(provider) if provider else None
 
     def _create_tool_nodes(self) -> Dict[str, ToolNode]:
-        """Create tool nodes for different data sources.
-
-        注意：ToolNode 包含所有可能的工具，但 LLM 只会调用它绑定的工具。
-        ToolNode 的作用是执行 LLM 生成的 tool_calls，而不是限制 LLM 可以调用哪些工具。
-        """
+        """Create tool nodes for different data sources."""
         return {
-            "market": ToolNode(
-                [
-                    # 统一工具（推荐）
-                    self.toolkit.get_stock_market_data_unified,
-                    # 在线工具（备用）
-                    self.toolkit.get_YFin_data_online,
-                    self.toolkit.get_stockstats_indicators_report_online,
-                    # 离线工具（备用）
-                    self.toolkit.get_YFin_data,
-                    self.toolkit.get_stockstats_indicators_report,
-                ]
-            ),
-            "news": ToolNode(
-                [
-                    # 统一工具（推荐）
-                    self.toolkit.get_stock_news_unified,
-                    # 在线工具（备用）
-                    self.toolkit.get_global_news_openai,
-                    self.toolkit.get_google_news,
-                    # 离线工具（备用）
-                    self.toolkit.get_finnhub_news,
-                    self.toolkit.get_reddit_news,
-                ]
-            ),
-            "fundamentals": ToolNode(
-                [
-                    # 统一工具（推荐）
-                    self.toolkit.get_stock_fundamentals_unified,
-                    # 离线工具（备用）
-                    self.toolkit.get_finnhub_company_insider_sentiment,
-                    self.toolkit.get_finnhub_company_insider_transactions,
-                    self.toolkit.get_simfin_balance_sheet,
-                    self.toolkit.get_simfin_cashflow,
-                    self.toolkit.get_simfin_income_stmt,
-                    # 中国市场工具（备用）
-                    self.toolkit.get_china_stock_data,
-                    self.toolkit.get_china_fundamentals,
-                ]
-            ),
+            "market": ToolNode([get_stock_data, get_indicators]),
+            "social": ToolNode([get_news]),
+            "news": ToolNode([get_news, get_global_news, get_insider_transactions]),
+            "fundamentals": ToolNode([get_fundamentals, get_balance_sheet, get_cashflow, get_income_statement]),
         }
 
     def _resolve_benchmark(self, ticker: str) -> str:

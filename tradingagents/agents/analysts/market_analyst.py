@@ -13,6 +13,7 @@ logger = get_logger("default")
 # 导入Google工具调用处理器
 from tradingagents.agents.utils.google_tool_handler import GoogleToolCallHandler
 from tradingagents.agents.utils.instrument_utils import build_instrument_context
+from tradingagents.agents.utils.agent_utils import get_stock_data, get_indicators
 
 
 def _get_company_name(ticker: str, market_info: dict) -> str:
@@ -93,7 +94,7 @@ def _get_company_name(ticker: str, market_info: dict) -> str:
         return f"股票{ticker}"
 
 
-def create_market_analyst(llm, toolkit):
+def create_market_analyst(llm):
 
     def market_analyst_node(state):
         logger.debug(f"📈 [DEBUG] ===== 市场分析师节点开始 =====")
@@ -122,10 +123,7 @@ def create_market_analyst(llm, toolkit):
         instrument_context = build_instrument_context(ticker)
         logger.debug(f"📈 [DEBUG] 公司名称: {ticker} -> {company_name}")
 
-        # 统一使用 get_stock_market_data_unified 工具
-        # 该工具内部会自动识别股票类型（A股/港股/美股）并调用相应的数据源
-        logger.info(f"📊 [市场分析师] 使用统一市场数据工具，自动识别股票类型")
-        tools = [toolkit.get_stock_market_data_unified]
+        tools = [get_stock_data, get_indicators]
 
         # 安全地获取工具名称用于调试
         tool_names_debug = []
@@ -157,14 +155,9 @@ def create_market_analyst(llm, toolkit):
                     "🔧 **工具使用：**\n"
                     "你可以使用以下工具：{tool_names}\n"
                     "⚠️ 重要工作流程：\n"
-                    "1. 如果消息历史中没有工具结果，立即调用 get_stock_market_data_unified 工具\n"
-                    "   - ticker: {ticker}\n"
-                    "   - start_date: {current_date}\n"
-                    "   - end_date: {current_date}\n"
-                    "   注意：系统会自动扩展到365天历史数据，你只需要传递当前分析日期即可\n"
+                    "1. 如果消息历史中没有工具结果，先调用 get_stock_data 获取价格数据，再调用 get_indicators 获取技术指标\n"
                     "2. 如果消息历史中已经有工具结果（ToolMessage），立即基于工具数据生成最终分析报告\n"
-                    "3. 不要重复调用工具！一次工具调用就足够了！\n"
-                    "4. 接收到工具数据后，必须立即生成完整的技术分析报告，不要再调用任何工具\n"
+                    "3. 接收到工具数据后，必须立即生成完整的技术分析报告，不要再调用任何工具\n"
                     "\n"
                     "📝 **输出格式要求（必须严格遵守）：**\n"
                     "\n"

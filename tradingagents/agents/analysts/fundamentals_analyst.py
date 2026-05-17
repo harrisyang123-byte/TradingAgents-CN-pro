@@ -17,6 +17,12 @@ logger = get_logger("default")
 from tradingagents.agents.utils.google_tool_handler import GoogleToolCallHandler
 from tradingagents.agents.utils.instrument_utils import build_instrument_context
 from tradingagents.llm_clients import create_llm_client
+from tradingagents.agents.utils.agent_utils import (
+    get_fundamentals,
+    get_balance_sheet,
+    get_cashflow,
+    get_income_statement,
+)
 
 
 def _get_company_name_for_fundamentals(ticker: str, market_info: dict) -> str:
@@ -97,7 +103,7 @@ def _get_company_name_for_fundamentals(ticker: str, market_info: dict) -> str:
         return f"股票{ticker}"
 
 
-def create_fundamentals_analyst(llm, toolkit):
+def create_fundamentals_analyst(llm):
     @log_analyst_module("fundamentals")
     def fundamentals_analyst_node(state):
         logger.debug(f"📊 [DEBUG] ===== 基本面分析师节点开始 =====")
@@ -153,18 +159,14 @@ def create_fundamentals_analyst(llm, toolkit):
 
         logger.debug(f"📊 [DEBUG] 股票类型检查: {ticker} -> {market_info['market_name']} ({market_info['currency_name']}")
         logger.debug(f"📊 [DEBUG] 详细市场信息: is_china={market_info['is_china']}, is_hk={market_info['is_hk']}, is_us={market_info['is_us']}")
-        logger.debug(f"📊 [DEBUG] 工具配置检查: online_tools={toolkit.config['online_tools']}")
+        logger.debug(f"📊 [DEBUG] 市场信息: {market_info['market_name']}")
 
         # 获取公司名称
         company_name = _get_company_name_for_fundamentals(ticker, market_info)
         instrument_context = build_instrument_context(ticker)
         logger.debug(f"📊 [DEBUG] 公司名称: {ticker} -> {company_name}")
 
-        # 统一使用 get_stock_fundamentals_unified 工具
-        # 该工具内部会自动识别股票类型（A股/港股/美股）并调用相应的数据源
-        # 对于A股，它会自动获取价格数据和基本面数据，无需LLM调用多个工具
-        logger.info(f"📊 [基本面分析师] 使用统一基本面分析工具，自动识别股票类型")
-        tools = [toolkit.get_stock_fundamentals_unified]
+        tools = [get_fundamentals, get_balance_sheet, get_cashflow, get_income_statement]
 
         # 安全地获取工具名称用于调试
         tool_names_debug = []
@@ -184,7 +186,7 @@ def create_fundamentals_analyst(llm, toolkit):
             f"⚠️ 绝对强制要求：你必须调用工具获取真实数据！不允许任何假设或编造！"
             f"任务：分析{company_name}（股票代码：{ticker}，{market_info['market_name']}）"
             f"{instrument_context}"
-            f"🔴 立即调用 get_stock_fundamentals_unified 工具"
+            f"🔴 立即调用 get_fundamentals 工具"
             f"参数：ticker='{ticker}', start_date='{start_date}', end_date='{current_date}', curr_date='{current_date}'"
             "📊 分析要求："
             "- 基于真实数据进行深度基本面分析"
@@ -219,7 +221,7 @@ def create_fundamentals_analyst(llm, toolkit):
             "🔴 强制要求：你必须调用工具获取真实数据！"
             "🚫 绝对禁止：不允许假设、编造或直接回答任何问题！"
             "✅ 工作流程："
-            "1. 【第一次调用】如果消息历史中没有工具结果（ToolMessage），立即调用 get_stock_fundamentals_unified 工具"
+            "1. 【第一次调用】如果消息历史中没有工具结果（ToolMessage），立即调用 get_fundamentals 工具"
             "2. 【收到数据后】如果消息历史中已经有工具结果（ToolMessage），🚨 绝对禁止再次调用工具！🚨"
             "3. 【生成报告】收到工具数据后，必须立即生成完整的基本面分析报告，包含："
             f"4. 【股票代码约束】{instrument_context}"
@@ -587,7 +589,7 @@ def create_fundamentals_analyst(llm, toolkit):
 
                 # 强制调用统一基本面分析工具
                 try:
-                    logger.debug(f"📊 [DEBUG] 强制调用 get_stock_fundamentals_unified...")
+                    logger.debug(f"📊 [DEBUG] 强制调用 get_fundamentals...")
                     # 安全地查找统一基本面分析工具
                     unified_tool = None
                     for tool in tools:
@@ -597,7 +599,7 @@ def create_fundamentals_analyst(llm, toolkit):
                         elif hasattr(tool, '__name__'):
                             tool_name = tool.__name__
 
-                        if tool_name == 'get_stock_fundamentals_unified':
+                        if tool_name == 'get_fundamentals':
                             unified_tool = tool
                             break
                     if unified_tool:

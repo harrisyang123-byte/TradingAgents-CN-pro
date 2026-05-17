@@ -270,7 +270,7 @@ class OptimizedUSDataProvider:
 
         # 🔥 使用统一的技术指标计算函数
         # 注意：美股数据列名是大写的 Close, High, Low
-        from tradingagents.tools.analysis.indicators import add_all_indicators
+        from tradingagents.dataflows.indicators import add_all_indicators
         data = add_all_indicators(data, close_col='Close', high_col='High', low_col='Low')
 
         # 获取最新技术指标

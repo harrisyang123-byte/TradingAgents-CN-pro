@@ -23,7 +23,6 @@ from tradingagents.agents.analysts.sentiment_analyst import (
     create_sentiment_analyst,
 )
 from tradingagents.agents.utils.agent_states import AgentState
-from tradingagents.agents.utils.agent_utils import Toolkit
 
 from .conditional_logic import ConditionalLogic
 
@@ -39,7 +38,6 @@ class GraphSetup:
         self,
         quick_thinking_llm: ChatOpenAI,
         deep_thinking_llm: ChatOpenAI,
-        toolkit: Toolkit,
         tool_nodes: Dict[str, ToolNode],
         bull_memory,
         bear_memory,
@@ -53,7 +51,6 @@ class GraphSetup:
         """Initialize with required components."""
         self.quick_thinking_llm = quick_thinking_llm
         self.deep_thinking_llm = deep_thinking_llm
-        self.toolkit = toolkit
         self.tool_nodes = tool_nodes
         self.bull_memory = bull_memory
         self.bear_memory = bear_memory
@@ -119,7 +116,7 @@ class GraphSetup:
 
             # 所有LLM都使用标准分析师
             analyst_nodes["market"] = create_market_analyst(
-                self.quick_thinking_llm, self.toolkit
+                self.quick_thinking_llm
             )
             delete_nodes["market"] = create_msg_delete()
             tool_nodes["market"] = self.tool_nodes["market"]
@@ -135,7 +132,7 @@ class GraphSetup:
 
         if "news" in selected_analysts:
             analyst_nodes["news"] = create_news_analyst(
-                self.quick_thinking_llm, self.toolkit
+                self.quick_thinking_llm
             )
             delete_nodes["news"] = create_msg_delete()
             tool_nodes["news"] = self.tool_nodes["news"]
@@ -162,7 +159,7 @@ class GraphSetup:
 
             # 所有LLM都使用标准分析师（包含强制工具调用机制）
             analyst_nodes["fundamentals"] = create_fundamentals_analyst(
-                self.quick_thinking_llm, self.toolkit
+                self.quick_thinking_llm
             )
             delete_nodes["fundamentals"] = create_msg_delete()
             tool_nodes["fundamentals"] = self.tool_nodes["fundamentals"]
