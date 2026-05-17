@@ -26,6 +26,5 @@
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
-  - 结构化输出模型及绑定工具
-  - SqliteSaver 断点恢复
-  - 注册式情绪数据源框架
+- [情绪数据源设置指南](sentiment-sources-setup.md)
+  - eastmoney（开箱即用） vs wechat_mp（需外部服务）
