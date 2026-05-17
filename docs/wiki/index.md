@@ -32,7 +32,7 @@
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
 - [情绪数据源设置指南](sentiment-sources-setup.md)
-  - eastmoney（开箱即用） vs wechat_mp（需外部服务）
+  - eastmoney / eastmoney_comment / wechat_mp / xueqiu / tonghuashun / xiaohongshu
 - P1 Batch 2: TradingMemoryLog 结果反思系统 + LLM 工厂清理
 - P2 Batch 3: Azure OpenAI + 模型目录更新 + Alpha Vantage + CLI 统计 + 测试 fixtures
 - P3 Batch 4: xAI/Grok + Responses API + Benchmark Alpha 覆盖 + CLI 动态分析师选择

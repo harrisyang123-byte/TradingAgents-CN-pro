@@ -70,6 +70,9 @@ class GraphSetup:
         wechat_url = self.config.get("wechat_mp_base_url")
         if wechat_url:
             source_config["wechat_mp"] = {"base_url": wechat_url}
+        xhs_url = self.config.get("xiaohongshu_base_url")
+        if xhs_url:
+            source_config["xiaohongshu"] = {"base_url": xhs_url}
         return source_config or None
 
     def setup_graph(
