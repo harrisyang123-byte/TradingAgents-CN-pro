@@ -17,6 +17,10 @@
 
 ## 页面导航
 
+### 项目起源
+- [项目起源与合并思路](project-genesis.md) — TG + TG-CN 合并策略、吸收原则、演进方向
+
+### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
   - 结构化输出模型及绑定工具

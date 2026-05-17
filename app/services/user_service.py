@@ -9,6 +9,8 @@ from typing import Optional, Dict, Any, List
 from pymongo import MongoClient
 from bson import ObjectId
 
+from pydantic import ValidationError
+
 from app.core.config import settings
 from app.models.user import User, UserCreate, UserUpdate, UserResponse
 
@@ -157,10 +159,13 @@ class UserService:
             logger.info(f"✅ [authenticate_user] 用户认证成功: {username}")
             return User(**user_doc)
             
+        except ValidationError as e:
+            logger.error(f"❌ [authenticate_user] 用户文档字段不匹配 User 模型: {e}")
+            return None
         except Exception as e:
             logger.error(f"❌ 用户认证失败: {e}")
             return None
-    
+
     async def get_user_by_username(self, username: str) -> Optional[User]:
         """根据用户名获取用户"""
         try:
