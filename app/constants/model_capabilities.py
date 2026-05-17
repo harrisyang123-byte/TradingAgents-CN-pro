@@ -191,7 +191,15 @@ DEFAULT_MODEL_CAPABILITIES: Dict[str, Dict[str, Any]] = {
         "features": [ModelFeature.TOOL_CALLING, ModelFeature.LONG_CONTEXT, ModelFeature.COST_EFFECTIVE],
         "recommended_depths": ["基础", "标准", "深度"],
         "performance_metrics": {"speed": 4, "cost": 5, "quality": 4},
-        "description": "DeepSeek Chat，性价比高"
+        "description": "DeepSeek V3，通用对话，性价比高"
+    },
+    "deepseek-reasoner": {
+        "capability_level": 5,
+        "suitable_roles": [ModelRole.DEEP_ANALYSIS],
+        "features": [ModelFeature.REASONING, ModelFeature.LONG_CONTEXT],
+        "recommended_depths": ["深度", "全面"],
+        "performance_metrics": {"speed": 2, "cost": 3, "quality": 5},
+        "description": "DeepSeek R1，深度推理专用"
     },
     
     # ==================== 百度文心 (Qianfan) ====================
