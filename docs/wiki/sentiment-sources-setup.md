@@ -15,7 +15,7 @@
 - 依赖: `pip install akshare`（CN fork 已有）
 - 启动: 零配置，开箱即用
 
-### wechat_mp（微信公众号）— ⚠️ 需外部服务
+### wechat_mp（微信公众号）— ✅ Docker 镜像可用
 
 - 文件: `sources/wechat_mp.py`
 - 方式: 通过 we-mp-rss HTTP 服务搜索公众号文章
@@ -23,10 +23,31 @@
   - `GET /api/v1/articles/search?q={ticker}&limit=10`
   - `POST /api/v1/query` (回退) `{"query": "{ticker}", "limit": 10}`
 - 配置: `wechat_mp_base_url`（默认 `http://localhost:8001`）
-- 状态: **框架已集成，但 we-mp-rss 服务需自行搭建**
-  - 该服务不在本仓库中
-  - 需要部署一个能够抓取/检索微信公众号文章的 HTTP 服务
-  - 接口协议见上，响应格式: `[{title, summary, url, pub_time}]` 或 `{articles: [...]}`
+- 状态: **框架已集成，Docker 镜像已发布，拉取即用**
+- 来源: Docker Hub `rachelos/we-mp-rss:latest`
+
+#### 启动方式
+
+```bash
+# 拉取镜像
+docker pull rachelos/we-mp-rss:latest
+
+# 国内镜像加速
+docker pull docker.1ms.run/rachelos/we-mp-rss:latest
+
+# 运行容器（默认端口 8001）
+docker run -d --name we-mp-rss -p 8001:8001 rachelos/we-mp-rss:latest
+```
+
+#### 响应格式
+
+```json
+[
+  {"title": "...", "summary": "...", "url": "...", "pub_time": "..."}
+]
+// 或
+{"articles": [{"title": "...", "summary": "...", "url": "...", "pub_time": "..."}]}
+```
 
 ## 添加新源
 
