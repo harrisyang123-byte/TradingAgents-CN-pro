@@ -545,6 +545,7 @@ export const configApi = {
 // 配置相关的常量
 export const CONFIG_PROVIDERS = {
   OPENAI: 'openai',
+  DEEPSEEK: 'deepseek',
   QWEN: 'qwen',
   GLM: 'glm',
   GEMINI: 'gemini',

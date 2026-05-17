@@ -128,7 +128,7 @@
                     class="analyst-card"
                     :class="{ 
                       active: analysisForm.selectedAnalysts.includes(analyst.name),
-                      disabled: analyst.name === '社媒分析师' && analysisForm.market === 'A股'
+                      disabled: false
                     }"
                     @click="toggleAnalyst(analyst.name)"
                   >
@@ -149,11 +149,11 @@
                   </div>
                 </div>
                 
-                <!-- A股提示 -->
+                <!-- A股情绪源提示 -->
                 <el-alert
-                  v-if="analysisForm.market === 'A股'"
-                  title="A股市场暂不支持社媒分析（国内数据源限制）"
-                  type="info"
+                  v-if="analysisForm.market === 'A股' && analysisForm.selectedAnalysts.includes('社媒分析师')"
+                  title="A股社媒分析使用东方财富、雪球、同花顺等国内数据源"
+                  type="success"
                   :closable="false"
                   style="margin-top: 12px"
                 />
@@ -892,10 +892,6 @@ const fetchStockInfo = () => {
 
 // 切换分析师
 const toggleAnalyst = (analystName: string) => {
-  if (analystName === '社媒分析师' && analysisForm.market === 'A股') {
-    return
-  }
-
   const index = analysisForm.selectedAnalysts.indexOf(analystName)
   if (index > -1) {
     analysisForm.selectedAnalysts.splice(index, 1)

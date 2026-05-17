@@ -448,6 +448,16 @@ class ConfigService:
                     description="智谱AI GLM-4模型（推荐）"
                 ),
                 LLMConfig(
+                    provider=ModelProvider.DEEPSEEK,
+                    model_name="deepseek-chat",
+                    api_key="",
+                    api_base="https://api.deepseek.com",
+                    max_tokens=4000,
+                    temperature=0.7,
+                    enabled=True,
+                    description="DeepSeek Chat 通用对话模型"
+                ),
+                LLMConfig(
                     provider=ModelProvider.QWEN,
                     model_name="qwen-turbo",
                     api_key="your-qwen-api-key",
@@ -458,7 +468,7 @@ class ConfigService:
                     description="阿里云通义千问模型"
                 )
             ],
-            default_llm="glm-4",
+            default_llm="deepseek-chat",
             data_source_configs=[
                 DataSourceConfig(
                     name="AKShare",
