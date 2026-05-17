@@ -1,56 +1,52 @@
-"""Helpers for structured output binding with graceful fallback.
+"""Shared helpers for structured output with graceful fallback.
 
-Allows agents to use Pydantic models for structured output when the LLM
-supports it, with automatic fallback to free-text when not supported.
+Agents use bind_structured at creation time and invoke_structured_or_freetext
+at call time.  If a provider doesn't support structured output, the agent
+falls back to free-text generation transparently.
 """
 
-from typing import Any, TypeVar
+from __future__ import annotations
+
+import logging
+from typing import Any, Callable, Optional, TypeVar
+
 from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
+
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=BaseModel)
 
 
-def bind_structured(llm: ChatOpenAI, schema: type[T]) -> ChatOpenAI:
-    """Bind a Pydantic schema as structured output on the LLM.
-
-    This uses tool_use under the hood — the schema is formatted as a tool
-    that the LLM can call to produce structured output.
-
-    Args:
-        llm: The ChatOpenAI instance to bind with.
-        schema: A Pydantic BaseModel subclass defining the output structure.
-
-    Returns:
-        A new ChatOpenAI instance with the schema bound.
-    """
-    return llm.with_structured_output(schema, method="function_calling")
+def bind_structured(llm: Any, schema: type[T], agent_name: str) -> Optional[Any]:
+    """Return ``llm.with_structured_output(schema)`` or ``None`` if unsupported."""
+    try:
+        return llm.with_structured_output(schema)
+    except (NotImplementedError, AttributeError) as exc:
+        logger.warning(
+            "%s: provider does not support with_structured_output (%s); "
+            "falling back to free-text generation",
+            agent_name, exc,
+        )
+        return None
 
 
 def invoke_structured_or_freetext(
-    llm: ChatOpenAI,
-    messages: list,
-    schema: type[T],
-) -> dict[str, Any] | str:
-    """Try structured output; fall back to free-text if unsupported.
+    structured_llm: Optional[Any],
+    plain_llm: Any,
+    prompt: Any,
+    render: Callable[[T], str],
+    agent_name: str,
+) -> str:
+    """Run structured call and render to markdown; fall back to free-text on failure."""
+    if structured_llm is not None:
+        try:
+            result = structured_llm.invoke(prompt)
+            return render(result)
+        except Exception as exc:
+            logger.warning(
+                "%s: structured-output invocation failed (%s); retrying as free text",
+                agent_name, exc,
+            )
 
-    Attempts to invoke the LLM with structured output binding. If the LLM
-    does not support tool_use / function_calling, catches the error and
-    falls back to a plain text invocation.
-
-    Args:
-        llm: The ChatOpenAI instance.
-        messages: The message history to send.
-        schema: The Pydantic schema to attempt binding with.
-
-    Returns:
-        Parsed schema dict on success, or raw text string on fallback.
-    """
-    try:
-        bound = bind_structured(llm, schema)
-        result = bound.invoke(messages)
-        if isinstance(result, BaseModel):
-            return result.model_dump()
-        return result
-    except (NotImplementedError, AttributeError, TypeError):
-        return llm.invoke(messages).content
+    response = plain_llm.invoke(prompt)
+    return response.content

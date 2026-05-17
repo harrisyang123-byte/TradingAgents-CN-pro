@@ -5,8 +5,8 @@
 
 ## 2. 结构化输出管线
 
-- [ ] 2.1 升级 `tradingagents/agents/utils/structured.py` — 对齐 upstream 签名和降级逻辑
-- [ ] 2.2 升级 `tradingagents/agents/schemas.py` — 增加 `PortfolioRating`/`TraderAction` 枚举 + render 函数，保留 TG-CN 现有 schema 备用
+- [x] 2.1 升级 `tradingagents/agents/utils/structured.py` — 对齐 upstream 签名和降级逻辑
+- [x] 2.2 升级 `tradingagents/agents/schemas.py` — 增加 `PortfolioRating`/`TraderAction` 枚举 + render 函数，保留 TG-CN 现有 schema 备用
 
 ## 3. Agent 接入
 
