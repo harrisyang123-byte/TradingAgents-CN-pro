@@ -24,7 +24,7 @@
 | 4 | ~~结果反思系统~~ | ~~`TradingMemoryLog` 追踪实际收益/alpha~~ | ~~ChromaDB 按组件反思，无结果追踪~~ | **已完成** — TradingMemoryLog + akshare 行情 + 沪深300 benchmark |
 | 5 | ~~LLM 工厂清理~~ | ~~`create_llm_client` 单路径工厂~~ | ~~`trading_graph.py` 500+ 行 if/elif~~ | **已完成** — 310 行 if/elif → 统一路径 + _resolve_api_key/_resolve_backend_url |
 | 6 | ~~DeepSeek/MiniMax 子类~~ | ~~`DeepSeekChatOpenAI`~~ | ~~全用普通 ChatOpenAI~~ | **已完成** — 在 Batch 1 #1 中移植（capabilities.py + DeepSeekChatOpenAI） |
-| 7 | 模块化工具层 | `core_stock_tools.py` 等独立文件 + `route_to_vendor()` | 全部内联在 1900 行 interface.py | 拆分 interface.py，引入 vendor-routing |
+| 7 | ~~模块化工具层~~ | ~~`core_stock_tools.py` 等独立文件 + `route_to_vendor()`~~ | ~~全部内联在 1900 行 interface.py~~ | **不吸收** — TG-CN 架构已与 upstream 完全不同（data_source_manager + 中国数据源），照搬拆法不现实，收益低风险高 |
 
 ### P2 — 扩展能力
 
