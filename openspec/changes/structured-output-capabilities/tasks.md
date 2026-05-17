@@ -16,5 +16,5 @@
 
 ## 4. 验证
 
-- [ ] 4.1 确认 `import` 链路无循环依赖，`python -c "from tradingagents.llm_clients.capabilities import get_capabilities; print('OK')"` 通过
-- [ ] 4.2 确认三个 agent 模块可正常 import
+- [x] 4.1 确认 `import` 链路无循环依赖，`python -c "from tradingagents.llm_clients.capabilities import get_capabilities; print('OK')"` 通过
+- [x] 4.2 确认三个 agent 模块可正常 import
