@@ -28,10 +28,11 @@ sentiment_report: str → AgentState
 
 ## 数据源 Registry
 
-| 源 | 文件 | 机制 | 覆盖 |
-|----|------|------|------|
-| eastmoney | `sources/eastmoney.py` | akshare API | A 股 |
-| wechat_mp | `sources/wechat_mp.py` | we-mp-rss Docker HTTP | 全市场 |
+| 源 | 文件 | 机制 | 数据内容 | 覆盖 |
+|----|------|------|----------|------|
+| eastmoney | `sources/eastmoney.py` | akshare `stock_hot_keyword_em` | 个股热搜概念和热度 | A 股 |
+| eastmoney_comment | `sources/eastmoney_comment.py` | akshare 千股千评系列 | 综合得分、散户参与意愿、历史评分 | A 股 |
+| wechat_mp | `sources/wechat_mp.py` | we-mp-rss Docker HTTP | 微信公众号文章 | 全市场 |
 
 新增数据源只需在 `sources/` 目录下创建文件，实现 `BaseSentimentSource` 并加 `@register("name")` 装饰器。`__init__.py` 的 auto-discover 会自动导入。
 
