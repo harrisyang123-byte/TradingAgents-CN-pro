@@ -67,25 +67,27 @@ class UnifiedNewsAnalyzer:
     def _identify_stock_type(self, stock_code: str) -> str:
         """识别股票类型"""
         stock_code = stock_code.upper().strip()
-        
-        # A股判断
-        if re.match(r'^(00|30|60|68)\d{4}$', stock_code):
+
+        # A股判断：6位数字，可选 .SH/.SZ 后缀或 SH/SZ 前缀
+        if re.match(r'^(00|30|60|68)\d{4}(\.(SH|SZ))?$', stock_code):
             return "A股"
         elif re.match(r'^(SZ|SH)\d{6}$', stock_code):
             return "A股"
-        
+        elif re.match(r'^\d{6}\.(SH|SZ|SS|XSHE|XSHG)$', stock_code):
+            return "A股"
+
         # 港股判断
         elif re.match(r'^\d{4,5}\.HK$', stock_code):
             return "港股"
         elif re.match(r'^\d{4,5}$', stock_code) and len(stock_code) <= 5:
             return "港股"
-        
+
         # 美股判断
         elif re.match(r'^[A-Z]{1,5}$', stock_code):
             return "美股"
         elif '.' in stock_code and not stock_code.endswith('.HK'):
             return "美股"
-        
+
         # 默认按A股处理
         else:
             return "A股"
