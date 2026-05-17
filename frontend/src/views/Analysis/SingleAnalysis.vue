@@ -1907,8 +1907,8 @@ const initializeModelSettings = async () => {
     })))
   } catch (error) {
     console.error('加载默认模型配置失败:', error)
-    modelSettings.value.quickAnalysisModel = 'deepseek-chat'
-    modelSettings.value.deepAnalysisModel = 'deepseek-reasoner'
+    modelSettings.value.quickAnalysisModel = 'deepseek-v4-flash'
+    modelSettings.value.deepAnalysisModel = 'deepseek-v4-pro'
   }
 }
 

@@ -449,35 +449,35 @@ class ConfigService:
                 ),
                 LLMConfig(
                     provider=ModelProvider.DEEPSEEK,
-                    model_name="deepseek-chat",
-                    model_display_name="DeepSeek V3 通用对话",
+                    model_name="deepseek-v4-flash",
+                    model_display_name="DeepSeek V4 Flash",
                     api_key="",
                     api_base="https://api.deepseek.com",
                     max_tokens=4000,
                     temperature=0.7,
                     enabled=True,
-                    description="DeepSeek V3，通用对话，性价比高",
-                    capability_level=3,
-                    suitable_roles=["quick_analysis", "both"],
-                    features=["tool_calling", "long_context", "cost_effective"],
-                    recommended_depths=["快速", "基础", "标准", "深度"],
-                    performance_metrics={"speed": 4, "cost": 5, "quality": 4},
+                    description="DeepSeek V4 Flash，快速响应",
+                    capability_level=2,
+                    suitable_roles=["quick_analysis"],
+                    features=["tool_calling", "fast_response", "cost_effective"],
+                    recommended_depths=["快速", "基础", "标准"],
+                    performance_metrics={"speed": 5, "cost": 5, "quality": 3},
                 ),
                 LLMConfig(
                     provider=ModelProvider.DEEPSEEK,
-                    model_name="deepseek-reasoner",
-                    model_display_name="DeepSeek R1 深度推理",
+                    model_name="deepseek-v4-pro",
+                    model_display_name="DeepSeek V4 Pro",
                     api_key="",
                     api_base="https://api.deepseek.com",
                     max_tokens=4000,
                     temperature=0.7,
                     enabled=True,
-                    description="DeepSeek R1，深度推理专用",
+                    description="DeepSeek V4 Pro，旗舰分析模型",
                     capability_level=5,
                     suitable_roles=["deep_analysis"],
-                    features=["reasoning", "long_context"],
-                    recommended_depths=["深度", "全面"],
-                    performance_metrics={"speed": 2, "cost": 3, "quality": 5},
+                    features=["reasoning", "long_context", "tool_calling"],
+                    recommended_depths=["标准", "深度", "全面"],
+                    performance_metrics={"speed": 3, "cost": 3, "quality": 5},
                 ),
                 LLMConfig(
                     provider=ModelProvider.QWEN,
@@ -490,7 +490,7 @@ class ConfigService:
                     description="阿里云通义千问模型"
                 )
             ],
-            default_llm="deepseek-chat",
+            default_llm="deepseek-v4-flash",
             data_source_configs=[
                 DataSourceConfig(
                     name="AKShare",
@@ -566,8 +566,8 @@ class ConfigService:
                 "ta_google_news_sleep_min_seconds": 2.0,
                 "ta_google_news_sleep_max_seconds": 6.0,
                 "app_timezone": "Asia/Shanghai",
-                "quick_analysis_model": "deepseek-chat",
-                "deep_analysis_model": "deepseek-reasoner"
+                "quick_analysis_model": "deepseek-v4-flash",
+                "deep_analysis_model": "deepseek-v4-pro"
             }
         )
         

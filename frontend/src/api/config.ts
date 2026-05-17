@@ -506,8 +506,8 @@ export const configApi = {
   // 获取默认模型配置
   getDefaultModels(): Promise<{ quick_analysis_model: string; deep_analysis_model: string }> {
     return unwrapResponse(ApiClient.get<Record<string, any>>('/api/config/settings')).then(settings => ({
-      quick_analysis_model: settings.quick_analysis_model || 'deepseek-chat',
-      deep_analysis_model: settings.deep_analysis_model || 'deepseek-reasoner'
+      quick_analysis_model: settings.quick_analysis_model || 'deepseek-v4-flash',
+      deep_analysis_model: settings.deep_analysis_model || 'deepseek-v4-pro'
     }))
   },
 
