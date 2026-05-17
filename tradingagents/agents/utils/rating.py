@@ -29,24 +29,18 @@ _RATING_PATTERNS: list[tuple[str, Rating]] = [
 ]
 
 
-def parse_rating(text: str) -> Optional[Rating]:
+def parse_rating(text: str, default: str = "Hold") -> str:
     """Extract a 5-tier rating from text.
 
     Searches the input text for known rating keywords (case-insensitive)
-    and returns the first match. More specific patterns (e.g. "strong buy")
-    are checked before generic ones.
-
-    Args:
-        text: The text to search for a rating.
-
-    Returns:
-        A Rating enum if found, or None if no rating is detected.
+    and returns the first match as a Title-cased string. More specific
+    patterns (e.g. "strong buy") are checked before generic ones.
     """
     if not text:
-        return None
+        return default
 
     lower = text.lower()
     for pattern, rating in _RATING_PATTERNS:
         if pattern in lower:
-            return rating
-    return None
+            return rating.value
+    return default

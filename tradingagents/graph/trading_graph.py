@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 import json
-from datetime import date
+from datetime import date, datetime, timedelta
 from typing import Dict, Any, Tuple, List, Optional
 import time
 
@@ -15,6 +15,7 @@ from langgraph.prebuilt import ToolNode
 from tradingagents.agents import Toolkit
 from tradingagents.default_config import DEFAULT_CONFIG
 from tradingagents.agents.utils.memory import FinancialSituationMemory
+from tradingagents.agents.utils.trading_memory_log import TradingMemoryLog
 
 # 导入统一日志系统
 from tradingagents.utils.logging_init import get_logger
@@ -579,6 +580,7 @@ class TradingAgentsGraph:
         self.propagator = Propagator()
         self.reflector = Reflector(self.quick_thinking_llm)
         self.signal_processor = SignalProcessor(self.quick_thinking_llm)
+        self.memory_log = TradingMemoryLog(self.config)
 
         # State tracking
         self.curr_state = None
@@ -642,6 +644,109 @@ class TradingAgentsGraph:
             ),
         }
 
+    def _resolve_benchmark(self, ticker: str) -> str:
+        """Pick the benchmark ticker for alpha calculation."""
+        explicit = self.config.get("benchmark_ticker")
+        if explicit:
+            return explicit
+        benchmark_map = self.config.get("benchmark_map", {})
+        ticker_upper = ticker.upper()
+        for suffix, benchmark in benchmark_map.items():
+            if suffix and ticker_upper.endswith(suffix.upper()):
+                return benchmark
+        return benchmark_map.get("", "SPY")
+
+    def _fetch_returns(
+        self, ticker: str, trade_date: str, holding_days: int = 5,
+        benchmark: str = "sh000300",
+    ) -> Tuple[Optional[float], Optional[float], Optional[int]]:
+        """Fetch raw and alpha return for ticker using akshare (A-share) or yfinance."""
+        try:
+            import importlib
+            start = datetime.strptime(trade_date, "%Y-%m-%d")
+            end = start + timedelta(days=holding_days + 7)
+            end_str = end.strftime("%Y-%m-%d")
+
+            ticker_upper = ticker.upper()
+            is_a_share = any(ticker_upper.endswith(s) for s in (".SH", ".SS", ".SZ"))
+
+            if is_a_share:
+                akshare = importlib.import_module("akshare")
+                code = ticker_upper
+                for suffix in (".SH", ".SS", ".SZ"):
+                    code = code.replace(suffix, "")
+                stock = akshare.stock_zh_a_hist(
+                    symbol=code, period="daily",
+                    start_date=start.strftime("%Y%m%d"),
+                    end_date=end.strftime("%Y%m%d"),
+                    adjust="qfq",
+                )
+                bench = akshare.stock_zh_index_daily(symbol=benchmark)
+                if bench is not None and not bench.empty:
+                    bench = bench[
+                        (bench["date"] >= trade_date) & (bench["date"] <= end_str)
+                    ]
+            else:
+                yf = importlib.import_module("yfinance")
+                stock = yf.Ticker(ticker).history(start=trade_date, end=end_str)
+                bench = yf.Ticker(benchmark).history(start=trade_date, end=end_str)
+
+            if stock is None or len(stock) < 2 or bench is None or len(bench) < 2:
+                return None, None, None
+
+            close_col = "收盘" if "收盘" in stock.columns else "close" if "close" in stock.columns else "Close"
+            bench_close_col = "close" if "close" in bench.columns else "Close"
+
+            actual_days = min(holding_days, len(stock) - 1, len(bench) - 1)
+            raw = float(
+                (stock[close_col].iloc[actual_days] - stock[close_col].iloc[0])
+                / stock[close_col].iloc[0]
+            )
+            bench_ret = float(
+                (bench[bench_close_col].iloc[actual_days] - bench[bench_close_col].iloc[0])
+                / bench[bench_close_col].iloc[0]
+            )
+            alpha = raw - bench_ret
+            return raw, alpha, actual_days
+        except Exception as e:
+            logger.warning(
+                "Could not resolve outcome for %s on %s (will retry next run): %s",
+                ticker, trade_date, e,
+            )
+            return None, None, None
+
+    def _resolve_pending_entries(self, ticker: str) -> None:
+        """Resolve pending log entries for ticker at the start of a new run."""
+        pending = [e for e in self.memory_log.get_pending_entries() if e["ticker"] == ticker]
+        if not pending:
+            return
+
+        benchmark = self._resolve_benchmark(ticker)
+        updates = []
+        for entry in pending:
+            raw, alpha, days = self._fetch_returns(
+                ticker, entry["date"], benchmark=benchmark,
+            )
+            if raw is None:
+                continue
+            reflection = self.reflector.reflect_on_final_decision(
+                final_decision=entry.get("decision", ""),
+                raw_return=raw,
+                alpha_return=alpha,
+                benchmark_name=benchmark,
+            )
+            updates.append({
+                "ticker": ticker,
+                "trade_date": entry["date"],
+                "raw_return": raw,
+                "alpha_return": alpha,
+                "holding_days": days,
+                "reflection": reflection,
+            })
+
+        if updates:
+            self.memory_log.batch_update_with_outcomes(updates)
+
     def propagate(self, company_name, trade_date, progress_callback=None, task_id=None):
         """Run the trading agents graph for a company on a specific date.
 
@@ -661,10 +766,13 @@ class TradingAgentsGraph:
         self.ticker = company_name
         logger.debug(f"🔍 [GRAPH DEBUG] 设置self.ticker: '{self.ticker}'")
 
+        self._resolve_pending_entries(company_name)
+
         # Initialize state
+        past_context = self.memory_log.get_past_context(company_name)
         logger.debug(f"🔍 [GRAPH DEBUG] 创建初始状态，传递参数: company_name='{company_name}', trade_date='{trade_date}'")
         init_agent_state = self.propagator.create_initial_state(
-            company_name, trade_date
+            company_name, trade_date, past_context=past_context,
         )
         logger.debug(f"🔍 [GRAPH DEBUG] 初始状态中的company_of_interest: '{init_agent_state.get('company_of_interest', 'NOT_FOUND')}'")
         logger.debug(f"🔍 [GRAPH DEBUG] 初始状态中的trade_date: '{init_agent_state.get('trade_date', 'NOT_FOUND')}'")
@@ -811,6 +919,12 @@ class TradingAgentsGraph:
 
         # Log state
         self._log_state(trade_date, final_state)
+
+        self.memory_log.store_decision(
+            ticker=company_name,
+            trade_date=str(trade_date),
+            final_trade_decision=final_state.get("final_trade_decision", ""),
+        )
 
         # 获取模型信息
         model_info = ""

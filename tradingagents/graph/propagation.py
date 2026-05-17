@@ -20,19 +20,18 @@ class Propagator:
         self.max_recur_limit = max_recur_limit
 
     def create_initial_state(
-        self, company_name: str, trade_date: str
+        self, company_name: str, trade_date: str, past_context: str = ""
     ) -> Dict[str, Any]:
         """Create the initial state for the agent graph."""
         from langchain_core.messages import HumanMessage
 
-        # 🔥 修复：创建明确的分析请求消息，而不是只传递股票代码
-        # 这样可以确保所有LLM（包括DeepSeek）都能理解任务
         analysis_request = f"请对股票 {company_name} 进行全面分析，交易日期为 {trade_date}。"
 
         return {
             "messages": [HumanMessage(content=analysis_request)],
             "company_of_interest": company_name,
             "trade_date": str(trade_date),
+            "past_context": past_context,
             "investment_debate_state": InvestDebateState(
                 {"history": "", "current_response": "", "count": 0}
             ),

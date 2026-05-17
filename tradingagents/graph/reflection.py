@@ -15,6 +15,7 @@ class Reflector:
         """Initialize the reflector with an LLM."""
         self.quick_thinking_llm = quick_thinking_llm
         self.reflection_system_prompt = self._get_reflection_prompt()
+        self.log_reflection_prompt = self._get_log_reflection_prompt()
 
     def _get_reflection_prompt(self) -> str:
         """Get the system prompt for reflection."""
@@ -49,6 +50,39 @@ Your goal is to deliver detailed insights into investment decisions and highligh
 
 Adhere strictly to these instructions, and ensure your output is detailed, accurate, and actionable. You will also be given objective descriptions of the market from a price movements, technical indicator, news, and sentiment perspective to provide more context for your analysis.
 """
+
+    def _get_log_reflection_prompt(self) -> str:
+        """Concise prompt for reflect_on_final_decision (Phase B log entries)."""
+        return (
+            "你是一位交易分析师，正在复盘自己过去的决策（现在已知实际结果）。\n"
+            "用2-4句纯文本写出反思（不要使用列表、标题或markdown格式）。\n\n"
+            "依次覆盖：\n"
+            "1. 方向判断是否正确？（引用alpha数据）\n"
+            "2. 投资论据中哪些成立、哪些失败？\n"
+            "3. 一条可用于下次类似分析的具体教训。\n\n"
+            "简洁精确。你的输出将被存入决策日志并在未来被其他分析师参考。"
+        )
+
+    def reflect_on_final_decision(
+        self,
+        final_decision: str,
+        raw_return: float,
+        alpha_return: float,
+        benchmark_name: str = "沪深300",
+    ) -> str:
+        """Single reflection call on the final trade decision with outcome context."""
+        messages = [
+            ("system", self.log_reflection_prompt),
+            (
+                "human",
+                (
+                    f"原始收益: {raw_return:+.1%}\n"
+                    f"相对 {benchmark_name} 的 Alpha: {alpha_return:+.1%}\n\n"
+                    f"最终决策:\n{final_decision}"
+                ),
+            ),
+        ]
+        return self.quick_thinking_llm.invoke(messages).content
 
     def _extract_current_situation(self, current_state: Dict[str, Any]) -> str:
         """Extract the current market situation from the state."""

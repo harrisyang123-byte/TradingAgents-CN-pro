@@ -29,6 +29,20 @@ DEFAULT_CONFIG = {
     # Output language control
     "output_language": os.getenv("OUTPUT_LANGUAGE", "Chinese"),
 
+    # Trading memory log (decision tracking + deferred reflection)
+    "memory_log_path": os.getenv(
+        "TRADINGAGENTS_MEMORY_LOG_PATH",
+        os.path.join(os.path.expanduser("~"), ".tradingagents", "memory", "trading_memory.md"),
+    ),
+    "memory_log_max_entries": None,
+    "benchmark_map": {
+        ".SH": "sh000300",
+        ".SS": "sh000300",
+        ".SZ": "sh000300",
+        ".HK": "HSI",
+        "": "SPY",
+    },
+
     # Sentiment pre-fetch sources (comma-separated)
     "sentiment_sources": os.getenv("SENTIMENT_SOURCES", "eastmoney,eastmoney_comment,wechat_mp").split(","),
     "wechat_mp_base_url": os.getenv("WECHAT_MP_BASE_URL", "http://localhost:8001"),
