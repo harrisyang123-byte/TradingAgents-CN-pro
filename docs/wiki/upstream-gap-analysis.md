@@ -21,9 +21,9 @@
 
 | # | 能力 | TG upstream | TG-CN 现状 | 吸收策略 |
 |---|------|------------|-----------|---------|
-| 4 | 结果反思系统 | `TradingMemoryLog` 追踪实际收益/alpha | ChromaDB 按组件反思，无结果追踪 | 移植 TradingMemoryLog，与现有 ChromaDB 并存 |
-| 5 | LLM 工厂清理 | `create_llm_client` 单路径工厂 | `trading_graph.py` 500+ 行 if/elif | 重构为工厂模式，保留中文 provider |
-| 6 | DeepSeek/MiniMax 子类 | `DeepSeekChatOpenAI` 处理 reasoning_content | 全用普通 ChatOpenAI | 移植子类，对接现有 adapter 层 |
+| 4 | ~~结果反思系统~~ | ~~`TradingMemoryLog` 追踪实际收益/alpha~~ | ~~ChromaDB 按组件反思，无结果追踪~~ | **已完成** — TradingMemoryLog + akshare 行情 + 沪深300 benchmark |
+| 5 | ~~LLM 工厂清理~~ | ~~`create_llm_client` 单路径工厂~~ | ~~`trading_graph.py` 500+ 行 if/elif~~ | **已完成** — 310 行 if/elif → 统一路径 + _resolve_api_key/_resolve_backend_url |
+| 6 | ~~DeepSeek/MiniMax 子类~~ | ~~`DeepSeekChatOpenAI`~~ | ~~全用普通 ChatOpenAI~~ | **已完成** — 在 Batch 1 #1 中移植（capabilities.py + DeepSeekChatOpenAI） |
 | 7 | 模块化工具层 | `core_stock_tools.py` 等独立文件 + `route_to_vendor()` | 全部内联在 1900 行 interface.py | 拆分 interface.py，引入 vendor-routing |
 
 ### P2 — 扩展能力
