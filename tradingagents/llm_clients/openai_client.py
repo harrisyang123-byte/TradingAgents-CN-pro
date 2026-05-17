@@ -1,17 +1,72 @@
 import os
 from typing import Any, Optional
 
+from langchain_core.messages import AIMessage
 from langchain_openai import ChatOpenAI
 
 from .base_client import BaseLLMClient, normalize_content
+from .capabilities import get_capabilities
 from .validators import validate_model
 
 
 class NormalizedChatOpenAI(ChatOpenAI):
-    """ChatOpenAI wrapper that normalizes typed content blocks to text."""
+    """ChatOpenAI with normalized content output and capability-aware binding."""
 
     def invoke(self, input, config=None, **kwargs):
         return normalize_content(super().invoke(input, config, **kwargs))
+
+    def with_structured_output(self, schema, *, method=None, **kwargs):
+        caps = get_capabilities(self.model_name)
+        if caps.preferred_structured_method == "none":
+            raise NotImplementedError(
+                f"{self.model_name} has no structured-output method available; "
+                f"agent factories will fall back to free-text generation."
+            )
+        method = method or caps.preferred_structured_method
+        if method == "function_calling" and not caps.supports_tool_choice:
+            kwargs.setdefault("tool_choice", None)
+        return super().with_structured_output(schema, method=method, **kwargs)
+
+
+def _input_to_messages(input_: Any) -> list:
+    """Normalise a langchain LLM input to a list of message objects."""
+    if isinstance(input_, list):
+        return input_
+    if hasattr(input_, "to_messages"):
+        return input_.to_messages()
+    return []
+
+
+class DeepSeekChatOpenAI(NormalizedChatOpenAI):
+    """DeepSeek-specific: echoes reasoning_content on round-trip."""
+
+    def _get_request_payload(self, input_, *, stop=None, **kwargs):
+        payload = super()._get_request_payload(input_, stop=stop, **kwargs)
+        outgoing = payload.get("messages", [])
+        for message_dict, message in zip(outgoing, _input_to_messages(input_)):
+            if not isinstance(message, AIMessage):
+                continue
+            reasoning = message.additional_kwargs.get("reasoning_content")
+            if reasoning is not None:
+                message_dict["reasoning_content"] = reasoning
+        return payload
+
+    def _create_chat_result(self, response, generation_info=None):
+        chat_result = super()._create_chat_result(response, generation_info)
+        response_dict = (
+            response
+            if isinstance(response, dict)
+            else response.model_dump(
+                exclude={"choices": {"__all__": {"message": {"parsed"}}}}
+            )
+        )
+        for generation, choice in zip(
+            chat_result.generations, response_dict.get("choices", [])
+        ):
+            reasoning = choice.get("message", {}).get("reasoning_content")
+            if reasoning is not None:
+                generation.message.additional_kwargs["reasoning_content"] = reasoning
+        return chat_result
 
 
 _PASSTHROUGH_KWARGS = (
@@ -72,7 +127,11 @@ class OpenAIClient(BaseLLMClient):
             if key in self.kwargs:
                 llm_kwargs[key] = self.kwargs[key]
 
-        return NormalizedChatOpenAI(**llm_kwargs)
+        if self.provider == "deepseek":
+            chat_cls = DeepSeekChatOpenAI
+        else:
+            chat_cls = NormalizedChatOpenAI
+        return chat_cls(**llm_kwargs)
 
     def validate_model(self) -> bool:
         return validate_model(self.provider, self.model)
