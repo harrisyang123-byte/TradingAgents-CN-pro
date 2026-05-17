@@ -13,9 +13,9 @@
 
 | # | 能力 | TG upstream | TG-CN 现状 | 吸收策略 |
 |---|------|------------|-----------|---------|
-| 1 | 结构化输出 + 能力感知 | `capabilities.py` 按模型查表；`with_structured_output()` 自动适配 | 硬编码 `method="function_calling"` | 移植 capabilities.py + 升级 structured.py |
-| 2 | 情绪分析师重设计 | 预抓取数据注入 prompt，不依赖 tool-calling | 旧版 tool-calling 模式 | 重写 sentiment_analyst，保留中文源（eastmoney/wechat_mp），增加 pre-fetch 模式 |
-| 3 | 情绪数据源补齐 | StockTwits 实时多空比 + Reddit 实时搜索 | StockTwits 缺失；Reddit 只读本地文件 | A股场景：评估东方财富股吧、小红书等替代源；美股：移植 stocktwits.py + reddit.py |
+| 1 | ~~结构化输出 + 能力感知~~ | ~~`capabilities.py` 按模型查表~~ | ~~硬编码~~ | **已完成** — capabilities.py + structured.py + 3 个 agent 接入 |
+| 2 | ~~情绪分析师重设计~~ | ~~预抓取数据注入 prompt~~ | ~~旧版 tool-calling~~ | **已完成** — pre-fetch 模式 + source registry |
+| 3 | ~~情绪数据源补齐~~ | ~~StockTwits + Reddit~~ | ~~占位符~~ | **已完成** — eastmoney 热搜 + eastmoney_comment 千股千评 + wechat_mp |
 
 ### P1 — 管线质量
 
