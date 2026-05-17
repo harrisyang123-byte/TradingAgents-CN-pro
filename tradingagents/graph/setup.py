@@ -17,8 +17,10 @@ from tradingagents.agents import (
     create_risk_manager,
     create_risky_debator,
     create_safe_debator,
-    create_social_media_analyst,
     create_trader,
+)
+from tradingagents.agents.analysts.sentiment_analyst import (
+    create_sentiment_analyst,
 )
 from tradingagents.agents.utils.agent_states import AgentState
 from tradingagents.agents.utils.agent_utils import Toolkit
@@ -28,24 +30,6 @@ from .conditional_logic import ConditionalLogic
 # 导入统一日志系统
 from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
-
-
-def _run_async(coro):
-    """Run an async coroutine safely from sync/async mixed contexts.
-
-    Uses asyncio.run() when no loop is running; falls back to a fresh
-    thread+loop when one is (e.g. FastAPI → LangGraph invoke).
-    """
-    import asyncio as _asyncio
-
-    try:
-        return _asyncio.run(coro)
-    except RuntimeError:
-        # Event loop already running — run in a separate thread
-        import concurrent.futures
-
-        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as _pool:
-            return _pool.submit(_asyncio.run, coro).result()
 
 
 class GraphSetup:
@@ -80,61 +64,13 @@ class GraphSetup:
         self.config = config or {}
         self.react_llm = react_llm
 
-    def _build_sentiment_node(self):
-        """Build the sentiment pre-fetch node if sources are configured.
-
-        Returns:
-            A callable(state) -> state if sentiment is enabled, else None.
-        """
-        source_names = self.config.get("sentiment_sources", [])
-        if not source_names:
-            return None
-
-        try:
-            from tradingagents.agents.analysts.sentiment_analyst import (
-                create_sentiment_analyst,
-            )
-            # Build per-source config from domain config
-            source_config = {}
-            wechat_url = self.config.get("wechat_mp_base_url")
-            if wechat_url:
-                source_config["wechat_mp"] = {"base_url": wechat_url}
-            analyst = create_sentiment_analyst(
-                source_names, source_config=source_config or None
-            )
-        except Exception as e:
-            logger.warning("Failed to create sentiment analyst: %s", e)
-            return None
-
-        def sentiment_node(state):
-            """Pre-fetch sentiment data and inject into state."""
-            import asyncio
-
-            tickers = [state.get("company_of_interest", "")]
-            tickers = [t for t in tickers if t]
-            if not tickers:
-                logger.debug("Sentiment pre-fetch: no tickers in state, skipping")
-                return state
-
-            try:
-                reports = _run_async(analyst.fetch_all(tickers))
-                text = analyst.format_state_text(reports)
-                if text:
-                    state["sentiment_context"] = text
-                    logger.info(
-                        "Sentiment pre-fetch: %d reports for %s",
-                        len(reports), ", ".join(tickers)
-                    )
-                else:
-                    state["sentiment_context"] = ""
-                    logger.debug("Sentiment pre-fetch: no data returned")
-            except Exception as e:
-                logger.warning("Sentiment pre-fetch error: %s", e)
-                state["sentiment_context"] = ""
-
-            return state
-
-        return sentiment_node
+    def _build_sentiment_source_config(self):
+        """Build per-source config dict from domain config."""
+        source_config = {}
+        wechat_url = self.config.get("wechat_mp_base_url")
+        if wechat_url:
+            source_config["wechat_mp"] = {"base_url": wechat_url}
+        return source_config or None
 
     def setup_graph(
         self,
@@ -186,11 +122,13 @@ class GraphSetup:
             tool_nodes["market"] = self.tool_nodes["market"]
 
         if "social" in selected_analysts:
-            analyst_nodes["social"] = create_social_media_analyst(
-                self.quick_thinking_llm, self.toolkit
+            source_names = self.config.get("sentiment_sources") or ["eastmoney", "wechat_mp"]
+            analyst_nodes["social"] = create_sentiment_analyst(
+                self.quick_thinking_llm,
+                source_names=source_names,
+                source_config=self._build_sentiment_source_config(),
             )
             delete_nodes["social"] = create_msg_delete()
-            tool_nodes["social"] = self.tool_nodes["social"]
 
         if "news" in selected_analysts:
             analyst_nodes["news"] = create_news_analyst(
@@ -249,18 +187,14 @@ class GraphSetup:
         # Create workflow
         workflow = StateGraph(AgentState)
 
-        # Add sentiment pre-fetch node (optional, based on config)
-        sentiment_node = self._build_sentiment_node()
-        if sentiment_node is not None:
-            workflow.add_node("Sentiment Prefetch", sentiment_node)
-
         # Add analyst nodes to the graph
         for analyst_type, node in analyst_nodes.items():
             workflow.add_node(f"{analyst_type.capitalize()} Analyst", node)
             workflow.add_node(
                 f"Msg Clear {analyst_type.capitalize()}", delete_nodes[analyst_type]
             )
-            workflow.add_node(f"tools_{analyst_type}", tool_nodes[analyst_type])
+            if analyst_type in tool_nodes:
+                workflow.add_node(f"tools_{analyst_type}", tool_nodes[analyst_type])
 
         # Add other nodes
         workflow.add_node("Bull Researcher", bull_researcher_node)
@@ -275,27 +209,23 @@ class GraphSetup:
         # Define edges
         first_analyst = selected_analysts[0]
         first_analyst_node = f"{first_analyst.capitalize()} Analyst"
-
-        # Route through sentiment pre-fetch first (if available)
-        if sentiment_node is not None:
-            workflow.add_edge(START, "Sentiment Prefetch")
-            workflow.add_edge("Sentiment Prefetch", first_analyst_node)
-        else:
-            workflow.add_edge(START, first_analyst_node)
+        workflow.add_edge(START, first_analyst_node)
 
         # Connect analysts in sequence
         for i, analyst_type in enumerate(selected_analysts):
             current_analyst = f"{analyst_type.capitalize()} Analyst"
-            current_tools = f"tools_{analyst_type}"
             current_clear = f"Msg Clear {analyst_type.capitalize()}"
 
-            # Add conditional edges for current analyst
-            workflow.add_conditional_edges(
-                current_analyst,
-                getattr(self.conditional_logic, f"should_continue_{analyst_type}"),
-                [current_tools, current_clear],
-            )
-            workflow.add_edge(current_tools, current_analyst)
+            if analyst_type in tool_nodes:
+                current_tools = f"tools_{analyst_type}"
+                workflow.add_conditional_edges(
+                    current_analyst,
+                    getattr(self.conditional_logic, f"should_continue_{analyst_type}"),
+                    [current_tools, current_clear],
+                )
+                workflow.add_edge(current_tools, current_analyst)
+            else:
+                workflow.add_edge(current_analyst, current_clear)
 
             # Connect to next analyst or to Bull Researcher if this is the last analyst
             if i < len(selected_analysts) - 1:

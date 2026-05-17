@@ -88,6 +88,19 @@ def register(name: str):
     return wrapper
 
 
+def _auto_discover():
+    """Import all source modules so @register decorators fire."""
+    import importlib
+    import pathlib
+    pkg_dir = pathlib.Path(__file__).parent
+    for py in pkg_dir.glob("*.py"):
+        if py.name.startswith("_"):
+            continue
+        importlib.import_module(f"{__name__}.{py.stem}")
+
+_auto_discover()
+
+
 def get_enabled_sources(
     names: list[str],
     source_config: Optional[dict[str, Any]] = None,
