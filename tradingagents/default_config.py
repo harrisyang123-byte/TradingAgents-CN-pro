@@ -30,7 +30,7 @@ DEFAULT_CONFIG = {
     "output_language": os.getenv("OUTPUT_LANGUAGE", "Chinese"),
 
     # Sentiment pre-fetch sources (comma-separated)
-    "sentiment_sources": os.getenv("SENTIMENT_SOURCES", "eastmoney,wechat_mp").split(","),
+    "sentiment_sources": os.getenv("SENTIMENT_SOURCES", "eastmoney,eastmoney_comment,wechat_mp").split(","),
     "wechat_mp_base_url": os.getenv("WECHAT_MP_BASE_URL", "http://localhost:8001"),
 
     # Note: Database and cache configuration is now managed by .env file and config.database_manager
