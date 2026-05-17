@@ -10,9 +10,9 @@
 
 ## 3. Agent 接入
 
-- [ ] 3.1 修改 `tradingagents/agents/managers/research_manager.py` — 使用 `bind_structured` + `invoke_structured_or_freetext`，保留中文 prompt
-- [ ] 3.2 修改 `tradingagents/agents/trader/trader.py` — 同上
-- [ ] 3.3 修改 `tradingagents/agents/managers/risk_manager.py` — 同上，移除手动 3 次重试（由 structured pipeline 的降级覆盖）
+- [x] 3.1 修改 `tradingagents/agents/managers/research_manager.py` — 使用 `bind_structured` + `invoke_structured_or_freetext`，保留中文 prompt
+- [x] 3.2 修改 `tradingagents/agents/trader/trader.py` — 同上
+- [x] 3.3 修改 `tradingagents/agents/managers/risk_manager.py` — 同上，移除手动 3 次重试（由 structured pipeline 的降级覆盖）
 
 ## 4. 验证
 
