@@ -330,7 +330,6 @@ class UserService:
             admin_doc["_id"] = result.inserted_id
             
             logger.info(f"✅ 管理员用户创建成功: {username}")
-            logger.info(f"   密码: {password}")
             logger.info("   ⚠️  请立即修改默认密码！")
             
             return User(**admin_doc)
