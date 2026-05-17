@@ -19,6 +19,7 @@
 
 ### 项目起源
 - [项目起源与合并思路](project-genesis.md) — TG + TG-CN 合并策略、吸收原则、演进方向
+- [TG upstream 差距分析](upstream-gap-analysis.md) — P0-P3 四级 16 项差距 + 吸收计划
 
 ### 认证与安全
 - [认证引导与首次部署](auth-bootstrap.md) — 初始 admin 创建、鸡蛋问题、ValidationError 分层
