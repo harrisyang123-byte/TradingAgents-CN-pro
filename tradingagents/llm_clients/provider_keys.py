@@ -17,6 +17,8 @@ _ALIASES = {
     "qianfan": "qianfan",
     "custom_openai": "custom_openai",
     "siliconflow": "siliconflow",
+    "azure": "azure",
+    "azure_openai": "azure",
 }
 
 _CANONICAL_ALIASES = {
@@ -55,6 +57,7 @@ def env_key_for_provider(provider: str) -> str:
         "siliconflow": "SILICONFLOW_API_KEY",
         "qianfan": "QIANFAN_API_KEY",
         "glm": "ZHIPU_API_KEY",
+        "azure": "AZURE_OPENAI_API_KEY",
     }
     return env_key_map.get(key, "")
 

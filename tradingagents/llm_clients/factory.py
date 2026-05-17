@@ -48,4 +48,9 @@ def create_llm_client(
 
         return AnthropicClient(model, base_url, **kwargs)
 
+    if provider_lower == "azure":
+        from .azure_client import AzureOpenAIClient
+
+        return AzureOpenAIClient(model, base_url, **kwargs)
+
     raise ValueError(f"Unsupported LLM provider: {provider}")

@@ -34,3 +34,4 @@
 - [情绪数据源设置指南](sentiment-sources-setup.md)
   - eastmoney（开箱即用） vs wechat_mp（需外部服务）
 - P1 Batch 2: TradingMemoryLog 结果反思系统 + LLM 工厂清理
+- P2 Batch 3: Azure OpenAI + 模型目录更新 + Alpha Vantage + CLI 统计 + 测试 fixtures

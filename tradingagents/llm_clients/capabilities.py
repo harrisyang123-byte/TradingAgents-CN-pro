@@ -92,6 +92,7 @@ _BY_ID: dict[str, ModelCapabilities] = {
     "deepseek-reasoner": _DEEPSEEK_THINKING,
     "deepseek-v4-flash": _DEEPSEEK_THINKING,
     "deepseek-v4-pro": _DEEPSEEK_THINKING,
+    "deepseek-v4": _DEEPSEEK_THINKING,
     # MiniMax
     "MiniMax-M2.7": _MINIMAX_THINKING,
     "MiniMax-M2.7-highspeed": _MINIMAX_THINKING,
@@ -106,6 +107,11 @@ _BY_ID: dict[str, ModelCapabilities] = {
     "qwen-max": _QWEN_DEFAULT,
     "qwen-long": _QWEN_DEFAULT,
     "qwen3-235b-a22b": _QWEN_DEFAULT,
+    "qwen3-max": _QWEN_DEFAULT,
+    "qwen3.5-flash": _QWEN_DEFAULT,
+    "qwen3.5-plus": _QWEN_DEFAULT,
+    "qwen3.6-flash": _QWEN_DEFAULT,
+    "qwen3.6-plus": _QWEN_DEFAULT,
     # GLM (智谱)
     "glm-4": _GLM_DEFAULT,
     "glm-4-plus": _GLM_DEFAULT,
@@ -114,6 +120,11 @@ _BY_ID: dict[str, ModelCapabilities] = {
     "glm-5-plus": _GLM_DEFAULT,
     "coding-glm-5.1": _GLM_DEFAULT,
     "coding-glm-5.1-free": _GLM_DEFAULT,
+    "glm-5": _GLM_DEFAULT,
+    "glm-5.1": _GLM_DEFAULT,
+    "glm-5-turbo": _GLM_DEFAULT,
+    "glm-4.5-air": _GLM_DEFAULT,
+    "glm-4.7": _GLM_DEFAULT,
     # Qianfan (百度千帆)
     "ernie-4.5-8k": _QIANFAN_DEFAULT,
     "ernie-4.5-turbo-8k": _QIANFAN_DEFAULT,

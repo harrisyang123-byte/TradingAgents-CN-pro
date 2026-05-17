@@ -30,11 +30,11 @@
 
 | # | 能力 | TG upstream | TG-CN 现状 | 吸收策略 |
 |---|------|------------|-----------|---------|
-| 8 | Alpha Vantage 技术指标 | 服务端 API 计算 | 缺失，只有本地 stockstats | 移植，作为可选数据源 |
-| 9 | Azure OpenAI | 完整客户端 | 无 | 移植 azure_client.py |
-| 10 | 模型目录更新 | GPT-5.x, Claude 4.7, Gemini 3.x, DeepSeek V4 | GPT-4o, Claude 3.x | 更新 model catalog |
-| 11 | 测试基础设施 | conftest fixtures + pytest markers | 282 个调试脚本，无 fixtures | 移植 conftest.py + 清理测试目录 |
-| 12 | CLI token 统计 | `StatsCallbackHandler` | CLI 无统计 | 移植 |
+| 8 | ~~Alpha Vantage 技术指标~~ | ~~服务端 API 计算~~ | ~~缺失~~ | **已完成** — 移植 5 个模块到 dataflows/ |
+| 9 | ~~Azure OpenAI~~ | ~~完整客户端~~ | ~~无~~ | **已完成** — azure_client.py + factory 注册 |
+| 10 | ~~模型目录更新~~ | ~~GPT-5.x, Claude 4.7, Gemini 3.x~~ | ~~GPT-4o, Claude 3.x~~ | **已完成** — 15 个 provider + xAI/MiniMax 新增 |
+| 11 | ~~测试基础设施~~ | ~~conftest fixtures + pytest markers~~ | ~~282 个调试脚本~~ | **已完成** — conftest fixtures + markers（脚本清理推迟） |
+| 12 | ~~CLI token 统计~~ | ~~`StatsCallbackHandler`~~ | ~~CLI 无统计~~ | **已完成** — stats_handler.py 移植 |
 
 ### P3 — 长尾
 
