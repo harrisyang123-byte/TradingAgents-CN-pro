@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""E2E smoke test: run a full analysis on 贵州茅台 (600519.SH) using Qwen.
+"""E2E smoke test: run a full analysis on 贵州茅台 (600519.SH).
 
-Prerequisites:
-  - DASHSCOPE_API_KEY set in .env or environment
-  - MongoDB running (for config manager)
+Auto-selects provider: DeepSeek > Qwen (whichever key is valid).
+Override with SMOKE_TEST_PROVIDER=deepseek|qwen.
 
 Usage:
   .venv/bin/python3 scripts/e2e_smoke_test.py
@@ -24,15 +23,27 @@ from tradingagents.graph.trading_graph import TradingAgentsGraph
 
 
 def main():
-    if not os.environ.get("DASHSCOPE_API_KEY"):
-        print("ERROR: DASHSCOPE_API_KEY not set. Cannot run smoke test.")
-        sys.exit(1)
+    provider = os.environ.get("SMOKE_TEST_PROVIDER", "auto")
+    if provider == "auto":
+        if os.environ.get("DEEPSEEK_API_KEY"):
+            provider = "deepseek"
+        elif os.environ.get("DASHSCOPE_API_KEY") and os.environ.get("DASHSCOPE_API_KEY") != "your_dashscope_api_key_here":
+            provider = "qwen"
+        else:
+            print("ERROR: No valid API key found. Set DEEPSEEK_API_KEY or DASHSCOPE_API_KEY.")
+            sys.exit(1)
 
     config = DEFAULT_CONFIG.copy()
-    config["llm_provider"] = "qwen"
-    config["deep_think_llm"] = "qwen-plus"
-    config["quick_think_llm"] = "qwen-plus"
-    config["backend_url"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    if provider == "deepseek":
+        config["llm_provider"] = "deepseek"
+        config["deep_think_llm"] = "deepseek-chat"
+        config["quick_think_llm"] = "deepseek-chat"
+        config["backend_url"] = "https://api.deepseek.com"
+    else:
+        config["llm_provider"] = "qwen"
+        config["deep_think_llm"] = "qwen-plus"
+        config["quick_think_llm"] = "qwen-plus"
+        config["backend_url"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
     config["max_debate_rounds"] = 1
     config["max_risk_discuss_rounds"] = 1
     config["sentiment_sources"] = ["eastmoney", "eastmoney_comment", "xueqiu", "tonghuashun"]
@@ -43,12 +54,12 @@ def main():
     print(f"=== E2E Smoke Test ===")
     print(f"Ticker: {ticker}")
     print(f"Date: {trade_date}")
-    print(f"Provider: qwen / qwen-plus")
+    print(f"Provider: {provider} / {config['deep_think_llm']}")
     print(f"Sentiment sources: {config['sentiment_sources']}")
     print()
 
     ta = TradingAgentsGraph(
-        analysts=["market", "social", "news", "fundamentals"],
+        selected_analysts=["market", "social", "news", "fundamentals"],
         config=config,
         debug=True,
     )
