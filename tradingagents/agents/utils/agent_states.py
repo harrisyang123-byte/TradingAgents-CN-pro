@@ -83,3 +83,4 @@ class AgentState(MessagesState):
     final_trade_decision: Annotated[str, "Final decision made by the Risk Analysts"]
 
     past_context: Annotated[str, "Historical decision log context from TradingMemoryLog"]
+    portfolio_context: Annotated[str, "User portfolio holdings context for personalized advice"]

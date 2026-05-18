@@ -15,7 +15,7 @@ from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
 
 
-def create_portfolio_manager(llm, memory):
+def create_portfolio_manager(llm):
     structured_llm = bind_structured(llm, PortfolioDecision, "Portfolio Manager")
 
     def portfolio_manager_node(state) -> dict:
@@ -24,26 +24,20 @@ def create_portfolio_manager(llm, memory):
 
         risk_debate_state = state["risk_debate_state"]
         history = risk_debate_state["history"]
-        trader_plan = state["investment_plan"]
+        research_plan = state["investment_plan"]
+        trader_plan = state["trader_investment_plan"]
 
-        curr_situation = (
-            f"{state['market_report']}\n\n{state['sentiment_report']}\n\n"
-            f"{state['news_report']}\n\n{state['fundamentals_report']}"
+        past_context = state.get("past_context", "")
+        lessons_line = (
+            f"\n从过去的决策和结果中学习：\n{past_context}\n"
+            if past_context
+            else ""
         )
 
-        if memory is not None:
-            past_memories = memory.get_memories(curr_situation, n_matches=2)
-        else:
-            logger.warning("memory为None，跳过历史记忆检索")
-            past_memories = []
-
-        past_memory_str = ""
-        for rec in past_memories:
-            past_memory_str += rec["recommendation"] + "\n\n"
-
-        lessons_line = (
-            f"\n从过去的错误中学习：\n{past_memory_str}\n"
-            if past_memory_str
+        portfolio_context = state.get("portfolio_context", "")
+        portfolio_line = (
+            f"\n用户持仓信息（请结合持仓情况给出个性化建议）：\n{portfolio_context}\n"
+            if portfolio_context
             else ""
         )
 
@@ -59,8 +53,8 @@ def create_portfolio_manager(llm, memory):
 决策指导原则：
 1. 总结每位分析师的最强观点
 2. 用辩论中的直接引用和反驳论点支持您的建议
-3. 从交易员的原始计划 **{trader_plan}** 开始，根据分析师的见解进行调整
-{lessons_line}
+3. 从研究经理的投资计划 **{research_plan}** 和交易员的交易方案 **{trader_plan}** 开始，根据风险分析师的见解进行调整
+{lessons_line}{portfolio_line}
 标的约束：
 {instrument_context}
 

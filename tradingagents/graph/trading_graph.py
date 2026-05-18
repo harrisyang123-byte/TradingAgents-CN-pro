@@ -24,7 +24,6 @@ from tradingagents.agents.utils.agent_utils import (
     get_insider_transactions,
 )
 from tradingagents.default_config import DEFAULT_CONFIG
-from tradingagents.agents.utils.memory import FinancialSituationMemory
 from tradingagents.agents.utils.trading_memory_log import TradingMemoryLog
 
 # 导入统一日志系统
@@ -312,23 +311,6 @@ class TradingAgentsGraph:
             )
             logger.info(f"✅ [{normalized_provider or self.config['llm_provider']}] LLM 初始化完成")
         
-        # Initialize memories (如果启用)
-        memory_enabled = self.config.get("memory_enabled", True)
-        if memory_enabled:
-            # 使用单例ChromaDB管理器，避免并发创建冲突
-            self.bull_memory = FinancialSituationMemory("bull_memory", self.config)
-            self.bear_memory = FinancialSituationMemory("bear_memory", self.config)
-            self.trader_memory = FinancialSituationMemory("trader_memory", self.config)
-            self.invest_judge_memory = FinancialSituationMemory("invest_judge_memory", self.config)
-            self.risk_manager_memory = FinancialSituationMemory("risk_manager_memory", self.config)
-        else:
-            # 创建空的内存对象
-            self.bull_memory = None
-            self.bear_memory = None
-            self.trader_memory = None
-            self.invest_judge_memory = None
-            self.risk_manager_memory = None
-
         # Create tool nodes
         self.tool_nodes = self._create_tool_nodes()
 
@@ -346,14 +328,8 @@ class TradingAgentsGraph:
             self.quick_thinking_llm,
             self.deep_thinking_llm,
             self.tool_nodes,
-            self.bull_memory,
-            self.bear_memory,
-            self.trader_memory,
-            self.invest_judge_memory,
-            self.risk_manager_memory,
             self.conditional_logic,
             self.config,
-            getattr(self, 'react_llm', None),
         )
 
         self.propagator = Propagator()
@@ -510,7 +486,8 @@ class TradingAgentsGraph:
         if updates:
             self.memory_log.batch_update_with_outcomes(updates)
 
-    def propagate(self, company_name, trade_date, progress_callback=None, task_id=None):
+    def propagate(self, company_name, trade_date, progress_callback=None, task_id=None,
+                   portfolio_context: str = ""):
         """Run the trading agents graph for a company on a specific date.
 
         Args:
@@ -518,6 +495,7 @@ class TradingAgentsGraph:
             trade_date: Date for analysis
             progress_callback: Optional callback function for progress updates
             task_id: Optional task ID for tracking performance data
+            portfolio_context: Optional user portfolio context for personalized advice
         """
 
         # 添加详细的接收日志
@@ -536,6 +514,7 @@ class TradingAgentsGraph:
         logger.debug(f"🔍 [GRAPH DEBUG] 创建初始状态，传递参数: company_name='{company_name}', trade_date='{trade_date}'")
         init_agent_state = self.propagator.create_initial_state(
             company_name, trade_date, past_context=past_context,
+            portfolio_context=portfolio_context,
         )
         logger.debug(f"🔍 [GRAPH DEBUG] 初始状态中的company_of_interest: '{init_agent_state.get('company_of_interest', 'NOT_FOUND')}'")
         logger.debug(f"🔍 [GRAPH DEBUG] 初始状态中的trade_date: '{init_agent_state.get('trade_date', 'NOT_FOUND')}'")
@@ -1022,24 +1001,6 @@ class TradingAgentsGraph:
             "w",
         ) as f:
             json.dump(self.log_states_dict, f, indent=4)
-
-    def reflect_and_remember(self, returns_losses):
-        """Reflect on decisions and update memory based on returns."""
-        self.reflector.reflect_bull_researcher(
-            self.curr_state, returns_losses, self.bull_memory
-        )
-        self.reflector.reflect_bear_researcher(
-            self.curr_state, returns_losses, self.bear_memory
-        )
-        self.reflector.reflect_trader(
-            self.curr_state, returns_losses, self.trader_memory
-        )
-        self.reflector.reflect_invest_judge(
-            self.curr_state, returns_losses, self.invest_judge_memory
-        )
-        self.reflector.reflect_risk_manager(
-            self.curr_state, returns_losses, self.risk_manager_memory
-        )
 
     def process_signal(self, full_signal, stock_symbol=None):
         """Process a signal to extract the core decision."""

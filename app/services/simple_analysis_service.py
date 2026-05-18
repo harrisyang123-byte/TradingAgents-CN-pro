@@ -1473,11 +1473,24 @@ class SimpleAnalysisService:
             logger.info(f"🚀 准备调用 trading_graph.propagate，progress_callback={graph_progress_callback}")
 
             # 执行实际分析，传递进度回调和task_id
+            # 获取持仓上下文（如果用户有持仓）
+            portfolio_ctx = ""
+            try:
+                from app.services.portfolio_service import PortfolioService
+                import asyncio
+                _svc = PortfolioService()
+                _loop = asyncio.new_event_loop()
+                portfolio_ctx = _loop.run_until_complete(_svc.get_portfolio_context(user_id))
+                _loop.close()
+            except Exception as e:
+                logger.warning(f"获取持仓上下文失败: {e}")
+
             state, decision = trading_graph.propagate(
                 request.stock_code,
                 analysis_date,
                 progress_callback=graph_progress_callback,
-                task_id=task_id
+                task_id=task_id,
+                portfolio_context=portfolio_ctx,
             )
 
             logger.info(f"✅ trading_graph.propagate 执行完成")

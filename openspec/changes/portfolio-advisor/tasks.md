@@ -20,12 +20,12 @@
 
 ## 3. 持仓上下文注入分析引擎
 
-- [ ] 3.1 `tradingagents/agents/utils/agent_states.py`: `AgentState` TypedDict 增加 `portfolio_context: str` 字段
-- [ ] 3.2 `tradingagents/graph/propagation.py`: `create_initial_state()` 增加 `portfolio_context` 参数，写入 state
-- [ ] 3.3 `tradingagents/graph/trading_graph.py`: `propagate()` 增加 `portfolio_context` 参数，传递到 `create_initial_state()`
-- [ ] 3.4 `tradingagents/agents/managers/portfolio_manager.py`: prompt 中引用 `state["portfolio_context"]`，在决策指导原则中加入用户持仓信息段
-- [ ] 3.5 `app/services/portfolio_service.py`: `get_portfolio_context(user_id)` 方法——构造持仓摘要字符串（总投入/可用现金/每只持仓明细/仓位占比/盈亏），超过 20 只时截断
-- [ ] 3.6 `app/services/simple_analysis_service.py`: `_execute_analysis_sync()` 中调用 `get_portfolio_context(user_id)` 并传给 `propagate()`
+- [x] 3.1 `tradingagents/agents/utils/agent_states.py`: `AgentState` TypedDict 增加 `portfolio_context: str` 字段
+- [x] 3.2 `tradingagents/graph/propagation.py`: `create_initial_state()` 增加 `portfolio_context` 参数，写入 state
+- [x] 3.3 `tradingagents/graph/trading_graph.py`: `propagate()` 增加 `portfolio_context` 参数，传递到 `create_initial_state()`
+- [x] 3.4 `tradingagents/agents/managers/portfolio_manager.py`: prompt 中引用 `state["portfolio_context"]`，在决策指导原则中加入用户持仓信息段
+- [x] 3.5 `app/services/portfolio_service.py`: `get_portfolio_context(user_id)` 方法——构造持仓摘要字符串（总投入/可用现金/每只持仓明细/仓位占比/盈亏），超过 20 只时截断
+- [x] 3.6 `app/services/simple_analysis_service.py`: `_execute_analysis_sync()` 中调用 `get_portfolio_context(user_id)` 并传给 `propagate()`
 
 ## 4. 前端改造
 
