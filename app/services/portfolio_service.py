@@ -67,8 +67,66 @@ class PortfolioService:
         fallback = {"HKD": 0.92, "USD": 7.25}
         return fallback.get(currency, 1.0)
 
-    async def _get_last_price(self, code: str, market: str) -> Optional[float]:
+    async def _get_fund_nav(self, code: str) -> Optional[float]:
+        """获取场外基金最新单位净值，缓存对齐北京时间 21:00 (UTC 13:00) 净值发布时间"""
+        cached = await self.db["fund_nav_cache"].find_one({"code": code})
+        if cached:
+            try:
+                cached_time = datetime.fromisoformat(cached["cached_at"])
+                now_utc = datetime.utcnow()
+                # 北京时间 21:00 = UTC 13:00
+                cutoff_utc = now_utc.replace(hour=13, minute=0, second=0, microsecond=0)
+                if now_utc.hour < 13:
+                    cutoff_utc -= timedelta(days=1)
+                if cached_time >= cutoff_utc:
+                    return float(cached["nav"])
+            except Exception:
+                pass
+
+        try:
+            import akshare as ak
+            df = ak.fund_open_fund_info_em(symbol=code)
+            if df is None or df.empty:
+                return None
+
+            latest = df.iloc[-1]
+            nav = float(latest["单位净值"])
+            nav_date = str(latest.get("净值日期", ""))
+
+            if nav <= 0:
+                return None
+
+            # 非交易日去重：同一净值日期只更新 cached_at，不覆盖 nav
+            if cached and cached.get("nav_date") == nav_date:
+                await self.db["fund_nav_cache"].update_one(
+                    {"code": code},
+                    {"$set": {"cached_at": datetime.utcnow().isoformat()}},
+                )
+                return float(cached["nav"])
+
+            await self.db["fund_nav_cache"].update_one(
+                {"code": code},
+                {"$set": {
+                    "code": code,
+                    "nav": nav,
+                    "nav_date": nav_date,
+                    "cached_at": datetime.utcnow().isoformat(),
+                }},
+                upsert=True,
+            )
+            return nav
+
+        except Exception as e:
+            logger.warning(f"基金净值获取失败 {code}: {e}")
+            if cached:
+                return float(cached.get("nav"))
+            return None
+
+    async def _get_last_price(self, code: str, market: str, instrument_type: str = "stock") -> Optional[float]:
         """获取最新价格（复用 paper.py 的逻辑）"""
+        if instrument_type == "fund":
+            return await self._get_fund_nav(code)
+
         if market == "CN":
             q = await self.db["market_quotes"].find_one(
                 {"$or": [{"code": code}, {"symbol": code}]},
@@ -127,7 +185,9 @@ class PortfolioService:
             qty = int(p.get("quantity", 0))
             avg_cost = float(p.get("avg_cost", 0.0))
 
-            last_price = await self._get_last_price(code, market)
+            last_price = await self._get_last_price(code, market, p.get("instrument_type", "stock"))
+            # TODO: 多基金首次全 miss 时串行调用 AKShare（每只 3-5s），极端场景 ~50s。
+            # 未来可用 asyncio.gather 并行化，日级缓存命中后无感知。
             exchange_rate = await self._get_exchange_rate(currency)
 
             market_value_local = round((last_price or 0.0) * qty, 2)
