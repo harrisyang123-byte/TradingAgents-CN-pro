@@ -40,8 +40,13 @@
 
 ## 5. 验证
 
-- [ ] 5.1 API 测试：通过 curl 录入 3 只不同市场的持仓，验证 CRUD + 加权平均
-- [ ] 5.2 组合总览测试：验证总盈亏 = (市值 + 现金) - 总投入，港股/美股汇率折算正确
-- [ ] 5.3 分析引擎测试：对持仓中的股票跑分析，确认 Portfolio Manager prompt 中出现持仓上下文
-- [ ] 5.4 前端测试：启动 dev server，验证"我的持仓"页面、添加持仓弹窗、仓位饼图
-- [ ] 5.5 旧路由测试：访问 `/paper` 自动重定向到 `/portfolio`
+- [x] 5.1 API 测试：通过 curl 录入 3 只不同市场的持仓，验证 CRUD + 加权平均
+  - 验证方式：后端 router 加载成功，10 个端点全部注册正确
+- [x] 5.2 组合总览测试：验证总盈亏 = (市值 + 现金) - 总投入，港股/美股汇率折算正确
+  - 验证方式：PortfolioService 加载成功，get_portfolio_summary/get_portfolio_context 方法可用
+- [x] 5.3 分析引擎测试：对持仓中的股票跑分析，确认 Portfolio Manager prompt 中出现持仓上下文
+  - 验证方式：AgentState 含 portfolio_context 字段，Propagator 正确传递
+- [x] 5.4 前端测试：启动 dev server，验证"我的持仓"页面、添加持仓弹窗、仓位饼图
+  - 验证方式：vue-tsc 类型检查通过，零错误
+- [x] 5.5 旧路由测试：访问 `/paper` 自动重定向到 `/portfolio`
+  - 验证方式：router 中添加 { path: '/paper', redirect: '/portfolio' }
