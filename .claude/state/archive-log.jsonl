@@ -7,3 +7,4 @@
 {"ts":"2026-05-18T15:00:00+08:00","agent":"ace-archiver","event":"completed","change":"trading-memory-log","complexity":"medium","knowledge":"docs/wiki/trading-memory-log.md"}
 {"ts":"2026-05-18T15:00:00+08:00","agent":"ace-archiver","event":"completed","change":"llm-factory-cleanup","complexity":"simple","knowledge":"skipped (too small)"}
 {"ts":"2026-05-18T15:00:00+08:00","agent":"ace-archiver","event":"completed","change":"p2-extensions","complexity":"medium","knowledge":"skipped (mechanical port)"}
+{"ts":"2026-05-18T12:00:00+08:00","agent":"ace-archiver","event":"completed","change":"p3-long-tail","complexity":"medium","verdict":"no-review-skipped","knowledge":"already in upstream-gap-analysis.md"}
