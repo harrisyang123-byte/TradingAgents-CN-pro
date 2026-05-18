@@ -28,6 +28,9 @@
 - [结构化输出管线](structured-output-pipeline.md) — 能力感知 + bind/invoke + 双级降级 + DeepSeek 回传
 - [情绪分析师架构](sentiment-analyst-architecture.md) — pre-fetch 模式 + source registry + 中文数据源
 
+### 组合管理
+- [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
+
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
