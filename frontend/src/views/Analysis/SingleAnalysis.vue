@@ -1564,11 +1564,17 @@ const goSimOrder = async () => {
       return
     }
 
-    const account = accountRes.data.account
-    const positions = accountRes.data.positions
+    const account = accountRes.data
+
+    // 获取持仓列表
+    let positions: any[] = []
+    try {
+      const posRes = await paperApi.getPositions()
+      if (posRes.success) positions = posRes.data.items || []
+    } catch (_) { /* ignore */ }
 
     // 查找当前持仓
-    const currentPosition = positions.find(p => p.code === code)
+    const currentPosition = positions.find((p: any) => p.code === code)
 
     // 获取当前实时价格
     let currentPrice = 10 // 默认价格
@@ -1587,7 +1593,7 @@ const goSimOrder = async () => {
 
     if (recommendation.action === 'buy') {
       // 买入：根据可用资金和当前价格计算
-      const availableCash = account.cash
+      const availableCash = account.available_cash
       maxQuantity = Math.floor(Number(availableCash) / Number(currentPrice) / 100) * 100 // 100股为单位
       const suggested = Math.floor(maxQuantity * 0.2) // 建议使用20%资金
       suggestedQuantity = Math.floor(suggested / 100) * 100 // 向下取整到100的倍数
@@ -1678,7 +1684,7 @@ const goSimOrder = async () => {
             h('span', recommendation.riskLevel)
           ]),
           recommendation.action === 'buy' ? h('p', { style: 'color: #909399; font-size: 12px; margin-top: 12px;' },
-            `可用资金：${typeof account.cash === 'number' ? account.cash.toFixed(2) : account.cash}元，最大可买：${maxQuantity}股`
+            `可用资金：${typeof account.available_cash === 'number' ? account.available_cash.toFixed(2) : account.available_cash}元，最大可买：${maxQuantity}股`
           ) : null,
           recommendation.action === 'sell' ? h('p', { style: 'color: #909399; font-size: 12px; margin-top: 12px;' },
             `当前持仓：${maxQuantity}股`
@@ -1712,7 +1718,7 @@ const goSimOrder = async () => {
           // 检查资金是否充足
           if (recommendation.action === 'buy') {
             const totalAmount = tradeForm.price * tradeForm.quantity
-            if (totalAmount > Number(account.cash)) {
+            if (totalAmount > Number(account.available_cash)) {
               ElMessage.error('可用资金不足')
               return
             }
@@ -1728,6 +1734,7 @@ const goSimOrder = async () => {
       code: code,
       side: recommendation.action,
       quantity: tradeForm.quantity,
+      price: tradeForm.price,
       analysis_id: analysisId ? String(analysisId) : undefined
     })
 

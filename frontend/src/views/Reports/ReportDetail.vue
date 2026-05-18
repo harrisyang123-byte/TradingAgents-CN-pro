@@ -287,8 +287,6 @@ import {
 } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { marked } from 'marked'
-import { getMarketByStockCode } from '@/utils/market'
-import type { CurrencyAmount } from '@/api/paper'
 
 type ReportModuleContent = string | Record<string, unknown>
 
@@ -494,32 +492,8 @@ const parseRecommendation = () => {
   }
 }
 
-// 辅助函数：根据股票代码获取对应货币的现金金额
-const getCashByCurrency = (account: any, stockSymbol: string): number => {
-  const cash = account.cash
-
-  // 兼容旧格式（单一数字）
-  if (typeof cash === 'number') {
-    return cash
-  }
-
-  // 新格式（多货币对象）
-  if (typeof cash === 'object' && cash !== null) {
-    // 根据股票代码判断市场类型
-    const marketType = getMarketByStockCode(stockSymbol)
-
-    // 映射市场类型到货币
-    const currencyMap: Record<string, keyof CurrencyAmount> = {
-      'A股': 'CNY',
-      '港股': 'HKD',
-      '美股': 'USD'
-    }
-
-    const currency = currencyMap[marketType] || 'CNY'
-    return cash[currency] || 0
-  }
-
-  return 0
+const getCashByCurrency = (account: any, _stockSymbol: string): number => {
+  return account.available_cash || 0
 }
 
 // 应用到模拟交易
@@ -540,11 +514,17 @@ const applyToTrading = async () => {
       return
     }
 
-    const account = accountRes.data.account
-    const positions = accountRes.data.positions
+    const account = accountRes.data
+
+    // 获取持仓列表
+    let positions: any[] = []
+    try {
+      const posRes = await paperApi.getPositions()
+      if (posRes.success) positions = posRes.data.items || []
+    } catch (_) { /* ignore */ }
 
     // 查找当前持仓
-    const currentPosition = positions.find(p => p.code === currentReport.stock_symbol)
+    const currentPosition = positions.find((p: any) => p.code === currentReport.stock_symbol)
 
     // 获取当前实时价格
     let currentPrice = 10 // 默认价格
@@ -727,6 +707,7 @@ const applyToTrading = async () => {
       code: currentReport.stock_symbol,
       side: recommendation.action,
       quantity: tradeForm.quantity,
+      price: tradeForm.price,
       analysis_id: currentReport.analysis_id || currentReport.id
     })
 

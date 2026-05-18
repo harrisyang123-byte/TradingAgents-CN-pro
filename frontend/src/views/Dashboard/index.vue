@@ -218,11 +218,11 @@
           </div>
         </el-card>
 
-        <!-- 模拟交易账户 -->
+        <!-- 我的持仓 -->
         <el-card class="paper-trading-card" style="margin-top: 24px;">
           <template #header>
             <div class="card-header">
-              <span>模拟交易账户</span>
+              <span>我的持仓</span>
               <el-button type="text" size="small" @click="goToPaperTrading">
                 查看详情 <el-icon><ArrowRight /></el-icon>
               </el-button>
@@ -230,63 +230,36 @@
           </template>
 
           <div v-if="paperAccount" class="paper-account-info">
-            <!-- A股账户 -->
             <div class="account-section">
-              <div class="account-section-title">🇨🇳 A股账户</div>
-              <div class="account-item">
-                <div class="account-label">现金</div>
-                <div class="account-value">¥{{ formatMoney(getCurrencyAmount(paperAccount.cash, 'CNY')) }}</div>
-              </div>
-              <div class="account-item">
-                <div class="account-label">持仓市值</div>
-                <div class="account-value">¥{{ formatMoney(getCurrencyAmount(paperAccount.positions_value, 'CNY')) }}</div>
-              </div>
               <div class="account-item">
                 <div class="account-label">总资产</div>
-                <div class="account-value primary">¥{{ formatMoney(getCurrencyAmount(paperAccount.equity, 'CNY')) }}</div>
-              </div>
-            </div>
-
-            <!-- 港股账户 -->
-            <div class="account-section" v-if="typeof paperAccount.cash !== 'number' && paperAccount.cash?.HKD !== undefined">
-              <div class="account-section-title">🇭🇰 港股账户</div>
-              <div class="account-item">
-                <div class="account-label">现金</div>
-                <div class="account-value">HK${{ formatMoney(getCurrencyAmount(paperAccount.cash, 'HKD')) }}</div>
+                <div class="account-value primary">¥{{ formatMoney(paperAccount.total_assets) }}</div>
               </div>
               <div class="account-item">
-                <div class="account-label">持仓市值</div>
-                <div class="account-value">HK${{ formatMoney(getCurrencyAmount(paperAccount.positions_value, 'HKD')) }}</div>
+                <div class="account-label">总投入</div>
+                <div class="account-value">¥{{ formatMoney(paperAccount.total_invested) }}</div>
               </div>
               <div class="account-item">
-                <div class="account-label">总资产</div>
-                <div class="account-value primary">HK${{ formatMoney(getCurrencyAmount(paperAccount.equity, 'HKD')) }}</div>
-              </div>
-            </div>
-
-            <!-- 美股账户 -->
-            <div class="account-section" v-if="typeof paperAccount.cash !== 'number' && paperAccount.cash?.USD !== undefined">
-              <div class="account-section-title">🇺🇸 美股账户</div>
-              <div class="account-item">
-                <div class="account-label">现金</div>
-                <div class="account-value">${{ formatMoney(getCurrencyAmount(paperAccount.cash, 'USD')) }}</div>
+                <div class="account-label">可用现金</div>
+                <div class="account-value">¥{{ formatMoney(paperAccount.available_cash) }}</div>
               </div>
               <div class="account-item">
-                <div class="account-label">持仓市值</div>
-                <div class="account-value">${{ formatMoney(getCurrencyAmount(paperAccount.positions_value, 'USD')) }}</div>
-              </div>
-              <div class="account-item">
-                <div class="account-label">总资产</div>
-                <div class="account-value primary">${{ formatMoney(getCurrencyAmount(paperAccount.equity, 'USD')) }}</div>
+                <div class="account-label">总盈亏</div>
+                <div class="account-value" :class="{ profit: (paperAccount.total_pnl || 0) > 0, loss: (paperAccount.total_pnl || 0) < 0 }">
+                  ¥{{ formatMoney(paperAccount.total_pnl) }}
+                  <span v-if="paperAccount.total_pnl_pct" style="font-size:12px">
+                    ({{ paperAccount.total_pnl_pct >= 0 ? '+' : '' }}{{ paperAccount.total_pnl_pct.toFixed(2) }}%)
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
           <div v-else class="empty-state">
             <el-icon class="empty-icon"><InfoFilled /></el-icon>
-            <p>暂无账户信息</p>
+            <p>暂无持仓信息</p>
             <el-button type="primary" size="small" @click="goToPaperTrading">
-              查看模拟交易
+              添加持仓
             </el-button>
           </div>
         </el-card>
@@ -318,7 +291,7 @@ import MultiSourceSyncCard from '@/components/Dashboard/MultiSourceSyncCard.vue'
 import { favoritesApi } from '@/api/favorites'
 import { analysisApi } from '@/api/analysis'
 import { newsApi } from '@/api/news'
-import { paperApi, type PaperAccountSummary } from '@/api/paper'
+import { portfolioApi, type PortfolioAccountInfo } from '@/api/paper'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -341,18 +314,7 @@ const favoriteStocks = ref<any[]>([])
 const marketNews = ref<any[]>([])
 
 // 模拟交易账户数据
-const paperAccount = ref<PaperAccountSummary | null>(null)
-
-const getCurrencyAmount = (
-  amount: number | { CNY: number; HKD: number; USD: number } | undefined,
-  currency: 'CNY' | 'HKD' | 'USD',
-  fallback = 0
-): number => {
-  if (typeof amount === 'number') return amount
-  return amount?.[currency] ?? fallback
-}
-
-
+const paperAccount = ref<PortfolioAccountInfo | null>(null)
 
 // 方法
 const quickAnalysis = () => {
@@ -549,9 +511,9 @@ const loadMarketNews = async () => {
 // 加载模拟交易账户信息
 const loadPaperAccount = async () => {
   try {
-    const response = await paperApi.getAccount()
+    const response = await portfolioApi.getAccount()
     if (response.success && response.data) {
-      paperAccount.value = response.data.account
+      paperAccount.value = response.data
     }
   } catch (error) {
     console.error('加载模拟交易账户失败:', error)
@@ -561,7 +523,7 @@ const loadPaperAccount = async () => {
 
 // 跳转到模拟交易页面
 const goToPaperTrading = () => {
-  router.push('/paper')
+  router.push('/portfolio')
 }
 
 // 格式化金额

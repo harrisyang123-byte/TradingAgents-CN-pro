@@ -360,27 +360,28 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/paper',
-    name: 'PaperTrading',
+    path: '/portfolio',
+    name: 'Portfolio',
     component: () => import('@/layouts/BasicLayout.vue'),
     meta: {
-      title: '模拟交易',
-      icon: 'CreditCard',
+      title: '我的持仓',
+      icon: 'Wallet',
       requiresAuth: true,
       transition: 'slide-up'
     },
     children: [
       {
         path: '',
-        name: 'PaperTradingHome',
+        name: 'PortfolioHome',
         component: () => import('@/views/PaperTrading/index.vue'),
         meta: {
-          title: '模拟交易',
+          title: '我的持仓',
           requiresAuth: true
         }
       }
     ]
   },
+  { path: '/paper', redirect: '/portfolio' },
 
   {
     path: '/:pathMatch(.*)*',

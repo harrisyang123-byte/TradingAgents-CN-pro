@@ -29,14 +29,14 @@
 
 ## 4. 前端改造
 
-- [ ] 4.1 `frontend/src/views/PaperTrading/index.vue`: 页面标题"模拟交易" → "我的持仓"，删除风险提示横幅
-- [ ] 4.2 账户信息卡片改造：从三市场 Tab 改为 4 个水平统计卡片（总资产/总投入/可用现金/总盈亏率），调用 `GET /portfolio/summary`
-- [ ] 4.3 新增组合图表区：仓位分布饼图（ECharts pie chart），按股票分布
-- [ ] 4.4 持仓列表改造：新增"仓位占比"列（带进度条）和"盈亏率"列，市值统一显示人民币
-- [ ] 4.5 改造"下市场单"弹窗为"添加持仓"弹窗：增加"买入价"和"买入日期"输入框，价格改为手动填写
-- [ ] 4.6 `frontend/src/api/paper.ts`: API 路径 `/paper` → `/portfolio`，新增 `addPosition()`, `updatePosition()`, `deletePosition()`, `getSummary()`, `updateAccount()` 方法
-- [ ] 4.7 `frontend/src/router/index.ts`: 路由 `/paper` → `/portfolio`，旧路由重定向
-- [ ] 4.8 `frontend/src/components/Layout/SidebarMenu.vue`: 菜单项"模拟交易" → "我的持仓"
+- [x] 4.1 `frontend/src/views/PaperTrading/index.vue`: 页面标题"模拟交易" → "我的持仓"，删除风险提示横幅
+- [x] 4.2 账户信息卡片改造：从三市场 Tab 改为 4 个水平统计卡片（总资产/总投入/可用现金/总盈亏率），调用 `GET /portfolio/summary`
+- [x] 4.3 新增组合图表区：仓位分布饼图（ECharts pie chart），按股票分布
+- [x] 4.4 持仓列表改造：新增"仓位占比"列（带进度条）和"盈亏率"列，市值统一显示人民币
+- [x] 4.5 改造"下市场单"弹窗为"添加持仓"弹窗：增加"买入价"和"买入日期"输入框，价格改为手动填写
+- [x] 4.6 `frontend/src/api/paper.ts`: API 路径 `/paper` → `/portfolio`，新增 `addPosition()`, `updatePosition()`, `deletePosition()`, `getSummary()`, `updateAccount()` 方法
+- [x] 4.7 `frontend/src/router/index.ts`: 路由 `/paper` → `/portfolio`，旧路由重定向
+- [x] 4.8 `frontend/src/components/Layout/SidebarMenu.vue`: 菜单项"模拟交易" → "我的持仓"
 
 ## 5. 验证
 
