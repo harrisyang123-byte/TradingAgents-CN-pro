@@ -30,12 +30,14 @@ class AddPositionRequest(BaseModel):
     buy_date: Optional[str] = Field(None, description="买入日期 (YYYY-MM-DD)")
     notes: Optional[str] = Field(None, description="备注")
     market: Optional[str] = Field(None, description="市场类型 (CN/HK/US)，不传则自动识别")
+    instrument_type: Optional[str] = Field(None, description="标的类型: stock/etf/fund/bond/other，不传默认为 stock")
 
 
 class UpdatePositionRequest(BaseModel):
     quantity: Optional[int] = Field(None, gt=0)
     avg_cost: Optional[float] = Field(None, gt=0)
     notes: Optional[str] = None
+    instrument_type: Optional[str] = Field(None, description="标的类型: stock/etf/fund/bond/other")
 
 
 class UpdateAccountRequest(BaseModel):
@@ -271,6 +273,7 @@ async def list_positions(current_user: dict = Depends(get_current_user)):
             "unrealized_pnl": None if last is None else round((last - avg_cost) * qty, 2),
             "buy_date": p.get("buy_date"),
             "notes": p.get("notes"),
+            "instrument_type": p.get("instrument_type", "stock"),
         })
     return ok({"items": enriched})
 
@@ -314,6 +317,7 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
             "avg_cost": payload.avg_cost,
             "buy_date": payload.buy_date,
             "notes": payload.notes,
+            "instrument_type": payload.instrument_type or "stock",
             "created_at": now_iso,
             "updated_at": now_iso,
         }
@@ -347,6 +351,8 @@ async def update_position(code: str, payload: UpdatePositionRequest,
         updates["avg_cost"] = payload.avg_cost
     if payload.notes is not None:
         updates["notes"] = payload.notes
+    if payload.instrument_type is not None:
+        updates["instrument_type"] = payload.instrument_type
 
     await db["paper_positions"].update_one({"_id": pos["_id"]}, {"$set": updates})
 
@@ -425,6 +431,7 @@ async def place_order(payload: PlaceOrderRequest, current_user: dict = Depends(g
                 "currency": currency,
                 "quantity": qty,
                 "avg_cost": price,
+                "instrument_type": "stock",
                 "created_at": now_iso,
                 "updated_at": now_iso,
             }

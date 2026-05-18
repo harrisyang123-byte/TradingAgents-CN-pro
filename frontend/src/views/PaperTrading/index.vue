@@ -80,6 +80,14 @@
                 <el-tag v-else-if="row.market === 'US'" type="info" size="small">美股</el-tag>
               </template>
             </el-table-column>
+            <el-table-column label="分类" width="80">
+              <template #default="{ row }">
+                <el-tag v-if="row.instrument_type" :type="instrumentTypeTag(row.instrument_type)" size="small">
+                  {{ instrumentTypeLabel[row.instrument_type] || row.instrument_type }}
+                </el-tag>
+                <el-tag v-else type="danger" size="small">未分类</el-tag>
+              </template>
+            </el-table-column>
             <el-table-column label="数量" prop="quantity" width="80" />
             <el-table-column label="均价" width="100">
               <template #default="{ row }">{{ fmtPrice(row.avg_cost) }}</template>
@@ -139,6 +147,11 @@
         <el-form-item label="备注">
           <el-input v-model="addForm.notes" placeholder="可选" />
         </el-form-item>
+        <el-form-item label="分类">
+          <el-select v-model="addForm.instrument_type" style="width:100%">
+            <el-option v-for="opt in instrumentTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="addDialog = false">取消</el-button>
@@ -160,6 +173,11 @@
         </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="editForm.notes" />
+        </el-form-item>
+        <el-form-item label="分类">
+          <el-select v-model="editForm.instrument_type" style="width:100%">
+            <el-option v-for="opt in instrumentTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -275,10 +293,10 @@ const summary = ref<PortfolioSummary | null>(null)
 const loading = ref(false)
 
 const addDialog = ref(false)
-const addForm = ref({ code: '', quantity: 100, avg_cost: 0, buy_date: '', notes: '' })
+const addForm = ref({ code: '', quantity: 100, avg_cost: 0, buy_date: '', notes: '', instrument_type: 'stock' })
 
 const editDialog = ref(false)
-const editForm = ref({ code: '', quantity: 0, avg_cost: 0, notes: '' })
+const editForm = ref({ code: '', quantity: 0, avg_cost: 0, notes: '', instrument_type: 'stock' })
 
 const showAccountDialog = ref(false)
 const accountForm = ref({ total_invested: 0, available_cash: 0 })
@@ -307,6 +325,38 @@ function fmtPrice(n: number | null | undefined) {
 function pnlColor(n: number | null | undefined) {
   if (n == null || n === 0) return '#909399'
   return n > 0 ? '#67C23A' : '#F56C6C'
+}
+
+function detectInstrumentType(code: string): string {
+  if (!code) return 'stock'
+  const c = code.trim().toUpperCase()
+  const cnEtfPrefixes = ['159', '510', '511', '512', '513', '515', '516', '517', '518', '588', '560', '561', '562', '563']
+  for (const prefix of cnEtfPrefixes) {
+    if (c.startsWith(prefix)) return 'etf'
+  }
+  return 'stock'
+}
+
+const instrumentTypeOptions = [
+  { label: '股票', value: 'stock' },
+  { label: 'ETF', value: 'etf' },
+  { label: '基金', value: 'fund' },
+  { label: '债券', value: 'bond' },
+  { label: '其他', value: 'other' },
+]
+
+type TagType = 'success' | 'primary' | 'warning' | 'info' | 'danger'
+function instrumentTypeTag(t: string): TagType {
+  const m: Record<string, TagType> = { stock: 'success', etf: 'primary', fund: 'warning', bond: 'info' }
+  return m[t] || 'info'
+}
+
+const instrumentTypeLabel: Record<string, string> = {
+  stock: '股票',
+  etf: 'ETF',
+  fund: '基金',
+  bond: '债券',
+  other: '其他',
 }
 
 async function fetchSummary() {
@@ -347,8 +397,13 @@ function renderPieChart() {
   })
 }
 
+// 输入代码时自动识别 instrument_type
+watch(() => addForm.value.code, (newCode) => {
+  addForm.value.instrument_type = detectInstrumentType(newCode)
+})
+
 function openAddDialog() {
-  addForm.value = { code: '', quantity: 100, avg_cost: 0, buy_date: '', notes: '' }
+  addForm.value = { code: '', quantity: 100, avg_cost: 0, buy_date: '', notes: '', instrument_type: 'stock' }
   addDialog.value = true
 }
 
@@ -364,6 +419,7 @@ async function submitAdd() {
       avg_cost: addForm.value.avg_cost,
       buy_date: addForm.value.buy_date || undefined,
       notes: addForm.value.notes || undefined,
+      instrument_type: addForm.value.instrument_type,
     })
     if (res.success) {
       ElMessage.success('持仓已添加')
@@ -381,6 +437,7 @@ function editPosition(row: any) {
     quantity: row.quantity,
     avg_cost: row.avg_cost,
     notes: row.notes || '',
+    instrument_type: row.instrument_type || 'stock',
   }
   editDialog.value = true
 }
@@ -391,6 +448,7 @@ async function submitEdit() {
       quantity: editForm.value.quantity,
       avg_cost: editForm.value.avg_cost,
       notes: editForm.value.notes || undefined,
+      instrument_type: editForm.value.instrument_type,
     })
     if (res.success) {
       ElMessage.success('持仓已更新')

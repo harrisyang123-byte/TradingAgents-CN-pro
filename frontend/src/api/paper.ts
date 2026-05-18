@@ -20,6 +20,7 @@ export interface PortfolioPositionItem {
   unrealized_pnl?: number | null
   buy_date?: string | null
   notes?: string | null
+  instrument_type?: string
 }
 
 export interface PortfolioSummary {
@@ -46,6 +47,7 @@ export interface PortfolioSummaryPosition {
   weight: number
   buy_date?: string | null
   notes?: string | null
+  instrument_type?: string
 }
 
 export interface PaperOrderItem {
@@ -67,12 +69,14 @@ export interface AddPositionPayload {
   buy_date?: string
   notes?: string
   market?: string
+  instrument_type?: string
 }
 
 export interface UpdatePositionPayload {
   quantity?: number
   avg_cost?: number
   notes?: string
+  instrument_type?: string
 }
 
 export interface UpdateAccountPayload {
@@ -91,6 +95,8 @@ export interface PlaceOrderPayload {
 
 export interface AdviceItem {
   code: string
+  name?: string
+  instrument_type?: string
   action: 'buy' | 'sell' | 'hold' | 'reduce' | 'add' | 'new_position'
   current_weight: number
   target_weight: number

@@ -152,6 +152,7 @@ class PortfolioService:
                 "weight": 0.0,
                 "buy_date": p.get("buy_date"),
                 "notes": p.get("notes"),
+                "instrument_type": p.get("instrument_type", "stock"),
             })
 
         total_assets = round(total_market_value_cny + available_cash, 2)
@@ -197,8 +198,9 @@ class PortfolioService:
 
         for i, pos in enumerate(sorted_positions[:20]):
             pnl_str = f"¥{pos['pnl_cny']:,.2f} ({pos['pnl_pct']:+.2f}%)" if pos["pnl_cny"] is not None else "N/A"
+            inst = pos.get("instrument_type", "stock")
             lines.append(
-                f"  {pos['code']}({pos['market']}): "
+                f"  {pos['code']}({pos['market']}/{inst}): "
                 f"{pos['quantity']}股 × ¥{pos['avg_cost']:.2f} | "
                 f"市值¥{pos['market_value_cny']:,.2f} | "
                 f"仓位{pos['weight']:.1f}% | "
