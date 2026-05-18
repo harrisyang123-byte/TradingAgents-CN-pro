@@ -12,11 +12,11 @@
 
 ## 2. 组合总览 + 汇率
 
-- [ ] 2.1 新建 `app/services/portfolio_service.py`: `PortfolioService` 类
-- [ ] 2.2 `PortfolioService._get_exchange_rate(currency)`: 通过 AKShare `currency_boc_safe` 获取 USD/CNY 和 HKD/CNY 汇率，结果缓存到 MongoDB `exchange_rates` 集合（TTL 24h）
-- [ ] 2.3 `PortfolioService.get_portfolio_summary(user_id)`: 聚合所有持仓，获取最新价，港股/美股市值按汇率折算人民币，计算总资产、总盈亏、仓位占比
-- [ ] 2.4 `app/routers/paper.py`: 新增 `GET /portfolio/summary` 端点，调用 `PortfolioService.get_portfolio_summary()`
-- [ ] 2.5 改造 `GET /portfolio/account` 端点——返回单账户格式（total_invested, available_cash, 总资产, 总盈亏, 总盈亏率）
+- [x] 2.1 新建 `app/services/portfolio_service.py`: `PortfolioService` 类
+- [x] 2.2 `PortfolioService._get_exchange_rate(currency)`: 通过 AKShare `currency_boc_safe` 获取 USD/CNY 和 HKD/CNY 汇率，结果缓存到 MongoDB `exchange_rates` 集合（TTL 24h）
+- [x] 2.3 `PortfolioService.get_portfolio_summary(user_id)`: 聚合所有持仓，获取最新价，港股/美股市值按汇率折算人民币，计算总资产、总盈亏、仓位占比
+- [x] 2.4 `app/routers/paper.py`: 新增 `GET /portfolio/summary` 端点，调用 `PortfolioService.get_portfolio_summary()`
+- [x] 2.5 改造 `GET /portfolio/account` 端点——返回单账户格式（total_invested, available_cash, 总资产, 总盈亏, 总盈亏率）
 
 ## 3. 持仓上下文注入分析引擎
 

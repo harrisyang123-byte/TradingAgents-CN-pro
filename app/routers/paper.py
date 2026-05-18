@@ -233,6 +233,15 @@ async def update_account(payload: UpdateAccountRequest, current_user: dict = Dep
     return ok({"message": "账户已更新"})
 
 
+@router.get("/summary", response_model=dict)
+async def get_summary(current_user: dict = Depends(get_current_user)):
+    """组合总览：总资产、总盈亏、每只持仓的市值/仓位占比/盈亏"""
+    from app.services.portfolio_service import PortfolioService
+    service = PortfolioService()
+    summary = await service.get_portfolio_summary(current_user["id"])
+    return ok(summary)
+
+
 # ── Position CRUD endpoints ────────────────────────────────
 
 @router.get("/positions", response_model=dict)
