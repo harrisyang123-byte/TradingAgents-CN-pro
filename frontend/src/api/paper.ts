@@ -89,6 +89,31 @@ export interface PlaceOrderPayload {
   analysis_id?: string
 }
 
+export interface AdviceItem {
+  code: string
+  action: 'buy' | 'sell' | 'hold' | 'reduce' | 'add' | 'new_position'
+  current_weight: number
+  target_weight: number
+  reasoning: string
+  risk_note: string
+}
+
+export interface PortfolioAdvice {
+  advice_id: string
+  status: 'GENERATING' | 'RUNNING' | 'COMPLETED' | 'FAILED'
+  current_step?: string
+  prescription?: AdviceItem[]
+  cio_verdict?: string
+  analyst_assessment?: string
+  strategist_assessment?: string
+  scout_assessment?: string
+  debate_history?: string
+  elapsed_seconds?: number
+  created_at: string
+  completed_at?: string
+  error?: string
+}
+
 export const portfolioApi = {
   async getAccount() {
     return ApiClient.get<PortfolioAccountInfo>('/api/portfolio/account')
@@ -127,6 +152,22 @@ export const portfolioApi = {
   },
   async resetAccount() {
     return ApiClient.post<{ message: string }>('/api/portfolio/reset?confirm=true')
+  },
+  async generateAdvice() {
+    return ApiClient.post<{ advice_id: string; status: string }>(
+      '/api/portfolio/advice', {}, { showLoading: true }
+    )
+  },
+  async getLatestAdvice() {
+    return ApiClient.get<PortfolioAdvice>('/api/portfolio/advice/latest')
+  },
+  async getAdvice(adviceId: string) {
+    return ApiClient.get<PortfolioAdvice>(`/api/portfolio/advice/${adviceId}`)
+  },
+  async getAdviceHistory(page = 1, pageSize = 10) {
+    return ApiClient.get<{ items: PortfolioAdvice[]; total: number }>(
+      '/api/portfolio/advice', { page, page_size: pageSize }
+    )
   }
 }
 

@@ -7,6 +7,9 @@
       </div>
       <div class="actions">
         <el-button :icon="Refresh" text size="small" @click="refreshAll">刷新</el-button>
+        <el-button type="warning" @click="requestAdvice" :loading="adviceGenerating" :disabled="!summary?.positions?.length">
+          {{ adviceGenerating ? adviceStep : '组合建议' }}
+        </el-button>
         <el-button type="primary" :icon="Plus" @click="openAddDialog">添加持仓</el-button>
         <el-button text size="small" @click="showAccountDialog = true">设置账户</el-button>
       </div>
@@ -165,6 +168,81 @@
       </template>
     </el-dialog>
 
+    <!-- 组合建议抽屉 -->
+    <el-drawer v-model="adviceDrawer" title="组合建议" size="55%" direction="rtl">
+      <template v-if="currentAdvice">
+        <div v-if="currentAdvice.status === 'COMPLETED'">
+          <!-- 处方表格 -->
+          <h4 style="margin:0 0 12px">操作建议</h4>
+          <el-table :data="currentAdvice.prescription || []" size="small" border>
+            <el-table-column label="代码" prop="code" width="100" />
+            <el-table-column label="操作" width="100">
+              <template #default="{ row }">
+                <el-tag :type="actionTagType(row.action)" size="small">{{ actionLabel(row.action) }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="当前仓位" width="90">
+              <template #default="{ row }">{{ row.current_weight?.toFixed(1) }}%</template>
+            </el-table-column>
+            <el-table-column label="目标仓位" width="90">
+              <template #default="{ row }">{{ row.target_weight?.toFixed(1) }}%</template>
+            </el-table-column>
+            <el-table-column label="理由" prop="reasoning" min-width="160" show-overflow-tooltip />
+            <el-table-column label="风险" prop="risk_note" min-width="140" show-overflow-tooltip />
+          </el-table>
+
+          <!-- CIO 总体判断 -->
+          <h4 style="margin:20px 0 8px">CIO 裁决</h4>
+          <div class="advice-text" v-html="renderMd(currentAdvice.cio_verdict)" />
+
+          <!-- 辩论记录 -->
+          <el-collapse style="margin-top:16px">
+            <el-collapse-item title="持仓分析师评估" name="analyst">
+              <div class="advice-text" v-html="renderMd(currentAdvice.analyst_assessment)" />
+            </el-collapse-item>
+            <el-collapse-item title="策略师评估" name="strategist">
+              <div class="advice-text" v-html="renderMd(currentAdvice.strategist_assessment)" />
+            </el-collapse-item>
+            <el-collapse-item title="侦察兵评估" name="scout">
+              <div class="advice-text" v-html="renderMd(currentAdvice.scout_assessment)" />
+            </el-collapse-item>
+            <el-collapse-item title="辩论记录" name="debate">
+              <div class="advice-text" v-html="renderMd(currentAdvice.debate_history)" />
+            </el-collapse-item>
+          </el-collapse>
+
+          <div class="advice-meta">
+            生成于 {{ currentAdvice.completed_at?.slice(0, 19).replace('T', ' ') }}
+            · 耗时 {{ currentAdvice.elapsed_seconds }}s
+          </div>
+        </div>
+
+        <div v-else-if="currentAdvice.status === 'FAILED'" class="advice-error">
+          <el-result icon="error" title="生成失败" :sub-title="currentAdvice.error || '未知错误'" />
+        </div>
+
+        <div v-else class="advice-loading">
+          <el-result icon="info" title="正在生成" :sub-title="currentAdvice.current_step || '请稍候...'" />
+        </div>
+      </template>
+
+      <el-empty v-else description="暂无组合建议" />
+
+      <!-- 历史记录 -->
+      <template v-if="adviceHistory.length > 1">
+        <el-divider />
+        <h4>历史建议</h4>
+        <el-select v-model="selectedAdviceId" placeholder="选择历史记录" style="width:100%" @change="loadAdvice">
+          <el-option
+            v-for="h in adviceHistory"
+            :key="h.advice_id"
+            :label="(h.created_at?.slice(0, 19).replace('T', ' ') || '') + ' — ' + h.status"
+            :value="h.advice_id"
+          />
+        </el-select>
+      </template>
+    </el-drawer>
+
     <!-- 设置账户弹窗 -->
     <el-dialog v-model="showAccountDialog" title="设置账户" width="400px">
       <el-form label-width="90px">
@@ -188,7 +266,7 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Wallet, Refresh, Plus } from '@element-plus/icons-vue'
-import { portfolioApi, type PortfolioSummary } from '@/api/paper'
+import { portfolioApi, type PortfolioSummary, type PortfolioAdvice } from '@/api/paper'
 import * as echarts from 'echarts'
 
 const router = useRouter()
@@ -207,6 +285,14 @@ const accountForm = ref({ total_invested: 0, available_cash: 0 })
 
 const pieChartRef = ref<HTMLElement>()
 let pieChart: echarts.ECharts | null = null
+
+const adviceDrawer = ref(false)
+const adviceGenerating = ref(false)
+const adviceStep = ref('')
+const currentAdvice = ref<PortfolioAdvice | null>(null)
+const adviceHistory = ref<PortfolioAdvice[]>([])
+const selectedAdviceId = ref('')
+let advicePollTimer: ReturnType<typeof setInterval> | null = null
 
 function fmtMoney(n: number | null | undefined) {
   if (n == null) return '--'
@@ -353,6 +439,94 @@ function goAnalysis(code: string) {
   router.push({ name: 'SingleAnalysis', query: { stock: code } })
 }
 
+async function requestAdvice() {
+  try {
+    adviceGenerating.value = true
+    adviceStep.value = '提交中...'
+    const res = await portfolioApi.generateAdvice()
+    if (res.success && res.data?.advice_id) {
+      adviceStep.value = '准备数据'
+      selectedAdviceId.value = res.data.advice_id
+      pollAdviceStatus(res.data.advice_id)
+    }
+  } catch (e: any) {
+    ElMessage.error(e?.message || '触发组合建议失败')
+    adviceGenerating.value = false
+  }
+}
+
+function pollAdviceStatus(adviceId: string) {
+  if (advicePollTimer) clearInterval(advicePollTimer)
+  advicePollTimer = setInterval(async () => {
+    try {
+      const res = await portfolioApi.getAdvice(adviceId)
+      if (!res.success) return
+      const adv = res.data
+      if (adv.status === 'COMPLETED' || adv.status === 'FAILED') {
+        if (advicePollTimer) { clearInterval(advicePollTimer); advicePollTimer = null }
+        adviceGenerating.value = false
+        currentAdvice.value = adv
+        adviceDrawer.value = true
+        await fetchAdviceHistory()
+        if (adv.status === 'COMPLETED') {
+          ElMessage.success('组合建议已生成')
+        } else {
+          ElMessage.error('组合建议生成失败')
+        }
+      } else {
+        adviceStep.value = adv.current_step || '分析中...'
+      }
+    } catch {
+      // ignore transient errors
+    }
+  }, 3000)
+}
+
+async function loadAdvice(adviceId: string) {
+  try {
+    const res = await portfolioApi.getAdvice(adviceId)
+    if (res.success) {
+      currentAdvice.value = res.data
+    }
+  } catch (e: any) {
+    ElMessage.error(e?.message || '加载建议失败')
+  }
+}
+
+async function fetchAdviceHistory() {
+  try {
+    const res = await portfolioApi.getAdviceHistory(1, 20)
+    if (res.success) {
+      adviceHistory.value = res.data.items || []
+    }
+  } catch { /* ignore */ }
+}
+
+function actionTagType(action: string) {
+  const map: Record<string, 'primary' | 'success' | 'warning' | 'danger' | 'info'> = {
+    buy: 'danger', add: 'danger', new_position: 'danger',
+    sell: 'success', reduce: 'warning',
+    hold: 'info',
+  }
+  return map[action] || ('info' as const)
+}
+
+function actionLabel(action: string): string {
+  const map: Record<string, string> = {
+    buy: '买入', sell: '卖出', hold: '持有',
+    reduce: '减仓', add: '加仓', new_position: '建仓',
+  }
+  return map[action] || action
+}
+
+function renderMd(text: string | undefined): string {
+  if (!text) return ''
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>')
+}
+
 async function refreshAll() {
   await fetchSummary()
   await nextTick()
@@ -382,4 +556,7 @@ onMounted(() => {
 .pie-chart { width: 100%; height: 300px; }
 .weight-cell { display: flex; align-items: center; gap: 6px; }
 .weight-text { font-size: 12px; color: #606266; white-space: nowrap; }
+.advice-text { font-size: 13px; line-height: 1.7; color: #303133; word-break: break-word; }
+.advice-meta { margin-top: 16px; font-size: 12px; color: #909399; text-align: right; }
+.advice-error, .advice-loading { text-align: center; padding: 40px 0; }
 </style>

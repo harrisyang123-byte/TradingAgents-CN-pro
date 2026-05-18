@@ -4,6 +4,7 @@ from typing import Literal, Optional, Dict, Any, List, Tuple
 from datetime import datetime
 import logging
 import re
+import uuid
 
 from app.routers.auth_db import get_current_user
 from app.core.database import get_mongo_db
@@ -517,3 +518,94 @@ async def reset_account(confirm: bool = Query(False),
     await db["paper_trades"].delete_many({"user_id": current_user["id"]})
     acc = await _get_or_create_account(current_user["id"])
     return ok({"message": "账户已重置"})
+
+
+# ── Portfolio Advice endpoints ─────────────────────────────
+
+@router.post("/advice", response_model=dict)
+async def generate_advice(current_user: dict = Depends(get_current_user)):
+    """触发组合顾问分析"""
+    db = get_mongo_db()
+
+    positions = await db["paper_positions"].find({"user_id": current_user["id"]}).to_list(None)
+    if not positions:
+        raise HTTPException(status_code=400, detail="无持仓，无法生成组合建议")
+
+    existing = await db["portfolio_advice"].find_one(
+        {"user_id": current_user["id"], "status": {"$in": ["GENERATING", "RUNNING"]}},
+    )
+    if existing:
+        raise HTTPException(status_code=409, detail="已有正在生成的建议，请等待完成")
+
+    advice_id = str(uuid.uuid4())
+    now_iso = datetime.utcnow().isoformat()
+    await db["portfolio_advice"].insert_one({
+        "advice_id": advice_id,
+        "user_id": current_user["id"],
+        "status": "GENERATING",
+        "current_step": "准备数据",
+        "created_at": now_iso,
+        "updated_at": now_iso,
+    })
+
+    from app.services.portfolio_advisor_service import PortfolioAdvisorService
+    advisor_svc = PortfolioAdvisorService()
+    await advisor_svc.generate_advice(current_user["id"], advice_id)
+
+    return ok({"advice_id": advice_id, "status": "GENERATING"})
+
+
+@router.get("/advice/latest", response_model=dict)
+async def get_latest_advice(current_user: dict = Depends(get_current_user)):
+    """获取最新的组合建议"""
+    db = get_mongo_db()
+    doc = await db["portfolio_advice"].find_one(
+        {"user_id": current_user["id"]},
+        sort=[("created_at", -1)],
+    )
+    if not doc:
+        raise HTTPException(status_code=404, detail="暂无组合建议")
+    return ok(_clean_advice(doc))
+
+
+@router.get("/advice/{advice_id}", response_model=dict)
+async def get_advice(advice_id: str, current_user: dict = Depends(get_current_user)):
+    """获取指定组合建议"""
+    db = get_mongo_db()
+    doc = await db["portfolio_advice"].find_one({"advice_id": advice_id})
+    if not doc:
+        raise HTTPException(status_code=404, detail="建议不存在")
+    if doc.get("user_id") != current_user["id"]:
+        raise HTTPException(status_code=403, detail="无权访问")
+    return ok(_clean_advice(doc))
+
+
+@router.get("/advice", response_model=dict)
+async def list_advice(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=50),
+    current_user: dict = Depends(get_current_user),
+):
+    """分页获取历史组合建议"""
+    db = get_mongo_db()
+    skip = (page - 1) * page_size
+    cursor = (
+        db["portfolio_advice"]
+        .find({"user_id": current_user["id"]})
+        .sort("created_at", -1)
+        .skip(skip)
+        .limit(page_size)
+    )
+    items = await cursor.to_list(None)
+    total = await db["portfolio_advice"].count_documents({"user_id": current_user["id"]})
+    return ok({
+        "items": [_clean_advice(d) for d in items],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+    })
+
+
+def _clean_advice(doc: Dict[str, Any]) -> Dict[str, Any]:
+    """清理 MongoDB 文档为 JSON 可序列化格式"""
+    return {k: v for k, v in doc.items() if k != "_id"}
