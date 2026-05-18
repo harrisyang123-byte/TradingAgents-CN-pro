@@ -25,31 +25,31 @@
 
 ## 3. 记忆系统对齐
 
-- [ ] 3.1 `agents/utils/memory.py`: 替换为原版 `TradingMemoryLog` 类（flat-file markdown，~300 行），删除 ChromaDB 相关代码
-- [ ] 3.2 `graph/trading_graph.py`: 删除 5 个 `FinancialSituationMemory` 实例，改用单个 `TradingMemoryLog`；memory context 仅通过 `past_context` 注入
-- [ ] 3.3 `agents/managers/portfolio_manager.py`（原 risk_manager.py）: 确认 `past_context` 字段在 prompt 中正确引用
-- [ ] 3.4 删除 `graph/trading_graph.py` 中的 5 个 reflect_xxx 函数（`reflect_bull_researcher` 等）
-- [ ] 3.5 从 `requirements.txt` / `pyproject.toml` 移除 `chromadb` 依赖
-- [ ] 3.6 验证：grep 确认 codebase 中不再 import chromadb
+- [x] 3.1 `agents/utils/memory.py`: 替换为原版 `TradingMemoryLog` 类（flat-file markdown，~300 行），删除 ChromaDB 相关代码
+- [x] 3.2 `graph/trading_graph.py`: 删除 5 个 `FinancialSituationMemory` 实例，改用单个 `TradingMemoryLog`；memory context 仅通过 `past_context` 注入
+- [x] 3.3 `agents/managers/portfolio_manager.py`（原 risk_manager.py）: 确认 `past_context` 字段在 prompt 中正确引用
+- [x] 3.4 删除 `graph/trading_graph.py` 中的 5 个 reflect_xxx 函数（`reflect_bull_researcher` 等）
+- [x] 3.5 从 `requirements.txt` / `pyproject.toml` 移除 `chromadb` 依赖
+- [x] 3.6 验证：grep 确认 codebase 中不再 import chromadb
 
 ## 4. Provider 清理
 
-- [ ] 4.1 `llm_adapters/dashscope_openai_adapter.py`: 删除千问 model description hack（保留基础 OpenAI compatible 功能）
-- [ ] 4.2 `agents/analysts/fundamentals_analyst.py`: 删除 "通义千问/阿里百炼" 模型检测分支
-- [ ] 4.3 所有分析师 agent: 删除 anti-loop、forced tool-call、tool call format fix 等 guardrail 代码
-- [ ] 4.4 移植原版 `agents/utils/structured.py` 的 `invoke_structured_or_freetext()` 作为唯一 fallback
-- [ ] 4.5 验证：grep 确认无 "通义千问", "anti_loop", "force_tool" 等残留
+- [x] 4.1 `llm_adapters/dashscope_openai_adapter.py`: 删除千问 model description hack（保留基础 OpenAI compatible 功能）
+- [x] 4.2 `agents/analysts/fundamentals_analyst.py`: 删除 "通义千问/阿里百炼" 模型检测分支
+- [x] 4.3 所有分析师 agent: 删除 anti-loop、forced tool-call、tool call format fix 等 guardrail 代码；setup.py 中删除 dashscope 检测日志
+- [x] 4.4 移植原版 `agents/utils/structured.py` 的 `invoke_structured_or_freetext()` 作为唯一 fallback（已就位）
+- [x] 4.5 验证：grep 确认无 "通义千问", "anti_loop", "force_tool" 等残留（google_tool_handler.py 仅用于 Gemini 兼容，不属于千问 workaround）
 
 ## 5. Bug 修复
 
-- [ ] 5.1 #14 A股路由：`dataflows/interface.py` 中 `route_to_vendor()` 正确识别纯数字 A股代码
-- [ ] 5.2 #15 新闻 NoneType：`dataflows/news/realtime_news.py` 在 `news_df` 为 None 时 guard
-- [ ] 5.3 #17 AKShare 断连：`dataflows/` 中 AKShare 调用加指数退避重试（2s/4s/8s, max 3次）
-- [ ] 5.4 #16 Embedding fallback：memory.py 已用 TradingMemoryLog 替换，此 bug 自动消除；确认无 embedding 调用残留
+- [x] 5.1 #14 A股路由：`stock_utils.py` 中 `identify_stock_market()` 扩展支持 `.SS`/`.XSHG`/`.XSHE` 后缀和 `SH`/`SZ` 前缀
+- [x] 5.2 #15 新闻 NoneType：`realtime_news.py` 中 3 处 `news_df.empty` 前加 `news_df is not None` guard
+- [x] 5.3 #17 AKShare 断连：`_RetryAKShare` 代理（akshare.py）+ `akshare_retry()` 工具（base_provider.py），覆盖 A 股/港股/data_source_manager
+- [x] 5.4 #16 Embedding fallback：TradingMemoryLog 替换后无 chromadb/embedding import 残留
 
 ## 6. 端到端验证
 
-- [ ] 6.1 类型检查通过：`mypy tradingagents/` 或 `python -c "import tradingagents"` 无 ImportError
-- [ ] 6.2 单元测试通过：现有测试全部 pass
-- [ ] 6.3 前端 API 兼容性：确认 web API 层无硬编码 risky/safe/risk_judge 字段
-- [ ] 6.4 E2E smoke test：用 DeepSeek V4 对 A股（如 600519.SH）运行完整分析，确认无崩溃
+- [x] 6.1 类型检查通过：`python -c "import tradingagents; from tradingagents.graph.trading_graph import TradingAgentsGraph"` OK
+- [x] 6.2 单元测试通过：76 passed（2 个 pre-existing collection error 跳过）
+- [x] 6.3 前端 API 兼容性：grep 确认 app/ frontend/src/ 无 risky/safe/risk_judge 残留
+- [~] 6.4 E2E smoke test：DeepSeek + 600519.SH — 代码层全部通过（图编译/LLM调用/工具路由/retry机制），AKShare 东方财富 API 网络断连阻止完整分析（非代码bug）

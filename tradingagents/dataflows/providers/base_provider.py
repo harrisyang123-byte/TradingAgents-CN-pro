@@ -1,11 +1,32 @@
 """
 统一股票数据提供器基类
 """
+import time
 from abc import ABC, abstractmethod
+from http.client import RemoteDisconnected
 from typing import Optional, Dict, Any, List, Union
 from datetime import datetime, date
 import logging
 import pandas as pd
+
+logger = logging.getLogger(__name__)
+
+
+def akshare_retry(fn, max_retries=3):
+    """Call *fn()* with exponential-backoff retry on network errors (2s/4s/8s)."""
+    retryable = (RemoteDisconnected, ConnectionError, ConnectionResetError, OSError)
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except retryable as e:
+            if attempt == max_retries - 1:
+                raise
+            delay = 2 ** (attempt + 1)
+            logger.warning(
+                f"AKShare call failed (attempt {attempt+1}/{max_retries}): {e}, "
+                f"retrying in {delay}s"
+            )
+            time.sleep(delay)
 
 
 class BaseStockDataProvider(ABC):

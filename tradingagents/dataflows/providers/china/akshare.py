@@ -3,12 +3,46 @@ AKShare统一数据提供器
 基于AKShare SDK的统一数据同步方案，提供标准化的数据接口
 """
 import asyncio
+import functools
 import logging
+import time
 from datetime import datetime, timedelta, timezone
+from http.client import RemoteDisconnected
 from typing import Dict, Any, List, Optional, Union
 import pandas as pd
 
 from ..base_provider import BaseStockDataProvider
+
+
+class _RetryAKShare:
+    """Proxy that wraps every akshare callable with exponential-backoff retry."""
+
+    _RETRYABLE = (RemoteDisconnected, ConnectionError, ConnectionResetError, OSError)
+
+    def __init__(self, ak_module, max_retries=3):
+        self._ak = ak_module
+        self._max_retries = max_retries
+
+    def __getattr__(self, name):
+        attr = getattr(self._ak, name)
+        if not callable(attr):
+            return attr
+
+        @functools.wraps(attr)
+        def wrapper(*args, **kwargs):
+            for attempt in range(self._max_retries):
+                try:
+                    return attr(*args, **kwargs)
+                except self._RETRYABLE as e:
+                    if attempt == self._max_retries - 1:
+                        raise
+                    delay = 2 ** (attempt + 1)
+                    logger.warning(
+                        f"AKShare {name}() failed (attempt {attempt+1}/{self._max_retries}): {e}, "
+                        f"retrying in {delay}s"
+                    )
+                    time.sleep(delay)
+        return wrapper
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +66,14 @@ class AKShareProvider(BaseStockDataProvider):
         self._stock_list_cache = None  # 缓存股票列表，避免重复获取
         self._cache_time = None  # 缓存时间
         self._initialize_akshare()
+
+    @staticmethod
+    def _normalize_code(code: str) -> str:
+        """Strip exchange suffixes (.SH/.SZ/.SS/.XSHG/.XSHE) and prefixes (SH/SZ) to get a pure 6-digit A-share code."""
+        code = code.split(".")[0]
+        if len(code) == 8 and code[:2].upper() in ("SH", "SZ"):
+            code = code[2:]
+        return code
     
     def _initialize_akshare(self):
         """初始化AKShare连接"""
@@ -62,17 +104,17 @@ class AKShareProvider(BaseStockDataProvider):
                     修复AKShare stock_news_em()函数缺少headers的问题
                     如果可用，使用 curl_cffi 模拟真实浏览器 TLS 指纹
                     """
-                    # 添加请求延迟，避免被反爬虫封禁
-                    # 只对东方财富网的请求添加延迟
+                    # 东方财富网请求：绕过系统代理 + 请求限速
                     if 'eastmoney.com' in url:
+                        kwargs.setdefault('proxies', {"http": None, "https": None})
                         current_time = time.time()
                         time_since_last_request = current_time - last_request_time['time']
-                        if time_since_last_request < 0.5:  # 至少间隔0.5秒
+                        if time_since_last_request < 0.5:
                             time.sleep(0.5 - time_since_last_request)
                         last_request_time['time'] = time.time()
 
-                    # 如果是东方财富网的请求，且 curl_cffi 可用，使用它来绕过反爬虫
-                    if use_curl_cffi and 'eastmoney.com' in url:
+                    # curl_cffi 仅用于非东方财富请求（东方财富走标准 requests + 直连）
+                    if use_curl_cffi and 'eastmoney.com' not in url:
                         try:
                             # 使用 curl_cffi 模拟 Chrome 120 的 TLS 指纹
                             # 注意：使用 impersonate 时，不要传递自定义 headers，让 curl_cffi 自动设置
@@ -151,7 +193,7 @@ class AKShareProvider(BaseStockDataProvider):
                 else:
                     logger.info("🔧 已修复AKShare的headers问题，并添加请求延迟（0.5秒）")
 
-            self.ak = ak
+            self.ak = _RetryAKShare(ak)
             self.connected = True
 
             # 配置超时和重试
@@ -359,10 +401,12 @@ class AKShareProvider(BaseStockDataProvider):
         """
         if not self.connected:
             return None
-        
+
+        code = self._normalize_code(code)
+
         try:
             logger.debug(f"📊 获取{code}基础信息...")
-            
+
             # 获取股票基本信息
             stock_info = await self._get_stock_info_detail(code)
             
@@ -996,6 +1040,8 @@ class AKShareProvider(BaseStockDataProvider):
         if not self.connected:
             return None
 
+        code = self._normalize_code(code)
+
         try:
             logger.debug(f"📊 获取{code}历史数据: {start_date} 到 {end_date}")
 
@@ -1090,6 +1136,8 @@ class AKShareProvider(BaseStockDataProvider):
         """
         if not self.connected:
             return {}
+
+        code = self._normalize_code(code)
 
         try:
             logger.debug(f"💰 获取{code}财务数据...")

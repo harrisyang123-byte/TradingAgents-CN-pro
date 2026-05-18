@@ -15,37 +15,14 @@ from tradingagents.utils.logging_init import get_logger
 logger = get_logger("default")
 
 
-def create_research_manager(llm, memory):
+def create_research_manager(llm):
     structured_llm = bind_structured(llm, ResearchPlan, "Research Manager")
 
     def research_manager_node(state) -> dict:
         ticker = state["company_of_interest"]
         instrument_context = build_instrument_context(ticker)
         history = state["investment_debate_state"].get("history", "")
-        market_research_report = state["market_report"]
-        sentiment_report = state["sentiment_report"]
-        news_report = state["news_report"]
-        fundamentals_report = state["fundamentals_report"]
-
         investment_debate_state = state["investment_debate_state"]
-
-        curr_situation = f"{market_research_report}\n\n{sentiment_report}\n\n{news_report}\n\n{fundamentals_report}"
-
-        if memory is not None:
-            past_memories = memory.get_memories(curr_situation, n_matches=2)
-        else:
-            logger.warning("memory为None，跳过历史记忆检索")
-            past_memories = []
-
-        past_memory_str = ""
-        for rec in past_memories:
-            past_memory_str += rec["recommendation"] + "\n\n"
-
-        lessons_line = (
-            f"\n以下是您对过去决策的反思：\n\"{past_memory_str}\"\n"
-            if past_memory_str
-            else ""
-        )
 
         prompt = f"""作为投资组合经理和辩论主持人，您的职责是批判性地评估这轮辩论并做出明确决策：支持看跌分析师、看涨分析师，或者仅在基于所提出论点有强有力理由时选择持有。
 
@@ -57,7 +34,7 @@ def create_research_manager(llm, memory):
 - **Sell**：强烈看空，建议清仓或避免入场
 
 简洁地总结双方的关键观点，重点关注最有说服力的证据或推理。您的建议必须明确且可操作。避免仅仅因为双方都有有效观点就默认选择持有。
-{lessons_line}
+
 标的约束：
 {instrument_context}
 

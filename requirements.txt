@@ -14,7 +14,6 @@ feedparser
 stockstats
 eodhd
 langgraph
-chromadb
 setuptools
 akshare>=1.17.86
 tushare

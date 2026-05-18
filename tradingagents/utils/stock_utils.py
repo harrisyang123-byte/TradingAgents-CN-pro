@@ -39,8 +39,10 @@ class StockUtils:
 
         ticker = str(ticker).strip().upper()
 
-        # 中国A股：6位数字，可选 .SH/.SZ 后缀
-        if re.match(r'^\d{6}(\.(SH|SZ))?$', ticker):
+        # 中国A股：6位数字，可选 .SH/.SZ/.SS/.XSHG/.XSHE 后缀，或 SH/SZ 前缀
+        if re.match(r'^\d{6}(\.(SH|SZ|SS|XSHG|XSHE))?$', ticker):
+            return StockMarket.CHINA_A
+        if re.match(r'^(SH|SZ)\d{6}$', ticker):
             return StockMarket.CHINA_A
 
         # 港股：4-5位数字.HK 或 纯4-5位数字（支持0700.HK、09988.HK、00700、9988格式）
