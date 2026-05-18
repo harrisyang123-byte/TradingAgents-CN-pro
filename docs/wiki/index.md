@@ -32,12 +32,15 @@
 - [持仓管理 (Portfolio CRUD)](portfolio-crud.md) — 单账户单钱包 + 汇率折算 + 持仓上下文注入分析引擎
 - [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
 
+### 记忆与反思
+- [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
+
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
 - [情绪数据源设置指南](sentiment-sources-setup.md)
   - eastmoney / eastmoney_comment / wechat_mp / xueqiu / tonghuashun / xiaohongshu
-- P1 Batch 2: TradingMemoryLog 结果反思系统 + LLM 工厂清理
-- P2 Batch 3: Azure OpenAI + 模型目录更新 + Alpha Vantage + CLI 统计 + 测试 fixtures
+- P1 Batch 2: TradingMemoryLog 结果反思系统 + LLM 工厂清理 (archived)
+- P2 Batch 3: Azure OpenAI + 模型目录更新 + Alpha Vantage + CLI 统计 + 测试 fixtures (archived)
 - P3 Batch 4: xAI/Grok + Responses API + Benchmark Alpha 覆盖 + CLI 动态分析师选择
 - [Portfolio Advisor 复盘 (W.W.L.D)](retros/portfolio-advisor-bundle.md) — 持仓管理 + 组合顾问引擎打包复盘
