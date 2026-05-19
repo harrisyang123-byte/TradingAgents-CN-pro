@@ -115,7 +115,7 @@
             <div class="value">{{ fmtMoney(summary?.available_cash) }}</div>
             <div class="sub"><span style="color:var(--text-secondary)">含汇率折算</span></div>
           </div>
-          <div :class="['stat-card', { highlight: summary }]">
+          <div :class="['stat-card', { highlight: summary?.positions?.length }]">
             <div class="label">总资产（人民币）</div>
             <div class="value" style="font-size:28px">{{ fmtMoney(summary?.total_assets) }}</div>
             <div class="sub">持仓市值 {{ fmtMoney(summary?.total_market_value_cny) }}</div>
@@ -216,8 +216,7 @@
               <tbody>
                 <tr v-for="pos in filteredPositions" :key="pos.code">
                   <td>
-                    <a v-if="pos.instrument_type !== 'fund'" class="stock-link" @click="viewStockDetail(pos.code)">{{ pos.code }}</a>
-                    <span v-else class="stock-link" style="color:var(--text-secondary);cursor:default" :title="'基金暂不支持详情页'">{{ pos.code }}</span>
+                    <a class="stock-link" @click="viewStockDetail(pos.code)">{{ pos.code }}</a>
                   </td>
                   <td>{{ pos.name || pos.code }}</td>
                   <td>
