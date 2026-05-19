@@ -115,7 +115,7 @@
             <div class="value">{{ fmtMoney(summary?.available_cash) }}</div>
             <div class="sub"><span style="color:var(--text-secondary)">含汇率折算</span></div>
           </div>
-          <div :class="['stat-card', { highlight: summary?.positions?.length }]">
+          <div class="stat-card">
             <div class="label">总资产（人民币）</div>
             <div class="value" style="font-size:28px">{{ fmtMoney(summary?.total_assets) }}</div>
             <div class="sub">持仓市值 {{ fmtMoney(summary?.total_market_value_cny) }}</div>
@@ -868,12 +868,11 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 /* ===== Stat Cards ===== */
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
 .stat-card { background: #fff; border-radius: 8px; border: 1px solid #ebeef5; padding: 20px; transition: box-shadow 0.3s; }
-.stat-card:hover { box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1); }
 .stat-card .label { font-size: 13px; color: #909399; margin-bottom: 8px; }
 .stat-card .value { font-size: 24px; font-weight: 700; color: #303133; line-height: 1.2; }
 .stat-card .sub { font-size: 12px; color: #909399; margin-top: 4px; }
-.stat-card.highlight { border-color: #409eff; background: linear-gradient(135deg, #ecf5ff 0%, #fff 100%); }
-.stat-card.highlight .value { color: #409eff; }
+.stat-card:hover { border-color: #409eff; background: linear-gradient(135deg, #ecf5ff 0%, #fff 100%); box-shadow: 0 2px 12px 0 rgba(64,158,255,0.15); }
+.stat-card:hover .value { color: #409eff; }
 
 /* ===== Charts ===== */
 .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
