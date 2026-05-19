@@ -2,6 +2,7 @@
 
 from typing import Dict, Any, Optional, List
 from datetime import datetime, timedelta
+import asyncio
 import logging
 
 from app.core.database import get_mongo_db
@@ -122,6 +123,62 @@ class PortfolioService:
                 return float(cached.get("nav"))
             return None
 
+    async def _get_position_name(self, code: str, instrument_type: str) -> str:
+        """解析持仓名称：stock/etf 查 stock_basic_info，fund 查 fund_nav_cache"""
+        if instrument_type == "fund":
+            cache = await self.db["fund_nav_cache"].find_one({"code": code})
+            name = cache.get("name") if cache else None
+            if name:
+                return name
+            try:
+                import akshare as ak
+                info = await asyncio.to_thread(ak.fund_individual_basic_info_xq, symbol=code)
+                if info is not None and not info.empty:
+                    # 字段名是"基金名称"，不是"基金简称"
+                    row = info[info["item"] == "基金名称"]
+                    name = str(row.iloc[0]["value"]) if not row.empty else None
+                if name:
+                    await self.db["fund_nav_cache"].update_one(
+                        {"code": code},
+                        {"$set": {"name": name}},
+                        upsert=True,
+                    )
+                    return name
+            except Exception as e:
+                logger.warning(f"获取基金名称失败 {code}: {e}")
+            return code
+
+        # stock/etf/bond/other: 查 stock_basic_info
+        info = await self.db["stock_basic_info"].find_one(
+            {"code": code}, {"name": 1}
+        )
+        if info and info.get("name"):
+            return info["name"]
+        # HK/US: check market-specific collections
+        for coll_name in ["stock_basic_info_hk", "stock_basic_info_us"]:
+            info = await self.db[coll_name].find_one({"code": code}, {"name": 1})
+            if info and info.get("name"):
+                return info["name"]
+        # 本地无数据，实时从 AKShare 查并写入缓存
+        try:
+            import akshare as ak
+            df = await asyncio.to_thread(ak.stock_individual_info_em, symbol=code)
+            name = None
+            if df is not None and not df.empty:
+                row = df[df["item"] == "股票简称"]
+                if not row.empty:
+                    name = str(row.iloc[0]["value"])
+            if name:
+                await self.db["stock_basic_info"].update_one(
+                    {"code": code},
+                    {"$set": {"code": code, "name": name}},
+                    upsert=True,
+                )
+                return name
+        except Exception as e:
+            logger.warning(f"AKShare 查询股票名称失败 {code}: {e}")
+        return code
+
     async def _get_last_price(self, code: str, market: str, instrument_type: str = "stock") -> Optional[float]:
         """获取最新价格（复用 paper.py 的逻辑）"""
         if instrument_type == "fund":
@@ -198,8 +255,12 @@ class PortfolioService:
             pnl_cny = round(market_value_cny - cost_cny, 2) if last_price else None
             pnl_pct = round((last_price - avg_cost) / avg_cost * 100, 2) if last_price and avg_cost > 0 else None
 
+            instr_type = p.get("instrument_type", "stock")
+            name = await self._get_position_name(code, instr_type)
+
             position_details.append({
                 "code": code,
+                "name": name,
                 "market": market,
                 "currency": currency,
                 "quantity": qty,
@@ -260,7 +321,7 @@ class PortfolioService:
             pnl_str = f"¥{pos['pnl_cny']:,.2f} ({pos['pnl_pct']:+.2f}%)" if pos["pnl_cny"] is not None else "N/A"
             inst = pos.get("instrument_type", "stock")
             lines.append(
-                f"  {pos['code']}({pos['market']}/{inst}): "
+                f"  {pos['code']} {pos.get('name', '')} ({pos['market']}/{inst}): "
                 f"{pos['quantity']}股 × ¥{pos['avg_cost']:.2f} | "
                 f"市值¥{pos['market_value_cny']:,.2f} | "
                 f"仓位{pos['weight']:.1f}% | "

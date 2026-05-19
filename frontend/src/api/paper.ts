@@ -11,6 +11,7 @@ export interface PortfolioAccountInfo {
 
 export interface PortfolioPositionItem {
   code: string
+  name?: string
   market: string
   currency: string
   quantity: number
@@ -35,6 +36,7 @@ export interface PortfolioSummary {
 
 export interface PortfolioSummaryPosition {
   code: string
+  name?: string
   market: string
   currency: string
   quantity: number

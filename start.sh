@@ -94,19 +94,19 @@ fi
 echo "2. Starting backend (port: ${BACKEND_PORT})..."
 cd "$SCRIPT_DIR"
 
-if is_running "$BACKEND_PORT"; then
-  echo "  Backend already running"
-else
-  echo "  Starting FastAPI server..."
-  uvicorn app.main:app --host 0.0.0.0 --port "$BACKEND_PORT" > "$LOG_DIR/backend.log" 2>&1 &
-  BACKEND_PID=$!
-  echo "$BACKEND_PID" > "$PID_DIR/backend.pid"
+# Pre-kill stale processes on this port
+port_pids=$(lsof -ti :"$BACKEND_PORT" 2>/dev/null || true)
+[ -n "$port_pids" ] && echo "$port_pids" | xargs kill -9 2>/dev/null && sleep 1
 
-  if wait_for_url "http://localhost:${BACKEND_PORT}${HEALTH_PATH}" "$HEALTH_TIMEOUT" "Backend"; then
-    echo "  Backend ready (PID: ${BACKEND_PID})"
-  else
-    echo "  Backend may not be fully started, check logs: $LOG_DIR/backend.log"
-  fi
+echo "  Starting FastAPI server with hot-reload..."
+"$SCRIPT_DIR/.venv/bin/uvicorn" app.main:app --host 0.0.0.0 --port "$BACKEND_PORT" --reload --reload-dir "$SCRIPT_DIR/app" > "$LOG_DIR/backend.log" 2>&1 &
+BACKEND_PID=$!
+echo "$BACKEND_PID" > "$PID_DIR/backend.pid"
+
+if wait_for_url "http://localhost:${BACKEND_PORT}${HEALTH_PATH}" "$HEALTH_TIMEOUT" "Backend"; then
+  echo "  Backend ready (PID: ${BACKEND_PID})"
+else
+  echo "  Backend may not be fully started, check logs: $LOG_DIR/backend.log"
 fi
 
 echo "3. Starting frontend (port: ${FRONTEND_PORT})..."
@@ -121,6 +121,10 @@ if [ -d "$SCRIPT_DIR/frontend" ]; then
   if is_running "$FRONTEND_PORT"; then
     echo "  Frontend already running"
   else
+    # Pre-kill stale processes on this port
+    port_pids=$(lsof -ti :"$FRONTEND_PORT" 2>/dev/null || true)
+    [ -n "$port_pids" ] && echo "$port_pids" | xargs kill -9 2>/dev/null && sleep 1
+
     npm run dev > "$LOG_DIR/frontend.log" 2>&1 &
     FRONTEND_PID=$!
     echo "$FRONTEND_PID" > "$PID_DIR/frontend.pid"
