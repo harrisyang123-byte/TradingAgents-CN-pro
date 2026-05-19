@@ -216,7 +216,7 @@
               <tbody>
                 <tr v-for="pos in filteredPositions" :key="pos.code">
                   <td>
-                    <a class="stock-link" @click="viewStockDetail(pos.code)">{{ pos.code }}</a>
+                    <a class="stock-link" @click="viewStockDetail(pos.code, pos.instrument_type)">{{ pos.code }}</a>
                   </td>
                   <td>{{ pos.name || pos.code }}</td>
                   <td>
@@ -728,8 +728,12 @@ async function submitAccount() {
   }
 }
 
-function viewStockDetail(code: string) {
-  router.push({ name: 'StockDetail', params: { code } })
+function viewStockDetail(code: string, instrumentType?: string) {
+  if (instrumentType === 'fund') {
+    router.push({ name: 'FundDetail', params: { code } })
+  } else {
+    router.push({ name: 'StockDetail', params: { code } })
+  }
 }
 
 function goAnalysis(code: string) {

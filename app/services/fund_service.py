@@ -1,0 +1,162 @@
+"""基金数据服务：AKShare 数据获取 + 30 天缓存"""
+
+from typing import Optional, Dict, Any, List
+from datetime import datetime, timedelta
+import asyncio
+import logging
+import time
+
+from app.core.database import get_mongo_db
+
+logger = logging.getLogger("webapi")
+
+CACHE_TTL_DAYS = 30
+
+
+class FundService:
+    def __init__(self):
+        self._db = None
+        # 内存缓存: {key: {data, cached_at}}
+        self._memory_cache: Dict[str, Dict[str, Any]] = {}
+
+    @property
+    def db(self):
+        if self._db is None:
+            self._db = get_mongo_db()
+        return self._db
+
+    def _is_cache_valid(self, cached_at: float) -> bool:
+        return time.time() - cached_at < CACHE_TTL_DAYS * 86400
+
+    async def _get_from_cache(self, cache_key: str) -> Optional[Any]:
+        """先查内存缓存，再查 MongoDB 缓存"""
+        mem = self._memory_cache.get(cache_key)
+        if mem and self._is_cache_valid(mem["cached_at"]):
+            return mem["data"]
+
+        doc = await self.db["fund_data_cache"].find_one({"key": cache_key})
+        if doc:
+            cached_at = doc.get("cached_at", 0)
+            if self._is_cache_valid(cached_at):
+                self._memory_cache[cache_key] = {"data": doc["data"], "cached_at": cached_at}
+                return doc["data"]
+
+        return None
+
+    async def _set_cache(self, cache_key: str, data: Any):
+        """写入内存 + MongoDB 缓存"""
+        now = time.time()
+        self._memory_cache[cache_key] = {"data": data, "cached_at": now}
+        await self.db["fund_data_cache"].update_one(
+            {"key": cache_key},
+            {"$set": {"key": cache_key, "data": data, "cached_at": now}},
+            upsert=True,
+        )
+
+    async def get_basic_info(self, code: str) -> Optional[Dict[str, Any]]:
+        """获取基金基础信息"""
+        cache_key = f"fund_basic_info:{code}"
+
+        cached = await self._get_from_cache(cache_key)
+        if cached:
+            return cached
+
+        try:
+            import akshare as ak
+            df = await asyncio.to_thread(ak.fund_individual_basic_info_xq, code)
+            if df is None or df.empty:
+                return None
+
+            info = {}
+            for _, row in df.iterrows():
+                key = str(row.get("item", "")).strip()
+                val = row.get("value")
+                if key == "基金简称":
+                    info["name"] = val
+                elif key == "基金代码":
+                    info["code"] = val
+                elif key == "基金类型":
+                    info["type"] = val
+                elif key == "最新规模":
+                    # 格式: "420.50亿元" → 420.50
+                    if val:
+                        val_str = str(val).replace("亿元", "").replace("亿元", "").strip()
+                        try:
+                            info["scale"] = float(val_str)
+                        except ValueError:
+                            info["scale"] = None
+                elif key == "成立日期":
+                    info["establishment_date"] = str(val) if val else None
+                elif key == "基金经理":
+                    info["manager"] = str(val) if val else None
+
+            result = {
+                "code": code,
+                "name": info.get("name"),
+                "type": info.get("type"),
+                "scale": info.get("scale"),
+                "establishment_date": info.get("establishment_date"),
+                "manager": info.get("manager"),
+            }
+
+            await self._set_cache(cache_key, result)
+            return result
+        except Exception as e:
+            logger.warning(f"获取基金基础信息失败 {code}: {e}")
+            return None
+
+    async def get_top_holdings(self, code: str) -> Optional[List[Dict[str, Any]]]:
+        """获取基金前十大重仓股"""
+        cache_key = f"fund_top_holdings:{code}"
+
+        cached = await self._get_from_cache(cache_key)
+        if cached:
+            return cached
+
+        try:
+            import akshare as ak
+            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, code)
+            if df is None or df.empty:
+                return []
+
+            holdings = []
+            for _, row in df.head(10).iterrows():
+                holdings.append({
+                    "stock_code": str(row.get("股票代码", "")),
+                    "stock_name": str(row.get("股票名称", "")),
+                    "ratio": float(row.get("占净值比例", 0)) if row.get("占净值比例") else 0,
+                    "change": float(row.get("较上期变化", 0)) if row.get("较上期变化") else None,
+                })
+
+            await self._set_cache(cache_key, holdings)
+            return holdings
+        except Exception as e:
+            logger.warning(f"获取基金持仓失败 {code}: {e}")
+            return None
+
+    async def get_sector_distribution(self, code: str) -> Optional[List[Dict[str, Any]]]:
+        """获取基金行业分布"""
+        cache_key = f"fund_sector_distribution:{code}"
+
+        cached = await self._get_from_cache(cache_key)
+        if cached:
+            return cached
+
+        try:
+            import akshare as ak
+            df = await asyncio.to_thread(ak.fund_portfolio_industry_allocate_em, code)
+            if df is None or df.empty:
+                return []
+
+            sectors = []
+            for _, row in df.iterrows():
+                sectors.append({
+                    "sector_name": str(row.get("行业名称", "")),
+                    "ratio": float(row.get("行业占比", 0)) if row.get("行业占比") else 0,
+                })
+
+            await self._set_cache(cache_key, sectors)
+            return sectors
+        except Exception as e:
+            logger.warning(f"获取基金行业分布失败 {code}: {e}")
+            return None
