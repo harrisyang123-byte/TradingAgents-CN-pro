@@ -36,7 +36,9 @@ let navChart: echarts.ECharts | null = null
 
 function renderNavChart() {
   if (!navChartRef.value || !navHistory.value.length) return
-  if (!navChart) navChart = echarts.init(navChartRef.value)
+  // 每次重新 init 确保 DOM 已挂载
+  if (navChart) { navChart.dispose(); navChart = null }
+  navChart = echarts.init(navChartRef.value)
   const dates = navHistory.value.map(p => p.date)
   const navs = navHistory.value.map(p => p.nav)
   navChart.setOption({
@@ -442,7 +444,8 @@ onMounted(() => {
             <button class="btn btn-primary btn-sm" @click="loadNavHistory">重试</button>
           </div>
           <div v-else-if="navState === 'empty'" class="zone-empty">暂无净值数据</div>
-          <div v-else ref="navChartRef" style="width:100%;height:260px;"></div>
+          <!-- 始终保留 DOM，避免切换 period 时 ECharts 实例失效 -->
+          <div v-show="navState === 'ideal'" ref="navChartRef" style="width:100%;height:260px;"></div>
         </div>
       </div>
 
@@ -476,7 +479,10 @@ onMounted(() => {
           </div>
           <!-- 空态 -->
           <div v-else-if="holdingsState === 'empty'" class="zone-empty" style="padding:40px 20px;">
-            <span>该基金暂无持仓数据</span>
+            <span v-if="basicInfo?.type && (basicInfo.type.includes('QDII') || basicInfo.type.includes('ETF') || basicInfo.type.includes('货币'))">
+              {{ basicInfo.type }} 基金暂不支持重仓股穿透展示
+            </span>
+            <span v-else>该基金暂无持仓数据</span>
           </div>
           <!-- 理想态 -->
           <div v-else>

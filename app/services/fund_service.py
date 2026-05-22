@@ -11,6 +11,7 @@ from app.core.database import get_mongo_db
 logger = logging.getLogger("webapi")
 
 CACHE_TTL_DAYS = 30
+NAV_CACHE_TTL_DAYS = 1  # 净值每日更新
 
 
 class FundService:
@@ -71,21 +72,21 @@ class FundService:
             for _, row in df.iterrows():
                 key = str(row.get("item", "")).strip()
                 val = row.get("value")
-                if key == "基金简称":
+                if key in ("基金简称", "基金名称"):
                     info["name"] = val
                 elif key == "基金代码":
                     info["code"] = val
                 elif key == "基金类型":
                     info["type"] = val
                 elif key == "最新规模":
-                    # 格式: "420.50亿元" → 420.50
+                    # 格式: "267.93亿" 或 "420.50亿元" → 267.93
                     if val:
-                        val_str = str(val).replace("亿元", "").replace("亿元", "").strip()
+                        val_str = str(val).replace("亿元", "").replace("亿", "").strip()
                         try:
                             info["scale"] = float(val_str)
                         except ValueError:
                             info["scale"] = None
-                elif key == "成立日期":
+                elif key in ("成立日期", "成立时间"):
                     info["establishment_date"] = str(val) if val else None
                 elif key == "基金经理":
                     info["manager"] = str(val) if val else None
@@ -115,9 +116,19 @@ class FundService:
 
         try:
             import akshare as ak
-            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code)
+            from datetime import datetime
+            current_year = str(datetime.now().year)
+            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code, date=current_year)
             if df is None or df.empty:
-                return []
+                # 尝试上一年
+                prev_year = str(datetime.now().year - 1)
+                df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code, date=prev_year)
+
+            if df is None or df.empty:
+                # 无数据：可能是 QDII/ETF/货币基金，缓存空结果避免重复请求
+                result: List[Dict[str, Any]] = []
+                await self._set_cache(cache_key, result)
+                return result
 
             holdings = []
             for _, row in df.head(10).iterrows():
@@ -135,12 +146,17 @@ class FundService:
             return None
 
     async def get_nav_history(self, code: str, period: str = "1年") -> Optional[List[Dict[str, Any]]]:
-        """获取基金净值历史走势"""
+        """获取基金净值历史走势（缓存 1 天）"""
         cache_key = f"fund_nav_history:{code}:{period}"
 
-        cached = await self._get_from_cache(cache_key)
-        if cached:
-            return cached
+        # 净值用 1 天 TTL
+        mem = self._memory_cache.get(cache_key)
+        if mem and time.time() - mem["cached_at"] < NAV_CACHE_TTL_DAYS * 86400:
+            return mem["data"]
+        doc = await self.db["fund_data_cache"].find_one({"key": cache_key})
+        if doc and time.time() - doc.get("cached_at", 0) < NAV_CACHE_TTL_DAYS * 86400:
+            self._memory_cache[cache_key] = {"data": doc["data"], "cached_at": doc["cached_at"]}
+            return doc["data"]
 
         try:
             import akshare as ak

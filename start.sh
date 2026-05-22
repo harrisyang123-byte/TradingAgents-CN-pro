@@ -80,16 +80,12 @@ DB_CONTAINER=$(parse_db_container)
 
 echo "Starting TradingAgents-CN..."
 
-echo "1. Starting Docker services..."
+echo "1. Starting Docker services (mongodb + redis)..."
 cd "$SCRIPT_DIR"
 
-if docker compose ps -q 2>/dev/null | grep -q .; then
-  echo "  Docker services already running"
-else
-  docker compose up -d 2>&1 | sed 's/^/  /'
-  echo "  Waiting for services..."
-  sleep 3
-fi
+docker compose up -d mongodb redis 2>&1 | sed 's/^/  /'
+echo "  Waiting for services..."
+sleep 3
 
 echo "2. Starting backend (port: ${BACKEND_PORT})..."
 cd "$SCRIPT_DIR"
