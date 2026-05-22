@@ -36,9 +36,9 @@
 ## Slice 4：后端 API 接入
 **目标**：`/api/analysis/submit` 支持基金代码，结果存 `analysis_tasks`
 
-- [ ] 4.1 `SingleAnalysisRequest` 加 `instrument_type` 字段（默认 `stock`）
-- [ ] 4.2 `analysis.py` router：根据 `instrument_type` 路由到 `fund_graph` 或 `trading_graph`
-- [ ] 4.3 结果存档时加 `instrument_type: "fund"` 字段
+- [x] 4.1 `SingleAnalysisRequest` 加 `instrument_type` 字段（默认 `stock`）
+- [x] 4.2 `analysis.py` router：根据 `instrument_type` 路由到 `fund_graph` 或 `trading_graph`
+- [x] 4.3 结果存档时加 `instrument_type: "fund"` 字段
 - [ ] 4.4 验证：POST `/api/analysis/submit` 传基金代码，任务正常创建和完成
 
 ## Slice 5：FundDetail 前端

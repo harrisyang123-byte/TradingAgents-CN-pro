@@ -1470,28 +1470,45 @@ class SimpleAnalysisService:
                 except Exception as e:
                     logger.error(f"❌ Graph进度回调失败: {e}", exc_info=True)
 
-            logger.info(f"🚀 准备调用 trading_graph.propagate，progress_callback={graph_progress_callback}")
+            logger.info(f"🚀 准备调用分析引擎，progress_callback={graph_progress_callback}")
 
-            # 执行实际分析，传递进度回调和task_id
-            # 获取持仓上下文（如果用户有持仓）
-            portfolio_ctx = ""
-            try:
-                from app.services.portfolio_service import PortfolioService
-                import asyncio
-                _svc = PortfolioService()
-                _loop = asyncio.new_event_loop()
-                portfolio_ctx = _loop.run_until_complete(_svc.get_portfolio_context(user_id))
-                _loop.close()
-            except Exception as e:
-                logger.warning(f"获取持仓上下文失败: {e}")
+            # 根据 instrument_type 路由到不同分析管线
+            instrument_type = (request.parameters.instrument_type if request.parameters else None) or "stock"
 
-            state, decision = trading_graph.propagate(
-                request.stock_code,
-                analysis_date,
-                progress_callback=graph_progress_callback,
-                task_id=task_id,
-                portfolio_context=portfolio_ctx,
-            )
+            if instrument_type == "fund":
+                # 基金分析管线
+                progress_tracker.update_progress("🏦 启动基金分析引擎")
+                from tradingagents.graph.fund_graph import FundAnalysisGraph
+                fund_graph = FundAnalysisGraph(config)
+                fund_type = (request.parameters.fund_type if request.parameters else None) or ""
+                decision = fund_graph.run(
+                    fund_code=request.stock_code,
+                    trade_date=analysis_date,
+                    fund_type=fund_type,
+                    progress_callback=graph_progress_callback,
+                )
+                state = {}
+            else:
+                # 股票分析管线（原有逻辑）
+                # 获取持仓上下文（如果用户有持仓）
+                portfolio_ctx = ""
+                try:
+                    from app.services.portfolio_service import PortfolioService
+                    import asyncio
+                    _svc = PortfolioService()
+                    _loop = asyncio.new_event_loop()
+                    portfolio_ctx = _loop.run_until_complete(_svc.get_portfolio_context(user_id))
+                    _loop.close()
+                except Exception as e:
+                    logger.warning(f"获取持仓上下文失败: {e}")
+
+                state, decision = trading_graph.propagate(
+                    request.stock_code,
+                    analysis_date,
+                    progress_callback=graph_progress_callback,
+                    task_id=task_id,
+                    portfolio_context=portfolio_ctx,
+                )
 
             logger.info(f"✅ trading_graph.propagate 执行完成")
 
