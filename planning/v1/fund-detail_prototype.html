@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基金详情 — 易方达蓝筹精选混合 (005827)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#409eff',
+            'primary-light': '#ecf5ff',
+            'primary-dark': '#337ecc',
+            success: '#67c23a',
+            warning: '#e6a23c',
+            danger: '#f56c6c',
+            info: '#909399',
+            'text-primary': '#303133',
+            'text-regular': '#606266',
+            'text-secondary': '#909399',
+            'text-placeholder': '#a8abb2',
+            'border-light': '#e4e7ed',
+            'border-lighter': '#ebeef5',
+            'fill-light': '#f5f7fa',
+            'fill-lighter': '#fafafa',
+            'bg-page': '#f2f3f5',
+            // 中国股市：红涨绿跌
+            'stock-up': '#f56c6c',
+            'stock-down': '#67c23a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /*
+     * ============================================================
+     * 基金详情页 (FundDetail) — 交互原型
+     * ============================================================
+     *
+     * 设计决策记录：
+     *
+     * 1. 布局：从上到下信息卡片结构，不使用标签页
+     *    理由：基金详情是"一眼了解"页面，用户进来扫一遍即可。
+     *    标签页会增加一次点击才能看到关键数据，不必要。
+     *
+     * 2. 基础信息卡片在最前
+     *    理由：用户第一眼要知道"这是什么基金"——名称、规模、经理。
+     *    用网格布局展示 2x3 信息项，简洁清晰。
+     *
+     * 3. 前十大重仓股表格在中间
+     *    理由：这是穿透数据的核心，用户最关注"这只基金买了什么股票"。
+     *    默认展开全部 10 行，每行用条形图直观展示权重占比。
+     *
+     * 4. 行业分布直方图在最后
+     *    理由：展示基金的整体投资风格，用横向条形图直观对比。
+     *    可选环形图作为补充，但条形图更精确易读。
+     *
+     * 5. 视觉风格完全对齐 portfolio_prototype.html
+     *    - 侧边栏模拟上下文
+     *    - 主色 #409eff, A股红涨绿跌
+     *    - 卡片 + 表格 + 标签样式复用
+     *
+     * 6. 数据来源说明
+     *    底部标注数据来源和更新日期，体现 Fintech 产品的严谨性。
+     *
+     * 7. 状态管理
+     *    支持理想态/加载态/空态/错误态 4 种状态切换。
+     *
+     * 8. 基金选择
+     *    以易方达蓝筹精选混合 (005827) 为默认展示样本，
+     *    这是一只具有代表性的主动管理权益基金，重仓白酒+互联网。
+     *
+     * ============================================================
+     */
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+                   'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
+                   Helvetica, Arial, sans-serif;
+      background-color: #f2f3f5;
+      color: #303133;
+      line-height: 1.5;
+    }
+
+    /* ================= 侧边栏（原型上下文） ================= */
+    .sidebar-stub {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 200px;
+      height: 100vh;
+      background: #fff;
+      border-right: 1px solid #e4e7ed;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-stub .logo {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid #ebeef5;
+      font-weight: 600;
+      font-size: 14px;
+      color: #303133;
+      gap: 8px;
+    }
+
+    .sidebar-stub .logo svg {
+      width: 28px;
+      height: 28px;
+      fill: #409eff;
+    }
+
+    .sidebar-stub nav {
+      flex: 1;
+      padding: 8px 0;
+    }
+
+    .sidebar-stub .menu-item {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 20px;
+      font-size: 14px;
+      color: #303133;
+      cursor: pointer;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .sidebar-stub .menu-item:hover { background: #ecf5ff; }
+
+    .sidebar-stub .menu-item.active {
+      background: #ecf5ff;
+      color: #409eff;
+      font-weight: 500;
+    }
+
+    .sidebar-stub .menu-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ================= 主内容区 ================= */
+    .main-area {
+      margin-left: 200px;
+      min-height: 100vh;
+    }
+
+    .top-header {
+      height: 60px;
+      background: #fff;
+      border-bottom: 1px solid #e4e7ed;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      color: #909399;
+    }
+
+    .breadcrumb a {
+      color: #409eff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .breadcrumb a:hover { color: #66b1ff; }
+
+    .breadcrumb .current { color: #303133; }
+
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* ================= 卡片 ================= */
+    .card {
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid #ebeef5;
+      transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #ebeef5;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-body { padding: 20px; }
+
+    /* ================= 按钮 ================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid;
+      transition: all 0.2s;
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: #409eff;
+      color: #fff;
+      border-color: #409eff;
+    }
+
+    .btn-primary:hover {
+      background: #66b1ff;
+      border-color: #66b1ff;
+    }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: #409eff;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
+
+    .btn-text:hover { color: #66b1ff; }
+
+    .btn-plain {
+      background: #fff;
+      border-color: #dcdfe6;
+      color: #606266;
+    }
+
+    .btn-plain:hover {
+      color: #409eff;
+      border-color: #c6e2ff;
+      background: #ecf5ff;
+    }
+
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+
+    /* ================= 表格 ================= */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      background: #fafafa;
+      color: #909399;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #ebeef5;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #ebeef5;
+      color: #303133;
+      vertical-align: middle;
+    }
+
+    .data-table tbody tr:hover { background: #f5f7fa; }
+
+    .data-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ================= 标签 ================= */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .tag-blue { background: #ecf5ff; color: #409eff; border: 1px solid #d9ecff; }
+    .tag-green { background: #f0f9eb; color: #67c23a; border: 1px solid #e1f3d8; }
+    .tag-orange { background: #fdf6ec; color: #e6a23c; border: 1px solid #faecd8; }
+    .tag-purple { background: #f5f0ff; color: #7c3aed; border: 1px solid #ede5ff; }
+    .tag-gray { background: #f4f4f5; color: #909399; border: 1px solid #e9e9eb; }
+    .tag-red { background: #fef0f0; color: #f56c6c; border: 1px solid #fde2e2; }
+
+    /* ================= 进度条 ================= */
+    .progress-bar {
+      height: 8px;
+      background: #ebeef5;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar .fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    /* ================= 股票链接 ================= */
+    .stock-link {
+      color: #409eff;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .stock-link:hover { color: #66b1ff; }
+
+    /* ================= 基金基本信息图标区 ================= */
+    .fund-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #409eff 0%, #337ecc 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .fund-icon svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 40px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-item .label {
+      font-size: 12px;
+      color: #909399;
+    }
+
+    .info-item .value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #303133;
+    }
+
+    .info-item .value.highlight {
+      color: #409eff;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    /* ================= 行业分布条形图 ================= */
+    .industry-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f7fa;
+    }
+
+    .industry-bar:last-child { border-bottom: none; }
+
+    .industry-bar .rank-num {
+      width: 20px;
+      font-size: 12px;
+      color: #909399;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .industry-bar .industry-name {
+      width: 100px;
+      font-size: 13px;
+      color: #303133;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .industry-bar .bar-wrap {
+      flex: 1;
+      height: 16px;
+      background: #f5f7fa;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .industry-bar .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .industry-bar .percentage {
+      width: 60px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #303133;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ================= 环形图（CSS 模拟） ================= */
+    .donut-chart-wrap {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      flex-shrink: 0;
+    }
+
+    .donut-chart {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      width: 100px;
+      height: 100px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donut-center .label {
+      font-size: 11px;
+      color: #909399;
+    }
+
+    .donut-center .value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #303133;
+    }
+
+    .donut-legend {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 0;
+    }
+
+    .donut-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .donut-legend-label {
+      flex: 1;
+      font-size: 13px;
+      color: #606266;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .donut-legend-pct {
+      font-size: 13px;
+      font-weight: 600;
+      color: #303133;
+      flex-shrink: 0;
+    }
+
+    /* ================= 骨架屏 ================= */
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    .skeleton {
+      background: #e4e7ed;
+      border-radius: 4px;
+      animation: skeleton-pulse 1.5s ease-in-out infinite;
+    }
+
+    /* ================= 空态 ================= */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state svg {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-state .empty-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #303133;
+      margin-bottom: 8px;
+    }
+
+    .empty-state .empty-desc {
+      font-size: 14px;
+      color: #909399;
+      margin-bottom: 20px;
+    }
+
+    /* ================= 错误态 ================= */
+    .error-state {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .error-state svg {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 16px;
+      color: #f56c6c;
+      opacity: 0.8;
+    }
+
+    /* ================= 数据来源脚注 ================= */
+    .data-source-note {
+      font-size: 12px;
+      color: #a8abb2;
+      line-height: 1.6;
+      border-top: 1px solid #ebeef5;
+      margin-top: 16px;
+      padding-top: 16px;
+    }
+
+    .data-source-note .label {
+      font-weight: 500;
+      color: #909399;
+    }
+
+    /* ================= 更新时间戳 ================= */
+    .update-time {
+      font-size: 12px;
+      color: #a8abb2;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ================= 状态切换器 ================= */
+    .state-switcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #303133;
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 16px;
+      z-index: 999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      font-size: 13px;
+    }
+
+    .state-switcher .title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #a8abb2;
+    }
+
+    .state-btn {
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 2px 4px 2px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #404040;
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+
+    .state-btn:hover { background: #555; }
+    .state-btn.active { background: #409eff; }
+
+    /* ================= 隐藏工具 ================= */
+    .hidden { display: none !important; }
+
+    /* ================= 响应式微调 ================= */
+    @media (max-width: 900px) {
+      .info-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- 侧边栏（模拟上下文，非本次设计范围）                            -->
+<!-- ============================================================ -->
+<div class="sidebar-stub">
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+    TradingAgents-CN
+  </div>
+  <nav>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      仪表板
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg>
+      学习中心
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+      股票分析
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      任务中心
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/></svg>
+      股票筛选
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      我的自选股
+    </div>
+    <div class="menu-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      我的持仓
+    </div>
+    <div class="menu-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      设置
+    </div>
+  </nav>
+</div>
+
+<!-- ============================================================ -->
+<!-- 主内容区                                                       -->
+<!-- ============================================================ -->
+<div class="main-area">
+
+  <!-- 顶栏 -->
+  <div class="top-header">
+    <div class="breadcrumb">
+      <a href="#" onclick="alert('跳转至 /portfolio')">首页</a> / <a href="#" onclick="alert('跳转至 /portfolio')">我的持仓</a> / <span class="current">基金详情</span>
+    </div>
+  </div>
+
+  <!-- 所有状态视图容器 -->
+  <div class="page-content">
+
+    <!-- ======================================================== -->
+    <!-- 状态 1: 理想态 (ideal)                                     -->
+    <!-- ======================================================== -->
+    <div id="state-ideal">
+
+      <!-- 返回导航 -->
+      <a href="#" onclick="alert('返回 /portfolio')" class="flex items-center gap-1.5 text-primary hover:text-blue-400 no-underline mb-4" style="font-size: 14px; cursor: pointer;">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        <span>返回持仓</span>
+      </a>
+
+      <!-- 页面标题行 -->
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+          <span class="text-base font-semibold text-text-primary">基金详情</span>
+          <span class="update-time ml-2">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            更新于 2026-05-18 16:30
+          </span>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- 卡片 1: 基金基础信息                                     -->
+      <!-- ==================================================== -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="flex items-center gap-2">
+            基金基础信息
+          </div>
+          <div>
+            <span class="tag tag-blue" style="font-size: 12px;">主动权益型</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="flex items-start gap-5">
+            <!-- 基金图标 -->
+            <div class="fund-icon">
+              <svg viewBox="0 0 24 24" fill="#fff"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+            </div>
+            <!-- 基本信息 -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-3 mb-4">
+                <h2 class="text-xl font-bold text-text-primary" style="margin: 0;">易方达蓝筹精选混合</h2>
+                <span class="tag tag-gray">005827</span>
+                <span class="tag tag-purple">张坤</span>
+                <span class="tag tag-orange">中高风险</span>
+              </div>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">基金代码</span>
+                  <span class="value">005827</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">基金类型</span>
+                  <span class="value">混合型</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">最新规模</span>
+                  <span class="value highlight">400.52 亿元</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">基金经理</span>
+                  <span class="value">张坤</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">成立日期</span>
+                  <span class="value">2018-09-05</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">业绩比较基准</span>
+                  <span class="value" style="font-size: 12px;">沪深300指数收益率×45% + 中证港股通综合指数收益率×35% + 中债总指数收益率×20%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- 卡片 2: 前十大重仓股                                     -->
+      <!-- ==================================================== -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="flex items-center gap-2">
+            前十大重仓股
+            <span style="font-size: 12px; color: #909399; font-weight: 400;">
+              (穿透数据)
+            </span>
+            <span class="tag tag-gray" style="font-size: 11px; padding: 1px 6px;">数据来源: 2026 年一季报</span>
+          </div>
+          <div style="font-size: 12px; color: #909399; font-weight: 400;">
+            前十大集中度: 77.89%
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 48px; text-align: center;">排名</th>
+                <th>股票名称</th>
+                <th>股票代码</th>
+                <th style="text-align: right;">占净值比例</th>
+                <th>持仓占比可视化</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag tag-red" style="font-weight: 600; min-width: 22px; text-align: center;">1</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 腾讯控股 详情')">腾讯控股</a>
+                </td>
+                <td><span style="color: #606266;">00700.HK</span></td>
+                <td style="text-align: right; font-weight: 600;">9.85%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 98.5%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag tag-red" style="font-weight: 600; min-width: 22px; text-align: center;">2</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 贵州茅台 详情')">贵州茅台</a>
+                </td>
+                <td><span style="color: #606266;">600519.SH</span></td>
+                <td style="text-align: right; font-weight: 600;">9.52%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 95.2%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag tag-red" style="font-weight: 600; min-width: 22px; text-align: center;">3</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 五粮液 详情')">五粮液</a>
+                </td>
+                <td><span style="color: #606266;">000858.SZ</span></td>
+                <td style="text-align: right; font-weight: 600;">8.76%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 87.6%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag tag-red" style="font-weight: 600; min-width: 22px; text-align: center;">4</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 洋河股份 详情')">洋河股份</a>
+                </td>
+                <td><span style="color: #606266;">002304.SZ</span></td>
+                <td style="text-align: right; font-weight: 600;">7.45%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 74.5%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">5</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 泸州老窖 详情')">泸州老窖</a>
+                </td>
+                <td><span style="color: #606266;">000568.SZ</span></td>
+                <td style="text-align: right; font-weight: 600;">6.90%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 69%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">6</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 美团-W 详情')">美团-W</a>
+                </td>
+                <td><span style="color: #606266;">03690.HK</span></td>
+                <td style="text-align: right; font-weight: 600;">8.20%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 82%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">7</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 香港交易所 详情')">香港交易所</a>
+                </td>
+                <td><span style="color: #606266;">00388.HK</span></td>
+                <td style="text-align: right; font-weight: 600;">7.68%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 76.8%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">8</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 招商银行 详情')">招商银行</a>
+                </td>
+                <td><span style="color: #606266;">600036.SH</span></td>
+                <td style="text-align: right; font-weight: 600;">6.53%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 65.3%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">9</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 中国平安 详情')">中国平安</a>
+                </td>
+                <td><span style="color: #606266;">601318.SH</span></td>
+                <td style="text-align: right; font-weight: 600;">4.80%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 48%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: center;">
+                  <span class="tag" style="font-weight: 600; min-width: 22px; text-align: center; background: #f5f7fa; color: #606266; border: 1px solid #e4e7ed;">10</span>
+                </td>
+                <td>
+                  <a class="stock-link" onclick="alert('查看 伊利股份 详情')">伊利股份</a>
+                </td>
+                <td><span style="color: #606266;">600887.SH</span></td>
+                <td style="text-align: right; font-weight: 600;">4.20%</td>
+                <td style="padding-right: 32px;">
+                  <div class="progress-bar" style="width: 160px;">
+                    <div class="fill" style="width: 42%; background: linear-gradient(90deg, #409eff, #66b1ff);"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 数据脚注 -->
+          <div class="data-source-note" style="margin: 0 20px 8px;">
+            <span class="label">数据来源：</span>基金 2026 年第一季度报告，数据截至 2026-03-31。
+            前十大重仓股占基金净值比例合计 <span style="color: #409eff; font-weight: 600;">77.89%</span>。
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- 卡片 3: 行业分布                                         -->
+      <!-- ==================================================== -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="flex items-center gap-2">
+            行业分布
+            <span style="font-size: 12px; color: #909399; font-weight: 400;">
+              (前六大行业)
+            </span>
+          </div>
+          <span class="tag tag-gray" style="font-size: 11px;">数据来源: 2026 年一季报</span>
+        </div>
+        <div class="card-body">
+          <div class="flex items-start gap-10">
+            <!-- 环形图 -->
+            <div class="donut-chart-wrap">
+              <div class="donut-chart" style="background: conic-gradient(
+                #409eff 0deg 162deg,
+                #67c23a 162deg 264.6deg,
+                #e6a23c 264.6deg 334.8deg,
+                #f56c6c 334.8deg 370.8deg,
+                #909399 370.8deg 396deg,
+                #7c3aed 396deg 414deg
+              );">
+              </div>
+              <div class="donut-center">
+                <span class="label">持股行业</span>
+                <span class="value">6</span>
+              </div>
+            </div>
+
+            <!-- 图例 -->
+            <div class="donut-legend">
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #409eff;"></div>
+                <span class="donut-legend-label">食品饮料</span>
+                <span class="donut-legend-pct">45.0%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #67c23a;"></div>
+                <span class="donut-legend-label">传媒互联网</span>
+                <span class="donut-legend-pct">26.0%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #e6a23c;"></div>
+                <span class="donut-legend-label">银行</span>
+                <span class="donut-legend-pct">10.0%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #f56c6c;"></div>
+                <span class="donut-legend-label">非银金融</span>
+                <span class="donut-legend-pct">5.8%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #909399;"></div>
+                <span class="donut-legend-label">医药生物</span>
+                <span class="donut-legend-pct">4.2%</span>
+              </div>
+              <div class="donut-legend-item">
+                <div class="donut-legend-dot" style="background: #7c3aed;"></div>
+                <span class="donut-legend-label">其他</span>
+                <span class="donut-legend-pct">9.0%</span>
+              </div>
+            </div>
+
+            <!-- 条形图区域 -->
+            <div class="flex-1 min-w-0" style="max-width: 400px;">
+              <div style="font-size: 12px; color: #909399; margin-bottom: 12px;">行业权重排序</div>
+              <div class="industry-bar">
+                <span class="rank-num">1</span>
+                <span class="industry-name">食品饮料</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 45%; background: #409eff;"></div>
+                </div>
+                <span class="percentage">45.0%</span>
+              </div>
+              <div class="industry-bar">
+                <span class="rank-num">2</span>
+                <span class="industry-name">传媒互联网</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 26%; background: #67c23a;"></div>
+                </div>
+                <span class="percentage">26.0%</span>
+              </div>
+              <div class="industry-bar">
+                <span class="rank-num">3</span>
+                <span class="industry-name">银行</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 10%; background: #e6a23c;"></div>
+                </div>
+                <span class="percentage">10.0%</span>
+              </div>
+              <div class="industry-bar">
+                <span class="rank-num">4</span>
+                <span class="industry-name">非银金融</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 5.8%; background: #f56c6c;"></div>
+                </div>
+                <span class="percentage">5.8%</span>
+              </div>
+              <div class="industry-bar">
+                <span class="rank-num">5</span>
+                <span class="industry-name">医药生物</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 4.2%; background: #909399;"></div>
+                </div>
+                <span class="percentage">4.2%</span>
+              </div>
+              <div class="industry-bar">
+                <span class="rank-num">6</span>
+                <span class="industry-name">其他</span>
+                <div class="bar-wrap">
+                  <div class="bar-fill" style="width: 9%; background: #7c3aed;"></div>
+                </div>
+                <span class="percentage">9.0%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="data-source-note" style="margin-top: 20px;">
+            <span class="label">说明：</span>行业分类依据证监会行业分类标准。占比为该行业持仓市值占基金净值的比例。
+            食品饮料行业权重偏高反映本基金重仓白酒板块的投资风格。
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- 卡片 4: 基金经理信息                                     -->
+      <!-- ==================================================== -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="flex items-center gap-2">
+            基金经理
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="flex items-start gap-4">
+            <!-- 头像占位 -->
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #ecf5ff, #d9ecff); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#409eff"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span style="font-size: 15px; font-weight: 600; color: #303133;">张坤</span>
+                <span class="tag tag-blue">从业 12 年</span>
+                <span class="tag tag-green">现任基金数: 4 只</span>
+              </div>
+              <div style="font-size: 13px; color: #606266; line-height: 1.7;">
+                经济学硕士。2008 年 7 月加入易方达基金管理有限公司，曾任行业研究员、基金经理助理。
+                投资风格以"长期持有优质企业"著称，偏好消费、互联网等赛道，换手率极低。
+                代表作：易方达中小盘混合、易方达蓝筹精选混合。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#state-ideal -->
+
+    <!-- ======================================================== -->
+    <!-- 状态 2: 加载态 (loading)                                   -->
+    <!-- ======================================================== -->
+    <div id="state-loading" class="hidden">
+
+      <!-- 返回导航（骨架） -->
+      <div class="skeleton" style="width: 100px; height: 16px; margin-bottom: 24px;"></div>
+
+      <!-- 页面标题行（骨架） -->
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <div class="skeleton" style="width: 20px; height: 20px;"></div>
+          <div class="skeleton" style="width: 80px; height: 18px;"></div>
+        </div>
+      </div>
+
+      <!-- 骨架屏：基础信息卡片 -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="skeleton" style="width: 100px; height: 16px;"></div>
+        </div>
+        <div class="card-body">
+          <div class="flex items-start gap-4">
+            <div class="skeleton" style="width: 56px; height: 56px; border-radius: 12px;"></div>
+            <div class="flex-1">
+              <div class="skeleton" style="width: 240px; height: 20px; margin-bottom: 16px;"></div>
+              <div class="grid grid-cols-3 gap-4">
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 80%; height: 16px;"></div></div>
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 50%; height: 16px;"></div></div>
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 70%; height: 16px;"></div></div>
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 50%; height: 16px;"></div></div>
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 60%; height: 16px;"></div></div>
+                <div><div class="skeleton" style="width: 60%; height: 12px; margin-bottom: 6px;"></div><div class="skeleton" style="width: 90%; height: 16px;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 骨架屏：重仓股表格 -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="skeleton" style="width: 140px; height: 16px;"></div>
+        </div>
+        <div class="card-body">
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="flex gap-6 items-center">
+              <div class="skeleton" style="width: 28px; height: 20px; border-radius: 4px;"></div>
+              <div class="skeleton" style="width: 80px; height: 14px;"></div>
+              <div class="skeleton" style="width: 90px; height: 14px;"></div>
+              <div class="skeleton" style="width: 60px; height: 14px;"></div>
+              <div class="skeleton" style="width: 160px; height: 14px;"></div>
+            </div>
+            <div class="flex gap-6 items-center">
+              <div class="skeleton" style="width: 28px; height: 20px; border-radius: 4px;"></div>
+              <div class="skeleton" style="width: 80px; height: 14px;"></div>
+              <div class="skeleton" style="width: 90px; height: 14px;"></div>
+              <div class="skeleton" style="width: 60px; height: 14px;"></div>
+              <div class="skeleton" style="width: 160px; height: 14px;"></div>
+            </div>
+            <div class="flex gap-6 items-center">
+              <div class="skeleton" style="width: 28px; height: 20px; border-radius: 4px;"></div>
+              <div class="skeleton" style="width: 80px; height: 14px;"></div>
+              <div class="skeleton" style="width: 90px; height: 14px;"></div>
+              <div class="skeleton" style="width: 60px; height: 14px;"></div>
+              <div class="skeleton" style="width: 160px; height: 14px;"></div>
+            </div>
+            <div class="flex gap-6 items-center">
+              <div class="skeleton" style="width: 28px; height: 20px; border-radius: 4px;"></div>
+              <div class="skeleton" style="width: 80px; height: 14px;"></div>
+              <div class="skeleton" style="width: 90px; height: 14px;"></div>
+              <div class="skeleton" style="width: 60px; height: 14px;"></div>
+              <div class="skeleton" style="width: 160px; height: 14px;"></div>
+            </div>
+            <div class="flex gap-6 items-center">
+              <div class="skeleton" style="width: 28px; height: 20px; border-radius: 4px;"></div>
+              <div class="skeleton" style="width: 80px; height: 14px;"></div>
+              <div class="skeleton" style="width: 90px; height: 14px;"></div>
+              <div class="skeleton" style="width: 60px; height: 14px;"></div>
+              <div class="skeleton" style="width: 160px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 骨架屏：行业分布 -->
+      <div class="card mb-5">
+        <div class="card-header">
+          <div class="skeleton" style="width: 100px; height: 16px;"></div>
+        </div>
+        <div class="card-body flex items-start gap-8">
+          <div class="skeleton" style="width: 180px; height: 180px; border-radius: 50%; flex-shrink: 0;"></div>
+          <div class="flex-1" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="skeleton" style="width: 100%; height: 16px;"></div>
+            <div class="skeleton" style="width: 80%; height: 16px;"></div>
+            <div class="skeleton" style="width: 60%; height: 16px;"></div>
+            <div class="skeleton" style="width: 40%; height: 16px;"></div>
+            <div class="skeleton" style="width: 30%; height: 16px;"></div>
+            <div class="skeleton" style="width: 20%; height: 16px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#state-loading -->
+
+    <!-- ======================================================== -->
+    <!-- 状态 3: 空态 (empty)                                      -->
+    <!-- ======================================================== -->
+    <div id="state-empty" class="hidden">
+
+      <!-- 返回导航 -->
+      <a href="#" onclick="alert('返回 /portfolio')" class="flex items-center gap-1.5 text-primary hover:text-blue-400 no-underline mb-4" style="font-size: 14px; cursor: pointer;">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        <span>返回持仓</span>
+      </a>
+
+      <!-- 页面标题行 -->
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+          <span class="text-base font-semibold text-text-primary">基金详情</span>
+        </div>
+      </div>
+
+      <!-- 空态 -->
+      <div class="card">
+        <div class="card-body">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="#c0c4cc"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+            <div class="empty-title">无可用的基金数据</div>
+            <div class="empty-desc">
+              该基金代码可能未正确传递，或对应基金的信息尚不可用。<br>
+              请确认基金代码有效，或稍后重试。
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="switchState('ideal')">
+              刷新数据
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /#state-empty -->
+
+    <!-- ======================================================== -->
+    <!-- 状态 4: 错误态 (error)                                    -->
+    <!-- ======================================================== -->
+    <div id="state-error" class="hidden">
+
+      <!-- 返回导航 -->
+      <a href="#" onclick="alert('返回 /portfolio')" class="flex items-center gap-1.5 text-primary hover:text-blue-400 no-underline mb-4" style="font-size: 14px; cursor: pointer;">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        <span>返回持仓</span>
+      </a>
+
+      <!-- 页面标题行 -->
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+          <span class="text-base font-semibold text-text-primary">基金详情</span>
+        </div>
+        <button class="btn btn-plain btn-sm" onclick="switchState('loading'); setTimeout(() => switchState('ideal'), 1500);">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          重试
+        </button>
+      </div>
+
+      <!-- 错误提示 -->
+      <div class="card">
+        <div class="card-body">
+          <div class="error-state">
+            <svg viewBox="0 0 24 24" fill="#f56c6c"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            <div style="font-size: 16px; font-weight: 600; color: #303133; margin-bottom: 8px;">
+              基金数据加载失败
+            </div>
+            <div style="font-size: 14px; color: #909399; margin-bottom: 20px;">
+              无法获取该基金的数据信息，请检查网络连接或确认基金代码后重试。
+            </div>
+            <div style="background: #fef0f0; border: 1px solid #fde2e2; border-radius: 4px; padding: 12px 16px; display: inline-block; margin-bottom: 20px;">
+              <div style="font-size: 13px; color: #f56c6c;">
+                <span style="font-weight: 500;">错误详情：</span>API 请求超时 — <code style="background: rgba(245,108,108,0.1); padding: 0 4px; border-radius: 2px;">/api/funds/005827/info</code>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-primary" onclick="switchState('loading'); setTimeout(() => switchState('ideal'), 1500);">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                重新加载
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /#state-error -->
+
+  </div><!-- /page-content -->
+</div><!-- /main-area -->
+
+<!-- ============================================================ -->
+<!-- 状态切换器（原型交互工具）                                      -->
+<!-- ============================================================ -->
+<div class="state-switcher">
+  <div class="title">状态切换</div>
+  <button class="state-btn active" onclick="switchState('ideal')">理想态</button>
+  <button class="state-btn" onclick="switchState('loading')">加载中</button>
+  <button class="state-btn" onclick="switchState('empty')">空态</button>
+  <button class="state-btn" onclick="switchState('error')">错误态</button>
+</div>
+
+<script>
+  // 状态切换：被 state-btn 的 onclick 调用
+  function switchState(state) {
+    const states = ['ideal', 'loading', 'empty', 'error'];
+    states.forEach(s => {
+      document.getElementById('state-' + s).classList.toggle('hidden', s !== state);
+    });
+    // 更新按钮高亮
+    document.querySelectorAll('.state-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    // 根据 state 值高亮对应按钮
+    document.querySelectorAll('.state-btn').forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + state + "'")) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  // 移除可能冲突的附加事件监听（通过 onclick 属性处理）
+  document.querySelectorAll('.state-btn').forEach(btn => {
+    btn.removeEventListener('click', function() {});
+  });
+</script>
+
+</body>
+</html>
