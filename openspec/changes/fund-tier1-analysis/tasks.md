@@ -5,13 +5,13 @@
 ## Slice 1：基金数据工具层
 **目标**：能从 AKShare 获取基金分析所需的所有数据
 
-- [ ] 1.1 新建 `tradingagents/dataflows/fund_data.py`
+- [x] 1.1 新建 `tradingagents/dataflows/fund_data.py`
   - `get_fund_basic_info(code)` — 基础信息 + 投资策略
   - `get_fund_performance(code)` — 历史业绩 + 同类排名
   - `get_fund_risk_metrics(code)` — 夏普比率、最大回撤、年化波动率
   - `get_fund_holdings_or_index(code, fund_type)` — 重仓股（主动型）或指数信息（QDII/指数型）
   - `get_fund_nav_history(code, period)` — 净值历史（复用 fund_service 逻辑）
-- [ ] 1.2 验证：对 270042（QDII）和 005827（主动型）各跑一遍，数据正确返回
+- [x] 1.2 验证：对 270042（QDII）和 005827（主动型）各跑一遍，数据正确返回
 
 ## Slice 2：基金分析 Graph
 **目标**：能跑通完整的基金多 Agent 辩论，输出结构化结果
