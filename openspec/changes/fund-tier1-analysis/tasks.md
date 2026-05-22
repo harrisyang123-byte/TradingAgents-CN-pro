@@ -44,9 +44,9 @@
 ## Slice 5：FundDetail 前端
 **目标**：用户在基金详情页能触发分析，看到实时消息流和最终报告
 
-- [ ] 5.1 `FundDetail/index.vue` 加"AI 分析"按钮，点击提交分析任务
-- [ ] 5.2 分析进行中：展示 SSE 消息流（Agent 名称 + 内容气泡）
-- [ ] 5.3 分析完成：展示最终报告（action/expected_return/confidence + 三份报告折叠展示）
+- [x] 5.1 `FundDetail/index.vue` 加"AI 分析"按钮，点击提交分析任务
+- [x] 5.2 分析进行中：展示 SSE 消息流（Agent 名称 + 内容气泡）
+- [x] 5.3 分析完成：展示最终报告（action/expected_return/confidence + 三份报告折叠展示）
 - [ ] 5.4 验证：端到端跑通 270042 分析，前端正确展示
 
 ## 完成标准

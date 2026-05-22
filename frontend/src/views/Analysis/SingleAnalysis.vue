@@ -738,6 +738,8 @@ interface AnalysisForm {
   includeSentiment: boolean
   includeRisk: boolean
   language: 'zh-CN' | 'en-US'
+  instrumentType: string
+  fundType: string
 }
 
 // 使用store
@@ -809,7 +811,9 @@ const analysisForm = reactive<AnalysisForm>({
   selectedAnalysts: ['市场分析师', '基本面分析师'], // 将在 onMounted 中从用户偏好加载
   includeSentiment: true,
   includeRisk: true,
-  language: 'zh-CN'
+  language: 'zh-CN',
+  instrumentType: 'stock',
+  fundType: '',
 })
 
 // 股票代码验证相关
@@ -944,7 +948,9 @@ const submitAnalysis = async () => {
         include_risk: analysisForm.includeRisk,
         language: analysisForm.language,
         quick_analysis_model: modelSettings.value.quickAnalysisModel,
-        deep_analysis_model: modelSettings.value.deepAnalysisModel
+        deep_analysis_model: modelSettings.value.deepAnalysisModel,
+        instrument_type: analysisForm.instrumentType || 'stock',
+        fund_type: analysisForm.fundType || undefined,
       }
     }
 
@@ -2232,8 +2238,12 @@ onMounted(async () => {
 
   // 接收一次路由参数（从筛选页带入）- 路由参数优先级最高
   const q = route.query as any
-  const hasNewStock = !!q?.stock
-  if (hasNewStock) {
+  const hasNewStock = !!q?.stock || !!q?.symbol
+  if (q?.symbol && !q?.stock) {
+    analysisForm.stockCode = String(q.symbol)
+    clearTaskCache()
+  }
+  if (hasNewStock && q?.stock) {
     analysisForm.stockCode = String(q.stock)
     // 🔥 关键修复：如果有新的股票代码，清除旧任务缓存
     clearTaskCache()
@@ -2245,6 +2255,11 @@ onMounted(async () => {
       analysisForm.market = detectedMarket as MarketType
       console.log('🔍 自动识别市场类型:', analysisForm.stockCode, '->', detectedMarket)
     }
+  }
+  // 处理 instrument_type（基金分析）
+  if (q?.instrument_type) {
+    analysisForm.instrumentType = String(q.instrument_type)
+    analysisForm.fundType = String(q.fund_type || '')
   }
   if (q?.market) analysisForm.market = normalizeMarketForAnalysis(q.market) as MarketType
 

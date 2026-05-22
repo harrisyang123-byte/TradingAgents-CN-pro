@@ -34,6 +34,8 @@ export interface SingleAnalysisRequest {
     language?: string
     quick_analysis_model?: string
     deep_analysis_model?: string
+    instrument_type?: string
+    fund_type?: string
   }
 }
 
