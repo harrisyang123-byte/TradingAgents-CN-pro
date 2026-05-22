@@ -33,31 +33,22 @@
 
 ## 快速启动
 
-### Docker 方式（推荐）
-
 ```bash
 # 1. 复制并填写配置
 cp .env.example .env
 # 编辑 .env，填入 LLM API Key
 
-# 2. 启动所有服务
-docker compose up -d
+# 2. 一键启动（自动启动 MongoDB/Redis + 后端 + 前端）
+bash start.sh
+
+# 停止
+bash stop.sh
+
+# 查看状态
+bash status.sh
 ```
 
 访问 http://localhost:3000
-
-### 本地开发
-
-```bash
-# 安装依赖
-pip install -e .
-
-# 启动后端
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# 启动前端
-cd frontend && npm install && npm run dev
-```
 
 ## 配置
 
