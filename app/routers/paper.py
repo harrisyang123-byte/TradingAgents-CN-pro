@@ -25,7 +25,7 @@ class PlaceOrderRequest(BaseModel):
 
 class AddPositionRequest(BaseModel):
     code: str = Field(..., description="股票代码（支持A股/港股/美股）")
-    quantity: int = Field(..., gt=0)
+    quantity: float = Field(..., gt=0)
     avg_cost: float = Field(..., gt=0, description="买入均价")
     buy_date: Optional[str] = Field(None, description="买入日期 (YYYY-MM-DD)")
     notes: Optional[str] = Field(None, description="备注")
@@ -34,7 +34,7 @@ class AddPositionRequest(BaseModel):
 
 
 class UpdatePositionRequest(BaseModel):
-    quantity: Optional[int] = Field(None, gt=0)
+    quantity: Optional[float] = Field(None, ge=0)
     avg_cost: Optional[float] = Field(None, gt=0)
     notes: Optional[str] = None
     instrument_type: Optional[str] = Field(None, description="标的类型: stock/etf/fund/bond/other")

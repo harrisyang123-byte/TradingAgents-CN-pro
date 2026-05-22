@@ -300,7 +300,7 @@
           <el-input v-model="addForm.code" placeholder="A股: 600519 | 港股: 0700 | 美股: AAPL" />
         </el-form-item>
         <el-form-item label="数量">
-          <el-input-number v-model="addForm.quantity" :min="1" style="width:100%" />
+          <el-input-number v-model="addForm.quantity" :min="0.01" :precision="2" style="width:100%" />
         </el-form-item>
         <el-form-item label="买入均价">
           <el-input-number v-model="addForm.avg_cost" :min="0.01" :precision="2" style="width:100%" />
@@ -330,7 +330,7 @@
           <el-input :model-value="editForm.code" disabled />
         </el-form-item>
         <el-form-item label="数量">
-          <el-input-number v-model="editForm.quantity" :min="1" style="width:100%" />
+          <el-input-number v-model="editForm.quantity" :min="0.01" :precision="2" style="width:100%" />
         </el-form-item>
         <el-form-item label="均价">
           <el-input-number v-model="editForm.avg_cost" :min="0.01" :precision="2" style="width:100%" />
