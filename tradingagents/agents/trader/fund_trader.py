@@ -67,28 +67,25 @@ def create_fund_trader(llm):
             },
         ]
 
-        proposal = invoke_structured_or_freetext(structured_llm, llm, messages, "FundTrader")
+        parsed_proposal: Optional[FundTraderProposal] = None
 
-        if isinstance(proposal, FundTraderProposal):
-            content = (
-                f"**基金投资建议**: {proposal.action.value}\n\n"
-                f"**理由**: {proposal.reasoning}\n\n"
-                f"**预期收益**: {proposal.expected_return or '未估算'}\n\n"
-                f"**仓位建议**: {proposal.position_sizing or '未指定'}\n\n"
-                f"**置信度**: {f'{proposal.confidence:.0%}' if proposal.confidence else '未评估'}"
+        def render(p: FundTraderProposal) -> str:
+            nonlocal parsed_proposal
+            parsed_proposal = p
+            return (
+                f"**基金投资建议**: {p.action.value}\n\n"
+                f"**理由**: {p.reasoning}\n\n"
+                f"**预期收益**: {p.expected_return or '未估算'}\n\n"
+                f"**仓位建议**: {p.position_sizing or '未指定'}\n\n"
+                f"**置信度**: {f'{p.confidence:.0%}' if p.confidence else '未评估'}"
             )
-            result_msg = AIMessage(content=content)
-            return {
-                "messages": [result_msg],
-                "fund_trader_proposal": proposal.model_dump(),
-                "final_trade_decision": content,
-            }
-        else:
-            result_msg = AIMessage(content=str(proposal))
-            return {
-                "messages": [result_msg],
-                "fund_trader_proposal": {},
-                "final_trade_decision": str(proposal),
-            }
+
+        content = invoke_structured_or_freetext(structured_llm, llm, messages, render, "FundTrader")
+
+        return {
+            "messages": [AIMessage(content=content)],
+            "fund_trader_proposal": parsed_proposal.model_dump() if parsed_proposal else {},
+            "final_trade_decision": content,
+        }
 
     return fund_trader_node

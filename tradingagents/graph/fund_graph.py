@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from langchain_core.messages import HumanMessage
 from langgraph.graph import END, START, StateGraph
+from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
 from typing_extensions import Annotated, TypedDict
 
@@ -32,7 +33,7 @@ logger = get_logger("agents")
 # ── State ──────────────────────────────────────────────────────────────────
 
 class FundAgentState(TypedDict):
-    messages: Annotated[List, "消息历史"]
+    messages: Annotated[List, add_messages]
     company_of_interest: str
     trade_date: str
     fund_type: str
@@ -194,9 +195,11 @@ class FundAnalysisGraph:
             "Fund Trader": "💼 综合裁判",
         }
 
-        final_state = None
+        cumulative_state = {}
         for chunk in self.graph.stream(init_state, stream_mode="updates"):
-            final_state = chunk
+            for _k, _v in chunk.items():
+                if isinstance(_v, dict):
+                    cumulative_state.update(_v)
 
             if progress_callback:
                 for node_name in chunk.keys():
@@ -224,17 +227,16 @@ class FundAnalysisGraph:
         elapsed = time.time() - start_time
         logger.info(f"基金分析完成 {fund_code}，耗时 {elapsed:.1f}s")
 
-        # 从最终 chunk 提取结果
-        if final_state:
-            last_chunk = list(final_state.values())[-1] if final_state else {}
+        # 从累积状态提取结果（updates 模式每次只返回节点 delta，需汇总）
+        if cumulative_state:
             return {
                 "fund_code": fund_code,
                 "trade_date": trade_date,
-                "fund_manager_report": last_chunk.get("fund_manager_report", ""),
-                "fund_holdings_report": last_chunk.get("fund_holdings_report", ""),
-                "fund_risk_report": last_chunk.get("fund_risk_report", ""),
-                "fund_trader_proposal": last_chunk.get("fund_trader_proposal", {}),
-                "final_trade_decision": last_chunk.get("final_trade_decision", ""),
+                "fund_manager_report": cumulative_state.get("fund_manager_report", ""),
+                "fund_holdings_report": cumulative_state.get("fund_holdings_report", ""),
+                "fund_risk_report": cumulative_state.get("fund_risk_report", ""),
+                "fund_trader_proposal": cumulative_state.get("fund_trader_proposal", {}),
+                "final_trade_decision": cumulative_state.get("final_trade_decision", ""),
                 "elapsed_seconds": elapsed,
             }
         return {"fund_code": fund_code, "error": "分析未产生结果"}

@@ -1251,8 +1251,13 @@ const getAnalysisReports = (data: any) => {
   // 优先从 reports 字段获取数据（新的API格式）
   let reportsData = data
   if (data && data.reports && typeof data.reports === 'object') {
-    reportsData = data.reports
-    console.log('📊 使用 data.reports:', reportsData)
+    // 合并 detailed_analysis（基金报告存在其中）
+    const detailedAnalysis = (data.detailed_analysis && typeof data.detailed_analysis === 'object') ? data.detailed_analysis : {}
+    reportsData = { ...detailedAnalysis, ...data.reports }
+    console.log('📊 使用 data.reports (合并 detailed_analysis):', reportsData)
+  } else if (data && data.detailed_analysis && typeof data.detailed_analysis === 'object') {
+    reportsData = data.detailed_analysis
+    console.log('📊 使用 data.detailed_analysis (基金报告):', reportsData)
   } else if (data && data.state && typeof data.state === 'object') {
     reportsData = data.state
     console.log('📊 使用 data.state:', reportsData)
@@ -1285,6 +1290,11 @@ const getAnalysisReports = (data: any) => {
 
     // 最终决策 (1个)
     { key: 'final_trade_decision', title: '🎯 最终交易决策', category: '最终决策' },
+
+    // 基金分析报告
+    { key: 'fund_manager_report', title: '📊 基金经理分析', category: '基金分析' },
+    { key: 'fund_holdings_report', title: '📦 持仓分析', category: '基金分析' },
+    { key: 'fund_risk_report', title: '⚠️ 风险评估', category: '基金分析' },
 
     // 兼容旧格式
     { key: 'investment_plan', title: '📋 投资建议', category: '其他' },

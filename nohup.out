@@ -1,0 +1,858 @@
+2026-05-23 00:04:02,468 | agents               | INFO     | 🔍 [ConfigManager] 加载 .env 文件: /Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.env
+2026-05-23 00:04:02,468 | agents               | INFO     | 🔍 [ConfigManager] 加载前 DASHSCOPE_API_KEY: 空
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔍 [ConfigManager] 加载后 DASHSCOPE_API_KEY: 有值
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔧 [ConfigManager] 开始初始化 MongoDB 存储...
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔍 [ConfigManager] USE_MONGODB_STORAGE=true (解析为: True)
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_CONNECTION_STRING=已设置
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_DATABASE_NAME=tradingagentscn
+2026-05-23 00:04:02,472 | agents               | INFO     | 🔄 [ConfigManager] 正在创建 MongoDBStorage 实例...
+2026-05-23 00:04:07,511 | agents               | ERROR    | ❌ MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e7246f4f19dbff2cacf, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+2026-05-23 00:04:07,511 | agents               | INFO     | 将使用本地JSON文件存储
+2026-05-23 00:04:07,511 | agents               | WARNING  | ⚠️ [ConfigManager] MongoDB连接失败，将使用JSON文件存储
+2026-05-23 00:04:07,536 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:04:07,536 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:04:07,536 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:04:08,198 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:04:08,198 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:04:08,198 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:04:08,219 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:04:13,249 | dataflows            | WARNING  | ⚠️ [数据源配置] 从数据库读取失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e7846f4f19dbff2cad1, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>，将检查所有已安装的数据源
+2026-05-23 00:04:13,250 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:04:13,260 | tradingagents.config.database_manager | INFO     | MongoDB启用: True
+2026-05-23 00:04:13,260 | tradingagents.config.database_manager | INFO     | Redis启用: True
+2026-05-23 00:04:13,260 | tradingagents.config.database_manager | INFO     | MongoDB配置: localhost:27017
+2026-05-23 00:04:13,260 | tradingagents.config.database_manager | INFO     | Redis配置: localhost:6379
+2026-05-23 00:04:13,260 | tradingagents.config.database_manager | INFO     | 开始检测数据库可用性...
+
+Aborted!
+2026-05-23 00:04:14,133 | user_service         | INFO     | ✅ UserService MongoDB 连接已关闭
+2026-05-23 00:04:19,231 | agents               | INFO     | 🔍 [ConfigManager] 加载 .env 文件: /Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.env
+2026-05-23 00:04:19,231 | agents               | INFO     | 🔍 [ConfigManager] 加载前 DASHSCOPE_API_KEY: 空
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔍 [ConfigManager] 加载后 DASHSCOPE_API_KEY: 有值
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔧 [ConfigManager] 开始初始化 MongoDB 存储...
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔍 [ConfigManager] USE_MONGODB_STORAGE=true (解析为: True)
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_CONNECTION_STRING=已设置
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_DATABASE_NAME=tradingagentscn
+2026-05-23 00:04:19,235 | agents               | INFO     | 🔄 [ConfigManager] 正在创建 MongoDBStorage 实例...
+2026-05-23 00:04:24,273 | agents               | ERROR    | ❌ MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e83df27e42f30b75c06, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+2026-05-23 00:04:24,273 | agents               | INFO     | 将使用本地JSON文件存储
+2026-05-23 00:04:24,273 | agents               | WARNING  | ⚠️ [ConfigManager] MongoDB连接失败，将使用JSON文件存储
+2026-05-23 00:04:24,291 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:04:24,291 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:04:24,291 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:04:24,967 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:04:24,967 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:04:24,967 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:04:24,991 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:04:30,038 | dataflows            | WARNING  | ⚠️ [数据源配置] 从数据库读取失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e88df27e42f30b75c08, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>，将检查所有已安装的数据源
+2026-05-23 00:04:30,038 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:04:30,048 | tradingagents.config.database_manager | INFO     | MongoDB启用: True
+2026-05-23 00:04:30,049 | tradingagents.config.database_manager | INFO     | Redis启用: True
+2026-05-23 00:04:30,049 | tradingagents.config.database_manager | INFO     | MongoDB配置: localhost:27017
+2026-05-23 00:04:30,049 | tradingagents.config.database_manager | INFO     | Redis配置: localhost:6379
+2026-05-23 00:04:30,049 | tradingagents.config.database_manager | INFO     | 开始检测数据库可用性...
+2026-05-23 00:04:35,092 | tradingagents.config.database_manager | INFO     | ❌ MongoDB: MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e8edf27e42f30b75c09, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+2026-05-23 00:04:45,153 | tradingagents.config.database_manager | INFO     | ❌ Redis: Redis连接失败: Error 61 connecting to localhost:6379. Connection refused.
+2026-05-23 00:04:45,153 | tradingagents.config.database_manager | INFO     | 主要缓存后端: file
+2026-05-23 00:04:45,153 | tradingagents.config.database_manager | INFO     | 数据库管理器初始化完成 - MongoDB: False, Redis: False
+2026-05-23 00:04:45,153 | agents               | WARNING  | ⚠️ MongoDB客户端不可用，回退到传统模式
+2026-05-23 00:04:45,153 | agents               | INFO     | 🔄 MongoDB缓存适配器已启用 - 优先使用MongoDB数据
+2026-05-23 00:04:45,153 | dataflows            | WARNING  | ⚠️ MongoDB数据源不可用: 数据库未连接
+2026-05-23 00:04:50,192 | dataflows            | WARNING  | ⚠️ 从数据库读取数据源配置失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107e88df27e42f30b75c08, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2026-05-23 00:04:50,193 | dataflows            | INFO     | ✅ Tushare数据源可用且已启用 (API Key来源: 环境变量)
+2026-05-23 00:04:50,231 | dataflows            | INFO     | ✅ AKShare数据源可用且已启用
+2026-05-23 00:04:50,233 | dataflows            | INFO     | ✅ BaoStock数据源可用且已启用
+2026-05-23 00:04:50,233 | agents               | INFO     | 📁 缓存管理器初始化完成，缓存目录: /Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/tradingagents/dataflows/cache/data_cache
+2026-05-23 00:04:50,233 | agents               | INFO     | 🗄️ 数据库缓存管理器初始化完成
+2026-05-23 00:04:50,233 | agents               | INFO     |    美股数据: ✅ 已配置
+2026-05-23 00:04:50,233 | agents               | INFO     |    A股数据: ✅ 已配置
+2026-05-23 00:04:50,233 | tradingagents.dataflows.cache.adaptive | INFO     | 自适应缓存系统初始化 - 主要后端: file
+2026-05-23 00:04:50,233 | dataflows            | INFO     | ✅ 自适应缓存系统已启用
+2026-05-23 00:04:50,233 | dataflows            | INFO     | 📊 缓存配置:
+2026-05-23 00:04:50,233 | dataflows            | INFO     |   主要后端: file
+2026-05-23 00:04:50,233 | dataflows            | INFO     |   MongoDB: ❌ 不可用
+2026-05-23 00:04:50,233 | dataflows            | INFO     |   Redis: ❌ 不可用
+2026-05-23 00:04:50,233 | dataflows            | INFO     |   降级支持: ✅ 启用
+2026-05-23 00:04:50,233 | agents               | INFO     | ✅ 使用集成缓存系统（支持 MongoDB/Redis/File 自动选择）
+2026-05-23 00:04:50,233 | dataflows            | INFO     | ✅ 统一缓存管理器已启用
+2026-05-23 00:04:50,233 | dataflows            | INFO     | 📊 数据源管理器初始化完成
+2026-05-23 00:04:50,233 | dataflows            | INFO     |    MongoDB缓存: ✅ 已启用
+2026-05-23 00:04:50,233 | dataflows            | INFO     |    统一缓存: ✅ 已启用
+2026-05-23 00:04:50,233 | dataflows            | INFO     |    默认数据源: DataSourceCode.MONGODB
+2026-05-23 00:04:50,233 | dataflows            | INFO     |    可用数据源: [<DataSourceCode.TUSHARE: 'tushare'>, <DataSourceCode.AKSHARE: 'akshare'>, <DataSourceCode.BAOSTOCK: 'baostock'>]
+INFO:     Started server process [55114]
+INFO:     Waiting for application startup.
+🔍 [setup_logging] 日志配置文件路径: config/logging.toml
+🔍 [setup_logging] 配置文件存在: True
+🔍 [setup_logging] TOML加载器可用: True
+🔍 [setup_logging] 成功加载TOML配置
+🔍 [setup_logging] handlers配置: ['console', 'file', 'error', 'structured']
+🔍 [setup_logging] main_handler_cfg: {}
+🔍 [setup_logging] webapi_handler_cfg: {}
+🔍 [setup_logging] worker_handler_cfg: {}
+🔍 [setup_logging] 主日志文件配置:
+  - 文件路径: logs/tradingagents.log
+  - 是否启用: True
+  - 日志级别: INFO
+  - 最大大小: 104857600 bytes
+  - 备份数量: 5
+🔍 [setup_logging] WebAPI日志文件: logs/webapi.log, 启用: True
+🔍 [setup_logging] Worker日志文件: logs/worker.log, 启用: True
+🔍 [setup_logging] 开始构建handlers配置
+✅ [setup_logging] 添加 main_file handler: logs/tradingagents.log (使用 logging.handlers.RotatingFileHandler)
+🔍 [setup_logging] main_handlers: ['console', 'main_file', 'error_file']
+🔍 [setup_logging] webapi_handlers: ['console', 'file', 'main_file', 'error_file']
+🔍 [setup_logging] worker_handlers: ['console', 'worker_file', 'main_file', 'error_file']
+🔍 [setup_logging] 最终handlers配置: ['console', 'main_file', 'file', 'worker_file', 'error_file']
+🔍 [setup_logging] 开始应用 dictConfig
+✅ [setup_logging] dictConfig 应用成功
+2026-05-23 00:04:50 | webapi               | INFO     | Logging configured from config/logging.toml trace=-
+2026-05-23 00:04:50 | tradingagents        | INFO     | 🔍 测试主日志文件写入: logs/tradingagents.log trace=-
+🔍 [setup_logging] 已向 tradingagents logger 写入测试日志
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 🔍 开始验证启动配置... trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | WARNING  | ⚠️  DASHSCOPE_API_KEY 配置为占位符，视为未配置 trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | WARNING  | ⚠️  TUSHARE_TOKEN 配置为占位符，视为未配置 trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | ℹ️  开发环境模式（DEBUG=true） trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 
+====================================================================== trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | TradingAgents-CN Configuration Validation Result trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | ====================================================================== trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 
+All required configurations are complete trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 
+Missing recommended configurations (won't affect startup): trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |    - DASHSCOPE_API_KEY trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |      Description: 阿里百炼API密钥（推荐，国产稳定） trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |      Get it from: https://dashscope.aliyun.com/ trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |    - TUSHARE_TOKEN trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |      Description: Tushare Token（推荐，专业A股数据） trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |      Get it from: https://tushare.pro/weborder/#/login?reg=tacn trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 
+Security warnings: trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |    - ⚠️  JWT_SECRET 使用默认值，生产环境请务必修改！ trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     |    - ⚠️  CSRF_SECRET 使用默认值，生产环境请务必修改！ trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | 
+====================================================================== trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | Configuration validation passed, system can start trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | Tip: Configure recommended items for better functionality trace=-
+2026-05-23 00:04:50 | app.core.startup_validator | INFO     | ======================================================================
+ trace=-
+2026-05-23 00:04:50 | app.core.database    | INFO     | 🔄 正在初始化MongoDB连接... trace=-
+2026-05-23 00:04:55 | app.core.database    | ERROR    | ❌ MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ea2df27e42f30b75c0a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]> trace=-
+2026-05-23 00:04:55 | app.core.database    | ERROR    | 💥 数据库初始化失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ea2df27e42f30b75c0a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]> trace=-
+2026-05-23 00:04:55 | uvicorn.error        | ERROR    | Traceback (most recent call last):
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/starlette/routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/main.py", line 231, in lifespan
+    await init_db()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/database.py", line 195, in init_database
+    await db_manager.init_mongodb()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/database.py", line 61, in init_mongodb
+    await self.mongo_client.admin.command('ping')
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/database.py", line 953, in command
+    return self._client._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2076, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2038, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2811, in run
+    res = self._read() if self._is_read else self._write()
+          ^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 3027, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2975, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 1851, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 428, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 402, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 298, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 359, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ea2df27e42f30b75c0a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+ trace=-
+2026-05-23 00:04:55 | uvicorn.error        | ERROR    | Application startup failed. Exiting. trace=-
+2026-05-23 00:04:56 | user_service         | INFO     | ✅ UserService MongoDB 连接已关闭 trace=-
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/handlers.py", line 73, in emit
+    if self.shouldRollover(record):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/handlers.py", line 197, in shouldRollover
+    msg = "%s\n" % self.format(record)
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/logging_config.py", line 44, in format
+    import json
+ImportError: sys.meta_path is None, Python is likely shutting down
+Call stack:
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/services/user_service.py", line 45, in __del__
+    self.close()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/services/user_service.py", line 41, in close
+    logger.info("✅ UserService MongoDB 连接已关闭")
+Message: '✅ UserService MongoDB 连接已关闭'
+Arguments: ()
+2026-05-23 00:05:27,419 | agents               | INFO     | 🔍 [ConfigManager] 加载 .env 文件: /Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.env
+2026-05-23 00:05:27,419 | agents               | INFO     | 🔍 [ConfigManager] 加载前 DASHSCOPE_API_KEY: 空
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔍 [ConfigManager] 加载后 DASHSCOPE_API_KEY: 有值
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔧 [ConfigManager] 开始初始化 MongoDB 存储...
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔍 [ConfigManager] USE_MONGODB_STORAGE=true (解析为: True)
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_CONNECTION_STRING=已设置
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔍 [ConfigManager] MONGODB_DATABASE_NAME=tradingagentscn
+2026-05-23 00:05:27,423 | agents               | INFO     | 🔄 [ConfigManager] 正在创建 MongoDBStorage 实例...
+2026-05-23 00:05:32,466 | agents               | ERROR    | ❌ MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ec7c432facdb112f876, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+2026-05-23 00:05:32,466 | agents               | INFO     | 将使用本地JSON文件存储
+2026-05-23 00:05:32,466 | agents               | WARNING  | ⚠️ [ConfigManager] MongoDB连接失败，将使用JSON文件存储
+2026-05-23 00:05:32,492 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:05:32,493 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:05:32,493 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:05:33,164 | tradingagents.init   | INFO     | 🚀 TradingAgents-CN 日志系统初始化完成
+2026-05-23 00:05:33,164 | tradingagents.init   | INFO     | 📁 日志目录: ./logs
+2026-05-23 00:05:33,164 | tradingagents.init   | INFO     | 📊 日志级别: INFO
+2026-05-23 00:05:33,185 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:05:38,220 | dataflows            | WARNING  | ⚠️ [数据源配置] 从数据库读取失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ecdc432facdb112f878, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>，将检查所有已安装的数据源
+2026-05-23 00:05:38,220 | tradingagents.config | INFO     | [runtime_settings] TA_USE_APP_CACHE evaluated -> True (source=env, env=true)
+2026-05-23 00:05:38,241 | tradingagents.config.database_manager | INFO     | MongoDB启用: True
+2026-05-23 00:05:38,241 | tradingagents.config.database_manager | INFO     | Redis启用: True
+2026-05-23 00:05:38,241 | tradingagents.config.database_manager | INFO     | MongoDB配置: localhost:27017
+2026-05-23 00:05:38,241 | tradingagents.config.database_manager | INFO     | Redis配置: localhost:6379
+2026-05-23 00:05:38,241 | tradingagents.config.database_manager | INFO     | 开始检测数据库可用性...
+2026-05-23 00:05:43,284 | tradingagents.config.database_manager | INFO     | ❌ MongoDB: MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ed2c432facdb112f879, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+2026-05-23 00:05:45,304 | tradingagents.config.database_manager | INFO     | ❌ Redis: Redis连接失败: Error 61 connecting to localhost:6379. Connection refused.
+2026-05-23 00:05:45,304 | tradingagents.config.database_manager | INFO     | 主要缓存后端: file
+2026-05-23 00:05:45,304 | tradingagents.config.database_manager | INFO     | 数据库管理器初始化完成 - MongoDB: False, Redis: False
+2026-05-23 00:05:45,304 | agents               | WARNING  | ⚠️ MongoDB客户端不可用，回退到传统模式
+2026-05-23 00:05:45,304 | agents               | INFO     | 🔄 MongoDB缓存适配器已启用 - 优先使用MongoDB数据
+2026-05-23 00:05:45,304 | dataflows            | WARNING  | ⚠️ MongoDB数据源不可用: 数据库未连接
+2026-05-23 00:05:50,308 | dataflows            | WARNING  | ⚠️ 从数据库读取数据源配置失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107ecdc432facdb112f878, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2026-05-23 00:05:50,308 | dataflows            | INFO     | ✅ Tushare数据源可用且已启用 (API Key来源: 环境变量)
+2026-05-23 00:05:50,355 | dataflows            | INFO     | ✅ AKShare数据源可用且已启用
+2026-05-23 00:05:50,356 | dataflows            | INFO     | ✅ BaoStock数据源可用且已启用
+2026-05-23 00:05:50,357 | agents               | INFO     | 📁 缓存管理器初始化完成，缓存目录: /Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/tradingagents/dataflows/cache/data_cache
+2026-05-23 00:05:50,357 | agents               | INFO     | 🗄️ 数据库缓存管理器初始化完成
+2026-05-23 00:05:50,357 | agents               | INFO     |    美股数据: ✅ 已配置
+2026-05-23 00:05:50,357 | agents               | INFO     |    A股数据: ✅ 已配置
+2026-05-23 00:05:50,357 | tradingagents.dataflows.cache.adaptive | INFO     | 自适应缓存系统初始化 - 主要后端: file
+2026-05-23 00:05:50,357 | dataflows            | INFO     | ✅ 自适应缓存系统已启用
+2026-05-23 00:05:50,357 | dataflows            | INFO     | 📊 缓存配置:
+2026-05-23 00:05:50,357 | dataflows            | INFO     |   主要后端: file
+2026-05-23 00:05:50,357 | dataflows            | INFO     |   MongoDB: ❌ 不可用
+2026-05-23 00:05:50,357 | dataflows            | INFO     |   Redis: ❌ 不可用
+2026-05-23 00:05:50,357 | dataflows            | INFO     |   降级支持: ✅ 启用
+2026-05-23 00:05:50,357 | agents               | INFO     | ✅ 使用集成缓存系统（支持 MongoDB/Redis/File 自动选择）
+2026-05-23 00:05:50,357 | dataflows            | INFO     | ✅ 统一缓存管理器已启用
+2026-05-23 00:05:50,357 | dataflows            | INFO     | 📊 数据源管理器初始化完成
+2026-05-23 00:05:50,357 | dataflows            | INFO     |    MongoDB缓存: ✅ 已启用
+2026-05-23 00:05:50,357 | dataflows            | INFO     |    统一缓存: ✅ 已启用
+2026-05-23 00:05:50,357 | dataflows            | INFO     |    默认数据源: DataSourceCode.MONGODB
+2026-05-23 00:05:50,357 | dataflows            | INFO     |    可用数据源: [<DataSourceCode.TUSHARE: 'tushare'>, <DataSourceCode.AKSHARE: 'akshare'>, <DataSourceCode.BAOSTOCK: 'baostock'>]
+INFO:     Started server process [55292]
+INFO:     Waiting for application startup.
+🔍 [setup_logging] 日志配置文件路径: config/logging.toml
+🔍 [setup_logging] 配置文件存在: True
+🔍 [setup_logging] TOML加载器可用: True
+🔍 [setup_logging] 成功加载TOML配置
+🔍 [setup_logging] handlers配置: ['console', 'file', 'error', 'structured']
+🔍 [setup_logging] main_handler_cfg: {}
+🔍 [setup_logging] webapi_handler_cfg: {}
+🔍 [setup_logging] worker_handler_cfg: {}
+🔍 [setup_logging] 主日志文件配置:
+  - 文件路径: logs/tradingagents.log
+  - 是否启用: True
+  - 日志级别: INFO
+  - 最大大小: 104857600 bytes
+  - 备份数量: 5
+🔍 [setup_logging] WebAPI日志文件: logs/webapi.log, 启用: True
+🔍 [setup_logging] Worker日志文件: logs/worker.log, 启用: True
+🔍 [setup_logging] 开始构建handlers配置
+✅ [setup_logging] 添加 main_file handler: logs/tradingagents.log (使用 logging.handlers.RotatingFileHandler)
+🔍 [setup_logging] main_handlers: ['console', 'main_file', 'error_file']
+🔍 [setup_logging] webapi_handlers: ['console', 'file', 'main_file', 'error_file']
+🔍 [setup_logging] worker_handlers: ['console', 'worker_file', 'main_file', 'error_file']
+🔍 [setup_logging] 最终handlers配置: ['console', 'main_file', 'file', 'worker_file', 'error_file']
+🔍 [setup_logging] 开始应用 dictConfig
+✅ [setup_logging] dictConfig 应用成功
+2026-05-23 00:05:50 | webapi               | INFO     | Logging configured from config/logging.toml trace=-
+2026-05-23 00:05:50 | tradingagents        | INFO     | 🔍 测试主日志文件写入: logs/tradingagents.log trace=-
+🔍 [setup_logging] 已向 tradingagents logger 写入测试日志
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 🔍 开始验证启动配置... trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | WARNING  | ⚠️  DASHSCOPE_API_KEY 配置为占位符，视为未配置 trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | WARNING  | ⚠️  TUSHARE_TOKEN 配置为占位符，视为未配置 trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | ℹ️  开发环境模式（DEBUG=true） trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 
+====================================================================== trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | TradingAgents-CN Configuration Validation Result trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | ====================================================================== trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 
+All required configurations are complete trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 
+Missing recommended configurations (won't affect startup): trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |    - DASHSCOPE_API_KEY trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |      Description: 阿里百炼API密钥（推荐，国产稳定） trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |      Get it from: https://dashscope.aliyun.com/ trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |    - TUSHARE_TOKEN trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |      Description: Tushare Token（推荐，专业A股数据） trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |      Get it from: https://tushare.pro/weborder/#/login?reg=tacn trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 
+Security warnings: trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |    - ⚠️  JWT_SECRET 使用默认值，生产环境请务必修改！ trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     |    - ⚠️  CSRF_SECRET 使用默认值，生产环境请务必修改！ trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | 
+====================================================================== trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | Configuration validation passed, system can start trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | Tip: Configure recommended items for better functionality trace=-
+2026-05-23 00:05:50 | app.core.startup_validator | INFO     | ======================================================================
+ trace=-
+2026-05-23 00:05:50 | app.core.database    | INFO     | 🔄 正在初始化MongoDB连接... trace=-
+2026-05-23 00:05:55 | app.core.database    | ERROR    | ❌ MongoDB连接失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107edec432facdb112f87a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]> trace=-
+2026-05-23 00:05:55 | app.core.database    | ERROR    | 💥 数据库初始化失败: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107edec432facdb112f87a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]> trace=-
+2026-05-23 00:05:55 | uvicorn.error        | ERROR    | Traceback (most recent call last):
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/starlette/routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 216, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/main.py", line 231, in lifespan
+    await init_db()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/database.py", line 195, in init_database
+    await db_manager.init_mongodb()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/database.py", line 61, in init_mongodb
+    await self.mongo_client.admin.command('ping')
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/database.py", line 953, in command
+    return self._client._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2076, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/_csot.py", line 125, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2038, in _retry_internal
+    ).run()
+      ^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2811, in run
+    res = self._read() if self._is_read else self._write()
+          ^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 3027, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 2975, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/mongo_client.py", line 1851, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 428, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 402, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 298, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/lib/python3.12/site-packages/pymongo/synchronous/topology.py", line 359, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms), Timeout: 5.0s, Topology Description: <TopologyDescription id: 6a107edec432facdb112f87a, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 61] Connection refused (configured timeouts: socketTimeoutMS: 30000.0ms, connectTimeoutMS: 30000.0ms)')>]>
+ trace=-
+2026-05-23 00:05:55 | uvicorn.error        | ERROR    | Application startup failed. Exiting. trace=-
+2026-05-23 00:05:56 | user_service         | INFO     | ✅ UserService MongoDB 连接已关闭 trace=-
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/handlers.py", line 73, in emit
+    if self.shouldRollover(record):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/handlers.py", line 197, in shouldRollover
+    msg = "%s\n" % self.format(record)
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/logging/__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/core/logging_config.py", line 44, in format
+    import json
+ImportError: sys.meta_path is None, Python is likely shutting down
+Call stack:
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/services/user_service.py", line 45, in __del__
+    self.close()
+  File "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/app/services/user_service.py", line 41, in close
+    logger.info("✅ UserService MongoDB 连接已关闭")
+Message: '✅ UserService MongoDB 连接已关闭'
+Arguments: ()
