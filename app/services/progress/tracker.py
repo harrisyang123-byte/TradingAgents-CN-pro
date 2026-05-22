@@ -72,7 +72,8 @@ class RedisProgressTracker:
             'last_update': time.time(),
             'elapsed_time': 0.0,
             'remaining_time': 0.0,
-            'steps': []
+            'steps': [],
+            'agent_messages': [],  # Agent 实时消息流
         }
 
         # 生成分析步骤
@@ -304,7 +305,25 @@ class RedisProgressTracker:
         """update progress and persist; accepts dict or plain message string"""
         try:
             if isinstance(progress_update, dict):
-                self.progress_data.update(progress_update)
+                # agent_step 类型：追加到 agent_messages，不更新主进度
+                if progress_update.get("type") == "agent_step":
+                    msg = {
+                        "ts": time.time(),
+                        "step": progress_update.get("step", ""),
+                        "content": progress_update.get("content", ""),
+                        "tool_calls": progress_update.get("tool_calls", []),
+                    }
+                    if "agent_messages" not in self.progress_data:
+                        self.progress_data["agent_messages"] = []
+                    self.progress_data["agent_messages"].append(msg)
+                    # 只保留最近 50 条
+                    self.progress_data["agent_messages"] = self.progress_data["agent_messages"][-50:]
+                    self.progress_data["last_message"] = f"{msg['step']}: {msg['content'][:100]}" if msg["content"] else msg["step"]
+                    self.progress_data["last_update"] = time.time()
+                    self._save_progress()
+                    return self.progress_data
+                else:
+                    self.progress_data.update(progress_update)
             elif isinstance(progress_update, str):
                 self.progress_data['last_message'] = progress_update
                 self.progress_data['last_update'] = time.time()

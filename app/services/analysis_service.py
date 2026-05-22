@@ -199,12 +199,28 @@ class AnalysisService:
             start_time = datetime.now(timezone.utc)
             analysis_date = task.parameters.analysis_date or datetime.now().strftime("%Y-%m-%d")
 
-            # 创建进度回调函数
-            def progress_callback(message: str):
+            # 创建进度回调函数（支持 str 和 dict 两种格式）
+            def progress_callback(message):
                 progress_tracker.update_progress(message)
 
-            # 调用现有的分析方法（同步调用，传递进度回调）
-            _, decision = trading_graph.propagate(task.symbol, analysis_date, progress_callback)
+            # 根据 instrument_type 路由到不同分析管线
+            instrument_type = getattr(task.parameters, 'instrument_type', 'stock') or 'stock'
+
+            if instrument_type == 'fund':
+                # 基金分析管线
+                progress_tracker.update_progress("🏦 启动基金分析引擎")
+                from tradingagents.graph.fund_graph import FundAnalysisGraph
+                fund_graph = FundAnalysisGraph(config)
+                fund_type = getattr(task.parameters, 'fund_type', '') or ''
+                decision = fund_graph.run(
+                    fund_code=task.symbol,
+                    trade_date=analysis_date,
+                    fund_type=fund_type,
+                    progress_callback=progress_callback,
+                )
+            else:
+                # 股票分析管线（原有逻辑）
+                _, decision = trading_graph.propagate(task.symbol, analysis_date, progress_callback)
 
             execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 

@@ -51,6 +51,9 @@ class AnalysisParameters(BaseModel):
     # 模型配置
     quick_analysis_model: Optional[str] = "qwen-turbo"
     deep_analysis_model: Optional[str] = "qwen-max"
+    # 标的类型（stock/fund/etf）
+    instrument_type: Optional[str] = "stock"
+    fund_type: Optional[str] = None  # 基金类型，如 "QDII-股票"、"混合型-偏股"
 
 
 class AnalysisResult(BaseModel):

@@ -27,11 +27,11 @@
 ## Slice 3：SSE 实时消息流
 **目标**：前端能实时看到 Agent 分析文本和工具调用
 
-- [ ] 3.1 扩展 `_send_progress_update`：从 chunk 提取 `messages[-1].content`（AIMessage）和 `tool_calls`，加入 callback payload
-- [ ] 3.2 新建 SSE 端点 `GET /api/analysis/stream/{task_id}`
+- [x] 3.1 扩展 `_send_progress_update`：从 chunk 提取 `messages[-1].content`（AIMessage）和 `tool_calls`，加入 callback payload
+- [x] 3.2 新建 SSE 端点 `GET /api/analysis/stream/{task_id}`
   - 从 Redis 订阅 task 消息队列
   - 推送 `agent_message`、`tool_call`、`progress`、`complete` 四种事件
-- [ ] 3.3 验证：curl SSE 端点，能收到实时消息
+- [x] 3.3 验证：curl SSE 端点，能收到实时消息
 
 ## Slice 4：后端 API 接入
 **目标**：`/api/analysis/submit` 支持基金代码，结果存 `analysis_tasks`
