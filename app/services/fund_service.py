@@ -63,7 +63,7 @@ class FundService:
 
         try:
             import akshare as ak
-            df = await asyncio.to_thread(ak.fund_individual_basic_info_xq, code)
+            df = await asyncio.to_thread(ak.fund_individual_basic_info_xq, symbol=code)
             if df is None or df.empty:
                 return None
 
@@ -115,7 +115,7 @@ class FundService:
 
         try:
             import akshare as ak
-            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, code)
+            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code)
             if df is None or df.empty:
                 return []
 
@@ -144,16 +144,23 @@ class FundService:
 
         try:
             import akshare as ak
-            df = await asyncio.to_thread(ak.fund_portfolio_industry_allocate_em, code)
+            try:
+                df = await asyncio.to_thread(ak.fund_portfolio_industry_allocation_em, symbol=code)
+            except ValueError as e:
+                # 某些基金（如 270042）在 AKShare 解析数据时因为列数不匹配会抛出 ValueError，这里做容错处理
+                logger.warning(f"获取基金 {code} 行业分布数据源解析失败: {e}")
+                return []
+
             if df is None or df.empty:
                 return []
 
             sectors = []
-            for _, row in df.iterrows():
-                sectors.append({
-                    "sector_name": str(row.get("行业名称", "")),
-                    "ratio": float(row.get("行业占比", 0)) if row.get("行业占比") else 0,
-                })
+            if df is not None and not df.empty and "行业类别" in df.columns:
+                for _, row in df.iterrows():
+                    sectors.append({
+                        "sector_name": str(row.get("行业类别", "")),
+                        "ratio": float(row.get("占净值比例", 0)) if row.get("占净值比例") else 0,
+                    })
 
             await self._set_cache(cache_key, sectors)
             return sectors
