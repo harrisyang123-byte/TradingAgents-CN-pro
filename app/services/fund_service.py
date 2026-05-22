@@ -59,7 +59,7 @@ class FundService:
         cache_key = f"fund_basic_info:{code}"
 
         cached = await self._get_from_cache(cache_key)
-        if cached:
+        if cached is not None:
             return cached
 
         try:
@@ -111,18 +111,27 @@ class FundService:
         cache_key = f"fund_top_holdings:{code}"
 
         cached = await self._get_from_cache(cache_key)
-        if cached:
+        if cached is not None:
             return cached
 
         try:
             import akshare as ak
             from datetime import datetime
             current_year = str(datetime.now().year)
-            df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code, date=current_year)
-            if df is None or df.empty:
-                # 尝试上一年
-                prev_year = str(datetime.now().year - 1)
-                df = await asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code, date=prev_year)
+            prev_year = str(datetime.now().year - 1)
+
+            # 并发请求当年和上一年，取有数据的那个，超时 8 秒
+            async def fetch(year: str):
+                try:
+                    return await asyncio.wait_for(
+                        asyncio.to_thread(ak.fund_portfolio_hold_em, symbol=code, date=year),
+                        timeout=8.0
+                    )
+                except Exception:
+                    return None
+
+            results = await asyncio.gather(fetch(current_year), fetch(prev_year))
+            df = next((r for r in results if r is not None and not r.empty), None)
 
             if df is None or df.empty:
                 # 无数据：可能是 QDII/ETF/货币基金，缓存空结果避免重复请求
@@ -193,17 +202,22 @@ class FundService:
         cache_key = f"fund_sector_distribution:{code}"
 
         cached = await self._get_from_cache(cache_key)
-        if cached:
+        if cached is not None:
             return cached
 
         try:
             import akshare as ak
             try:
-                df = await asyncio.to_thread(ak.fund_portfolio_industry_allocation_em, symbol=code)
-            except ValueError as e:
+                df = await asyncio.wait_for(
+                    asyncio.to_thread(ak.fund_portfolio_industry_allocation_em, symbol=code),
+                    timeout=8.0
+                )
+            except (ValueError, asyncio.TimeoutError) as e:
                 # 某些基金（如 270042）在 AKShare 解析数据时因为列数不匹配会抛出 ValueError，这里做容错处理
                 logger.warning(f"获取基金 {code} 行业分布数据源解析失败: {e}")
-                return []
+                result: List[Dict[str, Any]] = []
+                await self._set_cache(cache_key, result)
+                return result
 
             if df is None or df.empty:
                 return []
