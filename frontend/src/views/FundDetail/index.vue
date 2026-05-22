@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { fundApi, type FundBasicInfo, type FundHolding, type FundSector } from '@/api/fund'
+import * as echarts from 'echarts'
+import { fundApi, type FundBasicInfo, type FundHolding, type FundSector, type FundNavPoint } from '@/api/fund'
 
 const router = useRouter()
 const route = useRoute()
@@ -14,14 +15,41 @@ type ZoneState = 'loading' | 'ideal' | 'empty' | 'error'
 const basicInfoState = ref<ZoneState>('loading')
 const holdingsState = ref<ZoneState>('loading')
 const sectorState = ref<ZoneState>('loading')
+const navState = ref<ZoneState>('loading')
 
 const basicInfo = ref<FundBasicInfo | null>(null)
 const holdings = ref<FundHolding[]>([])
 const sectors = ref<FundSector[]>([])
+const navHistory = ref<FundNavPoint[]>([])
 
 const basicInfoError = ref('')
 const holdingsError = ref('')
 const sectorError = ref('')
+const navError = ref('')
+
+const navPeriod = ref('1年')
+const navPeriodOptions = ['1月', '3月', '6月', '1年', '3年', '成立来']
+
+// ECharts
+const navChartRef = ref<HTMLElement | null>(null)
+let navChart: echarts.ECharts | null = null
+
+function renderNavChart() {
+  if (!navChartRef.value || !navHistory.value.length) return
+  if (!navChart) navChart = echarts.init(navChartRef.value)
+  const dates = navHistory.value.map(p => p.date)
+  const navs = navHistory.value.map(p => p.nav)
+  navChart.setOption({
+    tooltip: { trigger: 'axis', formatter: (params: any) => {
+      const p = params[0]
+      return `${p.axisValue}<br/>单位净值: <b>${p.value?.toFixed(4) ?? '--'}</b>`
+    }},
+    grid: { left: 60, right: 20, top: 20, bottom: 40 },
+    xAxis: { type: 'category', data: dates, axisLabel: { fontSize: 11, color: '#909399' }, axisLine: { lineStyle: { color: '#ebeef5' } } },
+    yAxis: { type: 'value', scale: true, axisLabel: { fontSize: 11, color: '#909399', formatter: (v: number) => v.toFixed(2) }, splitLine: { lineStyle: { color: '#f5f7fa' } } },
+    series: [{ type: 'line', data: navs, smooth: true, symbol: 'none', lineStyle: { color: '#409eff', width: 2 }, areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: 'rgba(64,158,255,0.2)' }, { offset: 1, color: 'rgba(64,158,255,0)' }]) } }],
+  })
+}
 
 // ---- 整体页面状态(用于初始加载/空/错误时全屏覆盖) ----
 // 初始: loading → 任一区域有数据就切换 ideal
@@ -83,6 +111,27 @@ async function loadSectors() {
   }
 }
 
+async function loadNavHistory() {
+  navState.value = 'loading'
+  navError.value = ''
+  try {
+    const res = await fundApi.getNavHistory(code.value, navPeriod.value)
+    if (res.success) {
+      navHistory.value = res.data || []
+      navState.value = res.data?.length ? 'ideal' : 'empty'
+      if (navState.value === 'ideal') {
+        await nextTick()
+        renderNavChart()
+      }
+    } else {
+      navState.value = 'empty'
+    }
+  } catch (e: any) {
+    navError.value = e?.message || '获取净值数据失败'
+    navState.value = 'error'
+  }
+}
+
 async function loadAll() {
   pageState.value = 'loading'
   fatalError.value = ''
@@ -90,9 +139,9 @@ async function loadAll() {
     loadBasicInfo(),
     loadHoldings(),
     loadSectors(),
+    loadNavHistory(),
   ])
-  // 判断整体页面状态
-  const states = [basicInfoState.value, holdingsState.value, sectorState.value]
+  const states = [basicInfoState.value, holdingsState.value, sectorState.value, navState.value]
   if (states.every(s => s === 'empty')) {
     pageState.value = 'empty'
   } else if (states.every(s => s === 'error')) {
@@ -102,6 +151,11 @@ async function loadAll() {
     pageState.value = 'ideal'
   }
 }
+
+onUnmounted(() => {
+  navChart?.dispose()
+  navChart = null
+})
 
 function retryAll() { loadAll() }
 
@@ -369,7 +423,30 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- ============ 卡片 2: 前十大重仓股 ============ -->
+      <!-- ============ 卡片 2: 净值历史走势 ============ -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <span>净值历史走势</span>
+          <div class="period-tabs">
+            <button
+              v-for="p in navPeriodOptions" :key="p"
+              class="period-btn" :class="{ active: navPeriod === p }"
+              @click="navPeriod = p; loadNavHistory()"
+            >{{ p }}</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 16px 20px;">
+          <div v-if="navState === 'loading'" class="skeleton" style="width:100%;height:260px;border-radius:4px;"></div>
+          <div v-else-if="navState === 'error'" class="zone-error">
+            <div class="zone-error-msg">{{ navError }}</div>
+            <button class="btn btn-primary btn-sm" @click="loadNavHistory">重试</button>
+          </div>
+          <div v-else-if="navState === 'empty'" class="zone-empty">暂无净值数据</div>
+          <div v-else ref="navChartRef" style="width:100%;height:260px;"></div>
+        </div>
+      </div>
+
+      <!-- ============ 卡片 3: 前十大重仓股 ============ -->
       <div class="card mb-4">
         <div class="card-header">
           <div class="flex items-center gap-2">
@@ -438,7 +515,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- ============ 卡片 3: 行业分布 ============ -->
+      <!-- ============ 卡片 4: 行业分布 ============ -->
       <div class="card mb-4">
         <div class="card-header">
           <div class="flex items-center gap-2">
@@ -500,7 +577,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- ============ 卡片 4: 基金经理 ============ -->
+      <!-- ============ 卡片 5: 基金经理 ============ -->
       <div class="card mb-4">
         <div class="card-header">
           <span>基金经理</span>
@@ -536,6 +613,27 @@ onMounted(() => {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* ---- 净值周期切换 ---- */
+.period-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.period-btn {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid #dcdfe6;
+  background: #fff;
+  color: #606266;
+  transition: all 0.2s;
+}
+
+.period-btn:hover { color: #409eff; border-color: #c6e2ff; background: #ecf5ff; }
+
+.period-btn.active { color: #409eff; border-color: #409eff; background: #ecf5ff; font-weight: 600; }
 
 /* ---- 返回链接 ---- */
 .detail-header {

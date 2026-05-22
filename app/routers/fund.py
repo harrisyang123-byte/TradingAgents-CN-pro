@@ -54,6 +54,24 @@ async def get_top_holdings(
     return ok(data)
 
 
+@router.get("/nav-history")
+async def get_nav_history(
+    code: str,
+    period: str = "1年",
+    current_user: dict = Depends(get_current_user),
+    svc: FundService = Depends(_get_fund_service),
+):
+    """获取基金净值历史走势，period: 1月/3月/6月/1年/3年/成立来"""
+    if not code or not code.strip():
+        raise HTTPException(status_code=400, detail="基金代码不能为空")
+
+    data = await svc.get_nav_history(code.strip(), period)
+    if data is None:
+        raise HTTPException(status_code=504, detail="数据获取超时，请稍后重试")
+
+    return ok(data)
+
+
 @router.get("/sector-distribution")
 async def get_sector_distribution(
     code: str,

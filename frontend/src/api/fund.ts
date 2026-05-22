@@ -21,6 +21,12 @@ export interface FundSector {
   ratio: number
 }
 
+export interface FundNavPoint {
+  date: string
+  nav: number | null
+  daily_return: number | null
+}
+
 export const fundApi = {
   async getBasicInfo(code: string) {
     return ApiClient.get<FundBasicInfo>('/api/fund/basic-info', { code })
@@ -30,5 +36,8 @@ export const fundApi = {
   },
   async getSectorDistribution(code: string) {
     return ApiClient.get<FundSector[]>('/api/fund/sector-distribution', { code })
+  },
+  async getNavHistory(code: string, period = '1年') {
+    return ApiClient.get<FundNavPoint[]>('/api/fund/nav-history', { code, period })
   }
 }

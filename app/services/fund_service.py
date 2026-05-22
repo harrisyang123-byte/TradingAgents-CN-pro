@@ -134,6 +134,44 @@ class FundService:
             logger.warning(f"获取基金持仓失败 {code}: {e}")
             return None
 
+    async def get_nav_history(self, code: str, period: str = "1年") -> Optional[List[Dict[str, Any]]]:
+        """获取基金净值历史走势"""
+        cache_key = f"fund_nav_history:{code}:{period}"
+
+        cached = await self._get_from_cache(cache_key)
+        if cached:
+            return cached
+
+        try:
+            import akshare as ak
+            df = await asyncio.to_thread(
+                ak.fund_open_fund_info_em, symbol=code, indicator="单位净值走势", period=period
+            )
+            if df is None or df.empty:
+                return []
+
+            # 按日期排序，取最近 N 条
+            df = df.sort_values("净值日期").reset_index(drop=True)
+            limit_map = {"1月": 30, "3月": 90, "6月": 180, "1年": 365, "3年": 1095, "成立来": None}
+            limit = limit_map.get(period, 365)
+            if limit:
+                df = df.tail(limit)
+
+            result = [
+                {
+                    "date": str(row["净值日期"]),
+                    "nav": float(row["单位净值"]) if row["单位净值"] else None,
+                    "daily_return": float(row["日增长率"]) if row["日增长率"] else None,
+                }
+                for _, row in df.iterrows()
+            ]
+
+            await self._set_cache(cache_key, result)
+            return result
+        except Exception as e:
+            logger.warning(f"获取基金净值历史失败 {code}: {e}")
+            return None
+
     async def get_sector_distribution(self, code: str) -> Optional[List[Dict[str, Any]]]:
         """获取基金行业分布"""
         cache_key = f"fund_sector_distribution:{code}"
