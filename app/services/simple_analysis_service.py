@@ -803,40 +803,45 @@ class SimpleAnalysisService:
         try:
             logger.info(f"🚀 开始后台执行分析任务: {task_id}")
 
-            # 🔍 验证股票代码是否存在
-            logger.info(f"🔍 开始验证股票代码: {stock_code}")
-            from tradingagents.utils.stock_validator import prepare_stock_data_async
-            from datetime import datetime
+            # 🔍 验证股票代码是否存在（基金跳过股票数据同步）
+            instrument_type = (request.parameters.instrument_type if request.parameters else None) or "stock"
+            logger.info(f"🔍 开始验证代码: {stock_code}, instrument_type={instrument_type}")
 
-            # 获取市场类型
-            market_type = request.parameters.market_type if request.parameters else "A股"
+            if instrument_type == "fund":
+                logger.info(f"🏦 基金分析，跳过股票数据同步: {stock_code}")
+            else:
+                from tradingagents.utils.stock_validator import prepare_stock_data_async
+                from datetime import datetime
 
-            # 获取分析日期并转换为字符串格式
-            analysis_date = request.parameters.analysis_date if request.parameters else None
-            if analysis_date:
-                # 如果是 datetime 对象，转换为字符串
-                if isinstance(analysis_date, datetime):
-                    analysis_date = analysis_date.strftime('%Y-%m-%d')
-                # 如果是字符串，确保格式正确
-                elif isinstance(analysis_date, str):
-                    # 尝试解析并重新格式化，确保格式统一
-                    try:
-                        parsed_date = datetime.strptime(analysis_date, '%Y-%m-%d')
-                        analysis_date = parsed_date.strftime('%Y-%m-%d')
-                    except ValueError:
-                        # 如果格式不对，使用今天
-                        analysis_date = datetime.now().strftime('%Y-%m-%d')
-                        logger.warning(f"⚠️ 分析日期格式不正确，使用今天: {analysis_date}")
+                # 获取市场类型
+                market_type = request.parameters.market_type if request.parameters else "A股"
 
-            # 🔥 使用异步版本，直接 await，避免事件循环冲突
-            validation_result = await prepare_stock_data_async(
-                stock_code=stock_code,
-                market_type=market_type,
-                period_days=30,
-                analysis_date=analysis_date
-            )
+                # 获取分析日期并转换为字符串格式
+                analysis_date = request.parameters.analysis_date if request.parameters else None
+                if analysis_date:
+                    # 如果是 datetime 对象，转换为字符串
+                    if isinstance(analysis_date, datetime):
+                        analysis_date = analysis_date.strftime('%Y-%m-%d')
+                    # 如果是字符串，确保格式正确
+                    elif isinstance(analysis_date, str):
+                        # 尝试解析并重新格式化，确保格式统一
+                        try:
+                            parsed_date = datetime.strptime(analysis_date, '%Y-%m-%d')
+                            analysis_date = parsed_date.strftime('%Y-%m-%d')
+                        except ValueError:
+                            # 如果格式不对，使用今天
+                            analysis_date = datetime.now().strftime('%Y-%m-%d')
+                            logger.warning(f"⚠️ 分析日期格式不正确，使用今天: {analysis_date}")
 
-            if not validation_result.is_valid:
+                # 🔥 使用异步版本，直接 await，避免事件循环冲突
+                validation_result = await prepare_stock_data_async(
+                    stock_code=stock_code,
+                    market_type=market_type,
+                    period_days=30,
+                    analysis_date=analysis_date
+                )
+
+            if instrument_type != "fund" and not validation_result.is_valid:
                 error_msg = f"❌ 股票代码验证失败: {validation_result.error_message}"
                 logger.error(error_msg)
                 logger.error(f"💡 建议: {validation_result.suggestion}")
@@ -866,10 +871,11 @@ class SimpleAnalysisService:
 
                 return
 
-            logger.info(f"✅ 股票代码验证通过: {stock_code} - {validation_result.stock_name}")
-            logger.info(f"📊 市场类型: {validation_result.market_type}")
-            logger.info(f"📈 历史数据: {'有' if validation_result.has_historical_data else '无'}")
-            logger.info(f"📋 基本信息: {'有' if validation_result.has_basic_info else '无'}")
+            if instrument_type != "fund":
+                logger.info(f"✅ 股票代码验证通过: {stock_code} - {validation_result.stock_name}")
+                logger.info(f"📊 市场类型: {validation_result.market_type}")
+                logger.info(f"📈 历史数据: {'有' if validation_result.has_historical_data else '无'}")
+                logger.info(f"📋 基本信息: {'有' if validation_result.has_basic_info else '无'}")
 
             # 在线程池中创建Redis进度跟踪器（避免阻塞事件循环）
             def create_progress_tracker():
@@ -1482,7 +1488,7 @@ class SimpleAnalysisService:
                 fund_graph = FundAnalysisGraph(config)
                 fund_type = (request.parameters.fund_type if request.parameters else None) or ""
                 decision = fund_graph.run(
-                    fund_code=request.stock_code,
+                    fund_code=request.get_symbol(),
                     trade_date=analysis_date,
                     fund_type=fund_type,
                     progress_callback=graph_progress_callback,
@@ -1806,6 +1812,8 @@ class SimpleAnalysisService:
                 "reports": reports,
                 # 🔥 关键修复：添加格式化后的decision字段！
                 "decision": formatted_decision,
+                # instrument_type: 标记分析类型（fund/stock）
+                "instrument_type": instrument_type,
                 # 🔥 添加模型信息字段
                 "model_info": model_info,
                 # 🆕 性能指标数据
@@ -2515,8 +2523,18 @@ class SimpleAnalysisService:
 
                 except Exception as e:
                     logger.warning(f"⚠️ 处理state中的reports时出错: {e}")
-                    # 降级到从detailed_analysis提取
-                    if 'detailed_analysis' in result:
+
+            # 基金分析：从 detailed_analysis 中补充提取报告
+            if not reports and isinstance(result.get('detailed_analysis'), dict):
+                da = result['detailed_analysis']
+                for key in ['fund_manager_report', 'fund_holdings_report', 'fund_risk_report', 'final_trade_decision']:
+                    val = da.get(key, '')
+                    if isinstance(val, str) and len(val.strip()) > 10:
+                        reports[key] = val.strip()
+                logger.info(f"📊 基金报告从detailed_analysis补充: {list(reports.keys())}")
+
+            # 降级到从detailed_analysis提取 (针对股票等)
+            if not reports and 'detailed_analysis' in result:
                         try:
                             detailed_analysis = result['detailed_analysis']
                             if isinstance(detailed_analysis, dict):

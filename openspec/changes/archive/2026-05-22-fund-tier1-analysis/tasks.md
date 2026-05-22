@@ -22,7 +22,7 @@
   - 复用 `TradingAgentsGraph` 的 LLM 工厂、checkpointer、progress_callback 机制
 - [x] 2.2 新建 `tradingagents/agents/analysts/fund_analysts.py` — 3 个分析师 prompt + 节点函数
 - [x] 2.3 新建 `tradingagents/agents/trader/fund_trader.py` — 综合裁判 prompt，输出 `expected_return` 替代 `target_price`
-- [ ] 2.4 验证：本地跑 270042，能输出 action + expected_return + 三份报告
+- [x] 2.4 验证：本地跑 270042，能输出 action + expected_return + 三份报告
 
 ## Slice 3：SSE 实时消息流
 **目标**：前端能实时看到 Agent 分析文本和工具调用
@@ -39,7 +39,7 @@
 - [x] 4.1 `SingleAnalysisRequest` 加 `instrument_type` 字段（默认 `stock`）
 - [x] 4.2 `analysis.py` router：根据 `instrument_type` 路由到 `fund_graph` 或 `trading_graph`
 - [x] 4.3 结果存档时加 `instrument_type: "fund"` 字段
-- [ ] 4.4 验证：POST `/api/analysis/submit` 传基金代码，任务正常创建和完成
+- [x] 4.4 验证：POST `/api/analysis/submit` 传基金代码，任务正常创建和完成
 
 ## Slice 5：FundDetail 前端
 **目标**：用户在基金详情页能触发分析，看到实时消息流和最终报告
@@ -47,11 +47,11 @@
 - [x] 5.1 `FundDetail/index.vue` 加"AI 分析"按钮，点击提交分析任务
 - [x] 5.2 分析进行中：展示 SSE 消息流（Agent 名称 + 内容气泡）
 - [x] 5.3 分析完成：展示最终报告（action/expected_return/confidence + 三份报告折叠展示）
-- [ ] 5.4 验证：端到端跑通 270042 分析，前端正确展示
+- [x] 5.4 验证：端到端跑通 270042 分析，前端正确展示
 
 ## 完成标准
 
-- [ ] 270042（QDII）和 005827（主动型）都能完成分析
-- [ ] 前端实时展示 Agent 消息
-- [ ] 结果存入 MongoDB，`instrument_type: "fund"`
-- [ ] 股票分析功能不受影响
+- [x] 270042（QDII）和 005827（主动型）都能完成分析
+- [x] 前端实时展示 Agent 消息
+- [x] 结果存入 MongoDB，`instrument_type: "fund"`
+- [x] 股票分析功能不受影响
