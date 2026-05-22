@@ -16,12 +16,12 @@
 ## Slice 2：基金分析 Graph
 **目标**：能跑通完整的基金多 Agent 辩论，输出结构化结果
 
-- [ ] 2.1 新建 `tradingagents/graph/fund_graph.py`
+- [x] 2.1 新建 `tradingagents/graph/fund_graph.py`
   - 3 个分析师节点：`FundManagerAnalyst`、`FundHoldingsAnalyst`、`FundRiskAnalyst`
   - 1 个裁判节点：`FundTrader`
   - 复用 `TradingAgentsGraph` 的 LLM 工厂、checkpointer、progress_callback 机制
-- [ ] 2.2 新建 `tradingagents/agents/analysts/fund_analysts.py` — 3 个分析师 prompt + 节点函数
-- [ ] 2.3 新建 `tradingagents/agents/trader/fund_trader.py` — 综合裁判 prompt，输出 `expected_return` 替代 `target_price`
+- [x] 2.2 新建 `tradingagents/agents/analysts/fund_analysts.py` — 3 个分析师 prompt + 节点函数
+- [x] 2.3 新建 `tradingagents/agents/trader/fund_trader.py` — 综合裁判 prompt，输出 `expected_return` 替代 `target_price`
 - [ ] 2.4 验证：本地跑 270042，能输出 action + expected_return + 三份报告
 
 ## Slice 3：SSE 实时消息流
