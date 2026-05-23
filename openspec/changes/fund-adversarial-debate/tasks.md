@@ -22,5 +22,5 @@
 
 ## 4. 归档
 
-- [ ] 4.1 更新 `docs/wiki/index.md` 补充基金辩论架构条目
-- [ ] 4.2 commit openspec 变更记录
+- [x] 4.1 更新 `docs/wiki/index.md` 补充基金辩论架构条目
+- [x] 4.2 commit openspec 变更记录

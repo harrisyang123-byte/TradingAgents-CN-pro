@@ -33,6 +33,9 @@
 - [基金详情 (FundDetail)](fund-detail.md) — AKShare 穿透数据 + 30 天缓存 + CSS 饼图
 - [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
 
+### 基金分析
+- [基金对抗辩论架构](fund-adversarial-debate.md) — 多空投资辩论 + 三方风控辩论 + 基金经理/持仓/风险三报告
+
 ### 记忆与反思
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
 
