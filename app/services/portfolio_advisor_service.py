@@ -24,28 +24,56 @@ class PortfolioAdvisorService:
         return self._db
 
     async def _prepare_tier1_reports(self, position_codes: List[str]) -> List[Dict[str, Any]]:
-        """获取持仓标的的 Tier 1 分析报告"""
+        """获取持仓标的的 Tier 1 分析报告（股票 + 基金）"""
         if not position_codes:
             return []
 
         reports = []
         for code in position_codes:
-            doc = await self.db["analysis_results"].find_one(
-                {"$or": [
-                    {"stock_code": code},
-                    {"stock_symbol": code},
-                    {"stock_code": {"$regex": f"^{code}"}},
-                ]},
+            # 主查询：analysis_reports（股票和基金都存这里）
+            doc = await self.db["analysis_reports"].find_one(
+                {"stock_symbol": code, "status": "completed"},
                 sort=[("created_at", -1)],
             )
+            # Fallback：旧版 analysis_results（存量数据兼容）
+            if not doc:
+                doc = await self.db["analysis_results"].find_one(
+                    {"$or": [
+                        {"stock_code": code},
+                        {"stock_symbol": code},
+                        {"stock_code": {"$regex": f"^{code}"}},
+                    ]},
+                    sort=[("created_at", -1)],
+                )
+
             if doc:
-                reports.append({
-                    "stock_code": doc.get("stock_code", code),
-                    "stock_symbol": doc.get("stock_symbol", code),
-                    "rating": doc.get("rating") or doc.get("recommendation", "N/A"),
-                    "summary": doc.get("summary") or doc.get("final_decision", ""),
+                inst_type = doc.get("instrument_type", "stock")
+                entry = {
+                    "stock_code": doc.get("stock_symbol") or doc.get("stock_code", code),
+                    "stock_symbol": doc.get("stock_symbol") or doc.get("stock_code", code),
+                    "instrument_type": inst_type,
+                    "rating": doc.get("recommendation") or doc.get("rating", "N/A"),
+                    "summary": doc.get("summary", ""),
                     "created_at": doc.get("created_at", ""),
-                })
+                }
+
+                # 基金特有字段：从 reports 子文档提取
+                if inst_type == "fund":
+                    sub_reports = doc.get("reports", {})
+                    if isinstance(sub_reports, dict):
+                        entry["fund_manager_report"] = sub_reports.get("fund_manager_report", "")
+                        entry["fund_holdings_report"] = sub_reports.get("fund_holdings_report", "")
+                        entry["fund_risk_report"] = sub_reports.get("fund_risk_report", "")
+                    decision = doc.get("decision", {})
+                    if isinstance(decision, dict):
+                        entry["fund_action"] = decision.get("action", "N/A")
+                        entry["fund_confidence"] = decision.get("confidence", 0)
+                    else:
+                        entry["fund_action"] = "N/A"
+                        entry["fund_confidence"] = 0
+
+                reports.append(entry)
+
         return reports
 
     async def generate_advice(
