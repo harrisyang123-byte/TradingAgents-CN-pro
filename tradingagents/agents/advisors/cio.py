@@ -39,6 +39,17 @@ def create_cio(llm):
                 f"市值 ¥{pos.get('market_value_cny', 0):,.2f}"
             )
 
+        has_funds = any(p.get("instrument_type") == "fund" for p in positions)
+        fund_decision_criteria = ""
+        if has_funds:
+            fund_decision_criteria = """### 基金决策标准（额外约束）
+- **HOLD 基金的条件**：经理任职 > 3年且业绩稳定、费率合理（股票型 < 1.5%/年）、策略无漂移、无更好的同策略替代品
+- **REDEEM/SELL 基金的条件**：基金经理变更（尤其明星经理离职）、连续2年以上跑输基准且归因于选股而非市场风格、费率显著高于同类（>2%/年）、规模过大导致策略受限
+- **REPLACE 基金的条件**：发现同策略但费率更低、业绩更稳定的替代基金；或基金策略漂移严重偏离你的配置意图
+- **ADD 基金的条件**：某行业/风格暴露不足，且你无法/不愿直接选股，通过被动指数基金或优秀主动基金补足
+- **费用比较**：评估基金时始终比较总费率（管理费+托管费+销售服务费），高费率必须有持续的alpha证明
+"""
+
         price_lines = []
         for code, ctx in price_context.items():
             pe_info = ""
@@ -116,7 +127,7 @@ L1 裁判标注为"期望膨胀期"的行业 → 对应的 BUY/ADD 自动降级�
 ### 处方质量 > 数量
 宁可给 3 条有深度分析的建议，不要给 8 条敷衍的建议。
 
-### 定量红线
+{fund_decision_criteria}### 定量红线
 - 单只 ≤ {max_single}%
 - 单行业 ≤ {max_industry}%
 - 突破红线必须显式说明理由
@@ -218,7 +229,7 @@ L1 裁判标注为"期望膨胀期"的行业 → BUY/ADD 自动降级为 HOLD/�
 ### 讲故事的警告
 标签不是买入理由，回到四层过滤器。
 
-### 定量红线
+{fund_decision_criteria}### 定量红线
 - 单只 ≤ {max_single}%
 - 单行业 ≤ {max_industry}%
 
