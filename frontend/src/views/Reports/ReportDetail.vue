@@ -1337,10 +1337,13 @@ watch(
     .report-sidebar {
       width: 220px;
       flex-shrink: 0;
+      position: sticky;
+      top: 24px;
+      align-self: flex-start;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
 
       .sidebar-sticky {
-        position: sticky;
-        top: 24px;
         background: var(--el-bg-color);
         border: 1px solid var(--el-border-color-light);
         border-radius: 12px;
