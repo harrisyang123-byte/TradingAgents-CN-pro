@@ -245,7 +245,7 @@
                     <template v-else>--</template>
                   </td>
                   <td>
-                    <button class="btn-text-success" @click="goAnalysis(pos.code)">分析</button>
+                    <button class="btn-text-success" @click="goAnalysis(pos.code, pos.instrument_type)">分析</button>
                     <button class="btn-text" @click="editPosition(pos)">编辑</button>
                     <button class="btn-text-danger" @click="removePosition(pos.code)">删除</button>
                   </td>
@@ -736,8 +736,14 @@ function viewStockDetail(code: string, instrumentType?: string) {
   }
 }
 
-function goAnalysis(code: string) {
-  router.push({ name: 'SingleAnalysis', query: { stock: code } })
+function goAnalysis(code: string, instrumentType?: string) {
+  router.push({
+    name: 'SingleAnalysis',
+    query: {
+      stock: code,
+      instrument_type: instrumentType || 'stock'
+    }
+  })
 }
 
 // ---- advice ----

@@ -72,6 +72,10 @@
                           <span>🇨🇳 A股市场</span>
                           <span style="color: #909399; font-size: 12px; margin-left: 8px;">（6位数字）</span>
                         </el-option>
+                        <el-option label="🏦 公募基金" value="基金">
+                          <span>🏦 公募基金</span>
+                          <span style="color: #909399; font-size: 12px; margin-left: 8px;">（6位数字）</span>
+                        </el-option>
                         <el-option label="🇺🇸 美股市场" value="美股">
                           <span>🇺🇸 美股市场</span>
                           <span style="color: #909399; font-size: 12px; margin-left: 8px;">（1-5个字母）</span>
@@ -98,7 +102,7 @@
               </div>
 
               <!-- 分析深度 -->
-              <div class="form-section">
+              <div v-show="analysisForm.market !== '基金'" class="form-section">
                 <h4 class="section-title">🎯 分析深度</h4>
                 <div class="depth-selector">
                   <div
@@ -304,10 +308,9 @@
                       </div>
                     </div>
 
-                    <!-- 分析步骤显示 - 已隐藏 -->
-                    <!--
+                    <!-- 分析步骤显示 -->
                     <div v-if="analysisSteps.length > 0" class="analysis-steps">
-                      <h5 class="steps-title">📋 分析步骤</h5>
+                      <h5 class="steps-title">📋 分析辩论过程</h5>
                       <div class="steps-container">
                         <div
                           v-for="(step, index) in analysisSteps"
@@ -337,7 +340,6 @@
                         </div>
                       </div>
                     </div>
-                    -->
                   </div>
                 </el-card>
               </div>
@@ -622,14 +624,19 @@
 
                         <!-- 报告内容 -->
                         <div class="report-content-wrapper">
-                          <div
-                            class="report-content"
-                            v-html="formatReportContent(report.content)"
-                            v-if="report.content"
-                          ></div>
-                          <div v-else class="no-content">
-                            <el-empty description="暂无内容" />
-                          </div>
+                          <template v-if="report.key === 'investment_debate_state' || report.key === 'risk_debate_state' || (report.content && typeof report.content === 'object' && (report.content.history || report.content.bull_history || report.content.bear_history))">
+                            <DebateTimeline :history-data="report.content" />
+                          </template>
+                          <template v-else>
+                            <div
+                              class="report-content"
+                              v-html="formatReportContent(report.content)"
+                              v-if="report.content"
+                            ></div>
+                            <div v-else class="no-content">
+                              <el-empty description="暂无内容" />
+                            </div>
+                          </template>
                         </div>
                       </el-tab-pane>
                     </el-tabs>
@@ -704,6 +711,7 @@ import {
   Cpu,
   QuestionFilled,
   ArrowDown,
+  Clock
 } from '@element-plus/icons-vue'
 import { analysisApi, type SingleAnalysisRequest } from '@/api/analysis'
 import { paperApi } from '@/api/paper'
@@ -712,6 +720,7 @@ import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { configApi } from '@/api/config'
 import DeepModelSelector from '@/components/DeepModelSelector.vue'
+import DebateTimeline from '@/components/Analysis/DebateTimeline.vue'
 import { ANALYSTS, convertAnalystNamesToIds } from '@/constants/analysts'
 import { marked } from 'marked'
 import { recommendModels } from '@/api/modelCapabilities'
@@ -725,7 +734,7 @@ marked.setOptions({
 })
 
 // 市场类型定义
-type MarketType = 'A股' | '美股' | '港股'
+type MarketType = 'A股' | '美股' | '港股' | '基金'
 
 // 表单类型定义
 interface AnalysisForm {
@@ -1246,7 +1255,7 @@ const getActionTagType = (action: string): 'primary' | 'success' | 'warning' | '
 // 获取分析报告
 const getAnalysisReports = (data: any) => {
   console.log('📊 getAnalysisReports 输入数据:', data)
-  const reports: Array<{title: string, content: any}> = []
+  const reports: Array<{key: string, title: string, content: any}> = []
 
   // 优先从 reports 字段获取数据（新的API格式）
   let reportsData = data
@@ -1296,10 +1305,10 @@ const getAnalysisReports = (data: any) => {
     { key: 'fund_holdings_report', title: '📦 持仓分析', category: '基金分析' },
     { key: 'fund_risk_report', title: '⚠️ 风险评估', category: '基金分析' },
 
-    // 兼容旧格式
+    // 兼容旧格式及新增辩论格式
     { key: 'investment_plan', title: '📋 投资建议', category: '其他' },
-    { key: 'investment_debate_state', title: '🔬 研究团队决策（旧）', category: '其他' },
-    { key: 'risk_debate_state', title: '⚖️ 风险管理团队（旧）', category: '其他' }
+    { key: 'investment_debate_state', title: '⚔️ 投资多空辩论', category: '其他' },
+    { key: 'risk_debate_state', title: '🛡️ 风险控制辩论', category: '其他' }
   ]
 
   // 遍历所有可能的报告
@@ -1308,6 +1317,7 @@ const getAnalysisReports = (data: any) => {
     if (content) {
       console.log(`📊 找到报告: ${mapping.key} -> ${mapping.title}`)
       reports.push({
+        key: mapping.key,
         title: mapping.title,
         content: content
       })
@@ -2261,9 +2271,13 @@ onMounted(async () => {
 
     // 🆕 自动识别市场类型（如果URL中没有明确指定market参数）
     if (!q?.market) {
-      const detectedMarket = getMarketByStockCode(analysisForm.stockCode)
-      analysisForm.market = detectedMarket as MarketType
-      console.log('🔍 自动识别市场类型:', analysisForm.stockCode, '->', detectedMarket)
+      if (q?.instrument_type === 'fund') {
+        analysisForm.market = '基金' as MarketType
+      } else {
+        const detectedMarket = getMarketByStockCode(analysisForm.stockCode)
+        analysisForm.market = detectedMarket as MarketType
+        console.log('🔍 自动识别市场类型:', analysisForm.stockCode, '->', detectedMarket)
+      }
     }
   }
   // 处理 instrument_type（基金分析）
