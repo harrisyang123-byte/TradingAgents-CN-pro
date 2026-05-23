@@ -817,22 +817,6 @@ async function fetchAdviceHistory() {
   } catch { /* ignore */ }
 }
 
-function actionTagType(action: string) {
-  const map: Record<string, 'primary' | 'success' | 'warning' | 'danger' | 'info'> = {
-    buy: 'danger', add: 'danger', new_position: 'danger',
-    sell: 'success', reduce: 'warning', hold: 'info',
-  }
-  return map[action] || 'info'
-}
-
-function actionLabel(action: string): string {
-  const map: Record<string, string> = {
-    buy: '买入', sell: '卖出', hold: '持有',
-    reduce: '减仓', add: '加仓', new_position: '建仓',
-  }
-  return map[action] || action
-}
-
 function renderMd(text: string | undefined): string {
   if (!text) return ''
   return text
