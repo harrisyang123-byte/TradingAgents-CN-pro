@@ -1377,20 +1377,22 @@ class SimpleAnalysisService:
                 "📊 生成报告": 97,           # 93% + 4%
             }
 
-            def graph_progress_callback(message: str):
+            def graph_progress_callback(message):
                 """接收 LangGraph 的进度更新
 
                 根据节点名称直接映射到进度百分比，确保与 RedisProgressTracker 的步骤权重一致
                 注意：只在进度增加时更新，避免覆盖 RedisProgressTracker 的虚拟步骤进度
                 """
                 try:
-                    logger.info(f"🎯🎯🎯 [Graph进度回调被调用] message={message}")
+                    # fund_graph 传入的是 dict（含 step/content/tool_calls），提取 step 作为节点名
+                    node_name = message.get("step") if isinstance(message, dict) else message
+                    logger.info(f"🎯🎯🎯 [Graph进度回调被调用] message={node_name}")
                     if not progress_tracker:
                         logger.warning(f"⚠️ progress_tracker 为 None，无法更新进度")
                         return
 
                     # 查找节点对应的进度百分比
-                    progress_pct = node_progress_map.get(message)
+                    progress_pct = node_progress_map.get(node_name) if isinstance(node_name, str) else None
 
                     if progress_pct is not None:
                         # 获取当前进度（使用 progress_data 属性）
@@ -1487,13 +1489,19 @@ class SimpleAnalysisService:
                 from tradingagents.graph.fund_graph import FundAnalysisGraph
                 fund_graph = FundAnalysisGraph(config)
                 fund_type = (request.parameters.fund_type if request.parameters else None) or ""
-                decision = fund_graph.run(
+                fund_result = fund_graph.run(
                     fund_code=request.get_symbol(),
                     trade_date=analysis_date,
                     fund_type=fund_type,
                     progress_callback=graph_progress_callback,
                 )
-                state = {}
+                state = fund_result.get("state", {})
+                decision = {
+                    "action": fund_result.get("action", "持有"),
+                    "reasoning": fund_result.get("final_trade_decision", ""),
+                    "fund_code": fund_result.get("fund_code", ""),
+                    "elapsed": fund_result.get("elapsed_seconds", 0),
+                }
             else:
                 # 股票分析管线（原有逻辑）
                 # 获取持仓上下文（如果用户有持仓）
@@ -1544,7 +1552,13 @@ class SimpleAnalysisService:
                     'fundamentals_report',
                     'investment_plan',
                     'trader_investment_plan',
-                    'final_trade_decision'
+                    'final_trade_decision',
+                    # 基金分析报告字段
+                    'fund_manager_report',
+                    'fund_holdings_report',
+                    'fund_risk_report',
+                    'investment_debate_state',
+                    'risk_debate_state',
                 ]
 
                 # 从state中提取报告内容
@@ -2419,7 +2433,13 @@ class SimpleAnalysisService:
                         'fundamentals_report',
                         'investment_plan',
                         'trader_investment_plan',
-                        'final_trade_decision'
+                        'final_trade_decision',
+                        # 基金分析报告字段
+                        'fund_manager_report',
+                        'fund_holdings_report',
+                        'fund_risk_report',
+                        'investment_debate_state',
+                        'risk_debate_state',
                     ]
 
                     # 从state中提取报告内容
