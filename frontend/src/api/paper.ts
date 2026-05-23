@@ -106,6 +106,23 @@ export interface AdviceItem {
   risk_note: string
 }
 
+export interface MarketIntel {
+  industries?: Array<{ name: string; market: string; change_pct?: number }>
+  lifecycle_stage?: string
+  confidence?: string
+  judge_verdict?: string
+}
+
+export interface StockCandidate {
+  code: string
+  name?: string
+  market?: string
+  filter_result?: string
+  action?: string
+  reasoning?: string
+  risk?: string
+}
+
 export interface PortfolioAdvice {
   advice_id: string
   status: 'GENERATING' | 'RUNNING' | 'COMPLETED' | 'FAILED'
@@ -116,6 +133,13 @@ export interface PortfolioAdvice {
   strategist_assessment?: string
   scout_assessment?: string
   debate_history?: string
+  macro_judge_verdict?: string
+  market_intel?: MarketIntel
+  stock_candidates?: StockCandidate[]
+  stock_judge_verdict?: string
+  risk_director_review?: string
+  market_debate_history?: string
+  stock_debate_history?: string
   elapsed_seconds?: number
   created_at: string
   completed_at?: string
@@ -137,12 +161,15 @@ export const portfolioApi = {
   },
   async addPosition(data: AddPositionPayload) {
     return ApiClient.post<{ message: string; code: string; market: string }>(
-      '/api/portfolio/positions', data, { showLoading: true }
+      '/api/portfolio/positions',
+      data,
+      { showLoading: true }
     )
   },
   async updatePosition(code: string, data: UpdatePositionPayload) {
     return ApiClient.put<{ message: string; code: string }>(
-      `/api/portfolio/positions/${encodeURIComponent(code)}`, data
+      `/api/portfolio/positions/${encodeURIComponent(code)}`,
+      data
     )
   },
   async deletePosition(code: string) {
@@ -151,9 +178,9 @@ export const portfolioApi = {
     )
   },
   async placeOrder(data: PlaceOrderPayload) {
-    return ApiClient.post<{ order: PaperOrderItem }>(
-      '/api/portfolio/order', data, { showLoading: true }
-    )
+    return ApiClient.post<{ order: PaperOrderItem }>('/api/portfolio/order', data, {
+      showLoading: true
+    })
   },
   async getOrders(limit = 50) {
     return ApiClient.get<{ items: PaperOrderItem[] }>('/api/portfolio/orders', { limit })
@@ -163,7 +190,9 @@ export const portfolioApi = {
   },
   async generateAdvice() {
     return ApiClient.post<{ advice_id: string; status: string }>(
-      '/api/portfolio/advice', {}, { showLoading: true }
+      '/api/portfolio/advice',
+      {},
+      { showLoading: true }
     )
   },
   async getLatestAdvice() {
@@ -173,9 +202,10 @@ export const portfolioApi = {
     return ApiClient.get<PortfolioAdvice>(`/api/portfolio/advice/${adviceId}`)
   },
   async getAdviceHistory(page = 1, pageSize = 10) {
-    return ApiClient.get<{ items: PortfolioAdvice[]; total: number }>(
-      '/api/portfolio/advice', { page, page_size: pageSize }
-    )
+    return ApiClient.get<{ items: PortfolioAdvice[]; total: number }>('/api/portfolio/advice', {
+      page,
+      page_size: pageSize
+    })
   }
 }
 

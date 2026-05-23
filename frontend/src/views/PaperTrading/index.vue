@@ -390,6 +390,12 @@
           <h4 style="margin:20px 0 8px">CIO 裁决</h4>
           <div class="advice-text" v-html="renderMd(currentAdvice.cio_verdict)" />
           <el-collapse style="margin-top:16px">
+            <el-collapse-item v-if="currentAdvice.macro_judge_verdict" title="市场扫描 · L1 行业方向" name="market_intel">
+              <div class="advice-text" v-html="renderMd(currentAdvice.macro_judge_verdict)" />
+            </el-collapse-item>
+            <el-collapse-item v-if="currentAdvice.stock_judge_verdict" title="候选标的 · L2 标的筛选" name="stock_candidates">
+              <div class="advice-text" v-html="renderMd(currentAdvice.stock_judge_verdict)" />
+            </el-collapse-item>
             <el-collapse-item title="持仓分析师评估" name="analyst">
               <div class="advice-text" v-html="renderMd(currentAdvice.analyst_assessment)" />
             </el-collapse-item>
@@ -399,8 +405,17 @@
             <el-collapse-item title="侦察兵评估" name="scout">
               <div class="advice-text" v-html="renderMd(currentAdvice.scout_assessment)" />
             </el-collapse-item>
-            <el-collapse-item title="辩论记录" name="debate">
+            <el-collapse-item v-if="currentAdvice.risk_director_review" title="风险审查 · L4 终端审查" name="risk_review">
+              <div class="advice-text" v-html="renderMd(currentAdvice.risk_director_review)" />
+            </el-collapse-item>
+            <el-collapse-item title="辩论记录 · L3 组合辩论" name="debate">
               <div class="advice-text" v-html="renderMd(currentAdvice.debate_history)" />
+            </el-collapse-item>
+            <el-collapse-item v-if="currentAdvice.market_debate_history" title="辩论记录 · L1 行业辩论" name="market_debate">
+              <div class="advice-text" v-html="renderMd(currentAdvice.market_debate_history)" />
+            </el-collapse-item>
+            <el-collapse-item v-if="currentAdvice.stock_debate_history" title="辩论记录 · L2 标的辩论" name="stock_debate">
+              <div class="advice-text" v-html="renderMd(currentAdvice.stock_debate_history)" />
             </el-collapse-item>
           </el-collapse>
           <div class="advice-meta">生成于 {{ currentAdvice.completed_at?.slice(0, 19).replace('T', ' ') }} · 耗时 {{ currentAdvice.elapsed_seconds }}s</div>

@@ -178,13 +178,11 @@ def test_advisor_engine():
     print("\n[2/5] 准备测试数据...")
     portfolio = build_test_portfolio()
     tier1_reports = build_tier1_reports()
-    non_held_reports = build_non_held_reports()
 
     print(f"  持仓: {len(portfolio['positions'])} 只")
     for p in portfolio["positions"]:
         print(f"    {p['code']}  weight={p['weight']:.1f}%  pnl={p['pnl_pct']:+.2f}%")
     print(f"  Tier1 报告: {len(tier1_reports)} 份")
-    print(f"  非持仓报告: {len(non_held_reports)} 份")
 
     # 3. 创建 AdvisorGraph
     print("\n[3/5] 创建 AdvisorGraph...")
@@ -215,7 +213,6 @@ def test_advisor_engine():
         result = advisor.propagate_advice(
             portfolio_summary=portfolio,
             tier1_reports=tier1_reports,
-            non_held_reports=non_held_reports,
             progress_callback=on_progress,
         )
         total_elapsed = time.time() - start_time

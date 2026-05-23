@@ -31,7 +31,7 @@
 ### 组合管理
 - [持仓管理 (Portfolio CRUD)](portfolio-crud.md) — 单账户单钱包 + 汇率折算 + 持仓上下文注入分析引擎
 - [基金详情 (FundDetail)](fund-detail.md) — AKShare 穿透数据 + 30 天缓存 + CSS 饼图
-- [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
+- [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 四层对抗架构 + 10 角色 + 多市场扫描 + 芒格约束处方
 
 ### 基金分析
 - [基金对抗辩论架构](fund-adversarial-debate.md) — 多空投资辩论 + 三方风控辩论 + 基金经理/持仓/风险三报告

@@ -13,6 +13,19 @@ def create_strategist(llm):
         max_single = state.get("max_single_weight", 30.0)
         max_industry = state.get("max_industry_weight", 50.0)
 
+        # L1/L2 数据注入
+        market_intel = state.get("market_intel", {})
+        stock_candidates = state.get("stock_candidates", [])
+        l1_l2_context = ""
+        judge_verdict = market_intel.get("judge_verdict", "")
+        if judge_verdict:
+            l1_l2_context += f"\n\n## L1 行业方向（宏观裁判裁决）\n{judge_verdict[:1500]}"
+        if stock_candidates:
+            cand_lines = []
+            for c in stock_candidates[:10]:
+                cand_lines.append(f"- {c.get('code', '?')} ({c.get('name', '?')}): 建议{c.get('action', '?')}")
+            l1_l2_context += f"\n\n## L2 候选标的\n{chr(10).join(cand_lines)}"
+
         weight_lines = []
         for pos in positions:
             weight_lines.append(
@@ -26,10 +39,12 @@ def create_strategist(llm):
 - 组合仓位分布（每只标的的占比）
 - 行业集中度
 - 持仓间的潜在相关性
+- L1 行业方向判断（用于集中度分析和行业背景评估）
+- L2 候选标的列表（用于组合缺口识别）
 
 你看不到的数据（这些由其他角色负责）：
-- 个股的分析报告细节
-- 非持仓标的的推荐
+- 个股的分析报告细节（分析师负责）
+- 新标的的详细基本面（侦察兵负责）
 
 组合概览：
 总资产: ¥{portfolio.get('total_assets', 0):,.2f}
@@ -64,7 +79,7 @@ def create_strategist(llm):
    - 当前组合缺少哪些方向的配置
    - 现金占比是否合理
 
-用中文回答，保持逆向思维立场。"""
+用中文回答，保持逆向思维立场。{l1_l2_context}"""
 
         from langchain_core.messages import HumanMessage
         response = llm.invoke([HumanMessage(content=prompt)])

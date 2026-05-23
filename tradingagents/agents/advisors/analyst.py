@@ -15,6 +15,19 @@ def create_portfolio_analyst(llm):
         staleness_days = state.get("report_staleness_days", 7)
         positions = portfolio.get("positions", [])
 
+        # L1/L2 数据注入
+        market_intel = state.get("market_intel", {})
+        stock_candidates = state.get("stock_candidates", [])
+        l1_l2_context = ""
+        judge_verdict = market_intel.get("judge_verdict", "")
+        if judge_verdict:
+            l1_l2_context += f"\n\n## L1 行业方向（宏观裁判裁决）\n{judge_verdict[:1500]}"
+        if stock_candidates:
+            cand_lines = []
+            for c in stock_candidates[:10]:
+                cand_lines.append(f"- {c.get('code', '?')} ({c.get('name', '?')}): 建议{c.get('action', '?')}")
+            l1_l2_context += f"\n\n## L2 候选标的\n{chr(10).join(cand_lines)}"
+
         position_briefs = []
         for pos in positions:
             code = pos.get("code", "")
@@ -51,10 +64,11 @@ def create_portfolio_analyst(llm):
 - 每只持仓的 Tier 1 分析报告摘要（如果有）
 - 当前市场价格
 - 持仓成本和浮盈
+- L1 行业方向判断（用于评估持仓标的的行业背景）
+- L2 候选标的列表（用于判断是否有更好的替代选择）
 
 你看不到的数据（这些由其他角色负责）：
-- 宏观经济环境和行业趋势
-- 组合整体的仓位分布和行业集中度
+- 组合整体的仓位分布和行业集中度（策略师负责）
 
 组合概览：
 总资产: ¥{portfolio.get('total_assets', 0):,.2f}
@@ -71,7 +85,7 @@ def create_portfolio_analyst(llm):
 3. 报告时效：报告是否过期，是否需要重新分析
 4. 操作建议：持有/加仓/减仓/清仓，附理由
 
-用中文回答，保持客观。"""
+用中文回答，保持客观。{l1_l2_context}"""
 
         from langchain_core.messages import HumanMessage
         response = llm.invoke([HumanMessage(content=prompt)])

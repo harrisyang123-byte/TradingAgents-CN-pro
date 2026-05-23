@@ -48,34 +48,6 @@ class PortfolioAdvisorService:
                 })
         return reports
 
-    async def _prepare_non_held_reports(self, held_codes: List[str]) -> List[Dict[str, Any]]:
-        """获取非持仓标的中评级为买入/增持的报告"""
-        cursor = self.db["analysis_results"].aggregate([
-            {"$sort": {"created_at": -1}},
-            {"$group": {
-                "_id": {"$ifNull": ["$stock_code", "$stock_symbol"]},
-                "doc": {"$first": "$$ROOT"},
-            }},
-            {"$replaceRoot": {"newRoot": "$doc"}},
-            {"$limit": 50},
-        ])
-        all_reports = await cursor.to_list(None)
-
-        held_set = set(held_codes)
-        non_held = []
-        for doc in all_reports:
-            code = doc.get("stock_code") or doc.get("stock_symbol") or ""
-            if code in held_set:
-                continue
-            non_held.append({
-                "stock_code": doc.get("stock_code", code),
-                "stock_symbol": doc.get("stock_symbol", code),
-                "rating": doc.get("rating") or doc.get("recommendation", "N/A"),
-                "summary": doc.get("summary") or doc.get("final_decision", ""),
-                "created_at": doc.get("created_at", ""),
-            })
-        return non_held
-
     async def generate_advice(
         self,
         user_id: str,
@@ -133,11 +105,10 @@ class PortfolioAdvisorService:
 
         position_codes = [p["code"] for p in portfolio_summary.get("positions", [])]
         tier1_reports = await self._prepare_tier1_reports(position_codes)
-        non_held_reports = await self._prepare_non_held_reports(position_codes)
 
         logger.info(
             f"[Advisor] 数据准备完成: {len(position_codes)} 只持仓, "
-            f"{len(tier1_reports)} 份 Tier1 报告, {len(non_held_reports)} 份非持仓报告"
+            f"{len(tier1_reports)} 份 Tier1 报告"
         )
 
         config_service = ConfigService()
@@ -175,7 +146,6 @@ class PortfolioAdvisorService:
         result = advisor.propagate_advice(
             portfolio_summary=portfolio_summary,
             tier1_reports=tier1_reports,
-            non_held_reports=non_held_reports,
             progress_callback=progress_cb,
             **config_overrides,
         )
@@ -189,6 +159,13 @@ class PortfolioAdvisorService:
                 "analyst_assessment": result.get("analyst_assessment", ""),
                 "strategist_assessment": result.get("strategist_assessment", ""),
                 "scout_assessment": result.get("scout_assessment", ""),
+                "macro_judge_verdict": result.get("macro_judge_verdict", ""),
+                "market_intel": result.get("market_intel", {}),
+                "stock_candidates": result.get("stock_candidates", []),
+                "stock_judge_verdict": result.get("stock_judge_verdict", ""),
+                "risk_director_review": result.get("risk_director_review", ""),
+                "market_debate_history": result.get("market_debate_history", ""),
+                "stock_debate_history": result.get("stock_debate_history", ""),
                 "debate_history": result.get("debate_history", ""),
                 "elapsed_seconds": result.get("elapsed_seconds", 0),
                 "completed_at": datetime.utcnow().isoformat(),
