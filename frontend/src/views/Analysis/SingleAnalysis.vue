@@ -2473,6 +2473,16 @@ onMounted(async () => {
   }
   if (q?.market) analysisForm.market = normalizeMarketForAnalysis(q.market) as MarketType
 
+  // 根据 instrumentType 初始化对应的分析师选择
+  if (analysisForm.instrumentType === 'fund') {
+    analysisForm.selectedAnalysts = ['基金经理分析师', '持仓分析师', '风险分析师']
+  } else if (hasNewStock) {
+    // 股票：确保默认选中市场+基本面
+    if (analysisForm.selectedAnalysts.length === 0) {
+      analysisForm.selectedAnalysts = ['市场分析师', '基本面分析师']
+    }
+  }
+
   // 尝试恢复任务状态（仅当没有新股票代码时）
   if (!hasNewStock) {
     await restoreTaskFromCache()
