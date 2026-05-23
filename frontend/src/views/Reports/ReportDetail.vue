@@ -13,7 +13,7 @@
           <div class="title-section">
             <h1 class="report-title">
               <el-icon><Document /></el-icon>
-              {{ report.stock_name || report.stock_symbol }} 分析报告
+              {{ reportTitle }} 分析报告
             </h1>
             <div class="report-meta">
               <el-tag type="primary">{{ report.stock_symbol }}</el-tag>
@@ -346,7 +346,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { marked } from 'marked'
-import DebateTimeline from '@/components/DebateTimeline.vue'
+import DebateTimeline from '@/components/Analysis/DebateTimeline.vue'
 
 type ReportModuleContent = string | Record<string, unknown>
 
@@ -382,6 +382,14 @@ const report = ref<ReportDetailData | null>(null)
 const activeModule = ref('')
 const llmConfigs = ref<LLMConfig[]>([]) // 存储所有模型配置
 const reportModuleKeys = computed<string[]>(() => report.value ? Object.keys(report.value.reports || {}) : [])
+
+const reportTitle = computed(() => {
+  if (!report.value) return ''
+  const name = report.value.stock_name || ''
+  const code = report.value.stock_symbol || ''
+  if (!name || name === code || name.startsWith('股票')) return code
+  return `${name} (${code})`
+})
 
 // 基金报告检测
 const isFundReport = computed(() => {

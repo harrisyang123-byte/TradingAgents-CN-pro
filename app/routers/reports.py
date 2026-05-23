@@ -21,6 +21,66 @@ logger = logging.getLogger("webapi")
 # 股票名称缓存
 _stock_name_cache = {}
 
+
+def _extract_name_from_summary(summary: str, code: str = "") -> str:
+    """从报告摘要中提取基金/股票名称"""
+    import re
+    if not summary:
+        return ""
+    # 状态消息模式（不是名字）
+    status_patterns = [
+        r'对\d{4,6}的分析已完成',
+        r'请查看详细报告',
+        r'分析已完成',
+    ]
+    lines = summary.strip().split("\n")
+    for line in lines:
+        line = line.strip()
+        if not line or line in ("---", "***") or line.startswith(">"):
+            continue
+        # 跳过纯状态消息行
+        if any(re.search(p, line) for p in status_patterns):
+            continue
+        line = re.sub(r'^#+\s*', '', line)
+        sc = str(code) if code and str(code) not in ("None", "") else ""
+
+        # 有明确 code 时精确匹配 "XXXX（CODE）..." 或 "XXXX(CODE)..."
+        if sc:
+            m = re.match(r'^(.+?)[（(]\s*' + re.escape(sc) + r'\s*[）)]', line)
+            if m:
+                name = m.group(1).strip()
+                if name and name not in ("---", "***"):
+                    return name
+
+        # 匹配以分析报告后缀结尾的行
+        m = re.match(r'^(.+?)(?:全面分析报告|分析报告|基金分析|股票分析)', line)
+        if m:
+            name = m.group(1).strip()
+            name = re.sub(r'[（(]\d{4,6}[）)]\s*$', '', name).strip()
+            if name and name not in ("---", "***"):
+                return name
+
+        # 第一行非空且足够短可能是名字，清理尾部括号代码
+        if len(line) < 80:
+            name = re.sub(r'[（(]\d{4,6}[）)]\s*$', '', line).strip()
+            if name and name not in ("---", "***"):
+                return name
+        break
+    return ""
+
+
+def _extract_code_from_summary(summary: str) -> str:
+    """从报告摘要中提取股票/基金代码"""
+    import re
+    if not summary:
+        return ""
+    # 匹配 "名称（CODE）" 中的 CODE
+    m = re.search(r'[（(](\d{4,6})[）)]', summary)
+    if m:
+        return m.group(1)
+    return ""
+
+
 def get_stock_name(stock_code: str) -> str:
     """
     获取股票名称
@@ -176,8 +236,16 @@ async def get_reports_list(
             stock_code = doc.get("stock_symbol", "")
             # 🔥 优先使用MongoDB中保存的股票名称，如果没有则查询
             stock_name = doc.get("stock_name")
-            if not stock_name:
+            if not stock_name or stock_name == stock_code or stock_name.startswith("股票"):
                 stock_name = get_stock_name(stock_code)
+                # 如果还是泛用名，尝试从摘要中提取
+                if stock_name == stock_code or stock_name.startswith("股票"):
+                    extracted = _extract_name_from_summary(doc.get("summary", ""), stock_code)
+                    if extracted:
+                        stock_name = extracted
+                        _stock_name_cache[stock_code] = extracted
+                if not stock_name:
+                    stock_name = f"股票{stock_code}" if len(stock_code) == 6 else stock_code
 
             # 🔥 获取市场类型，如果没有则根据股票代码推断
             market_type = doc.get("market_type")
@@ -196,10 +264,20 @@ async def get_reports_list(
             created_at = doc.get("created_at", datetime.utcnow())
             created_at_tz = to_config_tz(created_at)  # 转换为 UTC+8 并添加时区信息
 
+            # 如果 stock_code 为空，尝试从 analysis_id 中提取
+            if not stock_code:
+                aid = doc.get("analysis_id", "")
+                parts = aid.split("_")
+                if parts and len(parts[0]) >= 5 and parts[0] != "None":
+                    stock_code = parts[0]
+                # 兜底：从摘要中提取代码
+                if not stock_code:
+                    stock_code = _extract_code_from_summary(doc.get("summary", ""))
+
             report = {
                 "id": str(doc["_id"]),
                 "analysis_id": doc.get("analysis_id", ""),
-                "title": f"{stock_name}({stock_code}) 分析报告",
+                "title": f"{stock_name}({stock_code}) 分析报告" if stock_code else f"{stock_name} 分析报告",
                 "stock_code": stock_code,
                 "stock_name": stock_name,
                 "market_type": market_type,  # 🔥 添加市场类型字段
@@ -274,9 +352,23 @@ async def get_report_detail(
                 return x or ""
 
             stock_symbol = r.get("stock_symbol", r.get("stock_code", tasks_doc.get("stock_code", "")))
+            if not stock_symbol:
+                aid = r.get("analysis_id", "")
+                parts = aid.split("_")
+                if parts and len(parts[0]) >= 5 and parts[0] != "None":
+                    stock_symbol = parts[0]
+                if not stock_symbol:
+                    stock_symbol = _extract_code_from_summary(r.get("summary", ""))
             stock_name = r.get("stock_name")
-            if not stock_name:
+            if not stock_name or stock_name == stock_symbol or stock_name.startswith("股票"):
                 stock_name = get_stock_name(stock_symbol)
+                if stock_name == stock_symbol or stock_name.startswith("股票"):
+                    extracted = _extract_name_from_summary(r.get("summary", ""), stock_symbol)
+                    if extracted:
+                        stock_name = extracted
+                        _stock_name_cache[stock_symbol] = extracted
+                if not stock_name:
+                    stock_name = f"股票{stock_symbol}" if len(str(stock_symbol)) == 6 else stock_symbol
 
             report = {
                 "id": tasks_doc.get("task_id", report_id),
@@ -304,9 +396,23 @@ async def get_report_detail(
         else:
             # 转换为详细格式（analysis_reports 命中）
             stock_symbol = doc.get("stock_symbol", "")
+            if not stock_symbol:
+                aid = doc.get("analysis_id", "")
+                parts = aid.split("_")
+                if parts and len(parts[0]) >= 5 and parts[0] != "None":
+                    stock_symbol = parts[0]
+                if not stock_symbol:
+                    stock_symbol = _extract_code_from_summary(doc.get("summary", ""))
             stock_name = doc.get("stock_name")
-            if not stock_name:
+            if not stock_name or stock_name == stock_symbol or stock_name.startswith("股票"):
                 stock_name = get_stock_name(stock_symbol)
+                if stock_name == stock_symbol or stock_name.startswith("股票"):
+                    extracted = _extract_name_from_summary(doc.get("summary", ""), stock_symbol)
+                    if extracted:
+                        stock_name = extracted
+                        _stock_name_cache[stock_symbol] = extracted
+                if not stock_name:
+                    stock_name = f"股票{stock_symbol}" if len(str(stock_symbol)) == 6 else stock_symbol
 
             # 获取时间（数据库中是 UTC 时间，需要转换为 UTC+8）
             created_at = doc.get("created_at", datetime.utcnow())
