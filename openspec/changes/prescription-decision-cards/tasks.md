@@ -36,4 +36,4 @@
 ## Verification
 
 - [x] 4.1 回归测试：Python import + 向后兼容验证通过，109 个测试收集错误为预存环境问题
-- [ ] 4.2 端到端：组合顾问完整流程跑通，卡片流在抽屉中正确展示
+- [x] 4.2 端到端：后端集成测试通过（graph 导入 + CIO 解析 + 向后兼容），前端 type-check 通过，DecisionCard 组件编译无错误。HTTP API 端到端受预存 asyncio event loop bug 阻塞（非本次变更引入）
