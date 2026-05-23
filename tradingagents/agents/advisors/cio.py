@@ -27,6 +27,7 @@ def create_cio(llm):
         macro_judge = state.get("macro_judge_verdict", "")
         stock_judge = state.get("stock_judge_verdict", "")
         risk_review = state.get("risk_director_review", "")
+        price_context = state.get("price_context", {})
 
         is_final = bool(risk_review)
 
@@ -36,6 +37,19 @@ def create_cio(llm):
                 f"- {pos.get('code', '?')} ({pos.get('instrument_type', 'stock')}): "
                 f"仓位 {pos.get('weight', 0):.1f}%, "
                 f"市值 ¥{pos.get('market_value_cny', 0):,.2f}"
+            )
+
+        price_lines = []
+        for code, ctx in price_context.items():
+            pe_info = ""
+            if ctx.get("pe_ttm") and ctx.get("pe_percentile_5y") is not None:
+                pe_info = f", PE(TTM) {ctx['pe_ttm']}, 近5年分位 {ctx['pe_percentile_5y']}%"
+            elif ctx.get("pe_ttm"):
+                pe_info = f", PE(TTM) {ctx['pe_ttm']}"
+            ma_info = f", MA20 ¥{ctx['ma20']:,.2f}" if ctx.get("ma20") else ""
+            price_lines.append(
+                f"- {code}: 现价 ¥{ctx.get('current_price', 'N/A')}{pe_info}{ma_info}"
+                f" | 判断: {ctx.get('judgment', '无')}"
             )
 
         if is_final:
@@ -71,6 +85,10 @@ def create_cio(llm):
 - 可用现金：¥{available_cash:,.2f}
 - 总资产（市值+现金）：¥{total_assets:,.2f}
 - 新建仓/加仓金额约束：目标买入金额 ≤ 可用现金 × 目标仓位占比
+
+### 价格与估值数据
+{chr(10).join(price_lines) if price_lines else '无价格数据'}
+提示：PE 分位越低越便宜（0% = 历史最低），越高越贵（100% = 历史最高）。若某标的无 PE 分位数据（新股/亏损/美股数据不足），请基于 MA20 和当前 PE 绝对值做定性判断。
 
 ## 你的思维约束（必须遵守）
 
@@ -111,9 +129,26 @@ L1 裁判标注为"期望膨胀期"的行业 → 对应的 BUY/ADD 自动降级�
 ### 第二部分：操作处方
 ```json
 [
-  {{"code": "...", "name": "...", "instrument_type": "stock/fund/etf", "action": "buy/sell/hold/reduce/add/new_position", "current_weight": 0.0, "target_weight": 0.0, "reasoning": "...", "risk_note": "..."}}
+  {{"code": "...", "name": "...", "instrument_type": "stock/fund/etf", "action": "buy/sell/hold/reduce/add/new_position", "current_weight": 0.0, "target_weight": 0.0,
+    "priority": "urgent/important/optional",
+    "l1_context": "从宏观裁判报告提取的该标的所属行业判断（生命周期阶段、Go/NoGo、关键风险）",
+    "l2_context": "从标的裁判报告提取的护城河评级和过滤结果",
+    "suggested_price": "基于 PE 分位和 MA20 的安全边际判断（价格区间而非点价）",
+    "max_loss_pct": "逆向验证：如果判断错了，最大亏损百分比及触发场景",
+    "five_year_view": "5年后这个生意会更好吗？是/否 + 一句话理由",
+    "bias_check": "认知偏差检测（禀赋效应/近因偏差/锚定效应/讲故事陷阱），无显著偏差则标注'无'",
+    "reasoning": "...", "risk_note": "..."}}
 ]
 ```
+
+### 决策卡片字段说明
+- priority: urgent=需立即关注（减仓/清仓、重大风险）, important=应该执行（加仓机会、新增优质标的）, optional=可关注（观察列表、小仓位试探）
+- l1_context: 在 macro_judge_verdict 中找到该标的所属行业的生命周期判断和 Go/NoGo 建议，提取为一句话
+- l2_context: 在 stock_judge_verdict 中找到该标的的护城河评级和过滤结果，提取为一句话。若裁判报告未覆盖 → 标注"未覆盖"或"经由 L2 Scout 筛选"
+- suggested_price: 参考 price_context 中的 PE 分位和 MA20，给出安全边际判断。有 PE 分位→引用分位和价格区间；无 PE 分位→基于 MA20 做定性描述
+- max_loss_pct: 如果这个判断错了，最大亏损可能多大？什么场景下会发生？
+- five_year_view: 用一句话回答"5年后这个生意会更好吗？"
+- bias_check: 自检是否有认知偏差（禀赋效应、近因偏差、锚定效应、讲故事陷阱）
 
 action 说明：
 - buy: 新买入（之前无持仓）
@@ -155,6 +190,10 @@ action 说明：
 - 可用现金：¥{available_cash:,.2f}
 - 总资产（市值+现金）：¥{total_assets:,.2f}
 - 新建仓/加仓金额约束：目标买入金额 ≤ 可用现金 × 目标仓位占比
+
+### 价格与估值数据
+{chr(10).join(price_lines) if price_lines else '无价格数据'}
+提示：PE 分位越低越便宜（0% = 历史最低），越高越贵（100% = 历史最高）。若某标的无 PE 分位数据（新股/亏损/美股数据不足），请基于 MA20 和当前 PE 绝对值做定性判断。
 
 ## 你的思维约束（必须遵守）
 
@@ -242,6 +281,14 @@ def _parse_prescription(text: str) -> list:
                     "target_weight": float(item.get("target_weight", 0)),
                     "reasoning": str(item.get("reasoning", "")),
                     "risk_note": str(item.get("risk_note", "")),
+                    # 决策卡片新字段（可选，向后兼容）
+                    "priority": str(item.get("priority", "optional")),
+                    "l1_context": str(item.get("l1_context", "")),
+                    "l2_context": str(item.get("l2_context", "")),
+                    "suggested_price": str(item.get("suggested_price", "")),
+                    "max_loss_pct": str(item.get("max_loss_pct", "")),
+                    "five_year_view": str(item.get("five_year_view", "")),
+                    "bias_check": str(item.get("bias_check", "")),
                 })
         return valid
     except (json.JSONDecodeError, ValueError) as e:

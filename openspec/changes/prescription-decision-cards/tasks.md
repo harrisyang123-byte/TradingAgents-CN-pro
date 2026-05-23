@@ -14,11 +14,11 @@
 
 ## Slice 2: CIO Prompt Enhancement (处方字段扩展)
 
-- [ ] 2.1 CIO prompt 新增 `price_context` 数据注入段落
-- [ ] 2.2 CIO prompt 新增 7 字段输出指令（l1/l2_context, suggested_price, max_loss_pct, five_year_view, bias_check, priority）
-- [ ] 2.3 `_parse_prescription()` 扩展解析，新字段作为可选附加（向后兼容）
-- [ ] 2.4 CIO prompt 新增 l1/l2_context 提取策略（从裁判报告文本中提取）
-- [ ] 2.5 `portfolio_advisor_service.py` 保存新字段到数据库
+- [x] 2.1 CIO prompt 新增 `price_context` 数据注入段落
+- [x] 2.2 CIO prompt 新增 7 字段输出指令（l1/l2_context, suggested_price, max_loss_pct, five_year_view, bias_check, priority）
+- [x] 2.3 `_parse_prescription()` 扩展解析，新字段作为可选附加（向后兼容）
+- [x] 2.4 CIO prompt 新增 l1/l2_context 提取策略（从裁判报告文本中提取）
+- [x] 2.5 `portfolio_advisor_service.py` 保存新字段到数据库（无需改动，自动流转）
 
 **验证**: 跑一次组合顾问分析，检查返回的 prescription JSON 包含全部 7 个新字段
 
