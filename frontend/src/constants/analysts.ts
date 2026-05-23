@@ -9,7 +9,7 @@ export interface Analyst {
   icon?: string
 }
 
-// 系统支持的分析师列表
+// 系统支持的分析师列表（股票）
 export const ANALYSTS: Analyst[] = [
   {
     id: 'market',
@@ -37,6 +37,28 @@ export const ANALYSTS: Analyst[] = [
   }
 ]
 
+// 基金专用分析师列表
+export const FUND_ANALYSTS: Analyst[] = [
+  {
+    id: 'fund_manager',
+    name: '基金经理分析师',
+    description: '分析基金经理履历、历史业绩和投资风格',
+    icon: 'UserFilled'
+  },
+  {
+    id: 'fund_holdings',
+    name: '持仓分析师',
+    description: '分析基金资产配置、重仓股和行业分布',
+    icon: 'DataAnalysis'
+  },
+  {
+    id: 'fund_risk',
+    name: '风险分析师',
+    description: '评估基金回撤、波动率和尾部风险',
+    icon: 'WarningFilled'
+  }
+]
+
 // 分析师名称列表（用于表单选项）
 export const ANALYST_NAMES = ANALYSTS.map(analyst => analyst.name)
 
@@ -60,10 +82,13 @@ export const isValidAnalyst = (name: string): boolean => {
 
 // 中文名称到英文ID的映射
 export const ANALYST_NAME_TO_ID_MAP: Record<string, string> = {
-  '市场分析师': 'market',
-  '基本面分析师': 'fundamentals',
-  '新闻分析师': 'news',
-  '社媒分析师': 'social'
+  市场分析师: 'market',
+  基本面分析师: 'fundamentals',
+  新闻分析师: 'news',
+  社媒分析师: 'social',
+  基金经理分析师: 'fund_manager',
+  持仓分析师: 'fund_holdings',
+  风险分析师: 'fund_risk'
 }
 
 // 将中文分析师名称转换为英文ID

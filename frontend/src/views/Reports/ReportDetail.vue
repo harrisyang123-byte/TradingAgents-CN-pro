@@ -222,24 +222,83 @@
             <span>分析报告</span>
           </div>
         </template>
-        
-        <el-tabs v-model="activeModule" type="border-card">
-          <el-tab-pane
-            v-for="moduleName in reportModuleKeys"
-            :key="moduleName"
-            :label="getModuleDisplayName(moduleName)"
-            :name="moduleName"
-          >
-            <div class="module-content">
-              <div v-if="typeof report.reports[moduleName] === 'string'" class="markdown-content">
-                <div v-html="renderMarkdown(report.reports[moduleName] as string)"></div>
+
+        <!-- 基金报告：三阶段纵向滚动布局 -->
+        <template v-if="isFundReport">
+          <div class="fund-reports-sequential">
+            <!-- 阶段一：分析结论 -->
+            <div class="fund-stage">
+              <div class="fund-stage-header">
+                <span class="fund-stage-number">1</span>
+                <span class="fund-stage-title">分析结论</span>
               </div>
-              <div v-else class="json-content">
-                <pre>{{ JSON.stringify(report.reports[moduleName], null, 2) }}</pre>
+              <div class="fund-stage-body">
+                <div v-for="r in getFundStageReports('analysis')" :key="r.key" class="fund-report-block">
+                  <div class="fund-report-block-header">
+                    <span class="fund-report-icon">{{ r.icon }}</span>
+                    <span class="fund-report-label">{{ r.title }}</span>
+                  </div>
+                  <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                </div>
               </div>
             </div>
-          </el-tab-pane>
-        </el-tabs>
+
+            <!-- 阶段二：辩论过程 -->
+            <div class="fund-stage">
+              <div class="fund-stage-header">
+                <span class="fund-stage-number">2</span>
+                <span class="fund-stage-title">辩论过程</span>
+              </div>
+              <div class="fund-stage-body">
+                <div v-for="r in getFundStageReports('debate')" :key="r.key" class="fund-report-block">
+                  <div class="fund-report-block-header">
+                    <span class="fund-report-icon">{{ r.icon }}</span>
+                    <span class="fund-report-label">{{ r.title }}</span>
+                  </div>
+                  <DebateTimeline :history-data="r.content" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 阶段三：最终决策 -->
+            <div class="fund-stage" v-if="getFundStageReports('decision').length > 0">
+              <div class="fund-stage-header">
+                <span class="fund-stage-number">3</span>
+                <span class="fund-stage-title">最终决策</span>
+              </div>
+              <div class="fund-stage-body">
+                <div v-for="r in getFundStageReports('decision')" :key="r.key" class="fund-report-block">
+                  <div class="fund-report-block-header">
+                    <span class="fund-report-icon">{{ r.icon }}</span>
+                    <span class="fund-report-label">{{ r.title }}</span>
+                  </div>
+                  <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- 股票报告：标签页展示（原版） -->
+        <template v-else>
+          <el-tabs v-model="activeModule" type="border-card">
+            <el-tab-pane
+              v-for="moduleName in reportModuleKeys"
+              :key="moduleName"
+              :label="getModuleDisplayName(moduleName)"
+              :name="moduleName"
+            >
+              <div class="module-content">
+                <div v-if="typeof report.reports[moduleName] === 'string'" class="markdown-content">
+                  <div v-html="renderMarkdown(report.reports[moduleName] as string)"></div>
+                </div>
+                <div v-else class="json-content">
+                  <pre>{{ JSON.stringify(report.reports[moduleName], null, 2) }}</pre>
+                </div>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </template>
       </el-card>
     </div>
 
@@ -287,6 +346,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { marked } from 'marked'
+import DebateTimeline from '@/components/DebateTimeline.vue'
 
 type ReportModuleContent = string | Record<string, unknown>
 
@@ -322,6 +382,51 @@ const report = ref<ReportDetailData | null>(null)
 const activeModule = ref('')
 const llmConfigs = ref<LLMConfig[]>([]) // 存储所有模型配置
 const reportModuleKeys = computed<string[]>(() => report.value ? Object.keys(report.value.reports || {}) : [])
+
+// 基金报告检测
+const isFundReport = computed(() => {
+  if (!report.value) return false
+  const reports = report.value.reports || {}
+  return !!(reports.fund_manager_report || reports.fund_holdings_report || reports.fund_risk_report)
+})
+
+// 基金分析辅助函数
+const getFundStageReports = (stage: 'analysis' | 'debate' | 'decision') => {
+  if (!report.value) return []
+  const reports = report.value.reports || {}
+  const getContent = (key: string) => reports[key] || ''
+
+  if (stage === 'analysis') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const fmr = getContent('fund_manager_report')
+    const fhr = getContent('fund_holdings_report')
+    const frr = getContent('fund_risk_report')
+    if (fmr) items.push({ key: 'fund_manager_report', icon: '📊', title: '基金经理分析', content: fmr })
+    if (fhr) items.push({ key: 'fund_holdings_report', icon: '📦', title: '持仓分析', content: fhr })
+    if (frr) items.push({ key: 'fund_risk_report', icon: '⚠️', title: '风险评估', content: frr })
+    return items
+  }
+
+  if (stage === 'debate') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const inv = getContent('investment_debate_state')
+    const risk = getContent('risk_debate_state')
+    if (inv && typeof inv === 'object' && (inv.history || inv.bull_history))
+      items.push({ key: 'investment_debate_state', icon: '⚔️', title: '多空投资辩论', content: inv })
+    if (risk && typeof risk === 'object' && (risk.history || risk.aggressive_history))
+      items.push({ key: 'risk_debate_state', icon: '🛡️', title: '风险控制辩论', content: risk })
+    return items
+  }
+
+  if (stage === 'decision') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const ftd = getContent('final_trade_decision')
+    if (ftd) items.push({ key: 'final_trade_decision', icon: '🎯', title: '投资组合经理决策', content: ftd })
+    return items
+  }
+
+  return []
+}
 
 // 获取模型配置列表
 const fetchLLMConfigs = async () => {
@@ -1263,6 +1368,75 @@ watch(
 
   .error-container {
     padding: 48px 24px;
+  }
+}
+
+// 基金分析三阶段布局样式
+.fund-reports-sequential {
+  .fund-stage {
+    margin-bottom: 32px;
+
+    .fund-stage-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--el-color-primary-light-5);
+
+      .fund-stage-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--el-color-primary);
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .fund-stage-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--el-text-color-primary);
+      }
+    }
+
+    .fund-stage-body {
+      .fund-report-block {
+        background: var(--el-bg-color);
+        border: 1px solid var(--el-border-color-light);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+
+        .fund-report-block-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid var(--el-border-color-lighter);
+
+          .fund-report-icon {
+            font-size: 20px;
+          }
+
+          .fund-report-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--el-text-color-primary);
+          }
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
 </style>

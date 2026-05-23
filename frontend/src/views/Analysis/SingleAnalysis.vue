@@ -127,7 +127,7 @@
                 <h4 class="section-title">👥 分析师团队</h4>
                 <div class="analysts-grid">
                   <div
-                    v-for="analyst in ANALYSTS"
+                    v-for="analyst in currentAnalysts"
                     :key="analyst.id"
                     class="analyst-card"
                     :class="{ 
@@ -803,7 +803,7 @@ import { useAuthStore } from '@/stores/auth'
 import { configApi } from '@/api/config'
 import DeepModelSelector from '@/components/DeepModelSelector.vue'
 import DebateTimeline from '@/components/Analysis/DebateTimeline.vue'
-import { ANALYSTS, convertAnalystNamesToIds } from '@/constants/analysts'
+import { ANALYSTS, FUND_ANALYSTS, convertAnalystNamesToIds } from '@/constants/analysts'
 import { marked } from 'marked'
 import { recommendModels } from '@/api/modelCapabilities'
 import { validateStockCode, getStockCodeFormatHelp } from '@/utils/stockValidator'
@@ -857,6 +857,11 @@ const isFundResult = computed(() => {
   return !!(reports.fund_manager_report || state.fund_manager_report ||
             reports.fund_holdings_report || state.fund_holdings_report ||
             reports.fund_risk_report || state.fund_risk_report)
+})
+
+// 根据 instrumentType 返回对应的分析师列表
+const currentAnalysts = computed(() => {
+  return analysisForm.instrumentType === 'fund' ? FUND_ANALYSTS : ANALYSTS
 })
 const progressInfo = ref({
   progress: 0,
@@ -947,6 +952,15 @@ const onStockCodeInput = () => {
 
 // 市场类型变更时的处理
 const onMarketChange = () => {
+  // 切换 instrumentType
+  if (analysisForm.market === '基金') {
+    analysisForm.instrumentType = 'fund'
+    analysisForm.selectedAnalysts = ['基金经理分析师', '持仓分析师', '风险分析师']
+  } else {
+    analysisForm.instrumentType = 'stock'
+    analysisForm.selectedAnalysts = ['市场分析师', '基本面分析师']
+  }
+
   // 重新验证股票代码
   if (analysisForm.stockCode.trim()) {
     validateStockCodeInput()
