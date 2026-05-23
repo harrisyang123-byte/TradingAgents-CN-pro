@@ -45,3 +45,4 @@
 - P2 Batch 3: Azure OpenAI + 模型目录更新 + Alpha Vantage + CLI 统计 + 测试 fixtures (archived)
 - P3 Batch 4: xAI/Grok + Responses API + Benchmark Alpha 覆盖 + CLI 动态分析师选择
 - [Portfolio Advisor 复盘 (W.W.L.D)](retros/portfolio-advisor-bundle.md) — 持仓管理 + 组合顾问引擎打包复盘
+- [May 2026 Milestone 复盘 (W.W.L.D)](retros/2026-05-22-milestone.md) — 包含基金分析、组合顾问、上游对齐的综合复盘
