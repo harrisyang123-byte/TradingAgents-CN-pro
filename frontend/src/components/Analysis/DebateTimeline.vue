@@ -82,7 +82,7 @@ const parsedBubbles = computed(() => {
 
   // 尝试匹配常见的分析师发言开头格式
   // 例如： "Bull Analyst: xxx" 或 "**Bear Analyst:** xxx"
-  const regex = /(?:^|\n)(?:\*\*)?(Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]\s*([\s\S]*?)(?=(?:\n(?:\*\*)?(?:Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]|$))/gi
+  const regex = /(?:^|\n)(?:\*\*)?(Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Research Manager|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]\s*([\s\S]*?)(?=(?:\n(?:\*\*)?(?:Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Research Manager|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]|$))/gi
 
   const bubbles = []
   let match

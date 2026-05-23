@@ -554,8 +554,13 @@ const reportToc = computed(() => {
 })
 
 const scrollToSection = (key: string) => {
+  // collapse（基金报告）：展开对应项
   if (!activeNames.value.includes(key)) {
     activeNames.value.push(key)
+  }
+  // tabs（股票报告）：切换到对应 tab
+  if (!isFundReport.value) {
+    activeModule.value = key
   }
   activeTocItem.value = key
   setTimeout(() => {
