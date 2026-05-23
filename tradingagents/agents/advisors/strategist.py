@@ -28,10 +28,34 @@ def create_strategist(llm):
 
         weight_lines = []
         for pos in positions:
+            inst_type = pos.get("instrument_type", "stock")
             weight_lines.append(
-                f"- {pos.get('code', '?')}: 仓位 {pos.get('weight', 0):.1f}%, "
+                f"- {pos.get('code', '?')} ({inst_type}): 仓位 {pos.get('weight', 0):.1f}%, "
                 f"市值 ¥{pos.get('market_value_cny', 0):,.2f}"
             )
+
+        # 检测基金持仓，有则追加基金组合评估
+        has_funds = any(p.get("instrument_type") == "fund" for p in positions)
+        fund_section = ""
+        if has_funds:
+            fund_weight_lines = []
+            for pos in positions:
+                if pos.get("instrument_type") == "fund":
+                    fund_weight_lines.append(
+                        f"- {pos.get('code', '?')}: 仓位 {pos.get('weight', 0):.1f}%, "
+                        f"类型基金"
+                    )
+            fund_section = f"""
+## 基金组合专项评估
+基金仓位分布：
+{chr(10).join(fund_weight_lines)}
+
+请额外评估：
+1. **基金-股票重叠风险**：基金的重仓股是否与你直接持有的个股重叠？同一标的通过基金+直接持股双重暴露
+2. **基金管理人集中度**：是否多只基金由同一基金经理或同一公司管理？单一管理人风险
+3. **费用拖累**：基金总费率（管理费+托管费+申购赎回费）对长期收益的侵蚀
+4. **流动性差异**：场外基金赎回 T+1~T+7 到账 vs 股票 T+1，影响调仓灵活性
+"""
 
         prompt = f"""你是组合顾问团队的策略师。你的职责是从组合构建角度评估仓位分布的合理性。
 
@@ -79,7 +103,7 @@ def create_strategist(llm):
    - 当前组合缺少哪些方向的配置
    - 现金占比是否合理
 
-用中文回答，保持逆向思维立场。{l1_l2_context}"""
+用中文回答，保持逆向思维立场。{l1_l2_context}{fund_section}"""
 
         from langchain_core.messages import HumanMessage
         response = llm.invoke([HumanMessage(content=prompt)])
