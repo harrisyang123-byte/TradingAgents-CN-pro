@@ -104,6 +104,14 @@ export interface AdviceItem {
   target_weight: number
   reasoning: string
   risk_note: string
+  // 决策卡片新字段
+  priority?: 'urgent' | 'important' | 'optional'
+  l1_context?: string
+  l2_context?: string
+  suggested_price?: string
+  max_loss_pct?: string
+  five_year_view?: string
+  bias_check?: string
 }
 
 export interface MarketIntel {

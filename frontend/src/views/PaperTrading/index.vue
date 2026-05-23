@@ -371,22 +371,16 @@
       <template v-if="currentAdvice">
         <div v-if="currentAdvice.status === 'COMPLETED'">
           <h4 style="margin:0 0 12px">操作建议</h4>
-          <el-table :data="currentAdvice.prescription || []" size="small" border>
-            <el-table-column label="代码" prop="code" width="100" />
-            <el-table-column label="操作" width="100">
-              <template #default="{ row }">
-                <el-tag :type="actionTagType(row.action)" size="small">{{ actionLabel(row.action) }}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="当前仓位" width="90">
-              <template #default="{ row }">{{ row.current_weight?.toFixed(1) }}%</template>
-            </el-table-column>
-            <el-table-column label="目标仓位" width="90">
-              <template #default="{ row }">{{ row.target_weight?.toFixed(1) }}%</template>
-            </el-table-column>
-            <el-table-column label="理由" prop="reasoning" min-width="160" show-overflow-tooltip />
-            <el-table-column label="风险" prop="risk_note" min-width="140" show-overflow-tooltip />
-          </el-table>
+          <div class="decision-card-stream">
+            <DecisionCard
+              v-for="item in sortedPrescription"
+              :key="item.code"
+              :item="item"
+            />
+          </div>
+          <div v-if="!(currentAdvice.prescription || []).length" style="color:#909399;font-size:13px;padding:12px 0">
+            暂无操作建议
+          </div>
           <h4 style="margin:20px 0 8px">CIO 裁决</h4>
           <div class="advice-text" v-html="renderMd(currentAdvice.cio_verdict)" />
           <el-collapse style="margin-top:16px">
@@ -445,7 +439,8 @@
 import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { portfolioApi, type PortfolioSummary, type PortfolioAdvice, type PortfolioPositionItem } from '@/api/paper'
+import { portfolioApi, type PortfolioSummary, type PortfolioAdvice, type PortfolioPositionItem, type AdviceItem } from '@/api/paper'
+import DecisionCard from '@/components/Analysis/DecisionCard.vue'
 
 const router = useRouter()
 
@@ -540,6 +535,12 @@ const filteredPositions = computed(() => {
   if (marketFilter.value === 'all') return all
   if (marketFilter.value === 'fund') return all.filter(p => p.instrument_type === 'fund')
   return all.filter(p => p.market === marketFilter.value)
+})
+
+const sortedPrescription = computed(() => {
+  const items = (currentAdvice.value?.prescription || []) as AdviceItem[]
+  const order: Record<string, number> = { urgent: 0, important: 1, optional: 2 }
+  return [...items].sort((a, b) => (order[a.priority || 'optional'] ?? 2) - (order[b.priority || 'optional'] ?? 2))
 })
 
 // ---- helpers ----

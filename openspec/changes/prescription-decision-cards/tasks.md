@@ -24,12 +24,12 @@
 
 ## Slice 3: Frontend Decision Cards (前端卡片流)
 
-- [ ] 3.1 `paper.ts` 类型扩展：`DecisionCard` 接口（12 字段）
-- [ ] 3.2 创建 `DecisionCard.vue` 组件：header + l1/l2 collapsible + PE bar + risk row
-- [ ] 3.3 实现 PE 分位进度条（绿/黄/红三色）
-- [ ] 3.4 实现 priority 排序 + 颜色编码（urgent=红, important=橙, optional=灰）
-- [ ] 3.5 `PaperTrading/index.vue`：`el-table` → 纵向卡片流
-- [ ] 3.6 边缘 case 处理：缺失字段显示 "—"，PE 分位不可用时隐藏进度条
+- [x] 3.1 `paper.ts` 类型扩展：`AdviceItem` 新增 7 个可选字段
+- [x] 3.2 创建 `DecisionCard.vue` 组件：header + l1/l2 collapsible + PE bar + risk row
+- [x] 3.3 实现 PE 分位进度条（绿/黄/红三色）
+- [x] 3.4 实现 priority 排序 + 颜色编码（urgent=红, important=橙, optional=灰）
+- [x] 3.5 `PaperTrading/index.vue`：`el-table` → 纵向卡片流
+- [x] 3.6 边缘 case 处理：缺失字段显示 "—"，PE 分位不可用时隐藏进度条
 
 **验证**: 打开 PaperTrading 抽屉，确认卡片流正确渲染，PE 分位进度条显示正确，卡片可展开/收起
 
