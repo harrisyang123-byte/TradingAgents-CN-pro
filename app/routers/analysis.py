@@ -431,7 +431,11 @@ async def get_task_result(
                         'fundamentals_report',
                         'investment_plan',
                         'trader_investment_plan',
-                        'final_trade_decision'
+                        'final_trade_decision',
+                        # 基金分析报告字段
+                        'fund_manager_report',
+                        'fund_holdings_report',
+                        'fund_risk_report',
                     ]
 
                     # 从state中提取报告内容
@@ -458,6 +462,9 @@ async def get_task_result(
                         if isinstance(judge_decision, str) and len(judge_decision.strip()) > 10:
                             reports['research_team_decision'] = judge_decision.strip()
 
+                        # 保留原始辩论状态对象（供前端 DebteTimeline 渲染对话气泡）
+                        reports['investment_debate_state'] = investment_debate_state
+
                     # 处理风险管理团队辩论状态报告
                     risk_debate_state = state.get('risk_debate_state', {})
                     if isinstance(risk_debate_state, dict):
@@ -481,21 +488,32 @@ async def get_task_result(
                         if isinstance(risk_decision, str) and len(risk_decision.strip()) > 10:
                             reports['risk_management_decision'] = risk_decision.strip()
 
+                        # 保留原始辩论状态对象（供前端 DebteTimeline 渲染对话气泡）
+                        reports['risk_debate_state'] = risk_debate_state
+
                     logger.info(f"📊 [RESULT] 从state中提取到 {len(reports)} 个报告: {list(reports.keys())}")
                     result_data['reports'] = reports
                 else:
                     logger.warning(f"⚠️ [RESULT] state字段不是字典类型: {type(state)}")
 
-        # 确保reports字段中的所有内容都是字符串类型
+        # 确保reports字段中的所有内容都是字符串类型（辩论状态对象除外）
         if 'reports' in result_data and result_data['reports']:
             reports = result_data['reports']
             if isinstance(reports, dict):
                 # 确保每个报告内容都是字符串且不为空
                 cleaned_reports = {}
                 for key, value in reports.items():
-                    if isinstance(value, str) and value.strip():
+                    # 保留辩论状态对象（dict），供前端 DebteTimeline 使用
+                    if key in ('investment_debate_state', 'risk_debate_state') and isinstance(value, dict):
+                        cleaned_reports[key] = value
+                    elif isinstance(value, str) and value.strip():
                         # 确保字符串不为空
                         cleaned_reports[key] = value.strip()
+                    elif isinstance(value, dict):
+                        # 其他 dict 转为 JSON 字符串
+                        str_value = json.dumps(value, ensure_ascii=False)
+                        if str_value.strip():
+                            cleaned_reports[key] = str_value
                     elif value is not None:
                         # 如果不是字符串，转换为字符串
                         str_value = str(value).strip()

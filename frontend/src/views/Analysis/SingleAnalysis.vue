@@ -1421,9 +1421,25 @@ const getFundStageReports = (data: any, stage: 'analysis' | 'debate' | 'decision
     const risk = getContent('risk_debate_state')
     if (inv && typeof inv === 'object' && (inv.history || inv.bull_history)) {
       items.push({ key: 'investment_debate_state', icon: '⚔️', title: '多空投资辩论', content: inv })
+    } else if (getContent('bull_researcher') || getContent('bear_researcher')) {
+      if (getContent('bull_researcher'))
+        items.push({ key: 'bull_researcher', icon: '🐂', title: '多头研究员', content: getContent('bull_researcher') })
+      if (getContent('bear_researcher'))
+        items.push({ key: 'bear_researcher', icon: '🐻', title: '空头研究员', content: getContent('bear_researcher') })
+      if (getContent('research_team_decision'))
+        items.push({ key: 'research_team_decision', icon: '🔬', title: '研究经理决策', content: getContent('research_team_decision') })
     }
     if (risk && typeof risk === 'object' && (risk.history || risk.aggressive_history)) {
       items.push({ key: 'risk_debate_state', icon: '🛡️', title: '风险控制辩论', content: risk })
+    } else if (getContent('risky_analyst') || getContent('safe_analyst') || getContent('neutral_analyst')) {
+      if (getContent('risky_analyst'))
+        items.push({ key: 'risky_analyst', icon: '⚡', title: '激进分析师', content: getContent('risky_analyst') })
+      if (getContent('safe_analyst'))
+        items.push({ key: 'safe_analyst', icon: '🛡️', title: '保守分析师', content: getContent('safe_analyst') })
+      if (getContent('neutral_analyst'))
+        items.push({ key: 'neutral_analyst', icon: '⚖️', title: '中性分析师', content: getContent('neutral_analyst') })
+      if (getContent('risk_management_decision'))
+        items.push({ key: 'risk_management_decision', icon: '👔', title: '投资组合经理决策', content: getContent('risk_management_decision') })
     }
     return items
   }

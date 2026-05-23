@@ -112,19 +112,6 @@
           </div>
         </template>
         <div class="metrics-content">
-          <!-- 分析参考：单独一排 -->
-          <div class="recommendation-row">
-            <div class="metric-label">
-              <el-icon><TrendCharts /></el-icon>
-              分析参考
-              <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
-                <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
-              </el-tooltip>
-            </div>
-            <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
-            <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
-          </div>
-
           <el-row :gutter="24">
             <!-- 风险评估 -->
             <el-col :span="12">
@@ -185,6 +172,19 @@
             </el-col>
           </el-row>
 
+          <!-- 分析参考：单独一排 -->
+          <div class="recommendation-row">
+            <div class="metric-label">
+              <el-icon><TrendCharts /></el-icon>
+              分析参考
+              <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
+                <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
+              </el-tooltip>
+            </div>
+            <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
+            <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
+          </div>
+
           <!-- 关键要点 -->
           <div v-if="report.key_points && report.key_points.length > 0" class="key-points">
             <h4>
@@ -218,62 +218,109 @@
           <div class="card-header">
             <el-icon><Files /></el-icon>
             <span>分析报告</span>
+            <div class="header-controls">
+              <el-button size="small" text @click="showToc = !showToc">
+                <el-icon><List /></el-icon>
+                {{ showToc ? '隐藏目录' : '目录' }}
+              </el-button>
+              <el-button size="small" text @click="toggleAll">
+                {{ allExpanded ? '收起全部' : '展开全部' }}
+              </el-button>
+            </div>
           </div>
         </template>
+
+        <!-- 目录导航 -->
+        <div v-if="showToc && reportToc.length > 0" class="report-toc">
+          <div class="toc-title">目录</div>
+          <div
+            v-for="item in reportToc"
+            :key="item.key"
+            class="toc-item"
+            :class="{ active: activeNames.includes(item.key) }"
+            @click="scrollToSection(item.key)"
+          >
+            <span v-if="item.stage > 0" class="toc-stage">阶段{{ item.stage }}</span>
+            <span class="toc-label">{{ item.title }}</span>
+          </div>
+        </div>
 
         <!-- 基金报告：三阶段纵向滚动布局 -->
         <template v-if="isFundReport">
           <div class="fund-reports-sequential">
-            <!-- 阶段一：分析结论 -->
-            <div class="fund-stage">
-              <div class="fund-stage-header">
-                <span class="fund-stage-number">1</span>
-                <span class="fund-stage-title">分析结论</span>
-              </div>
-              <div class="fund-stage-body">
-                <div v-for="r in getFundStageReports('analysis')" :key="r.key" class="fund-report-block">
-                  <div class="fund-report-block-header">
-                    <span class="fund-report-icon">{{ r.icon }}</span>
-                    <span class="fund-report-label">{{ r.title }}</span>
-                  </div>
-                  <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+            <el-collapse v-model="activeNames">
+              <!-- 阶段一：分析结论 -->
+              <div class="fund-stage">
+                <div class="fund-stage-header">
+                  <span class="fund-stage-number">1</span>
+                  <span class="fund-stage-title">分析结论</span>
+                </div>
+                <div class="fund-stage-body">
+                  <el-collapse-item
+                    v-for="r in getFundStageReports('analysis')"
+                    :key="r.key"
+                    :name="r.key"
+                    :id="`report-block-${r.key}`"
+                  >
+                    <template #title>
+                      <div class="fund-report-block-header">
+                        <span class="fund-report-icon">{{ r.icon }}</span>
+                        <span class="fund-report-label">{{ r.title }}</span>
+                      </div>
+                    </template>
+                    <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                  </el-collapse-item>
                 </div>
               </div>
-            </div>
 
-            <!-- 阶段二：辩论过程 -->
-            <div class="fund-stage">
-              <div class="fund-stage-header">
-                <span class="fund-stage-number">2</span>
-                <span class="fund-stage-title">辩论过程</span>
-              </div>
-              <div class="fund-stage-body">
-                <div v-for="r in getFundStageReports('debate')" :key="r.key" class="fund-report-block">
-                  <div class="fund-report-block-header">
-                    <span class="fund-report-icon">{{ r.icon }}</span>
-                    <span class="fund-report-label">{{ r.title }}</span>
-                  </div>
-                  <DebateTimeline :history-data="r.content" />
+              <!-- 阶段二：辩论过程 -->
+              <div class="fund-stage">
+                <div class="fund-stage-header">
+                  <span class="fund-stage-number">2</span>
+                  <span class="fund-stage-title">辩论过程</span>
+                </div>
+                <div class="fund-stage-body">
+                  <el-collapse-item
+                    v-for="r in getFundStageReports('debate')"
+                    :key="r.key"
+                    :name="r.key"
+                    :id="`report-block-${r.key}`"
+                  >
+                    <template #title>
+                      <div class="fund-report-block-header">
+                        <span class="fund-report-icon">{{ r.icon }}</span>
+                        <span class="fund-report-label">{{ r.title }}</span>
+                      </div>
+                    </template>
+                    <DebateTimeline :history-data="r.content" />
+                  </el-collapse-item>
                 </div>
               </div>
-            </div>
 
-            <!-- 阶段三：最终决策 -->
-            <div class="fund-stage" v-if="getFundStageReports('decision').length > 0">
-              <div class="fund-stage-header">
-                <span class="fund-stage-number">3</span>
-                <span class="fund-stage-title">最终决策</span>
-              </div>
-              <div class="fund-stage-body">
-                <div v-for="r in getFundStageReports('decision')" :key="r.key" class="fund-report-block">
-                  <div class="fund-report-block-header">
-                    <span class="fund-report-icon">{{ r.icon }}</span>
-                    <span class="fund-report-label">{{ r.title }}</span>
-                  </div>
-                  <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+              <!-- 阶段三：最终决策 -->
+              <div class="fund-stage" v-if="getFundStageReports('decision').length > 0">
+                <div class="fund-stage-header">
+                  <span class="fund-stage-number">3</span>
+                  <span class="fund-stage-title">最终决策</span>
+                </div>
+                <div class="fund-stage-body">
+                  <el-collapse-item
+                    v-for="r in getFundStageReports('decision')"
+                    :key="r.key"
+                    :name="r.key"
+                    :id="`report-block-${r.key}`"
+                  >
+                    <template #title>
+                      <div class="fund-report-block-header">
+                        <span class="fund-report-icon">{{ r.icon }}</span>
+                        <span class="fund-report-label">{{ r.title }}</span>
+                      </div>
+                    </template>
+                    <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                  </el-collapse-item>
                 </div>
               </div>
-            </div>
+            </el-collapse>
           </div>
         </template>
 
@@ -286,7 +333,7 @@
               :label="getModuleDisplayName(moduleName)"
               :name="moduleName"
             >
-              <div class="module-content">
+              <div class="module-content" :id="`report-block-${moduleName}`">
                 <div v-if="typeof report.reports[moduleName] === 'string'" class="markdown-content">
                   <div v-html="renderMarkdown(report.reports[moduleName] as string)"></div>
                 </div>
@@ -417,10 +464,31 @@ const getFundStageReports = (stage: 'analysis' | 'debate' | 'decision') => {
     const items: Array<{key: string, icon: string, title: string, content: any}> = []
     const inv = getContent('investment_debate_state')
     const risk = getContent('risk_debate_state')
+    // 优先使用辩论状态对象（DebateTimeline 可渲染为对话气泡）
     if (inv && typeof inv === 'object' && (inv.history || inv.bull_history))
       items.push({ key: 'investment_debate_state', icon: '⚔️', title: '多空投资辩论', content: inv })
+    else if (getContent('bull_researcher') || getContent('bear_researcher')) {
+      // 回退：显示提取出的单个辩论报告
+      if (getContent('bull_researcher'))
+        items.push({ key: 'bull_researcher', icon: '🐂', title: '多头研究员', content: getContent('bull_researcher') })
+      if (getContent('bear_researcher'))
+        items.push({ key: 'bear_researcher', icon: '🐻', title: '空头研究员', content: getContent('bear_researcher') })
+      if (getContent('research_team_decision'))
+        items.push({ key: 'research_team_decision', icon: '🔬', title: '研究经理决策', content: getContent('research_team_decision') })
+    }
+
     if (risk && typeof risk === 'object' && (risk.history || risk.aggressive_history))
       items.push({ key: 'risk_debate_state', icon: '🛡️', title: '风险控制辩论', content: risk })
+    else if (getContent('risky_analyst') || getContent('safe_analyst') || getContent('neutral_analyst')) {
+      if (getContent('risky_analyst'))
+        items.push({ key: 'risky_analyst', icon: '⚡', title: '激进分析师', content: getContent('risky_analyst') })
+      if (getContent('safe_analyst'))
+        items.push({ key: 'safe_analyst', icon: '🛡️', title: '保守分析师', content: getContent('safe_analyst') })
+      if (getContent('neutral_analyst'))
+        items.push({ key: 'neutral_analyst', icon: '⚖️', title: '中性分析师', content: getContent('neutral_analyst') })
+      if (getContent('risk_management_decision'))
+        items.push({ key: 'risk_management_decision', icon: '👔', title: '投资组合经理决策', content: getContent('risk_management_decision') })
+    }
     return items
   }
 
@@ -432,6 +500,69 @@ const getFundStageReports = (stage: 'analysis' | 'debate' | 'decision') => {
   }
 
   return []
+}
+
+// 折叠控制
+const activeNames = ref<string[]>([])
+const showToc = ref(false)
+const allExpanded = computed(() => {
+  if (isFundReport.value) {
+    const all = getFundStageReports('analysis').concat(
+      getFundStageReports('debate'),
+      getFundStageReports('decision')
+    )
+    return all.length > 0 && activeNames.value.length >= all.length
+  }
+  return activeNames.value.length >= reportModuleKeys.value.length
+})
+
+const initExpandAll = () => {
+  if (isFundReport.value) {
+    activeNames.value = getFundStageReports('analysis').concat(
+      getFundStageReports('debate'),
+      getFundStageReports('decision')
+    ).map(r => r.key)
+  } else {
+    activeNames.value = [...reportModuleKeys.value]
+  }
+}
+
+const toggleAll = () => {
+  if (allExpanded.value) {
+    activeNames.value = []
+  } else {
+    initExpandAll()
+  }
+}
+
+// TOC 目录：从报告模块名生成
+const reportToc = computed(() => {
+  if (isFundReport.value) {
+    const items: Array<{key: string, title: string, stage: number}> = []
+    getFundStageReports('analysis').forEach(r => items.push({ key: r.key, title: r.title, stage: 1 }))
+    getFundStageReports('debate').forEach(r => items.push({ key: r.key, title: r.title, stage: 2 }))
+    getFundStageReports('decision').forEach(r => items.push({ key: r.key, title: r.title, stage: 3 }))
+    return items
+  }
+  return reportModuleKeys.value.map(k => ({
+    key: k,
+    title: getModuleDisplayName(k),
+    stage: 0
+  }))
+})
+
+const scrollToSection = (key: string) => {
+  // 展开对应区块
+  if (!activeNames.value.includes(key)) {
+    activeNames.value.push(key)
+  }
+  // 滚动到对应元素
+  setTimeout(() => {
+    const el = document.getElementById(`report-block-${key}`)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, 100)
 }
 
 // 获取模型配置列表
@@ -472,6 +603,8 @@ const fetchReportDetail = async () => {
       if (moduleNames.length > 0) {
         activeModule.value = moduleNames[0]
       }
+      // 默认全部展开
+      initExpandAll()
     } else {
       throw new Error(result.message || '获取报告详情失败')
     }
@@ -1156,6 +1289,65 @@ watch(
         align-items: center;
         gap: 8px;
         font-weight: 600;
+
+        .header-controls {
+          margin-left: auto;
+          display: flex;
+          gap: 8px;
+        }
+      }
+    }
+
+    // 目录导航
+    .report-toc {
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      background: var(--el-fill-color-light);
+      border-radius: 8px;
+      border: 1px solid var(--el-border-color-lighter);
+
+      .toc-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--el-text-color-secondary);
+        margin-bottom: 10px;
+      }
+
+      .toc-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--el-text-color-regular);
+        transition: all 0.2s;
+
+        &:hover {
+          background: var(--el-color-primary-light-9);
+          color: var(--el-color-primary);
+        }
+
+        &.active {
+          background: var(--el-color-primary-light-8);
+          color: var(--el-color-primary);
+          font-weight: 500;
+        }
+
+        .toc-stage {
+          display: inline-block;
+          padding: 1px 6px;
+          font-size: 11px;
+          background: var(--el-color-primary-light-7);
+          color: var(--el-color-primary);
+          border-radius: 4px;
+          white-space: nowrap;
+        }
+
+        .toc-label {
+          flex: 1;
+        }
       }
     }
 
@@ -1440,34 +1632,58 @@ watch(
     }
 
     .fund-stage-body {
-      .fund-report-block {
+      // el-collapse overrides
+      :deep(.el-collapse) {
+        border: none;
+      }
+
+      :deep(.el-collapse-item) {
         background: var(--el-bg-color);
         border: 1px solid var(--el-border-color-light);
         border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 20px;
-
-        .fund-report-block-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 16px;
-          padding-bottom: 12px;
-          border-bottom: 1px solid var(--el-border-color-lighter);
-
-          .fund-report-icon {
-            font-size: 20px;
-          }
-
-          .fund-report-label {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--el-text-color-primary);
-          }
-        }
+        margin-bottom: 16px;
+        overflow: hidden;
 
         &:last-child {
           margin-bottom: 0;
+        }
+      }
+
+      :deep(.el-collapse-item__header) {
+        height: auto;
+        padding: 16px 20px;
+        border: none;
+        font-size: 15px;
+        font-weight: 600;
+        background: var(--el-fill-color);
+
+        &.is-active {
+          border-bottom: 1px solid var(--el-border-color-lighter);
+        }
+      }
+
+      :deep(.el-collapse-item__wrap) {
+        border: none;
+      }
+
+      :deep(.el-collapse-item__content) {
+        padding: 24px;
+      }
+
+      .fund-report-block-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+
+        .fund-report-icon {
+          font-size: 20px;
+        }
+
+        .fund-report-label {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--el-text-color-primary);
         }
       }
     }
