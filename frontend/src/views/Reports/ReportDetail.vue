@@ -35,7 +35,7 @@
               </span>
             </div>
           </div>
-          
+
           <div class="action-section">
             <el-button
               v-if="canApplyToTrading"
@@ -103,248 +103,250 @@
         </el-alert>
       </div>
 
-      <!-- 关键指标 -->
-      <el-card class="metrics-card" shadow="never">
-        <template #header>
-          <div class="card-header">
-            <el-icon><TrendCharts /></el-icon>
-            <span>关键指标</span>
+      <!-- 双栏布局：左侧目录 + 右侧内容 -->
+      <div class="report-body">
+        <aside class="report-sidebar">
+          <div class="sidebar-sticky">
+            <div class="sidebar-toc">
+              <div class="sidebar-toc-title">目录</div>
+              <div
+                v-for="item in reportToc"
+                :key="item.key"
+                class="sidebar-toc-item"
+                :class="{ active: activeTocItem === item.key }"
+                @click="scrollToSection(item.key)"
+              >
+                <span v-if="item.stage > 0" class="toc-stage-badge">{{ item.stage }}</span>
+                <span class="toc-label">{{ item.title }}</span>
+              </div>
+            </div>
+            <el-button class="sidebar-toggle-btn" size="small" text @click="toggleAll">
+              {{ allExpanded ? '收起全部' : '展开全部' }}
+            </el-button>
           </div>
-        </template>
-        <div class="metrics-content">
-          <el-row :gutter="24">
-            <!-- 风险评估 -->
-            <el-col :span="12">
-              <div class="metric-item risk-item">
+        </aside>
+
+        <div class="report-main">
+          <!-- 关键指标 -->
+          <el-card class="metrics-card" shadow="never">
+            <template #header>
+              <div class="card-header">
+                <el-icon><TrendCharts /></el-icon>
+                <span>关键指标</span>
+              </div>
+            </template>
+            <div class="metrics-content">
+              <el-row :gutter="24">
+                <!-- 风险评估 -->
+                <el-col :span="12">
+                  <div class="metric-item risk-item">
+                    <div class="metric-label">
+                      <el-icon><Warning /></el-icon>
+                      风险评估
+                      <el-tooltip content="基于历史数据的风险评估，实际风险可能更高" placement="top">
+                        <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
+                      </el-tooltip>
+                    </div>
+                    <div class="risk-display">
+                      <div class="risk-stars">
+                        <el-icon
+                          v-for="star in 5"
+                          :key="star"
+                          class="star-icon"
+                          :class="{ active: star <= getRiskStars(report.risk_level || '中等') }"
+                        >
+                          <StarFilled />
+                        </el-icon>
+                      </div>
+                      <div class="risk-label" :style="{ color: getRiskColor(report.risk_level || '中等') }">
+                        {{ report.risk_level || '中等' }}风险
+                      </div>
+                    </div>
+                  </div>
+                </el-col>
+
+                <!-- 模型置信度 -->
+                <el-col :span="12">
+                  <div class="metric-item confidence-item">
+                    <div class="metric-label">
+                      <el-icon><DataAnalysis /></el-icon>
+                      模型置信度
+                      <el-tooltip content="基于AI模型计算的置信度，不代表实际投资成功率" placement="top">
+                        <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
+                      </el-tooltip>
+                    </div>
+                    <div class="confidence-display">
+                      <el-progress
+                        type="circle"
+                        :percentage="normalizeConfidenceScore(report.confidence_score || 0)"
+                        :width="120"
+                        :stroke-width="10"
+                        :color="getConfidenceColor(normalizeConfidenceScore(report.confidence_score || 0))"
+                      >
+                        <template #default="{ percentage }">
+                          <span class="confidence-text">
+                            <span class="confidence-number">{{ percentage }}</span>
+                            <span class="confidence-unit">分</span>
+                          </span>
+                        </template>
+                      </el-progress>
+                      <div class="confidence-label">{{ getConfidenceLabel(normalizeConfidenceScore(report.confidence_score || 0)) }}</div>
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+
+              <!-- 分析参考：单独一排 -->
+              <div class="recommendation-row">
                 <div class="metric-label">
-                  <el-icon><Warning /></el-icon>
-                  风险评估
-                  <el-tooltip content="基于历史数据的风险评估，实际风险可能更高" placement="top">
+                  <el-icon><TrendCharts /></el-icon>
+                  分析参考
+                  <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
                     <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
                   </el-tooltip>
                 </div>
-                <div class="risk-display">
-                  <div class="risk-stars">
-                    <el-icon
-                      v-for="star in 5"
-                      :key="star"
-                      class="star-icon"
-                      :class="{ active: star <= getRiskStars(report.risk_level || '中等') }"
-                    >
-                      <StarFilled />
-                    </el-icon>
-                  </div>
-                  <div class="risk-label" :style="{ color: getRiskColor(report.risk_level || '中等') }">
-                    {{ report.risk_level || '中等' }}风险
-                  </div>
-                </div>
+                <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
+                <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
               </div>
-            </el-col>
 
-            <!-- 模型置信度 -->
-            <el-col :span="12">
-              <div class="metric-item confidence-item">
-                <div class="metric-label">
-                  <el-icon><DataAnalysis /></el-icon>
-                  模型置信度
-                  <el-tooltip content="基于AI模型计算的置信度，不代表实际投资成功率" placement="top">
-                    <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
-                  </el-tooltip>
-                </div>
-                <div class="confidence-display">
-                  <el-progress
-                    type="circle"
-                    :percentage="normalizeConfidenceScore(report.confidence_score || 0)"
-                    :width="120"
-                    :stroke-width="10"
-                    :color="getConfidenceColor(normalizeConfidenceScore(report.confidence_score || 0))"
-                  >
-                    <template #default="{ percentage }">
-                      <span class="confidence-text">
-                        <span class="confidence-number">{{ percentage }}</span>
-                        <span class="confidence-unit">分</span>
-                      </span>
-                    </template>
-                  </el-progress>
-                  <div class="confidence-label">{{ getConfidenceLabel(normalizeConfidenceScore(report.confidence_score || 0)) }}</div>
-                </div>
+              <!-- 关键要点 -->
+              <div v-if="report.key_points && report.key_points.length > 0" class="key-points">
+                <h4>
+                  <el-icon><List /></el-icon>
+                  关键要点
+                </h4>
+                <ul>
+                  <li v-for="(point, index) in report.key_points" :key="index">
+                    <el-icon class="point-icon"><Check /></el-icon>
+                    {{ point }}
+                  </li>
+                </ul>
               </div>
-            </el-col>
-          </el-row>
-
-          <!-- 分析参考：单独一排 -->
-          <div class="recommendation-row">
-            <div class="metric-label">
-              <el-icon><TrendCharts /></el-icon>
-              分析参考
-              <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
-                <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
-              </el-tooltip>
             </div>
-            <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
-            <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
-          </div>
+          </el-card>
 
-          <!-- 关键要点 -->
-          <div v-if="report.key_points && report.key_points.length > 0" class="key-points">
-            <h4>
-              <el-icon><List /></el-icon>
-              关键要点
-            </h4>
-            <ul>
-              <li v-for="(point, index) in report.key_points" :key="index">
-                <el-icon class="point-icon"><Check /></el-icon>
-                {{ point }}
-              </li>
-            </ul>
-          </div>
+          <!-- 报告摘要 -->
+          <el-card v-if="report.summary" class="summary-card" shadow="never">
+            <template #header>
+              <div class="card-header">
+                <el-icon><InfoFilled /></el-icon>
+                <span>执行摘要</span>
+              </div>
+            </template>
+            <div class="summary-content markdown-content" v-html="renderMarkdown(report.summary)"></div>
+          </el-card>
+
+          <!-- 报告模块 -->
+          <el-card class="modules-card" shadow="never">
+            <template #header>
+              <div class="card-header">
+                <el-icon><Files /></el-icon>
+                <span>分析报告</span>
+              </div>
+            </template>
+
+            <!-- 基金报告：三阶段纵向滚动布局 -->
+            <template v-if="isFundReport">
+              <div class="fund-reports-sequential">
+                <el-collapse v-model="activeNames">
+                  <!-- 阶段一：分析结论 -->
+                  <div class="fund-stage">
+                    <div class="fund-stage-header">
+                      <span class="fund-stage-number">1</span>
+                      <span class="fund-stage-title">分析结论</span>
+                    </div>
+                    <div class="fund-stage-body">
+                      <el-collapse-item
+                        v-for="r in getFundStageReports('analysis')"
+                        :key="r.key"
+                        :name="r.key"
+                        :id="`report-block-${r.key}`"
+                      >
+                        <template #title>
+                          <div class="fund-report-block-header">
+                            <span class="fund-report-icon">{{ r.icon }}</span>
+                            <span class="fund-report-label">{{ r.title }}</span>
+                          </div>
+                        </template>
+                        <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                      </el-collapse-item>
+                    </div>
+                  </div>
+
+                  <!-- 阶段二：辩论过程 -->
+                  <div class="fund-stage">
+                    <div class="fund-stage-header">
+                      <span class="fund-stage-number">2</span>
+                      <span class="fund-stage-title">辩论过程</span>
+                    </div>
+                    <div class="fund-stage-body">
+                      <el-collapse-item
+                        v-for="r in getFundStageReports('debate')"
+                        :key="r.key"
+                        :name="r.key"
+                        :id="`report-block-${r.key}`"
+                      >
+                        <template #title>
+                          <div class="fund-report-block-header">
+                            <span class="fund-report-icon">{{ r.icon }}</span>
+                            <span class="fund-report-label">{{ r.title }}</span>
+                          </div>
+                        </template>
+                        <DebateTimeline :history-data="r.content" />
+                      </el-collapse-item>
+                    </div>
+                  </div>
+
+                  <!-- 阶段三：最终决策 -->
+                  <div class="fund-stage" v-if="getFundStageReports('decision').length > 0">
+                    <div class="fund-stage-header">
+                      <span class="fund-stage-number">3</span>
+                      <span class="fund-stage-title">最终决策</span>
+                    </div>
+                    <div class="fund-stage-body">
+                      <el-collapse-item
+                        v-for="r in getFundStageReports('decision')"
+                        :key="r.key"
+                        :name="r.key"
+                        :id="`report-block-${r.key}`"
+                      >
+                        <template #title>
+                          <div class="fund-report-block-header">
+                            <span class="fund-report-icon">{{ r.icon }}</span>
+                            <span class="fund-report-label">{{ r.title }}</span>
+                          </div>
+                        </template>
+                        <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
+                      </el-collapse-item>
+                    </div>
+                  </div>
+                </el-collapse>
+              </div>
+            </template>
+
+            <!-- 股票报告：标签页展示（原版） -->
+            <template v-else>
+              <el-tabs v-model="activeModule" type="border-card">
+                <el-tab-pane
+                  v-for="moduleName in reportModuleKeys"
+                  :key="moduleName"
+                  :label="getModuleDisplayName(moduleName)"
+                  :name="moduleName"
+                >
+                  <div class="module-content" :id="`report-block-${moduleName}`">
+                    <div v-if="typeof report.reports[moduleName] === 'string'" class="markdown-content">
+                      <div v-html="renderMarkdown(report.reports[moduleName] as string)"></div>
+                    </div>
+                    <div v-else class="json-content">
+                      <pre>{{ JSON.stringify(report.reports[moduleName], null, 2) }}</pre>
+                    </div>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </template>
+          </el-card>
         </div>
-      </el-card>
-
-      <!-- 报告摘要 -->
-      <el-card v-if="report.summary" class="summary-card" shadow="never">
-        <template #header>
-          <div class="card-header">
-            <el-icon><InfoFilled /></el-icon>
-            <span>执行摘要</span>
-          </div>
-        </template>
-        <div class="summary-content markdown-content" v-html="renderMarkdown(report.summary)"></div>
-      </el-card>
-
-      <!-- 报告模块 -->
-      <el-card class="modules-card" shadow="never">
-        <template #header>
-          <div class="card-header">
-            <el-icon><Files /></el-icon>
-            <span>分析报告</span>
-            <div class="header-controls">
-              <el-button size="small" text @click="showToc = !showToc">
-                <el-icon><List /></el-icon>
-                {{ showToc ? '隐藏目录' : '目录' }}
-              </el-button>
-              <el-button size="small" text @click="toggleAll">
-                {{ allExpanded ? '收起全部' : '展开全部' }}
-              </el-button>
-            </div>
-          </div>
-        </template>
-
-        <!-- 目录导航 -->
-        <div v-if="showToc && reportToc.length > 0" class="report-toc">
-          <div class="toc-title">目录</div>
-          <div
-            v-for="item in reportToc"
-            :key="item.key"
-            class="toc-item"
-            :class="{ active: activeNames.includes(item.key) }"
-            @click="scrollToSection(item.key)"
-          >
-            <span v-if="item.stage > 0" class="toc-stage">阶段{{ item.stage }}</span>
-            <span class="toc-label">{{ item.title }}</span>
-          </div>
-        </div>
-
-        <!-- 基金报告：三阶段纵向滚动布局 -->
-        <template v-if="isFundReport">
-          <div class="fund-reports-sequential">
-            <el-collapse v-model="activeNames">
-              <!-- 阶段一：分析结论 -->
-              <div class="fund-stage">
-                <div class="fund-stage-header">
-                  <span class="fund-stage-number">1</span>
-                  <span class="fund-stage-title">分析结论</span>
-                </div>
-                <div class="fund-stage-body">
-                  <el-collapse-item
-                    v-for="r in getFundStageReports('analysis')"
-                    :key="r.key"
-                    :name="r.key"
-                    :id="`report-block-${r.key}`"
-                  >
-                    <template #title>
-                      <div class="fund-report-block-header">
-                        <span class="fund-report-icon">{{ r.icon }}</span>
-                        <span class="fund-report-label">{{ r.title }}</span>
-                      </div>
-                    </template>
-                    <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
-                  </el-collapse-item>
-                </div>
-              </div>
-
-              <!-- 阶段二：辩论过程 -->
-              <div class="fund-stage">
-                <div class="fund-stage-header">
-                  <span class="fund-stage-number">2</span>
-                  <span class="fund-stage-title">辩论过程</span>
-                </div>
-                <div class="fund-stage-body">
-                  <el-collapse-item
-                    v-for="r in getFundStageReports('debate')"
-                    :key="r.key"
-                    :name="r.key"
-                    :id="`report-block-${r.key}`"
-                  >
-                    <template #title>
-                      <div class="fund-report-block-header">
-                        <span class="fund-report-icon">{{ r.icon }}</span>
-                        <span class="fund-report-label">{{ r.title }}</span>
-                      </div>
-                    </template>
-                    <DebateTimeline :history-data="r.content" />
-                  </el-collapse-item>
-                </div>
-              </div>
-
-              <!-- 阶段三：最终决策 -->
-              <div class="fund-stage" v-if="getFundStageReports('decision').length > 0">
-                <div class="fund-stage-header">
-                  <span class="fund-stage-number">3</span>
-                  <span class="fund-stage-title">最终决策</span>
-                </div>
-                <div class="fund-stage-body">
-                  <el-collapse-item
-                    v-for="r in getFundStageReports('decision')"
-                    :key="r.key"
-                    :name="r.key"
-                    :id="`report-block-${r.key}`"
-                  >
-                    <template #title>
-                      <div class="fund-report-block-header">
-                        <span class="fund-report-icon">{{ r.icon }}</span>
-                        <span class="fund-report-label">{{ r.title }}</span>
-                      </div>
-                    </template>
-                    <div class="report-content markdown-content" v-html="renderMarkdown(r.content)"></div>
-                  </el-collapse-item>
-                </div>
-              </div>
-            </el-collapse>
-          </div>
-        </template>
-
-        <!-- 股票报告：标签页展示（原版） -->
-        <template v-else>
-          <el-tabs v-model="activeModule" type="border-card">
-            <el-tab-pane
-              v-for="moduleName in reportModuleKeys"
-              :key="moduleName"
-              :label="getModuleDisplayName(moduleName)"
-              :name="moduleName"
-            >
-              <div class="module-content" :id="`report-block-${moduleName}`">
-                <div v-if="typeof report.reports[moduleName] === 'string'" class="markdown-content">
-                  <div v-html="renderMarkdown(report.reports[moduleName] as string)"></div>
-                </div>
-                <div v-else class="json-content">
-                  <pre>{{ JSON.stringify(report.reports[moduleName], null, 2) }}</pre>
-                </div>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </template>
-      </el-card>
+      </div>
     </div>
 
     <!-- 错误状态 -->
@@ -363,7 +365,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, h, reactive, watch } from 'vue'
+import { ref, computed, h, reactive, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox, ElInputNumber } from 'element-plus'
 import { paperApi } from '@/api/paper'
@@ -504,7 +506,7 @@ const getFundStageReports = (stage: 'analysis' | 'debate' | 'decision') => {
 
 // 折叠控制
 const activeNames = ref<string[]>([])
-const showToc = ref(false)
+const activeTocItem = ref<string>('')
 const allExpanded = computed(() => {
   if (isFundReport.value) {
     const all = getFundStageReports('analysis').concat(
@@ -552,11 +554,10 @@ const reportToc = computed(() => {
 })
 
 const scrollToSection = (key: string) => {
-  // 展开对应区块
   if (!activeNames.value.includes(key)) {
     activeNames.value.push(key)
   }
-  // 滚动到对应元素
+  activeTocItem.value = key
   setTimeout(() => {
     const el = document.getElementById(`report-block-${key}`)
     if (el) {
@@ -564,6 +565,40 @@ const scrollToSection = (key: string) => {
     }
   }, 100)
 }
+
+// IntersectionObserver 滚动监听，高亮当前可见章节
+let tocObserver: IntersectionObserver | null = null
+
+const setupScrollSpy = () => {
+  if (tocObserver) tocObserver.disconnect()
+  const targets = reportToc.value
+    .map(item => document.getElementById(`report-block-${item.key}`))
+    .filter(Boolean) as HTMLElement[]
+
+  if (targets.length === 0) return
+
+  tocObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const id = entry.target.id.replace('report-block-', '')
+          activeTocItem.value = id
+        }
+      }
+    },
+    { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+  )
+
+  targets.forEach(el => tocObserver!.observe(el))
+}
+
+onMounted(() => {
+  setTimeout(setupScrollSpy, 500)
+})
+
+onUnmounted(() => {
+  if (tocObserver) tocObserver.disconnect()
+})
 
 // 获取模型配置列表
 const fetchLLMConfigs = async () => {
@@ -1289,66 +1324,92 @@ watch(
         align-items: center;
         gap: 8px;
         font-weight: 600;
-
-        .header-controls {
-          margin-left: auto;
-          display: flex;
-          gap: 8px;
-        }
       }
     }
 
-    // 目录导航
-    .report-toc {
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      background: var(--el-fill-color-light);
-      border-radius: 8px;
-      border: 1px solid var(--el-border-color-lighter);
+    // 左侧目录 + 右侧内容双栏布局
+    .report-body {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
 
-      .toc-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--el-text-color-secondary);
-        margin-bottom: 10px;
+    .report-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+
+      .sidebar-sticky {
+        position: sticky;
+        top: 24px;
+        background: var(--el-bg-color);
+        border: 1px solid var(--el-border-color-light);
+        border-radius: 12px;
+        padding: 20px 16px;
       }
 
-      .toc-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        color: var(--el-text-color-regular);
-        transition: all 0.2s;
-
-        &:hover {
-          background: var(--el-color-primary-light-9);
-          color: var(--el-color-primary);
+      .sidebar-toc {
+        .sidebar-toc-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--el-text-color-primary);
+          margin-bottom: 16px;
+          padding-bottom: 10px;
+          border-bottom: 2px solid var(--el-color-primary-light-5);
         }
 
-        &.active {
-          background: var(--el-color-primary-light-8);
-          color: var(--el-color-primary);
-          font-weight: 500;
-        }
+        .sidebar-toc-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 10px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 13px;
+          color: var(--el-text-color-regular);
+          transition: all 0.15s;
+          margin-bottom: 2px;
 
-        .toc-stage {
-          display: inline-block;
-          padding: 1px 6px;
-          font-size: 11px;
-          background: var(--el-color-primary-light-7);
-          color: var(--el-color-primary);
-          border-radius: 4px;
-          white-space: nowrap;
-        }
+          &:hover {
+            background: var(--el-color-primary-light-9);
+            color: var(--el-color-primary);
+          }
 
-        .toc-label {
-          flex: 1;
+          &.active {
+            background: var(--el-color-primary-light-8);
+            color: var(--el-color-primary);
+            font-weight: 600;
+          }
+
+          .toc-stage-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--el-color-primary-light-7);
+            color: var(--el-color-primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+          }
+
+          .toc-label {
+            flex: 1;
+            line-height: 1.4;
+          }
         }
       }
+
+      .sidebar-toggle-btn {
+        margin-top: 16px;
+        width: 100%;
+      }
+    }
+
+    .report-main {
+      flex: 1;
+      min-width: 0;
     }
 
     .summary-content {
