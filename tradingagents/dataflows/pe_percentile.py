@@ -40,7 +40,7 @@ def _percentile(values: list, current: float) -> float | None:
 
 
 def _suggested_judgment(pe: float | None, pct: float | None, pe_range: str | None, ma20: float | None,
-                        price: float | None, pct_source: str) -> str:
+                        price: float | None) -> str:
     if pct is not None:
         if pct <= 25:
             pos = "估值偏低"
@@ -63,6 +63,7 @@ def _suggested_judgment(pe: float | None, pct: float | None, pe_range: str | Non
 # ── A 股: BaoStock ───────────────────────────────────────────
 
 def _compute_cn(code: str) -> dict:
+    bs = None
     try:
         import baostock as bs
         import pandas as pd
@@ -84,7 +85,6 @@ def _compute_cn(code: str) -> dict:
             frequency="d",
             adjustflag="3",
         )
-        bs.logout()
 
         if rs.error_code != "0":
             logger.warning(f"[PE-CN] BaoStock 查询失败: {rs.error_msg}")
@@ -120,7 +120,7 @@ def _compute_cn(code: str) -> dict:
         pe_max = round(max(pe_history), 2)
         pe_range = f"{pe_min} - {pe_max}"
 
-        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, current_price, "daily")
+        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, current_price)
 
         return {
             "code": code, "market": "cn",
@@ -138,6 +138,12 @@ def _compute_cn(code: str) -> dict:
     except Exception as e:
         logger.error(f"[PE-CN] {code} 计算失败: {e}")
         return _empty_result(code, "cn", "data_unavailable", str(e))
+    finally:
+        if bs is not None:
+            try:
+                bs.logout()
+            except Exception:
+                pass
 
 
 # ── 港股: AKShare ────────────────────────────────────────────
@@ -165,6 +171,9 @@ def _compute_hk(code: str) -> dict:
         if not eps_rows:
             return _empty_result(code, "hk", "negative_earnings")
 
+        # 按 REORT_DATE 降序排列，确保 [0] 为最新数据
+        eps_rows.sort(key=lambda x: x["date"], reverse=True)
+
         # 每日价格
         try:
             df_price = ak.stock_hk_daily(symbol=code, adjust="qfq")
@@ -176,7 +185,14 @@ def _compute_hk(code: str) -> dict:
 
         # Normalize price columns
         price_col = "close" if "close" in df_price.columns else (
-            "收盘" if "收盘" in df_price.columns else df_price.columns[3])
+            "收盘" if "收盘" in df_price.columns else None)
+        if price_col is None:
+            for col in df_price.columns:
+                if col.lower() in ("close", "收盘", "adj close"):
+                    price_col = col
+                    break
+        if price_col is None:
+            price_col = df_price.columns[3] if len(df_price.columns) > 3 else df_price.columns[-1]
         df_price["date_clean"] = pd.to_datetime(df_price["date"] if "date" in df_price.columns else df_price.index).strftime("%Y-%m-%d")
         df_price["price"] = pd.to_numeric(df_price[price_col], errors="coerce")
 
@@ -192,7 +208,7 @@ def _compute_hk(code: str) -> dict:
         for eps in eps_rows:
             price_at_date = None
             for _, pr in df_price.iterrows():
-                if pr.get("date_clean", "").startswith(eps["date"][:7]):  # approximate match
+                if eps["date"] and pr.get("date_clean", "").startswith(eps["date"][:7]):
                     price_at_date = float(pr["price"]) if pd.notna(pr["price"]) else None
                     break
             if price_at_date and price_at_date > 0:
@@ -203,7 +219,7 @@ def _compute_hk(code: str) -> dict:
         pct = _percentile(pe_history, pe_ttm) if pe_ttm and len(pe_history) >= 3 else None
         pe_range = f"{min(pe_history):.1f} - {max(pe_history):.1f}" if pe_history else None
 
-        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, latest_price, "annual")
+        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, latest_price)
 
         return {
             "code": code, "market": "hk",
@@ -262,7 +278,7 @@ def _compute_us(code: str) -> dict:
         if eps_key is None:
             # Try quarterly
             qf = t.quarterly_financials
-            if "Basic EPS" in qf.index:
+            if qf is not None and not qf.empty and "Basic EPS" in qf.index:
                 eps_key = "Basic EPS"
                 financials = qf
 
@@ -295,7 +311,7 @@ def _compute_us(code: str) -> dict:
         pct = _percentile(pe_history, pe_ttm) if pe_ttm and len(pe_history) >= 3 else None
         pe_range = f"{min(pe_history):.1f} - {max(pe_history):.1f}" if pe_history else None
 
-        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, float(current_price) if current_price else None, "annual")
+        judgment = _suggested_judgment(pe_ttm, pct, pe_range, ma20, float(current_price) if current_price else None)
 
         return {
             "code": code, "market": "us",
