@@ -28,9 +28,9 @@ Level 4: 最终处方（1轮辩论）
   CIO → Risk Director → debate → CIO 终裁
 ```
 
-数据流：纯串行 L1 → L2 → L3 → L4。L3 的 Analyst/Strategist 注入 L1/L2 数据。
+数据流：纯串行 L1 → L2 → L3 → enrich_price_data → L4。L3 的 Analyst/Strategist 注入 L1/L2 数据，enrich_price_data 在 L3→L4 之间注入 PE 历史分位。
 
-## 角色清单（10 个）
+## 角色清单（10 个 + 1 数据节点）
 
 | # | 角色 | 层级 | 类型 | 说明 |
 |---|------|------|------|------|
@@ -44,6 +44,7 @@ Level 4: 最终处方（1轮辩论）
 | 8 | Strategist | L3 | 辩手 | 组合策略（注入 L1/L2 数据） |
 | 9 | Risk Director | L4 | 辩手 | 风险审查（集中度/流动性/尾部/操作） |
 | 10 | CIO | L4 | 辩手+裁判 | 芒格心智模型约束，dual-mode（初稿/终裁） |
+| — | enrich_price_data | L3→L4 | 数据节点 | PE 历史分位计算，三市场统一接口 |
 
 ## LLM 调用量（~26-34 次）
 
@@ -80,7 +81,7 @@ START → market_strategist ↔ tools_l1_market → msg_clear_l1a → contrarian
 
   → analyst → strategist → scout_l3 → debate branches (2 rounds)
 
-  → cio_draft → risk_director → debate → cio_final → END
+  → enrich_price_data → cio_draft → risk_director → debate → cio_final → END
 ```
 
 ### 关键实现模式
@@ -96,7 +97,7 @@ START → market_strategist ↔ tools_l1_market → msg_clear_l1a → contrarian
 ```
 tradingagents/agents/advisors/
 ├── __init__.py
-├── advisor_states.py       # 3 debate TypedDicts + 9 新字段
+├── advisor_states.py       # 3 debate TypedDicts + price_context 字段
 ├── market_tools.py          # 9 个 AKShare/yfinance 工具函数
 ├── market_strategist.py     # L1 tool-agent
 ├── contrarian.py            # L1 tool-agent
@@ -107,16 +108,26 @@ tradingagents/agents/advisors/
 ├── analyst.py               # L3 辩手 (prompt 注入 L1/L2)
 ├── strategist.py            # L3 辩手 (prompt 注入 L1/L2)
 ├── risk_director.py         # L4 辩手
-└── cio.py                   # L4 辩手+裁判 (芒格心智模型增强)
+└── cio.py                   # L4 辩手+裁判 (芒格心智模型 + 7 字段决策卡片)
+
+tradingagents/dataflows/
+└── pe_percentile.py         # PE 历史分位计算（A股/港股/美股三市场统一接口）
 
 tradingagents/graph/
-└── advisor_graph.py         # 四层拓扑 + 4 ToolNode + 条件路由 + Msg Clear
+└── advisor_graph.py         # 四层拓扑 + enrich_price_data 节点 + 条件路由 + Msg Clear
 
 app/services/
 └── portfolio_advisor_service.py  # 移除 non_held_reports，保存新字段
+
+frontend/src/
+├── api/paper.ts             # AdviceItem 类型（含 7 个新可选字段）
+├── components/Analysis/
+│   └── DecisionCard.vue     # 决策卡片组件（PE 分位条 + l1/l2 上下文 + 风险行）
+└── views/PaperTrading/
+    └── index.vue            # el-table → 纵向卡片流
 ```
 
-## CIO 芒格心智模型
+## CIO 芒格心智模型 + 决策卡片
 
 - **20孔卡片**：处方 ≤ 8 条 (max_prescription_items)
 - **5年视角**：每条买入必须回答"5年后生意会更好吗？"
@@ -124,6 +135,51 @@ app/services/
 - **市场先生**：每条 BUY 标注"在利用恐惧还是顺从狂热？"
 - **逆向验证**：每条买入回答"如果判断错了，最大亏损是多少？"
 - **认知偏差检测**：禀赋效应、近因偏差、锚定效应
+
+### 决策卡片 7 字段模型
+
+每条处方输出包含信任层 + 执行层共 7 个字段：
+
+| 字段 | 层 | 说明 |
+|------|------|------|
+| `priority` | 执行 | urgent/important/optional，控制卡片左侧色条 |
+| `l1_context` | 信任 | 从宏观裁判报告提取的行业生命周期 + Go/NoGo |
+| `l2_context` | 信任 | 从标的裁判报告提取的护城河评级 + 过滤结果 |
+| `suggested_price` | 执行 | 基于 PE 分位 + MA20 的价格锚点判断 |
+| `max_loss_pct` | 执行 | 逆向验证：判断错了的最大亏损 + 触发场景 |
+| `five_year_view` | 执行 | 5年后生意会更好吗？是/否 + 理由 |
+| `bias_check` | 执行 | 认知偏差自检，无显著偏差标注"无" |
+
+后端 `_parse_prescription()` 所有新字段按可选处理（向后兼容）。
+
+## PE 历史分位数据管道
+
+`tradingagents/dataflows/pe_percentile.py` — 为决策卡片的 `suggested_price` 提供估值锚点。
+
+### 三市场策略
+
+| 市场 | 数据源 | 数据密度 | 分位精度 |
+|------|--------|----------|----------|
+| A 股 | BaoStock `query_history_k_data_plus` (peTTM) | ~1200 日数据点 | 精确 |
+| 港股 | AKShare `stock_financial_hk_analysis_indicator_em` (EPS_TTM) + 日线 | ~9 年数据点 | 年度 |
+| 美股 | yfinance `ticker.financials` (Basic EPS) + 5年价格 | ~5 年数据点 | 年度 |
+
+### 接口
+
+```python
+# 单只标的
+compute_pe_context("600519", "cn")  # → {current_price, pe_ttm, pe_percentile_5y, ma20, judgment, ...}
+
+# 批量（持仓 + 候选）
+enrich_price_context(positions, candidates)  # → {code: pe_context_dict}
+```
+
+### 降级路径
+
+- 数据不足 (<10 有效 PE 数据点) → `insufficient_history`
+- 亏损企业 (PE ≤ 0) → `negative_earnings`
+- 数据源不可用 (网络/接口异常) → `data_unavailable`
+- 所有降级场景返回 `judgment="数据不可用"`，前端隐藏 PE 进度条
 
 ## 降级策略
 
@@ -137,10 +193,14 @@ app/services/
 ## 前端
 
 持仓页面 "组合建议" 按钮 → el-drawer 展示：
-- 处方表格（el-table，操作颜色标记）
-- 5 个新可折叠 section：市场扫描(L1)、候选标的(L2)、风险审查(L4)、辩论记录(L1/L2)
+- 决策卡片流（`DecisionCard.vue`，纵向排列，priority 排序）
+  - 左侧色条：urgent=红, important=橙, optional=灰
+  - 可折叠 l1/l2 上下文（行业方向 + 护城河）
+  - PE 分位进度条（绿≤25% / 黄≤75% / 红>75%）
+  - 风险行（max_loss + five_year_view + bias_check）
+- 5 个可折叠 section：市场扫描(L1)、候选标的(L2)、风险审查(L4)、辩论记录(L1/L2)
 - 现有 section（分析师/策略师/侦察兵/辩论记录）不受影响
-- 新 section 在无数据时通过 `v-if` 自动隐藏
+- 缺失字段显示 "—"，PE 分位不可用时隐藏进度条
 
 ## 已知风险
 
@@ -161,6 +221,8 @@ app/services/
 8. **D8: 行业生命周期五阶段** — 新兴萌芽→期望膨胀→泡沫破裂→稳步成长→成熟稳定
 9. **D9: AI 时代不设能力圈** — AI 能看懂大多数行业的生意逻辑
 10. **D10: 巴芒四层过滤器** — 嵌入 Scout prompt，是核心筛选逻辑
+11. **D11: 决策卡片模型** — 处方输出从纯 JSON 升级为 7 字段卡片（信任层 l1/l2 + 执行层 5 字段），替代 el-table 为纵向卡片流
+12. **D12: PE 分位三市场策略** — A 股 BaoStock 日线精确分位，港股 AKShare 年度分位，美股 yfinance 年度分位，各自独立降级
 
 ## 注意事项
 
