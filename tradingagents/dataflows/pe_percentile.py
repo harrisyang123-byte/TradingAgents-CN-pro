@@ -372,12 +372,16 @@ def compute_pe_context(code: str, market: str = "") -> dict:
         return _empty_result(code, market, "unknown_market")
 
 
+# 非股票类型，无需 PE 估值
+_SKIP_INSTRUMENT_TYPES = frozenset({"fund", "etf"})
+
+
 def enrich_price_context(positions: list, candidates: list) -> dict:
     """批量为持仓和候选标的计算 PE 分位
 
     Args:
-        positions: [{code, market?, ...}]
-        candidates: [{code, market?, ...}]
+        positions: [{code, market?, instrument_type?, ...}]
+        candidates: [{code, market?, instrument_type?, ...}]
 
     Returns:
         {code: pe_context_dict}
@@ -390,6 +394,10 @@ def enrich_price_context(positions: list, candidates: list) -> dict:
         if not code or code in seen:
             continue
         seen.add(code)
+        inst_type = pos.get("instrument_type", "stock")
+        if inst_type in _SKIP_INSTRUMENT_TYPES:
+            results[code] = _empty_result(code, _infer_market(code), "non_stock_instrument")
+            continue
         market = pos.get("market", "") or _infer_market(code)
         logger.info(f"[PE] 计算 {code} ({market}) ...")
         results[code] = compute_pe_context(code, market)
@@ -399,6 +407,10 @@ def enrich_price_context(positions: list, candidates: list) -> dict:
         if not code or code in seen:
             continue
         seen.add(code)
+        inst_type = c.get("instrument_type", "stock")
+        if inst_type in _SKIP_INSTRUMENT_TYPES:
+            results[code] = _empty_result(code, _infer_market(code), "non_stock_instrument")
+            continue
         market = c.get("market", "") or _infer_market(code)
         logger.info(f"[PE] 计算 {code} ({market}) ...")
         results[code] = compute_pe_context(code, market)
