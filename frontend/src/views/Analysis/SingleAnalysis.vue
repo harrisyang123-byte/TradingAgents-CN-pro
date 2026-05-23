@@ -526,8 +526,35 @@
                   </el-alert>
                 </div>
 
-                <!-- 最终决策 -->
-                <div v-if="analysisResults.decision" class="decision-section">
+                <!-- 基金投资建议 -->
+                <div v-if="isFundResult && analysisResults.decision" class="fund-decision-section">
+                  <h4>🎯 投资建议</h4>
+                  <div class="fund-decision-card">
+                    <div class="fund-decision-top">
+                      <div class="fund-decision-action">
+                        <span class="fund-label">操作建议</span>
+                        <el-tag
+                          :type="getFundActionTag(analysisResults.decision.reasoning)"
+                          size="large"
+                          effect="dark"
+                        >
+                          {{ getFundAction(analysisResults.decision.reasoning) }}
+                        </el-tag>
+                      </div>
+                      <div class="fund-decision-position">
+                        <span class="fund-label">建议仓位</span>
+                        <span class="fund-position-value">{{ getFundPosition(analysisResults.decision.reasoning) }}</span>
+                      </div>
+                    </div>
+                    <div class="fund-decision-reasoning">
+                      <h5>决策理由</h5>
+                      <div v-html="formatReportContent(analysisResults.decision.reasoning || analysisResults.final_trade_decision || '暂无')"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 股票分析参考（原版） -->
+                <div v-else-if="!isFundResult && analysisResults.decision" class="decision-section">
                   <h4>🎯 分析参考</h4>
                   <div class="decision-card">
                     <div class="decision-main">
@@ -576,8 +603,8 @@
                   </div>
                 </div>
 
-                <!-- 分析概览 -->
-                <div v-if="analysisResults" class="overview-section">
+                <!-- 分析概览（股票分析） -->
+                <div v-if="!isFundResult && analysisResults" class="overview-section">
                   <h4>📊 分析概览</h4>
                   <div class="overview-card">
   
@@ -597,7 +624,64 @@
                 <div v-if="analysisResults.state || analysisResults.reports" class="reports-section">
                   <h4>📋 详细分析报告</h4>
 
-                  <!-- 美观的标签页展示 -->
+                  <!-- 基金分析：三阶段纵向滚动布局 -->
+                  <template v-if="isFundResult">
+                    <div class="fund-reports-sequential">
+                      <!-- 阶段一：分析结论 -->
+                      <div class="fund-stage">
+                        <div class="fund-stage-header">
+                          <span class="fund-stage-number">1</span>
+                          <span class="fund-stage-title">分析结论</span>
+                        </div>
+                        <div class="fund-stage-body">
+                          <div v-for="r in getFundStageReports(analysisResults, 'analysis')" :key="r.key" class="fund-report-block">
+                            <div class="fund-report-block-header">
+                              <span class="fund-report-icon">{{ r.icon }}</span>
+                              <span class="fund-report-label">{{ r.title }}</span>
+                            </div>
+                            <div class="report-content" v-html="formatReportContent(r.content)"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 阶段二：辩论过程 -->
+                      <div class="fund-stage">
+                        <div class="fund-stage-header">
+                          <span class="fund-stage-number">2</span>
+                          <span class="fund-stage-title">辩论过程</span>
+                        </div>
+                        <div class="fund-stage-body">
+                          <div v-for="r in getFundStageReports(analysisResults, 'debate')" :key="r.key" class="fund-report-block">
+                            <div class="fund-report-block-header">
+                              <span class="fund-report-icon">{{ r.icon }}</span>
+                              <span class="fund-report-label">{{ r.title }}</span>
+                            </div>
+                            <DebateTimeline :history-data="r.content" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 阶段三：最终决策 -->
+                      <div class="fund-stage" v-if="getFundStageReports(analysisResults, 'decision').length > 0">
+                        <div class="fund-stage-header">
+                          <span class="fund-stage-number">3</span>
+                          <span class="fund-stage-title">最终决策</span>
+                        </div>
+                        <div class="fund-stage-body">
+                          <div v-for="r in getFundStageReports(analysisResults, 'decision')" :key="r.key" class="fund-report-block">
+                            <div class="fund-report-block-header">
+                              <span class="fund-report-icon">{{ r.icon }}</span>
+                              <span class="fund-report-label">{{ r.title }}</span>
+                            </div>
+                            <div class="report-content" v-html="formatReportContent(r.content)"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+
+                  <!-- 股票分析：标签页展示（原版） -->
+                  <template v-else>
                   <div class="analysis-tabs-container">
                     <el-tabs
                       v-model="activeReportTab"
@@ -613,7 +697,6 @@
                         :label="report.title"
                         class="report-tab-pane"
                       >
-                        <!-- 标签页内容头部 -->
                         <div class="report-header">
                           <div class="report-title">
                             <span class="report-icon">{{ getReportIcon(report.title) }}</span>
@@ -621,8 +704,6 @@
                           </div>
                           <div class="report-description">{{ getReportDescription(report.title) }}</div>
                         </div>
-
-                        <!-- 报告内容 -->
                         <div class="report-content-wrapper">
                           <template v-if="report.key === 'investment_debate_state' || report.key === 'risk_debate_state' || (report.content && typeof report.content === 'object' && (report.content.history || report.content.bull_history || report.content.bear_history))">
                             <DebateTimeline :history-data="report.content" />
@@ -641,6 +722,7 @@
                       </el-tab-pane>
                     </el-tabs>
                   </div>
+                  </template>
                 </div>
 
                 <!-- 操作按钮 -->
@@ -764,6 +846,18 @@ const analysisStatus = ref('idle') // 'idle', 'running', 'completed', 'failed'
 const showResults = ref(false)
 const analysisResults = ref<any>(null)
 const activeReportTab = ref('') // 当前激活的报告标签页
+const isFundResult = computed(() => {
+  if (analysisResults.value?.instrument_type === 'fund') return true
+  if (analysisForm.instrumentType === 'fund') return true
+  // 从数据结构推断（兼容后端未返回 instrument_type 的情况）
+  const data = analysisResults.value
+  if (!data) return false
+  const reports = data.reports || {}
+  const state = data.state || {}
+  return !!(reports.fund_manager_report || state.fund_manager_report ||
+            reports.fund_holdings_report || state.fund_holdings_report ||
+            reports.fund_risk_report || state.fund_risk_report)
+})
 const progressInfo = ref({
   progress: 0,
   currentStep: '',
@@ -1250,6 +1344,84 @@ const getActionTagType = (action: string): 'primary' | 'success' | 'warning' | '
     '观望': 'info'
   }
   return actionTypes[action] || 'info'
+}
+
+// ── 基金分析专用辅助函数 ──
+
+const getFundAction = (reasoning: string): string => {
+  if (!reasoning) return '持有'
+  const r = reasoning.toLowerCase()
+  if (r.includes('买入') || r.includes('增持') || r.includes('加仓') || r.includes('buy')) return '增持'
+  if (r.includes('卖出') || r.includes('减持') || r.includes('减仓') || r.includes('清仓') || r.includes('sell')) return '减持'
+  if (r.includes('观望') || r.includes('等待') || r.includes('回避')) return '观望'
+  return '持有'
+}
+
+const getFundActionTag = (reasoning: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const action = getFundAction(reasoning)
+  const tagMap: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
+    '增持': 'success',
+    '持有': 'warning',
+    '减持': 'danger',
+    '观望': 'info',
+  }
+  return tagMap[action] || 'info'
+}
+
+const getFundPosition = (reasoning: string): string => {
+  if (!reasoning) return '中仓 (20-30%)'
+  const r = reasoning
+  // 尝试匹配仓位关键词
+  const posMatch = r.match(/(?:仓位|占比|配置)[：:]\s*([\d.]+%\s*[-\s~]+\s*[\d.]+%|[\d.]+%)/i)
+       || r.match(/(\d+%\s*[-\s~]+\s*\d+%)/)
+       || r.match(/(轻仓|中仓|重仓|满仓|空仓)/)
+  if (posMatch) return posMatch[0]
+  // 从关键词推断仓位
+  if (r.includes('重仓') || r.includes('积极') || r.includes('大幅')) return '重仓 (30-50%)'
+  if (r.includes('轻仓') || r.includes('谨慎') || r.includes('观望')) return '轻仓 (5-15%)'
+  if (r.includes('清仓') || r.includes('空仓')) return '空仓 (0%)'
+  return '中仓 (15-30%)'
+}
+
+const getFundStageReports = (data: any, stage: 'analysis' | 'debate' | 'decision') => {
+  const state = data?.state || data
+  const reports = data?.reports || {}
+  const detailed = data?.detailed_analysis || {}
+
+  const getContent = (key: string) => reports[key] || detailed[key] || state?.[key] || ''
+
+  if (stage === 'analysis') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const fmr = getContent('fund_manager_report')
+    const fhr = getContent('fund_holdings_report')
+    const frr = getContent('fund_risk_report')
+    if (fmr) items.push({ key: 'fund_manager_report', icon: '📊', title: '基金经理分析', content: fmr })
+    if (fhr) items.push({ key: 'fund_holdings_report', icon: '📦', title: '持仓分析', content: fhr })
+    if (frr) items.push({ key: 'fund_risk_report', icon: '⚠️', title: '风险评估', content: frr })
+    return items
+  }
+
+  if (stage === 'debate') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const inv = getContent('investment_debate_state')
+    const risk = getContent('risk_debate_state')
+    if (inv && typeof inv === 'object' && (inv.history || inv.bull_history)) {
+      items.push({ key: 'investment_debate_state', icon: '⚔️', title: '多空投资辩论', content: inv })
+    }
+    if (risk && typeof risk === 'object' && (risk.history || risk.aggressive_history)) {
+      items.push({ key: 'risk_debate_state', icon: '🛡️', title: '风险控制辩论', content: risk })
+    }
+    return items
+  }
+
+  if (stage === 'decision') {
+    const items: Array<{key: string, icon: string, title: string, content: any}> = []
+    const ftd = getContent('final_trade_decision')
+    if (ftd) items.push({ key: 'final_trade_decision', icon: '🎯', title: '投资组合经理决策', content: ftd })
+    return items
+  }
+
+  return []
 }
 
 // 获取分析报告
@@ -2857,6 +3029,134 @@ onMounted(async () => {
 /* 为当前步骤图标添加脉冲效果 */
 .step-current .step-icon {
   animation: pulse 2s ease-in-out infinite;
+}
+
+/* ── 基金分析三阶段布局 ── */
+.fund-decision-section {
+  margin-bottom: 32px;
+}
+.fund-decision-section h4 {
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.fund-decision-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.fund-decision-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.fund-decision-action,
+.fund-decision-position {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fund-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.fund-position-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.fund-decision-reasoning h5 {
+  margin: 0 0 12px 0;
+  color: #374151;
+  font-size: 15px;
+}
+
+.fund-decision-reasoning {
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+/* 三阶段布局 */
+.fund-reports-sequential {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fund-stage {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.fund-stage-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.fund-stage-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fund-stage-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.fund-stage-body {
+  padding: 20px;
+}
+
+.fund-report-block {
+  margin-bottom: 24px;
+}
+
+.fund-report-block:last-child {
+  margin-bottom: 0;
+}
+
+.fund-report-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.fund-report-icon {
+  font-size: 18px;
+}
+
+.fund-report-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
 }
 </style>
 

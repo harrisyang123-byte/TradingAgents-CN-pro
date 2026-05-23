@@ -377,6 +377,51 @@ def _get_default_provider_by_model(model_name: str) -> str:
     return provider
 
 
+def _extract_fund_action(text: str) -> str:
+    """从 Fund Trader 输出中提取操作建议"""
+    if not text:
+        return "持有"
+    t = text.lower()
+    if any(w in t for w in ['买入', '增持', '加仓', 'buy', '建议配置', '积极配置']):
+        return "增持"
+    if any(w in t for w in ['卖出', '减持', '减仓', '清仓', 'sell', '赎回']):
+        return "减持"
+    if any(w in t for w in ['观望', '回避', '等待', '暂不']):
+        return "观望"
+    return "持有"
+
+
+def _extract_fund_confidence(text: str) -> float:
+    """从 Fund Trader 输出中提取置信度"""
+    if not text:
+        return 0.5
+    import re
+    m = re.search(r'(?:置信度|信心|confidence)[：:]\s*([\d.]+)', text, re.IGNORECASE)
+    if m:
+        val = float(m.group(1))
+        return val / 100 if val > 1 else val
+    m = re.search(r'(\d+)%\s*(?:把握|信心|置信)', text)
+    if m:
+        return float(m.group(1)) / 100
+    return 0.65
+
+
+def _extract_fund_risk(text: str) -> float:
+    """从 Fund Trader 输出中提取风险评分"""
+    if not text:
+        return 0.3
+    import re
+    m = re.search(r'(?:风险[评分级]|risk)[：:]\s*(高|中高|中|中低|低)', text, re.IGNORECASE)
+    if m:
+        risk_map = {'高': 0.8, '中高': 0.6, '中': 0.4, '中低': 0.25, '低': 0.1}
+        return risk_map.get(m.group(1), 0.3)
+    m = re.search(r'(?:风险[评分级]|risk)[：:]\s*([\d.]+)', text, re.IGNORECASE)
+    if m:
+        val = float(m.group(1))
+        return val / 100 if val > 1 else val
+    return 0.35
+
+
 def create_analysis_config(
     research_depth,  # 支持数字(1-5)或字符串("快速", "标准", "深度")
     selected_analysts: list,
@@ -1496,9 +1541,14 @@ class SimpleAnalysisService:
                     progress_callback=graph_progress_callback,
                 )
                 state = fund_result.get("state", {})
+                ftd = fund_result.get("final_trade_decision", "")
+                # 从 Trader 输出中提取操作建议和置信度
                 decision = {
-                    "action": fund_result.get("action", "持有"),
-                    "reasoning": fund_result.get("final_trade_decision", ""),
+                    "action": _extract_fund_action(ftd),
+                    "confidence": _extract_fund_confidence(ftd),
+                    "risk_score": _extract_fund_risk(ftd),
+                    "target_price": None,
+                    "reasoning": ftd,
                     "fund_code": fund_result.get("fund_code", ""),
                     "elapsed": fund_result.get("elapsed_seconds", 0),
                 }
@@ -2660,7 +2710,10 @@ class SimpleAnalysisService:
                 "tokens_used": result.get("tokens_used", 0),
 
                 # 🆕 性能指标数据
-                "performance_metrics": result.get("performance_metrics", {})
+                "performance_metrics": result.get("performance_metrics", {}),
+
+                # 🆕 分析类型（fund/stock）
+                "instrument_type": result.get("instrument_type", "stock"),
             }
 
             # 保存到analysis_reports集合（与web目录保持一致）
@@ -2687,7 +2740,8 @@ class SimpleAnalysisService:
                         "tokens_used": result.get("tokens_used", 0),
                         "reports": reports,  # 包含提取的报告内容
                         # 🔥 关键修复：添加格式化后的decision字段！
-                        "decision": result.get("decision", {})
+                        "decision": result.get("decision", {}),
+                        "instrument_type": result.get("instrument_type", "stock"),
                     }}}
                 )
                 logger.info(f"💾 分析结果已保存 (web风格): {task_id}")

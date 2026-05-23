@@ -200,6 +200,24 @@ async def get_task_status_new(
                     "stock_symbol": mongo_result.get("stock_symbol"),
                     "analysts": mongo_result.get("analysts", []),
                     "research_depth": mongo_result.get("research_depth", "快速"),
+                    "result_data": {
+                        "analysis_id": mongo_result.get("analysis_id"),
+                        "stock_symbol": mongo_result.get("stock_symbol"),
+                        "stock_code": mongo_result.get("stock_symbol"),
+                        "analysis_date": mongo_result.get("analysis_date"),
+                        "summary": mongo_result.get("summary", ""),
+                        "recommendation": mongo_result.get("recommendation", ""),
+                        "confidence_score": mongo_result.get("confidence_score", 0.0),
+                        "risk_level": mongo_result.get("risk_level", "中等"),
+                        "key_points": mongo_result.get("key_points", []),
+                        "execution_time": mongo_result.get("execution_time", 0),
+                        "tokens_used": mongo_result.get("tokens_used", 0),
+                        "analysts": mongo_result.get("analysts", []),
+                        "research_depth": mongo_result.get("research_depth", "快速"),
+                        "reports": mongo_result.get("reports", {}),
+                        "decision": mongo_result.get("decision", {}),
+                        "instrument_type": mongo_result.get("instrument_type", "stock"),
+                    },
                     "source": "mongodb_reports"  # 标记数据来源
                 }
 
@@ -291,6 +309,7 @@ async def get_task_result(
                     "updated_at": mongo_result.get("updated_at"),
                     "status": mongo_result.get("status", "completed"),
                     "decision": mongo_result.get("decision", {}),
+                    "instrument_type": mongo_result.get("instrument_type", "stock"),
                     "source": "mongodb"  # 标记数据来源
                 }
 
@@ -335,6 +354,7 @@ async def get_task_result(
                         "updated_at": tasks_doc.get("completed_at"),
                         "status": r.get("status", "completed"),
                         "decision": r.get("decision", {}),
+                        "instrument_type": r.get("instrument_type", "stock"),
                         "source": "analysis_tasks"  # 数据来源标记
                     }
 

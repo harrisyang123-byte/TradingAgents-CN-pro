@@ -835,10 +835,15 @@ const getModuleDisplayName = (moduleName: string) => {
     // 最终决策 (1个)
     final_trade_decision: '🎯 最终交易决策',
 
+    // 基金分析报告 (5个)
+    fund_manager_report: '📊 基金经理分析',
+    fund_holdings_report: '📦 持仓分析',
+    fund_risk_report: '⚠️ 风险评估',
+    investment_debate_state: '⚔️ 多空投资辩论',
+    risk_debate_state: '🛡️ 风险控制辩论',
+
     // 兼容旧字段
     investment_plan: '📋 投资建议',
-    investment_debate_state: '🔬 研究团队决策（旧）',
-    risk_debate_state: '⚖️ 风险管理团队（旧）',
     detailed_analysis: '📄 详细分析'
   }
   // 未匹配到时，做一个友好的回退：下划线转空格
