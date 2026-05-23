@@ -29,9 +29,28 @@ from tradingagents.agents.advisors import (
     L1_TOOLS,
     L2_TOOLS,
 )
+from tradingagents.dataflows.pe_percentile import enrich_price_context
 from tradingagents.utils.logging_init import get_logger
 
 logger = get_logger("default")
+
+
+# ── PE 数据增强节点 ───────────────────────────────────────
+
+def enrich_price_data_node(state: dict) -> dict:
+    """在 L3 辩论之后、CIO 之前收集所有标的价格/PE 分位数据"""
+    portfolio = state.get("portfolio_summary", {})
+    positions = portfolio.get("positions", [])
+    candidates = state.get("stock_candidates", [])
+
+    if not positions and not candidates:
+        logger.info("[EnrichPrice] 无持仓和候选标的，跳过")
+        return {"price_context": {}}
+
+    price_context = enrich_price_context(positions, candidates)
+    success = sum(1 for v in price_context.values() if v.get("pe_percentile_source") not in ("data_unavailable", "unknown_market"))
+    logger.info(f"[EnrichPrice] 完成: {success}/{len(price_context)} 标的价格数据可用")
+    return {"price_context": price_context}
 
 
 # ── 工具节点（带计数器） ──────────────────────────────
@@ -478,10 +497,11 @@ class AdvisorGraph:
         workflow.add_edge("debate_scout_l3", "debate_advisor_ctr")
         workflow.add_conditional_edges("debate_advisor_ctr", advisor_debate_router, {
             "debate_analyst": "debate_analyst",
-            "CIO": "CIO",
+            "CIO": "enrich_price_data",
         })
 
         # === Level 4: 最终处方 ===
+        workflow.add_node("enrich_price_data", enrich_price_data_node)
         workflow.add_node("CIO", cio)
         workflow.add_node("Risk_Director", risk_director)
         workflow.add_node("debate_cio_l4", debate_cio_l4)
@@ -489,7 +509,8 @@ class AdvisorGraph:
         workflow.add_node("debate_final_ctr", debate_final_ctr)
         workflow.add_node("CIO_Final", cio)
 
-        # L4: CIO → Risk Director → debate → CIO 终裁
+        # L4: enrich → CIO → Risk Director → debate → CIO 终裁
+        workflow.add_edge("enrich_price_data", "CIO")
         workflow.add_edge("CIO", "Risk_Director")
         workflow.add_edge("Risk_Director", "debate_cio_l4")
         workflow.add_edge("debate_cio_l4", "debate_riskdir_l4")
@@ -560,6 +581,8 @@ class AdvisorGraph:
                 "riskdir_response": "",
                 "count": 0,
             },
+            # PE 分位
+            "price_context": {},
             # 配置
             "report_staleness_days": config_overrides.get(
                 "report_staleness_days", self.config.get("report_staleness_days", 7)),

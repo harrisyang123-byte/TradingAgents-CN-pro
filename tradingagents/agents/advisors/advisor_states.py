@@ -82,6 +82,9 @@ class AdvisorState(TypedDict, total=False):
     risk_director_review: str
     risk_debate_final: RiskDebateState
 
+    # === PE 分位数据（L3→L4 enrich_price_data 节点产出） ===
+    price_context: Dict[str, Any]
+
     # === 配置 ===
     report_staleness_days: int
     max_single_weight: float
