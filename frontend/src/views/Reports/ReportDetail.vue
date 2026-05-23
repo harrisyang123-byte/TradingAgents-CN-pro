@@ -112,24 +112,22 @@
           </div>
         </template>
         <div class="metrics-content">
-          <el-row :gutter="24">
-            <!-- 分析参考 -->
-            <el-col :span="8">
-              <div class="metric-item">
-                <div class="metric-label">
-                  <el-icon><TrendCharts /></el-icon>
-                  分析参考
-                  <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
-                    <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
-                  </el-tooltip>
-                </div>
-                <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
-                <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
-              </div>
-            </el-col>
+          <!-- 分析参考：单独一排 -->
+          <div class="recommendation-row">
+            <div class="metric-label">
+              <el-icon><TrendCharts /></el-icon>
+              分析参考
+              <el-tooltip content="基于AI模型的分析倾向，仅供参考，不构成投资建议" placement="top">
+                <el-icon style="margin-left: 4px; cursor: help; font-size: 14px;"><QuestionFilled /></el-icon>
+              </el-tooltip>
+            </div>
+            <div class="metric-value recommendation-value markdown-content" v-html="renderMarkdown(report.recommendation || '暂无')"></div>
+            <el-tag type="info" size="small" style="margin-top: 8px;">仅供参考</el-tag>
+          </div>
 
+          <el-row :gutter="24">
             <!-- 风险评估 -->
-            <el-col :span="8">
+            <el-col :span="12">
               <div class="metric-item risk-item">
                 <div class="metric-label">
                   <el-icon><Warning /></el-icon>
@@ -157,7 +155,7 @@
             </el-col>
 
             <!-- 模型置信度 -->
-            <el-col :span="8">
+            <el-col :span="12">
               <div class="metric-item confidence-item">
                 <div class="metric-label">
                   <el-icon><DataAnalysis /></el-icon>
@@ -1167,6 +1165,34 @@ watch(
     }
 
     .metrics-content {
+      .recommendation-row {
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid var(--el-border-color-light);
+        border-radius: 12px;
+        background: var(--el-fill-color-blank);
+
+        .metric-label {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--el-text-color-regular);
+          margin-bottom: 16px;
+
+          .el-icon {
+            font-size: 18px;
+          }
+        }
+
+        .recommendation-value {
+          font-size: 16px;
+          line-height: 1.8;
+          color: var(--el-text-color-primary);
+        }
+      }
+
       .metric-item {
         text-align: center;
         padding: 24px;
