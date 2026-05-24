@@ -421,6 +421,21 @@ class ConfigService:
 
             return None
     
+    async def get_analysis_config(self, user_id: str = None) -> dict:
+        """获取分析用的 LLM 配置（返回 dict 兼容现有调用方）"""
+        config = await self.get_system_config()
+        if config and config.llm_configs:
+            llm = config.llm_configs[0]
+            return {
+                "llm_provider": llm.provider,
+                "deep_think_llm": llm.model_name,
+                "quick_think_llm": llm.model_name,
+                "backend_url": llm.api_base or "",
+                "deep_api_key": llm.api_key or "",
+                "quick_api_key": llm.api_key or "",
+            }
+        return {}
+
     async def _create_default_config(self) -> SystemConfig:
         """创建默认系统配置"""
         default_config = SystemConfig(
