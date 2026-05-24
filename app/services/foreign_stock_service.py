@@ -186,6 +186,7 @@ class ForeignStockService:
             # 🔥 只有这些是有效的数据源名称
             source_handlers = {
                 'yahoo_finance': ('yfinance', self._get_hk_quote_from_yfinance),
+                'yfinance': ('yfinance', self._get_hk_quote_from_yfinance),
                 'akshare': ('akshare', self._get_hk_quote_from_akshare),
             }
 

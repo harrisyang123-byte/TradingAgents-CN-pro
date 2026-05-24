@@ -73,8 +73,13 @@
                   <span v-else style="color:#909399">--</span>
                 </td>
                 <td>
-                  <span style="font-size:12px;font-family:monospace">{{ row.position_codes.slice(0, 3).join(', ') }}</span>
-                  <span v-if="row.position_codes.length > 3" style="color:#909399;font-size:11px"> +{{ row.position_codes.length - 3 }}</span>
+                  <div class="position-names">
+                    <span v-for="(name, i) in row.position_names.slice(0, 3)" :key="name" class="pos-name-tag">{{ name }}</span>
+                    <span v-if="row.position_names.length > 3" style="color:#909399;font-size:11px"> +{{ row.position_names.length - 3 }}</span>
+                  </div>
+                  <div class="position-codes-sub" v-if="row.position_codes.length">
+                    {{ row.position_codes.slice(0, 4).join(' ') }}{{ row.position_codes.length > 4 ? ' ...' : '' }}
+                  </div>
                 </td>
                 <td>{{ row.lifecycle || '--' }}</td>
                 <td>
@@ -127,7 +132,7 @@
             v-for="adv in adviceHistory"
             :key="adv.advice_id"
             class="history-card"
-            @click="selectedAdvice = adv"
+            @click="openAdviceDetail(adv)"
           >
             <div class="history-header">
               <span class="history-date">{{ adv.created_at?.slice(0, 19).replace('T', ' ') }}</span>
@@ -250,6 +255,11 @@ async function loadHistory() {
   } catch { /* ignore */ }
 }
 
+function openAdviceDetail(adv: PortfolioAdvice) {
+  selectedAdvice.value = adv
+  showDetailDialog.value = true
+}
+
 function renderMd(text: string | undefined): string {
   if (!text) return ''
   return text
@@ -320,6 +330,8 @@ onMounted(() => {
 .ind-name { font-weight: 600; }
 .weight-badge { background: #ecf5ff; color: #409eff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 .reason-cell { font-size: 12px; color: #606266; max-width: 220px; line-height: 1.5; }
+.pos-name-tag { display: inline-block; background: #f0f2f5; color: #303133; padding: 1px 6px; border-radius: 3px; font-size: 12px; margin: 1px 2px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.position-codes-sub { font-size: 10px; color: #c0c4cc; margin-top: 2px; font-family: monospace; }
 
 .history-card { padding: 12px 16px; border: 1px solid #ebeef5; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
 .history-card:hover { border-color: #b3d8ff; background: #fafafa; }

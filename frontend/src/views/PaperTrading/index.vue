@@ -131,25 +131,52 @@
 
         <!-- 组合总览：仓位分布 + 盈亏贡献 -->
         <div class="chart-grid" v-if="summary?.positions?.length">
-          <!-- 仓位分布 -->
+          <!-- 仓位分布（横向堆积柱状图 + 可收起列表） -->
           <div class="card">
             <div class="card-header">
               仓位分布
-              <span style="font-size:12px;color:var(--text-secondary);font-weight:400">按市值占比</span>
+              <span style="font-size:12px;color:var(--text-secondary);font-weight:400">按市值占比 · top 5</span>
             </div>
-            <div class="card-body" style="display:flex;align-items:flex-start;gap:32px">
-              <div class="pie-chart-css" :style="{ background: pieGradient }" />
-              <div class="pie-legend" style="flex:1">
-                <div v-for="item in topPositions" :key="item.code" class="pie-legend-item">
-                  <div class="pie-legend-dot" :style="{ background: pieColors[item.code] }" />
-                  <span class="pie-legend-label">{{ item.name || item.code }}</span>
-                  <span class="pie-legend-value">{{ item.weight.toFixed(1) }}%</span>
+            <div class="card-body">
+              <!-- 堆积柱状条 -->
+              <div class="alloc-bar">
+                <div v-for="(item, i) in top5Positions" :key="item.code"
+                  class="alloc-bar-seg"
+                  :style="{ flex: item.weight, background: PIE_COLORS[i] }"
+                  :title="`${item.name || item.code}: ${item.weight.toFixed(1)}%`" />
+                <div v-if="otherCount > 0" class="alloc-bar-seg alloc-bar-others"
+                  :style="{ flex: otherWeight }"
+                  :title="`其他 (${otherCount}只): ${otherWeight.toFixed(1)}%`" />
+              </div>
+              <!-- 图例 -->
+              <div class="alloc-legend">
+                <span v-for="(item, i) in top5Positions" :key="item.code" class="alloc-legend-item">
+                  <span class="alloc-legend-dot" :style="{ background: PIE_COLORS[i] }" />
+                  {{ item.name || item.code }} ({{ item.weight.toFixed(1) }}%)
+                </span>
+                <span v-if="otherCount > 0" class="alloc-legend-item">
+                  <span class="alloc-legend-dot alloc-others-dot" />
+                  其他 ({{ otherCount }}只) {{ otherWeight.toFixed(1) }}%
+                </span>
+              </div>
+              <!-- 明细列表（可收起） -->
+              <div v-if="summary?.positions?.length" class="alloc-list">
+                <div v-for="(pos, i) in allocationDisplay" :key="pos.code" class="alloc-row">
+                  <span class="alloc-dot" :style="{ background: i < 5 ? PIE_COLORS[i] : '#dcdfe6' }" />
+                  <span class="alloc-name">
+                    {{ pos.name || pos.code }}
+                    <span class="code-tiny">{{ pos.code }}</span>
+                  </span>
+                  <div class="alloc-mini-bar">
+                    <div class="alloc-mini-fill" :style="{ width: weightPercent(pos.weight) + '%', background: i < 5 ? PIE_COLORS[i] : '#dcdfe6' }" />
+                  </div>
+                  <span class="alloc-pct">{{ pos.weight.toFixed(1) }}%</span>
                 </div>
-                <div v-if="otherCount > 0" class="pie-legend-item">
-                  <div class="pie-legend-dot" style="background:var(--text-secondary)" />
-                  <span class="pie-legend-label">其他 ({{ otherCount }}只)</span>
-                  <span class="pie-legend-value">{{ otherWeight.toFixed(1) }}%</span>
-                </div>
+              </div>
+              <div v-if="sortedByWeight.length > 10" style="text-align:center;padding-top:8px">
+                <button class="btn btn-plain btn-sm" @click="showAllAlloc = !showAllAlloc">
+                  {{ showAllAlloc ? '收起' : `展开全部 (${sortedByWeight.length}只)` }}
+                </button>
               </div>
             </div>
           </div>
@@ -161,8 +188,8 @@
               <span style="font-size:12px;color:var(--text-secondary);font-weight:400">各持仓对总盈亏的贡献</span>
             </div>
             <div class="card-body">
-              <div v-for="pos in sortedByPnl" :key="pos.code" class="contrib-bar">
-                <div class="name">{{ pos.name || pos.code }}</div>
+              <div v-for="pos in displayPnl" :key="pos.code" class="contrib-bar">
+                <div class="name">{{ pos.name || pos.code }}<span class="code-tiny">{{ pos.code }}</span></div>
                 <div class="bar-wrap">
                   <div class="bar-fill" :class="(pos.pnl_cny || 0) >= 0 ? 'positive' : 'negative'"
                     :style="{ width: pnlBarWidth(pos.pnl_cny) + '%', left: (pos.pnl_cny || 0) >= 0 ? '50%' : 'auto', right: (pos.pnl_cny || 0) < 0 ? '50%' : 'auto' }" />
@@ -170,6 +197,11 @@
                 <div class="pnl-value" :style="{ color: pnlColor(pos.pnl_cny) }">
                   {{ fmtSignedMoney(pos.pnl_cny) }}
                 </div>
+              </div>
+              <div v-if="sortedByPnl.length > 10" style="text-align:center;padding-top:8px">
+                <button class="btn btn-plain btn-sm" @click="showAllPnl = !showAllPnl">
+                  {{ showAllPnl ? '收起' : `展开全部 (${sortedByPnl.length}只)` }}
+                </button>
               </div>
             </div>
           </div>
@@ -196,28 +228,28 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>代码</th>
-                  <th>名称</th>
-                  <th>市场</th>
+                  <th>标的</th>
                   <th>分类</th>
                   <th style="text-align:right">数量</th>
                   <th style="text-align:right">均价</th>
                   <th style="text-align:right">最新价</th>
-                  <th style="text-align:right">市值 (CNY)</th>
-                  <th style="text-align:right">仓位占比</th>
-                  <th style="text-align:right">盈亏</th>
-                  <th style="text-align:right">盈亏率</th>
+                  <th style="text-align:right;cursor:pointer" @click="toggleSort('market_value_cny')">市值 (CNY){{ sortArrow('market_value_cny') }}</th>
+                  <th style="text-align:right;cursor:pointer" @click="toggleSort('weight')">仓位占比{{ sortArrow('weight') }}</th>
+                  <th style="text-align:right;cursor:pointer" @click="toggleSort('pnl_cny')">盈亏{{ sortArrow('pnl_cny') }}</th>
+                  <th style="text-align:right;cursor:pointer" @click="toggleSort('pnl_pct')">盈亏率{{ sortArrow('pnl_pct') }}</th>
                   <th>操作</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="pos in filteredPositions" :key="pos.code">
                   <td>
-                    <a class="stock-link" @click="viewStockDetail(pos.code, pos.instrument_type)">{{ pos.code }}</a>
-                  </td>
-                  <td>{{ pos.name || pos.code }}</td>
-                  <td>
-                    <span class="tag" :class="marketTagClass(pos.market)">{{ marketLabel(pos.market) }}</span>
+                    <div class="name-cell">
+                      <a class="stock-link name-primary" @click="viewStockDetail(pos.code, pos.instrument_type)">{{ pos.name || pos.code }}</a>
+                      <div class="name-meta">
+                        <span class="code-tiny">{{ pos.code }}</span>
+                        <span class="tag sm" :class="marketTagClass(pos.market)">{{ marketLabel(pos.market) }}</span>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <span class="tag" :style="instTagStyle(pos.instrument_type)">{{ instrumentTypeLabel[pos.instrument_type || 'other'] || pos.instrument_type || '未分类' }}</span>
@@ -392,12 +424,16 @@ const accountForm = ref({ total_invested: 0, available_cash: 0 })
 
 const marketFilter = ref('all')
 const historyOpen = ref(false)
+const showAllPnl = ref(false)
+const showAllAlloc = ref(false)
+const sortField = ref<string>('weight')
+const sortOrder = ref<'asc' | 'desc'>('desc')
 
 // ---- colors ----
 const PIE_COLORS = ['#409eff', '#67c23a', '#e6a23c', '#f56c6c', '#909399', '#b37feb', '#36cfc9', '#ffc53d']
 
 // ---- computed ----
-const topPositions = computed(() => {
+const top5Positions = computed(() => {
   if (!summary.value?.positions) return []
   return summary.value.positions.slice(0, 5)
 })
@@ -412,33 +448,25 @@ const otherWeight = computed(() => {
   return summary.value.positions.slice(5).reduce((s, p) => s + (p.weight || 0), 0)
 })
 
-const pieColors = computed(() => {
-  const map: Record<string, string> = {}
-  topPositions.value.forEach((p, i) => { map[p.code] = PIE_COLORS[i % PIE_COLORS.length] })
-  return map
+const sortedByWeight = computed(() => {
+  if (!summary.value?.positions) return []
+  return [...summary.value.positions].sort((a, b) => (b.weight || 0) - (a.weight || 0))
 })
 
-const pieGradient = computed(() => {
-  const all = summary.value?.positions || []
-  if (!all.length) return 'none'
-  // Normalize to sum → 360deg regardless of whether weights include cash
-  const totalWeight = all.reduce((s, p) => s + (p.weight || 0), 0)
-  if (totalWeight <= 0) return 'none'
-  let accum = 0
-  const segments: string[] = []
-  all.forEach((p, i) => {
-    const deg = ((p.weight || 0) / totalWeight) * 360
-    const start = accum
-    const end = i === all.length - 1 ? 360 : accum + deg
-    segments.push(`${PIE_COLORS[i % PIE_COLORS.length]} ${start.toFixed(2)}deg ${end.toFixed(2)}deg`)
-    accum = end
-  })
-  return `conic-gradient(${segments.join(',')})`
+const allocationDisplay = computed(() => {
+  const sorted = sortedByWeight.value
+  if (showAllAlloc.value) return sorted
+  return sorted.slice(0, 10)
 })
 
 const sortedByPnl = computed(() => {
   if (!summary.value?.positions) return []
   return [...summary.value.positions].sort((a, b) => Math.abs(b.pnl_cny || 0) - Math.abs(a.pnl_cny || 0))
+})
+
+const displayPnl = computed(() => {
+  if (showAllPnl.value) return sortedByPnl.value
+  return sortedByPnl.value.slice(0, 10)
 })
 
 const marketFilters = computed(() => {
@@ -454,10 +482,29 @@ const marketFilters = computed(() => {
 
 const filteredPositions = computed(() => {
   const all = summary.value?.positions || []
-  if (marketFilter.value === 'all') return all
-  if (marketFilter.value === 'fund') return all.filter(p => p.instrument_type === 'fund')
-  return all.filter(p => p.market === marketFilter.value)
+  let filtered = all
+  if (marketFilter.value === 'fund') filtered = all.filter(p => p.instrument_type === 'fund')
+  else if (marketFilter.value !== 'all') filtered = all.filter(p => p.market === marketFilter.value)
+  return [...filtered].sort((a, b) => {
+    const aVal = a[sortField.value] ?? 0
+    const bVal = b[sortField.value] ?? 0
+    return sortOrder.value === 'desc' ? bVal - aVal : aVal - bVal
+  })
 })
+
+function toggleSort(field: string) {
+  if (sortField.value === field) {
+    sortOrder.value = sortOrder.value === 'desc' ? 'asc' : 'desc'
+  } else {
+    sortField.value = field
+    sortOrder.value = 'desc'
+  }
+}
+
+function sortArrow(field: string) {
+  if (sortField.value !== field) return ''
+  return sortOrder.value === 'desc' ? ' ↓' : ' ↑'
+}
 
 function fmtMoney(n: number | null | undefined) {
   if (n == null) return '--'
@@ -478,6 +525,12 @@ function fmtPrice(n: number | null | undefined) {
 function pnlColor(n: number | null | undefined) {
   if (n == null || n === 0) return '#909399'
   return n > 0 ? '#F56C6C' : '#67C23A'
+}
+
+function weightPercent(w: number | null | undefined) {
+  if (w == null) return 0
+  const maxWeight = Math.max(...(summary.value?.positions || []).map(p => p.weight || 0), 1)
+  return (w / maxWeight) * 100
 }
 
 function pnlBarWidth(pnl: number | null | undefined) {
@@ -737,19 +790,51 @@ onMounted(() => { refreshAll() })
 
 /* ===== Charts ===== */
 .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.pie-chart-css { width: 200px; height: 200px; border-radius: 50%; flex-shrink: 0; }
-.pie-legend-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
-.pie-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.pie-legend-label { flex: 1; color: #606266; font-size: 13px; }
-.pie-legend-value { font-weight: 600; color: #303133; font-size: 13px; }
 
-.contrib-bar { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
-.contrib-bar .name { width: 80px; font-size: 13px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.contrib-bar .bar-wrap { flex: 1; height: 20px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; }
+/* ===== Allocation Bar (Stacked Horizontal) ===== */
+.alloc-bar { display: flex; height: 24px; border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+.alloc-bar-seg { height: 100%; transition: opacity 0.2s; min-width: 4px; }
+.alloc-bar-seg:hover { opacity: 0.8; }
+.alloc-bar-seg:first-child { border-radius: 6px 0 0 6px; }
+.alloc-bar-seg:last-child { border-radius: 0 6px 6px 0; }
+.alloc-bar-others { background: #dcdfe6; }
+.alloc-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.alloc-legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #909399; }
+.alloc-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.alloc-others-dot { background: #dcdfe6; }
+
+.alloc-list { display: flex; flex-direction: column; border-top: 1px solid #ebeef5; padding-top: 8px; }
+.alloc-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-radius: 4px; transition: background 0.15s; }
+.alloc-row:hover { background: #f5f7fa; padding: 5px 8px; margin: 0 -8px; }
+.alloc-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.alloc-name { flex: 1; font-size: 13px; color: #606266; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.3; }
+.alloc-name .code-tiny { display: inline; font-size: 11px; color: #909399; margin-left: 4px; font-weight: 400; }
+.alloc-mini-bar { width: 80px; height: 6px; background: #f5f7fa; border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+.alloc-mini-fill { height: 100%; border-radius: 3px; }
+.alloc-pct { width: 50px; text-align: right; font-size: 13px; font-weight: 600; color: #303133; }
+
+.contrib-bar { display: flex; align-items: center; gap: 12px; padding: 7px 0; }
+.contrib-bar .name { width: 80px; font-size: 13px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.3; }
+.contrib-bar .name .code-tiny { display: block; font-size: 10px; color: #909399; font-weight: 400; }
+.contrib-bar .bar-wrap { flex: 1; height: 18px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; }
 .contrib-bar .bar-fill { height: 100%; border-radius: 2px; position: absolute; top: 0; }
 .contrib-bar .bar-fill.positive { background: #f56c6c; left: 50%; }
 .contrib-bar .bar-fill.negative { background: #67c23a; right: 50%; }
 .contrib-bar .pnl-value { width: 90px; font-size: 13px; font-weight: 500; text-align: right; flex-shrink: 0; }
+
+/* ===== Name Cell (Table) ===== */
+.name-cell { line-height: 1.4; }
+.name-cell .name-primary { font-weight: 500; color: var(--primary); font-size: 13px; cursor: pointer; }
+.name-cell .name-primary:hover { text-decoration: underline; }
+.name-meta { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+.name-meta .code-tiny { font-size: 11px; color: #909399; font-weight: 400; }
+.name-meta .tag { line-height: 1.2; }
+
+/* ===== Code Tiny (inline) ===== */
+.code-tiny { font-size: 11px; color: #909399; font-weight: 400; }
+
+/* ===== Tag Small ===== */
+.tag.sm { padding: 1px 5px; font-size: 10px; }
 
 /* ===== Filter Tabs ===== */
 .filter-tabs { display: flex; gap: 8px; }
