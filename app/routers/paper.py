@@ -500,6 +500,107 @@ async def place_order(payload: PlaceOrderRequest, current_user: dict = Depends(g
     return ok({"order": {k: v for k, v in order_doc.items() if k != "_id"}})
 
 
+# ── Portfolio Overview ─────────────────────────────────────
+
+@router.get("/overview", response_model=dict)
+async def get_portfolio_overview(current_user: dict = Depends(get_current_user)):
+    """组合总揽：行业覆盖矩阵（持仓现状 + 分析覆盖 + 处方建议）"""
+    db = get_mongo_db()
+    user_id = current_user["id"]
+
+    # 1. 持仓汇总（按行业聚合）
+    from app.services.portfolio_service import PortfolioService
+    portfolio_svc = PortfolioService()
+    portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
+
+    positions = portfolio_summary.get("positions", [])
+    industry_positions: Dict[str, List[Dict[str, Any]]] = {}
+    for p in positions:
+        ind = p.get("industry") or p.get("sector") or "未分类"
+        industry_positions.setdefault(ind, []).append(p)
+
+    # 2. 行业覆盖数据
+    coverage_docs = await db["industry_coverage"].find(
+        {"user_id": user_id}
+    ).sort("analyzed_at", -1).to_list(None)
+    coverage_map: Dict[str, Dict[str, Any]] = {}
+    for doc in coverage_docs:
+        name = doc.get("industry_name", "")
+        if name and name not in coverage_map:
+            coverage_map[name] = doc
+
+    # 3. 最近一次组合建议
+    latest_advice = await db["portfolio_advice"].find_one(
+        {"user_id": user_id, "status": "COMPLETED"},
+        sort=[("created_at", -1)],
+    )
+    latest_prescriptions = latest_advice.get("prescription", []) if latest_advice else []
+
+    # 4. 构建行业覆盖矩阵
+    all_industries = set(list(industry_positions.keys()) + list(coverage_map.keys()))
+    matrix: List[Dict[str, Any]] = []
+    from datetime import datetime, timezone
+
+    for ind_name in sorted(all_industries):
+        pos_list = industry_positions.get(ind_name, [])
+        cov = coverage_map.get(ind_name, {})
+        total_weight = sum(p.get("weight", 0) for p in pos_list)
+        position_codes = [p.get("code", "") for p in pos_list]
+
+        # 覆盖状态
+        if cov:
+            analyzed_at = cov.get("analyzed_at", "")
+            if cov.get("status") == "completed":
+                try:
+                    at_str = analyzed_at.replace("Z", "+00:00")
+                    if "+" not in at_str and at_str.endswith("00:00"):
+                        pass  # already has offset
+                    at_dt = datetime.fromisoformat(at_str)
+                    if at_dt.tzinfo is None:
+                        at_dt = at_dt.replace(tzinfo=timezone.utc)
+                    days_ago = (datetime.now(timezone.utc) - at_dt).days
+                    coverage_status = "stale" if days_ago > 30 else "covered"
+                except Exception:
+                    coverage_status = "covered"
+            else:
+                coverage_status = "planned"
+        else:
+            coverage_status = "never"
+            analyzed_at = ""
+
+        # 处方匹配
+        related_prescriptions = [
+            rx for rx in latest_prescriptions
+            if rx.get("code") in position_codes
+        ]
+
+        matrix.append({
+            "industry": ind_name,
+            "market": cov.get("market", "cn"),
+            "lifecycle": cov.get("lifecycle", ""),
+            "go_nogo": cov.get("go_nogo", ""),
+            "confidence": cov.get("confidence", ""),
+            "coverage_status": coverage_status,
+            "analyzed_at": analyzed_at,
+            "holdings_weight": round(total_weight, 2),
+            "position_count": len(pos_list),
+            "position_codes": position_codes,
+            "reasoning": cov.get("reasoning", ""),
+            "advice_id": cov.get("advice_id", ""),
+            "prescriptions": related_prescriptions,
+        })
+
+    return ok({
+        "matrix": matrix,
+        "total_industries": len(matrix),
+        "covered_count": sum(1 for r in matrix if r["coverage_status"] == "covered"),
+        "stale_count": sum(1 for r in matrix if r["coverage_status"] == "stale"),
+        "never_count": sum(1 for r in matrix if r["coverage_status"] == "never"),
+        "planned_count": sum(1 for r in matrix if r["coverage_status"] == "planned"),
+        "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
+    })
+
+
 # ── Other endpoints ─────────────────────────────────────────
 
 @router.get("/orders", response_model=dict)

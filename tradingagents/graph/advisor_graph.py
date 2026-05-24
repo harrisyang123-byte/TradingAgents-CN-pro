@@ -523,22 +523,167 @@ class AdvisorGraph:
 
         return workflow.compile()
 
+    def propagate_l1_plan(
+        self,
+        portfolio_summary: Dict[str, Any],
+        progress_callback: Optional[Callable] = None,
+    ) -> Dict[str, Any]:
+        """执行 L1 市场扫描，返回推荐行业计划（不触发 L2-L4）
+
+        Returns:
+            {industries, macro_judge_verdict, market_intel, market_debate_history}
+        """
+        # 构建 L1-only 子图
+        l1_workflow = StateGraph(AdvisorState)
+
+        market_strategist = create_market_strategist(self.llm)
+        contrarian = create_contrarian(self.llm)
+        macro_judge = create_macro_judge(self.llm)
+        tools_l1_market = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
+        tools_l1_contrarian = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
+        debate_market_strat = _make_two_person_debate_node(
+            self.llm, "市场策略师", "strategist_response", "market_debate_state", "contrarian_response"
+        )
+        debate_contrarian_l1 = _make_two_person_debate_node(
+            self.llm, "反向意见者", "contrarian_response", "market_debate_state", "strategist_response"
+        )
+        debate_market_ctr = _increment_debate_count("market_debate_state")
+
+        l1_router_market = _make_tool_router("market_tool_call_count", "msg_clear_l1a", "market_strategist")
+        l1_router_contrarian = _make_tool_router("market_tool_call_count", "msg_clear_l1b", "contrarian")
+        market_debate_router = _make_debate_router(
+            "market_debate_state",
+            self.config.get("market_debate_rounds", 2),
+            "macro_judge",
+            "debate_market_strat",
+        )
+
+        l1_workflow.add_node("market_strategist", market_strategist)
+        l1_workflow.add_node("contrarian", contrarian)
+        l1_workflow.add_node("tools_l1_market", tools_l1_market)
+        l1_workflow.add_node("tools_l1_contrarian", tools_l1_contrarian)
+        l1_workflow.add_node("msg_clear_l1a", _msg_clear_node)
+        l1_workflow.add_node("msg_clear_l1b", _msg_clear_node)
+        l1_workflow.add_node("debate_market_strat", debate_market_strat)
+        l1_workflow.add_node("debate_contrarian_l1", debate_contrarian_l1)
+        l1_workflow.add_node("debate_market_ctr", debate_market_ctr)
+        l1_workflow.add_node("macro_judge", macro_judge)
+
+        l1_workflow.add_edge(START, "market_strategist")
+        l1_workflow.add_conditional_edges("market_strategist", l1_router_market, {
+            "tools": "tools_l1_market",
+            "market_strategist": "market_strategist",
+            "msg_clear_l1a": "msg_clear_l1a",
+        })
+        l1_workflow.add_edge("tools_l1_market", "market_strategist")
+        l1_workflow.add_edge("msg_clear_l1a", "contrarian")
+        l1_workflow.add_conditional_edges("contrarian", l1_router_contrarian, {
+            "tools": "tools_l1_contrarian",
+            "contrarian": "contrarian",
+            "msg_clear_l1b": "msg_clear_l1b",
+        })
+        l1_workflow.add_edge("tools_l1_contrarian", "contrarian")
+        l1_workflow.add_edge("msg_clear_l1b", "debate_market_strat")
+        l1_workflow.add_edge("debate_market_strat", "debate_contrarian_l1")
+        l1_workflow.add_edge("debate_contrarian_l1", "debate_market_ctr")
+        l1_workflow.add_conditional_edges("debate_market_ctr", market_debate_router, {
+            "debate_market_strat": "debate_market_strat",
+            "macro_judge": "macro_judge",
+        })
+        l1_workflow.add_edge("macro_judge", END)
+
+        compiled_l1 = l1_workflow.compile()
+
+        init_state: AdvisorState = {
+            "messages": [HumanMessage(content="开始市场扫描")],
+            "portfolio_summary": portfolio_summary,
+            "tier1_reports": [],
+            "market_intel": {},
+            "market_debate_state": {"history": "", "strategist_response": "", "contrarian_response": "", "count": 0},
+            "macro_judge_verdict": "",
+            "market_tool_call_count": 0,
+        }
+
+        l1_node_mapping = {
+            "market_strategist": "L1-市场策略师",
+            "contrarian": "L1-反向意见者",
+            "tools_l1_market": None,
+            "tools_l1_contrarian": None,
+            "msg_clear_l1a": None,
+            "msg_clear_l1b": None,
+            "debate_market_strat": "L1-辩论(策略师)",
+            "debate_contrarian_l1": "L1-辩论(反向者)",
+            "debate_market_ctr": None,
+            "macro_judge": "L1-宏观裁判",
+        }
+
+        start_time = time.time()
+        final_state = dict(init_state)
+
+        logger.info("[AdvisorGraph:L1] 开始 L1 市场扫描...")
+        for chunk in compiled_l1.stream(init_state, stream_mode="updates"):
+            for node_name, node_update in chunk.items():
+                if node_name.startswith("__"):
+                    continue
+                final_state.update(node_update)
+
+                label = l1_node_mapping.get(node_name)
+                if label and progress_callback:
+                    try:
+                        node_text = ""
+                        if isinstance(node_update, dict):
+                            mi = node_update.get("market_intel", {})
+                            if isinstance(mi, dict) and mi.get("strategist_raw"):
+                                node_text = str(mi["strategist_raw"])[:500]
+                            elif node_update.get("macro_judge_verdict"):
+                                node_text = str(node_update["macro_judge_verdict"])[:500]
+                        progress_callback(label, node_text)
+                    except Exception:
+                        pass
+
+        elapsed = time.time() - start_time
+        market_intel = final_state.get("market_intel", {})
+        industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+
+        logger.info(f"[AdvisorGraph:L1] 完成，{len(industries)} 个推荐行业，耗时 {elapsed:.1f}s")
+
+        return {
+            "industries": industries,
+            "macro_judge_verdict": final_state.get("macro_judge_verdict", ""),
+            "market_intel": market_intel,
+            "market_debate_history": final_state.get("market_debate_state", {}).get("history", ""),
+            "elapsed_seconds": round(elapsed, 2),
+        }
+
     def propagate_advice(
         self,
         portfolio_summary: Dict[str, Any],
         tier1_reports: list,
         progress_callback: Optional[Callable] = None,
+        selected_industries: Optional[list] = None,
         **config_overrides,
     ) -> Dict[str, Any]:
         """执行组合顾问分析
 
+        Args:
+            portfolio_summary: 持仓汇总
+            tier1_reports: Tier1 分析报告列表
+            progress_callback: 进度回调 fn(node_label, output_text, stage)
+            selected_industries: 限定分析的行业列表（None=全量L1扫描）
+            **config_overrides: 配置覆盖
+
         Returns:
             包含 prescription, cio_verdict, 各级分析结果 的字典
         """
+        init_msg = "开始市场扫描"
+        if selected_industries:
+            init_msg = f"开始分析选定行业: {', '.join(selected_industries[:5])}"
+
         init_state: AdvisorState = {
-            "messages": [HumanMessage(content="开始市场扫描")],
+            "messages": [HumanMessage(content=init_msg)],
             "portfolio_summary": portfolio_summary,
             "tier1_reports": tier1_reports,
+            "selected_industries": selected_industries or [],
             # L1
             "market_intel": {},
             "market_debate_state": {
@@ -653,7 +798,21 @@ class AdvisorGraph:
                 label = node_mapping.get(node_name)
                 if label and progress_callback:
                     try:
-                        progress_callback(label)
+                        # 提取节点输出的文本摘要
+                        node_text = ""
+                        if isinstance(node_update, dict):
+                            for k in ["macro_judge_verdict", "stock_judge_verdict",
+                                       "analyst_assessment", "strategist_assessment",
+                                       "scout_assessment", "cio_verdict", "risk_director_review",
+                                       "market_intel"]:
+                                v = node_update.get(k, "")
+                                if isinstance(v, str) and v:
+                                    node_text = v[:500]
+                                    break
+                                elif isinstance(v, dict) and v.get("strategist_raw"):
+                                    node_text = str(v["strategist_raw"])[:500]
+                                    break
+                        progress_callback(label, node_text)
                     except Exception:
                         pass
 

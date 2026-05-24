@@ -124,6 +124,18 @@ def create_scout(llm):
     chain = prompt | llm.bind_tools(tools)
 
     def scout_node(state: dict) -> dict:
+        # 注入选定行业（两阶段模式）
+        selected = state.get("selected_industries", [])
+        if selected:
+            msg_list = list(state["messages"])
+            industry_hint = f"\n\n⚠️ 本次分析限定以下行业：{', '.join(selected)}。请仅扫描这些行业内的标的，不要扫描其他行业。"
+            last_msg = msg_list[-1]
+            from langchain_core.messages import HumanMessage
+            if hasattr(last_msg, "content") and isinstance(last_msg.content, str):
+                if "限定以下行业" not in last_msg.content:
+                    msg_list[-1] = HumanMessage(content=last_msg.content + industry_hint)
+            state["messages"] = msg_list
+
         result = chain.invoke(state["messages"])
         report = ""
         if not hasattr(result, "tool_calls") or not result.tool_calls:

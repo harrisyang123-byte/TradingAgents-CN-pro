@@ -42,10 +42,15 @@
       <template #title>我的自选股</template>
     </el-menu-item>
 
-    <el-menu-item index="/portfolio">
-      <el-icon><Wallet /></el-icon>
-      <template #title>我的持仓</template>
-    </el-menu-item>
+    <el-sub-menu index="/portfolio">
+      <template #title>
+        <el-icon><Wallet /></el-icon>
+        <span>持仓组合</span>
+      </template>
+      <el-menu-item index="/portfolio/holdings">持仓明细</el-menu-item>
+      <el-menu-item index="/portfolio/analysis">持仓分析</el-menu-item>
+      <el-menu-item index="/portfolio/overview">组合总揽</el-menu-item>
+    </el-sub-menu>
 
 
     <!-- 分析报告已移至“股票分析”子菜单，保留注释便于追踪 -->

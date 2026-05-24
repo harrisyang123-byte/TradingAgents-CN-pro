@@ -34,6 +34,13 @@
             <el-option label="美股" value="美股" />
           </el-select>
         </el-col>
+
+        <el-col :span="4">
+          <el-select v-model="reportTypeFilter" placeholder="报告类型" clearable @change="handleReportTypeChange">
+            <el-option label="单股分析" value="single" />
+            <el-option label="组合建议" value="portfolio" />
+          </el-select>
+        </el-col>
         
         <el-col :span="6">
           <el-date-picker
@@ -219,6 +226,7 @@ const authStore = useAuthStore()
 const loading = ref(false)
 const searchKeyword = ref('')
 const marketFilter = ref('')
+const reportTypeFilter = ref('')
 const dateRange = ref<[string, string] | null>(null)
 const selectedReports = ref<ReportListItem[]>([])
 const currentPage = ref(1)
@@ -247,6 +255,9 @@ const fetchReports = async () => {
     }
     if (marketFilter.value) {
       params.append('market_filter', marketFilter.value)
+    }
+    if (reportTypeFilter.value) {
+      params.append('report_type', reportTypeFilter.value)
     }
     if (dateRange.value) {
       params.append('start_date', dateRange.value[0])
@@ -292,6 +303,11 @@ const handleDateChange = () => {
 }
 
 const handleMarketChange = () => {
+  currentPage.value = 1
+  fetchReports()
+}
+
+const handleReportTypeChange = () => {
   currentPage.value = 1
   fetchReports()
 }

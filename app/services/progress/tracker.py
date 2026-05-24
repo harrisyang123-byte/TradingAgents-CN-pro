@@ -433,6 +433,12 @@ class RedisProgressTracker:
                 key = f"progress:{self.task_id}"
                 self.redis_client.set(key, serialized)
                 self.redis_client.expire(key, 3600)
+                # 同时 publish 到 PubSub 频道供 SSE 消费
+                try:
+                    channel = f"task_progress:{self.task_id}"
+                    self.redis_client.publish(channel, serialized)
+                except Exception as pub_err:
+                    logger.warning(f"[RedisProgress] publish failed (non-fatal): {pub_err}")
             else:
                 os.makedirs("./data/progress", exist_ok=True)
                 with open(f"./data/progress/{self.task_id}.json", 'w', encoding='utf-8') as f:

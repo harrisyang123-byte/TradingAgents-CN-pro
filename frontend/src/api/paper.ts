@@ -152,6 +152,7 @@ export interface PortfolioAdvice {
   created_at: string
   completed_at?: string
   error?: string
+  selected_industries?: string[]
 }
 
 export const portfolioApi = {
@@ -214,7 +215,54 @@ export const portfolioApi = {
       page,
       page_size: pageSize
     })
+  },
+  // 两阶段分析
+  async startL1Plan() {
+    return ApiClient.post<{ task_id: string; status: string }>(
+      '/api/portfolio/analysis/plan',
+      {},
+      { showLoading: true }
+    )
+  },
+  async executeAnalysis(taskId: string, selectedIndustries: string[]) {
+    return ApiClient.post<{ task_id: string; status: string }>(
+      '/api/portfolio/analysis/execute',
+      { task_id: taskId, selected_industries: selectedIndustries },
+      { showLoading: true }
+    )
+  },
+  async getAnalysisStatus(taskId: string) {
+    return ApiClient.get<{ status: string; progress: number; result?: any; current_step?: string }>(
+      `/api/portfolio/analysis/${taskId}/status`
+    )
+  },
+  async getPortfolioOverview() {
+    return ApiClient.get<{
+      matrix: IndustryOverviewRow[]
+      total_industries: number
+      covered_count: number
+      stale_count: number
+      never_count: number
+      planned_count: number
+      latest_advice_at: string
+    }>('/api/portfolio/overview')
   }
+}
+
+export interface IndustryOverviewRow {
+  industry: string
+  market: string
+  lifecycle: string
+  go_nogo: string
+  confidence: string
+  coverage_status: 'covered' | 'stale' | 'never' | 'planned'
+  analyzed_at: string
+  holdings_weight: number
+  position_count: number
+  position_codes: string[]
+  reasoning: string
+  advice_id: string
+  prescriptions: AdviceItem[]
 }
 
 // 向后兼容

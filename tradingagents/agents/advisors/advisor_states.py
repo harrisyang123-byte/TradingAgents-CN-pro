@@ -58,6 +58,9 @@ class AdvisorState(TypedDict, total=False):
     portfolio_summary: Dict[str, Any]
     tier1_reports: List[Dict[str, Any]]
 
+    # === 两阶段分析 ===
+    selected_industries: List[str]               # 用户选择的行业列表（空=全量扫描）
+
     # === Level 1: 行业方向 ===
     market_intel: Dict[str, Any]               # {industries: [...], lifecycle_stage: ..., confidence: ...}
     market_debate_state: MarketDebateState

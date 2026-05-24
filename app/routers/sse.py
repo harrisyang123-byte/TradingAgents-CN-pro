@@ -257,3 +257,17 @@ async def stream_batch_progress(batch_id: str, user: dict = Depends(get_current_
             "X-Accel-Buffering": "no"
         }
     )
+
+
+@router.get("/portfolio/{task_id}")
+async def stream_portfolio_progress(task_id: str, user: dict = Depends(get_current_user)):
+    """Stream real-time progress updates for portfolio analysis (L1 plan + L2-L4 execution)"""
+    return StreamingResponse(
+        task_progress_generator(task_id, user["id"]),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
+    )

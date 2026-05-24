@@ -361,19 +361,38 @@ const routes: RouteRecordRaw[] = [
     path: '/portfolio',
     name: 'Portfolio',
     component: () => import('@/layouts/BasicLayout.vue'),
+    redirect: '/portfolio/holdings',
     meta: {
-      title: '我的持仓',
+      title: '持仓组合',
       icon: 'Wallet',
       requiresAuth: true,
       transition: 'slide-up'
     },
     children: [
       {
-        path: '',
-        name: 'PortfolioHome',
+        path: 'holdings',
+        name: 'PortfolioHoldings',
         component: () => import('@/views/PaperTrading/index.vue'),
         meta: {
-          title: '我的持仓',
+          title: '持仓明细',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'analysis',
+        name: 'PortfolioAnalysis',
+        component: () => import('@/views/Portfolio/Analysis.vue'),
+        meta: {
+          title: '持仓分析',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'overview',
+        name: 'PortfolioOverview',
+        component: () => import('@/views/Portfolio/Overview.vue'),
+        meta: {
+          title: '组合总揽',
           requiresAuth: true
         }
       },

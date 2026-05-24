@@ -10,7 +10,7 @@
           </div>
           <div class="flex items-center gap-3">
             <span class="btn-plain btn-sm disabled" style="opacity:0.5">刷新</span>
-            <span class="btn-primary btn-sm disabled" style="opacity:0.5">组合分析</span>
+            <span class="btn-primary btn-sm disabled" style="opacity:0.5">设置账户</span>
           </div>
         </div>
         <!-- 骨架卡片 -->
@@ -96,9 +96,6 @@
           <div class="flex items-center gap-3">
             <button class="btn btn-plain btn-sm" @click="refreshAll">刷新</button>
             <button class="btn btn-primary btn-sm" @click="openAddDialog">添加持仓</button>
-            <button class="btn btn-primary btn-sm" :disabled="!summary?.positions?.length" @click="requestAdvice">
-              {{ adviceGenerating ? adviceStep : '组合分析' }}
-            </button>
             <button class="btn btn-plain btn-sm" @click="showAccountDialog = true">设置账户</button>
           </div>
         </div>
@@ -366,81 +363,14 @@
       </template>
     </el-dialog>
 
-    <!-- 组合建议抽屉 -->
-    <el-drawer v-model="adviceDrawer" title="组合建议" size="55%" direction="rtl">
-      <template v-if="currentAdvice">
-        <div v-if="currentAdvice.status === 'COMPLETED'">
-          <h4 style="margin:0 0 12px">操作建议</h4>
-          <div class="decision-card-stream">
-            <DecisionCard
-              v-for="item in sortedPrescription"
-              :key="item.code"
-              :item="item"
-            />
-          </div>
-          <div v-if="!(currentAdvice.prescription || []).length" style="color:#909399;font-size:13px;padding:12px 0">
-            暂无操作建议
-          </div>
-          <h4 style="margin:20px 0 8px">CIO 裁决</h4>
-          <div class="advice-text" v-html="renderMd(currentAdvice.cio_verdict)" />
-          <el-collapse style="margin-top:16px">
-            <el-collapse-item v-if="currentAdvice.macro_judge_verdict" title="市场扫描 · L1 行业方向" name="market_intel">
-              <div class="advice-text" v-html="renderMd(currentAdvice.macro_judge_verdict)" />
-            </el-collapse-item>
-            <el-collapse-item v-if="currentAdvice.stock_judge_verdict" title="候选标的 · L2 标的筛选" name="stock_candidates">
-              <div class="advice-text" v-html="renderMd(currentAdvice.stock_judge_verdict)" />
-            </el-collapse-item>
-            <el-collapse-item title="持仓分析师评估" name="analyst">
-              <div class="advice-text" v-html="renderMd(currentAdvice.analyst_assessment)" />
-            </el-collapse-item>
-            <el-collapse-item title="策略师评估" name="strategist">
-              <div class="advice-text" v-html="renderMd(currentAdvice.strategist_assessment)" />
-            </el-collapse-item>
-            <el-collapse-item title="侦察兵评估" name="scout">
-              <div class="advice-text" v-html="renderMd(currentAdvice.scout_assessment)" />
-            </el-collapse-item>
-            <el-collapse-item v-if="currentAdvice.risk_director_review" title="风险审查 · L4 终端审查" name="risk_review">
-              <div class="advice-text" v-html="renderMd(currentAdvice.risk_director_review)" />
-            </el-collapse-item>
-            <el-collapse-item title="辩论记录 · L3 组合辩论" name="debate">
-              <div class="advice-text" v-html="renderMd(currentAdvice.debate_history)" />
-            </el-collapse-item>
-            <el-collapse-item v-if="currentAdvice.market_debate_history" title="辩论记录 · L1 行业辩论" name="market_debate">
-              <div class="advice-text" v-html="renderMd(currentAdvice.market_debate_history)" />
-            </el-collapse-item>
-            <el-collapse-item v-if="currentAdvice.stock_debate_history" title="辩论记录 · L2 标的辩论" name="stock_debate">
-              <div class="advice-text" v-html="renderMd(currentAdvice.stock_debate_history)" />
-            </el-collapse-item>
-          </el-collapse>
-          <div class="advice-meta">生成于 {{ currentAdvice.completed_at?.slice(0, 19).replace('T', ' ') }} · 耗时 {{ currentAdvice.elapsed_seconds }}s</div>
-        </div>
-        <div v-else-if="currentAdvice.status === 'FAILED'" class="advice-error">
-          <el-result icon="error" title="生成失败" :sub-title="currentAdvice.error || '未知错误'" />
-        </div>
-        <div v-else class="advice-loading">
-          <el-result icon="info" title="正在生成" :sub-title="currentAdvice.current_step || '请稍候...'" />
-        </div>
-      </template>
-      <el-empty v-else description="暂无组合建议" />
-      <template v-if="adviceHistory.length > 1">
-        <el-divider />
-        <h4>历史建议</h4>
-        <el-select v-model="selectedAdviceId" placeholder="选择历史记录" style="width:100%" @change="loadAdvice">
-          <el-option v-for="h in adviceHistory" :key="h.advice_id"
-            :label="(h.created_at?.slice(0, 19).replace('T', ' ') || '') + ' — ' + h.status"
-            :value="h.advice_id" />
-        </el-select>
-      </template>
-    </el-drawer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { portfolioApi, type PortfolioSummary, type PortfolioAdvice, type PortfolioPositionItem, type AdviceItem } from '@/api/paper'
-import DecisionCard from '@/components/Analysis/DecisionCard.vue'
+import { portfolioApi, type PortfolioSummary, type PortfolioPositionItem } from '@/api/paper'
 
 const router = useRouter()
 
@@ -462,14 +392,6 @@ const accountForm = ref({ total_invested: 0, available_cash: 0 })
 
 const marketFilter = ref('all')
 const historyOpen = ref(false)
-
-const adviceDrawer = ref(false)
-const adviceGenerating = ref(false)
-const adviceStep = ref('')
-const currentAdvice = ref<PortfolioAdvice | null>(null)
-const adviceHistory = ref<PortfolioAdvice[]>([])
-const selectedAdviceId = ref('')
-let advicePollTimer: ReturnType<typeof setInterval> | null = null
 
 // ---- colors ----
 const PIE_COLORS = ['#409eff', '#67c23a', '#e6a23c', '#f56c6c', '#909399', '#b37feb', '#36cfc9', '#ffc53d']
@@ -537,13 +459,6 @@ const filteredPositions = computed(() => {
   return all.filter(p => p.market === marketFilter.value)
 })
 
-const sortedPrescription = computed(() => {
-  const items = (currentAdvice.value?.prescription || []) as AdviceItem[]
-  const order: Record<string, number> = { urgent: 0, important: 1, optional: 2 }
-  return [...items].sort((a, b) => (order[a.priority || 'optional'] ?? 2) - (order[b.priority || 'optional'] ?? 2))
-})
-
-// ---- helpers ----
 function fmtMoney(n: number | null | undefined) {
   if (n == null) return '--'
   return `¥${n.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -762,71 +677,7 @@ function goAnalysis(code: string, instrumentType?: string) {
   })
 }
 
-// ---- advice ----
-async function requestAdvice() {
-  try {
-    adviceGenerating.value = true
-    adviceStep.value = '提交中...'
-    const res = await portfolioApi.generateAdvice()
-    if (res.success && res.data?.advice_id) {
-      adviceStep.value = '准备数据'
-      selectedAdviceId.value = res.data.advice_id
-      pollAdviceStatus(res.data.advice_id)
-    }
-  } catch (e: any) {
-    ElMessage.error(e?.message || '触发组合建议失败')
-    adviceGenerating.value = false
-  }
-}
-
-function pollAdviceStatus(adviceId: string) {
-  if (advicePollTimer) clearInterval(advicePollTimer)
-  advicePollTimer = setInterval(async () => {
-    try {
-      const res = await portfolioApi.getAdvice(adviceId)
-      if (!res.success) return
-      const adv = res.data
-      if (adv.status === 'COMPLETED' || adv.status === 'FAILED') {
-        if (advicePollTimer) { clearInterval(advicePollTimer); advicePollTimer = null }
-        adviceGenerating.value = false
-        currentAdvice.value = adv
-        adviceDrawer.value = true
-        await fetchAdviceHistory()
-        if (adv.status === 'COMPLETED') ElMessage.success('组合建议已生成')
-        else ElMessage.error('组合建议生成失败')
-      } else {
-        adviceStep.value = adv.current_step || '分析中...'
-      }
-    } catch { /* ignore */ }
-  }, 3000)
-}
-
-async function loadAdvice(adviceId: string) {
-  try {
-    const res = await portfolioApi.getAdvice(adviceId)
-    if (res.success) currentAdvice.value = res.data
-  } catch (e: any) {
-    ElMessage.error(e?.message || '加载建议失败')
-  }
-}
-
-async function fetchAdviceHistory() {
-  try {
-    const res = await portfolioApi.getAdviceHistory(1, 20)
-    if (res.success) adviceHistory.value = res.data.items || []
-  } catch { /* ignore */ }
-}
-
-function renderMd(text: string | undefined): string {
-  if (!text) return ''
-  return text
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n/g, '<br>')
-}
-
 onMounted(() => { refreshAll() })
-onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 </script>
 
 <style scoped>
@@ -961,8 +812,4 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 /* ===== Transition ===== */
 .transition-transform { transition: transform 0.3s; }
 
-/* ===== Advice ===== */
-.advice-text { font-size: 13px; line-height: 1.7; color: #303133; word-break: break-word; }
-.advice-meta { margin-top: 16px; font-size: 12px; color: #909399; text-align: right; }
-.advice-error, .advice-loading { text-align: center; padding: 40px 0; }
 </style>

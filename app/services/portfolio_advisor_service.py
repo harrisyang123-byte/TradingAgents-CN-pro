@@ -201,6 +201,71 @@ class PortfolioAdvisorService:
             }},
         )
 
+        # 双写 analysis_reports（报告页可见）
+        try:
+            completed_at = datetime.utcnow().isoformat()
+            market_intel = result.get("market_intel", {})
+            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+            await self.db["analysis_reports"].insert_one({
+                "report_type": "portfolio",
+                "stock_symbol": f"portfolio_{advice_id}",
+                "stock_name": f"组合建议 {completed_at[:10]}",
+                "summary": (result.get("cio_verdict", "") or "")[:500],
+                "recommendation": f"覆盖 {len(industries)} 个行业, {len(result.get('prescription', []))} 条处方",
+                "created_at": completed_at,
+                "status": "completed",
+                "analysts": ["market_strategist", "contrarian", "macro_judge", "scout", "stock_contrarian", "stock_judge", "analyst", "strategist", "cio", "risk_director"],
+                "research_depth": 2,
+                "market_type": "portfolio",
+                "instrument_type": "portfolio",
+                "model_info": "Tier2-4Level",
+                "reports": {
+                    "market_intel": market_intel,
+                    "stock_candidates": result.get("stock_candidates", []),
+                    "analyst_assessment": result.get("analyst_assessment", ""),
+                    "strategist_assessment": result.get("strategist_assessment", ""),
+                    "scout_assessment": result.get("scout_assessment", ""),
+                    "cio_verdict": result.get("cio_verdict", ""),
+                    "risk_director_review": result.get("risk_director_review", ""),
+                },
+                "advice_id": advice_id,
+                "user_id": user_id,
+            })
+            logger.info(f"[Advisor] 双写 analysis_reports 完成, advice_id={advice_id}")
+        except Exception as e:
+            logger.warning(f"[Advisor] 双写 analysis_reports 失败（非致命）: {e}")
+
+        # 更新 industry_coverage（L1 行业扫描结果持久化）
+        try:
+            market_intel = result.get("market_intel", {})
+            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+            for ind in industries:
+                if not isinstance(ind, dict):
+                    continue
+                ind_name = ind.get("industry", "")
+                if not ind_name:
+                    continue
+                await self.db["industry_coverage"].update_one(
+                    {"user_id": user_id, "industry_name": ind_name},
+                    {"$set": {
+                        "market": ind.get("market", "cn"),
+                        "lifecycle": ind.get("lifecycle", ""),
+                        "go_nogo": ind.get("recommendation", ind.get("go_nogo", "")),
+                        "confidence": ind.get("confidence", ""),
+                        "reasoning": ind.get("reasoning", ""),
+                        "priority": ind.get("priority", 0),
+                        "analyzed_at": datetime.utcnow().isoformat(),
+                        "advice_id": advice_id,
+                        "status": "completed",
+                        "updated_at": datetime.utcnow().isoformat(),
+                    }},
+                    upsert=True,
+                )
+            if industries:
+                logger.info(f"[Advisor] industry_coverage 更新完成, {len(industries)} 个行业")
+        except Exception as e:
+            logger.warning(f"[Advisor] industry_coverage 更新失败（非致命）: {e}")
+
         await self._send_ws_notification(user_id, advice_id)
 
         logger.info(f"[Advisor] 完成 advice_id={advice_id}, "

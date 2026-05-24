@@ -185,6 +185,7 @@ async def get_reports_list(
     start_date: Optional[str] = Query(None, description="开始日期"),
     end_date: Optional[str] = Query(None, description="结束日期"),
     stock_code: Optional[str] = Query(None, description="股票代码"),
+    report_type: Optional[str] = Query(None, description="报告类型: single/portfolio"),
     user: dict = Depends(get_current_user)
 ):
     """获取分析报告列表"""
@@ -220,6 +221,10 @@ async def get_reports_list(
             if end_date:
                 date_query["$lte"] = end_date
             query["analysis_date"] = date_query
+
+        # 报告类型筛选
+        if report_type:
+            query["report_type"] = report_type
 
         logger.info(f"📊 查询条件: {query}")
 
@@ -282,7 +287,7 @@ async def get_reports_list(
                 "stock_name": stock_name,
                 "market_type": market_type,  # 🔥 添加市场类型字段
                 "model_info": doc.get("model_info", "Unknown"),  # 🔥 添加模型信息字段
-                "type": "single",  # 目前主要是单股分析
+                "type": doc.get("report_type", "single"),  # 动态读取报告类型
                 "format": "markdown",  # 主要格式
                 "status": doc.get("status", "completed"),
                 "created_at": created_at_tz.isoformat() if created_at_tz else str(created_at),
