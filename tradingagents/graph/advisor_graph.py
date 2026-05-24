@@ -526,9 +526,16 @@ class AdvisorGraph:
     def propagate_l1_plan(
         self,
         portfolio_summary: Dict[str, Any],
+        portfolio_industries: Optional[List[Dict[str, Any]]] = None,
+        user_goal: str = "",
         progress_callback: Optional[Callable] = None,
     ) -> Dict[str, Any]:
         """执行 L1 市场扫描，返回推荐行业计划（不触发 L2-L4）
+
+        Args:
+            portfolio_summary: 用户持仓汇总
+            portfolio_industries: 从持仓反推的行业分布 [{industry, weight, position_count, codes}, ...]
+            user_goal: 用户投资目标（空=默认值博率最高）
 
         Returns:
             {industries, macro_judge_verdict, market_intel, market_debate_history}
@@ -594,9 +601,25 @@ class AdvisorGraph:
 
         compiled_l1 = l1_workflow.compile()
 
+        # 构建初始消息：将持仓行业列表 + 用户目标注入市场策略师的上下文
+        industries_text = ""
+        if portfolio_industries:
+            lines = ["以下为用户当前持仓的行业分布："]
+            for ind in portfolio_industries:
+                codes_str = ", ".join(ind.get("codes", [])[:8])
+                lines.append(f"- {ind['industry']}：仓位{ind['weight']:.1f}%，{ind['position_count']}只标的（{codes_str}）")
+            if user_goal:
+                lines.append(f"\n用户投资目标：{user_goal}")
+            else:
+                lines.append("\n用户未指定投资目标，请以值博率最高为目标进行判断。")
+            lines.append("\n请对以上所有行业执行任务（全覆盖轻量评估 + 自选深度辩论 + 可选机会推荐）。")
+            industries_text = "\n".join(lines)
+
         init_state: AdvisorState = {
-            "messages": [HumanMessage(content="开始市场扫描")],
+            "messages": [HumanMessage(content=f"开始市场扫描\n\n{industries_text}".strip())],
             "portfolio_summary": portfolio_summary,
+            "portfolio_industries": portfolio_industries or [],
+            "user_goal": user_goal,
             "tier1_reports": [],
             "market_intel": {},
             "market_debate_state": {"history": "", "strategist_response": "", "contrarian_response": "", "count": 0},

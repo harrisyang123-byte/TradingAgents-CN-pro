@@ -217,10 +217,10 @@ export const portfolioApi = {
     })
   },
   // 两阶段分析
-  async startL1Plan() {
+  async startL1Plan(goal: string = '') {
     return ApiClient.post<{ task_id: string; status: string }>(
       '/api/portfolio/analysis/plan',
-      {},
+      { goal },
       { showLoading: true }
     )
   },
@@ -260,6 +260,7 @@ export interface IndustryOverviewRow {
   holdings_weight: number
   position_count: number
   position_codes: string[]
+  position_names: string[]
   reasoning: string
   advice_id: string
   prescriptions: AdviceItem[]

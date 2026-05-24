@@ -510,14 +510,13 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
 
     # 1. 持仓汇总（按行业聚合）
     from app.services.portfolio_service import PortfolioService
+    from app.services.industry_classifier import classify_holdings_industries
+
     portfolio_svc = PortfolioService()
     portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
 
     positions = portfolio_summary.get("positions", [])
-    industry_positions: Dict[str, List[Dict[str, Any]]] = {}
-    for p in positions:
-        ind = p.get("industry") or p.get("sector") or "未分类"
-        industry_positions.setdefault(ind, []).append(p)
+    industry_positions = await classify_holdings_industries(db, positions)
 
     # 2. 行业覆盖数据
     coverage_docs = await db["industry_coverage"].find(
@@ -546,16 +545,14 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
         cov = coverage_map.get(ind_name, {})
         total_weight = sum(p.get("weight", 0) for p in pos_list)
         position_codes = [p.get("code", "") for p in pos_list]
+        position_names = [p.get("name", p.get("code", "")) for p in pos_list]
 
         # 覆盖状态
         if cov:
             analyzed_at = cov.get("analyzed_at", "")
             if cov.get("status") == "completed":
                 try:
-                    at_str = analyzed_at.replace("Z", "+00:00")
-                    if "+" not in at_str and at_str.endswith("00:00"):
-                        pass  # already has offset
-                    at_dt = datetime.fromisoformat(at_str)
+                    at_dt = datetime.fromisoformat(analyzed_at.replace("Z", "+00:00"))
                     if at_dt.tzinfo is None:
                         at_dt = at_dt.replace(tzinfo=timezone.utc)
                     days_ago = (datetime.now(timezone.utc) - at_dt).days
@@ -563,7 +560,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
                 except Exception:
                     coverage_status = "covered"
             else:
-                coverage_status = "planned"
+                coverage_status = "covered"  # 向下兼容旧的 planned 等状态
         else:
             coverage_status = "never"
             analyzed_at = ""
@@ -578,6 +575,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "industry": ind_name,
             "market": cov.get("market", "cn"),
             "lifecycle": cov.get("lifecycle", ""),
+            "depth": cov.get("depth", "") if cov else "",
             "go_nogo": cov.get("go_nogo", ""),
             "confidence": cov.get("confidence", ""),
             "coverage_status": coverage_status,
@@ -585,6 +583,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "holdings_weight": round(total_weight, 2),
             "position_count": len(pos_list),
             "position_codes": position_codes,
+            "position_names": position_names,
             "reasoning": cov.get("reasoning", ""),
             "advice_id": cov.get("advice_id", ""),
             "prescriptions": related_prescriptions,
@@ -596,7 +595,6 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
         "covered_count": sum(1 for r in matrix if r["coverage_status"] == "covered"),
         "stale_count": sum(1 for r in matrix if r["coverage_status"] == "stale"),
         "never_count": sum(1 for r in matrix if r["coverage_status"] == "never"),
-        "planned_count": sum(1 for r in matrix if r["coverage_status"] == "planned"),
         "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
     })
 

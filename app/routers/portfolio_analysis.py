@@ -16,6 +16,10 @@ router = APIRouter(prefix="/api/portfolio/analysis", tags=["portfolio-analysis"]
 logger = logging.getLogger("webapi")
 
 
+class PlanRequest(BaseModel):
+    goal: str = ""
+
+
 class ExecuteRequest(BaseModel):
     task_id: str
     selected_industries: List[str]
@@ -27,7 +31,10 @@ class PlanResponse(BaseModel):
 
 
 @router.post("/plan")
-async def start_l1_plan(current_user: dict = Depends(get_current_user)):
+async def start_l1_plan(
+    req: PlanRequest = PlanRequest(),
+    current_user: dict = Depends(get_current_user),
+):
     """触发 L1 市场扫描，返回推荐行业计划"""
     user_id = current_user["id"]
     db = get_mongo_db()
@@ -46,18 +53,20 @@ async def start_l1_plan(current_user: dict = Depends(get_current_user)):
         "user_id": user_id,
         "status": "GENERATING",
         "current_step": "准备L1市场扫描",
+        "user_goal": req.goal,
         "created_at": datetime.utcnow().isoformat(),
         "updated_at": datetime.utcnow().isoformat(),
     })
 
     # 使用 asyncio.create_task 后台执行（motor MongoDB 绑定主事件循环，不能用线程池）
-    asyncio.create_task(_execute_l1(task_id, user_id))
+    asyncio.create_task(_execute_l1(task_id, user_id, req.goal))
     return PlanResponse(task_id=task_id, status="running")
 
 
-async def _execute_l1(task_id: str, user_id: str):
+async def _execute_l1(task_id: str, user_id: str, goal: str = ""):
     """后台执行 L1 市场扫描"""
     from app.services.portfolio_service import PortfolioService
+    from app.services.industry_classifier import classify_holdings_industries
     from app.services.config_service import ConfigService
     from tradingagents.graph.advisor_graph import AdvisorGraph
     from tradingagents.llm_clients.provider_keys import normalize_provider_key
@@ -84,6 +93,22 @@ async def _execute_l1(task_id: str, user_id: str):
 
         advisor = AdvisorGraph(llm, config=llm_config)
 
+        # 从持仓反推行业分布
+        positions = portfolio_summary.get("positions", [])
+        industry_map = await classify_holdings_industries(db2, positions)
+        portfolio_industries = []
+        for ind_name, pos_list in industry_map.items():
+            total_weight = sum(p.get("weight", 0) for p in pos_list)
+            codes = [p.get("code", "") for p in pos_list]
+            portfolio_industries.append({
+                "industry": ind_name,
+                "weight": round(total_weight, 2),
+                "position_count": len(pos_list),
+                "codes": codes,
+            })
+        # 按仓位降序
+        portfolio_industries.sort(key=lambda x: x["weight"], reverse=True)
+
         def progress_cb(label: str, text: str = ""):
             r = get_redis_client()
             if r:
@@ -109,10 +134,12 @@ async def _execute_l1(task_id: str, user_id: str):
 
         result = advisor.propagate_l1_plan(
             portfolio_summary=portfolio_summary,
+            portfolio_industries=portfolio_industries,
+            user_goal=goal,
             progress_callback=progress_cb,
         )
 
-        # 写入 industry_coverage
+        # 写入 industry_coverage（全量覆盖，status=completed，depth=light/deep）
         completed_at = datetime.utcnow().isoformat()
         industries = result.get("industries", [])
         for ind in industries:
@@ -126,13 +153,14 @@ async def _execute_l1(task_id: str, user_id: str):
                 {"$set": {
                     "market": ind.get("market", "cn"),
                     "lifecycle": ind.get("lifecycle", ""),
+                    "depth": ind.get("depth", "light"),
                     "go_nogo": ind.get("recommendation", ind.get("go_nogo", "")),
                     "confidence": ind.get("confidence", ""),
                     "reasoning": ind.get("reasoning", ""),
                     "priority": ind.get("priority", 0),
                     "analyzed_at": completed_at,
                     "advice_id": task_id,
-                    "status": "planned",
+                    "status": "completed",
                     "updated_at": completed_at,
                 }},
                 upsert=True,
@@ -399,14 +427,22 @@ async def get_analysis_status(task_id: str, current_user: dict = Depends(get_cur
 
 
 async def _get_planned_industries(user_id: str, db):
-    """获取该用户的 planned 状态行业列表"""
+    """获取用户最近一次 L1 分析的行业列表（status=completed，按 analyzed_at 降序取最新一批）"""
+    latest = await db["industry_coverage"].find_one(
+        {"user_id": user_id, "status": "completed"},
+        sort=[("analyzed_at", -1)],
+    )
+    if not latest:
+        return []
+    latest_at = latest.get("analyzed_at", "")
     docs = await db["industry_coverage"].find(
-        {"user_id": user_id, "status": "planned"}
-    ).sort("analyzed_at", -1).to_list(None)
+        {"user_id": user_id, "status": "completed", "analyzed_at": latest_at}
+    ).sort("priority", -1).to_list(None)
     return [{
         "industry": d.get("industry_name", ""),
         "market": d.get("market", "cn"),
         "lifecycle": d.get("lifecycle", ""),
+        "depth": d.get("depth", "light"),
         "go_nogo": d.get("go_nogo", ""),
         "confidence": d.get("confidence", ""),
         "reasoning": d.get("reasoning", ""),

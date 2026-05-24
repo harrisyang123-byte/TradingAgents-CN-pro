@@ -56,6 +56,8 @@ class AdvisorState(TypedDict, total=False):
 
     # === 输入数据 ===
     portfolio_summary: Dict[str, Any]
+    portfolio_industries: List[Dict[str, Any]]    # [{industry, weight, position_count, codes}, ...]
+    user_goal: str                                 # 用户投资目标（空=默认值博率最高）
     tier1_reports: List[Dict[str, Any]]
 
     # === 两阶段分析 ===

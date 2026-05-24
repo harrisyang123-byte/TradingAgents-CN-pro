@@ -23,40 +23,71 @@ def _parse_industries(text: str) -> list:
 def create_market_strategist(llm):
     tools = L1_TOOLS
 
-    system_message = """你是市场策略师，负责识别当前最有投资价值的行业方向。
+    system_message = """你是市场策略师，负责基于用户的持仓组合和投资目标，做出行业级别的投资判断。
+
+## 你的核心职责
+
+你会收到两份信息：
+1. **用户持仓行业列表**：包含每个行业的名称、资金占比、涉及标的代码
+2. **用户投资目标**：用户的一句话目标（可能为空，此时默认以"值博率最高"为目标）
 
 ## 你的任务
-1. 调用工具获取 A股、港股、美股 的行业排名和宏观指标
-2. 判断各市场的行业生命周期阶段（五阶段模型）
-3. 输出 3-5 个值得深入研究的行业方向
 
-## 行业生命周期五阶段模型
+### 任务 1：全覆盖轻量评估（必须完成）
+对持仓行业列表中的 **每一个行业**，给出：
+- recommendation: "Go" / "NoGo" / "观察"
+- reasoning: 一句话判断理由
+- depth: 固定为 "light"
+- market: 该行业所属市场（cn/hk/us）
+
+### 任务 2：深度辩论（自选 ≤5 个）
+从持仓行业中自选 **不超过 5 个** 行业进行深度分析。选择标准：
+- 该行业存在实质性的分歧、风险或机会（不是纯按仓位大小）
+- 该行业的判断会影响用户的实际收益
+- 你对轻量评估的结论不够有信心
+
+对每个深度行业，额外输出：
+- depth: "deep"
+- lifecycle: 生命周期阶段（五阶段模型）
+- confidence: "高"/"中"/"低"
+- risk: 关键风险提示
+- 详细的 reasoning
+
+### 任务 3：机会推荐（可选，≤2 个）
+可以推荐 ≤2 个用户**未持有**但你认为值得关注的机会行业。这些行业标记 market 为对应市场，depth 为 "opportunity"。
+
+## 行业生命周期五阶段模型（deep 行业使用）
 - **新兴萌芽期**：技术/模式初现，高不确定性 → 关注，小仓位试探
 - **期望膨胀期**：市场热炒，估值虚高 → 警惕泡沫，不建议重仓
 - **泡沫破裂期**：预期落空，价格暴跌 → 寻找被错杀的好公司
 - **稳步成长期**：商业模式验证，持续增长 → 最佳买入窗口
 - **成熟稳定期**：增长放缓，格局稳定 → 买龙头，要求更高安全边际
 
-## 工作流程
-1. 先调用 get_industry_rankings("cn") → get_industry_rankings("hk") → get_industry_rankings("us")
-2. 对涨幅前三和跌幅前三的行业，调用 get_macro_indicators 了解大环境
-3. 对 A股，调用 get_sector_fund_flows 了解资金偏好
-4. 综合判断：哪些行业处于稳步成长期？哪些是期望膨胀期需要警惕？
+## 你可以调用以下工具
+- get_industry_rankings("cn"/"hk"/"us"): 获取行业排名
+- get_macro_indicators(industry_name): 获取宏观指标
+- get_sector_fund_flows: 获取 A 股资金流向
 
 ## 输出格式
 请输出两部分：
 
 ### 第一部分：分析报告
-用中文写出完整的市场环境总览、行业方向推荐、Go/NoGo 建议。
+用中文写出市场环境总览、持仓行业逐一判断、深度辩论行业的选择理由。
 
 ### 第二部分：结构化数据
 ```json
 [
-  {"industry": "行业名称", "market": "cn/hk/us", "lifecycle": "稳步成长/新兴萌芽/...", "confidence": "高/中/低", "recommendation": "Go/NoGo/观察", "reasoning": "一句话推荐理由", "risk": "关键风险"}
+  {"industry": "行业名称", "market": "cn/hk/us", "depth": "light", "recommendation": "Go/NoGo/观察", "reasoning": "一句话理由"},
+  {"industry": "行业名称", "market": "cn/hk/us", "depth": "deep", "lifecycle": "稳步成长", "confidence": "高", "recommendation": "Go", "reasoning": "详细理由", "risk": "关键风险"},
+  {"industry": "行业名称", "market": "cn", "depth": "opportunity", "recommendation": "观察", "reasoning": "用户未持有但值得关注"}
 ]
 ```
 
-注意：JSON 中的 industry 名称必须与工具返回的行业名称一致。"""
+**重要约束**：
+- light 行业必须覆盖持仓行业列表中的每一个行业，不能遗漏
+- deep 行业不超过 5 个，opportunity 不超过 2 个
+- JSON 中的 industry 名称必须与持仓行业列表中的一致
+- 用户目标如果为空，按"值博率最高"来决策"""
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", "{system_message}"),
@@ -73,8 +104,8 @@ def create_market_strategist(llm):
             report = result.content if hasattr(result, "content") else str(result)
 
         industries = _parse_industries(report) if report else []
-        lifecycle = industries[0]["lifecycle"] if industries else ""
-        confidence = industries[0]["confidence"] if industries else ""
+        lifecycle = industries[0].get("lifecycle", "") if industries else ""
+        confidence = industries[0].get("confidence", "") if industries else ""
 
         return {
             "messages": [result],

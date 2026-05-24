@@ -39,9 +39,9 @@
           <!-- 行业计划（plan_ready 时展示） -->
           <div v-if="phase === 'plan_ready' && l1Industries.length" class="industry-selection">
             <h4 style="margin:0 0 12px">
-              推荐行业计划
+              持仓行业全覆盖
               <span style="font-weight:400;font-size:12px;color:#909399">
-                （勾选要分析的行业，然后执行 L2-L4 深度分析）
+                （全部持仓行业已评估，勾选要深度分析的行业，然后执行 L2-L4）
               </span>
             </h4>
             <el-checkbox-group v-model="selectedIndustries">
@@ -50,18 +50,24 @@
                   v-for="ind in l1Industries"
                   :key="ind.industry"
                   class="industry-card"
-                  :class="{ selected: selectedIndustries.includes(ind.industry) }"
+                  :class="{
+                    selected: selectedIndustries.includes(ind.industry),
+                    'is-opportunity': ind.depth === 'opportunity',
+                  }"
                 >
                   <el-checkbox :value="ind.industry" style="margin-right:0">
                     <div class="ind-info">
                       <div class="ind-name">
                         {{ ind.industry }}
+                        <el-tag v-if="ind.depth === 'deep'" type="primary" size="small">深度辩论</el-tag>
+                        <el-tag v-else-if="ind.depth === 'opportunity'" type="success" size="small">机会推荐</el-tag>
+                        <el-tag v-else type="info" size="small">轻量评估</el-tag>
                         <el-tag :type="ind.recommendation === 'Go' ? 'success' : ind.recommendation === 'NoGo' ? 'danger' : 'warning'" size="small">
                           {{ ind.recommendation || ind.go_nogo || '--' }}
                         </el-tag>
                       </div>
                       <div class="ind-meta">
-                        <span>{{ ind.lifecycle || '--' }}</span>
+                        <span v-if="ind.lifecycle">{{ ind.lifecycle }}</span>
                         <span v-if="ind.confidence">置信度: {{ ind.confidence }}</span>
                         <span>{{ ind.market === 'hk' ? '港股' : ind.market === 'us' ? '美股' : 'A股' }}</span>
                       </div>
@@ -188,12 +194,21 @@
           <div class="empty-state">
             <div class="empty-title">两阶段持仓分析</div>
             <div class="empty-desc">
-              <p>Phase 1：L1 市场策略师扫描全行业 → 推荐投资方向</p>
+              <p>Phase 1：基于你的全部持仓行业 + 投资目标，AI 逐行业判 Go/NoGo</p>
               <p>Phase 2：确认行业后，L2-L4 深度分析（标的筛选 → 组合构建 → 终裁处方）</p>
-              <p style="color:#909399;font-size:12px;margin-top:12px">
-                点击"开始分析"启动两阶段分析流程
-              </p>
             </div>
+            <div style="margin-top:20px;max-width:420px;margin-left:auto;margin-right:auto">
+              <el-input
+                v-model="userGoal"
+                type="textarea"
+                :rows="2"
+                placeholder="投资目标（选填），如：年化收益10%、最大化收益。不填则由 AI 以值博率最高为目标"
+                style="font-size:13px"
+              />
+            </div>
+            <p style="color:#909399;font-size:12px;margin-top:16px">
+              点击"开始分析"启动两阶段分析流程
+            </p>
           </div>
         </div>
       </div>
@@ -213,10 +228,11 @@ const phase = ref<Phase>('idle')
 const errorMsg = ref('')
 const taskId = ref('')
 const executeId = ref('')
+const userGoal = ref('')
 
 // L1 state
 const l1Logs = ref<Array<{ node: string; text: string }>>([])
-const l1Industries = ref<Array<{ industry: string; recommendation: string; go_nogo: string; lifecycle: string; confidence: string; market: string; reasoning: string; priority: number }>>([])
+const l1Industries = ref<Array<{ industry: string; recommendation: string; go_nogo: string; lifecycle: string; confidence: string; market: string; reasoning: string; priority: number; depth: string }>>([])
 const selectedIndustries = ref<string[]>([])
 
 // L2-L4 state
@@ -249,7 +265,7 @@ async function startL1Plan() {
   errorMsg.value = ''
 
   try {
-    const res = await portfolioApi.startL1Plan()
+    const res = await portfolioApi.startL1Plan(userGoal.value.trim())
     if (!res.success || !res.data?.task_id) {
       throw new Error(res.message || '启动 L1 失败')
     }
@@ -505,6 +521,9 @@ onUnmounted(() => {
 .industry-card { border: 1px solid #ebeef5; border-radius: 6px; padding: 12px; transition: border-color 0.2s; cursor: pointer; }
 .industry-card:hover { border-color: #b3d8ff; }
 .industry-card.selected { border-color: #409eff; background: #ecf5ff; }
+.industry-card.is-opportunity { border-color: #e1f3d8; background: #f0f9eb; }
+.industry-card.is-opportunity:hover { border-color: #b3e19d; }
+.industry-card.is-opportunity.selected { border-color: #67c23a; background: #e1f3d8; }
 .ind-info { display: flex; flex-direction: column; gap: 4px; width: 100%; }
 .ind-name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
 .ind-meta { display: flex; gap: 12px; font-size: 12px; color: #909399; }
