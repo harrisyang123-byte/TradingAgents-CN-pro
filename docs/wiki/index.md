@@ -52,3 +52,4 @@
 - P3 Batch 4: xAI/Grok + Responses API + Benchmark Alpha 覆盖 + CLI 动态分析师选择
 - [Portfolio Advisor 复盘 (W.W.L.D)](retros/portfolio-advisor-bundle.md) — 持仓管理 + 组合顾问引擎打包复盘
 - [持仓组合规划复盘 (W.W.L.D)](retros/portfolio-planning.md) — 三页面架构 + SSE 流式 + 行业覆盖追踪的完整复盘
+- [蓝图 v2.0 P1-P4 复盘 (W.W.L.D)](retros/blueprint-v2-p1-p4-completion.md) — 8 维度补全 + 存量增量拆分 + 资金分配 + 压力测试 + 反馈闭环
