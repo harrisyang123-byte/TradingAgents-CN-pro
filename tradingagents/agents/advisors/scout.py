@@ -5,8 +5,52 @@
 
 import json
 import re
+import logging
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from .market_tools import L2_TOOLS
+
+logger = logging.getLogger("webapi")
+
+
+def _sanitize_messages(msgs: list) -> list:
+    """确保消息历史中每个 tool_calls 都有对应的 ToolMessage 响应，否则清理"""
+    if not msgs:
+        return msgs
+    cleaned = []
+    pending_tool_ids = set()
+    for m in msgs:
+        if isinstance(m, AIMessage) and hasattr(m, "tool_calls") and m.tool_calls:
+            for tc in m.tool_calls:
+                pending_tool_ids.add(tc.get("id", ""))
+        elif isinstance(m, ToolMessage):
+            tid = getattr(m, "tool_call_id", "")
+            pending_tool_ids.discard(tid)
+        cleaned.append(m)
+
+    if pending_tool_ids:
+        logger.warning(
+            f"[Scout] 检测到 {len(pending_tool_ids)} 个未响应的 tool_calls，"
+            f"清理消息历史（保留最后一条非 tool_calls 消息）"
+        )
+        # 找到最后一个安全的起点的消息之前，全部移除
+        # 策略：找到所有包含未响应 tool_calls 的 AIMessage，移除它们及之后的消息
+        # 简化：只保留安全的起始消息 + 重新开始
+        safe = []
+        for m in msgs:
+            if isinstance(m, AIMessage) and hasattr(m, "tool_calls") and m.tool_calls:
+                if any(tc.get("id", "") in pending_tool_ids for tc in m.tool_calls):
+                    break  # 找到第一个问题消息，停止
+            safe.append(m)
+        if safe:
+            return safe
+        # 全部不安全：返回仅含最后一条 HumanMessage 的列表
+        for m in reversed(msgs):
+            if isinstance(m, HumanMessage):
+                return [m]
+        return [HumanMessage(content="Continue")]
+
+    return cleaned
 
 
 def _parse_candidates(text: str) -> list:
@@ -130,13 +174,32 @@ def create_scout(llm):
             msg_list = list(state["messages"])
             industry_hint = f"\n\n⚠️ 本次分析限定以下行业：{', '.join(selected)}。请仅扫描这些行业内的标的，不要扫描其他行业。"
             last_msg = msg_list[-1]
-            from langchain_core.messages import HumanMessage
             if hasattr(last_msg, "content") and isinstance(last_msg.content, str):
                 if "限定以下行业" not in last_msg.content:
                     msg_list[-1] = HumanMessage(content=last_msg.content + industry_hint)
             state["messages"] = msg_list
 
-        result = chain.invoke(state["messages"])
+        # 防御：确保消息历史中 tool_calls 都有对应的 ToolMessage 响应
+        msgs = _sanitize_messages(state["messages"])
+
+        try:
+            result = chain.invoke(msgs)
+        except Exception as e:
+            err_msg = str(e)
+            if "tool_calls" in err_msg or "insufficient tool messages" in err_msg:
+                logger.warning(
+                    f"[Scout] tool_calls 消息序列异常，降级为无工具模式: {err_msg[:150]}"
+                )
+                # 降级：不带工具直接调用
+                fallback_msgs = [HumanMessage(
+                    content="请根据你的知识库和此前已获取的数据，直接给出标的筛选报告。"
+                            "必须包含完整的分析文本和JSON结构化数据块，不要调用任何工具函数。"
+                )]
+                fallback_chain = prompt | llm
+                result = fallback_chain.invoke(fallback_msgs)
+            else:
+                raise
+
         report = ""
         if not hasattr(result, "tool_calls") or not result.tool_calls:
             report = result.content if hasattr(result, "content") else str(result)
