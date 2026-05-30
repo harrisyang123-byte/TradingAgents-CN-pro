@@ -92,120 +92,64 @@ class AKShareProvider(BaseStockDataProvider):
                 logger.warning("⚠️ curl_cffi 未安装，将使用标准 requests（可能被反爬虫拦截）")
                 logger.warning("   建议安装: pip install curl-cffi")
 
-            # 修复AKShare的bug：设置requests的默认headers，并添加请求延迟
-            # AKShare的stock_news_em()函数没有设置必要的headers，导致API返回空响应
+            # Patch requests.get：为 eastmoney.com 请求添加限速和最小化请求头
+            # 不再尝试 curl_cffi first-try（它对 eastmoney.com 始终失败且浪费请求配额）
+            # 重试由 _RetryAKShare 外层统一处理，此处只做限速和头补齐
             if not hasattr(requests, '_akshare_headers_patched'):
                 original_get = requests.get
-                last_request_time = {'time': 0}  # 使用字典以便在闭包中修改
+                last_request_time = {'time': 0}
 
                 def patched_get(url, **kwargs):
-                    """
-                    包装requests.get方法，自动添加必要的headers和请求延迟
-                    修复AKShare stock_news_em()函数缺少headers的问题
-                    如果可用，使用 curl_cffi 模拟真实浏览器 TLS 指纹
-                    """
-                    # 东方财富网请求限速
-                    if 'eastmoney.com' in url:
-                        current_time = time.time()
-                        time_since_last_request = current_time - last_request_time['time']
-                        if time_since_last_request < 0.5:
-                            time.sleep(0.5 - time_since_last_request)
-                        last_request_time['time'] = time.time()
-                        try:
-                            # 使用 curl_cffi 模拟 Chrome 120 的 TLS 指纹
-                            # 注意：使用 impersonate 时，不要传递自定义 headers，让 curl_cffi 自动设置
-                            curl_kwargs = {
-                                'timeout': kwargs.get('timeout', 10),
-                                'impersonate': "chrome120"  # 模拟 Chrome 120
-                            }
-
-                            # 只传递非 headers 的参数
-                            if 'params' in kwargs:
-                                curl_kwargs['params'] = kwargs['params']
-                            # 不传递 headers，让 impersonate 自动设置
-                            if 'data' in kwargs:
-                                curl_kwargs['data'] = kwargs['data']
-                            if 'json' in kwargs:
-                                curl_kwargs['json'] = kwargs['json']
-
-                            response = curl_requests.get(url, **curl_kwargs)
-                            # curl_cffi 的响应对象已经兼容 requests.Response
-                            return response
-                        except Exception as e:
-                            # curl_cffi 失败，回退到标准 requests
-                            error_msg = str(e)
-                            # 忽略 TLS 库错误和 400 错误的详细日志（这是 Docker 环境的已知问题）
-                            if 'invalid library' not in error_msg and '400' not in error_msg:
-                                logger.warning(f"⚠️ curl_cffi 请求失败，回退到标准 requests: {e}")
-
-                    # 标准 requests 请求（非东方财富网，或 curl_cffi 不可用/失败）
-                    # 设置浏览器请求头
-                    if 'headers' not in kwargs or kwargs['headers'] is None:
-                        kwargs['headers'] = {
-                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-                            'Accept-Encoding': 'gzip, deflate, br',
-                            'Referer': 'https://www.eastmoney.com/',
-                            'Connection': 'keep-alive',
-                        }
-                    elif isinstance(kwargs['headers'], dict):
-                        # 如果已有headers，确保包含必要的字段
-                        if 'User-Agent' not in kwargs['headers']:
-                            kwargs['headers']['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                        if 'Referer' not in kwargs['headers']:
-                            kwargs['headers']['Referer'] = 'https://www.eastmoney.com/'
-                        if 'Accept' not in kwargs['headers']:
-                            kwargs['headers']['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-                        if 'Accept-Language' not in kwargs['headers']:
-                            kwargs['headers']['Accept-Language'] = 'zh-CN,zh;q=0.9,en;q=0.8'
-
-                    # 添加重试机制（最多3次）
-                    max_retries = 3
-                    for attempt in range(max_retries):
-                        try:
-                            return original_get(url, **kwargs)
-                        except Exception as e:
-                            # 检查是否是SSL错误
-                            error_str = str(e)
-                            is_ssl_error = ('SSL' in error_str or 'ssl' in error_str or
-                                          'UNEXPECTED_EOF_WHILE_READING' in error_str)
-
-                            if is_ssl_error and attempt < max_retries - 1:
-                                # SSL错误，等待后重试
-                                wait_time = 0.5 * (attempt + 1)  # 递增等待时间
-                                time.sleep(wait_time)
-                                continue
-                            else:
-                                # 非SSL错误或已达到最大重试次数，直接抛出
-                                raise
-
-                # 应用patch
-                requests.get = patched_get
-                requests._akshare_headers_patched = True
-
-            # AKShare 内部用 requests.Session().get()，不走 requests.get 的 patch
-            # 此处 patch Session.request 添加请求限速
-            if not hasattr(requests, '_akshare_session_patched'):
-                last_request_time = {'time': 0}
-                original_session_request = requests.Session.request
-
-                def patched_session_request(self, method, url, **kwargs):
                     if 'eastmoney.com' in (url or ''):
                         now = time.time()
                         since = now - last_request_time['time']
                         if since < 0.5:
                             time.sleep(0.5 - since)
                         last_request_time['time'] = time.time()
+
+                        # 最小化请求头，避免触发 eastmoney WAF
+                        if 'headers' not in kwargs or kwargs['headers'] is None:
+                            kwargs['headers'] = {
+                                'User-Agent': 'Mozilla/5.0',
+                                'Referer': 'https://www.eastmoney.com/',
+                            }
+                        elif isinstance(kwargs['headers'], dict):
+                            kwargs['headers'].setdefault('User-Agent', 'Mozilla/5.0')
+                            kwargs['headers'].setdefault('Referer', 'https://www.eastmoney.com/')
+                    else:
+                        if 'headers' not in kwargs or kwargs['headers'] is None:
+                            kwargs['headers'] = {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                            }
+                        elif isinstance(kwargs['headers'], dict):
+                            kwargs['headers'].setdefault('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
+                            kwargs['headers'].setdefault('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
+                            kwargs['headers'].setdefault('Accept-Language', 'zh-CN,zh;q=0.9,en;q=0.8')
+
+                    return original_get(url, **kwargs)
+
+                requests.get = patched_get
+                requests._akshare_headers_patched = True
+                logger.info("🔧 已 patch requests.get：eastmoney 限速 0.5s + 最小化请求头")
+
+            # AKShare 内部用 requests.Session().get()，不走 requests.get 的 patch
+            if not hasattr(requests, '_akshare_session_patched'):
+                last_request_time2 = {'time': 0}
+                original_session_request = requests.Session.request
+
+                def patched_session_request(self, method, url, **kwargs):
+                    if 'eastmoney.com' in (url or ''):
+                        now = time.time()
+                        since = now - last_request_time2['time']
+                        if since < 0.5:
+                            time.sleep(0.5 - since)
+                        last_request_time2['time'] = time.time()
                     return original_session_request(self, method, url, **kwargs)
 
                 requests.Session.request = patched_session_request
                 requests._akshare_session_patched = True
-
-                if use_curl_cffi:
-                    logger.info("🔧 已修复AKShare的headers问题，使用 curl_cffi 模拟真实浏览器（Chrome 120）")
-                else:
-                    logger.info("🔧 已修复AKShare的headers问题，并添加请求延迟（0.5秒）")
 
             self.ak = _RetryAKShare(ak)
             self.connected = True
