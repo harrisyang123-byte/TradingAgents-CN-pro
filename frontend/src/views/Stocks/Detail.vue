@@ -397,13 +397,16 @@ const activeReportTab = ref('')
 // 股票代码（从路由参数获取）
 const code = computed(() => {
   const routeCode = String(route.params.code || '').toUpperCase()
-  if (!routeCode) {
-    ElMessage.error('股票代码不能为空')
-    router.push({ name: 'Dashboard' })
-    return ''
-  }
   return routeCode
 })
+
+// 无效代码时跳转（watch 而非 computed 副作用，避免循环触发）
+watch(code, (val) => {
+  if (!val) {
+    ElMessage.error('股票代码不能为空')
+    router.replace({ name: 'Dashboard' })
+  }
+}, { immediate: true })
 const symbol = computed(() => code.value.split('.')[0])  // 提取6位代码
 const stockName = ref('')
 const market = ref('')

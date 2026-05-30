@@ -41,74 +41,120 @@
       </div>
 
       <!-- 行业覆盖矩阵 -->
-      <div class="card" v-if="overview?.matrix?.length">
-        <div class="card-header">
-          <span>行业覆盖矩阵</span>
-          <el-tag v-if="overview.latest_advice_at" size="small" type="info">
-            最近分析: {{ overview.latest_advice_at.slice(0, 10) }}
-          </el-tag>
+      <template v-if="overview?.matrix?.length">
+        <div class="card">
+          <div class="card-header">
+            <span>行业覆盖矩阵</span>
+            <el-tag v-if="overview.latest_advice_at" size="small" type="info">
+              最近分析: {{ overview.latest_advice_at.slice(0, 10) }}
+            </el-tag>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="industry-table">
+              <thead>
+                <tr>
+                  <th style="width:180px">行业</th>
+                  <th style="width:72px">仓位</th>
+                  <th style="width:72px">评级</th>
+                  <th style="width:100px">持仓标的</th>
+                  <th style="width:72px">覆盖</th>
+                  <th style="width:72px">深度</th>
+                  <th>判断摘要</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="row in overview.matrix"
+                  :key="row.industry"
+                  class="industry-row"
+                  :class="{ 'row-go': row.go_nogo === 'Go', 'row-nogo': row.go_nogo === 'NoGo' }"
+                  @click="openIndustryDetail(row)"
+                >
+                  <td>
+                    <span class="ind-name">{{ row.industry }}</span>
+                    <span v-if="row.lifecycle" class="ind-lifecycle">{{ row.lifecycle }}</span>
+                  </td>
+                  <td>
+                    <span v-if="row.holdings_weight > 0" class="weight-badge">{{ row.holdings_weight.toFixed(1) }}%</span>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <el-tag
+                      v-if="row.go_nogo"
+                      :type="row.go_nogo === 'Go' ? 'success' : row.go_nogo === 'NoGo' ? 'danger' : 'warning'"
+                      size="small"
+                    >{{ row.go_nogo }}</el-tag>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <el-button
+                      v-if="row.position_names.length"
+                      link
+                      size="small"
+                      type="primary"
+                      @click.stop="openPositionsDrawer(row)"
+                    >
+                      {{ row.position_names.length }} 只
+                    </el-button>
+                    <span v-else class="text-muted">0</span>
+                  </td>
+                  <td>
+                    <el-tag :type="coverageTagType(row.coverage_status)" size="small">
+                      {{ coverageLabel(row.coverage_status) }}
+                    </el-tag>
+                  </td>
+                  <td>
+                    <el-tag v-if="row.depth === 'deep'" type="primary" size="small" effect="plain">深度</el-tag>
+                    <el-tag v-else-if="row.depth === 'opportunity'" type="success" size="small" effect="plain">机会</el-tag>
+                    <span v-else class="text-muted">轻量</span>
+                  </td>
+                  <td class="reason-cell" @click.stop>
+                    {{ row.reasoning?.slice(0, 80) }}{{ row.reasoning?.length > 80 ? '...' : '' }}
+                    <span v-if="!row.reasoning" class="text-muted">--</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="card-body" style="padding:0;overflow-x:auto">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>行业</th>
-                <th>持仓权重</th>
-                <th>持仓标的</th>
-                <th>生命周期</th>
-                <th>Go/NoGo</th>
-                <th>覆盖状态</th>
-                <th>关键判断</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in overview.matrix" :key="row.industry">
-                <td>
-                  <span class="ind-name">{{ row.industry }}</span>
-                </td>
-                <td>
-                  <span v-if="row.holdings_weight > 0" class="weight-badge">
-                    {{ row.holdings_weight.toFixed(1) }}%
-                  </span>
-                  <span v-else style="color:#909399">--</span>
-                </td>
-                <td>
-                  <div class="position-names">
-                    <span v-for="(name, i) in row.position_names.slice(0, 3)" :key="name" class="pos-name-tag">{{ name }}</span>
-                    <span v-if="row.position_names.length > 3" style="color:#909399;font-size:11px"> +{{ row.position_names.length - 3 }}</span>
-                  </div>
-                  <div class="position-codes-sub" v-if="row.position_codes.length">
-                    {{ row.position_codes.slice(0, 4).join(' ') }}{{ row.position_codes.length > 4 ? ' ...' : '' }}
-                  </div>
-                </td>
-                <td>{{ row.lifecycle || '--' }}</td>
-                <td>
-                  <el-tag
-                    v-if="row.go_nogo"
-                    :type="row.go_nogo === 'Go' ? 'success' : row.go_nogo === 'NoGo' ? 'danger' : 'warning'"
-                    size="small"
-                  >
-                    {{ row.go_nogo }}
-                  </el-tag>
-                  <span v-else style="color:#909399">--</span>
-                </td>
-                <td>
-                  <el-tag
-                    :type="coverageTagType(row.coverage_status)"
-                    size="small"
-                  >
-                    {{ coverageLabel(row.coverage_status) }}
-                  </el-tag>
-                </td>
-                <td>
-                  <div class="reason-cell" v-if="row.reasoning">{{ row.reasoning.slice(0, 80) }}{{ row.reasoning.length > 80 ? '...' : '' }}</div>
-                  <span v-else style="color:#909399">--</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+
+        <!-- 持仓标的抽屉 -->
+        <el-drawer
+          v-model="showPositionsDrawer"
+          :title="drawerIndustry?.industry + ' · 持仓标的'"
+          size="420px"
+          direction="rtl"
+        >
+          <template v-if="drawerIndustry">
+            <div class="drawer-stat-row">
+              <span>仓位占比</span>
+              <strong>{{ drawerIndustry.holdings_weight?.toFixed(1) }}%</strong>
+            </div>
+            <div class="drawer-stat-row">
+              <span>评级</span>
+              <el-tag
+                :type="drawerIndustry.go_nogo === 'Go' ? 'success' : drawerIndustry.go_nogo === 'NoGo' ? 'danger' : 'warning'"
+                size="small"
+              >{{ drawerIndustry.go_nogo || '--' }}</el-tag>
+            </div>
+            <div class="drawer-stat-row">
+              <span>判断摘要</span>
+              <span style="font-size:13px;color:#606266">{{ drawerIndustry.reasoning || '--' }}</span>
+            </div>
+            <el-divider />
+            <div class="drawer-pos-list">
+              <div
+                v-for="(name, i) in drawerIndustry.position_names"
+                :key="name"
+                class="drawer-pos-item"
+              >
+                <div class="drawer-pos-name">{{ name }}</div>
+                <div class="drawer-pos-code" v-if="drawerIndustry.position_codes[i]">{{ drawerIndustry.position_codes[i] }}</div>
+              </div>
+            </div>
+          </template>
+        </el-drawer>
+      </template>
 
       <!-- 空状态 -->
       <div v-else-if="!loading" class="card">
@@ -220,6 +266,20 @@ const overview = ref<{
 const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
+
+// 持仓抽屉
+const showPositionsDrawer = ref(false)
+const drawerIndustry = ref<IndustryOverviewRow | null>(null)
+
+function openPositionsDrawer(row: IndustryOverviewRow) {
+  drawerIndustry.value = row
+  showPositionsDrawer.value = true
+}
+
+function openIndustryDetail(row: IndustryOverviewRow) {
+  // 预留：后续可扩展为行业详情弹窗
+  openPositionsDrawer(row)
+}
 
 const sortedHistoryPrescription = computed(() => {
   const items = (selectedAdvice.value?.prescription || []) as AdviceItem[]
@@ -346,4 +406,25 @@ onMounted(() => {
 .empty-state { text-align: center; padding: 40px 20px; }
 .empty-title { font-size: 16px; font-weight: 600; color: #303133; margin-bottom: 8px; }
 .empty-desc { font-size: 14px; color: #909399; line-height: 1.6; }
+
+/* 行业覆盖表格 */
+.industry-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.industry-table th { background: #fafafa; color: #909399; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 1px solid #ebeef5; font-size: 12px; white-space: nowrap; }
+.industry-table td { padding: 10px 14px; border-bottom: 1px solid #ebeef5; color: #303133; vertical-align: middle; }
+.industry-table tbody tr:hover { background: #f5f7fa; cursor: pointer; }
+.industry-table .row-go { border-left: 3px solid #67c23a; }
+.industry-table .row-nogo { border-left: 3px solid #f56c6c; }
+
+.ind-name { font-weight: 600; }
+.ind-lifecycle { display: block; font-size: 11px; color: #909399; margin-top: 2px; }
+.text-muted { color: #c0c4cc; font-size: 12px; }
+.weight-badge { background: #ecf5ff; color: #409eff; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.reason-cell { font-size: 12px; color: #606266; max-width: 280px; line-height: 1.5; }
+
+/* 抽屉 */
+.drawer-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 13px; color: #606266; }
+.drawer-pos-list { display: flex; flex-direction: column; gap: 4px; }
+.drawer-pos-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f5f7fa; border-radius: 6px; }
+.drawer-pos-name { font-size: 13px; font-weight: 500; color: #303133; }
+.drawer-pos-code { font-size: 12px; color: #909399; font-family: monospace; }
 </style>
