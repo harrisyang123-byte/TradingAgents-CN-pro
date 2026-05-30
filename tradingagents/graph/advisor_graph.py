@@ -253,8 +253,8 @@ def _make_tool_router(counter_key: str, next_node: str, agent_node: str, max_cal
         count = state.get(counter_key, 0)
 
         if hasattr(last, "tool_calls") and last.tool_calls:
-            if count >= max_calls:
-                logger.warning(f"[{counter_key}] 工具调用次数达上限 {max_calls}，强制结束")
+            if count > max_calls:
+                logger.warning(f"[{counter_key}] 工具调用次数超上限 {max_calls}，仍有 tool_calls，强制结束")
                 return next_node
             return "tools"
 
