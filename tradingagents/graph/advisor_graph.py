@@ -7,6 +7,7 @@ L4: CIO → Risk Director → debate → CIO 终裁 (最终处方)
 """
 
 from __future__ import annotations
+import json
 import time
 from typing import Dict, Any, Optional, Callable
 
@@ -295,6 +296,64 @@ def _increment_debate_count(debate_state_key: str):
         debate["count"] = debate.get("count", 0) + 1
         return {debate_state_key: debate}
     return node
+
+
+# ── Tier1 报告摘要格式化 ─────────────────────────────────
+
+def _format_tier1_report_context(tier1_reports: list) -> str:
+    """将 Tier1 报告列表格式化为 agent 可用上下文（注入 initial messages）"""
+    if not tier1_reports:
+        return ""
+
+    stock_items = []
+    fund_items = []
+    for r in tier1_reports:
+        code = r.get("stock_code") or r.get("stock_symbol", "?")
+        name = r.get("stock_name", "")
+        inst = r.get("instrument_type", "stock")
+        rating = r.get("rating", "N/A")
+        summary = (r.get("summary", "") or "")[:300]
+        label = f"{code} {name}" if name else code
+
+        if inst == "fund":
+            parts = [f"- **{label}** (基金) | 评级: {rating}"]
+            if summary:
+                parts.append(f"  摘要: {summary}")
+            action = r.get("fund_action", "")
+            conf = r.get("fund_confidence", 0)
+            if action:
+                parts.append(f"  建议操作: {action} (置信度: {conf})")
+            # 基金持仓明细
+            holdings = r.get("fund_holdings_report", "")
+            if holdings:
+                parts.append(f"  重仓股分析: {holdings[:500]}")
+            mgr = r.get("fund_manager_report", "")
+            if mgr:
+                parts.append(f"  基金经理: {mgr[:300]}")
+            risk = r.get("fund_risk_report", "")
+            if risk:
+                parts.append(f"  风险: {risk[:200]}")
+            fund_items.append("\n".join(parts))
+        else:
+            parts = [f"- **{label}** ({inst}) | 评级: {rating}"]
+            if summary:
+                parts.append(f"  摘要: {summary}")
+            stock_items.append("\n".join(parts))
+
+    sections = []
+    if stock_items:
+        sections.append("### 个股 Tier1 分析\n" + "\n".join(stock_items))
+    if fund_items:
+        sections.append("### 基金 Tier1 分析（含持仓穿透）\n" + "\n".join(fund_items))
+
+    if not sections:
+        return ""
+
+    return (
+        "## 持仓 Tier1 分析报告（已完成的深度分析）\n\n"
+        + "\n\n".join(sections)
+        + "\n\n---\n请基于以上 Tier1 分析数据，结合本次分析进行组合层面的判断。"
+    )
 
 
 # ── 主图构建 ───────────────────────────────────────────
@@ -702,8 +761,14 @@ class AdvisorGraph:
         if selected_industries:
             init_msg = f"开始分析选定行业: {', '.join(selected_industries[:5])}"
 
+        # 将 Tier1 报告格式化为 agent 可读上下文，注入初始消息
+        init_messages = [HumanMessage(content=init_msg)]
+        report_ctx = _format_tier1_report_context(tier1_reports)
+        if report_ctx:
+            init_messages.append(HumanMessage(content=report_ctx))
+
         init_state: AdvisorState = {
-            "messages": [HumanMessage(content=init_msg)],
+            "messages": init_messages,
             "portfolio_summary": portfolio_summary,
             "tier1_reports": tier1_reports,
             "selected_industries": selected_industries or [],

@@ -51,6 +51,7 @@ class PortfolioAdvisorService:
                 entry = {
                     "stock_code": doc.get("stock_symbol") or doc.get("stock_code", code),
                     "stock_symbol": doc.get("stock_symbol") or doc.get("stock_code", code),
+                    "stock_name": doc.get("stock_name", ""),
                     "instrument_type": inst_type,
                     "rating": doc.get("recommendation") or doc.get("rating", "N/A"),
                     "summary": doc.get("summary", ""),
