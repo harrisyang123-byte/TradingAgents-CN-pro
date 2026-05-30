@@ -135,9 +135,16 @@ class PortfolioAdvisorService:
         position_codes = [p["code"] for p in portfolio_summary.get("positions", [])]
         tier1_reports = await self._prepare_tier1_reports(position_codes)
 
+        # 敞口引擎：穿透基金持仓 → 真实暴露矩阵
+        from app.services.exposure_service import ExposureService
+        exposure_svc = ExposureService()
+        exposure_matrix = await exposure_svc.compute(portfolio_summary)
+        exposure_context = exposure_svc.format_context_for_advisor(exposure_matrix)
+
         logger.info(
             f"[Advisor] 数据准备完成: {len(position_codes)} 只持仓, "
-            f"{len(tier1_reports)} 份 Tier1 报告"
+            f"{len(tier1_reports)} 份 Tier1 报告, "
+            f"敞口矩阵 {len(exposure_matrix.stock_exposures)} 只底层标的"
         )
 
         config_service = ConfigService()
@@ -175,6 +182,8 @@ class PortfolioAdvisorService:
         result = advisor.propagate_advice(
             portfolio_summary=portfolio_summary,
             tier1_reports=tier1_reports,
+            exposure_context=exposure_context,
+            exposure_matrix=exposure_matrix,
             progress_callback=progress_cb,
             **config_overrides,
         )

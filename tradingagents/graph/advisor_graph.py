@@ -743,6 +743,8 @@ class AdvisorGraph:
         tier1_reports: list,
         progress_callback: Optional[Callable] = None,
         selected_industries: Optional[list] = None,
+        exposure_context: str = "",
+        exposure_matrix: Any = None,
         **config_overrides,
     ) -> Dict[str, Any]:
         """执行组合顾问分析
@@ -752,6 +754,8 @@ class AdvisorGraph:
             tier1_reports: Tier1 分析报告列表
             progress_callback: 进度回调 fn(node_label, output_text, stage)
             selected_industries: 限定分析的行业列表（None=全量L1扫描）
+            exposure_context: 敞口引擎格式化的上下文文本
+            exposure_matrix: ExposureMatrix 对象
             **config_overrides: 配置覆盖
 
         Returns:
@@ -761,16 +765,19 @@ class AdvisorGraph:
         if selected_industries:
             init_msg = f"开始分析选定行业: {', '.join(selected_industries[:5])}"
 
-        # 将 Tier1 报告格式化为 agent 可读上下文，注入初始消息
+        # 将 Tier1 报告 + 敞口矩阵格式化为 agent 可读上下文，注入初始消息
         init_messages = [HumanMessage(content=init_msg)]
         report_ctx = _format_tier1_report_context(tier1_reports)
         if report_ctx:
             init_messages.append(HumanMessage(content=report_ctx))
+        if exposure_context:
+            init_messages.append(HumanMessage(content=exposure_context))
 
         init_state: AdvisorState = {
             "messages": init_messages,
             "portfolio_summary": portfolio_summary,
             "tier1_reports": tier1_reports,
+            "exposure_matrix": exposure_matrix,
             "selected_industries": selected_industries or [],
             # L1
             "market_intel": {},
