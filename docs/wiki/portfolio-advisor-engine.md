@@ -209,6 +209,24 @@ enrich_price_context(positions, candidates)  # → {code: pe_context_dict}
 3. **RemoveMessage 兼容性**：依赖 langgraph 版本，需验证 `RemoveMessage` 是否可用
 4. **多市场降级未测试**：yfinance/AKShare 模拟故障场景待验证
 
+## 蓝图 v2.0 全维度（2026-05-30 完成）
+
+基于架构蓝图 v2.0，11 个维度全部实现：
+
+| 维度 | 状态 | 实现方式 |
+|------|------|---------|
+| P0-1 Tier 1 全覆盖 | ✅ | batch 并行分析 33 只持仓 |
+| P0-2 敞口引擎 | ✅ | `exposure_service.py` — 基金穿透 + 行业敞口矩阵 |
+| P1-3 行业全量覆盖 | ✅ | L1 全行业 Go/NoGo + 深度辩论 |
+| P1-4 存量增量拆分 | ✅ | `portfolio_audit_service.py` — 健康分 + CIO prompt 分区 |
+| P2-5 资金分配 | ✅ | CIO prompt 资金约束 + 来源-去向配对 |
+| P2-6 时机条件 | ✅ | timing (immediate/conditional/scheduled) |
+| P3-7 相关性风险 | ✅ | Risk Director 注入敞口矩阵 + HHI + 重叠暴露 |
+| P3-8 压力测试 | ✅ | `stress_test.py` — 5 种宏观情景 + 行业冲击估算 |
+| P4-9 反馈闭环 | ✅ | `_format_feedback_context()` — 历史处方注入 CIO |
+| P4-10 再平衡 | ✅ | `rebalance_preference` + prompt 章节 |
+| P4-11 现金管理 | ✅ | 闲置资金配置建议 (货基/逆回购) |
+
 ## 关键决策记录
 
 1. **D1: 四层 vs 两层** — 选择四层（行业→标的→组合→处方），每层独立对抗验证
@@ -223,6 +241,12 @@ enrich_price_context(positions, candidates)  # → {code: pe_context_dict}
 10. **D10: 巴芒四层过滤器** — 嵌入 Scout prompt，是核心筛选逻辑
 11. **D11: 决策卡片模型** — 处方输出从纯 JSON 升级为 7 字段卡片（信任层 l1/l2 + 执行层 5 字段），替代 el-table 为纵向卡片流
 12. **D12: PE 分位三市场策略** — A 股 BaoStock 日线精确分位，港股 AKShare 年度分位，美股 yfinance 年度分位，各自独立降级
+13. **D13: 敞口穿透** — 基金不独立出买卖建议，重仓股拆解后与直接持股合并为敞口矩阵
+14. **D14: 存量增量分离** — 已有持仓基于成本/P&L/持有时间判定，新机会需回答"替代谁"
+15. **D15: 资金来源-去向配对** — Σ买入 ≤ 可用现金 + Σ卖出，不做"印钞"处方
+16. **D16: 三档时机** — immediate（立即）/ conditional（条件）/ scheduled（定期），区分执行紧迫度
+17. **D17: 压力测试预设5情景** — 关税/RMB贬值/加息/流动性/衰退，行业级冲击映射
+18. **D18: 反馈学习** — 新分析自动加载历史处方，CIO 须对比并说明哪些判断对了/错了
 
 ## 注意事项
 

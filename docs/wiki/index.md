@@ -31,7 +31,7 @@
 ### 组合管理
 - [持仓管理 (Portfolio CRUD)](portfolio-crud.md) — 单账户单钱包 + 汇率折算 + 持仓上下文注入分析引擎
 - [基金详情 (FundDetail)](fund-detail.md) — AKShare 穿透数据 + 30 天缓存 + CSS 饼图
-- [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 四层对抗架构 + 10 角色 + 多市场扫描 + 芒格约束处方
+- [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 四层对抗架构 + 10 角色 + 多市场扫描 + 芒格约束处方 + 蓝图 v2.0 全11维度 ✅
 - [持仓组合规划 (Portfolio Planning)](portfolio-planning.md) — 三页面架构 + 两阶段 SSE 流式分析 + 行业覆盖追踪 + 结果双写
 
 ### 基金分析
@@ -39,6 +39,8 @@
 
 ### 记忆与反思
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
+- [术语表](glossary.md) — 敞口引擎、存量增量、资金分配、时机条件、压力测试、反馈闭环
+- [交易术语表](trading-glossary.md)
 
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
