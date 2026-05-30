@@ -10,6 +10,66 @@ def get_config():
     return config_manager.load_settings()
 
 
+def _is_china_a_share(symbol: str) -> bool:
+    """Check if symbol is a Chinese A-share (6-digit code, optionally with suffix)."""
+    s = str(symbol).strip().upper()
+    if s.endswith((".SH", ".SS", ".SZ", ".XSHG", ".XSHE")):
+        return True
+    return s.isdigit() and len(s) == 6
+
+
+def _fetch_china_ohlcv(symbol: str, start_date: str, end_date: str):
+    """Fetch OHLCV data for Chinese A-shares from MongoDB instead of yfinance."""
+    code = str(symbol).strip().upper()
+    for suffix in (".SH", ".SS", ".SZ", ".XSHG", ".XSHE"):
+        code = code.replace(suffix, "")
+
+    # Try app-level get_mongo_db first
+    try:
+        from app.core.database import get_mongo_db
+        db = get_mongo_db()
+        cursor = db["stock_daily_quotes"].find(
+            {"code": code, "date": {"$gte": start_date, "$lte": end_date}},
+            {"_id": 0, "date": 1, "open": 1, "high": 1, "low": 1, "close": 1, "volume": 1},
+        ).sort("date", 1)
+        rows = list(cursor)
+        if rows:
+            df = pd.DataFrame(rows)
+            df = df.rename(columns={
+                "date": "Date", "open": "Open", "high": "High",
+                "low": "Low", "close": "Close", "volume": "Volume",
+            })
+            df["Date"] = pd.to_datetime(df["Date"])
+            return df
+    except Exception:
+        pass
+
+    # Fall back: direct pymongo connection from settings
+    try:
+        from pymongo import MongoClient
+        from app.core.config import settings
+        client = MongoClient(settings.MONGO_URI, serverSelectionTimeoutMS=5000)
+        db = client[settings.MONGO_DB]
+        cursor = db["stock_daily_quotes"].find(
+            {"code": code, "date": {"$gte": start_date, "$lte": end_date}},
+            {"_id": 0, "date": 1, "open": 1, "high": 1, "low": 1, "close": 1, "volume": 1},
+        ).sort("date", 1)
+        rows = list(cursor)
+        client.close()
+        if rows:
+            df = pd.DataFrame(rows)
+            df = df.rename(columns={
+                "date": "Date", "open": "Open", "high": "High",
+                "low": "Low", "close": "Close", "volume": "Volume",
+            })
+            df["Date"] = pd.to_datetime(df["Date"])
+            return df
+    except Exception:
+        pass
+
+    return None
+
+
 class StockstatsUtils:
     @staticmethod
     def get_stock_stats(
@@ -65,6 +125,30 @@ class StockstatsUtils:
             if os.path.exists(data_file):
                 data = pd.read_csv(data_file)
                 data["Date"] = pd.to_datetime(data["Date"])
+            elif _is_china_a_share(symbol):
+                data = _fetch_china_ohlcv(symbol, start_date, end_date)
+                if data is None or data.empty:
+                    try:
+                        from tradingagents.dataflows.interface import get_china_stock_data_unified
+                        result = get_china_stock_data_unified(symbol, start_date, end_date)
+                        if result and "❌" not in result:
+                            import io
+                            data = pd.read_csv(io.StringIO(result), skiprows=3)
+                            if "Date" not in data.columns and "date" not in data.columns:
+                                data = None
+                    except Exception:
+                        data = None
+                    if data is None or data.empty:
+                        data = yf.download(
+                            symbol,
+                            start=start_date,
+                            end=end_date,
+                            multi_level_index=False,
+                            progress=False,
+                            auto_adjust=True,
+                        )
+                        data = data.reset_index()
+                data.to_csv(data_file, index=False)
             else:
                 data = yf.download(
                     symbol,

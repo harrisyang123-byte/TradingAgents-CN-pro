@@ -631,10 +631,29 @@ class StockDataPreparer:
                     "message": "MongoDB缓存未启用"
                 }
 
-            # 查询数据库中的历史数据
-            df = adapter.get_historical_data(stock_code, start_date, end_date)
+            # 直接查询 stock_daily_quotes（不限制 data_source，任何来源的数据都算有效）
+            collection = adapter.db.stock_daily_quotes
+            query = {
+                "symbol": str(stock_code).zfill(6),
+                "trade_date": {"$gte": start_date, "$lte": end_date},
+            }
+            cursor = collection.find(query, {"_id": 0}).sort("trade_date", 1)
+            rows = list(cursor)
 
-            if df is None or df.empty:
+            if not rows:
+                # 降级：尝试不区分 date/trade_date 的宽松查询
+                query2 = {
+                    "symbol": str(stock_code).zfill(6),
+                }
+                if start_date:
+                    query2["$or"] = [
+                        {"trade_date": {"$gte": start_date, "$lte": end_date}},
+                        {"date": {"$gte": start_date, "$lte": end_date}},
+                    ]
+                cursor2 = collection.find(query2, {"_id": 0}).sort([("trade_date", 1), ("date", 1)])
+                rows = list(cursor2)
+
+            if not rows:
                 return {
                     "has_data": False,
                     "is_latest": False,
@@ -642,6 +661,9 @@ class StockDataPreparer:
                     "latest_date": None,
                     "message": "数据库中没有数据"
                 }
+
+            import pandas as pd
+            df = pd.DataFrame(rows)
 
             # 检查数据量
             record_count = len(df)

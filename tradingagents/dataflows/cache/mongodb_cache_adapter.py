@@ -35,8 +35,9 @@ class MongoDBCacheAdapter:
             from tradingagents.config.database_manager import get_mongodb_client
             self.mongodb_client = get_mongodb_client()
             if self.mongodb_client:
-                self.db = self.mongodb_client.get_database('tradingagents')
-                logger.debug("✅ MongoDB连接初始化成功")
+                from app.core.config import settings
+                self.db = self.mongodb_client.get_database(settings.MONGO_DB)
+                logger.debug(f"✅ MongoDB连接初始化成功 (db={settings.MONGO_DB})")
             else:
                 logger.warning("⚠️ MongoDB客户端不可用，回退到传统模式")
                 self.use_app_cache = False
@@ -210,7 +211,27 @@ class MongoDBCacheAdapter:
                 else:
                     logger.debug(f"⚠️ [MongoDB-{data_source}] 未找到{period}数据: {symbol}")
 
-            # 所有数据源都没有数据
+            # 所有数据源都没有数据 — 兜底：不限 data_source 再查一次
+            logger.debug(f"🔍 [MongoDB查询] 兜底查询（不限data_source）: symbol={code6}, period={period}")
+            fallback_query: dict[str, Any] = {
+                "symbol": code6,
+            }
+            if start_date:
+                fallback_query["$or"] = [
+                    {"trade_date": {"$gte": start_date}},
+                ]
+                if end_date:
+                    fallback_query["$or"][0]["trade_date"]["$lte"] = end_date
+                fallback_query["$or"].append({"date": {"$gte": start_date}})
+                if end_date:
+                    fallback_query["$or"][1]["date"]["$lte"] = end_date
+            cursor = collection.find(fallback_query, {"_id": 0}).sort([("trade_date", 1), ("date", 1)])
+            data = list(cursor)
+            if data:
+                df = pd.DataFrame(data)
+                logger.info(f"✅ [数据来源: MongoDB-兜底] {symbol}, {len(df)}条记录")
+                return df
+
             logger.warning(f"⚠️ [数据来源: MongoDB] 所有数据源({', '.join(priority_order)})都没有{period}数据: {symbol}，降级到其他数据源")
             return None
 
