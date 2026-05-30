@@ -32,6 +32,7 @@ from tradingagents.agents.advisors import (
 )
 from tradingagents.dataflows.pe_percentile import enrich_price_context
 from tradingagents.utils.logging_init import get_logger
+from app.services.portfolio_audit_service import audit_positions
 
 logger = get_logger("default")
 
@@ -773,6 +774,11 @@ class AdvisorGraph:
         if exposure_context:
             init_messages.append(HumanMessage(content=exposure_context))
 
+        # 持仓体检：确定性计算健康分/P&L/成本，注入 CIO/Strategist prompt
+        positions = portfolio_summary.get("positions", [])
+        audit_results = audit_positions(positions)
+        logger.info(f"[AdvisorGraph] 持仓体检完成，{len(audit_results)} 只标的")
+
         init_state: AdvisorState = {
             "messages": init_messages,
             "portfolio_summary": portfolio_summary,
@@ -823,6 +829,8 @@ class AdvisorGraph:
             },
             # PE 分位
             "price_context": {},
+            # 持仓体检
+            "audit_results": audit_results,
             # 配置
             "report_staleness_days": config_overrides.get(
                 "report_staleness_days", self.config.get("report_staleness_days", 7)),
@@ -840,6 +848,8 @@ class AdvisorGraph:
                 "final_debate_rounds", self.config.get("final_debate_rounds", 1)),
             "max_prescription_items": config_overrides.get(
                 "max_prescription_items", self.config.get("max_prescription_items", 8)),
+            "rebalance_preference": config_overrides.get(
+                "rebalance_preference", self.config.get("rebalance_preference", "opportunistic")),
         }
 
         node_mapping = {

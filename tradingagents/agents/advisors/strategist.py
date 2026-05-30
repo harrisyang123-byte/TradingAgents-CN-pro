@@ -26,12 +26,37 @@ def create_strategist(llm):
                 cand_lines.append(f"- {c.get('code', '?')} ({c.get('name', '?')}): 建议{c.get('action', '?')}")
             l1_l2_context += f"\n\n## L2 候选标的\n{chr(10).join(cand_lines)}"
 
+        # 构建持仓体检数据映射
+        audit_results = state.get("audit_results", [])
+        audit_map = {}
+        if isinstance(audit_results, list):
+            for a in audit_results:
+                audit_map[a.get("code", "")] = a
+
         weight_lines = []
         for pos in positions:
+            code = pos.get("code", "?")
             inst_type = pos.get("instrument_type", "stock")
+            weight = pos.get("weight", 0)
+            mv = pos.get("market_value_cny", 0)
+
+            aud = audit_map.get(code, {})
+            avg_cost = aud.get("avg_cost", pos.get("avg_cost", 0))
+            last_price = aud.get("last_price", pos.get("last_price", 0))
+            pnl_pct = aud.get("pnl_pct", pos.get("pnl_pct", 0))
+            pnl_cny = aud.get("pnl_cny", pos.get("pnl_cny", 0))
+            health = aud.get("health", "ok")
+            buy_date = aud.get("buy_date", pos.get("buy_date", ""))
+
+            health_emoji = {"float": "🔴", "pare": "🟡", "ok": "🟢", "good": "⭐"}.get(health, "⚪")
+
+            cost_str = f"，成本 ¥{avg_cost} → 现价 ¥{last_price}" if avg_cost and last_price else ""
+            pnl_str = f"，浮{'%.2f' if pnl_pct >= 0 else ''}{pnl_pct:.1f}% (¥{pnl_cny:+,.0f})" if pnl_pct else ""
+            buy_str = f"，买入 {buy_date}" if buy_date else ""
+
             weight_lines.append(
-                f"- {pos.get('code', '?')} ({inst_type}): 仓位 {pos.get('weight', 0):.1f}%, "
-                f"市值 ¥{pos.get('market_value_cny', 0):,.2f}"
+                f"- {code} ({inst_type}): 仓位 {weight:.1f}%, 市值 ¥{mv:,.2f}{cost_str}{pnl_str}{buy_str}"
+                f" | {health_emoji} {health}"
             )
 
         # 检测基金持仓，有则追加基金组合评估

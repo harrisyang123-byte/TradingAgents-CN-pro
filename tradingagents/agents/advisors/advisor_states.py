@@ -14,6 +14,22 @@ class AdviceItem(TypedDict, total=False):
     target_weight: float
     reasoning: str
     risk_note: str
+    # 存量体检 vs 增量探索 字段
+    split_type: str       # "存量体检" or "增量探索"
+    avg_cost: float       # 平均成本
+    pnl_pct: float        # 浮动盈亏百分比
+    cost_context: str     # 成本上下文描述
+    # 决策卡片字段
+    timing: str           # immediate / conditional / scheduled
+    capital_source: str   # 资金来源描述
+    trigger_condition: str  # 条件触发描述
+    priority: str
+    l1_context: str
+    l2_context: str
+    suggested_price: str
+    max_loss_pct: str
+    five_year_view: str
+    bias_check: str
 
 
 class MarketDebateState(TypedDict, total=False):
@@ -90,6 +106,9 @@ class AdvisorState(TypedDict, total=False):
     # === PE 分位数据（L3→L4 enrich_price_data 节点产出） ===
     price_context: Dict[str, Any]
 
+    # === 持仓体检数据（audit_positions 产出） ===
+    audit_results: List[Dict[str, Any]]
+
     # === 配置 ===
     report_staleness_days: int
     max_single_weight: float
@@ -99,3 +118,4 @@ class AdvisorState(TypedDict, total=False):
     stock_debate_rounds: int
     final_debate_rounds: int
     max_prescription_items: int
+    rebalance_preference: str   # "periodic" (定期) or "opportunistic" (机会触发)
