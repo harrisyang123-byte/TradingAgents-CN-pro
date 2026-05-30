@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import asyncio
 import logging
 
+from pymongo import UpdateOne
 from app.core.database import get_mongo_db
 
 logger = logging.getLogger("webapi")
@@ -131,7 +132,7 @@ class PortfolioService:
 
     async def _get_position_name(self, code: str, instrument_type: str) -> str:
         """解析持仓名称：stock/etf 查 stock_basic_info，fund 查 fund_nav_cache"""
-        if instrument_type == "fund":
+        if instrument_type in ("fund", "other"):
             cache = await self.db["fund_nav_cache"].find_one({"code": code})
             name = cache.get("name") if cache else None
             if name:
@@ -205,7 +206,7 @@ class PortfolioService:
 
     async def _get_last_price(self, code: str, market: str, instrument_type: str = "stock") -> Optional[float]:
         """获取最新价格（复用 paper.py 的逻辑）"""
-        if instrument_type == "fund":
+        if instrument_type in ("fund", "other"):
             return await self._get_fund_nav(code)
 
         if market == "CN":
@@ -314,59 +315,78 @@ class PortfolioService:
         }
 
     async def _refresh_cn_market_quotes(self, codes: List[str]) -> None:
-        """批量刷新 A 股实时行情到 market_quotes（一次 AKShare 调用覆盖全部 CN 持仓）"""
+        """批量刷新 A 股实时行情到 market_quotes（使用新浪财经 API，兼容代理环境）"""
         if not codes:
             return
         try:
-            import akshare as ak
-            df = await asyncio.wait_for(
-                asyncio.to_thread(ak.stock_zh_a_spot_em),
-                timeout=15.0,
-            )
-            if df is None or df.empty:
-                logger.warning("AKShare stock_zh_a_spot_em 返回空数据")
+            import re as _re
+            from urllib.request import Request, urlopen as _urlopen
+
+            # 构建新浪行情 URL（新浪 API 可穿透 Clash/代理）
+            sina_codes = []
+            for c in codes:
+                c = str(c).strip()
+                if c.startswith(("6", "68")):
+                    sina_codes.append(f"sh{c}")
+                elif c.startswith(("0", "3")):
+                    sina_codes.append(f"sz{c}")
+                elif c.startswith(("8", "4")):
+                    sina_codes.append(f"bj{c}")
+            if not sina_codes:
                 return
 
-            code_set = set(codes)
+            url = "http://hq.sinajs.cn/list=" + ",".join(sina_codes)
+
+            def _fetch():
+                req = Request(url, headers={
+                    "User-Agent": "Mozilla/5.0",
+                    "Referer": "https://finance.sina.com.cn",
+                })
+                with _urlopen(req, timeout=10.0) as resp:
+                    return resp.read().decode("gb2312", errors="replace")
+
+            text = await asyncio.wait_for(asyncio.to_thread(_fetch), timeout=12.0)
+
             now = datetime.utcnow()
             bulk_ops = []
-            for _, row in df.iterrows():
-                raw_code = str(row.get("代码", ""))
-                clean = raw_code.strip()
-                if clean not in code_set:
+            for line in text.strip().split("\n"):
+                m = _re.match(r'var hq_str_(\w+)=\"(.*)\"', line)
+                if not m:
                     continue
+                sym = m.group(1)
+                fields = m.group(2).split(",")
+                if len(fields) < 4:
+                    continue
+                code = sym[2:]  # 去掉 sh/sz/bj 前缀
                 try:
-                    price_val = float(row.get("最新价", 0) or 0)
+                    price_val = float(fields[3])
                 except (ValueError, TypeError):
-                    price_val = 0.0
+                    continue
                 if price_val <= 0:
                     continue
-                bulk_ops.append({
-                    "update_one": {
-                        "filter": {"code": clean},
-                        "update": {"$set": {
-                            "code": clean,
-                            "name": str(row.get("名称", "")),
+                name = fields[0]
+                bulk_ops.append(
+                    UpdateOne(
+                        {"code": code},
+                        {"$set": {
+                            "code": code,
+                            "name": name,
                             "close": price_val,
-                            "open": float(row.get("今开", 0) or 0),
-                            "high": float(row.get("最高", 0) or 0),
-                            "low": float(row.get("最低", 0) or 0),
-                            "volume": float(row.get("成交量", 0) or 0),
-                            "change_pct": float(row.get("涨跌幅", 0) or 0),
+                            "open": float(fields[1] or 0),
+                            "pre_close": float(fields[2] or 0),
+                            "high": float(fields[4] or 0),
+                            "low": float(fields[5] or 0),
                             "updated_at": now,
                         }},
-                        "upsert": True,
-                    }
-                })
+                        upsert=True,
+                    )
+                )
             if bulk_ops:
                 col = self.db["market_quotes"]
-                await col.bulk_write(
-                    [op["update_one"] for op in bulk_ops],
-                    ordered=False,
-                )
-                logger.info(f"批量刷新 {len(bulk_ops)} 只 A 股行情到 market_quotes")
+                await col.bulk_write(bulk_ops, ordered=False)
+                logger.info(f"批量刷新 {len(bulk_ops)} 只 A 股行情到 market_quotes（新浪来源）")
         except asyncio.TimeoutError:
-            logger.warning("AKShare 批量行情刷新超时(15s)")
+            logger.warning("新浪行情批量刷新超时(12s)")
         except Exception as e:
             logger.error(f"批量刷新 A 股行情失败: {e}")
 
@@ -379,7 +399,7 @@ class PortfolioService:
         positions = await self.db["paper_positions"].find({"user_id": user_id}).to_list(None)
 
         # 批量刷新 A 股实时行情（一次 AKShare 调用覆盖全部 CN 持仓）
-        cn_codes = [p["code"] for p in positions if p.get("market", "CN") == "CN" and p.get("instrument_type", "stock") != "fund"]
+        cn_codes = [p["code"] for p in positions if p.get("market", "CN") == "CN" and p.get("instrument_type", "stock") not in ("fund", "other")]
         if cn_codes:
             await self._refresh_cn_market_quotes(cn_codes)
 
