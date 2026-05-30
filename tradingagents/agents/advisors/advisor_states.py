@@ -109,6 +109,13 @@ class AdvisorState(TypedDict, total=False):
     # === 持仓体检数据（audit_positions 产出） ===
     audit_results: List[Dict[str, Any]]
 
+    # === 敞口矩阵（ExposureService 产出） ===
+    exposure_context: str
+    exposure_matrix: Any
+
+    # === 反馈闭环 ===
+    feedback_context: str
+
     # === 配置 ===
     report_staleness_days: int
     max_single_weight: float

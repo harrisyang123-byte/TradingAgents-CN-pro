@@ -10,6 +10,8 @@ def create_risk_director(llm):
         portfolio = state.get("portfolio_summary", {})
         stock_candidates = state.get("stock_candidates", [])
         market_intel = state.get("market_intel", {})
+        exposure_context = state.get("exposure_context", "")
+        audit_results = state.get("audit_results", [])
 
         presc_lines = []
         for i, p in enumerate(prescription):
@@ -17,6 +19,17 @@ def create_risk_director(llm):
                 f"{i + 1}. {p.get('code', '?')} — {p.get('action', '?')}: "
                 f"当前{p.get('current_weight', 0):.1f}% → 目标{p.get('target_weight', 0):.1f}%"
             )
+
+        # 从 audit_results 计算集中度摘要
+        if isinstance(audit_results, list) and audit_results:
+            total_w = portfolio.get("total_assets", 0)
+            top3 = sorted(audit_results, key=lambda x: abs(x.get("weight", 0)), reverse=True)[:3]
+            top3_str = ", ".join(
+                f"{a.get('code','?')} {a.get('weight',0):.1f}%" for a in top3
+            )
+            concentration_summary = f"Top-3 持仓: {top3_str}"
+        else:
+            concentration_summary = "无持仓数据"
 
         prompt = f"""你是风险总监（Risk Director），职责是在 CIO 终裁前对处方进行独立的终端风险审查。
 
@@ -46,6 +59,12 @@ def create_risk_director(llm):
 ### 处方纪律
 - 处方数量是否合理（20孔卡片）？
 - 是否有"为了做点什么而做"的冗余操作？
+
+### 敞口矩阵数据（基金穿透后真实暴露）
+{exposure_context[:2000] if exposure_context else '无敞口数据'}
+
+### 持仓集中度
+{concentration_summary}
 
 ## 当前处方（CIO 初稿）
 {chr(10).join(presc_lines) if presc_lines else '无处方'}

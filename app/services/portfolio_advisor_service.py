@@ -141,11 +141,24 @@ class PortfolioAdvisorService:
         exposure_matrix = await exposure_svc.compute(portfolio_summary)
         exposure_context = exposure_svc.format_context_for_advisor(exposure_matrix)
 
+        # 情景压力测试：预设宏观情景，估算组合回撤
+        from app.services.stress_test import StressTestService
+        positions = portfolio_summary.get("positions", [])
+        sector_map = {}
+        for exp in exposure_matrix.stock_exposures:
+            if exp.sector:
+                sector_map[exp.code] = exp.sector
+        stress_results = StressTestService.run_all(positions, sector_map)
+        stress_context = StressTestService.format_context_for_advisor(stress_results)
+
         logger.info(
             f"[Advisor] 数据准备完成: {len(position_codes)} 只持仓, "
             f"{len(tier1_reports)} 份 Tier1 报告, "
             f"敞口矩阵 {len(exposure_matrix.stock_exposures)} 只底层标的"
         )
+
+        # 反馈闭环：获取上一次处方上下文，注入 CIO prompt
+        feedback_context = await self._format_feedback_context(user_id, advice_id)
 
         config_service = ConfigService()
         llm_config = await config_service.get_analysis_config(user_id)
@@ -182,8 +195,9 @@ class PortfolioAdvisorService:
         result = advisor.propagate_advice(
             portfolio_summary=portfolio_summary,
             tier1_reports=tier1_reports,
-            exposure_context=exposure_context,
+            exposure_context=exposure_context + "\n\n" + stress_context if stress_context else exposure_context,
             exposure_matrix=exposure_matrix,
+            feedback_context=feedback_context,
             progress_callback=progress_cb,
             **config_overrides,
         )
@@ -298,6 +312,46 @@ class PortfolioAdvisorService:
                 "updated_at": datetime.utcnow().isoformat(),
             }},
         )
+
+    async def _format_feedback_context(self, user_id: str, current_advice_id: str) -> str:
+        """获取最近的已完成处方，格式化为反馈上下文"""
+        try:
+            self._db = None
+            cursor = self.db["portfolio_advice"].find(
+                {
+                    "user_id": user_id,
+                    "advice_id": {"$ne": current_advice_id},
+                    "status": "COMPLETED",
+                }
+            ).sort("created_at", -1).limit(2)
+
+            previous = await cursor.to_list(length=2)
+            if not previous:
+                return ""
+
+            parts = ["## 历史处方反馈", ""]
+            for i, doc in enumerate(previous):
+                ts = doc.get("created_at", "")[:10]
+                presc = doc.get("prescription", [])
+                if not presc:
+                    continue
+
+                parts.append(f"### 第{i + 1}次回顾 ({ts})")
+                parts.append("| 标的 | 操作 | 目标权重 | 理由 |")
+                parts.append("|------|------|----------|------|")
+                for p in presc[:8]:
+                    parts.append(
+                        f"| {p.get('code','?')} {p.get('name','')} | "
+                        f"{p.get('action','?')} | {p.get('target_weight',0):.1f}% | "
+                        f"{str(p.get('reasoning',''))[:80]} |"
+                    )
+                parts.append("")
+
+            parts.append("**反馈要求**：对比本次处方与历史处方，说明哪些建议被延续、哪些已过时、哪些需要纠正。")
+            return "\n".join(parts)
+        except Exception as e:
+            logger.warning(f"获取历史处方失败: {e}")
+            return ""
 
     async def _send_ws_notification(self, user_id: str, advice_id: str):
         try:

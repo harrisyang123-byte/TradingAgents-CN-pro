@@ -30,6 +30,7 @@ def create_cio(llm):
         price_context = state.get("price_context", {})
 
         is_final = bool(risk_review)
+        feedback_context = state.get("feedback_context", "")
 
         audit_results = state.get("audit_results", {})
         audit_map = {}
@@ -119,6 +120,9 @@ def create_cio(llm):
 ### L4 风险总监审查（重点参考）
 {risk_review[:2500]}
 
+### 历史处方反馈
+{feedback_context[:1500] if feedback_context else '无历史处方数据（首次分析）'}
+
 ### 当前持仓
 {chr(10).join(position_lines) if position_lines else '无持仓'}
 
@@ -174,6 +178,11 @@ L1 裁判标注为"期望膨胀期"的行业 → 对应的 BUY/ADD 自动降级�
 
 ### 处方质量 > 数量
 宁可给 3 条有深度分析的建议，不要给 8 条敷衍的建议。
+
+### 反馈闭环
+- 对照历史处方，说明哪些建议被延续、哪些已过时或需要纠正
+- 如果历史处方中某操作未执行，分析原因并调整本次建议
+- 从历史判断中学习：哪些判断对了、哪些错了？
 
 {fund_decision_criteria}### 定量红线
 - 单只 ≤ {max_single}%

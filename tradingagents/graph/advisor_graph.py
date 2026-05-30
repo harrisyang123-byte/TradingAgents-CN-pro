@@ -746,6 +746,7 @@ class AdvisorGraph:
         selected_industries: Optional[list] = None,
         exposure_context: str = "",
         exposure_matrix: Any = None,
+        feedback_context: str = "",
         **config_overrides,
     ) -> Dict[str, Any]:
         """执行组合顾问分析
@@ -773,6 +774,8 @@ class AdvisorGraph:
             init_messages.append(HumanMessage(content=report_ctx))
         if exposure_context:
             init_messages.append(HumanMessage(content=exposure_context))
+        if feedback_context:
+            init_messages.append(HumanMessage(content=feedback_context))
 
         # 持仓体检：确定性计算健康分/P&L/成本，注入 CIO/Strategist prompt
         positions = portfolio_summary.get("positions", [])
@@ -831,6 +834,11 @@ class AdvisorGraph:
             "price_context": {},
             # 持仓体检
             "audit_results": audit_results,
+            # 敞口矩阵
+            "exposure_context": exposure_context,
+            "exposure_matrix": exposure_matrix,
+            # 反馈闭环
+            "feedback_context": feedback_context,
             # 配置
             "report_staleness_days": config_overrides.get(
                 "report_staleness_days", self.config.get("report_staleness_days", 7)),
