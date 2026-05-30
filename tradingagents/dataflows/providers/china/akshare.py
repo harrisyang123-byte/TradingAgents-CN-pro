@@ -188,6 +188,25 @@ class AKShareProvider(BaseStockDataProvider):
                 requests.get = patched_get
                 requests._akshare_headers_patched = True
 
+            # AKShare 内部用 requests.Session().get()，不走 requests.get 的 patch
+            # 此处一并 patch Session.request 以绕过系统代理（东方财富直连）
+            if not hasattr(requests, '_akshare_session_patched'):
+                last_request_time = {'time': 0}
+                original_session_request = requests.Session.request
+
+                def patched_session_request(self, method, url, **kwargs):
+                    if 'eastmoney.com' in (url or ''):
+                        kwargs.setdefault('proxies', {"http": None, "https": None})
+                        now = time.time()
+                        since = now - last_request_time['time']
+                        if since < 0.5:
+                            time.sleep(0.5 - since)
+                        last_request_time['time'] = time.time()
+                    return original_session_request(self, method, url, **kwargs)
+
+                requests.Session.request = patched_session_request
+                requests._akshare_session_patched = True
+
                 if use_curl_cffi:
                     logger.info("🔧 已修复AKShare的headers问题，使用 curl_cffi 模拟真实浏览器（Chrome 120）")
                 else:
