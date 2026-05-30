@@ -7,7 +7,7 @@
 
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 # 添加项目根目录到 Python 路径
@@ -67,7 +67,7 @@ def test_trading_time_logic():
         if test_time.weekday() >= 5:
             # 如果是周末，调整到周一
             days_to_monday = 7 - test_time.weekday()
-            test_time = test_time.replace(day=test_time.day + days_to_monday)
+            test_time = test_time + timedelta(days=days_to_monday)
         
         result = service._is_trading_time(test_time)
         status = "✅ 通过" if result == expected else "❌ 失败"

@@ -36,33 +36,29 @@ def test_config_settings_contains_ta_keys(app_client_config: TestClient, monkeyp
     assert resp.status_code == 200, resp.text
     data = resp.json()
 
-    assert "ta_us_min_api_interval_seconds" in data
-    assert data["ta_us_min_api_interval_seconds"] == 0.25
-    assert data["ta_google_news_sleep_min_seconds"] == 1.5
+    assert "ta_us_min_api_interval_seconds" in data["data"]
+    assert data["data"]["ta_us_min_api_interval_seconds"] == 0.25
+    assert data["data"]["ta_google_news_sleep_min_seconds"] == 1.5
 
 
 def test_runtime_settings_priority_db_env_default(monkeypatch):
     # Ensure ENV is set
     monkeypatch.setenv("TA_US_MIN_API_INTERVAL_SECONDS", "3.0")
 
-    # Monkeypatch provider to simulate DB value
-    from app.services import config_provider as cfgprov
     from tradingagents.config import runtime_settings as rs
 
-    async def _fake_eff_db():
-        return {"ta_us_min_api_interval_seconds": 0.25}
-
-    monkeypatch.setattr(cfgprov.provider, "get_effective_system_settings", _fake_eff_db)
+    # Mock _get_system_settings_sync to simulate DB value (DB > ENV > default)
+    monkeypatch.setattr(
+        rs, "_get_system_settings_sync",
+        lambda: {"ta_us_min_api_interval_seconds": 0.25},
+    )
 
     # DB should override ENV and default
     v_db = rs.get_float("TA_US_MIN_API_INTERVAL_SECONDS", "ta_us_min_api_interval_seconds", 1.0)
     assert abs(v_db - 0.25) < 1e-9
 
     # If DB doesn't provide the key, ENV should override default
-    async def _fake_eff_empty():
-        return {}
-
-    monkeypatch.setattr(cfgprov.provider, "get_effective_system_settings", _fake_eff_empty)
+    monkeypatch.setattr(rs, "_get_system_settings_sync", lambda: {})
     v_env = rs.get_float("TA_US_MIN_API_INTERVAL_SECONDS", "ta_us_min_api_interval_seconds", 1.0)
     assert abs(v_env - 3.0) < 1e-9
 
