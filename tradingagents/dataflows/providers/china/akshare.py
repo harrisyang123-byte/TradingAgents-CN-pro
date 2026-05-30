@@ -104,17 +104,13 @@ class AKShareProvider(BaseStockDataProvider):
                     修复AKShare stock_news_em()函数缺少headers的问题
                     如果可用，使用 curl_cffi 模拟真实浏览器 TLS 指纹
                     """
-                    # 东方财富网请求：绕过系统代理 + 请求限速
+                    # 东方财富网请求限速
                     if 'eastmoney.com' in url:
-                        kwargs.setdefault('proxies', {"http": None, "https": None})
                         current_time = time.time()
                         time_since_last_request = current_time - last_request_time['time']
                         if time_since_last_request < 0.5:
                             time.sleep(0.5 - time_since_last_request)
                         last_request_time['time'] = time.time()
-
-                    # curl_cffi 仅用于非东方财富请求（东方财富走标准 requests + 直连）
-                    if use_curl_cffi and 'eastmoney.com' not in url:
                         try:
                             # 使用 curl_cffi 模拟 Chrome 120 的 TLS 指纹
                             # 注意：使用 impersonate 时，不要传递自定义 headers，让 curl_cffi 自动设置
@@ -189,14 +185,13 @@ class AKShareProvider(BaseStockDataProvider):
                 requests._akshare_headers_patched = True
 
             # AKShare 内部用 requests.Session().get()，不走 requests.get 的 patch
-            # 此处一并 patch Session.request 以绕过系统代理（东方财富直连）
+            # 此处 patch Session.request 添加请求限速
             if not hasattr(requests, '_akshare_session_patched'):
                 last_request_time = {'time': 0}
                 original_session_request = requests.Session.request
 
                 def patched_session_request(self, method, url, **kwargs):
                     if 'eastmoney.com' in (url or ''):
-                        kwargs.setdefault('proxies', {"http": None, "https": None})
                         now = time.time()
                         since = now - last_request_time['time']
                         if since < 0.5:
