@@ -34,6 +34,7 @@ class ChinaDataSource(Enum):
     """
     MONGODB = DataSourceCode.MONGODB  # MongoDB数据库缓存（最高优先级）
     TUSHARE = DataSourceCode.TUSHARE
+    SINA = "sina"  # 新浪财经（直连，不经过AKShare）
     AKSHARE = DataSourceCode.AKSHARE
     BAOSTOCK = DataSourceCode.BAOSTOCK
 
@@ -1503,6 +1504,12 @@ class DataSourceManager:
 
         # 首先尝试当前数据源
         try:
+            # 🔥 优先尝试新浪财经（绕过 eastmoney push2 封锁，速度快且可靠）
+            sina_result = self._get_sina_stock_info(symbol)
+            if sina_result.get('name') and sina_result['name'] != f'股票{symbol}':
+                logger.info(f"✅ [新浪优先] 股票信息获取成功: {symbol}")
+                return sina_result
+
             if self.current_source == ChinaDataSource.TUSHARE:
                 from .interface import get_china_stock_info_tushare
                 info_str = get_china_stock_info_tushare(symbol)
@@ -1615,6 +1622,8 @@ class DataSourceManager:
                 if source == ChinaDataSource.TUSHARE:
                     # 🔥 直接调用 Tushare 适配器，避免循环调用
                     result = self._get_tushare_stock_info(symbol)
+                elif source == ChinaDataSource.SINA:
+                    result = self._get_sina_stock_info(symbol)
                 elif source == ChinaDataSource.AKSHARE:
                     result = self._get_akshare_stock_info(symbol)
                 elif source == ChinaDataSource.BAOSTOCK:
@@ -1753,8 +1762,33 @@ class DataSourceManager:
                 return {'symbol': symbol, 'name': f'股票{symbol}', 'source': 'baostock'}
 
         except Exception as e:
-            logger.error(f"❌ [股票信息] BaoStock获取失败: {e}")
+            logger.error(f"❌ [股票信息] BaoStock获取失败: {symbol}, 错误: {e}")
             return {'symbol': symbol, 'name': f'股票{symbol}', 'source': 'baostock', 'error': str(e)}
+
+    def _get_sina_stock_info(self, symbol: str) -> Dict:
+        """直接调用新浪财经 API 获取股票名称（不经过 AKShare，绕过 eastmoney push2 封锁）"""
+        import requests
+        try:
+            if symbol.startswith('6'):
+                sina_code = f"sh{symbol}"
+            else:
+                sina_code = f"sz{symbol}"
+
+            url = f"https://hq.sinajs.cn/list={sina_code}"
+            headers = {'Referer': 'https://finance.sina.com.cn'}
+            r = requests.get(url, headers=headers, timeout=5)
+            if r.status_code == 200 and r.text:
+                content = r.text.split('"')[1] if '"' in r.text else ''
+                if content:
+                    name = content.split(',')[0]
+                    if name:
+                        logger.info(f"✅ [新浪股票信息] {symbol} -> {name}")
+                        return {'symbol': symbol, 'name': name, 'area': '未知',
+                                'industry': '未知', 'market': '未知', 'list_date': '未知',
+                                'source': 'sina'}
+        except Exception as e:
+            logger.debug(f"[新浪股票信息] 失败: {e}")
+        return {'symbol': symbol, 'name': f'股票{symbol}', 'source': 'sina', 'error': 'failed'}
 
     def _parse_stock_info_string(self, info_str: str, symbol: str) -> Dict:
         """解析股票信息字符串为字典"""
