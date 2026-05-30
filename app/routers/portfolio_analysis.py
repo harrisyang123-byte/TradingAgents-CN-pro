@@ -171,6 +171,8 @@ async def _execute_l1(task_id: str, user_id: str, goal: str = ""):
             {"advice_id": task_id},
             {"$set": {
                 "status": "L1_COMPLETED",
+                "result": result,
+                "industries": industries,
                 "macro_judge_verdict": result.get("macro_judge_verdict", ""),
                 "market_intel": result.get("market_intel", {}),
                 "market_debate_history": result.get("market_debate_history", ""),
@@ -405,8 +407,10 @@ async def get_analysis_status(task_id: str, current_user: dict = Depends(get_cur
 
     result_data = None
     if status == "l1_completed":
+        industries = await _get_planned_industries(current_user["id"], db)
         result_data = {
-            "industries": await _get_planned_industries(current_user["id"], db),
+            "market_intel": {"industries": industries},
+            "industries": industries,
             "macro_judge_verdict": doc.get("macro_judge_verdict", ""),
         }
     elif status == "completed":
@@ -415,6 +419,17 @@ async def get_analysis_status(task_id: str, current_user: dict = Depends(get_cur
             "cio_verdict": doc.get("cio_verdict", ""),
             "selected_industries": doc.get("selected_industries", []),
             "elapsed_seconds": doc.get("elapsed_seconds", 0),
+            "macro_judge_verdict": doc.get("macro_judge_verdict", ""),
+            "stock_judge_verdict": doc.get("stock_judge_verdict", ""),
+            "analyst_assessment": doc.get("analyst_assessment", ""),
+            "strategist_assessment": doc.get("strategist_assessment", ""),
+            "scout_assessment": doc.get("scout_assessment", ""),
+            "risk_director_review": doc.get("risk_director_review", ""),
+            "market_intel": doc.get("market_intel", {}),
+            "stock_candidates": doc.get("stock_candidates", []),
+            "market_debate_history": doc.get("market_debate_history", ""),
+            "stock_debate_history": doc.get("stock_debate_history", ""),
+            "debate_history": doc.get("debate_history", ""),
         }
 
     return {

@@ -114,11 +114,20 @@ async def _get_or_create_account(user_id: str) -> Dict[str, Any]:
     return acc
 
 
-async def _get_last_price(code: str, market: str) -> Optional[float]:
-    """获取股票最新价格（支持多市场）"""
+async def _get_last_price(code: str, market: str, instrument_type: str = "stock") -> Optional[float]:
+    """获取最新价格（支持多市场）"""
     db = get_mongo_db()
 
     if market == "CN":
+        if instrument_type == "other":
+            try:
+                nav_doc = await db["fund_nav_cache"].find_one({"code": code})
+                if nav_doc and nav_doc.get("nav") is not None:
+                    return float(nav_doc["nav"])
+            except Exception:
+                pass
+            return None
+
         q = await db["market_quotes"].find_one(
             {"$or": [{"code": code}, {"symbol": code}]},
             {"_id": 0, "close": 1},
@@ -198,7 +207,7 @@ async def get_account(current_user: dict = Depends(get_current_user)):
         code = p.get("code")
         market = p.get("market", "CN")
         qty = int(p.get("quantity", 0))
-        last = await _get_last_price(code, market)
+        last = await _get_last_price(code, market, p.get("instrument_type", "stock"))
         if last is not None:
             total_market_value += last * qty
 
@@ -260,7 +269,7 @@ async def list_positions(current_user: dict = Depends(get_current_user)):
         qty = int(p.get("quantity", 0))
         avg_cost = float(p.get("avg_cost", 0.0))
 
-        last = await _get_last_price(code, market)
+        last = await _get_last_price(code, market, p.get("instrument_type", "stock"))
         mkt = round((last or 0.0) * qty, 2)
         enriched.append({
             "code": code,
