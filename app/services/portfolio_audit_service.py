@@ -3,6 +3,8 @@
 from typing import Dict, List, Any
 from datetime import datetime, timezone
 
+HEALTH_EMOJI_MAP = {"float": "🔴", "pare": "🟡", "ok": "🟢", "good": "⭐"}
+
 
 def audit_position(pos: Dict[str, Any]) -> Dict[str, Any]:
     """对单只持仓做健康体检，返回确定性诊断数据"""
@@ -78,7 +80,7 @@ def format_position_summary_for_cio(positions: List[Dict[str, Any]], audit_map: 
         health = aud.get("health", "ok")
         buy_date = aud.get("buy_date", "")
 
-        health_emoji = {"float": "🔴", "pare": "🟡", "ok": "🟢", "good": "⭐"}.get(health, "⚪")
+        health_emoji = HEALTH_EMOJI_MAP.get(health, "⚪")
 
         line = (
             f"- {code} {name} ({instr}): 仓位 {weight:.1f}%, 市值 ¥{mv:,.0f}\n"

@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import re
 from tradingagents.utils.logging_init import get_logger
+from app.services.portfolio_audit_service import HEALTH_EMOJI_MAP
 
 logger = get_logger("default")
 
@@ -54,7 +55,7 @@ def create_cio(llm):
             health = aud.get("health", "ok")
             buy_date = aud.get("buy_date", pos.get("buy_date", ""))
 
-            health_emoji = {"float": "🔴", "pare": "🟡", "ok": "🟢", "good": "⭐"}.get(health, "⚪")
+            health_emoji = HEALTH_EMOJI_MAP.get(health, "⚪")
             cost_part = f"成本 ¥{avg_cost}, 现价 ¥{last_price}" if avg_cost and last_price else ""
             pnl_sign = "+" if pnl_pct >= 0 else ""
             pnl_part = f"浮{'+' if pnl_pct >= 0 else ''}{pnl_pct:.1f}%"
