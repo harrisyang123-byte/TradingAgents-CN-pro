@@ -85,15 +85,15 @@ class TestRiskDebateFlow:
         state = {
             "risk_debate_state": {
                 "count": 0,
-                "latest_speaker": "Risky Analyst"
+                "latest_speaker": "Aggressive Analyst"
             }
         }
         
         # 第1轮：Risky -> Safe -> Neutral
         # Risky -> Safe
-        assert logic.should_continue_risk_analysis(state) == "Safe Analyst"
+        assert logic.should_continue_risk_analysis(state) == "Conservative Analyst"
         state["risk_debate_state"]["count"] = 1
-        state["risk_debate_state"]["latest_speaker"] = "Safe Analyst"  # 更新为Safe
+        state["risk_debate_state"]["latest_speaker"] = "Conservative Analyst"  # 更新为Safe
 
         # Safe -> Neutral
         assert logic.should_continue_risk_analysis(state) == "Neutral Analyst"
@@ -101,25 +101,25 @@ class TestRiskDebateFlow:
         state["risk_debate_state"]["latest_speaker"] = "Neutral Analyst"  # 更新为Neutral
 
         # Neutral -> Risky
-        assert logic.should_continue_risk_analysis(state) == "Risky Analyst"
+        assert logic.should_continue_risk_analysis(state) == "Aggressive Analyst"
         state["risk_debate_state"]["count"] = 3
-        state["risk_debate_state"]["latest_speaker"] = "Risky Analyst"  # 更新为Risky
+        state["risk_debate_state"]["latest_speaker"] = "Aggressive Analyst"  # 更新为Risky
 
         # 第2轮：Risky -> Safe -> Neutral
         # Risky -> Safe
-        assert logic.should_continue_risk_analysis(state) == "Safe Analyst"
+        assert logic.should_continue_risk_analysis(state) == "Conservative Analyst"
         state["risk_debate_state"]["count"] = 4
-        state["risk_debate_state"]["latest_speaker"] = "Safe Analyst"  # 更新为Safe
+        state["risk_debate_state"]["latest_speaker"] = "Conservative Analyst"  # 更新为Safe
 
         # Safe -> Neutral
         assert logic.should_continue_risk_analysis(state) == "Neutral Analyst"
         state["risk_debate_state"]["count"] = 5
         state["risk_debate_state"]["latest_speaker"] = "Neutral Analyst"  # 更新为Neutral
 
-        # Neutral -> Risk Judge (结束)
+        # Neutral -> Portfolio Manager (结束)
         # count = 6 >= 3 * 2 = 6
         state["risk_debate_state"]["count"] = 6
-        assert logic.should_continue_risk_analysis(state) == "Risk Judge"
+        assert logic.should_continue_risk_analysis(state) == "Portfolio Manager"
 
     def test_level_5_risk_debate_3_rounds(self):
         """测试5级全面分析的风险讨论（3轮）"""
@@ -128,12 +128,12 @@ class TestRiskDebateFlow:
         state = {
             "risk_debate_state": {
                 "count": 0,
-                "latest_speaker": "Risky Analyst"
+                "latest_speaker": "Aggressive Analyst"
             }
         }
         
-        speakers = ["Risky Analyst", "Safe Analyst", "Neutral Analyst"]
-        expected_next = ["Safe Analyst", "Neutral Analyst", "Risky Analyst"]
+        speakers = ["Aggressive Analyst", "Conservative Analyst", "Neutral Analyst"]
+        expected_next = ["Conservative Analyst", "Neutral Analyst", "Aggressive Analyst"]
         
         # 3轮，每轮3个发言者
         for round_num in range(3):
@@ -149,7 +149,7 @@ class TestRiskDebateFlow:
         
         # count = 9 >= 3 * 3 = 9，结束
         state["risk_debate_state"]["count"] = 9
-        assert logic.should_continue_risk_analysis(state) == "Risk Judge"
+        assert logic.should_continue_risk_analysis(state) == "Portfolio Manager"
 
 
 class TestDebateRoundsCalculation:
@@ -192,16 +192,16 @@ class TestDebateRoundsCalculation:
         state = {
             "risk_debate_state": {
                 "count": expected_total_count - 1,
-                "latest_speaker": "Risky Analyst"
+                "latest_speaker": "Aggressive Analyst"
             }
         }
         
         # 未达到阈值，继续讨论
-        assert logic.should_continue_risk_analysis(state) in ["Safe Analyst", "Neutral Analyst", "Risky Analyst"]
+        assert logic.should_continue_risk_analysis(state) in ["Conservative Analyst", "Neutral Analyst", "Aggressive Analyst"]
         
         # 达到阈值，结束讨论
         state["risk_debate_state"]["count"] = expected_total_count
-        assert logic.should_continue_risk_analysis(state) == "Risk Judge"
+        assert logic.should_continue_risk_analysis(state) == "Portfolio Manager"
 
 
 class TestDebateFlowSummary:

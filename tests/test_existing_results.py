@@ -8,6 +8,9 @@ import json
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
+import pytest
+
+pytestmark = pytest.mark.skip(reason="Integration test requiring running server + database state — run as standalone script instead")
 
 def get_existing_task_ids():
     """从MongoDB获取已有的任务ID"""
