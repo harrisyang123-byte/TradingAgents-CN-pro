@@ -13,6 +13,64 @@ L2 工具（标的筛选）：
   - get_fund_rankings(fund_type, market)
 """
 
+import time
+
+_sina_spot_cache = {"df": None, "ts": 0, "ttl": 120}  # 120s TTL
+
+
+def _get_sina_spot_cached():
+    """获取新浪全市场行情（缓存 120s），避免重复调用 16s 的全量查询"""
+    now = time.time()
+    if _sina_spot_cache["df"] is not None and (now - _sina_spot_cache["ts"]) < _sina_spot_cache["ttl"]:
+        return _sina_spot_cache["df"]
+    import akshare as ak
+    df = ak.stock_zh_a_spot()
+    _sina_spot_cache["df"] = df
+    _sina_spot_cache["ts"] = now
+    return df
+
+
+# Direct Sina quote cache (per-code, fast path)
+_sina_quote_cache: dict = {}  # {code: {"data": {...}, "ts": float}}
+
+
+def _get_sina_quote_direct(code: str) -> dict | None:
+    """直接调用新浪行情 API（单只股票，~0.1s）"""
+    import re, requests as req
+    now = time.time()
+    cached = _sina_quote_cache.get(code)
+    if cached and (now - cached["ts"]) < 120:
+        return cached["data"]
+
+    prefix = "sh" if code.startswith("6") else "sz"
+    url = f"https://hq.sinajs.cn/list={prefix}{code}"
+    headers = {"User-Agent": "Mozilla/5.0", "Referer": "https://finance.sina.com.cn/"}
+    try:
+        r = req.get(url, headers=headers, timeout=10)
+        r.encoding = "gbk"
+        m = re.match(r"var hq_str_\w+=\"(.+)\"", r.text.strip())
+        if not m:
+            return None
+        parts = m.group(1).split(",")
+        if len(parts) < 10:
+            return None
+        data = {
+            "name": parts[0],
+            "price": float(parts[3]) if parts[3] else 0,
+            "pre_close": float(parts[2]) if parts[2] else 0,
+            "open": float(parts[1]) if parts[1] else 0,
+            "high": float(parts[4]) if parts[4] else 0,
+            "low": float(parts[5]) if parts[5] else 0,
+            "volume": float(parts[8]) if parts[8] else 0,
+            "amount": float(parts[9]) if parts[9] else 0,
+            "date": parts[30] if len(parts) > 30 else "",
+            "change_pct": (float(parts[3]) / float(parts[2]) - 1) * 100 if parts[3] and parts[2] and float(parts[2]) > 0 else 0,
+        }
+        _sina_quote_cache[code] = {"data": data, "ts": now}
+        return data
+    except Exception:
+        return None
+
 from langchain_core.tools import tool
 
 
@@ -214,13 +272,33 @@ def _get_industry_constituents_cn(industry: str) -> dict:
 def _get_company_profile_cn(code: str) -> dict:
     try:
         import akshare as ak
-        df = ak.stock_individual_info_em(symbol=code)
-        if df is None or df.empty:
-            return {"code": code, "market": "cn", "fallback": True, "note": "未找到公司信息"}
-        info = {}
-        for _, row in df.iterrows():
-            info[row["item"]] = row["value"]
-        return {"code": code, "market": "cn", "profile": info}
+        # 优先尝试 eastmoney（被限流时快速失败，由外层 retry 处理）
+        try:
+            df = ak.stock_individual_info_em(symbol=code)
+            if df is not None and not df.empty:
+                info = {}
+                for _, row in df.iterrows():
+                    info[row["item"]] = row["value"]
+                return {"code": code, "market": "cn", "source": "eastmoney", "profile": info}
+        except Exception:
+            pass
+
+        # Fallback: 从 Sina 行情中提取名称（直接 API，不依赖 eastmoney）
+        quote = _get_sina_quote_direct(code)
+        if quote:
+            return {
+                "code": code,
+                "market": "cn",
+                "source": "sina",
+                "profile": {
+                    "股票简称": quote["name"],
+                    "最新价": quote["price"],
+                    "涨跌幅": round(quote["change_pct"], 2),
+                    "昨收": quote["pre_close"],
+                },
+            }
+
+        return {"code": code, "market": "cn", "fallback": True, "note": "未找到公司信息"}
     except Exception as e:
         return {"code": code, "market": "cn", "fallback": True, "error": str(e)}
 
@@ -228,35 +306,53 @@ def _get_company_profile_cn(code: str) -> dict:
 def _get_financial_summary_cn(code: str) -> dict:
     try:
         import akshare as ak
-        df = ak.stock_individual_analysis_em(symbol=code)
-        if df is None or df.empty:
+        prefix = "sh" if code.startswith("6") else "sz"
+        symbol = f"{prefix}{code}"
+
+        # 获取资产负债表（最新期）
+        bs = ak.stock_financial_report_sina(stock=symbol, symbol="资产负债表")
+        if bs is None or bs.empty:
             return {"code": code, "market": "cn", "fallback": True, "note": "未找到财务数据"}
-        financial = df.head(20).to_dict(orient="records")
-        return {"code": code, "market": "cn", "financial": financial}
+
+        latest = bs.iloc[0].to_dict()
+        return {
+            "code": code,
+            "market": "cn",
+            "source": "sina",
+            "financial": {
+                "report_date": str(latest.get("报告日", "")),
+                "total_assets": latest.get("资产总计"),
+                "total_liabilities": latest.get("负债合计"),
+                "shareholder_equity": latest.get("归属于母公司股东权益合计"),
+                "current_assets": latest.get("流动资产合计"),
+                "current_liabilities": latest.get("流动负债合计"),
+                "cash": latest.get("货币资金"),
+                "inventory": latest.get("存货"),
+            },
+        }
     except Exception as e:
         return {"code": code, "market": "cn", "fallback": True, "error": str(e)}
 
 
 def _get_stock_quotes_cn(code: str) -> dict:
     try:
-        import akshare as ak
-        df = ak.stock_zh_a_spot_em()
-        if df is None or df.empty:
-            return {"code": code, "market": "cn", "fallback": True, "note": "行情数据为空"}
-        match = df[df["代码"] == code]
-        if match.empty:
-            return {"code": code, "market": "cn", "fallback": True, "note": f"未找到代码 {code}"}
-        row = match.iloc[0]
+        data = _get_sina_quote_direct(code)
+        if data is None:
+            return {"code": code, "market": "cn", "fallback": True, "note": "未找到行情数据"}
         return {
             "code": code,
             "market": "cn",
+            "source": "sina",
             "quote": {
-                "name": str(row.get("名称", "")),
-                "price": float(row.get("最新价", 0)),
-                "change_pct": float(row.get("涨跌幅", 0)),
-                "volume": float(row.get("成交量", 0)),
-                "turnover": float(row.get("成交额", 0)),
-                "pe": float(row.get("市盈率-动态", 0)) if row.get("市盈率-动态") else None,
+                "name": data["name"],
+                "price": data["price"],
+                "change_pct": round(data["change_pct"], 2),
+                "pre_close": data["pre_close"],
+                "open": data["open"],
+                "high": data["high"],
+                "low": data["low"],
+                "volume": data["volume"],
+                "amount": data["amount"],
             },
         }
     except Exception as e:
