@@ -235,11 +235,13 @@ class TradingAgentsGraph:
         quick_max_tokens = quick_config.get("max_tokens", 4000)
         quick_temperature = quick_config.get("temperature", 0.7)
         quick_timeout = quick_config.get("timeout", 180)
+        quick_max_retries = quick_config.get("retry_times", 7)
 
         # 读取深度模型参数
         deep_max_tokens = deep_config.get("max_tokens", 4000)
         deep_temperature = deep_config.get("temperature", 0.7)
         deep_timeout = deep_config.get("timeout", 180)
+        deep_max_retries = deep_config.get("retry_times", 7)
 
         # 🔧 检查是否为混合模式（快速模型和深度模型来自不同厂家）
         quick_provider = self.config.get("quick_provider")
@@ -259,6 +261,7 @@ class TradingAgentsGraph:
                 temperature=quick_temperature,
                 max_tokens=quick_max_tokens,
                 timeout=quick_timeout,
+                max_retries=quick_max_retries,
                 api_key=self.config.get("quick_api_key"),
             )
             self.deep_thinking_llm = create_llm_by_provider(
@@ -268,6 +271,7 @@ class TradingAgentsGraph:
                 temperature=deep_temperature,
                 max_tokens=deep_max_tokens,
                 timeout=deep_timeout,
+                max_retries=deep_max_retries,
                 api_key=self.config.get("deep_api_key"),
             )
         elif normalized_provider == "anthropic":
@@ -290,6 +294,8 @@ class TradingAgentsGraph:
             api_key = self._resolve_api_key(normalized_provider)
             backend_url = self._resolve_backend_url(normalized_provider)
             quick_extra = {"transport": "rest"} if normalized_provider == "google" else {}
+            quick_extra["max_retries"] = quick_max_retries
+            deep_extra = {"max_retries": deep_max_retries}
             factory_provider = normalized_provider if normalized_provider != "custom_openai" else "custom_openai"
             if not factory_provider or factory_provider not in {
                 "openai", "siliconflow", "openrouter", "aihubmix", "ollama",
@@ -308,6 +314,7 @@ class TradingAgentsGraph:
                 backend_url=backend_url,
                 api_key=api_key,
                 quick_extra_kwargs=quick_extra,
+                deep_extra_kwargs=deep_extra,
             )
             logger.info(f"✅ [{normalized_provider or self.config['llm_provider']}] LLM 初始化完成")
         
@@ -407,7 +414,9 @@ class TradingAgentsGraph:
             end_str = end.strftime("%Y-%m-%d")
 
             ticker_upper = ticker.upper()
-            is_a_share = any(ticker_upper.endswith(s) for s in (".SH", ".SS", ".SZ"))
+            is_a_share = any(ticker_upper.endswith(s) for s in (".SH", ".SS", ".SZ")) or (
+                ticker_upper.isdigit() and len(ticker_upper) == 6
+            )
 
             if is_a_share:
                 akshare = importlib.import_module("akshare")

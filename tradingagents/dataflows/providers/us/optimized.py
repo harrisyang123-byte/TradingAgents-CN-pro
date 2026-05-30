@@ -72,15 +72,17 @@ class OptimizedUSDataProvider:
         """
         获取美股数据 - 优先使用缓存
 
-        Args:
-            symbol: 股票代码
-            start_date: 开始日期 (YYYY-MM-DD)
-            end_date: 结束日期 (YYYY-MM-DD)
-            force_refresh: 是否强制刷新缓存
-
-        Returns:
-            格式化的股票数据字符串
+        安全检查：中国A股和港股自动重定向到对应数据源
         """
+        from tradingagents.utils.stock_utils import StockUtils
+        market_info = StockUtils.get_market_info(symbol)
+        if market_info["is_china"]:
+            from tradingagents.dataflows.interface import get_china_stock_data_unified
+            return get_china_stock_data_unified(symbol, start_date, end_date)
+        if market_info["is_hk"]:
+            from tradingagents.dataflows.interface import get_hk_stock_data_unified
+            return get_hk_stock_data_unified(symbol, start_date, end_date)
+
         logger.info(f"📈 获取美股数据: {symbol} ({start_date} 到 {end_date})")
 
         # 检查缓存（除非强制刷新）

@@ -861,6 +861,14 @@ def get_YFin_data_online(
     start_date: Annotated[str, "Start date in yyyy-mm-dd format"],
     end_date: Annotated[str, "End date in yyyy-mm-dd format"],
 ):
+    # 安全检查：中国A股重定向到中国数据源
+    from tradingagents.utils.stock_utils import StockUtils
+    market_info = StockUtils.get_market_info(symbol)
+    if market_info["is_china"]:
+        return get_china_stock_data_unified(symbol, start_date, end_date)
+    if market_info["is_hk"]:
+        return get_hk_stock_data_unified(symbol, start_date, end_date)
+
     # 检查yfinance是否可用
     if not YF_AVAILABLE or yf is None:
         return "yfinance库不可用，无法获取美股数据"
@@ -1482,7 +1490,8 @@ def get_china_stock_info_tushare(
 
 
 def get_china_stock_fundamentals_tushare(
-    ticker: Annotated[str, "中国股票代码，如：000001、600036等"]
+    ticker: Annotated[str, "中国股票代码，如：000001、600036等"],
+    curr_date: Annotated[str, "当前日期"] = None,
 ) -> str:
     """
     获取中国A股基本面数据（统一接口）

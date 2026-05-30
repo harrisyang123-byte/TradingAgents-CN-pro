@@ -45,6 +45,9 @@ def get_balance_sheet(
     """
     import tradingagents.dataflows.interface as interface
 
+    market_info = StockUtils.get_market_info(ticker)
+    if market_info["is_china"]:
+        return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
     return interface.get_simfin_balance_sheet(ticker, freq, curr_date)
 
 
@@ -65,6 +68,9 @@ def get_cashflow(
     """
     import tradingagents.dataflows.interface as interface
 
+    market_info = StockUtils.get_market_info(ticker)
+    if market_info["is_china"]:
+        return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
     return interface.get_simfin_cashflow(ticker, freq, curr_date)
 
 
@@ -85,4 +91,7 @@ def get_income_statement(
     """
     import tradingagents.dataflows.interface as interface
 
+    market_info = StockUtils.get_market_info(ticker)
+    if market_info["is_china"]:
+        return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
     return interface.get_simfin_income_statements(ticker, freq, curr_date)
