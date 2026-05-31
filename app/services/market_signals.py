@@ -80,26 +80,24 @@ async def fetch_north_flow() -> Dict[str, Any]:
     """获取北向资金流向（沪深港通）"""
     try:
         import akshare as ak
-        df = ak.stock_hsgt_north_net_flow_in_em(symbol="北上")
+        # 使用 stock_hsgt_hist_em 获取历史沪深港通资金流向
+        df = ak.stock_hsgt_hist_em(symbol="北向资金")
         if df is None or df.empty:
             return {"north_net": 0, "north_days": 0, "source": "akshare_empty"}
 
-        # 取最近 5 日
         recent = df.tail(5)
-        north_net = float(recent["value"].iloc[-1]) if "value" in df.columns else 0
-        # 计算连续流入天数
+        net_col = "净买入额" if "净买入额" in df.columns else df.columns[2]
+        north_net = float(recent[net_col].iloc[-1]) if net_col else 0
         days = 0
         for _, row in recent[::-1].iterrows():
-            val = float(row.get("value", 0))
+            val = float(row.get(net_col, 0)) if net_col else 0
             if val > 0:
                 days += 1
             else:
                 break
-
         return {
             "north_net": round(north_net, 1),
             "north_days": days,
-            "recent_5d": [float(v) for v in recent["value"].values] if "value" in recent.columns else [],
             "source": "akshare",
         }
     except Exception as e:
@@ -156,18 +154,11 @@ async def fetch_margin_data() -> Dict[str, Any]:
     """获取融资融券余额"""
     try:
         import akshare as ak
-        df = ak.stock_margin_detail_sse(date=datetime.now().strftime("%Y%m%d"))
-        if df is None or df.empty:
-            # 尝试昨天
-            yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y%m%d")
-            df = ak.stock_margin_detail_sse(date=yesterday)
-
+        df = ak.macro_china_market_margin_sh()
         if df is not None and not df.empty:
-            total_balance = float(df["融资余额"].sum()) / 1e8 if "融资余额" in df.columns else 0
-            return {
-                "margin_balance": round(total_balance, 0),
-                "source": "akshare",
-            }
+            latest = df.iloc[-1]
+            balance = float(latest.get("融资余额", 0)) / 1e8 if "融资余额" in df.columns else 0
+            return {"margin_balance": round(balance, 0), "source": "akshare"}
         return {"margin_balance": 0, "source": "akshare_empty"}
     except Exception as e:
         logger.warning(f"融资融券数据获取失败: {e}")

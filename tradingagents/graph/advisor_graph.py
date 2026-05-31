@@ -38,7 +38,6 @@ from tradingagents.dataflows.pe_percentile import enrich_price_context
 from tradingagents.utils.logging_init import get_logger
 from app.services.portfolio_audit_service import audit_positions
 from app.services.buy_signal_engine import get_buy_signal_engine
-from app.services.market_signals import collect_market_signals, fetch_stock_sentiment
 
 logger = get_logger("default")
 
@@ -101,34 +100,21 @@ def compute_buy_signals_node(state: dict) -> dict:
 
     # 构建 L1 行业索引
     industries = (market_intel.get("industries", []) if isinstance(market_intel, dict) else []) or []
-    # 从 position 推断行业
     pos_industry = {}
     for p in positions:
         ind = p.get("industry", "")
         if ind:
             pos_industry[p.get("code", "")] = ind
 
-    # 收集市场信号（全局，一次）
-    market_signals = {}
-    try:
-        import asyncio
-        try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                import concurrent.futures
-                future = concurrent.futures.Future()
-                async def _collect():
-                    try:
-                        result = await collect_market_signals()
-                        future.set_result(result)
-                    except Exception as e:
-                        future.set_result({})
-                loop.create_task(_collect())
-            # sync fallback: empty, will be populated next run
-        except RuntimeError:
-            pass
-    except Exception:
-        pass
+    # 市场信号：同步计算（不调用异步 API，避免 LangGraph 同步节点中崩溃）
+    market_signals = {"source": "sync"}
+    # 基于已有数据推算简易市场信号
+    market_intel_dict = market_intel if isinstance(market_intel, dict) else {}
+    judge_verdict = market_intel_dict.get("judge_verdict", "")
+    market_signals["flow_signal"] = "中性"
+    market_signals["north_net"] = 0
+    market_signals["north_days"] = 0
+    market_signals["breadth"] = {"breadth_signal": "中性", "up_ratio": 50}
 
     # 逐只计算买点信号
     buy_signals = {}

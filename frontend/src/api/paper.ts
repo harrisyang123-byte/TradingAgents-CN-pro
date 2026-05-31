@@ -161,6 +161,31 @@ export interface PortfolioAdvice {
   completed_at?: string
   error?: string
   selected_industries?: string[]
+  buy_signals?: Record<string, BuySignalItem>
+  market_signals?: MarketSignalSnapshot
+}
+
+export interface BuySignalItem {
+  code: string
+  name: string
+  signal: string // STRONG_BUY/BUY/HOLD/REDUCE/SELL
+  confidence: string // 高/中/低
+  total_score: number
+  quality_score: number
+  valuation_score: number
+  sentiment_score: number
+  fund_flow_score: number
+  lights: Record<string, string> // {quality, valuation, sentiment, fund_flow}
+  price_range: string
+  timing: string
+}
+
+export interface MarketSignalSnapshot {
+  north_net: number
+  north_days: number
+  flow_signal: string
+  breadth: { breadth_signal: string; up_ratio: number; limit_up: number; limit_down: number }
+  macro: { pmi: number; shibor_on: number }
 }
 
 export const portfolioApi = {
