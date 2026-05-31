@@ -68,7 +68,9 @@ def _compute_cn(code: str) -> dict:
         import baostock as bs
         import pandas as pd
 
-        bs_code = f"sh.{code}" if code.startswith("6") else f"sz.{code}"
+        # Strip .SH/.SZ suffix from Scout-format codes (e.g. "600519.SH" → "600519")
+        clean_code = code.replace(".SH", "").replace(".SZ", "").replace(".sh", "").replace(".sz", "")
+        bs_code = f"sh.{clean_code}" if clean_code.startswith(("6", "68")) else f"sz.{clean_code}"
         lg = bs.login()
         if lg.error_code != "0":
             logger.warning(f"[PE-CN] BaoStock 登录失败: {lg.error_msg}")

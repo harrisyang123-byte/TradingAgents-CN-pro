@@ -165,13 +165,16 @@ def compute_buy_signals_node(state: dict) -> dict:
             "trigger_condition": signal.trigger_condition,
             "data_quality": signal.data_quality,
             "signal_details": signal.signal_details,
+            "blocked": signal.blocked,
+            "block_reason": signal.block_reason,
         }
 
     logger.info(
         f"[BuySignal] {len(buy_signals)} 只标的完成打分 | "
         f"STRONG_BUY={sum(1 for s in buy_signals.values() if s['signal'] == 'STRONG_BUY')} "
         f"BUY={sum(1 for s in buy_signals.values() if s['signal'] == 'BUY')} "
-        f"HOLD={sum(1 for s in buy_signals.values() if s['signal'] == 'HOLD')}"
+        f"HOLD={sum(1 for s in buy_signals.values() if s['signal'] == 'HOLD')} "
+        f"INSUFFICIENT_DATA={sum(1 for s in buy_signals.values() if s.get('blocked'))}"
     )
     return {"buy_signals": buy_signals, "market_signals": market_signals}
 

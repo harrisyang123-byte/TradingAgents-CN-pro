@@ -30,11 +30,15 @@ class BuySignal:
     total_score: float = 0.0         # 0-100
 
     # 信号结果
-    signal: str = ""                 # STRONG_BUY / BUY / HOLD / REDUCE / SELL
+    signal: str = ""                 # STRONG_BUY / BUY / HOLD / REDUCE / SELL / INSUFFICIENT_DATA
     confidence: str = ""             # 高 / 中 / 低
     price_range: str = ""            # "¥35-42"
     timing: str = ""                 # immediate / conditional / scheduled
     trigger_condition: str = ""      # 条件触发的具体条件
+
+    # 数据不足标记
+    blocked: bool = False            # 是否因数据不足被门禁拦截
+    block_reason: str = ""           # 拦截原因
 
     # 四灯
     lights: Dict[str, str] = field(default_factory=lambda: {
@@ -84,6 +88,23 @@ class BuySignalEngine:
         l1_industry = l1_industry or {}
         market_signals = market_signals or {}
         stock_sentiment = stock_sentiment or {}
+
+        # ── 数据质量门禁 ──
+        pe_source = pe_ctx.get("pe_percentile_source", "")
+        is_stock = code.replace(".SH","").replace(".SZ","").isdigit() and len(code.replace(".SH","").replace(".SZ","")) == 6
+        if market == "cn" and is_stock and pe_source in ("data_unavailable", "", None):
+            # A 股必须有 PE 数据才评分；PE 管道异常时不硬打分
+            signal.blocked = True
+            signal.block_reason = f"PE 数据不可用（BaoStock 查询失败或代码格式异常: {code}）"
+            signal.signal = "INSUFFICIENT_DATA"
+            signal.confidence = "低"
+            signal.price_range = "数据不足，建议人工判断"
+            signal.timing = "scheduled"
+            signal.lights = {"quality": "⚪", "valuation": "⚪", "sentiment": "⚪", "fund_flow": "⚪"}
+            signal.data_quality = {"has_pe": False, "has_scout": bool(scout_scores), "blocked": True}
+            signal.missing_data = ["PE 分位（BaoStock 查询异常）"]
+            signal.signal_details = {"error": signal.block_reason}
+            return signal
 
         # ── 维度一：质量分 (0-25) ──
         signal.quality_score = self._score_quality(scout_scores, tier1_rating)
