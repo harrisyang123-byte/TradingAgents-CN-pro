@@ -974,6 +974,8 @@ class AdvisorGraph:
             for node_name, node_update in chunk.items():
                 if node_name.startswith("__"):
                     continue
+                if node_update is None:
+                    continue
                 final_state.update(node_update)
 
                 label = l1_node_mapping.get(node_name)
@@ -1191,6 +1193,8 @@ class AdvisorGraph:
         for chunk in self.graph.stream(init_state, stream_mode="updates"):
             for node_name, node_update in chunk.items():
                 if node_name.startswith("__"):
+                    continue
+                if node_update is None:
                     continue
                 final_state.update(node_update)
 
