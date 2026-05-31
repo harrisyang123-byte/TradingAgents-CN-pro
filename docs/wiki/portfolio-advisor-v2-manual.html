@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合顾问 v2.0 操作手册</title>
+<style>
+  :root {
+    --primary: #409eff;
+    --success: #67c23a;
+    --warning: #e6a23c;
+    --danger: #f56c6c;
+    --text-primary: #303133;
+    --text-regular: #606266;
+    --border-light: #e4e7ed;
+    --bg-page: #f5f7fa;
+    --radius: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: var(--text-primary);
+    background: var(--bg-page);
+    line-height: 1.7;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    text-align: center;
+    padding: 64px 24px 48px;
+  }
+  .hero h1 { font-size: 36px; margin-bottom: 8px; letter-spacing: 2px; }
+  .hero .sub { font-size: 16px; opacity: .72; }
+  .hero .meta {
+    margin-top: 20px;
+    display: flex; justify-content: center; gap: 24px;
+    font-size: 13px; opacity: .6;
+  }
+
+  /* ── Main Layout ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ── Section ── */
+  section { margin-bottom: 48px; }
+  h2 {
+    font-size: 24px; margin-bottom: 16px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-light);
+  }
+  h3 { font-size: 18px; margin: 24px 0 12px; color: var(--text-primary); }
+  h4 { font-size: 15px; margin: 16px 0 8px; }
+
+  p { margin-bottom: 12px; color: var(--text-regular); }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff; border-radius: var(--radius);
+    padding: 24px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+
+  /* ── Feature Grid ── */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .feature-card {
+    background: #fff; border-radius: var(--radius); padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    border-top: 4px solid var(--primary);
+  }
+  .feature-card.fund { border-top-color: var(--warning); }
+  .feature-card.pe { border-top-color: var(--success); }
+  .feature-card h4 { margin: 0 0 8px; font-size: 16px; }
+
+  /* ── Step List ── */
+  .steps { counter-reset: step; list-style: none; }
+  .steps li {
+    counter-increment: step; position: relative;
+    padding: 16px 16px 16px 56px; margin-bottom: 12px;
+    background: #fff; border-radius: var(--radius);
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 16px; top: 16px;
+    width: 28px; height: 28px; line-height: 28px;
+    background: var(--primary); color: #fff;
+    border-radius: 50%; text-align: center;
+    font-size: 13px; font-weight: 600;
+  }
+
+  /* ── Field Table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border-light); }
+  th { background: var(--bg-page); font-weight: 600; white-space: nowrap; }
+  td:first-child { white-space: nowrap; font-weight: 600; font-family: "SF Mono", "Fira Code", monospace; font-size: 13px; }
+  td:last-child { color: var(--text-regular); }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 12px; font-weight: 600;
+  }
+  .tag-buy { background: #e1f3d8; color: #529b2e; }
+  .tag-sell { background: #fde2e2; color: #c45656; }
+  .tag-hold { background: #e6e8eb; color: #73767a; }
+  .tag-urgent { background: #fde2e2; color: var(--danger); }
+  .tag-important { background: #fdf6ec; color: var(--warning); }
+  .tag-optional { background: #e6e8eb; color: #73767a; }
+
+  /* ── Priority Legend ── */
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 6px; font-size: 13px;
+  }
+  .legend-swatch {
+    width: 4px; height: 28px; border-radius: 2px;
+  }
+  .legend-swatch.urgent { background: var(--danger); }
+  .legend-swatch.important { background: var(--warning); }
+  .legend-swatch.optional { background: #c0c4cc; }
+
+  /* ── Screenshot Placeholder ── */
+  .mock-ui {
+    background: #fff; border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08); margin: 16px 0;
+  }
+  .mock-ui .toolbar {
+    background: #f0f2f5; padding: 8px 12px;
+    display: flex; gap: 6px; align-items: center;
+  }
+  .mock-ui .toolbar .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-ui .toolbar .dot.r { background: #f56c6c; }
+  .mock-ui .toolbar .dot.y { background: #e6a23c; }
+  .mock-ui .toolbar .dot.g { background: #67c23a; }
+  .mock-ui .body { padding: 20px; }
+
+  /* ── Decision Card Mock ── */
+  .dc-mock {
+    border: 1px solid var(--border-light); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 12px;
+  }
+  .dc-mock.urgent { border-left: 4px solid var(--danger); }
+  .dc-mock.important { border-left: 4px solid var(--warning); }
+  .dc-mock.optional { border-left: 4px solid #c0c4cc; }
+  .dc-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .dc-name { font-weight: 600; }
+  .dc-code { font-size: 12px; color: #909399; margin-left: 8px; }
+  .dc-price {
+    margin: 10px 0; padding: 10px 12px; background: #f0f9ff;
+    border-radius: 6px; font-size: 13px;
+  }
+  .dc-bar {
+    height: 8px; background: #e4e7ed; border-radius: 4px;
+    margin-top: 6px; overflow: hidden;
+  }
+  .dc-bar-fill { height: 100%; border-radius: 4px; }
+  .dc-bar-fill.low { background: var(--success); width: 15%; }
+  .dc-bar-fill.mid { background: var(--warning); width: 55%; }
+  .dc-bar-fill.high { background: var(--danger); width: 88%; }
+  .dc-risk { display: flex; gap: 16px; font-size: 12px; color: var(--text-regular); margin-top: 8px; padding-top: 8px; border-top: 1px solid #ebeef5; }
+
+  /* ── PE Bar Legend ── */
+  .pe-bar-legend { display: flex; gap: 24px; font-size: 13px; margin-top: 8px; }
+  .pe-bar-legend span { display: flex; align-items: center; gap: 6px; }
+  .pe-swatch { width: 40px; height: 8px; border-radius: 4px; }
+  .pe-swatch.low { background: var(--success); }
+  .pe-swatch.mid { background: var(--warning); }
+  .pe-swatch.high { background: var(--danger); }
+
+  /* ── FAQ ── */
+  .faq-item {
+    background: #fff; border-radius: var(--radius);
+    padding: 20px 24px; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .faq-item .q { font-weight: 600; margin-bottom: 6px; }
+  .faq-item .a { color: var(--text-regular); font-size: 14px; }
+
+  /* ── Alert ── */
+  .alert {
+    padding: 14px 20px; border-radius: var(--radius);
+    font-size: 14px; margin: 16px 0;
+  }
+  .alert-info { background: #ecf5ff; color: #337ecc; border-left: 4px solid var(--primary); }
+  .alert-warning { background: #fdf6ec; color: #b88230; border-left: 4px solid var(--warning); }
+
+  /* ── Footer ── */
+  footer { text-align: center; padding: 32px; color: #909399; font-size: 13px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 26px; }
+    .container { padding: 24px 16px 60px; }
+    table { font-size: 12px; }
+    th, td { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ Hero ═══════════════════════ -->
+<header class="hero">
+  <h1>组合顾问 v2.0 操作手册</h1>
+  <p class="sub">决策卡片 · PE 历史分位 · 基金穿透分析</p>
+  <div class="meta">
+    <span>更新日期：2026-05-24</span>
+    <span>版本：v2.0</span>
+    <span>适用环境：TradingAgents-CN</span>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- ═══════════════════════ 1. 新功能概览 ═══════════════════════ -->
+<section>
+  <h2>1. 新功能概览</h2>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>决策卡片</h4>
+      <p>CIO 处方从扁平表格升级为结构化卡片。每条操作独立成卡，含 7 个决策维度：优先级、行业方向、护城河评级、PE 估值锚、逆向压力测试、5 年视角、认知偏差检测。</p>
+    </div>
+    <div class="feature-card pe">
+      <h4>PE 历史分位管道</h4>
+      <p>覆盖 A 股 / 港股 / 美股三市场，自动回算近 5 年 PE-TTM 百分位，判断当前估值处于历史的什么位置。以进度条可视化呈现。</p>
+    </div>
+    <div class="feature-card fund">
+      <h4>基金 Tier 2 穿透</h4>
+      <p>基金分析报告正式接入组合顾问流程。分析师评估基金经理质量与策略一致性，策略师检查基金-股票重叠风险，CIO 按基金专属决策标准给出 HOLD / REDEEM / REPLACE 处方。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 2. 快速上手 ═══════════════════════ -->
+<section>
+  <h2>2. 快速上手</h2>
+
+  <h3>2.1 进入组合页面</h3>
+  <ol class="steps">
+    <li>登录 TradingAgents-CN 后，点击左侧导航栏的 <strong>"组合管理"</strong>（或直接访问 <code>/portfolio</code>）</li>
+    <li>页面加载后，你会看到：
+      <ul>
+        <li>顶部 4 个统计卡片（总投入、可用现金、总资产、总盈亏）</li>
+        <li>仓位分布饼图 + 盈亏贡献条形图</li>
+        <li>持仓明细表格（可按 A股 / 港股 / 美股 / 基金 筛选）</li>
+      </ul>
+    </li>
+    <li>确认持仓数据正确后，点击右上角 <strong>"组合分析"</strong> 按钮</li>
+  </ol>
+
+  <h3>2.2 生成组合建议</h3>
+  <ol class="steps" start="4">
+    <li>点击按钮后，按钮文字会显示当前进度（"正在初始化..." → "正在生成..." → "完成"）</li>
+    <li>整个分析流程包括：
+      <ul>
+        <li><strong>L1 宏观裁判</strong> — 行业方向辩论（牛市/熊市分析师 + 宏观交易员 + 裁判）</li>
+        <li><strong>L2 标的裁判</strong> — 个股筛选辩论（基本面/技术/新闻分析师 + 基金经理 + 裁判）</li>
+        <li><strong>L3 组合构建</strong> — 持仓分析师 + 策略师 + 侦察兵三方辩论</li>
+        <li><strong>PE 估值充实</strong> — 为所有持仓计算近 5 年 PE 分位</li>
+        <li><strong>L4 CIO 终裁</strong> — 综合四层数据，输出结构化处方</li>
+      </ul>
+    </li>
+    <li>完成后右侧弹出 <strong>建议抽屉</strong>（占屏幕 55%），展示完整分析结果</li>
+  </ol>
+
+  <div class="alert alert-info">
+    <strong>耗时参考</strong>：完整四层分析通常需要 60-180 秒，取决于持仓数量和 LLM 响应速度。
+  </div>
+</section>
+
+<!-- ═══════════════════════ 3. 阅读决策卡片 ═══════════════════════ -->
+<section>
+  <h2>3. 阅读决策卡片</h2>
+
+  <p>决策卡片是 CIO 处方的核心展示形式，取代了旧版的纯文本/表格。每条操作建议独立成一张卡片。</p>
+
+  <h3>3.1 卡片优先级</h3>
+  <p>每张卡片左侧有颜色条，一眼可辨紧急程度：</p>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-swatch urgent"></div>
+      <span><strong>紧急</strong> — 需立即关注（减仓/清仓、重大风险）</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch important"></div>
+      <span><strong>建议</strong> — 应该执行（加仓机会、新增优质标的）</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch optional"></div>
+      <span><strong>参考</strong> — 可关注（观察列表、小仓位试探）</span>
+    </div>
+  </div>
+
+  <h3>3.2 卡片结构示例</h3>
+
+  <!-- Mock: URGENT card -->
+  <div class="dc-mock urgent">
+    <div class="dc-header">
+      <div>
+        <span class="tag tag-sell">清仓</span>
+        <span class="dc-name">贵州茅台</span>
+        <span class="dc-code">600519</span>
+      </div>
+      <div>
+        <span class="tag tag-urgent">紧急</span>
+        <span style="font-size:13px;color:#606266;margin-left:8px">8.2% → 0%</span>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:#909399;cursor:pointer;margin-bottom:8px">
+      ▸ 决策上下文
+      <div style="margin-top:6px;padding:8px 12px;background:#f5f7fa;border-radius:6px">
+        <div style="margin-bottom:4px"><span style="color:#909399">行业方向</span> 白酒行业处于成熟期，消费降级压力持续，Go/NoGo: NoGo</div>
+        <div><span style="color:#909399">护城河</span> 品牌护城河仍然深厚，但渠道库存高企，短期反转缺乏催化剂</div>
+      </div>
+    </div>
+
+    <div class="dc-price">
+      基于 PE 分位 88% 和 MA20 判断，当前价格偏高，安全边际不足。建议等待 PE 回落至 60% 分位以下再考虑重新介入。
+      <div class="dc-bar"><div class="dc-bar-fill high"></div></div>
+      <div style="font-size:12px;color:#909399;margin-top:4px">88% 分位 · 高估</div>
+    </div>
+
+    <div class="dc-risk">
+      <span>⚠️ 若消费复苏超预期，踏空风险约 15-20%</span>
+      <span>📅 否 — 白酒行业长期需求下行趋势未改</span>
+      <span>🧠 禀赋效应：因持有 3 年而不愿清仓，需客观看待</span>
+    </div>
+
+    <div style="margin-top:8px;font-size:13px;color:#606266;font-style:italic">
+      消费降级趋势下，高端白酒增长逻辑已变。渠道库存仍需 2-3 个季度消化，短期无催化剂。
+    </div>
+  </div>
+
+  <!-- Mock: IMPORTANT card -->
+  <div class="dc-mock important">
+    <div class="dc-header">
+      <div>
+        <span class="tag tag-buy">加仓</span>
+        <span class="dc-name">宁德时代</span>
+        <span class="dc-code">300750</span>
+      </div>
+      <div>
+        <span class="tag tag-important">建议</span>
+        <span style="font-size:13px;color:#606266;margin-left:8px">5.1% → 10%</span>
+      </div>
+    </div>
+
+    <div class="dc-price">
+      PE 分位 15%，处于近 5 年历史低位。MA20 走平，底部区域确认。建议在 ¥180-200 区间分批建仓。
+      <div class="dc-bar"><div class="dc-bar-fill low"></div></div>
+      <div style="font-size:12px;color:#909399;margin-top:4px">15% 分位 · 低估</div>
+    </div>
+
+    <div class="dc-risk">
+      <span>⚠️ 若锂电产能过剩加剧，最大亏损约 25%，触发场景为碳酸锂价格跌破 8 万/吨</span>
+      <span>📅 是 — 全球电动化渗透率仍有 3 倍空间，宁德市占率稳固</span>
+      <span>🧠 近因偏差：近期股价低迷≠基本面恶化，需关注市占率和毛利率趋势</span>
+    </div>
+  </div>
+
+  <h3>3.3 七大决策字段详解</h3>
+  <table>
+    <thead>
+      <tr><th>字段</th><th>含义</th><th>数据来源</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>priority</td>
+        <td>优先级：urgent / important / optional</td>
+        <td>CIO 综合四层数据判断</td>
+      </tr>
+      <tr>
+        <td>l1_context</td>
+        <td>该标的所处行业的生命周期阶段、Go/NoGo 建议</td>
+        <td>L1 宏观裁判辩论结果</td>
+      </tr>
+      <tr>
+        <td>l2_context</td>
+        <td>护城河评级 + 标的筛选过滤结果</td>
+        <td>L2 标的裁判辩论结果</td>
+      </tr>
+      <tr>
+        <td>suggested_price</td>
+        <td>基于 PE 历史分位和 MA20 的安全边际判断 + 建议价格区间</td>
+        <td>PE 分位数据管道 + CIO 判断</td>
+      </tr>
+      <tr>
+        <td>max_loss_pct</td>
+        <td>逆向验证：如果判断错了，最大亏损百分比 + 触发场景</td>
+        <td>CIO 逆向思维约束</td>
+      </tr>
+      <tr>
+        <td>five_year_view</td>
+        <td>5 年后这个生意会更好吗？是/否 + 一句话理由</td>
+        <td>CIO 5 年视角约束</td>
+      </tr>
+      <tr>
+        <td>bias_check</td>
+        <td>认知偏差自检（禀赋效应 / 近因偏差 / 锚定效应 / 讲故事陷阱）</td>
+        <td>CIO 偏差检测约束</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.4 PE 分位进度条</h3>
+  <p>在 <code>suggested_price</code> 区域，系统自动提取 PE 分位数值并渲染为彩色进度条：</p>
+  <div class="pe-bar-legend">
+    <span><span class="pe-swatch low"></span> 0~25% 低估（绿）— 历史底部区域</span>
+    <span><span class="pe-swatch mid"></span> 25~75% 合理（橙）— 历史中枢</span>
+    <span><span class="pe-swatch high"></span> 75~100% 高估（红）— 历史高位</span>
+  </div>
+  <p style="margin-top:12px">若某标的无 PE 分位数据（如新股、亏损股、或数据源缺失），进度条不显示，仅展示基于 MA20 的定性描述。</p>
+</section>
+
+<!-- ═══════════════════════ 4. 基金持仓评估 ═══════════════════════ -->
+<section>
+  <h2>4. 基金持仓评估</h2>
+
+  <h3>4.1 基金分析的两层定位</h3>
+  <div class="card">
+    <p><strong>基金分析聚焦于"基金经理能力"，而非底层股票</strong>。因为底层股票已经由 Tier 2 的 L1/L2 裁判独立分析过，基金再做一遍是重复劳动。基金的核心价值在于判断<strong>管理人质量、策略一致性、费率合理性</strong>。</p>
+  </div>
+
+  <h3>4.2 三层 Agent 如何评估基金</h3>
+
+  <div class="card">
+    <h4>持仓分析师 (L3) — 基金专项评估</h4>
+    <ul>
+      <li><strong>基金经理质量</strong>：从业年限、历史业绩、管理规模、是否近期变更</li>
+      <li><strong>费率合理性</strong>：管理费+托管费 vs 同类平均水平</li>
+      <li><strong>业绩持续性</strong>：近 1/3/5 年收益是否持续优于基准</li>
+      <li><strong>策略一致性</strong>：基金名称与实际持仓风格是否一致（如"中小盘"基金重仓大盘股 = 漂移）</li>
+      <li><strong>赎回/替换判断</strong>：浮亏时，区分是市场系统性下跌还是基金本身问题</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>策略师 (L3) — 基金组合专项评估</h4>
+    <ul>
+      <li><strong>基金-股票重叠风险</strong>：基金的重仓股是否与你直接持有的个股重叠</li>
+      <li><strong>管理人集中度</strong>：多只基金是否由同一经理/公司管理</li>
+      <li><strong>费用拖累</strong>：总费率对长期收益的侵蚀</li>
+      <li><strong>流动性差异</strong>：场外基金 T+1~T+7 到账 vs 股票 T+1</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4>CIO (L4) — 基金决策标准</h4>
+    <table>
+      <thead><tr><th>操作</th><th>条件</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-hold">HOLD</span></td>
+          <td>经理任职 &gt; 3 年且业绩稳定、费率合理（股票型 &lt; 1.5%/年）、策略无漂移、无更好的同策略替代品</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-sell">REDEEM</span></td>
+          <td>基金经理变更、连续 2 年以上跑输基准且归因于选股、费率显著高于同类（&gt;2%/年）、规模过大导致策略受限</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-buy">REPLACE</span></td>
+          <td>发现同策略但费率更低、业绩更稳定的替代基金；或基金策略漂移严重偏离配置意图</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-buy">ADD</span></td>
+          <td>某行业/风格暴露不足，且你无法/不愿直接选股，通过被动指数基金或优秀主动基金补足</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-warning">
+    <strong>注意</strong>：只有你的持仓中实际包含基金时，基金评估模块才会在 prompt 中出现。纯股票持仓的 prompt 与旧版完全一致，不受影响。
+  </div>
+</section>
+
+<!-- ═══════════════════════ 5. 建议抽屉布局 ═══════════════════════ -->
+<section>
+  <h2>5. 建议抽屉布局说明</h2>
+
+  <p>右侧抽屉打开后，从上到下依次为：</p>
+
+  <div class="card">
+    <ol>
+      <li style="margin-bottom:8px"><strong>决策卡片区</strong> — CIO 操作处方的卡片式展示，按优先级排序（紧急 → 建议 → 参考）</li>
+      <li style="margin-bottom:8px"><strong>CIO 裁决全文</strong> — 首席投资官的完整判断文本（含最终判断 + 操作处方 JSON）</li>
+      <li style="margin-bottom:8px"><strong>可折叠报告区</strong>：
+        <ul>
+          <li>市场情报 (L1) — 宏观裁判辩论结果</li>
+          <li>候选标的 (L2) — 标的裁判筛选结果</li>
+          <li>分析师评估 (L3) — 持仓分析师逐只评估</li>
+          <li>策略师评估 (L3) — 组合构建 + 逆向思维</li>
+          <li>侦察兵评估 (L3) — 组合缺口 + 新标的发现</li>
+          <li>风险审查 (L4) — 风险总监审查意见</li>
+          <li>辩论记录 — L3 三方辩论过程</li>
+        </ul>
+      </li>
+      <li style="margin-bottom:8px"><strong>元数据</strong> — 生成时间戳 + 总耗时（秒）</li>
+      <li><strong>历史选择器</strong> — 页面底部可切换查看历史建议</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 6. 常见问题 ═══════════════════════ -->
+<section>
+  <h2>6. 常见问题</h2>
+
+  <div class="faq-item">
+    <p class="q">Q: 为什么某些持仓的卡片没有 PE 进度条？</p>
+    <p class="a">可能原因：① 该标的为基金/ETF，PE 管道自动跳过非股票标的；② 该股票为亏损股（EPS 为负），PE 无法计算；③ 港股/美股数据源暂时缺失该标的的分位数据。此时卡片仅展示基于 MA20 的定性判断。</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="q">Q: PE 分位数据的覆盖范围？</p>
+    <p class="a">A 股通过 BaoStock 日线数据回算 5 年 EPS，港股通过 AKShare 年报数据，美股通过 yfinance 年报数据。次新股（上市不足 5 年）按实际上市天数计算。</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="q">Q: 基金分析报告为什么没有生成？</p>
+    <p class="a">基金 Tier 1 分析需要先在基金详情页点击"AI 分析"触发，分析完成后存入 <code>analysis_reports</code> 集合。如果从未触发过分析，Tier 2 组合顾问中该基金会显示"无深度分析报告"。</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="q">Q: 为什么组合分析失败？</p>
+    <p class="a">常见原因：① LLM API 超时或 quota 耗尽；② 持仓数量过多导致 prompt 超出 token 限制；③ 某层辩论死循环。刷新页面后重试，必要时减少持仓数量或切换 LLM provider。</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="q">Q: 决策卡片和 CIO 裁决文本是什么关系？</p>
+    <p class="a">卡片是从 CIO 输出 JSON 中解析出的结构化展示，CIO 裁决文本是 LLM 原始输出（包含推理过程和处方 JSON）。两者内容一致但展示形式不同。</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="q">Q: 纯股票持仓用户能看到新功能吗？</p>
+    <p class="a">能。决策卡片 + PE 分位进度条对所有持仓生效（股票有 PE 分位，基金/ETF 跳过 PE 仅展示 MA20 定性判断）。基金决策标准只在持仓含基金时才出现。</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ 7. 技术架构 ═══════════════════════ -->
+<section>
+  <h2>7. 技术架构速览</h2>
+  <table>
+    <thead><tr><th>层级</th><th>组件</th><th>数据来源</th></tr></thead>
+    <tbody>
+      <tr><td>数据采集</td><td>PE 分位管道</td><td>BaoStock (A股) / AKShare (港股) / yfinance (美股)</td></tr>
+      <tr><td>Tier 1</td><td>个股 + 基金分析报告</td><td>MongoDB <code>analysis_reports</code></td></tr>
+      <tr><td>Tier 2</td><td>组合顾问 (4 层对抗)</td><td>Tier 1 报告 + 实时行情 + PE 分位</td></tr>
+      <tr><td>前端</td><td>Vue 3 + Element Plus</td><td>REST API <code>/api/portfolio/advice</code></td></tr>
+      <tr><td>展示</td><td>DecisionCard 组件</td><td>CIO JSON 处方 → 结构化卡片</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+
+<footer>
+  TradingAgents-CN · 组合顾问 v2.0 · 2026-05-24
+</footer>
+
+</body>
+</html>

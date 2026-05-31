@@ -463,8 +463,8 @@ class AdvisorGraph:
         # ── 工具执行节点（L1/L2 维持原状；L3/L4 新加） ──
         tools_l1_market = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
         tools_l1_contrarian = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
-        tools_l2_scout = _make_tool_executor(L2_TOOLS, "stock_tool_call_count", max_calls=8)
-        tools_l2_scontrarian = _make_tool_executor(L2_TOOLS, "stock_tool_call_count")
+        tools_l2_scout = _make_tool_executor(L2_TOOLS, "scout_tool_call_count", max_calls=8)
+        tools_l2_scontrarian = _make_tool_executor(L2_TOOLS, "scontrarian_tool_call_count", max_calls=5)
         tools_l3_analyst = _make_tool_executor(ANALYST_TOOLS, "analyst_tool_call_count")
         tools_l3_strategist = _make_tool_executor(STRATEGIST_TOOLS, "strategist_tool_call_count")
         tools_l4_cio = _make_tool_executor(CIO_TOOLS, "cio_tool_call_count")
@@ -511,8 +511,8 @@ class AdvisorGraph:
         # ── 路由函数 ──
         l1_router_market = _make_tool_router("market_tool_call_count", "msg_clear_l1a", "market_strategist")
         l1_router_contrarian = _make_tool_router("market_tool_call_count", "msg_clear_l1b", "contrarian")
-        l2_router_scout = _make_tool_router("stock_tool_call_count", "msg_clear_l2a", "scout")
-        l2_router_scontrarian = _make_tool_router("stock_tool_call_count", "msg_clear_l2b", "stock_contrarian")
+        l2_router_scout = _make_tool_router("scout_tool_call_count", "msg_clear_l2a", "scout")
+        l2_router_scontrarian = _make_tool_router("scontrarian_tool_call_count", "msg_clear_l2b", "stock_contrarian")
 
         # ── L3/L4 工具路由（新增） ──
         l3_router_analyst = _make_tool_router(
@@ -954,7 +954,8 @@ class AdvisorGraph:
                 "count": 0,
             },
             "stock_judge_verdict": "",
-            "stock_tool_call_count": 0,
+            "scout_tool_call_count": 0,
+            "scontrarian_tool_call_count": 0,
             # L3
             "analyst_assessment": "",
             "strategist_assessment": "",
@@ -1102,7 +1103,8 @@ class AdvisorGraph:
             "analyst_assessment": final_state.get("analyst_assessment", ""),
             "strategist_assessment": final_state.get("strategist_assessment", ""),
             "scout_assessment": final_state.get("scout_assessment", ""),
-            "contrarian_assessment": final_state.get("contrarian_assessment", ""),
+            "contrarian_assessment": final_state.get("contrarian_assessment", "")
+                or final_state.get("advisor_debate_state", {}).get("contrarian_response", ""),
             "macro_judge_verdict": final_state.get("macro_judge_verdict", ""),
             "market_intel": final_state.get("market_intel", {}),
             "stock_candidates": final_state.get("stock_candidates", []),

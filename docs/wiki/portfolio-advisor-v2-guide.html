@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合顾问 v2.0 — 功能位置指南</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f2f3f5;
+  color: #303133;
+}
+
+/* ── Top Banner ── */
+.banner {
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  color: #fff; text-align: center; padding: 48px 24px 36px;
+}
+.banner h1 { font-size: 30px; margin-bottom: 4px; }
+.banner p { opacity: .65; font-size: 14px; }
+
+/* ── Container ── */
+.container { max-width: 1300px; margin: 0 auto; padding: 24px; }
+
+/* ── Step Guide ── */
+.step-block {
+  background: #fff; border-radius: 10px; padding: 32px; margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.step-block h2 {
+  font-size: 22px; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 12px;
+}
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #409eff; color: #fff; font-size: 16px; font-weight: 700;
+  flex-shrink: 0;
+}
+.step-desc { color: #909399; font-size: 14px; margin-bottom: 24px; margin-left: 46px; }
+
+/* ── Page Mockup ── */
+.mock-page {
+  background: #f2f3f5; border-radius: 10px; overflow: hidden;
+  border: 1px solid #e4e7ed;
+}
+
+/* ── Mock Sidebar ── */
+.mock-layout { display: flex; min-height: 600px; }
+.mock-sidebar {
+  width: 200px; flex-shrink: 0;
+  background: linear-gradient(180deg, #1d1e2c 0%, #232438 100%);
+  padding: 16px 0; color: #a3a6b9; font-size: 13px;
+}
+.side-logo {
+  padding: 0 20px 20px; font-size: 16px; font-weight: 700; color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 8px;
+}
+.side-item {
+  padding: 10px 20px; display: flex; align-items: center; gap: 8px;
+  cursor: pointer; transition: all .15s;
+}
+.side-item:hover { background: rgba(255,255,255,.06); }
+.side-item.active { background: rgba(64,158,255,.18); color: #409eff; border-right: 2px solid #409eff; }
+.side-icon { width: 16px; height: 16px; border-radius: 3px; opacity: .7; }
+.side-item.active .side-icon { opacity: 1; }
+
+/* ── Mock Main Content ── */
+.mock-main { flex: 1; padding: 20px; overflow: hidden; }
+
+/* Top bar */
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.topbar-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.topbar-buttons { display: flex; gap: 8px; }
+.btn {
+  padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer;
+  border: 1px solid transparent; font-family: inherit;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-plain { background: #fff; border-color: #dcdfe6; color: #606266; }
+.btn-primary { background: #409eff; border-color: #409eff; color: #fff; }
+.btn-warning { background: #e6a23c; border-color: #e6a23c; color: #fff; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(230,162,60,.5) } 50% { box-shadow: 0 0 0 10px rgba(230,162,60,0) } }
+
+/* Stat cards */
+.stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 16px; }
+.stat-card {
+  background: #fff; border-radius: 8px; padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.stat-card .label { font-size: 13px; color: #909399; margin-bottom: 4px; }
+.stat-card .value { font-size: 22px; font-weight: 700; color: #303133; }
+.stat-card .sub { font-size: 12px; color: #c0c4cc; margin-top: 2px; }
+
+/* Chart grid */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.card {
+  background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  overflow: hidden;
+}
+.card-hd { padding: 14px 20px; border-bottom: 1px solid #f0f0f0; font-size: 14px; font-weight: 600; }
+.card-bd { padding: 20px; }
+
+/* Positions table */
+.mock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mock-table th { background: #fafafa; padding: 10px 12px; text-align: left; font-weight: 600; color: #606266; border-bottom: 1px solid #ebeef5; white-space: nowrap; }
+.mock-table td { padding: 10px 12px; border-bottom: 1px solid #f5f5f5; }
+.mock-table .code-link { color: #409eff; cursor: pointer; font-weight: 500; }
+.mock-table .code-link:hover { text-decoration: underline; }
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600;
+}
+.tag-blue { background: #ecf5ff; color: #409eff; }
+.tag-green { background: #e1f3d8; color: #67c23a; }
+.tag-orange { background: #fdf6ec; color: #e6a23c; }
+.tag-purple { background: #f4e8ff; color: #9b59b6; }
+.btn-text { border: none; background: none; color: #409eff; cursor: pointer; font-size: 12px; padding: 2px 6px; font-family: inherit; }
+.btn-text:hover { color: #66b1ff; }
+
+/* ── HIGHLIGHT overlay ── */
+.highlight-area {
+  position: relative;
+  border: 3px dashed #e6a23c;
+  border-radius: 10px;
+  background: rgba(230,162,60,.04);
+}
+.highlight-badge {
+  position: absolute; top: -14px; right: -2px;
+  background: #e6a23c; color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  z-index: 10;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.highlight-area2 {
+  position: relative;
+  border: 3px dashed #409eff;
+  border-radius: 10px;
+  background: rgba(64,158,255,.04);
+}
+.highlight-badge2 {
+  position: absolute; top: -14px; right: -2px;
+  background: #409eff; color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  z-index: 10;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Drawer simulation ── */
+.drawer-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.4); z-index: 100;
+  display: flex; justify-content: flex-end;
+}
+.drawer {
+  width: 55%; max-width: 800px; background: #fff; overflow-y: auto;
+  box-shadow: -4px 0 20px rgba(0,0,0,.15); padding: 28px 32px;
+}
+.drawer h4 { font-size: 16px; margin: 0 0 12px; }
+.dc-card {
+  border: 1px solid #e4e7ed; border-radius: 8px; padding: 16px;
+  margin-bottom: 12px; background: #fff;
+}
+.dc-card.urgent { border-left: 4px solid #f56c6c; }
+.dc-card.important { border-left: 4px solid #e6a23c; }
+.dc-card.optional { border-left: 4px solid #c0c4cc; }
+.dc-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.dc-name { font-weight: 600; font-size: 15px; }
+.dc-code { font-size: 12px; color: #909399; margin-left: 6px; }
+.dc-price {
+  margin: 10px 0; padding: 10px 12px;
+  background: #f0f9ff; border-radius: 6px; font-size: 13px;
+}
+.dc-bar { height: 8px; background: #e4e7ed; border-radius: 4px; margin-top: 6px; overflow: hidden; }
+.dc-bar-fill { height: 100%; border-radius: 4px; }
+.dc-bar-fill.low { background: #67c23a; width: 15%; }
+.dc-bar-fill.mid { background: #e6a23c; width: 52%; }
+.dc-bar-fill.high { background: #f56c6c; width: 88%; }
+.dc-risk { display: flex; gap: 14px; font-size: 12px; color: #606266; padding: 8px 0; border-top: 1px solid #ebeef5; flex-wrap: wrap; }
+.dc-reasoning { font-size: 13px; color: #606266; font-style: italic; margin-top: 6px; }
+.collapse-section {
+  border: 1px solid #ebeef5; border-radius: 6px; padding: 12px 16px;
+  margin-bottom: 8px; font-size: 13px; color: #606266; cursor: pointer;
+}
+.collapse-section:hover { background: #f9f9f9; }
+
+/* ── Annotation arrows ── */
+.annotations { margin-left: 46px; margin-top: 16px; }
+.annotation {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 12px; font-size: 14px;
+}
+.ann-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #e6a23c; color: #fff; font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ann-num.blue { background: #409eff; }
+.ann-text { color: #303133; line-height: 1.6; }
+.ann-text strong { color: #e6a23c; }
+
+/* ── Flow diagram ── */
+.flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+.flow-step {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  background: #fff; border: 1px solid #e4e7ed; white-space: nowrap;
+}
+.flow-step.me { background: #ecf5ff; border-color: #409eff; color: #409eff; }
+.flow-arrow { color: #c0c4cc; font-size: 16px; }
+
+@media (max-width: 900px) {
+  .mock-sidebar { display: none; }
+  .stat-grid { grid-template-columns: repeat(2,1fr); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .drawer { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <h1>组合顾问 v2.0 — 功能位置指南</h1>
+  <p>一步步告诉你新功能在哪个页面、哪个按钮、长什么样</p>
+</div>
+
+<div class="container">
+
+<!-- ═══ Step 1: 找到入口 ═══ -->
+<div class="step-block">
+  <h2><span class="step-num">1</span> 从侧边栏进入"我的持仓"</h2>
+  <p class="step-desc">登录后，点击左侧导航 → <strong>「我的持仓」</strong>（路由 /portfolio）</p>
+
+  <div class="mock-page">
+    <div class="mock-layout">
+      <!-- Sidebar -->
+      <div class="mock-sidebar">
+        <div class="side-logo">🧠 TradingAgents</div>
+        <div class="side-item"><span class="side-icon">📊</span> 仪表盘</div>
+        <div class="side-item"><span class="side-icon">🔍</span> 股票筛选</div>
+        <div class="side-item"><span class="side-icon">⭐</span> 我的自选股</div>
+
+        <!-- ⬇ 关键入口 -->
+        <div class="side-item active" style="position:relative">
+          <span class="side-icon">💰</span> 我的持仓
+          <span style="position:absolute;right:8px;width:8px;height:8px;background:#e6a23c;border-radius:50%;animation:pulse 1.5s ease-in-out infinite"></span>
+        </div>
+
+        <div class="side-item"><span class="side-icon">⚙️</span> 设置</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="mock-main">
+        <!-- ⬇ 页面顶部：按钮栏 -->
+        <div class="highlight-area" style="margin-bottom:16px;padding:8px 12px 4px">
+          <div class="highlight-badge">← 这里！点这个按钮</div>
+          <div class="topbar">
+            <div class="topbar-title">
+              <span style="color:#409eff">💰</span> 我的持仓
+              <span style="font-size:12px;color:#909399;font-weight:400">🕐 更新于 2026-05-24 10:30</span>
+            </div>
+            <div class="topbar-buttons">
+              <button class="btn btn-plain">🔄 刷新</button>
+              <button class="btn btn-plain">+ 添加持仓</button>
+              <button class="btn btn-warning">📋 组合分析</button>
+              <button class="btn btn-plain">⚙️ 设置账户</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stat-grid">
+          <div class="stat-card"><div class="label">总投入</div><div class="value">¥528,000</div><div class="sub">累计投入本金</div></div>
+          <div class="stat-card"><div class="label">可用现金</div><div class="value">¥72,350</div><div class="sub">含汇率折算</div></div>
+          <div class="stat-card"><div class="label">总资产（人民币）</div><div class="value">¥612,840</div><div class="sub">持仓市值 ¥540,490</div></div>
+          <div class="stat-card"><div class="label">总盈亏</div><div class="value" style="color:#f56c6c">+¥84,840</div><div class="sub"><span style="color:#f56c6c;font-weight:600">+16.07%</span> 较投入</div></div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-grid">
+          <div class="card">
+            <div class="card-hd">仓位分布 <span style="font-weight:400;font-size:12px;color:#909399">按市值占比</span></div>
+            <div class="card-bd" style="display:flex;gap:24px">
+              <div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(#5470c6 0% 32%,#91cc75 32% 54%,#fac858 54% 70%,#ee6666 70% 84%,#73c0de 84% 93%,#c0c4cc 93% 100%)"></div>
+              <div style="font-size:12px">
+                <div>🔵 贵州茅台 32.0%</div><div>🟢 宁德时代 22.0%</div>
+                <div>🟡 腾讯控股 16.0%</div><div>🔴 招商银行 14.0%</div>
+                <div>🔷 南方中证500 9.0%</div><div>⬜ 其他 (2只) 7.0%</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd">盈亏贡献 <span style="font-weight:400;font-size:12px;color:#909399">各持仓对总盈亏的贡献</span></div>
+            <div class="card-bd">
+              <div style="font-size:13px;margin-bottom:8px">🔵 贵州茅台 ████████████████ +¥52,000</div>
+              <div style="font-size:13px;margin-bottom:8px">🟢 宁德时代 ██████████ +¥18,500</div>
+              <div style="font-size:13px;margin-bottom:8px">🟡 腾讯控股 ████████ +¥8,200</div>
+              <div style="font-size:13px;margin-bottom:8px">🔷 南方中证500 ████ +¥3,600</div>
+              <div style="font-size:13px;margin-bottom:8px">🔴 招商银行 ██ -¥2,100</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Positions Table -->
+        <div class="card">
+          <div class="card-hd">持仓明细 <span style="font-weight:400;font-size:12px;color:#909399">(7 只)</span></div>
+          <div style="padding:12px 20px 0">
+            <span style="padding:6px 16px;background:#ecf5ff;color:#409eff;border-radius:6px;font-size:13px;font-weight:600;margin-right:8px">全部 (7)</span>
+            <span style="padding:6px 16px;color:#909399;border-radius:6px;font-size:13px;cursor:pointer;margin-right:8px">A股 (4)</span>
+            <span style="padding:6px 16px;color:#909399;border-radius:6px;font-size:13px;cursor:pointer;margin-right:8px">港股 (1)</span>
+            <span style="padding:6px 16px;color:#909399;border-radius:6px;font-size:13px;cursor:pointer;margin-right:8px">美股 (1)</span>
+            <span style="padding:6px 16px;color:#909399;border-radius:6px;font-size:13px;cursor:pointer">基金 (1)</span>
+          </div>
+          <div style="padding:16px 20px;overflow-x:auto">
+            <table class="mock-table">
+              <thead>
+                <tr><th>代码</th><th>名称</th><th>市场</th><th>分类</th><th style="text-align:right">数量</th><th style="text-align:right">均价</th><th style="text-align:right">最新价</th><th style="text-align:right">市值 (CNY)</th><th style="text-align:right">仓位</th><th style="text-align:right">盈亏</th><th style="text-align:right">盈亏率</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="code-link">600519</span></td><td>贵州茅台</td>
+                  <td><span class="tag tag-blue">A股</span></td><td><span class="tag tag-green">股票</span></td>
+                  <td style="text-align:right">100</td><td style="text-align:right">¥1,750</td><td style="text-align:right">¥1,960</td>
+                  <td style="text-align:right">¥196,000</td>
+                  <td style="text-align:right">32.0%</td>
+                  <td style="text-align:right;color:#f56c6c">+¥21,000</td><td style="text-align:right;color:#f56c6c">+12.0%</td>
+                  <td><button class="btn-text">分析</button><button class="btn-text">编辑</button><button class="btn-text" style="color:#f56c6c">删除</button></td>
+                </tr>
+                <tr>
+                  <td><span class="code-link">300750</span></td><td>宁德时代</td>
+                  <td><span class="tag tag-blue">A股</span></td><td><span class="tag tag-green">股票</span></td>
+                  <td style="text-align:right">500</td><td style="text-align:right">¥210</td><td style="text-align:right">¥270</td>
+                  <td style="text-align:right">¥134,750</td>
+                  <td style="text-align:right">22.0%</td>
+                  <td style="text-align:right;color:#f56c6c">+¥30,000</td><td style="text-align:right;color:#f56c6c">+28.6%</td>
+                  <td><button class="btn-text">分析</button><button class="btn-text">编辑</button><button class="btn-text" style="color:#f56c6c">删除</button></td>
+                </tr>
+                <tr>
+                  <td><span class="code-link">270042</span></td><td>广发纳斯达克100ETF联接A</td>
+                  <td><span class="tag tag-blue">A股</span></td><td><span class="tag tag-purple">基金</span></td>
+                  <td style="text-align:right">10,000</td><td style="text-align:right">¥3.85</td><td style="text-align:right">¥4.12</td>
+                  <td style="text-align:right">¥41,200</td>
+                  <td style="text-align:right">6.7%</td>
+                  <td style="text-align:right;color:#f56c6c">+¥2,700</td><td style="text-align:right;color:#f56c6c">+7.0%</td>
+                  <td><button class="btn-text">分析</button><button class="btn-text">编辑</button><button class="btn-text" style="color:#f56c6c">删除</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="annotations">
+    <div class="annotation">
+      <span class="ann-num">1</span>
+      <span class="ann-text"><strong>「组合分析」按钮</strong> — 页面右上角，橙色高亮。这是触发整个 Tier 2 四层对抗分析的唯一入口。点击后按钮文字会动态显示进度（"正在初始化..." → "L1 行业辩论..." → "L2 标的筛选..." → ...）</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Step 2: 等待分析完成 ═══ -->
+<div class="step-block">
+  <h2><span class="step-num">2</span> 等待分析完成（60-180 秒）</h2>
+  <p class="step-desc">按钮文字会实时更新，展示当前执行阶段</p>
+
+  <div class="flow" style="margin-left:46px">
+    <div class="flow-step me">点击"组合分析"</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">L1 行业辩论<br>(Bull/Bear + Judge)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">L2 标的筛选<br>(Fund/Technical Analyst)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">L3 组合辩论<br>(Analyst+Strategist+Scout)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">PE 估值充实<br>(BaoStock/AKShare/yf)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">L4 CIO 终裁<br>(+ Risk Director)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#e1f3d8;border-color:#67c23a;color:#67c23a">✅ 完成</div>
+  </div>
+  <p style="margin-left:46px;font-size:13px;color:#909399;margin-top:8px">整个过程自动运行，无需人工干预。可以切换到其他页面，分析完成后回来查看。</p>
+</div>
+
+<!-- ═══ Step 3: 决策卡片 ═══ -->
+<div class="step-block">
+  <h2><span class="step-num">3</span> 打开右侧抽屉，查看决策卡片</h2>
+  <p class="step-desc">分析完成后，右侧自动弹出建议抽屉（占屏幕 55%）</p>
+
+  <div class="mock-page">
+    <div class="mock-layout">
+      <div class="mock-sidebar" style="opacity:.7">
+        <div class="side-logo">🧠 TradingAgents</div>
+        <div class="side-item"><span class="side-icon">📊</span> 仪表盘</div>
+        <div class="side-item"><span class="side-icon">🔍</span> 股票筛选</div>
+        <div class="side-item"><span class="side-icon">⭐</span> 我的自选股</div>
+        <div class="side-item active"><span class="side-icon">💰</span> 我的持仓</div>
+        <div class="side-item"><span class="side-icon">⚙️</span> 设置</div>
+      </div>
+      <div class="mock-main" style="opacity:.5;position:relative">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.03);z-index:1"></div>
+        <div class="topbar">
+          <div class="topbar-title">💰 我的持仓 <span style="font-size:12px;color:#909399;font-weight:400">🕐 更新于 2026-05-24 10:30</span></div>
+          <div class="topbar-buttons">
+            <button class="btn btn-plain">🔄 刷新</button>
+            <button class="btn btn-plain">+ 添加持仓</button>
+            <button class="btn btn-plain">📋 组合分析</button>
+          </div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="label">总投入</div><div class="value">¥528,000</div></div>
+          <div class="stat-card"><div class="label">可用现金</div><div class="value">¥72,350</div></div>
+          <div class="stat-card"><div class="label">总资产</div><div class="value">¥612,840</div></div>
+          <div class="stat-card"><div class="label">总盈亏</div><div class="value" style="color:#f56c6c">+¥84,840</div></div>
+        </div>
+        <p style="color:#909399;font-size:13px;text-align:center;padding:40px">← 右侧抽屉已打开 →</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulate drawer as inline content -->
+  <div style="margin-top:20px;border:3px dashed #409eff;border-radius:10px;padding:28px 32px;background:#fff;position:relative">
+    <div class="highlight-badge2">← 新功能！决策卡片区域</div>
+
+    <h4 style="font-size:16px;margin-bottom:16px">操作建议</h4>
+
+    <!-- Decision Card 1: Sell -->
+    <div class="dc-card urgent">
+      <div class="highlight-area2" style="margin-bottom:8px;padding-top:4px">
+        <div class="highlight-badge2" style="top:-8px;font-size:10px">← 左侧色条 = 优先级</div>
+        <div class="dc-header">
+          <div>
+            <span style="background:#fde2e2;color:#c45656;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">清仓</span>
+            <span class="dc-name">贵州茅台</span>
+            <span class="dc-code">600519</span>
+          </div>
+          <div>
+            <span style="background:#fde2e2;color:#f56c6c;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">紧急</span>
+            <span style="font-size:13px;color:#606266;margin-left:8px">32.0% → 0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:13px;color:#409eff;cursor:pointer;margin-bottom:8px">
+        ▸ 决策上下文 <span style="font-size:11px;color:#c0c4cc">(点击展开)</span>
+        <div style="margin-top:6px;padding:8px 12px;background:#f5f7fa;border-radius:6px">
+          <div style="margin-bottom:4px"><span style="color:#909399">行业方向</span> 白酒行业处于成熟期，消费降级压力持续，Go/NoGo: NoGo</div>
+          <div><span style="color:#909399">护城河</span> 品牌护城河深厚，但渠道库存高企，短期缺乏催化剂</div>
+        </div>
+      </div>
+
+      <div class="dc-price" style="position:relative">
+        <span style="position:absolute;top:-8px;right:8px;background:#67c23a;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px">← PE 分位进度条（新）</span>
+        基于 PE 分位 88% 和 MA20 判断，当前价格偏高，安全边际不足
+        <div class="dc-bar"><div class="dc-bar-fill high"></div></div>
+        <div style="font-size:12px;color:#909399;margin-top:4px">88% 分位 · 高估</div>
+      </div>
+
+      <div class="dc-risk">
+        <span>⚠️ 若消费复苏超预期，踏空风险约 15-20%</span>
+        <span>📅 否 — 白酒行业长期需求下行趋势未改</span>
+        <span>🧠 禀赋效应：因持有 3 年而不愿清仓，需客观看待</span>
+      </div>
+      <div class="dc-reasoning">消费降级趋势下，高端白酒增长逻辑已变。</div>
+    </div>
+
+    <!-- Decision Card 2: Add -->
+    <div class="dc-card important">
+      <div class="dc-header">
+        <div>
+          <span style="background:#e1f3d8;color:#529b2e;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">加仓</span>
+          <span class="dc-name">宁德时代</span>
+          <span class="dc-code">300750</span>
+        </div>
+        <div>
+          <span style="background:#fdf6ec;color:#e6a23c;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">建议</span>
+          <span style="font-size:13px;color:#606266;margin-left:8px">22.0% → 28.0%</span>
+        </div>
+      </div>
+      <div class="dc-price">
+        PE 分位 15%，处于近 5 年历史低位。建议在 ¥180-210 区间分批加仓。
+        <div class="dc-bar"><div class="dc-bar-fill low"></div></div>
+        <div style="font-size:12px;color:#909399;margin-top:4px">15% 分位 · 低估</div>
+      </div>
+      <div class="dc-risk">
+        <span>⚠️ 若锂电产能过剩加剧，最大亏损约 25%</span>
+        <span>📅 是 — 全球电动化渗透率仍有 3 倍空间</span>
+        <span>🧠 近因偏差：近期股价低迷 ≠ 基本面恶化</span>
+      </div>
+    </div>
+
+    <!-- Decision Card 3: Hold fund -->
+    <div class="dc-card optional">
+      <div class="dc-header">
+        <div>
+          <span style="background:#e6e8eb;color:#73767a;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">持有</span>
+          <span class="dc-name">广发纳斯达克100ETF联接A</span>
+          <span class="dc-code">270042</span>
+        </div>
+        <div>
+          <span style="background:#e6e8eb;color:#73767a;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">参考</span>
+          <span style="font-size:13px;color:#606266;margin-left:8px">6.7% → 6.7%</span>
+        </div>
+      </div>
+      <div class="dc-price" style="background:#fef9e7">
+        🛈 基金/ETF 无 PE 分位数据。MA20 走平，净值趋势稳定。
+      </div>
+      <div class="dc-risk">
+        <span>⚠️ 纳斯达克估值回调风险，最大回撤约 15%</span>
+        <span>📅 是 — 全球科技龙头长期增长趋势不变</span>
+        <span>🧠 无显著偏差</span>
+      </div>
+      <div class="dc-reasoning">基金经理稳定(任职>5年)、费率合理(0.6%)、策略无漂移</div>
+    </div>
+
+    <!-- CIO Verdict -->
+    <h4 style="margin:24px 0 8px">CIO 裁决</h4>
+    <div style="font-size:13px;color:#606266;line-height:1.8">
+      <p><strong>最终判断：</strong>组合整体健康，但需关注白酒行业集中度风险...</p>
+      <p style="white-space:pre;font-family:monospace;font-size:12px;background:#f5f7fa;padding:12px;border-radius:6px;margin-top:8px">```json
+[{"code":"600519","action":"sell","priority":"urgent",...}]
+```</p>
+    </div>
+
+    <!-- Collapsible sections -->
+    <div style="margin-top:16px">
+      <div class="collapse-section">📊 市场扫描 · L1 行业方向</div>
+      <div class="collapse-section">🔍 候选标的 · L2 标的筛选</div>
+      <div class="collapse-section">📋 持仓分析师评估</div>
+      <div class="collapse-section">♟️ 策略师评估</div>
+      <div class="collapse-section">🕵️ 侦察兵评估</div>
+      <div class="collapse-section">🛡️ 风险审查 · L4 终端审查</div>
+      <div class="collapse-section">💬 辩论记录 · L3 组合辩论</div>
+    </div>
+
+    <div style="font-size:12px;color:#c0c4cc;margin-top:16px">生成于 2026-05-24 10:32:45 · 耗时 95s</div>
+
+    <!-- History selector -->
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid #ebeef5">
+      <h4 style="font-size:14px;margin-bottom:8px">历史建议</h4>
+      <select style="width:100%;padding:8px 12px;border:1px solid #dcdfe6;border-radius:6px;font-size:13px">
+        <option>2026-05-24 10:32 — COMPLETED</option>
+        <option>2026-05-20 14:15 — COMPLETED</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="annotations" style="margin-top:16px">
+    <div class="annotation">
+      <span class="ann-num blue">2</span>
+      <span class="ann-text"><strong>PE 分位进度条</strong> — 每张股票卡片的价格区域，绿色=低估(0-25%)、橙色=合理(25-75%)、红色=高估(75-100%)。基金/ETF 卡片不显示进度条。</span>
+    </div>
+    <div class="annotation">
+      <span class="ann-num blue">3</span>
+      <span class="ann-text"><strong>7 字段决策卡片</strong> — 取代旧版扁平表格。每张卡片含：优先级色条、操作标签、行业方向(l1_context)、护城河(l2_context)、PE 估值锚(suggested_price)、逆向压力测试(max_loss_pct)、5 年视角(five_year_view)、偏差检测(bias_check)。</span>
+    </div>
+    <div class="annotation">
+      <span class="ann-num blue">4</span>
+      <span class="ann-text"><strong>基金决策标准</strong> — 持仓含基金时，CIO 卡片中的 reasoning 区会体现基金经理质量、费率、策略一致性等专属评估维度，而非简单的"持有/卖出"。</span>
+    </div>
+    <div class="annotation">
+      <span class="ann-num blue">5</span>
+      <span class="ann-text"><strong>历史建议选择器</strong> — 抽屉底部可切换查看过往分析记录。</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Summary ═══ -->
+<div class="step-block">
+  <h2><span class="step-num">✓</span> 一句话总结</h2>
+  <p style="font-size:16px;margin-left:46px;padding:20px;background:#ecf5ff;border-radius:8px">
+    <strong>入口：</strong>侧边栏 → 「我的持仓」→ 右上角 <span style="background:#e6a23c;color:#fff;padding:3px 10px;border-radius:4px">组合分析</span> 按钮 → 等 60-180s → 右侧抽屉弹出决策卡片
+  </p>
+</div>
+
+</div>
+
+<div style="text-align:center;padding:40px;color:#909399;font-size:13px">
+  TradingAgents-CN · 组合顾问 v2.0 · 2026-05-24
+</div>
+
+</body>
+</html>

@@ -242,10 +242,12 @@
                   <span class="flow-arrow">{{ flowOpen === 'l1' ? '▼' : '▶' }}</span>
                 </div>
                 <div v-if="flowOpen === 'l1'" class="flow-step-body">
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 2000))" />
-                  <div v-if="selectedAdvice.market_debate_history" class="mt-2 text-xs" style="color:#909399">
-                    L1 辩论有 {{ selectedAdvice.market_debate_history.length }} 字符 · 未展示
-                  </div>
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))" />
+                  <div v-if="selectedAdvice.market_debate_history" class="debate-section">
+                    <div class="debate-toggle" @click="flowOpen === 'l1' ? flowOpen = 'l1-debate' : null">
+                      ▶ L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
+                    </div>
+                    <div v-if="flowOpen === 'l1-debate'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))" />
                 </div>
               </div>
 
@@ -277,7 +279,13 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 1500))" />
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))" />
+                  <div v-if="selectedAdvice.stock_debate_history" class="debate-section mt-2">
+                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l2' ? 'l2-debate' : flowOpen)">
+                      L2 辩论记录 ({{ selectedAdvice.stock_debate_history.length }} 字符)
+                    </div>
+                    <div v-if="flowOpen === 'l2-debate'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))" />
+                  </div>
                 </div>
               </div>
 
@@ -293,20 +301,23 @@
                 <div v-if="flowOpen === 'l3'" class="flow-step-body">
                   <el-tabs>
                     <el-tab-pane label="组合反向者">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.contrarian_assessment?.slice(0, 2000))" />
+                      <div class="advice-text" v-html="renderMd((selectedAdvice.contrarian_assessment || selectedAdvice.debate_history?.split('[反向意见者]')[1] || '').slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="持仓分析师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 2000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="策略师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 2000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="侦察兵">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 2000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                   </el-tabs>
-                  <div v-if="selectedAdvice.debate_history" class="mt-2 text-xs" style="color:#909399">
-                    辩论记录有 {{ selectedAdvice.debate_history.length }} 字符 · 未完整展示
+                  <div v-if="selectedAdvice.debate_history" class="debate-section mt-2">
+                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l3' ? 'l3-debate' : flowOpen)">
+                      L3 完整辩论记录 ({{ selectedAdvice.debate_history.length }} 字符)
+                    </div>
+                    <div v-if="flowOpen === 'l3-debate'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))" />
                   </div>
                 </div>
               </div>
@@ -330,7 +341,7 @@
                   </div>
                   <el-collapse style="margin-top:12px">
                     <el-collapse-item v-if="selectedAdvice.cio_verdict" title="CIO 裁决原文">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 3000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 10000))" />
                     </el-collapse-item>
                     <el-collapse-item v-if="selectedAdvice.risk_director_review" title="风险总监审查">
                       <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)" />
@@ -609,4 +620,12 @@ onMounted(() => {
 .delta-down { color: #67c23a; }
 .mt-2 { margin-top: 8px; }
 .text-xs { font-size: 12px; }
+
+.debate-section { margin-top: 8px; }
+.debate-toggle {
+  cursor: pointer; font-size: 12px; color: #409eff;
+  padding: 6px 10px; background: #ecf5ff; border-radius: 4px;
+  display: inline-block;
+}
+.debate-toggle:hover { background: #d9ecff; }
 </style>

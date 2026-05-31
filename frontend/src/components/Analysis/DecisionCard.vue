@@ -9,6 +9,7 @@
       </div>
       <div class="header-right">
         <el-tag :type="priorityTag" size="small" effect="plain">{{ priorityLabel }}</el-tag>
+        <el-tag v-if="item.timing" :type="timingTag" size="small" effect="plain">{{ timingLabel }}</el-tag>
         <span class="weight-change">
           <template v-if="item.action === 'new_position' || item.action === 'buy'">
             新建仓 → {{ item.target_weight?.toFixed(0) }}%
@@ -51,6 +52,12 @@
       </div>
     </div>
 
+    <!-- Trigger Condition -->
+    <div v-if="item.trigger_condition && item.timing === 'conditional'" class="card-trigger">
+      <span class="trigger-icon">🎯</span>
+      <span class="trigger-text">触发条件: {{ item.trigger_condition }}</span>
+    </div>
+
     <!-- Risk Row -->
     <div class="card-risk">
       <div class="risk-item" v-if="item.max_loss_pct">
@@ -73,6 +80,11 @@
     <!-- Reasoning (footer) -->
     <div v-if="item.reasoning" class="card-reasoning">
       {{ item.reasoning }}
+    </div>
+
+    <!-- Data Sources -->
+    <div v-if="item.data_sources && item.data_sources.length" class="card-sources">
+      <span v-for="(s, i) in item.data_sources" :key="i" class="source-tag">{{ s }}</span>
     </div>
   </div>
 </template>
@@ -114,6 +126,19 @@ const priorityLabel = computed(() => {
   if (props.item.priority === 'urgent') return '紧急'
   if (props.item.priority === 'important') return '建议'
   return '参考'
+})
+
+// --- timing ---
+const timingTag = computed(() => {
+  if (props.item.timing === 'immediate') return 'danger'
+  if (props.item.timing === 'conditional') return 'warning'
+  return 'info'
+})
+const timingLabel = computed(() => {
+  if (props.item.timing === 'immediate') return '立即执行'
+  if (props.item.timing === 'conditional') return '条件触发'
+  if (props.item.timing === 'scheduled') return '定期操作'
+  return props.item.timing
 })
 
 // --- context ---
@@ -217,5 +242,28 @@ const peLabel = computed(() => {
 .card-reasoning {
   margin-top: 8px; font-size: 13px; color: #606266;
   line-height: 1.5; font-style: italic;
+}
+
+/* Trigger */
+.card-trigger {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 8px; padding: 8px 12px;
+  background: #fef0f0; border-radius: 6px;
+  font-size: 13px; color: #e6a23c;
+}
+.trigger-icon { font-size: 14px; }
+.trigger-text { line-height: 1.4; }
+
+/* Data Sources */
+.card-sources {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px dashed #ebeef5;
+}
+.source-tag {
+  display: inline-block; padding: 2px 8px;
+  background: #f0f5ff; color: #409eff;
+  border-radius: 3px; font-size: 11px;
+  max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 </style>

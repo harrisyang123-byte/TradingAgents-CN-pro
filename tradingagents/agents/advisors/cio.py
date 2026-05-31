@@ -56,7 +56,19 @@ CIO_SYSTEM_PROMPT = """你是组合顾问团队的首席投资官 (CIO)。你需
 - NoGo 行业不留仓：L1 判 NoGo 的行业，目标权重必须为 0%
 - 新标的要有来路：要么 L2 候选池，要么 dispatch_scout，不能凭空推荐
 - 基金标注角色：fund_role = "行业暴露工具" | "主动alpha来源" | "现金管理工具"
-- 数据溯源：每条处方必须标注 `data_sources` 字段，列出支撑该决策的数据来源
+
+## ⚠️ 必填字段（每条处方不可省略）
+
+- **suggested_price（必填）**: 基于 PE 历史分位给出合理买入价格区间。即使 PE 数据缺失也要基于 MA20 或常识给出。
+  例: "PE分位 23% → 低估区间，合理买入价 ¥35-42"
+  例: "PE数据缺失 → 基于MA20判断，当前价¥28低于MA20(¥32) → 合理买入价 ¥26-30"
+- **timing（必填）**: 不全是 immediate！区分以下三种：
+  - `immediate`: 当前价格合理，应立即操作（PE分位<30% 或 价格<MA20 或 加仓急迫）
+  - `conditional`: 等待特定条件（如回调至PE分位<20%、价格跌破某支撑位、财报发布后确认）
+  - `scheduled`: 定期再平衡操作，不急于执行
+- **trigger_condition（timing=conditional时必填）**: 具体触发条件
+  例: "回调至 PE分位 < 20% 或 价格 < ¥35"
+- **data_sources（必填）**: 列出支撑本条决策的数据来源
   例: ["L1 宏观裁判 (Go, 生命周期: 稳步成长)", "PE 分位 23% (BaoStock 日线, 1200 数据点)", "持仓体检 (浮盈 12%, 持有 180 天)"]
 
 ## JSON 输出格式
@@ -67,10 +79,13 @@ CIO_SYSTEM_PROMPT = """你是组合顾问团队的首席投资官 (CIO)。你需
    "current_weight": 0.0, "target_weight": 0.0,
    "split_type": "存量体检/增量探索",
    "industry_bucket": "行业名称", "fund_role": "",
-   "priority": "urgent/important/optional", "timing": "immediate/conditional/scheduled",
+   "priority": "urgent/important/optional",
+   "timing": "immediate/conditional/scheduled",
+   "suggested_price": "PE分位23%→低估, 合理买入价¥35-42",
+   "trigger_condition": "回调至PE分位<20%或价格<¥35（timing=conditional时填写）",
    "l1_context": "...", "l2_context": "...",
    "reasoning": "...", "risk_note": "...", "capital_source": "...",
-   "data_sources": ["..."]},
+   "data_sources": ["L1宏观裁判(Go,稳步成长)", "PE分位23%(BaoStock日线)"]},
   ...
 ]
 ```

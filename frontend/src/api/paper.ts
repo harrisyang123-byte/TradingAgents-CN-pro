@@ -106,12 +106,17 @@ export interface AdviceItem {
   risk_note: string
   // 决策卡片新字段
   priority?: 'urgent' | 'important' | 'optional'
+  timing?: 'immediate' | 'conditional' | 'scheduled'
+  suggested_price?: string
+  trigger_condition?: string
   l1_context?: string
   l2_context?: string
-  suggested_price?: string
   max_loss_pct?: string
   five_year_view?: string
   bias_check?: string
+  data_sources?: string[]
+  industry_bucket?: string
+  fund_role?: string
 }
 
 export interface MarketIntel {

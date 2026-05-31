@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>持仓组合 - 交互原型</title>
+<style>
+/* ===== Design Tokens ===== */
+:root {
+  --primary: #409eff;
+  --primary-light: #ecf5ff;
+  --success: #67c23a;
+  --warning: #e6a23c;
+  --danger: #f56c6c;
+  --text-primary: #303133;
+  --text-regular: #606266;
+  --text-secondary: #909399;
+  --border-light: #e4e7ed;
+  --border-lighter: #ebeef5;
+  --fill-light: #f5f7fa;
+  --bg-page: #f2f3f5;
+  --stock-up: #f56c6c;
+  --stock-down: #67c23a;
+  --card-radius: 10px;
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 16px rgba(0,0,0,0.08);
+  --transition: all 0.25s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* ===== Layout ===== */
+.app-header {
+  background: #fff;
+  border-bottom: 1px solid var(--border-lighter);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.app-header .logo { font-weight: 700; font-size: 16px; color: var(--primary); }
+.app-header nav { display: flex; gap: 20px; flex: 1; }
+.app-header nav a {
+  font-size: 14px; color: var(--text-secondary); text-decoration: none;
+  padding: 4px 0; border-bottom: 2px solid transparent; transition: var(--transition);
+}
+.app-header nav a:hover { color: var(--primary); }
+.app-header nav a.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 500; }
+
+.page-layout { display: flex; max-width: 1440px; margin: 0 auto; padding: 20px 24px; gap: 20px; }
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 76px;
+  align-self: start;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  font-size: 12px; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 4px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: 6px; font-size: 14px;
+  cursor: pointer; color: var(--text-regular); transition: var(--transition);
+}
+.sidebar-item:hover { background: var(--primary-light); color: var(--primary); }
+.sidebar-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+.sidebar-item .count {
+  margin-left: auto; font-size: 12px; color: var(--text-secondary);
+  background: var(--fill-light); padding: 1px 8px; border-radius: 10px;
+}
+
+.main-content { flex: 1; min-width: 0; }
+
+/* ===== Page Header ===== */
+.page-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+}
+.page-header h1 {
+  font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px;
+}
+.page-header .subtitle {
+  font-size: 13px; font-weight: 400; color: var(--text-secondary);
+}
+.header-actions { display: flex; gap: 8px; }
+
+/* ===== Button ===== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 1px solid; transition: var(--transition);
+  line-height: 1.4; white-space: nowrap;
+}
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: #66b1ff; border-color: #66b1ff; }
+.btn-plain { background: #fff; border-color: #dcdfe6; color: var(--text-regular); }
+.btn-plain:hover { color: var(--primary); border-color: #c6e2ff; background: var(--primary-light); }
+.btn-sm { padding: 4px 12px; font-size: 12px; }
+.btn-text { background: none; border: none; color: var(--primary); padding: 4px 8px; font-size: 13px; cursor: pointer; }
+.btn-text:hover { color: #66b1ff; }
+.btn-link {
+  background: none; border: none; color: var(--primary);
+  font-size: 13px; cursor: pointer; padding: 4px 0;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-link:hover { color: #66b1ff; }
+
+/* ===== Card ===== */
+.card {
+  background: #fff; border-radius: var(--card-radius);
+  border: 1px solid var(--border-lighter);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  margin-bottom: 16px;
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.card-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border-lighter);
+  font-weight: 600; font-size: 15px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-header .badge {
+  font-size: 12px; font-weight: 400; color: var(--text-secondary);
+  background: var(--fill-light); padding: 2px 10px; border-radius: 12px;
+}
+.card-body { padding: 20px; }
+
+/* ===== Stat Cards ===== */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+.stat-card {
+  background: #fff; border-radius: var(--card-radius);
+  border: 1px solid var(--border-lighter);
+  padding: 18px 20px; transition: var(--transition);
+  box-shadow: var(--shadow-card);
+}
+.stat-card:hover { border-color: var(--primary); box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.stat-card .label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+.stat-card .value { font-size: 22px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+.stat-card .sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.stat-card .value.up { color: var(--stock-up); }
+.stat-card .value.down { color: var(--stock-down); }
+
+/* ===== Chart Grid (2-column) ===== */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .chart-grid { grid-template-columns: 1fr; } }
+
+/* ===== Allocation Bar (Horizontal Stacked Bar) ===== */
+.allocation-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.allocation-title { font-size: 13px; font-weight: 500; color: var(--text-regular); }
+.allocation-legend {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.allocation-legend-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text-secondary);
+}
+.allocation-legend-dot {
+  width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+}
+.allocation-bar {
+  display: flex; height: 28px; border-radius: 6px; overflow: hidden;
+  margin-bottom: 12px;
+}
+.allocation-bar-seg {
+  height: 100%; transition: var(--transition); position: relative;
+  min-width: 4px;
+}
+.allocation-bar-seg:hover { filter: brightness(1.1); }
+.allocation-bar-seg:first-child { border-radius: 6px 0 0 6px; }
+.allocation-bar-seg:last-child { border-radius: 0 6px 6px 0; }
+.allocation-bar-seg.others { background: #dcdfe6; }
+
+.allocation-list { display: flex; flex-direction: column; gap: 6px; }
+.allocation-row {
+  display: flex; align-items: center; gap: 10px; padding: 5px 0;
+  cursor: pointer; border-radius: 4px; transition: var(--transition);
+}
+.allocation-row:hover { background: var(--fill-light); padding: 5px 8px; margin: 0 -8px; }
+.allocation-row .dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.allocation-row .name {
+  flex: 1; font-size: 13px; color: var(--text-regular);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.allocation-row .name .code {
+  font-size: 11px; color: var(--text-secondary); margin-left: 4px; font-weight: 400;
+}
+.allocation-row .mini-bar {
+  width: 80px; height: 6px; background: var(--fill-light); border-radius: 3px; overflow: hidden; flex-shrink: 0;
+}
+.allocation-row .mini-bar-fill { height: 100%; border-radius: 3px; }
+.allocation-row .pct {
+  width: 50px; text-align: right; font-size: 13px; font-weight: 600; color: var(--text-primary);
+}
+
+/* ===== P&L Contribution ===== */
+.pnl-list { display: flex; flex-direction: column; gap: 2px; }
+.pnl-row {
+  display: flex; align-items: center; gap: 10px; padding: 7px 0;
+}
+.pnl-row .name {
+  width: 80px; font-size: 13px; color: var(--text-regular); text-align: right;
+  flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pnl-row .name .code-tiny {
+  display: block; font-size: 10px; color: var(--text-secondary); font-weight: 400;
+}
+.pnl-row .bar-wrap {
+  flex: 1; height: 18px; background: var(--fill-light); border-radius: 4px;
+  position: relative; overflow: hidden;
+}
+.pnl-row .bar-fill { height: 100%; border-radius: 3px; position: absolute; top: 0; }
+.pnl-row .bar-fill.up { background: var(--stock-up); left: 50%; }
+.pnl-row .bar-fill.down { background: var(--stock-down); right: 50%; }
+.pnl-row .value {
+  width: 90px; font-size: 13px; font-weight: 500; text-align: right; flex-shrink: 0;
+}
+.pnl-row .value.up { color: var(--stock-up); }
+.pnl-row .value.down { color: var(--stock-down); }
+.pnl-footer { text-align: center; padding-top: 8px; }
+
+/* ===== Table ===== */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table thead { position: sticky; top: 0; z-index: 1; }
+.data-table th {
+  background: #fafafa; color: var(--text-secondary); font-weight: 600;
+  text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border-lighter);
+  font-size: 12px; white-space: nowrap; user-select: none;
+}
+.data-table th.sortable { cursor: pointer; transition: var(--transition); }
+.data-table th.sortable:hover { color: var(--primary); background: var(--primary-light); }
+.data-table th .arrow { font-size: 11px; margin-left: 2px; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-lighter); color: var(--text-primary); vertical-align: middle; }
+.data-table tbody tr { transition: background 0.15s; }
+.data-table tbody tr:hover { background: var(--fill-light); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* ===== Name Display ===== */
+.name-primary { font-weight: 500; color: var(--text-primary); }
+.name-secondary { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+.name-cell .name-primary { font-size: 13px; }
+.name-cell .name-secondary { font-size: 10px; }
+
+/* ===== Tag ===== */
+.tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; line-height: 1.6; font-weight: 500;
+}
+.tag-cn { background: #f0f9eb; color: #67c23a; border: 1px solid #e1f3d8; }
+.tag-hk { background: #fdf6ec; color: #e6a23c; border: 1px solid #faecd8; }
+.tag-us { background: #f4f4f5; color: var(--text-secondary); border: 1px solid #e9e9eb; }
+.tag-fund { background: #f0f2ff; color: #6f7ff7; border: 1px solid #d6d9fb; }
+
+/* ===== Progress Bar ===== */
+.progress-bar { height: 6px; background: var(--fill-light); border-radius: 3px; overflow: hidden; min-width: 50px; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+/* ===== Filter Tabs ===== */
+.filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-tab {
+  padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  cursor: pointer; background: #fff; color: var(--text-regular);
+  border: 1px solid var(--border-light); transition: var(--transition);
+  user-select: none;
+}
+.filter-tab:hover { color: var(--primary); border-color: var(--primary); }
+.filter-tab.active { color: #fff; background: var(--primary); border-color: var(--primary); }
+
+/* ===== Market Summary ===== */
+.market-summary {
+  display: flex; gap: 16px; padding: 12px 20px;
+  background: var(--fill-light); border-radius: 8px; margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.market-summary-item {
+  display: flex; align-items: baseline; gap: 6px; font-size: 13px;
+}
+.market-summary-item .ms-label { color: var(--text-secondary); }
+.market-summary-item .ms-value { font-weight: 600; }
+
+/* ===== Empty ===== */
+.empty-state { text-align: center; padding: 60px 20px; }
+.empty-icon { font-size: 48px; color: #dcdfe6; margin-bottom: 16px; }
+.empty-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.empty-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ===== Tooltip ===== */
+.tooltip-container { position: relative; display: inline-flex; }
+.tooltip-trigger { cursor: help; }
+.tooltip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%); background: #303133; color: #fff;
+  font-size: 12px; padding: 6px 10px; border-radius: 4px;
+  white-space: nowrap; z-index: 1000;
+}
+.tooltip-container:hover .tooltip { display: block; }
+
+/* ===== Interactive demo notes ===== */
+.demo-note {
+  background: #fef6e7; border: 1px solid #faecd8; border-radius: 6px;
+  padding: 10px 14px; margin-bottom: 16px;
+  font-size: 12px; color: #8a6d3b; display: flex; align-items: center; gap: 8px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1200px) {
+  .sidebar { display: none; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .page-layout { padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== App Header ===== -->
+<header class="app-header">
+  <div class="logo">📈 TradingAgents</div>
+  <nav>
+    <a href="#" class="active">我的持仓</a>
+    <a href="#">组合总揽</a>
+    <a href="#">分析师团队</a>
+    <a href="#">交易记录</a>
+  </nav>
+  <span style="font-size:12px; color:var(--text-secondary);">Demo Prototype</span>
+</header>
+
+<!-- ===== Page Layout ===== -->
+<div class="page-layout">
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">市场筛选</div>
+      <div class="sidebar-item active">全部 <span class="count">35</span></div>
+      <div class="sidebar-item">A股 <span class="count">12</span></div>
+      <div class="sidebar-item">港股 <span class="count">8</span></div>
+      <div class="sidebar-item">美股 <span class="count">5</span></div>
+      <div class="sidebar-item">基金 <span class="count">10</span></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">资产分类</div>
+      <div class="sidebar-item">股票 <span class="count">20</span></div>
+      <div class="sidebar-item">ETF <span class="count">5</span></div>
+      <div class="sidebar-item">基金 <span class="count">10</span></div>
+    </div>
+  </aside>
+
+  <!-- ===== Main Content ===== -->
+  <main class="main-content">
+
+    <!-- Demo Note -->
+    <div class="demo-note">
+      🔷 <strong>交互原型</strong> — 点击可交互的 demo，展示持仓组合页面优化后的信息层级和视觉布局。
+      以下数据为模拟数据，用于评审设计方向。
+    </div>
+
+    <!-- ===== Page Header ===== -->
+    <div class="page-header">
+      <h1>
+        我的持仓
+        <span class="subtitle">更新于 5/24 14:32</span>
+      </h1>
+      <div class="header-actions">
+        <button class="btn btn-plain btn-sm">↻ 刷新</button>
+        <button class="btn btn-primary btn-sm">+ 添加持仓</button>
+        <button class="btn btn-plain btn-sm">⚙ 设置账户</button>
+      </div>
+    </div>
+
+    <!-- ===== 4 Stat Cards ===== -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="label">总投入</div>
+        <div class="value">¥200,000</div>
+        <div class="sub">累计投入本金</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">可用现金</div>
+        <div class="value">¥25,630.50</div>
+        <div class="sub">含汇率折算</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">总资产（人民币）</div>
+        <div class="value">¥238,456.80</div>
+        <div class="sub">持仓市值 ¥212,826.30</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">总盈亏</div>
+        <div class="value up">+¥38,456.80</div>
+        <div class="sub">
+          <span class="up" style="font-weight:600;">+19.23%</span>
+          <span style="color:var(--text-secondary);margin-left:4px">较投入</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Market Summary ===== -->
+    <div class="market-summary">
+      <span style="font-size:13px;font-weight:500;color:var(--text-primary);">市场分布</span>
+      <div class="market-summary-item">
+        <span class="ms-label">A股</span>
+        <span class="ms-value" style="color:#67c23a">12 只</span>
+        <span style="font-size:11px;color:var(--text-secondary)">42.3%</span>
+      </div>
+      <div class="market-summary-item">
+        <span class="ms-label">港股</span>
+        <span class="ms-value" style="color:#e6a23c">8 只</span>
+        <span style="font-size:11px;color:var(--text-secondary)">28.7%</span>
+      </div>
+      <div class="market-summary-item">
+        <span class="ms-label">美股</span>
+        <span class="ms-value" style="color:#909399">5 只</span>
+        <span style="font-size:11px;color:var(--text-secondary)">15.2%</span>
+      </div>
+      <div class="market-summary-item">
+        <span class="ms-label">基金</span>
+        <span class="ms-value" style="color:#6f7ff7">10 只</span>
+        <span style="font-size:11px;color:var(--text-secondary)">13.8%</span>
+      </div>
+    </div>
+
+    <!-- ===== 2-Column Charts ===== -->
+    <div class="chart-grid">
+
+      <!-- 仓位分布（横向堆积柱状图） -->
+      <div class="card">
+        <div class="card-header">
+          仓位分布
+          <span class="badge">按市值占比 · top 5 + 其他</span>
+        </div>
+        <div class="card-body">
+          <!-- 堆积柱状图 -->
+          <div class="allocation-bar" id="allocationBar"></div>
+          <!-- 图例 -->
+          <div class="allocation-legend" id="allocationLegend"></div>
+          <!-- 明细列表 -->
+          <div style="margin-top:14px;border-top:1px solid var(--border-lighter);padding-top:10px">
+            <div class="allocation-list" id="allocationList"></div>
+            <div class="pnl-footer" id="allocFooter">
+              <button class="btn btn-plain btn-sm" onclick="toggleAlloc()" id="allocToggleBtn">
+                展开全部 (35 只)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 盈亏贡献 -->
+      <div class="card">
+        <div class="card-header">
+          盈亏贡献
+          <span class="badge">按盈亏绝对值排序</span>
+        </div>
+        <div class="card-body">
+          <div class="pnl-list" id="pnlList"></div>
+          <div class="pnl-footer" id="pnlFooter">
+            <button class="btn btn-plain btn-sm" onclick="togglePnl()" id="pnlToggleBtn">
+              展开全部 (35 只)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 持仓明细 ===== -->
+    <div class="card">
+      <div class="card-header">
+        持仓明细
+        <span class="badge">35 只标的</span>
+      </div>
+      <div class="card-body" style="padding:0">
+        <!-- 筛选 -->
+        <div style="padding:14px 20px 10px;border-bottom:1px solid var(--border-lighter)">
+          <div class="filter-tabs">
+            <span class="filter-tab active" onclick="setFilter(this,'all')">全部 (35)</span>
+            <span class="filter-tab" onclick="setFilter(this,'CN')">A股 (12)</span>
+            <span class="filter-tab" onclick="setFilter(this,'HK')">港股 (8)</span>
+            <span class="filter-tab" onclick="setFilter(this,'US')">美股 (5)</span>
+            <span class="filter-tab" onclick="setFilter(this,'fund')">基金 (10)</span>
+          </div>
+        </div>
+
+        <!-- 表格 -->
+        <div style="overflow-x:auto">
+          <table class="data-table" style="min-width:1000px">
+            <thead>
+              <tr>
+                <th style="width:40px">#</th>
+                <th>标的</th>
+                <th>市场</th>
+                <th>分类</th>
+                <th style="text-align:right">数量</th>
+                <th style="text-align:right">均价</th>
+                <th style="text-align:right">最新价</th>
+                <th style="text-align:right;cursor:pointer" class="sortable" onclick="sortBy('market_value_cny')">
+                  市值 (CNY) <span class="arrow" id="arrow-market_value_cny"></span>
+                </th>
+                <th style="text-align:right;cursor:pointer" class="sortable" onclick="sortBy('weight')">
+                  仓位占比 <span class="arrow" id="arrow-weight">↓</span>
+                </th>
+                <th style="text-align:right;cursor:pointer" class="sortable" onclick="sortBy('pnl_cny')">
+                  盈亏 <span class="arrow" id="arrow-pnl_cny"></span>
+                </th>
+                <th style="text-align:right;cursor:pointer" class="sortable" onclick="sortBy('pnl_pct')">
+                  盈亏率 <span class="arrow" id="arrow-pnl_pct"></span>
+                </th>
+                <th style="width:120px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ===== Mock Data (35 positions) =====
+const COLORS = ['#409eff', '#67c23a', '#e6a23c', '#f56c6c', '#909399', '#b37feb', '#36cfc9', '#ffc53d'];
+
+const MOCK_POSITIONS = [
+  { code: '600519', name: '贵州茅台', market: 'CN', type: 'stock', qty: 100, avgCost: 1850, lastPrice: 1920.5, weight: 18.5, pnl: 7050, pnlPct: 3.81 },
+  { code: '09992', name: '泡泡玛特', market: 'HK', type: 'stock', qty: 2000, avgCost: 88.5, lastPrice: 150.5, weight: 12.8, pnl: 124000, pnlPct: 70.06 },
+  { code: '01810', name: '小米集团', market: 'HK', type: 'stock', qty: 5000, avgCost: 28.0, lastPrice: 30.0, weight: 6.4, pnl: 10000, pnlPct: 7.14 },
+  { code: 'AAPL', name: 'Apple Inc.', market: 'US', type: 'stock', qty: 50, avgCost: 178, lastPrice: 192.3, weight: 4.1, pnl: 715, pnlPct: 8.03 },
+  { code: '00700', name: '腾讯控股', market: 'HK', type: 'stock', qty: 300, avgCost: 380, lastPrice: 425.6, weight: 5.4, pnl: 13680, pnlPct: 12.0 },
+  { code: '000858', name: '五粮液', market: 'CN', type: 'stock', qty: 200, avgCost: 145, lastPrice: 138.2, weight: 2.6, pnl: -1360, pnlPct: -4.69 },
+  { code: '159915', name: '创业板ETF', market: 'CN', type: 'etf', qty: 10000, avgCost: 2.35, lastPrice: 2.28, weight: 2.2, pnl: -700, pnlPct: -2.98 },
+  { code: '513100', name: '纳指ETF', market: 'CN', type: 'etf', qty: 8000, avgCost: 1.52, lastPrice: 1.68, weight: 1.3, pnl: 1280, pnlPct: 10.53 },
+  { code: 'TSLA', name: 'Tesla Inc.', market: 'US', type: 'stock', qty: 20, avgCost: 245, lastPrice: 268.5, weight: 2.3, pnl: 470, pnlPct: 9.59 },
+  { code: '000333', name: '美的集团', market: 'CN', type: 'stock', qty: 300, avgCost: 58, lastPrice: 62.8, weight: 1.8, pnl: 1440, pnlPct: 8.28 },
+  { code: '110011', name: '易方达中小盘', market: 'CN', type: 'fund', qty: 5000, avgCost: 2.45, lastPrice: 2.52, weight: 1.2, pnl: 350, pnlPct: 2.86 },
+  { code: 'AMZN', name: 'Amazon.com', market: 'US', type: 'stock', qty: 10, avgCost: 178, lastPrice: 195.2, weight: 0.8, pnl: 172, pnlPct: 9.66 },
+  { code: '01211', name: '比亚迪股份', market: 'HK', type: 'stock', qty: 500, avgCost: 260, lastPrice: 245.5, weight: 5.2, pnl: -7250, pnlPct: -5.58 },
+  { code: '002415', name: '海康威视', market: 'CN', type: 'stock', qty: 400, avgCost: 35, lastPrice: 32.8, weight: 1.3, pnl: -880, pnlPct: -6.29 },
+  { code: '161725', name: '白酒基金', market: 'CN', type: 'fund', qty: 3000, avgCost: 1.85, lastPrice: 1.92, weight: 0.6, pnl: 210, pnlPct: 3.78 },
+  { code: 'MSFT', name: 'Microsoft Corp', market: 'US', type: 'stock', qty: 15, avgCost: 390, lastPrice: 415.2, weight: 2.7, pnl: 378, pnlPct: 6.46 },
+  { code: '00883', name: '中国海洋石油', market: 'HK', type: 'stock', qty: 1000, avgCost: 18.5, lastPrice: 19.8, weight: 0.8, pnl: 1300, pnlPct: 7.03 },
+  { code: '002594', name: '比亚迪', market: 'CN', type: 'stock', qty: 200, avgCost: 265, lastPrice: 258.5, weight: 5.0, pnl: -1300, pnlPct: -2.45 },
+  { code: '588000', name: '科创50ETF', market: 'CN', type: 'etf', qty: 5000, avgCost: 1.12, lastPrice: 1.08, weight: 0.5, pnl: -200, pnlPct: -3.57 },
+  { code: '00423', name: '经济观察报', market: 'HK', type: 'stock', qty: 2000, avgCost: 8.5, lastPrice: 6.8, weight: 0.6, pnl: -3400, pnlPct: -20.0 },
+  { code: '000001', name: '平安银行', market: 'CN', type: 'stock', qty: 1000, avgCost: 12.5, lastPrice: 11.8, weight: 1.1, pnl: -700, pnlPct: -5.6 },
+  { code: 'NFLX', name: 'Netflix Inc.', market: 'US', type: 'stock', qty: 8, avgCost: 580, lastPrice: 625.5, weight: 2.2, pnl: 364, pnlPct: 7.84 },
+  { code: '00941', name: '中国移动', market: 'HK', type: 'stock', qty: 500, avgCost: 68, lastPrice: 72.5, weight: 1.5, pnl: 2250, pnlPct: 6.62 },
+  { code: '000568', name: '泸州老窖', market: 'CN', type: 'stock', qty: 100, avgCost: 185, lastPrice: 172.3, weight: 1.7, pnl: -1270, pnlPct: -6.86 },
+  { code: '00857', name: '中国石油', market: 'HK', type: 'stock', qty: 2000, avgCost: 6.5, lastPrice: 7.2, weight: 0.6, pnl: 1400, pnlPct: 10.77 },
+  { code: '510300', name: '沪深300ETF', market: 'CN', type: 'etf', qty: 4000, avgCost: 4.12, lastPrice: 4.25, weight: 1.6, pnl: 520, pnlPct: 3.16 },
+  { code: '180012', name: '银华富裕主题', market: 'CN', type: 'fund', qty: 3000, avgCost: 2.85, lastPrice: 2.68, weight: 0.8, pnl: -510, pnlPct: -5.96 },
+  { code: '00669', name: '创科实业', market: 'HK', type: 'stock', qty: 500, avgCost: 95, lastPrice: 102.5, weight: 2.2, pnl: 3750, pnlPct: 7.89 },
+  { code: '0700', name: '腾讯控股', market: 'HK', type: 'stock', qty: 200, avgCost: 390, lastPrice: 425.6, weight: 3.6, pnl: 7120, pnlPct: 9.13 },
+  { code: '000651', name: '格力电器', market: 'CN', type: 'stock', qty: 300, avgCost: 42, lastPrice: 40.5, weight: 1.2, pnl: -450, pnlPct: -3.57 },
+  { code: '110003', name: '易方达上证50', market: 'CN', type: 'fund', qty: 5000, avgCost: 1.55, lastPrice: 1.62, weight: 0.8, pnl: 350, pnlPct: 4.52 },
+  { code: '005827', name: '易方达蓝筹精选', market: 'CN', type: 'fund', qty: 4000, avgCost: 1.95, lastPrice: 1.88, weight: 0.7, pnl: -280, pnlPct: -3.59 },
+  { code: 'GOOGL', name: 'Alphabet Inc.', market: 'US', type: 'stock', qty: 10, avgCost: 165, lastPrice: 178.5, weight: 0.8, pnl: 135, pnlPct: 8.18 },
+  { code: '01177', name: '中国生物制药', market: 'HK', type: 'stock', qty: 3000, avgCost: 4.5, lastPrice: 3.8, weight: 0.5, pnl: -2100, pnlPct: -15.56 },
+  { code: '512480', name: '半导体ETF', market: 'CN', type: 'etf', qty: 6000, avgCost: 0.95, lastPrice: 1.02, weight: 0.6, pnl: 420, pnlPct: 7.37 },
+];
+
+// ===== State =====
+let positions = [...MOCK_POSITIONS];
+let currentFilter = 'all';
+let currentSort = { field: 'weight', order: 'desc' };
+let pnlShowAll = false;
+let allocShowAll = false;
+
+// ===== Render Functions =====
+
+// --- Allocation Bar (Stacked) + Legend + List ---
+function renderAllocation() {
+  const sorted = [...positions].sort((a, b) => (b.weight || 0) - (a.weight || 0));
+  const top5 = sorted.slice(0, 5);
+  const others = sorted.slice(5);
+  const otherWeight = others.reduce((s, p) => s + (p.weight || 0), 0);
+  const totalWeight = sorted.reduce((s, p) => s + (p.weight || 0), 0);
+
+  // Stacked bar
+  const bar = document.getElementById('allocationBar');
+  bar.innerHTML = '';
+  const items = [...top5];
+  if (others.length > 0) items.push({ name: '其他', weight: otherWeight, isOther: true });
+  items.forEach((item, i) => {
+    const seg = document.createElement('div');
+    seg.className = 'allocation-bar-seg' + (item.isOther ? ' others' : '');
+    seg.style.flex = item.weight;
+    seg.style.background = item.isOther ? '#dcdfe6' : COLORS[i];
+    seg.title = `${item.name}: ${item.weight.toFixed(1)}%`;
+    bar.appendChild(seg);
+  });
+
+  // Legend
+  const legend = document.getElementById('allocationLegend');
+  legend.innerHTML = '';
+  top5.forEach((p, i) => {
+    const item = document.createElement('span');
+    item.className = 'allocation-legend-item';
+    item.innerHTML = `<span class="allocation-legend-dot" style="background:${COLORS[i]}"></span>${p.name} (${p.weight.toFixed(1)}%)`;
+    legend.appendChild(item);
+  });
+  if (others.length > 0) {
+    const item = document.createElement('span');
+    item.className = 'allocation-legend-item';
+    item.innerHTML = `<span class="allocation-legend-dot" style="background:#dcdfe6"></span>其他 (${others.length}只) ${otherWeight.toFixed(1)}%`;
+    legend.appendChild(item);
+  }
+
+  // Detail list — collapsible: show top 10 by default
+  const showCount = allocShowAll ? sorted.length : Math.min(10, sorted.length);
+  const displayList = sorted.slice(0, showCount);
+  const list = document.getElementById('allocationList');
+  list.innerHTML = '';
+  displayList.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'allocation-row';
+    const color = i < 5 ? COLORS[i] : '#dcdfe6';
+    row.innerHTML = `
+      <span class="dot" style="background:${color}"></span>
+      <span class="name">${p.name}<span class="code">${p.code}</span></span>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:${(p.weight / totalWeight * 100).toFixed(1)}%;background:${color}"></div></div>
+      <span class="pct">${p.weight.toFixed(1)}%</span>
+    `;
+    list.appendChild(row);
+  });
+
+  // Toggle button
+  const footer = document.getElementById('allocFooter');
+  const btn = document.getElementById('allocToggleBtn');
+  if (sorted.length > 10) {
+    footer.style.display = 'block';
+    btn.textContent = allocShowAll ? '收起' : `展开全部 (${sorted.length} 只)`;
+  } else {
+    footer.style.display = 'none';
+  }
+}
+
+// --- P&L Contribution ---
+function renderPnl() {
+  const sorted = [...positions].sort((a, b) => Math.abs(b.pnl) - Math.abs(a.pnl));
+  const display = pnlShowAll ? sorted : sorted.slice(0, 10);
+  const maxAbs = Math.max(...sorted.map(p => Math.abs(p.pnl)), 1);
+
+  const list = document.getElementById('pnlList');
+  list.innerHTML = '';
+  display.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'pnl-row';
+    const isUp = p.pnl >= 0;
+    const barPct = Math.min(50, (Math.abs(p.pnl) / maxAbs) * 50);
+    const sign = isUp ? '+' : '';
+    row.innerHTML = `
+      <div class="name">${p.name}<span class="code-tiny">${p.code}</span></div>
+      <div class="bar-wrap">
+        <div class="bar-fill ${isUp ? 'up' : 'down'}"
+          style="width:${barPct}%;${isUp ? 'left' : 'right'}:50%"></div>
+      </div>
+      <div class="value ${isUp ? 'up' : 'down'}">${sign}¥${Math.abs(p.pnl).toLocaleString()}</div>
+    `;
+    list.appendChild(row);
+  });
+
+  // Toggle button
+  const btn = document.getElementById('pnlToggleBtn');
+  if (sorted.length > 10) {
+    document.getElementById('pnlFooter').style.display = 'block';
+    btn.textContent = pnlShowAll ? `收起` : `展开全部 (${sorted.length} 只)`;
+  } else {
+    document.getElementById('pnlFooter').style.display = 'none';
+  }
+}
+
+function togglePnl() {
+  pnlShowAll = !pnlShowAll;
+  renderPnl();
+}
+
+function toggleAlloc() {
+  allocShowAll = !allocShowAll;
+  renderAllocation();
+}
+
+// --- Table ---
+function renderTable() {
+  let filtered = [...positions];
+  if (currentFilter === 'fund') filtered = filtered.filter(p => p.type === 'fund');
+  else if (currentFilter !== 'all') filtered = filtered.filter(p => p.market === currentFilter);
+
+  const { field, order } = currentSort;
+  filtered.sort((a, b) => {
+    const aVal = a[field] ?? 0;
+    const bVal = b[field] ?? 0;
+    return order === 'desc' ? bVal - aVal : aVal - bVal;
+  });
+
+  // Update arrows
+  document.querySelectorAll('.arrow').forEach(el => el.textContent = '');
+  const arrowEl = document.getElementById(`arrow-${field}`);
+  if (arrowEl) arrowEl.textContent = order === 'desc' ? '↓' : '↑';
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  filtered.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    const isUp = p.pnl >= 0;
+    const pnlSign = isUp ? '+' : '';
+    const pctSign = p.pnlPct >= 0 ? '+' : '';
+    tr.innerHTML = `
+      <td style="color:var(--text-secondary)">${i + 1}</td>
+      <td>
+        <div class="name-cell">
+          <div class="name-primary">${p.name}</div>
+          <div class="name-secondary">${p.code}</div>
+        </div>
+      </td>
+      <td><span class="tag tag-${p.market.toLowerCase()}">${p.market === 'CN' ? 'A股' : p.market === 'HK' ? '港股' : '美股'}</span></td>
+      <td><span class="tag ${p.type === 'fund' ? 'tag-fund' : p.type === 'etf' ? 'tag-cn' : ''}">${p.type === 'stock' ? '股票' : p.type === 'etf' ? 'ETF' : '基金'}</span></td>
+      <td style="text-align:right">${p.qty.toLocaleString()}</td>
+      <td style="text-align:right">¥${p.avgCost.toFixed(2)}</td>
+      <td style="text-align:right">¥${p.lastPrice.toFixed(2)}</td>
+      <td style="text-align:right">¥${(p.weight / 100 * 212826.3).toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+      <td style="text-align:right">
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px">
+          <div class="progress-bar"><div class="progress-fill" style="width:${p.weight}%;background:var(--primary)"></div></div>
+          <span style="width:45px;text-align:right">${p.weight.toFixed(1)}%</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:${isUp ? 'var(--stock-up)' : 'var(--stock-down)'};font-weight:500">
+        ${pnlSign}¥${Math.abs(p.pnl).toLocaleString()}
+      </td>
+      <td style="text-align:right;color:${isUp ? 'var(--stock-up)' : 'var(--stock-down)'};font-weight:500">
+        ${pctSign}${p.pnlPct.toFixed(2)}%
+      </td>
+      <td>
+        <button class="btn-text" onclick="alert('分析')">分析</button>
+        <button class="btn-text" onclick="alert('编辑')">编辑</button>
+        <button class="btn-text" style="color:var(--danger)" onclick="alert('删除')">删除</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// --- Filter ---
+function setFilter(el, key) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentFilter = key;
+  renderTable();
+}
+
+// --- Sort ---
+function sortBy(field) {
+  const fieldMap = { market_value_cny: 'weight', pnl_cny: 'pnl', pnl_pct: 'pnlPct', weight: 'weight' };
+  const mapped = fieldMap[field] || field;
+  if (currentSort.field === mapped) {
+    currentSort.order = currentSort.order === 'desc' ? 'asc' : 'desc';
+  } else {
+    currentSort.field = mapped;
+    currentSort.order = 'desc';
+  }
+  renderTable();
+}
+
+// ===== Init =====
+renderAllocation();
+renderPnl();
+renderTable();
+</script>
+
+</body>
+</html>

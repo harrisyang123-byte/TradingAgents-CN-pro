@@ -94,6 +94,11 @@ class AdvisorState(TypedDict, total=False):
     stock_judge_verdict: str
     stock_tool_call_count: int
 
+    # === L1/L2 Agent 计数器（分开，避免 Scout 和 Contrarian 互相影响） ===
+    market_tool_call_count: int     # L1 Market Strategist + Contrarian 共用
+    scout_tool_call_count: int      # L2 Scout 独立计数器
+    scontrarian_tool_call_count: int  # L2 Stock Contrarian 独立计数器
+
     # === L3/L4 Agent 计数器 ===
     analyst_tool_call_count: int    # L3 Analyst 工具调用计数
     strategist_tool_call_count: int # L3 Strategist 工具调用计数
