@@ -402,7 +402,16 @@ def enrich_price_context(positions: list, candidates: list) -> dict:
             continue
         market = pos.get("market", "") or _infer_market(code)
         logger.info(f"[PE] 计算 {code} ({market}) ...")
-        results[code] = compute_pe_context(code, market)
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+            try:
+                results[code] = ex.submit(compute_pe_context, code, market).result(timeout=15)
+            except concurrent.futures.TimeoutError:
+                logger.warning(f"[PE] {code} 计算超时 (15s)")
+                results[code] = _empty_result(code, market, "timeout")
+            except Exception as e:
+                logger.warning(f"[PE] {code} 计算异常: {e}")
+                results[code] = _empty_result(code, market, "data_unavailable")
 
     for c in candidates:
         code = c.get("code", "")
@@ -415,6 +424,15 @@ def enrich_price_context(positions: list, candidates: list) -> dict:
             continue
         market = c.get("market", "") or _infer_market(code)
         logger.info(f"[PE] 计算 {code} ({market}) ...")
-        results[code] = compute_pe_context(code, market)
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+            try:
+                results[code] = ex.submit(compute_pe_context, code, market).result(timeout=15)
+            except concurrent.futures.TimeoutError:
+                logger.warning(f"[PE] {code} 计算超时 (15s)")
+                results[code] = _empty_result(code, market, "timeout")
+            except Exception as e:
+                logger.warning(f"[PE] {code} 计算异常: {e}")
+                results[code] = _empty_result(code, market, "data_unavailable")
 
     return results
