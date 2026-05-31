@@ -83,34 +83,24 @@ class PortfolioAdvisorService:
         advice_id: str,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """异步执行组合顾问分析（在线程池中运行）"""
-        _executor.submit(
-            self._run_advice_sync,
-            user_id,
-            advice_id,
-            config_overrides or {},
+        """异步执行组合顾问分析（主事件循环后台任务，避免 Motor 跨 loop 问题）"""
+        import asyncio
+        asyncio.create_task(
+            self._execute_advice_wrapper(user_id, advice_id, config_overrides or {})
         )
 
-    def _run_advice_sync(
+    async def _execute_advice_wrapper(
         self,
         user_id: str,
         advice_id: str,
         config_overrides: Dict[str, Any],
     ) -> None:
-        """同步执行组合顾问分析（线程池中运行）"""
-        import asyncio
-
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        """包装 _execute_advice，捕获异常并标记失败"""
         try:
-            loop.run_until_complete(
-                self._execute_advice(user_id, advice_id, config_overrides)
-            )
+            await self._execute_advice(user_id, advice_id, config_overrides)
         except Exception as e:
             logger.error(f"组合顾问执行失败: {e}", exc_info=True)
-            loop.run_until_complete(self._mark_failed(advice_id, str(e)))
-        finally:
-            loop.close()
+            await self._mark_failed(advice_id, str(e))
 
     async def _execute_advice(
         self,

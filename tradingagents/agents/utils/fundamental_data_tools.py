@@ -24,6 +24,8 @@ def get_fundamentals(
 
     if market_info["is_china"]:
         return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
+    elif market_info["is_hk"]:
+        return interface.get_fundamentals_openai(ticker, curr_date)
     else:
         return interface.get_fundamentals_openai(ticker, curr_date)
 
@@ -48,6 +50,8 @@ def get_balance_sheet(
     market_info = StockUtils.get_market_info(ticker)
     if market_info["is_china"]:
         return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
+    if market_info["is_hk"]:
+        return _hk_financial_stmt_unavailable(ticker, "balance sheet", curr_date)
     return interface.get_simfin_balance_sheet(ticker, freq, curr_date)
 
 
@@ -71,6 +75,8 @@ def get_cashflow(
     market_info = StockUtils.get_market_info(ticker)
     if market_info["is_china"]:
         return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
+    if market_info["is_hk"]:
+        return _hk_financial_stmt_unavailable(ticker, "cash flow", curr_date)
     return interface.get_simfin_cashflow(ticker, freq, curr_date)
 
 
@@ -94,4 +100,16 @@ def get_income_statement(
     market_info = StockUtils.get_market_info(ticker)
     if market_info["is_china"]:
         return interface.get_china_stock_fundamentals_tushare(ticker, curr_date)
+    if market_info["is_hk"]:
+        return _hk_financial_stmt_unavailable(ticker, "income statement", curr_date)
     return interface.get_simfin_income_statements(ticker, freq, curr_date)
+
+
+def _hk_financial_stmt_unavailable(ticker: str, stmt_type: str, curr_date: str) -> str:
+    """港股财务报表数据不可用时的降级提示"""
+    return (
+        f"⚠️ 港股 {ticker} 的 {stmt_type} 报表数据不可用。"
+        f"SimFin 数据库仅覆盖美股，不包含港股财务报表。"
+        f"请基于已有的行情数据和技术面信息继续分析，不要为缺失的财务数据反复调用工具。"
+        f"（数据获取时间: {curr_date}）"
+    )

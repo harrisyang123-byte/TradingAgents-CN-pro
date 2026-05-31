@@ -30,6 +30,8 @@ class AdviceItem(TypedDict, total=False):
     max_loss_pct: str
     five_year_view: str
     bias_check: str
+    fund_role: str       # 行业暴露工具 / 主动alpha来源 / 现金管理工具
+    industry_bucket: str  # 标的归属的行业 bucket 名称
 
 
 class MarketDebateState(TypedDict, total=False):
@@ -90,6 +92,13 @@ class AdvisorState(TypedDict, total=False):
     stock_debate_state: StockDebateState
     stock_judge_verdict: str
     stock_tool_call_count: int
+
+    # === L3/L4 Agent 计数器 ===
+    analyst_tool_call_count: int    # L3 Analyst 工具调用计数
+    strategist_tool_call_count: int # L3 Strategist 工具调用计数
+    cio_tool_call_count: int        # L4 CIO (初稿) 工具调用计数
+    cio_final_tool_call_count: int  # L4 CIO Final 工具调用计数
+    risk_tool_call_count: int       # L4 Risk Director 工具调用计数
 
     # === Level 3: 组合构建（现有，保留） ===
     analyst_assessment: str

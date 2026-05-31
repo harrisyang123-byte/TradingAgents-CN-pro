@@ -1155,11 +1155,11 @@ def get_fundamentals_finnhub(ticker, curr_date):
 
 def get_fundamentals_openai(ticker, curr_date):
     """
-    获取美股基本面数据，使用数据源管理器自动选择和降级
+    获取美股/港股基本面数据，使用数据源管理器自动选择和降级
 
     支持的数据源（按数据库配置的优先级）：
     - Alpha Vantage: 基本面和新闻数据（准确度高）
-    - yfinance: 股票价格和基本信息（免费）
+    - yfinance: 股票价格和基本信息（免费，支持美股+港股）
     - Finnhub: 备用数据源
     - OpenAI: 使用 AI 搜索基本面信息（需要配置）
 
@@ -1177,6 +1177,16 @@ def get_fundamentals_openai(ticker, curr_date):
         from .data_source_manager import get_us_data_source_manager, USDataSource
 
         cache = get_cache()
+
+        # ── 港股特殊处理：仅 yfinance 支持 ──
+        try:
+            from tradingagents.utils.stock_utils import StockUtils
+            market_info = StockUtils.get_market_info(ticker)
+            if market_info.get("is_hk"):
+                return _get_hk_fundamentals_via_yfinance(ticker, curr_date, cache)
+        except ImportError:
+            pass
+
         us_manager = get_us_data_source_manager()
 
         # 检查缓存 - 按数据源优先级检查
@@ -1276,6 +1286,89 @@ def _get_fundamentals_alpha_vantage(ticker, curr_date, cache):
     except Exception as e:
         logger.warning(f"⚠️ [Alpha Vantage] 获取失败: {e}")
         return None
+
+
+def _get_hk_fundamentals_via_yfinance(ticker: str, curr_date: str, cache) -> str:
+    """港股基本面数据获取 —— 仅通过 yfinance（美股数据源不支持港股）"""
+    import re
+
+    # 规范化 ticker：yfinance 需要 "1810.HK" 格式（无前导零）
+    clean = ticker.replace(".HK", "").replace(".hk", "").lstrip("0") or "0"
+    yf_ticker = f"{clean}.HK"
+
+    logger.info(f"🇭🇰 [港股基本面] {ticker} → yfinance 查询 {yf_ticker}")
+
+    try:
+        import yfinance as yf
+        tk = yf.Ticker(yf_ticker)
+        info = tk.info
+
+        if info and len(info) > 5:
+            result = f"""# {ticker} 基本面数据 (来源: Yahoo Finance · 港股)
+
+## 公司信息
+- 公司名称: {info.get('longName', info.get('shortName', 'N/A'))}
+- 行业: {info.get('industry', 'N/A')}
+- 板块: {info.get('sector', 'N/A')}
+- 网站: {info.get('website', 'N/A')}
+- 国家: {info.get('country', 'N/A')}
+
+## 估值指标
+- 市值: {info.get('marketCap', 'N/A')}
+- PE比率(TTM): {info.get('trailingPE', 'N/A')}
+- 前瞻PE: {info.get('forwardPE', 'N/A')}
+- PB比率: {info.get('priceToBook', 'N/A')}
+- PS比率: {info.get('priceToSalesTrailing12Months', 'N/A')}
+
+## 财务指标
+- 总收入: {info.get('totalRevenue', 'N/A')}
+- 毛利润: {info.get('grossProfits', 'N/A')}
+- EBITDA: {info.get('ebitda', 'N/A')}
+- 每股收益(EPS): {info.get('trailingEps', 'N/A')}
+- 股息率: {info.get('dividendYield', 'N/A')}
+
+## 盈利能力
+- 利润率: {info.get('profitMargins', 'N/A')}
+- 营业利润率: {info.get('operatingMargins', 'N/A')}
+- ROE: {info.get('returnOnEquity', 'N/A')}
+- ROA: {info.get('returnOnAssets', 'N/A')}
+
+## 股价信息
+- 当前价格: {info.get('currentPrice', info.get('regularMarketPrice', 'N/A'))}
+- 52周最高: {info.get('fiftyTwoWeekHigh', 'N/A')}
+- 52周最低: {info.get('fiftyTwoWeekLow', 'N/A')}
+- 50日均线: {info.get('fiftyDayAverage', 'N/A')}
+- 200日均线: {info.get('twoHundredDayAverage', 'N/A')}
+
+## 分析师评级
+- 目标价: {info.get('targetMeanPrice', 'N/A')}
+- 推荐评级: {info.get('recommendationKey', 'N/A')}
+
+数据获取时间: {curr_date}
+"""
+            cache.save_fundamentals_data(ticker, result, data_source="yfinance")
+            logger.info(f"✅ [港股基本面] yfinance 获取成功: {ticker}")
+            return result
+        else:
+            logger.warning(f"⚠️ [港股基本面] yfinance 返回数据不完整: {ticker}")
+    except Exception as e:
+        logger.warning(f"⚠️ [港股基本面] yfinance 失败: {e}")
+
+    # yfinance 不可用 → 返回可用信息（来自行情数据）
+    logger.info(f"🇭🇰 [港股基本面] 降级为基本信息提示: {ticker}")
+    return f"""# {ticker} 基本面数据 (港股 · 数据受限)
+
+⚠️ **港股基本面数据源受限**：yfinance 暂未返回该标的完整基本面数据。
+
+## 替代数据获取建议
+1. **行情与技术面**：价格、均线、成交量等市场数据已通过 AKShare/yfinance 获取，可供技术分析师使用
+2. **新闻与舆情**：可通过搜索工具获取最新新闻及机构研报
+3. **手动补充**：建议用户参考港交所披露易 (HKEXnews) 或财报文件
+
+请基于已有数据（行情、技术指标、新闻舆论）继续分析，不必等待基本面数据。
+
+数据获取时间: {curr_date}
+"""
 
 
 def _get_fundamentals_yfinance(ticker, curr_date, cache):

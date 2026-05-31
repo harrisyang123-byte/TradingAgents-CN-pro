@@ -13,7 +13,7 @@
             已覆盖 {{ overview.covered_count }} · 陈旧 {{ overview.stale_count }} · 未覆盖 {{ overview.never_count }}
           </span>
         </div>
-        <button class="btn btn-plain btn-sm" @click="loadOverview">刷新</button>
+        <button class="btn btn-plain btn-sm" @click="loadOverview(true)">刷新</button>
       </div>
 
       <!-- 统计卡片 -->
@@ -53,18 +53,18 @@
             <table class="industry-table">
               <thead>
                 <tr>
-                  <th style="width:180px">行业</th>
-                  <th style="width:72px">仓位</th>
-                  <th style="width:72px">评级</th>
-                  <th style="width:100px">持仓标的</th>
-                  <th style="width:72px">覆盖</th>
-                  <th style="width:72px">深度</th>
+                  <th style="width:180px;cursor:pointer" @click="toggleMatrixSort('industry')">行业{{ matrixSortArrow('industry') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('holdings_weight')">仓位{{ matrixSortArrow('holdings_weight') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('go_nogo')">评级{{ matrixSortArrow('go_nogo') }}</th>
+                  <th style="width:100px;cursor:pointer" @click="toggleMatrixSort('position_names')">持仓标的{{ matrixSortArrow('position_names') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('coverage_status')">覆盖{{ matrixSortArrow('coverage_status') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('depth')">深度{{ matrixSortArrow('depth') }}</th>
                   <th>判断摘要</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
-                  v-for="row in overview.matrix"
+                  v-for="row in sortedMatrix"
                   :key="row.industry"
                   class="industry-row"
                   :class="{ 'row-go': row.go_nogo === 'Go', 'row-nogo': row.go_nogo === 'NoGo' }"
@@ -251,6 +251,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { portfolioApi, type PortfolioAdvice, type AdviceItem, type IndustryOverviewRow } from '@/api/paper'
 import DecisionCard from '@/components/Analysis/DecisionCard.vue'
+import { usePageCache } from '@/composables/usePageCache'
+
+const { loadWithCache, forceRefresh } = usePageCache()
 
 const loading = ref(false)
 const overview = ref<{
@@ -266,6 +269,57 @@ const overview = ref<{
 const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
+
+// 矩阵排序
+const matrixSortField = ref<string>('holdings_weight')
+const matrixSortOrder = ref<'asc' | 'desc'>('desc')
+
+const sortedMatrix = computed(() => {
+  if (!overview.value?.matrix) return []
+  const rows = [...overview.value.matrix]
+  const field = matrixSortField.value
+  const order = matrixSortOrder.value === 'desc' ? -1 : 1
+  rows.sort((a: any, b: any) => {
+    let va: any, vb: any
+    if (field === 'position_names') {
+      va = a.position_names?.length || 0
+      vb = b.position_names?.length || 0
+    } else if (field === 'go_nogo') {
+      // Go > NoGo > 空
+      const rank: Record<string, number> = { 'Go': 2, 'NoGo': 1 }
+      va = rank[a.go_nogo || ''] || 0
+      vb = rank[b.go_nogo || ''] || 0
+    } else if (field === 'coverage_status') {
+      const rank: Record<string, number> = { 'covered': 3, 'stale': 2, 'planned': 1, 'never': 0 }
+      va = rank[a.coverage_status || ''] ?? 0
+      vb = rank[b.coverage_status || ''] ?? 0
+    } else if (field === 'depth') {
+      const rank: Record<string, number> = { 'deep': 3, 'opportunity': 2, 'light': 1 }
+      va = rank[a.depth || ''] ?? 0
+      vb = rank[b.depth || ''] ?? 0
+    } else {
+      va = a[field] ?? ''
+      vb = b[field] ?? ''
+    }
+    if (typeof va === 'string') return va.localeCompare(vb) * order
+    return (va - vb) * order
+  })
+  return rows
+})
+
+function toggleMatrixSort(field: string) {
+  if (matrixSortField.value === field) {
+    matrixSortOrder.value = matrixSortOrder.value === 'desc' ? 'asc' : 'desc'
+  } else {
+    matrixSortField.value = field
+    matrixSortOrder.value = 'desc'
+  }
+}
+
+function matrixSortArrow(field: string) {
+  if (matrixSortField.value !== field) return ''
+  return matrixSortOrder.value === 'desc' ? ' ↓' : ' ↑'
+}
 
 // 持仓抽屉
 const showPositionsDrawer = ref(false)
@@ -295,23 +349,26 @@ function coverageLabel(s: string) {
   return s === 'covered' ? '已覆盖' : s === 'stale' ? '陈旧' : s === 'planned' ? '计划中' : '未覆盖'
 }
 
-async function loadOverview() {
+async function loadOverview(force = false) {
   loading.value = true
   try {
-    const res = await portfolioApi.getPortfolioOverview()
-    if (res.success) {
-      overview.value = res.data
-    }
+    const fn = force ? forceRefresh : loadWithCache
+    overview.value = await fn('overview', async () => {
+      const res = await portfolioApi.getPortfolioOverview()
+      if (res.success) return res.data
+      throw new Error('API failed')
+    })
   } catch { /* ignore */ }
   loading.value = false
 }
 
 async function loadHistory() {
   try {
-    const res = await portfolioApi.getAdviceHistory(1, 20)
-    if (res.success) {
-      adviceHistory.value = (res.data.items || []).filter((a: PortfolioAdvice) => a.status === 'COMPLETED')
-    }
+    adviceHistory.value = await loadWithCache('advice-history', async () => {
+      const res = await portfolioApi.getAdviceHistory(1, 20)
+      if (res.success) return (res.data.items || []).filter((a: PortfolioAdvice) => a.status === 'COMPLETED')
+      throw new Error('API failed')
+    })
   } catch { /* ignore */ }
 }
 

@@ -176,6 +176,133 @@ class ReportListResponse(BaseModel):
     page: int
     page_size: int
 
+async def _convert_report_doc(doc: dict) -> dict:
+    """将 analysis_reports 文档转为前端列表格式"""
+    stock_code = doc.get("stock_symbol", "")
+    stock_name = doc.get("stock_name")
+    if not stock_name or stock_name == stock_code or stock_name.startswith("股票"):
+        stock_name = get_stock_name(stock_code)
+        if stock_name == stock_code or stock_name.startswith("股票"):
+            extracted = _extract_name_from_summary(doc.get("summary", ""), stock_code)
+            if extracted:
+                stock_name = extracted
+                _stock_name_cache[stock_code] = extracted
+        if not stock_name:
+            stock_name = f"股票{stock_code}" if len(stock_code) == 6 else stock_code
+
+    market_type = doc.get("market_type")
+    if not market_type:
+        from tradingagents.utils.stock_utils import StockUtils
+        market_info = StockUtils.get_market_info(stock_code)
+        market_type_map = {"china_a": "A股", "hong_kong": "港股", "us": "美股", "unknown": "A股"}
+        market_type = market_type_map.get(market_info.get("market", "unknown"), "A股")
+
+    created_at = doc.get("created_at", datetime.utcnow())
+    created_at_tz = to_config_tz(created_at)
+
+    if not stock_code:
+        aid = doc.get("analysis_id", "")
+        parts = aid.split("_")
+        if parts and len(parts[0]) >= 5 and parts[0] != "None":
+            stock_code = parts[0]
+        if not stock_code:
+            stock_code = _extract_code_from_summary(doc.get("summary", ""))
+
+    return {
+        "id": str(doc["_id"]),
+        "analysis_id": doc.get("analysis_id", ""),
+        "title": f"{stock_name}({stock_code}) 分析报告" if stock_code else f"{stock_name} 分析报告",
+        "stock_code": stock_code,
+        "stock_name": stock_name,
+        "market_type": market_type,
+        "model_info": doc.get("model_info", "Unknown"),
+        "type": doc.get("report_type", "single"),
+        "format": "markdown",
+        "status": doc.get("status", "completed"),
+        "created_at": created_at_tz.isoformat() if created_at_tz else str(created_at),
+        "analysis_date": doc.get("analysis_date", ""),
+        "analysts": doc.get("analysts", []),
+        "research_depth": doc.get("research_depth", 1),
+        "summary": doc.get("summary", ""),
+        "file_size": len(str(doc.get("reports", {}))),
+        "source": doc.get("source", "unknown"),
+        "task_id": doc.get("task_id", "")
+    }
+
+
+async def _list_from_analysis_tasks(db, query: dict, user_id: str) -> List[Dict]:
+    """从 analysis_tasks 收集已完成任务并转为报告列表格式"""
+    tasks_query = {"user_id": user_id, "status": "completed"}
+    if query.get("stock_symbol"):
+        tasks_query["result.stock_symbol"] = query["stock_symbol"]
+    if "analysis_date" in query:
+        date_q = {}
+        if "$gte" in query["analysis_date"]:
+            date_q["$gte"] = query["analysis_date"]["$gte"]
+        if "$lte" in query["analysis_date"]:
+            date_q["$lte"] = query["analysis_date"]["$lte"]
+        tasks_query["created_at"] = date_q
+    if query.get("report_type"):
+        tasks_query["report_type"] = query["report_type"]
+
+    cursor = db.analysis_tasks.find(
+        tasks_query,
+        {"task_id": 1, "status": 1, "created_at": 1, "completed_at": 1,
+         "stock_code": 1, "stock_symbol": 1, "result.analysis_id": 1,
+         "result.summary": 1, "result.stock_symbol": 1, "result.stock_name": 1,
+         "result.market_type": 1, "result.model_info": 1, "result.recommendation": 1,
+         "result.reports": 1, "parameters.market_type": 1}
+    ).sort("created_at", -1)
+
+    reports = []
+    async for doc in cursor:
+        r = doc.get("result") or {}
+        stock_symbol = r.get("stock_symbol") or doc.get("stock_symbol") or doc.get("stock_code", "")
+
+        # 摘要关键词搜索
+        if query.get("$or"):
+            search_text = r.get("summary", "") + " " + stock_symbol + " " + (r.get("analysis_id") or "")
+            if not any(kw.lower() in search_text.lower()
+                       for or_clause in query["$or"]
+                       for kw in [or_clause[k].get("$regex", "") for k in or_clause
+                                  if isinstance(or_clause, dict)]):
+                continue
+
+        stock_name = r.get("stock_name") or get_stock_name(stock_symbol)
+        market_type = r.get("market_type") or doc.get("parameters", {}).get("market_type", "")
+        if not market_type:
+            from tradingagents.utils.stock_utils import StockUtils
+            market_info = StockUtils.get_market_info(stock_symbol)
+            market_type_map = {"china_a": "A股", "hong_kong": "港股", "us": "美股", "unknown": "A股"}
+            market_type = market_type_map.get(market_info.get("market", "unknown"), "A股")
+
+        created_at = doc.get("created_at")
+        if hasattr(created_at, "isoformat"):
+            created_at = created_at.isoformat()
+
+        reports.append({
+            "id": str(doc["_id"]),
+            "analysis_id": r.get("analysis_id", ""),
+            "title": f"{stock_name}({stock_symbol}) 分析报告",
+            "stock_code": stock_symbol,
+            "stock_name": stock_name,
+            "market_type": market_type,
+            "model_info": r.get("model_info", "Unknown"),
+            "type": "single",
+            "format": "markdown",
+            "status": "completed",
+            "created_at": str(created_at),
+            "analysis_date": str(created_at)[:10],
+            "analysts": [],
+            "research_depth": 1,
+            "summary": (r.get("summary") or "")[:200],
+            "file_size": len(str(r.get("reports", {}))),
+            "source": "analysis_tasks",
+            "task_id": doc.get("task_id", "")
+        })
+    return reports
+
+
 @router.get("/list", response_model=Dict[str, Any])
 async def get_reports_list(
     page: int = Query(1, ge=1, description="页码"),
@@ -228,85 +355,36 @@ async def get_reports_list(
 
         logger.info(f"📊 查询条件: {query}")
 
-        # 计算总数
-        total = await db.analysis_reports.count_documents(query)
-
-        # 分页查询
-        skip = (page - 1) * page_size
-        cursor = db.analysis_reports.find(query).sort("created_at", -1).skip(skip).limit(page_size)
-
+        # ---- 收集两个集合的数据 ----
         reports = []
+
+        # 1. analysis_reports 集合
+        cursor = db.analysis_reports.find(query).sort("created_at", -1)
         async for doc in cursor:
-            # 转换为前端需要的格式
-            stock_code = doc.get("stock_symbol", "")
-            # 🔥 优先使用MongoDB中保存的股票名称，如果没有则查询
-            stock_name = doc.get("stock_name")
-            if not stock_name or stock_name == stock_code or stock_name.startswith("股票"):
-                stock_name = get_stock_name(stock_code)
-                # 如果还是泛用名，尝试从摘要中提取
-                if stock_name == stock_code or stock_name.startswith("股票"):
-                    extracted = _extract_name_from_summary(doc.get("summary", ""), stock_code)
-                    if extracted:
-                        stock_name = extracted
-                        _stock_name_cache[stock_code] = extracted
-                if not stock_name:
-                    stock_name = f"股票{stock_code}" if len(stock_code) == 6 else stock_code
+            reports.append(_convert_report_doc(doc))
 
-            # 🔥 获取市场类型，如果没有则根据股票代码推断
-            market_type = doc.get("market_type")
-            if not market_type:
-                from tradingagents.utils.stock_utils import StockUtils
-                market_info = StockUtils.get_market_info(stock_code)
-                market_type_map = {
-                    "china_a": "A股",
-                    "hong_kong": "港股",
-                    "us": "美股",
-                    "unknown": "A股"
-                }
-                market_type = market_type_map.get(market_info.get("market", "unknown"), "A股")
+        # 2. analysis_tasks 集合（已完成且有 result 的任务）
+        tasks_reports = await _list_from_analysis_tasks(db, query, user["id"])
+        seen_ids = {r.get("analysis_id") or r.get("task_id") for r in reports}
+        for tr in tasks_reports:
+            key = tr.get("analysis_id") or tr.get("task_id")
+            if key and key not in seen_ids:
+                seen_ids.add(key)
+                reports.append(tr)
 
-            # 获取创建时间（数据库中是 UTC 时间，需要转换为 UTC+8）
-            created_at = doc.get("created_at", datetime.utcnow())
-            created_at_tz = to_config_tz(created_at)  # 转换为 UTC+8 并添加时区信息
+        # 按创建时间倒序
+        reports.sort(key=lambda x: x.get("created_at", ""), reverse=True)
 
-            # 如果 stock_code 为空，尝试从 analysis_id 中提取
-            if not stock_code:
-                aid = doc.get("analysis_id", "")
-                parts = aid.split("_")
-                if parts and len(parts[0]) >= 5 and parts[0] != "None":
-                    stock_code = parts[0]
-                # 兜底：从摘要中提取代码
-                if not stock_code:
-                    stock_code = _extract_code_from_summary(doc.get("summary", ""))
+        total = len(reports)
+        skip = (page - 1) * page_size
+        paged = reports[skip: skip + page_size]
 
-            report = {
-                "id": str(doc["_id"]),
-                "analysis_id": doc.get("analysis_id", ""),
-                "title": f"{stock_name}({stock_code}) 分析报告" if stock_code else f"{stock_name} 分析报告",
-                "stock_code": stock_code,
-                "stock_name": stock_name,
-                "market_type": market_type,  # 🔥 添加市场类型字段
-                "model_info": doc.get("model_info", "Unknown"),  # 🔥 添加模型信息字段
-                "type": doc.get("report_type", "single"),  # 动态读取报告类型
-                "format": "markdown",  # 主要格式
-                "status": doc.get("status", "completed"),
-                "created_at": created_at_tz.isoformat() if created_at_tz else str(created_at),
-                "analysis_date": doc.get("analysis_date", ""),
-                "analysts": doc.get("analysts", []),
-                "research_depth": doc.get("research_depth", 1),
-                "summary": doc.get("summary", ""),
-                "file_size": len(str(doc.get("reports", {}))),  # 估算大小
-                "source": doc.get("source", "unknown"),
-                "task_id": doc.get("task_id", "")
-            }
-            reports.append(report)
-
-        logger.info(f"✅ 查询完成: 总数={total}, 返回={len(reports)}")
+        logger.info(f"✅ 查询完成: 总数={total}, 返回={len(paged)}")
 
         return {
             "success": True,
             "data": {
-                "reports": reports,
+                "reports": paged,
                 "total": total,
                 "page": page,
                 "page_size": page_size

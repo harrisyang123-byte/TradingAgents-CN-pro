@@ -2,8 +2,8 @@
 
 L1: Market Strategist ↔ Contrarian → Macro Judge (行业方向)
 L2: Scout ↔ Stock Contrarian → Stock Judge (标的筛选)
-L3: Analyst ↔ Strategist ↔ Scout (组合构建，现有保留)
-L4: CIO → Risk Director → debate → CIO 终裁 (最终处方)
+L3: Analyst(Agent) → Strategist(Agent) → Scout(LLM) → debate (组合构建)
+L4: CIO(Agent) → Risk Director(Agent) → debate → CIO Final(Agent) (最终处方)
 """
 
 from __future__ import annotations
@@ -30,6 +30,10 @@ from tradingagents.agents.advisors import (
     L1_TOOLS,
     L2_TOOLS,
 )
+from tradingagents.agents.advisors.cio_tools import create_cio_tools
+from tradingagents.agents.advisors.analyst_tools import create_analyst_tools
+from tradingagents.agents.advisors.strategist_tools import create_strategist_tools
+from tradingagents.agents.advisors.risk_tools import create_risk_tools
 from tradingagents.dataflows.pe_percentile import enrich_price_context
 from tradingagents.utils.logging_init import get_logger
 from app.services.portfolio_audit_service import audit_positions
@@ -368,6 +372,19 @@ class AdvisorGraph:
         self.graph = self._build_graph()
 
     def _build_graph(self) -> Any:
+        # ── L3/L4 共享状态引用（工具通过该引用读取 state） ──
+        _shared_state = {}
+
+        # ── L3/L4 工具实例（共享同一 state 引用） ──
+        ANALYST_TOOLS = create_analyst_tools(
+            lambda: _shared_state.get("state", {}))
+        STRATEGIST_TOOLS = create_strategist_tools(
+            lambda: _shared_state.get("state", {}))
+        CIO_TOOLS = create_cio_tools(
+            lambda: _shared_state.get("state", {}))
+        RISK_TOOLS = create_risk_tools(
+            lambda: _shared_state.get("state", {}))
+
         # ── Agent 节点 ──
         market_strategist = create_market_strategist(self.llm)
         contrarian = create_contrarian(self.llm)
@@ -375,17 +392,26 @@ class AdvisorGraph:
         scout = create_scout(self.llm)
         stock_contrarian = create_stock_contrarian(self.llm)
         stock_judge = create_stock_judge(self.llm)
-        portfolio_analyst = create_portfolio_analyst(self.llm)
-        strategist = create_strategist(self.llm)
+        portfolio_analyst = create_portfolio_analyst(
+            self.llm, tools=ANALYST_TOOLS, shared_state=_shared_state)
+        strategist = create_strategist(
+            self.llm, tools=STRATEGIST_TOOLS, shared_state=_shared_state)
         l3_scout = _create_l3_scout(self.llm)
-        cio = create_cio(self.llm)
-        risk_director = create_risk_director(self.llm)
+        cio = create_cio(
+            self.llm, tools=CIO_TOOLS, shared_state=_shared_state)
+        risk_director = create_risk_director(
+            self.llm, tools=RISK_TOOLS, shared_state=_shared_state)
 
-        # ── 工具执行节点 ──
+        # ── 工具执行节点（L1/L2 维持原状；L3/L4 新加） ──
         tools_l1_market = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
         tools_l1_contrarian = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
         tools_l2_scout = _make_tool_executor(L2_TOOLS, "stock_tool_call_count")
         tools_l2_scontrarian = _make_tool_executor(L2_TOOLS, "stock_tool_call_count")
+        tools_l3_analyst = _make_tool_executor(ANALYST_TOOLS, "analyst_tool_call_count")
+        tools_l3_strategist = _make_tool_executor(STRATEGIST_TOOLS, "strategist_tool_call_count")
+        tools_l4_cio = _make_tool_executor(CIO_TOOLS, "cio_tool_call_count")
+        tools_l4_risk = _make_tool_executor(RISK_TOOLS, "risk_tool_call_count")
+        tools_l4_cio_final = _make_tool_executor(CIO_TOOLS, "cio_final_tool_call_count")
 
         # ── 辩论节点 ──
         # L1 辩论 (2人交替)
@@ -428,6 +454,18 @@ class AdvisorGraph:
         l1_router_contrarian = _make_tool_router("market_tool_call_count", "msg_clear_l1b", "contrarian")
         l2_router_scout = _make_tool_router("stock_tool_call_count", "msg_clear_l2a", "scout")
         l2_router_scontrarian = _make_tool_router("stock_tool_call_count", "msg_clear_l2b", "stock_contrarian")
+
+        # ── L3/L4 工具路由（新增） ──
+        l3_router_analyst = _make_tool_router(
+            "analyst_tool_call_count", "msg_clear_l3a", "Analyst")
+        l3_router_strategist = _make_tool_router(
+            "strategist_tool_call_count", "msg_clear_l3b", "Strategist")
+        l4_router_cio = _make_tool_router(
+            "cio_tool_call_count", "msg_clear_l4a", "CIO")
+        l4_router_risk = _make_tool_router(
+            "risk_tool_call_count", "msg_clear_l4b", "Risk_Director")
+        l4_router_cio_final = _make_tool_router(
+            "cio_final_tool_call_count", "cio_final_end", "CIO_Final")
 
         market_debate_router = _make_debate_router(
             "market_debate_state",
@@ -539,18 +577,39 @@ class AdvisorGraph:
 
         workflow.add_edge("stock_judge", "msg_clear_final_l2")
 
-        # === Level 3: 组合构建（现有逻辑） ===
+        # === Level 3: 组合构建（工具型 Agent） ===
         workflow.add_node("Analyst", portfolio_analyst)
         workflow.add_node("Strategist", strategist)
         workflow.add_node("Scout_L3", l3_scout)
+        workflow.add_node("tools_l3_analyst", tools_l3_analyst)
+        workflow.add_node("tools_l3_strategist", tools_l3_strategist)
+        workflow.add_node("msg_clear_l3a", _msg_clear_node)
+        workflow.add_node("msg_clear_l3b", _msg_clear_node)
         workflow.add_node("debate_analyst", debate_analyst)
         workflow.add_node("debate_strategist", debate_strategist)
         workflow.add_node("debate_scout_l3", debate_scout_l3)
         workflow.add_node("debate_advisor_ctr", debate_advisor_ctr)
 
+        # L3: Analyst tool loop
         workflow.add_edge("msg_clear_final_l2", "Analyst")
-        workflow.add_edge("Analyst", "Strategist")
-        workflow.add_edge("Strategist", "Scout_L3")
+        workflow.add_conditional_edges("Analyst", l3_router_analyst, {
+            "tools": "tools_l3_analyst",
+            "Analyst": "Analyst",
+            "msg_clear_l3a": "msg_clear_l3a",
+        })
+        workflow.add_edge("tools_l3_analyst", "Analyst")
+        workflow.add_edge("msg_clear_l3a", "Strategist")
+
+        # L3: Strategist tool loop
+        workflow.add_conditional_edges("Strategist", l3_router_strategist, {
+            "tools": "tools_l3_strategist",
+            "Strategist": "Strategist",
+            "msg_clear_l3b": "msg_clear_l3b",
+        })
+        workflow.add_edge("tools_l3_strategist", "Strategist")
+        workflow.add_edge("msg_clear_l3b", "Scout_L3")
+
+        # L3: Scout (纯 prompt) + debate
         workflow.add_edge("Scout_L3", "debate_analyst")
         workflow.add_edge("debate_analyst", "debate_strategist")
         workflow.add_edge("debate_strategist", "debate_scout_l3")
@@ -560,26 +619,53 @@ class AdvisorGraph:
             "CIO": "enrich_price_data",
         })
 
-        # === Level 4: 最终处方 ===
+        # === Level 4: 最终处方（工具型 Agent） ===
         workflow.add_node("enrich_price_data", enrich_price_data_node)
         workflow.add_node("CIO", cio)
         workflow.add_node("Risk_Director", risk_director)
+        workflow.add_node("tools_l4_cio", tools_l4_cio)
+        workflow.add_node("tools_l4_risk", tools_l4_risk)
+        workflow.add_node("tools_l4_cio_final", tools_l4_cio_final)
+        workflow.add_node("msg_clear_l4a", _msg_clear_node)
+        workflow.add_node("msg_clear_l4b", _msg_clear_node)
         workflow.add_node("debate_cio_l4", debate_cio_l4)
         workflow.add_node("debate_riskdir_l4", debate_riskdir_l4)
         workflow.add_node("debate_final_ctr", debate_final_ctr)
         workflow.add_node("CIO_Final", cio)
 
-        # L4: enrich → CIO → Risk Director → debate → CIO 终裁
+        # L4: enrich → CIO (tool loop)
         workflow.add_edge("enrich_price_data", "CIO")
-        workflow.add_edge("CIO", "Risk_Director")
-        workflow.add_edge("Risk_Director", "debate_cio_l4")
+        workflow.add_conditional_edges("CIO", l4_router_cio, {
+            "tools": "tools_l4_cio",
+            "CIO": "CIO",
+            "msg_clear_l4a": "msg_clear_l4a",
+        })
+        workflow.add_edge("tools_l4_cio", "CIO")
+        workflow.add_edge("msg_clear_l4a", "Risk_Director")
+
+        # L4: Risk Director (tool loop) → debate
+        workflow.add_conditional_edges("Risk_Director", l4_router_risk, {
+            "tools": "tools_l4_risk",
+            "Risk_Director": "Risk_Director",
+            "msg_clear_l4b": "msg_clear_l4b",
+        })
+        workflow.add_edge("tools_l4_risk", "Risk_Director")
+        workflow.add_edge("msg_clear_l4b", "debate_cio_l4")
+
+        # L4: debate → CIO Final (tool loop) → END
         workflow.add_edge("debate_cio_l4", "debate_riskdir_l4")
         workflow.add_edge("debate_riskdir_l4", "debate_final_ctr")
         workflow.add_conditional_edges("debate_final_ctr", final_debate_router, {
             "debate_cio": "debate_cio_l4",
             "cio_final": "CIO_Final",
         })
-        workflow.add_edge("CIO_Final", END)
+
+        workflow.add_conditional_edges("CIO_Final", l4_router_cio_final, {
+            "tools": "tools_l4_cio_final",
+            "CIO_Final": "CIO_Final",
+            "cio_final_end": END,
+        })
+        workflow.add_edge("tools_l4_cio_final", "CIO_Final")
 
         return workflow.compile()
 
@@ -855,9 +941,15 @@ class AdvisorGraph:
             "final_debate_rounds": config_overrides.get(
                 "final_debate_rounds", self.config.get("final_debate_rounds", 1)),
             "max_prescription_items": config_overrides.get(
-                "max_prescription_items", self.config.get("max_prescription_items", 8)),
+                "max_prescription_items", self.config.get("max_prescription_items", 30)),
             "rebalance_preference": config_overrides.get(
                 "rebalance_preference", self.config.get("rebalance_preference", "opportunistic")),
+            # L3/L4 计数器
+            "analyst_tool_call_count": 0,
+            "strategist_tool_call_count": 0,
+            "cio_tool_call_count": 0,
+            "cio_final_tool_call_count": 0,
+            "risk_tool_call_count": 0,
         }
 
         node_mapping = {
@@ -896,6 +988,15 @@ class AdvisorGraph:
             "debate_riskdir_l4": "L4-辩论(风险总监)",
             "debate_final_ctr": None,
             "CIO_Final": "L4-CIO终裁",
+            "tools_l3_analyst": None,
+            "tools_l3_strategist": None,
+            "msg_clear_l3a": None,
+            "msg_clear_l3b": None,
+            "tools_l4_cio": None,
+            "tools_l4_risk": None,
+            "tools_l4_cio_final": None,
+            "msg_clear_l4a": None,
+            "msg_clear_l4b": None,
         }
 
         start_time = time.time()

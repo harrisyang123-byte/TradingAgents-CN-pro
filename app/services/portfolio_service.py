@@ -411,7 +411,7 @@ class PortfolioService:
         total_market_value_cny = sum(p["market_value_cny"] for p in position_details)
 
         total_assets = round(total_market_value_cny + available_cash, 2)
-        total_pnl = round(total_assets - total_invested, 2) if total_invested > 0 else 0.0
+        total_pnl = round(sum(p["pnl_cny"] for p in position_details if p.get("pnl_cny") is not None), 2)
         total_pnl_pct = round(total_pnl / total_invested * 100, 2) if total_invested > 0 else 0.0
 
         for pos in position_details:

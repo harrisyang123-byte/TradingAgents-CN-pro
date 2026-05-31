@@ -16,3 +16,7 @@ from .stock_contrarian import create_stock_contrarian
 from .stock_judge import create_stock_judge
 from .risk_director import create_risk_director
 from .market_tools import L1_TOOLS, L2_TOOLS, ALL_MARKET_TOOLS
+from .cio_tools import create_cio_tools
+from .analyst_tools import create_analyst_tools
+from .strategist_tools import create_strategist_tools
+from .risk_tools import create_risk_tools

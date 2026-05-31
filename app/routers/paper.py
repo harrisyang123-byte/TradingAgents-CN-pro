@@ -202,19 +202,28 @@ async def get_account(current_user: dict = Depends(get_current_user)):
     acc = await _get_or_create_account(current_user["id"])
 
     positions = await db["paper_positions"].find({"user_id": current_user["id"]}).to_list(None)
-    total_market_value = 0.0
+    total_market_value_cny = 0.0
+    total_pnl = 0.0
     for p in positions:
         code = p.get("code")
         market = p.get("market", "CN")
         qty = int(p.get("quantity", 0))
+        avg_cost = float(p.get("avg_cost", 0))
+        currency = CURRENCY_MAP.get(market, "CNY")
         last = await _get_last_price(code, market, p.get("instrument_type", "stock"))
         if last is not None:
-            total_market_value += last * qty
+            rate = 1.0
+            if currency != "CNY":
+                rate_doc = await db["exchange_rates"].find_one({"currency": currency})
+                if rate_doc:
+                    rate = float(rate_doc.get("rate", 1.0))
+            total_market_value_cny += last * qty * rate
+            total_pnl += round((last - avg_cost) * qty * rate, 2)
 
     available_cash = float(acc.get("available_cash", 0.0))
     total_invested = float(acc.get("total_invested", 0.0))
-    total_assets = round(total_market_value + available_cash, 2)
-    total_pnl = round(total_assets - total_invested, 2) if total_invested > 0 else 0.0
+    total_assets = round(total_market_value_cny + available_cash, 2)
+    total_pnl = round(total_pnl, 2)
     total_pnl_pct = round(total_pnl / total_invested * 100, 2) if total_invested > 0 else 0.0
 
     return ok({

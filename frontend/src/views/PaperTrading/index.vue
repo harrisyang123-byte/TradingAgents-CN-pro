@@ -403,8 +403,10 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { portfolioApi, type PortfolioSummary, type PortfolioPositionItem } from '@/api/paper'
+import { usePageCache } from '@/composables/usePageCache'
 
 const router = useRouter()
+const { loadWithCache, forceRefresh } = usePageCache()
 
 // ---- state ----
 const summary = ref<PortfolioSummary | null>(null)
@@ -582,43 +584,49 @@ const instrumentTypeLabel: Record<string, string> = {
 }
 
 // ---- data fetching ----
-async function fetchSummary() {
+async function fetchSummary(force = false) {
   try {
-    const res = await portfolioApi.getSummary()
-    if (res.success) {
-      summary.value = res.data
-      accountForm.value = {
-        total_invested: res.data.total_invested || 0,
-        available_cash: res.data.available_cash || 0,
-      }
-      if (res.data.positions?.length) {
-        pageState.value = 'ideal'
-      } else {
-        pageState.value = 'empty'
-      }
-      const now = new Date()
-      lastUpdate.value = now.toLocaleString('zh-CN', { hour: '2-digit', minute: '2-digit', month: 'numeric', day: 'numeric' })
+    const fn = force ? forceRefresh : loadWithCache
+    const data = await fn<PortfolioSummary>('portfolio-summary', async () => {
+      const res = await portfolioApi.getSummary()
+      if (res.success) return res.data
+      throw new Error('API failed')
+    })
+    summary.value = data
+    accountForm.value = {
+      total_invested: data.total_invested || 0,
+      available_cash: data.available_cash || 0,
     }
+    if (data.positions?.length) {
+      pageState.value = 'ideal'
+    } else {
+      pageState.value = 'empty'
+    }
+    const now = new Date()
+    lastUpdate.value = now.toLocaleString('zh-CN', { hour: '2-digit', minute: '2-digit', month: 'numeric', day: 'numeric' })
   } catch (e: any) {
     errorMessage.value = e?.message || '无法获取持仓数据，请检查网络连接后重试。'
     pageState.value = 'error'
   }
 }
 
-async function fetchPositions() {
+async function fetchPositions(force = false) {
   try {
-    const res = await portfolioApi.getPositions()
-    if (res.success) {
-      positions.value = res.data.items || []
-    }
+    const fn = force ? forceRefresh : loadWithCache
+    const data = await fn<{ items: PortfolioPositionItem[] }>('portfolio-positions', async () => {
+      const res = await portfolioApi.getPositions()
+      if (res.success) return res.data
+      throw new Error('API failed')
+    })
+    positions.value = data.items || []
   } catch { /* ignore */ }
 }
 
 // ---- actions ----
 async function refreshAll() {
   pageState.value = 'loading'
-  await fetchSummary()
-  await fetchPositions()
+  await fetchSummary(true)
+  await fetchPositions(true)
 }
 
 function openAddDialog() {
@@ -730,7 +738,7 @@ function goAnalysis(code: string, instrumentType?: string) {
   })
 }
 
-onMounted(() => { refreshAll() })
+onMounted(() => { fetchSummary(); fetchPositions() })
 </script>
 
 <style scoped>

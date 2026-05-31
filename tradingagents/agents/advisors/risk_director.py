@@ -1,93 +1,102 @@
-"""风险总监 (L4 辩手)：审查 CIO 处方初稿，站在极端风险角度提出挑战"""
+"""风险总监 (L4 辩手) — 工具型 Agent，审查 CIO 处方"""
 
+from __future__ import annotations
 from langchain_core.messages import HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from tradingagents.utils.logging_init import get_logger
 
+logger = get_logger("default")
 
-def create_risk_director(llm):
-    def risk_director_node(state: dict) -> dict:
-        cio_draft = state.get("cio_verdict", "")
-        prescription = state.get("prescription", [])
-        portfolio = state.get("portfolio_summary", {})
-        stock_candidates = state.get("stock_candidates", [])
-        market_intel = state.get("market_intel", {})
-        exposure_context = state.get("exposure_context", "")
-        audit_results = state.get("audit_results", [])
-
-        presc_lines = []
-        for i, p in enumerate(prescription):
-            presc_lines.append(
-                f"{i + 1}. {p.get('code', '?')} — {p.get('action', '?')}: "
-                f"当前{p.get('current_weight', 0):.1f}% → 目标{p.get('target_weight', 0):.1f}%"
-            )
-
-        # 从 audit_results 计算集中度摘要
-        if isinstance(audit_results, list) and audit_results:
-            total_w = portfolio.get("total_assets", 0)
-            top3 = sorted(audit_results, key=lambda x: abs(x.get("weight", 0)), reverse=True)[:3]
-            top3_str = ", ".join(
-                f"{a.get('code','?')} {a.get('weight',0):.1f}%" for a in top3
-            )
-            concentration_summary = f"Top-3 持仓: {top3_str}"
-        else:
-            concentration_summary = "无持仓数据"
-
-        prompt = f"""你是风险总监（Risk Director），职责是在 CIO 终裁前对处方进行独立的终端风险审查。
+RISK_SYSTEM_PROMPT = """你是风险总监（Risk Director），职责是在 CIO 终裁前对处方进行独立的终端风险审查。
 
 ## 你的立场
 - 你不对标的基本面做判断（那是 L1/L2 的职责）
 - 你的职责是审查 CIO 处方的 **组合层面风险**：集中度、流动性、尾部风险、黑天鹅
 - 你对每一句 CIO 的判断都要问一句"万一错了呢？"
 
+## 你的工具
+1. `get_prescription_draft()` — 读取 CIO 初稿处方
+2. `check_stress_scenario(scenario)` — 获取场景压力测试结果
+
 ## 审查维度
-
-### 集中度风险
-- 处方是否导致单只/单行业过度集中？
-- 加仓后最极端情况下可能暴露多少？
-
-### 流动性风险
-- 建议买入的标的中，是否有流动性差的（小市值、低成交量）？
-- 港股/美股标的是否考虑汇率风险？
-
-### 尾部风险
-- 处方中的 BUY/ADD 操作在什么情况下会同时亏损（相关性风险）？
-- 最大的组合回撤可能是什么场景？
-
-### 操作风险
-- 处方中的 SELL/REDUCE 操作，卖出的理由是否充分？
-- 卖出后如果标的继续上涨（判断错误），损失多大？
-
-### 处方纪律
-- 处方数量是否合理（20孔卡片）？
-- 是否有"为了做点什么而做"的冗余操作？
-
-### 敞口矩阵数据（基金穿透后真实暴露）
-{exposure_context[:2000] if exposure_context else '无敞口数据'}
-
-### 持仓集中度
-{concentration_summary}
-
-## 当前处方（CIO 初稿）
-{chr(10).join(presc_lines) if presc_lines else '无处方'}
-
-## CIO 判断原文
-{cio_draft[:3000] if cio_draft else '无'}
-
-## L2 候选标的参考
-{chr(10).join([f"- {c.get('code', '?')}: {c.get('action', '?')}" for c in stock_candidates[:10]]) if stock_candidates else '无'}
+- **集中度风险**：处方是否导致过度集中？
+- **流动性风险**：建议买入标的中是否有流动性差的？
+- **尾部风险**：什么情况下会同时亏损？
+- **操作风险**：卖出理由是否充分？
+- **处方纪律**：是否有冗余操作？
 
 ## 输出格式
-对处方中的每条操作：
-- 风险审查意见：通过 / 有风险（具体要求修正）/ 否决（给出替代方案）
+对每条操作：
+- 风险审查意见：通过 / 有风险 / 否决
 - 风险说明
 - 修正建议
 
-最后给出总体风险评级：低风险 / 中等风险 / 高风险，并说明组合最大回撤估计。
+最后给出总体风险评级：低风险 / 中等风险 / 高风险。用中文回答。"""
 
-用中文回答。"""
 
-        response = llm.invoke([HumanMessage(content=prompt)])
-        review = response.content if hasattr(response, "content") else str(response)
+def create_risk_director(llm, tools=None, shared_state=None):
+    """创建 Risk Director 工具型 Agent"""
+    if shared_state is None:
+        shared_state = {}
 
-        return {"risk_director_review": review}
+    if tools is None:
+        from .risk_tools import create_risk_tools
+        def _sp():
+            return shared_state.get("state", {})
+        tools = create_risk_tools(_sp)
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "{system_message}"),
+        MessagesPlaceholder(variable_name="messages"),
+    ])
+    prompt = prompt.partial(system_message=RISK_SYSTEM_PROMPT)
+    chain = prompt | llm.bind_tools(tools)
+
+    def risk_director_node(state: dict) -> dict:
+        shared_state["state"] = state
+
+        portfolio = state.get("portfolio_summary", {})
+        audit_results = state.get("audit_results", [])
+
+        # 集中度摘要
+        concentration_summary = "无持仓数据"
+        if isinstance(audit_results, list) and audit_results:
+            top3 = sorted(
+                audit_results,
+                key=lambda x: abs(x.get("weight", 0)),
+                reverse=True,
+            )[:3]
+            top3_str = ", ".join(
+                f"{a.get('code', '?')} {a.get('weight', 0):.1f}%"
+                for a in top3
+            )
+            concentration_summary = f"Top-3 持仓: {top3_str}"
+
+        msgs = list(state.get("messages", []))
+        init_content = (
+            f"请审查 CIO 的处方草案。\n\n"
+            f"### 持仓集中度\n{concentration_summary}\n\n"
+            f"请先调用 get_prescription_draft() 查看 CIO 处方，"
+            f"再调用 check_stress_scenario 检查压力测试结果。"
+        )
+        msgs.append(HumanMessage(content=init_content))
+
+        logger.info("[Risk Director] 开始")
+        result = chain.invoke(msgs)
+
+        review = (result.content if hasattr(result, "content")
+                  else str(result))
+        logger.info(
+            f"[Risk Director] 完成，输出 {len(review)} 字符")
+
+        has_tool_calls = (hasattr(result, "tool_calls") and
+                          result.tool_calls)
+        messages_out = [result]
+        if not has_tool_calls:
+            return {
+                "messages": messages_out,
+                "risk_director_review": review,
+            }
+        return {"messages": messages_out}
 
     return risk_director_node

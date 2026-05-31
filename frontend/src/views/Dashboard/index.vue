@@ -292,9 +292,11 @@ import { favoritesApi } from '@/api/favorites'
 import { analysisApi } from '@/api/analysis'
 import { newsApi } from '@/api/news'
 import { portfolioApi, type PortfolioAccountInfo } from '@/api/paper'
+import { usePageCache } from '@/composables/usePageCache'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const { loadWithCache } = usePageCache()
 
 // 响应式数据
 const userStats = ref({
@@ -444,15 +446,18 @@ const getPriceChangeClass = (changePercent: number) => {
 
 const loadFavoriteStocks = async () => {
   try {
-    const response = await favoritesApi.list()
-    if (response.success && response.data) {
-      favoriteStocks.value = response.data.map((item: any) => ({
-        stock_code: item.stock_code,
-        stock_name: item.stock_name,
-        current_price: item.current_price || 0,
-        change_percent: item.change_percent || 0
-      }))
-    }
+    favoriteStocks.value = await loadWithCache('dashboard-favorites', async () => {
+      const response = await favoritesApi.list()
+      if (response.success && response.data) {
+        return response.data.map((item: any) => ({
+          stock_code: item.stock_code,
+          stock_name: item.stock_name,
+          current_price: item.current_price || 0,
+          change_percent: item.change_percent || 0
+        }))
+      }
+      throw new Error('API failed')
+    })
   } catch (error) {
     console.error('加载自选股失败:', error)
   }
@@ -460,21 +465,19 @@ const loadFavoriteStocks = async () => {
 
 const loadRecentAnalyses = async () => {
   try {
-    // 使用任务中心的用户任务接口，获取最近10条
-    const res = await analysisApi.getTaskList({
-      limit: 10,
-      offset: 0,
-      // 不限定状态，展示最近任务；如需仅展示已完成可设为 'completed'
-      status: undefined
+    const result = await loadWithCache('dashboard-recent', async () => {
+      const res = await analysisApi.getTaskList({
+        limit: 10,
+        offset: 0,
+        status: undefined
+      })
+      const body: any = (res as any)?.data?.data || (res as any)?.data || res || {}
+      const tasks = body.tasks || []
+      return { tasks, total: body.total ?? tasks.length }
     })
-
-    // 兼容不同返回结构（ApiResponse 或直接 data）
-    const body: any = (res as any)?.data?.data || (res as any)?.data || res || {}
-    const tasks = body.tasks || []
-
-    recentAnalyses.value = tasks
-    userStats.value.totalAnalyses = body.total ?? tasks.length
-    userStats.value.successfulAnalyses = tasks.filter((item: any) => item.status === 'completed').length
+    recentAnalyses.value = result.tasks
+    userStats.value.totalAnalyses = result.total
+    userStats.value.successfulAnalyses = result.tasks.filter((item: any) => item.status === 'completed').length
   } catch (error) {
     console.error('加载最近分析失败:', error)
     recentAnalyses.value = []
@@ -483,27 +486,24 @@ const loadRecentAnalyses = async () => {
 
 const loadMarketNews = async () => {
   try {
-    // 先尝试获取最近 24 小时的新闻
-    let response = await newsApi.getLatestNews(undefined, 10, 24)
-
-    // 如果最近 24 小时没有新闻，则获取最新的 10 条（不限时间）
-    if (response.success && response.data && response.data.news.length === 0) {
-      console.log('最近 24 小时没有新闻，获取最新的 10 条新闻（不限时间）')
-      response = await newsApi.getLatestNews(undefined, 10, 24 * 365) // 回溯 1 年
-    }
-
-    if (response.success && response.data) {
-      marketNews.value = response.data.news.map((item: any) => ({
-        id: item.id || item.title,
-        title: item.title,
-        time: item.publish_time,
-        url: item.url,
-        source: item.source
-      }))
-    }
+    marketNews.value = await loadWithCache('dashboard-news', async () => {
+      let response = await newsApi.getLatestNews(undefined, 10, 24)
+      if (response.success && response.data && response.data.news.length === 0) {
+        response = await newsApi.getLatestNews(undefined, 10, 24 * 365)
+      }
+      if (response.success && response.data) {
+        return response.data.news.map((item: any) => ({
+          id: item.id || item.title,
+          title: item.title,
+          time: item.publish_time,
+          url: item.url,
+          source: item.source
+        }))
+      }
+      throw new Error('API failed')
+    })
   } catch (error) {
     console.error('加载市场快讯失败:', error)
-    // 如果加载失败，显示提示信息
     marketNews.value = []
   }
 }
@@ -511,10 +511,11 @@ const loadMarketNews = async () => {
 // 加载模拟交易账户信息
 const loadPaperAccount = async () => {
   try {
-    const response = await portfolioApi.getAccount()
-    if (response.success && response.data) {
-      paperAccount.value = response.data
-    }
+    paperAccount.value = await loadWithCache('dashboard-account', async () => {
+      const response = await portfolioApi.getAccount()
+      if (response.success && response.data) return response.data
+      throw new Error('API failed')
+    })
   } catch (error) {
     console.error('加载模拟交易账户失败:', error)
     paperAccount.value = null
