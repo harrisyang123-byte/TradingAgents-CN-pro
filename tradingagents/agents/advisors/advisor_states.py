@@ -131,6 +131,10 @@ class AdvisorState(TypedDict, total=False):
     # === 反馈闭环 ===
     feedback_context: str
 
+    # === Buy Signal Engine ===
+    buy_signals: Dict[str, Any]
+    market_signals: Dict[str, Any]
+
     # === 配置 ===
     report_staleness_days: int
     max_single_weight: float
