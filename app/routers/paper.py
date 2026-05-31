@@ -548,23 +548,43 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             model=llm_cfg.get("quick_think_llm", "deepseek-chat"),
             backend_url=llm_cfg.get("backend_url", ""),
             temperature=0,
-            max_tokens=2000,
-            timeout=20,
+            max_tokens=1500,
+            timeout=45,
             api_key=llm_cfg.get("quick_api_key") or llm_cfg.get("deep_api_key"),
         )
     except Exception:
         pass
     industry_positions = await classify_holdings_industries(db, positions, llm=classify_llm)
 
-    # 2. 行业覆盖数据
+    # 2. 行业覆盖数据 → 映射到 18-bucket 体系
+    from app.services.industry_buckets import _map_l1_to_buckets_with_llm
     coverage_docs = await db["industry_coverage"].find(
         {"user_id": user_id}
     ).sort("analyzed_at", -1).to_list(None)
+    # 收集 L1 行业名并映射到 bucket
+    l1_name_map: Dict[str, str] = {}
     coverage_map: Dict[str, Dict[str, Any]] = {}
     for doc in coverage_docs:
-        name = doc.get("industry_name", "")
-        if name and name not in coverage_map:
-            coverage_map[name] = doc
+        l1_name = doc.get("industry_name", "")
+        if l1_name and l1_name not in coverage_map:
+            coverage_map[l1_name] = doc
+    # 映射 L1 行业名 → bucket
+    l1_names = list(coverage_map.keys())
+    l1_to_bucket = await _map_l1_to_buckets_with_llm(l1_names, classify_llm, db)
+    # 按 bucket 合并 coverage 数据
+    bucket_coverage: Dict[str, Dict[str, Any]] = {}
+    for l1_name, doc in coverage_map.items():
+        bucket = l1_to_bucket.get(l1_name, l1_name[:2] if l1_name else "")
+        if bucket not in bucket_coverage:
+            # 合并：取最近的分析时间、最新的 go_nogo
+            bucket_coverage[bucket] = dict(doc)
+            bucket_coverage[bucket]["industry_name"] = bucket
+        else:
+            # 已有此 bucket，选更近的分析
+            existing = bucket_coverage[bucket]
+            if doc.get("analyzed_at", "") > existing.get("analyzed_at", ""):
+                bucket_coverage[bucket] = dict(doc)
+                bucket_coverage[bucket]["industry_name"] = bucket
 
     # 3. 最近一次组合建议
     latest_advice = await db["portfolio_advice"].find_one(
@@ -573,14 +593,14 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
     )
     latest_prescriptions = latest_advice.get("prescription", []) if latest_advice else []
 
-    # 4. 构建行业覆盖矩阵
-    all_industries = set(list(industry_positions.keys()) + list(coverage_map.keys()))
+    # 4. 构建行业覆盖矩阵 — 以 LLM bucket 为主，合并 L1 coverage
+    all_industries = set(list(industry_positions.keys()) + list(bucket_coverage.keys()))
     matrix: List[Dict[str, Any]] = []
     from datetime import datetime, timezone
 
     for ind_name in sorted(all_industries):
         pos_list = industry_positions.get(ind_name, [])
-        cov = coverage_map.get(ind_name, {})
+        cov = bucket_coverage.get(ind_name, {})
         total_weight = sum(p.get("weight", 0) for p in pos_list)
         position_codes = [p.get("code", "") for p in pos_list]
         position_names = [p.get("name", p.get("code", "")) for p in pos_list]
