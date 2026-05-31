@@ -511,8 +511,8 @@ class AdvisorGraph:
         # ── 路由函数 ──
         l1_router_market = _make_tool_router("market_tool_call_count", "msg_clear_l1a", "market_strategist")
         l1_router_contrarian = _make_tool_router("market_tool_call_count", "msg_clear_l1b", "contrarian")
-        l2_router_scout = _make_tool_router("scout_tool_call_count", "msg_clear_l2a", "scout")
-        l2_router_scontrarian = _make_tool_router("scontrarian_tool_call_count", "msg_clear_l2b", "stock_contrarian")
+        l2_router_scout = _make_tool_router("scout_tool_call_count", "msg_clear_l2a", "scout", max_calls=8)
+        l2_router_scontrarian = _make_tool_router("scontrarian_tool_call_count", "msg_clear_l2b", "stock_contrarian", max_calls=5)
 
         # ── L3/L4 工具路由（新增） ──
         l3_router_analyst = _make_tool_router(

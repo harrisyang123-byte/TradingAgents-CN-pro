@@ -259,6 +259,11 @@ def _parse_prescription(text: str) -> list:
                     "fund_role": str(item.get("fund_role", "")),
                     "industry_bucket": str(
                         item.get("industry_bucket", "")),
+                    "data_sources": item.get("data_sources", [])
+                        if isinstance(item.get("data_sources"), list)
+                        else ([item["data_sources"]]
+                        if isinstance(item.get("data_sources"), str)
+                        and item.get("data_sources") else []),
                 })
         return valid
     except (json.JSONDecodeError, ValueError) as e:
