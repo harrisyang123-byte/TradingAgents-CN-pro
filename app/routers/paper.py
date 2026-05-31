@@ -534,7 +534,27 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
     portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
 
     positions = portfolio_summary.get("positions", [])
-    industry_positions = await classify_holdings_industries(db, positions)
+    # 尝试用 LLM 分类（更准），失败则回退关键词
+    classify_llm = None
+    try:
+        from app.services.config_service import ConfigService
+        from tradingagents.graph.trading_graph import create_llm_by_provider
+        from tradingagents.llm_clients.provider_keys import normalize_provider_key
+        cfg_svc = ConfigService()
+        llm_cfg = await cfg_svc.get_analysis_config(user_id)
+        provider = normalize_provider_key(llm_cfg.get("llm_provider", "deepseek"))
+        classify_llm = create_llm_by_provider(
+            provider=provider,
+            model=llm_cfg.get("quick_think_llm", "deepseek-chat"),
+            backend_url=llm_cfg.get("backend_url", ""),
+            temperature=0,
+            max_tokens=2000,
+            timeout=20,
+            api_key=llm_cfg.get("quick_api_key") or llm_cfg.get("deep_api_key"),
+        )
+    except Exception:
+        pass
+    industry_positions = await classify_holdings_industries(db, positions, llm=classify_llm)
 
     # 2. 行业覆盖数据
     coverage_docs = await db["industry_coverage"].find(
