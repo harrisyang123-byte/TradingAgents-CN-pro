@@ -226,10 +226,10 @@ class ExposureService:
             return None
 
     def _get_sector(self, code: str) -> str:
-        """获取标的行业分类（简化版，后续可对接 get_industry_for_code）"""
+        """获取标的行业分类，使用统一 bucket 映射"""
         try:
-            from tradingagents.dataflows.industry import get_industry_for_code
-            return get_industry_for_code(code) or "未知"
+            from app.services.industry_buckets import code_to_bucket
+            return code_to_bucket(code) or "未知"
         except Exception:
             return "未知"
 

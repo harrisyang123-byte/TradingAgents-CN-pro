@@ -56,6 +56,8 @@ CIO_SYSTEM_PROMPT = """你是组合顾问团队的首席投资官 (CIO)。你需
 - NoGo 行业不留仓：L1 判 NoGo 的行业，目标权重必须为 0%
 - 新标的要有来路：要么 L2 候选池，要么 dispatch_scout，不能凭空推荐
 - 基金标注角色：fund_role = "行业暴露工具" | "主动alpha来源" | "现金管理工具"
+- 数据溯源：每条处方必须标注 `data_sources` 字段，列出支撑该决策的数据来源
+  例: ["L1 宏观裁判 (Go, 生命周期: 稳步成长)", "PE 分位 23% (BaoStock 日线, 1200 数据点)", "持仓体检 (浮盈 12%, 持有 180 天)"]
 
 ## JSON 输出格式
 ```json
@@ -67,7 +69,8 @@ CIO_SYSTEM_PROMPT = """你是组合顾问团队的首席投资官 (CIO)。你需
    "industry_bucket": "行业名称", "fund_role": "",
    "priority": "urgent/important/optional", "timing": "immediate/conditional/scheduled",
    "l1_context": "...", "l2_context": "...",
-   "reasoning": "...", "risk_note": "...", "capital_source": "..."},
+   "reasoning": "...", "risk_note": "...", "capital_source": "...",
+   "data_sources": ["..."]},
   ...
 ]
 ```

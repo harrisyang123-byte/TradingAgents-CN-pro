@@ -1,7 +1,7 @@
 # 组合顾问引擎 (Tier 2)
 
-**变更**: portfolio-advisor-engine → portfolio-advisor-four-level
-**日期**: 2026-05-18 (初始) → 2026-05-23 (四层升级)
+**变更**: portfolio-advisor-engine → portfolio-advisor-four-level → l3-l4-agent-upgrade
+**日期**: 2026-05-18 (初始) → 2026-05-23 (四层升级) → 2026-05-31 (L3/L4 Agent 升级)
 
 ## 概述
 
@@ -21,42 +21,43 @@ Level 2: 标的筛选（2轮辩论）
   工具: get_industry_constituents, get_company_profile, get_financial_summary,
         get_stock_quotes, get_fund_rankings
 
-Level 3: 组合构建（2轮辩论，不改）
-  Analyst ↔ Strategist ↔ Scout (3-way)
+Level 3: 组合构建（工具型 Agent + 辩论）
+  Analyst(tool-agent) → Strategist(tool-agent) → Scout(LLM) → 3-way debate
 
-Level 4: 最终处方（1轮辩论）
-  CIO → Risk Director → debate → CIO 终裁
+Level 4: 最终处方（工具型 Agent + 辩论）
+  CIO(tool-agent) → Risk_Director(tool-agent) → debate → CIO_Final(tool-agent)
 ```
 
 数据流：纯串行 L1 → L2 → L3 → enrich_price_data → L4。L3 的 Analyst/Strategist 注入 L1/L2 数据，enrich_price_data 在 L3→L4 之间注入 PE 历史分位。
 
-## 角色清单（10 个 + 1 数据节点）
+## 角色清单（10 个 + 2 数据节点 + 1 CLI）
 
-| # | 角色 | 层级 | 类型 | 说明 |
-|---|------|------|------|------|
-| 1 | Market Strategist | L1 | tool-agent | 多方向辩手，行业生命周期五阶段模型 |
-| 2 | Contrarian | L1 | tool-agent | 逆向挑战者，风险面辩手 |
-| 3 | Macro Judge | L1 | 裁判 | Go/NoGo 裁定 |
-| 4 | Scout | L2 | tool-agent | 巴芒四层过滤器（看懂生意→护城河→管理层→价格合理） |
-| 5 | Stock Contrarian | L2 | tool-agent | 标的挑战者 |
-| 6 | Stock Judge | L2 | 裁判 | 推荐/观察/淘汰裁定 |
-| 7 | Analyst | L3 | 辩手 | 持仓分析（注入 L1/L2 数据） |
-| 8 | Strategist | L3 | 辩手 | 组合策略（注入 L1/L2 数据） |
-| 9 | Risk Director | L4 | 辩手 | 风险审查（集中度/流动性/尾部/操作） |
-| 10 | CIO | L4 | 辩手+裁判 | 芒格心智模型约束，dual-mode（初稿/终裁） |
-| — | enrich_price_data | L3→L4 | 数据节点 | PE 历史分位计算，三市场统一接口 |
+| # | 角色 | 层级 | 类型 | 工具 | 说明 |
+|---|------|------|------|------|------|
+| 1 | Market Strategist | L1 | tool-agent | 3 | 多方向辩手，行业生命周期五阶段模型 |
+| 2 | Contrarian | L1 | tool-agent | 3 | 逆向挑战者，风险面辩手 |
+| 3 | Macro Judge | L1 | 裁判 | 0 | Go/NoGo 裁定 |
+| 4 | Scout | L2 | tool-agent | 5 | 巴芒四层过滤器 |
+| 5 | Stock Contrarian | L2 | tool-agent | 5 | 标的挑战者 |
+| 6 | Stock Judge | L2 | 裁判 | 0 | 推荐/观察/淘汰裁定 |
+| 7 | Analyst | L3 | tool-agent | 2 | 逐只读 Tier1 报告 + 持仓体检 |
+| 8 | Strategist | L3 | tool-agent | 3 | 行业集中度 + 前N大风险 + 现金拖累 |
+| 9 | Scout L3 | L3 | 纯 LLM | 0 | 组合缺口识别（维持原状） |
+| 10 | CIO | L4 | tool-agent | 6 | 分页读持仓 + L1/L2查询 + 派员工搜索 + ETF搜索 + 权重验证 |
+| 11 | Risk Director | L4 | tool-agent | 2 | 读处方 + 压力测试 |
+| 12 | CIO Final | L4 | tool-agent | 6 | 终裁复用 CIO tools |
+| — | enrich_price_data | L3→L4 | 数据节点 | — | PE 历史分位计算 |
+| — | cli/run_advisor.py | 入口 | CLI | — | 完整/精简模式执行 |
 
-## LLM 调用量（~26-34 次）
+## LLM 调用量（~30+ 次 + 工具往返）
 
-| 层级 | 分析 | 辩论 | 裁决 | 小计 |
-|------|------|------|------|------|
-| L1 | 2 | 4 (2轮×2人) | 1 | 7 |
-| L2 | 2 | 4 (2轮×2人) | 1 | 7 |
-| L3 | 3 | 6 (2轮×3人) | 0 | 9 |
-| L4 | 1 | 2 (1轮×2人) | 0 | 3 |
-| **总计** | | | | **26** |
-
-工具往返额外 LLM 调用: max +8 (max_tool_call_count=3 per agent)
+| 层级 | 分析 | 辩论 | 裁决 | 工具节点 |
+|------|------|------|------|----------|
+| L1 | 2 | 4 (2轮×2人) | 1 | max=3 call per agent |
+| L2 | 2 | 4 (2轮×2人) | 1 | max=3 call per agent |
+| L3 | 3 (tool-agent) | 6 (2轮×3人) | 0 | max=3 call per agent × 2 |
+| L4 | 3 (tool-agent) | 2 (1轮×2人) | 0 | max=3 call per agent × 3 |
+| **总计** | | | | **26 基础 + 工具往返 ~5-15 额外** |
 
 ## 多市场数据源
 
@@ -79,9 +80,14 @@ START → market_strategist ↔ tools_l1_market → msg_clear_l1a → contrarian
   stock_contrarian ↔ tools_l2_scontrarian → msg_clear_l2b → debate_scout
   → debate_scontrarian → [counter] → (2 rounds) → stock_judge → msg_clear_l2
 
-  → analyst → strategist → scout_l3 → debate branches (2 rounds)
+  → Analyst ↔ tools_l3_analyst → msg_clear_l3a
+  → Strategist ↔ tools_l3_strategist → msg_clear_l3b
+  → Scout_L3 → debate branches (2 rounds)
 
-  → enrich_price_data → cio_draft → risk_director → debate → cio_final → END
+  → enrich_price_data
+  → CIO ↔ tools_l4_cio → msg_clear_l4a
+  → Risk_Director ↔ tools_l4_risk → msg_clear_l4b
+  → debate → CIO_Final ↔ tools_l4_cio_final → END
 ```
 
 ### 关键实现模式
@@ -97,7 +103,7 @@ START → market_strategist ↔ tools_l1_market → msg_clear_l1a → contrarian
 ```
 tradingagents/agents/advisors/
 ├── __init__.py
-├── advisor_states.py       # 3 debate TypedDicts + price_context 字段
+├── advisor_states.py       # 3 debate TypedDicts + L3/L4 counter fields
 ├── market_tools.py          # 9 个 AKShare/yfinance 工具函数
 ├── market_strategist.py     # L1 tool-agent
 ├── contrarian.py            # L1 tool-agent
@@ -105,26 +111,35 @@ tradingagents/agents/advisors/
 ├── scout.py                 # L2 tool-agent (重写)
 ├── stock_contrarian.py      # L2 tool-agent
 ├── stock_judge.py           # L2 裁判
-├── analyst.py               # L3 辩手 (prompt 注入 L1/L2)
-├── strategist.py            # L3 辩手 (prompt 注入 L1/L2)
-├── risk_director.py         # L4 辩手
-└── cio.py                   # L4 辩手+裁判 (芒格心智模型 + 7 字段决策卡片)
+├── analyst.py               # L3 tool-agent (原纯LLM)
+├── analyst_tools.py         # L3 Analyst 工具 (read_tier1_report, get_position_audit)
+├── strategist.py            # L3 tool-agent (原纯LLM)
+├── strategist_tools.py      # L3 Strategist 工具 (compute_sector_concentration, top_holdings, cash_drag)
+├── risk_director.py         # L4 tool-agent (原纯LLM)
+├── risk_tools.py            # L4 Risk Director 工具 (get_prescription_draft, check_stress_scenario)
+├── cio.py                   # L4 CIO tool-agent + CIO Final tool-agent
+└── cio_tools.py             # L4 CIO 工具 (get_position_batch, get_l1_verdict, get_l2_candidates, dispatch_scout, search_industry_etf, validate_allocation)
 
 tradingagents/dataflows/
-└── pe_percentile.py         # PE 历史分位计算（A股/港股/美股三市场统一接口）
+└── pe_percentile.py         # PE 历史分位计算
 
 tradingagents/graph/
-└── advisor_graph.py         # 四层拓扑 + enrich_price_data 节点 + 条件路由 + Msg Clear
+└── advisor_graph.py         # 四层拓扑 + 全部 ToolNode + 条件路由 + Msg Clear
 
 app/services/
-└── portfolio_advisor_service.py  # 移除 non_held_reports，保存新字段
+└── portfolio_advisor_service.py  # 适配新 graph 结构
+
+cli/
+└── run_advisor.py           # 组合顾问 CLI 入口
 
 frontend/src/
-├── api/paper.ts             # AdviceItem 类型（含 7 个新可选字段）
-├── components/Analysis/
-│   └── DecisionCard.vue     # 决策卡片组件（PE 分位条 + l1/l2 上下文 + 风险行）
-└── views/PaperTrading/
-    └── index.vue            # el-table → 纵向卡片流
+├── api/paper.ts             # AdviceItem 类型
+├── components/Layout/
+│   └── SidebarMenu.vue      # 持仓组合入口
+└── views/
+    ├── Dashboard/index.vue
+    ├── PaperTrading/index.vue
+    └── Portfolio/Overview.vue
 ```
 
 ## CIO 芒格心智模型 + 决策卡片
@@ -204,10 +219,12 @@ enrich_price_context(positions, candidates)  # → {code: pe_context_dict}
 
 ## 已知风险
 
-1. **CIO dual-mode 脆弱性**：通过检查 `risk_director_review` 是否为空切换初稿/终裁模式，无显式 mode 字段
+1. ~~**CIO dual-mode 脆弱性**：通过检查 `risk_director_review` 是否为空切换初稿/终裁模式，无显式 mode 字段~~ ✅ L3/L4 升级消除此风险
 2. **L1 辩论缺少 self-analysis 上下文**：debate 轮转时只传对手上一轮回应，不传自己的历史发言
 3. **RemoveMessage 兼容性**：依赖 langgraph 版本，需验证 `RemoveMessage` 是否可用
 4. **多市场降级未测试**：yfinance/AKShare 模拟故障场景待验证
+5. **CIO 和 CIO_Final 共用同一套 6 阶段 prompt**：终裁阶段可能重复触发数据收集调用，浪费工具配额
+6. **dispatch_scout 单工具失败无降级**：get_industry_constituents 等内部调用无 try/except，异常导致工具整体失败
 
 ## 蓝图 v2.0 全维度（2026-05-30 完成）
 
@@ -247,6 +264,8 @@ enrich_price_context(positions, candidates)  # → {code: pe_context_dict}
 16. **D16: 三档时机** — immediate（立即）/ conditional（条件）/ scheduled（定期），区分执行紧迫度
 17. **D17: 压力测试预设5情景** — 关税/RMB贬值/加息/流动性/衰退，行业级冲击映射
 18. **D18: 反馈学习** — 新分析自动加载历史处方，CIO 须对比并说明哪些判断对了/错了
+19. **D19: L3/L4 Agent 升级** — 2026-05-31。CIO/分析师/策略师/风险总监从纯 LLM 提升为工具型 Agent。CIO 获 6 工具（含 dispatch_scout 派员工搜索），处方覆盖从 ~8 条提升至 37 条全覆盖
+20. **D20: CIO 双节点（CIO + CIO_Final）** — 初稿节点产出行配置 + 处方案，终裁节点复用同一套 tools，图层面区分两个 ToolNode 和计数器
 
 ## 注意事项
 

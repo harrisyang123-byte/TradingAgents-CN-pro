@@ -583,11 +583,17 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             coverage_status = "never"
             analyzed_at = ""
 
-        # 处方匹配
-        related_prescriptions = [
-            rx for rx in latest_prescriptions
-            if rx.get("code") in position_codes
-        ]
+        # 处方匹配 — 按 code 匹配，同时汇总目标仓位
+        related_prescriptions = []
+        target_weight = 0.0
+        for rx in latest_prescriptions:
+            rx_code = rx.get("code", "")
+            if rx_code in position_codes:
+                related_prescriptions.append(rx)
+            target_weight += rx.get("target_weight", 0) if rx_code in position_codes or rx_code == "CASH" else 0
+
+        # 当前仓位 vs 建议仓位变化
+        delta = round(target_weight - total_weight, 2)
 
         matrix.append({
             "industry": ind_name,
@@ -599,6 +605,8 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "coverage_status": coverage_status,
             "analyzed_at": analyzed_at,
             "holdings_weight": round(total_weight, 2),
+            "target_weight": round(target_weight, 2),
+            "delta": delta,
             "position_count": len(pos_list),
             "position_codes": position_codes,
             "position_names": position_names,
@@ -607,6 +615,37 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "prescriptions": related_prescriptions,
         })
 
+    # 5. 现金行 — 从处方中提取
+    cash_rx = next((rx for rx in latest_prescriptions if rx.get("code") == "CASH"), None)
+    cash_weight = portfolio_summary.get("available_cash", 0) / max(portfolio_summary.get("total_assets", 1), 1) * 100
+    cash_target = cash_rx.get("target_weight", cash_weight) if cash_rx else cash_weight
+    cash_row = {
+        "industry": "现金",
+        "market": "",
+        "lifecycle": "",
+        "depth": "",
+        "go_nogo": "",
+        "confidence": "",
+        "coverage_status": "covered",
+        "analyzed_at": latest_advice.get("created_at", "") if latest_advice else "",
+        "holdings_weight": round(cash_weight, 2),
+        "target_weight": round(cash_target, 2),
+        "delta": round(cash_target - cash_weight, 2),
+        "position_count": 0,
+        "position_codes": [],
+        "position_names": [],
+        "reasoning": cash_rx.get("reasoning", "") if cash_rx else "",
+        "advice_id": latest_advice.get("advice_id", "") if latest_advice else "",
+        "prescriptions": [cash_rx] if cash_rx else [],
+    }
+    matrix.append(cash_row)
+
+    # 6. 数据完整度评分
+    price_ctx = latest_advice.get("price_context", {}) if latest_advice else {}
+    pe_available = sum(1 for v in price_ctx.values() if isinstance(v, dict) and v.get("pe_percentile_source") not in ("data_unavailable", "unknown_market", None))
+    total_stocks_in_ctx = max(len(price_ctx), 1)
+    data_score = round(pe_available / total_stocks_in_ctx * 100, 1) if price_ctx else 0
+
     return ok({
         "matrix": matrix,
         "total_industries": len(matrix),
@@ -614,6 +653,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
         "stale_count": sum(1 for r in matrix if r["coverage_status"] == "stale"),
         "never_count": sum(1 for r in matrix if r["coverage_status"] == "never"),
         "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
+        "data_score": data_score,
     })
 
 

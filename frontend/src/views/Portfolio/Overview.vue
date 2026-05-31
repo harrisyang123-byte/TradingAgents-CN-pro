@@ -54,11 +54,12 @@
               <thead>
                 <tr>
                   <th style="width:180px;cursor:pointer" @click="toggleMatrixSort('industry')">行业{{ matrixSortArrow('industry') }}</th>
-                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('holdings_weight')">仓位{{ matrixSortArrow('holdings_weight') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('holdings_weight')">当前仓位{{ matrixSortArrow('holdings_weight') }}</th>
+                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('target_weight')">建议仓位{{ matrixSortArrow('target_weight') }}</th>
+                  <th style="width:64px;cursor:pointer" @click="toggleMatrixSort('delta')">变化{{ matrixSortArrow('delta') }}</th>
                   <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('go_nogo')">评级{{ matrixSortArrow('go_nogo') }}</th>
                   <th style="width:100px;cursor:pointer" @click="toggleMatrixSort('position_names')">持仓标的{{ matrixSortArrow('position_names') }}</th>
                   <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('coverage_status')">覆盖{{ matrixSortArrow('coverage_status') }}</th>
-                  <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('depth')">深度{{ matrixSortArrow('depth') }}</th>
                   <th>判断摘要</th>
                 </tr>
               </thead>
@@ -77,6 +78,21 @@
                   <td>
                     <span v-if="row.holdings_weight > 0" class="weight-badge">{{ row.holdings_weight.toFixed(1) }}%</span>
                     <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <span v-if="row.target_weight > 0" class="weight-badge target">{{ row.target_weight.toFixed(1) }}%</span>
+                    <span v-else-if="row.industry === '现金'" class="weight-badge target">{{ row.target_weight.toFixed(1) }}%</span>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <span
+                      v-if="Math.abs(row.delta) > 0.1"
+                      class="delta-tag"
+                      :class="row.delta > 0 ? 'delta-up' : 'delta-down'"
+                    >
+                      {{ row.delta > 0 ? '+' : '' }}{{ row.delta.toFixed(1) }}%
+                    </span>
+                    <span v-else class="text-muted">0</span>
                   </td>
                   <td>
                     <el-tag
@@ -209,36 +225,120 @@
       >
         <template v-if="selectedAdvice">
           <div v-if="selectedAdvice.status === 'COMPLETED'">
-            <h4 style="margin:0 0 12px">操作处方</h4>
-            <div class="decision-card-stream">
-              <DecisionCard
-                v-for="item in sortedHistoryPrescription"
-                :key="item.code"
-                :item="item"
-              />
+            <!-- 决策总览 -->
+            <div class="advice-summary-bar">
+              <span>处方 {{ sortedHistoryPrescription.length }} 条</span>
+              <span>耗时 {{ selectedAdvice.elapsed_seconds || 0 }}s</span>
+              <span v-if="selectedAdvice.data_score !== undefined">数据完整度 {{ selectedAdvice.data_score }}%</span>
             </div>
-            <h4 style="margin:20px 0 8px">CIO 裁决</h4>
-            <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict)" />
-            <el-collapse style="margin-top:16px">
-              <el-collapse-item v-if="selectedAdvice.macro_judge_verdict" title="L1 · 行业方向" name="l1">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict)" />
-              </el-collapse-item>
-              <el-collapse-item v-if="selectedAdvice.stock_judge_verdict" title="L2 · 候选标的" name="l2">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict)" />
-              </el-collapse-item>
-              <el-collapse-item title="L3 · 分析师" name="analyst">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment)" />
-              </el-collapse-item>
-              <el-collapse-item title="L3 · 策略师" name="strategist">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment)" />
-              </el-collapse-item>
-              <el-collapse-item title="L3 · 侦察兵" name="scout">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment)" />
-              </el-collapse-item>
-              <el-collapse-item v-if="selectedAdvice.risk_director_review" title="L4 · 风险审查" name="risk">
-                <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)" />
-              </el-collapse-item>
-            </el-collapse>
+
+            <!-- 决策流 -->
+            <div class="decision-flow">
+              <div class="flow-step" v-if="selectedAdvice.macro_judge_verdict">
+                <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l1' ? '' : 'l1')">
+                  <span class="flow-step-num">L1</span>
+                  <span class="flow-step-title">行业方向</span>
+                  <span class="flow-step-stat">{{ selectedAdvice.market_intel?.industries?.length || 0 }} 行业扫描</span>
+                  <span class="flow-arrow">{{ flowOpen === 'l1' ? '▼' : '▶' }}</span>
+                </div>
+                <div v-if="flowOpen === 'l1'" class="flow-step-body">
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 2000))" />
+                  <div v-if="selectedAdvice.market_debate_history" class="mt-2 text-xs" style="color:#909399">
+                    L1 辩论有 {{ selectedAdvice.market_debate_history.length }} 字符 · 未展示
+                  </div>
+                </div>
+              </div>
+
+              <div class="flow-connector" />
+
+              <div class="flow-step" v-if="selectedAdvice.stock_judge_verdict || selectedAdvice.stock_candidates?.length">
+                <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l2' ? '' : 'l2')">
+                  <span class="flow-step-num">L2</span>
+                  <span class="flow-step-title">标的筛选</span>
+                  <span class="flow-step-stat">{{ selectedAdvice.stock_candidates?.length || 0 }} 候选标的</span>
+                  <span class="flow-arrow">{{ flowOpen === 'l2' ? '▼' : '▶' }}</span>
+                </div>
+                <div v-if="flowOpen === 'l2'" class="flow-step-body">
+                  <div v-if="selectedAdvice.stock_candidates?.length" class="candidates-table-wrap">
+                    <table class="candidates-table">
+                      <thead><tr>
+                        <th>代码</th><th>名称</th><th>推荐</th><th>评分</th><th>估值</th>
+                      </tr></thead>
+                      <tbody>
+                        <tr v-for="c in (selectedAdvice.stock_candidates || []).slice(0, 15)" :key="c.code">
+                          <td style="font-family:monospace">{{ c.code }}</td>
+                          <td>{{ c.name }}</td>
+                          <td>
+                            <el-tag v-if="c.action" :type="c.action==='buy'?'success':c.action==='observe'?'warning':'info'" size="small">{{ c.action }}</el-tag>
+                          </td>
+                          <td>{{ c.total_score || '-' }}</td>
+                          <td>{{ c.valuation || '-' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 1500))" />
+                </div>
+              </div>
+
+              <div class="flow-connector" />
+
+              <div class="flow-step">
+                <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l3' ? '' : 'l3')">
+                  <span class="flow-step-num">L3</span>
+                  <span class="flow-step-title">组合构建</span>
+                  <span class="flow-step-stat">4 人红队辩论</span>
+                  <span class="flow-arrow">{{ flowOpen === 'l3' ? '▼' : '▶' }}</span>
+                </div>
+                <div v-if="flowOpen === 'l3'" class="flow-step-body">
+                  <el-tabs>
+                    <el-tab-pane label="组合反向者">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.contrarian_assessment?.slice(0, 2000))" />
+                    </el-tab-pane>
+                    <el-tab-pane label="持仓分析师">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 2000))" />
+                    </el-tab-pane>
+                    <el-tab-pane label="策略师">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 2000))" />
+                    </el-tab-pane>
+                    <el-tab-pane label="侦察兵">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 2000))" />
+                    </el-tab-pane>
+                  </el-tabs>
+                  <div v-if="selectedAdvice.debate_history" class="mt-2 text-xs" style="color:#909399">
+                    辩论记录有 {{ selectedAdvice.debate_history.length }} 字符 · 未完整展示
+                  </div>
+                </div>
+              </div>
+
+              <div class="flow-connector" />
+
+              <div class="flow-step">
+                <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l4' ? '' : 'l4')">
+                  <span class="flow-step-num">L4</span>
+                  <span class="flow-step-title">最终处方</span>
+                  <span class="flow-step-stat">{{ sortedHistoryPrescription.length }} 条处方</span>
+                  <span class="flow-arrow">{{ flowOpen === 'l4' ? '▼' : '▶' }}</span>
+                </div>
+                <div v-if="flowOpen === 'l4'" class="flow-step-body">
+                  <div class="decision-card-stream">
+                    <DecisionCard
+                      v-for="item in sortedHistoryPrescription"
+                      :key="item.code"
+                      :item="item"
+                    />
+                  </div>
+                  <el-collapse style="margin-top:12px">
+                    <el-collapse-item v-if="selectedAdvice.cio_verdict" title="CIO 裁决原文">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 3000))" />
+                    </el-collapse-item>
+                    <el-collapse-item v-if="selectedAdvice.risk_director_review" title="风险总监审查">
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)" />
+                    </el-collapse-item>
+                  </el-collapse>
+                </div>
+              </div>
+            </div>
           </div>
           <el-result v-else-if="selectedAdvice.status === 'FAILED'" icon="error" :sub-title="selectedAdvice.error || '未知错误'" />
         </template>
@@ -269,6 +369,7 @@ const overview = ref<{
 const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
+const flowOpen = ref('')
 
 // 矩阵排序
 const matrixSortField = ref<string>('holdings_weight')
@@ -484,4 +585,28 @@ onMounted(() => {
 .drawer-pos-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f5f7fa; border-radius: 6px; }
 .drawer-pos-name { font-size: 13px; font-weight: 500; color: #303133; }
 .drawer-pos-code { font-size: 12px; color: #909399; font-family: monospace; }
+
+/* 决策流 */
+.advice-summary-bar { display: flex; gap: 24px; padding: 8px 16px; background: #f0f5ff; border-radius: 6px; font-size: 13px; color: #606266; margin-bottom: 16px; }
+.decision-flow { }
+.flow-step { border: 1px solid #ebeef5; border-radius: 8px; margin-bottom: 0; }
+.flow-step-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.15s; }
+.flow-step-header:hover { background: #f5f7fa; }
+.flow-step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: #409eff; color: #fff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.flow-step-title { font-weight: 600; font-size: 14px; color: #303133; }
+.flow-step-stat { font-size: 12px; color: #909399; }
+.flow-arrow { margin-left: auto; font-size: 12px; color: #909399; }
+.flow-step-body { padding: 12px 16px 16px; border-top: 1px solid #ebeef5; }
+.flow-connector { width: 2px; height: 16px; background: #dcdfe6; margin: 0 auto; border-radius: 1px; }
+.candidates-table-wrap { margin-bottom: 12px; overflow-x: auto; }
+.candidates-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.candidates-table th { background: #fafafa; text-align: left; padding: 6px 10px; border-bottom: 1px solid #ebeef5; color: #909399; }
+.candidates-table td { padding: 6px 10px; border-bottom: 1px solid #ebeef5; }
+
+.weight-badge.target { background: #fdf6ec; color: #e6a23c; }
+.delta-tag { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.delta-up { color: #e6a23c; }
+.delta-down { color: #67c23a; }
+.mt-2 { margin-top: 8px; }
+.text-xs { font-size: 12px; }
 </style>

@@ -64,7 +64,33 @@ def create_stock_contrarian(llm):
     chain = prompt | llm.bind_tools(tools)
 
     def stock_contrarian_node(state: dict) -> dict:
-        result = chain.invoke(state["messages"])
+        # 注入 Scout 的候选标的列表，防止 msg_clear 后丢失上下文
+        messages = list(state.get("messages", []))
+        candidates = state.get("stock_candidates", [])
+        if candidates:
+            cand_lines = []
+            for c in candidates[:20]:
+                score_info = ""
+                if c.get("total_score"):
+                    score_info = (
+                        f" | 评分: 生意{c.get('score_business_model','?')}/"
+                        f"护城河{c.get('score_moat','?')}/"
+                        f"财务{c.get('score_financials','?')} "
+                        f"总分{c.get('total_score','?')}"
+                    )
+                cand_lines.append(
+                    f"- {c.get('code','?')} {c.get('name','')}: "
+                    f"{c.get('action','?')} | {c.get('reasoning','')[:100]}"
+                    f"{score_info}"
+                )
+            context_msg = HumanMessage(content=(
+                f"## Scout 推荐/观察的候选标的 (共 {len(candidates)} 只)\n\n"
+                + "\n".join(cand_lines)
+                + "\n\n请逐只挑战以上标的，找出每只的实质性风险。"
+            ))
+            messages.append(context_msg)
+
+        result = chain.invoke(messages)
         report = ""
         if not hasattr(result, "tool_calls") or not result.tool_calls:
             report = result.content if hasattr(result, "content") else str(result)

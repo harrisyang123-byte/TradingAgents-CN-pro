@@ -136,13 +136,11 @@ def get_industry_constituents(industry: str, market: str = "cn") -> dict:
     """
     if market == "cn":
         return _get_industry_constituents_cn(industry)
-    return {
-        "industry": industry,
-        "market": market,
-        "fallback": True,
-        "note": f"{market} 市场成分股查询请用 get_company_profile 逐只获取",
-        "constituents": [],
-    }
+    elif market == "hk":
+        return _get_industry_constituents_hk(industry)
+    elif market == "us":
+        return _get_industry_constituents_us(industry)
+    return {"error": f"不支持的市场: {market}", "fallback": True, "constituents": []}
 
 
 @tool
@@ -267,6 +265,120 @@ def _get_industry_constituents_cn(industry: str) -> dict:
         return {"industry": industry, "market": "cn", "constituents": constituents}
     except Exception as e:
         return {"industry": industry, "market": "cn", "fallback": True, "error": str(e), "constituents": []}
+
+
+def _get_industry_constituents_hk(industry: str) -> dict:
+    """通过 AKShare 获取全量港股 + yfinance 行业匹配"""
+    try:
+        import akshare as ak
+        df = ak.stock_hk_spot_em()
+        if df is None or df.empty:
+            return {"industry": industry, "market": "hk", "fallback": True, "constituents": []}
+
+        # 按行业关键词过滤（HK 股票无标准行业字段，使用名称+缓存匹配）
+        from app.services.industry_buckets import classify as bucket_classify, KNOWN_COMPANY_BUCKETS
+        matched = []
+        for _, row in df.head(200).iterrows():
+            code = str(row.get("代码", "")).strip()
+            name = str(row.get("名称", ""))
+            bucket = bucket_classify(code=code, name=name, instrument_type="stock")
+            if bucket == "其他":
+                bucket = KNOWN_COMPANY_BUCKETS.get(code, "")
+            if bucket and industry[:2] in bucket:
+                matched.append({"code": code, "name": name})
+            elif industry in name:
+                matched.append({"code": code, "name": name})
+        return {
+            "industry": industry, "market": "hk",
+            "constituents": matched[:30], "source": "akshare+bucket",
+        }
+    except Exception as e:
+        return {"industry": industry, "market": "hk", "fallback": True, "error": str(e), "constituents": []}
+
+
+def _get_industry_constituents_us(industry: str) -> dict:
+    """通过 yfinance sector 查询美股成分股"""
+    try:
+        import yfinance as yf
+        # 尝试通过 yfinance 常见行业关键词获取
+        from app.services.industry_buckets import GICS_TO_BUCKET
+        # 找匹配的 GICS 分类
+        gics_matches = [k for k, v in GICS_TO_BUCKET.items() if industry[:2] in v or industry in k]
+        matched = []
+        for gics_key in gics_matches[:3]:
+            try:
+                tk = yf.Ticker(gics_key.replace(" ", ""))
+                info = tk.info or {}
+                if info.get("sector") == gics_key or info.get("industry") == gics_key:
+                    matched.append({
+                        "code": info.get("symbol", gics_key),
+                        "name": info.get("longName", info.get("shortName", "")),
+                    })
+            except Exception:
+                pass
+        return {
+            "industry": industry, "market": "us",
+            "constituents": matched[:15], "source": "yfinance",
+            "note": "美股行业成分股数量有限，建议用 get_company_profile 补充查询" if not matched else "",
+        }
+    except Exception as e:
+        return {"industry": industry, "market": "us", "fallback": True, "error": str(e), "constituents": []}
+
+
+@tool
+def get_global_leaders(industry: str, market: str = "cn") -> dict:
+    """获取某行业全球范围内的标杆公司（含 PE/ROE/营收增速/市值）。
+
+    参数:
+      industry: 行业名称
+      market: "cn" / "hk" / "us"
+    返回: {industry, market, leaders: [{code, name, pe, roe, market_cap, revenue_growth}]}
+    """
+    result = {"industry": industry, "market": market, "leaders": []}
+    try:
+        import yfinance as yf
+
+        # 预定义的全球行业龙头（按行业关键词映射）
+        GLOBAL_LEADERS_MAP = {
+            "半导体": ["NVDA", "TSM", "ASML", "INTC", "002371.SZ"],
+            "消费/互联网": ["AAPL", "AMZN", "META", "00700.HK", "600519.SH"],
+            "人工智能": ["MSFT", "GOOGL", "NVDA", "002415.SZ", "BABA"],
+            "新能源": ["TSLA", "688599.SH", "601012.SH", "SEDG"],
+            "新能源车": ["TSLA", "BYDDY", "01211.HK", "LI", "NIO"],
+            "通信/5G": ["QCOM", "ERIC", "000063.SZ", "00941.HK"],
+            "金融/保险": ["JPM", "BRK-B", "600036.SH", "02318.HK"],
+            "医药健康": ["JNJ", "PFE", "300760.SZ", "02269.HK"],
+            "高端制造": ["CAT", "HON", "600031.SH", "SIEGY"],
+            "家电/电子": ["AAPL", "SONY", "000651.SZ", "01810.HK"],
+        }
+
+        leaders = GLOBAL_LEADERS_MAP.get(industry, [])
+        if not leaders:
+            # 尝试模糊匹配
+            for k, v in GLOBAL_LEADERS_MAP.items():
+                if industry[:2] in k or k[:2] in industry:
+                    leaders = v
+                    break
+
+        for ticker in leaders[:8]:
+            try:
+                tk = yf.Ticker(ticker)
+                info = tk.info or {}
+                result["leaders"].append({
+                    "code": ticker,
+                    "name": info.get("longName", info.get("shortName", ticker)),
+                    "pe": info.get("trailingPE"),
+                    "roe": info.get("returnOnEquity"),
+                    "market_cap": info.get("marketCap"),
+                    "revenue_growth": info.get("revenueGrowth"),
+                    "sector": info.get("sector", ""),
+                })
+            except Exception:
+                result["leaders"].append({"code": ticker, "name": ticker, "note": "数据获取失败"})
+
+        return result
+    except Exception as e:
+        return {"industry": industry, "market": market, "fallback": True, "error": str(e), "leaders": []}
 
 
 def _get_company_profile_cn(code: str) -> dict:
@@ -593,6 +705,7 @@ L2_TOOLS = [
     get_financial_summary,
     get_stock_quotes,
     get_fund_rankings,
+    get_global_leaders,
 ]
 
 ALL_MARKET_TOOLS = L1_TOOLS + L2_TOOLS

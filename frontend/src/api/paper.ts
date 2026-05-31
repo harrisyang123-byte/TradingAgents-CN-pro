@@ -129,6 +129,8 @@ export interface StockCandidate {
   action?: string
   reasoning?: string
   risk?: string
+  total_score?: number
+  valuation?: string
 }
 
 export interface PortfolioAdvice {
@@ -140,6 +142,7 @@ export interface PortfolioAdvice {
   analyst_assessment?: string
   strategist_assessment?: string
   scout_assessment?: string
+  contrarian_assessment?: string
   debate_history?: string
   macro_judge_verdict?: string
   market_intel?: MarketIntel
@@ -258,6 +261,8 @@ export interface IndustryOverviewRow {
   coverage_status: 'covered' | 'stale' | 'never' | 'planned'
   analyzed_at: string
   holdings_weight: number
+  target_weight: number
+  delta: number
   position_count: number
   position_codes: string[]
   position_names: string[]

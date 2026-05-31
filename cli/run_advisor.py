@@ -148,18 +148,21 @@ async def cmd_run(user_id: str, lite: bool = False):
         "prescription": presc,
         "cio_verdict": result.get("cio_verdict", ""),
         "analyst_assessment": result.get("analyst_assessment", ""),
-        "strategist_assessment": result.get(
-            "strategist_assessment", ""),
+        "strategist_assessment": result.get("strategist_assessment", ""),
         "scout_assessment": result.get("scout_assessment", ""),
-        "macro_judge_verdict": result.get(
-            "macro_judge_verdict", ""),
+        "contrarian_assessment": result.get("contrarian_assessment", ""),
+        "macro_judge_verdict": result.get("macro_judge_verdict", ""),
         "market_intel": result.get("market_intel", {}),
         "stock_candidates": result.get("stock_candidates", []),
-        "stock_judge_verdict": result.get(
-            "stock_judge_verdict", ""),
-        "risk_director_review": result.get(
-            "risk_director_review", ""),
+        "stock_judge_verdict": result.get("stock_judge_verdict", ""),
+        "risk_director_review": result.get("risk_director_review", ""),
         "elapsed_seconds": round(elapsed, 2),
+        "market_debate_history": result.get("market_debate_history", ""),
+        "stock_debate_history": result.get("stock_debate_history", ""),
+        "debate_history": result.get("debate_history", ""),
+        "price_context": result.get("price_context", {}),
+        "risk_debate_final": result.get("risk_debate_final", {}),
+        "audit_results": result.get("audit_results", []),
     })
     print(f"\n已保存 MongoDB: advice_id={advice_id}")
 

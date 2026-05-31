@@ -32,6 +32,7 @@ class AdviceItem(TypedDict, total=False):
     bias_check: str
     fund_role: str       # 行业暴露工具 / 主动alpha来源 / 现金管理工具
     industry_bucket: str  # 标的归属的行业 bucket 名称
+    data_sources: List[str]  # 决策数据来源溯源
 
 
 class MarketDebateState(TypedDict, total=False):

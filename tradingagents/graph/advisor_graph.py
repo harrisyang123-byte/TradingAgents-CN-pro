@@ -96,26 +96,33 @@ def _msg_clear_node(state: dict) -> dict:
 # ── 辩论节点工厂 ───────────────────────────────────────
 
 def _make_debate_node(llm, role_key: str, label: str, debate_state_key: str):
-    """创建纯 prompt 辩论节点（用于 L3）"""
+    """创建红队辩论节点 — 反对前置，批判优先"""
 
     def debate_node(state: dict) -> dict:
         debate = state.get(debate_state_key, {})
         history = debate.get("history", "")
 
+        # 收集其他成员的初始评估和辩论回复
         other_views = []
-        for k in ["analyst_response", "strategist_response", "scout_response"]:
-            if k != role_key:
-                resp = debate.get(k, "")
-                if resp:
-                    other_views.append(f"[{k}]: {resp[:1000]}")
+        assessment_keys = {
+            "analyst_response": "analyst_assessment",
+            "strategist_response": "strategist_assessment",
+            "scout_response": "scout_assessment",
+            "contrarian_response": "contrarian_assessment",
+        }
+        for k, assess_key in assessment_keys.items():
+            if k == role_key:
+                continue
+            # 优先取辩论回复，次取初始评估
+            resp = debate.get(k) or state.get(assess_key, "")
+            if resp:
+                other_views.append(f"[{k}]: {str(resp)[:1000]}")
 
         own_assessment = state.get(
-            {"analyst_response": "analyst_assessment",
-             "strategist_response": "strategist_assessment",
-             "scout_response": "scout_assessment"}.get(role_key, ""), ""
+            assessment_keys.get(role_key, ""), ""
         )
 
-        prompt = f"""你是组合顾问团队的{label}，正在参与团队辩论。
+        prompt = f"""你是组合顾问团队的{label}，正在参与红队辩论。你的首要任务是找出他人推理中的缺陷。
 
 你此前的评估：
 {str(own_assessment)[:1500]}
@@ -126,25 +133,76 @@ def _make_debate_node(llm, role_key: str, label: str, debate_state_key: str):
 辩论历史：
 {history[-2000:] if history else '首轮辩论'}
 
-请针对其他成员的观点：
-1. 指出你同意的部分（及理由）
-2. 指出你不同意的部分（及理由）
-3. 补充你认为被忽视的重要因素
-4. 更新你的操作建议（如有变化）
+请以批判性视角审视其他成员的观点：
+1. 指出至少 2 个被忽视的风险或推理缺陷（必须具体，不能泛泛而谈）
+2. 如果你同意某点，说明为什么它在当前市场环境下仍然可能是错的
+3. 补充至少 1 个被遗漏的重要视角
+4. 只有在你被说服的情况下，才更新你的建议
 
-保持你的角色视角，用中文简洁回答。"""
+保持你的角色视角，用中文回答。不要为了礼貌而同意——真诚的反对比虚假的共识更有价值。"""
 
         response = llm.invoke([HumanMessage(content=prompt)])
         text = response.content if hasattr(response, "content") else str(response)
 
         new_debate = dict(debate)
         new_debate[role_key] = text
-        new_debate["history"] = history + f"\n\n[{label} 辩论]: {text}"
+        new_debate["history"] = history + f"\n\n[{label}]: {text}"
         new_debate["current_speaker"] = role_key
 
         return {debate_state_key: new_debate}
 
     return debate_node
+
+
+def _make_l3_contrarian_node(llm, debate_state_key: str = "advisor_debate_state"):
+    """L3 组合构建反向者 — 专门挑刺，找出其他三人推理中的缺陷"""
+
+    def contrarian_node(state: dict) -> dict:
+        debate = state.get(debate_state_key, {})
+        history = debate.get("history", "")
+
+        analyst = state.get("analyst_assessment", "")
+        strategist = state.get("strategist_assessment", "")
+        scout = state.get("scout_assessment", "")
+
+        prompt = f"""你是组合顾问团队的反向意见者（Contrarian）。你的唯一职责是质疑和挑战其他成员的推理。
+
+## 持仓分析师的评估
+{str(analyst)[:1500] if analyst else '尚未产出'}
+
+## 策略师的评估
+{str(strategist)[:1500] if strategist else '尚未产出'}
+
+## 侦察兵的评估
+{str(scout)[:1500] if scout else '尚未产出'}
+
+## 辩论历史
+{history[-2000:] if history else '首轮'}
+
+请对以上三个评估逐一挑战：
+1. **持仓分析师**: 哪些标的的"安全边际"判断可能过于乐观？是否有标的应该减仓却建议持有？
+2. **策略师**: 集中度分析的阈值是否合理？组合缺口识别是否遗漏了重要方向？
+3. **侦察兵**: 推荐的候选标的是否存在幸存者偏差？是否有更好的冷门标的被忽略？
+
+要求：
+- 至少找出 3 个具体的推理缺陷
+- 每个批评必须附带数据或逻辑支撑
+- 如果你认为某点正确，必须说明"市场可能在什么情况下证明它是错的"
+- 提出至少 1 个被所有人忽略的替代方案
+
+用中文回答，保持批判但不刻薄。"""
+
+        response = llm.invoke([HumanMessage(content=prompt)])
+        text = response.content if hasattr(response, "content") else str(response)
+
+        new_debate = dict(debate)
+        new_debate["contrarian_response"] = text
+        new_debate["history"] = history + f"\n\n[反向意见者]: {text}"
+        new_debate["current_speaker"] = "contrarian_response"
+
+        return {debate_state_key: new_debate, "contrarian_assessment": text}
+
+    return contrarian_node
 
 
 # ── L1/L2 辩论节点（两人交替，纯 prompt） ──────────────
@@ -405,7 +463,7 @@ class AdvisorGraph:
         # ── 工具执行节点（L1/L2 维持原状；L3/L4 新加） ──
         tools_l1_market = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
         tools_l1_contrarian = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
-        tools_l2_scout = _make_tool_executor(L2_TOOLS, "stock_tool_call_count")
+        tools_l2_scout = _make_tool_executor(L2_TOOLS, "stock_tool_call_count", max_calls=8)
         tools_l2_scontrarian = _make_tool_executor(L2_TOOLS, "stock_tool_call_count")
         tools_l3_analyst = _make_tool_executor(ANALYST_TOOLS, "analyst_tool_call_count")
         tools_l3_strategist = _make_tool_executor(STRATEGIST_TOOLS, "strategist_tool_call_count")
@@ -430,7 +488,8 @@ class AdvisorGraph:
             self.llm, "标的反向者", "scontrarian_response", "stock_debate_state", "scout_response"
         )
 
-        # L3 辩论 (3人轮转，现有模式)
+        # L3 红队辩论 (Contrarian 首发，批判优先)
+        l3_contrarian = _make_l3_contrarian_node(self.llm)
         debate_analyst = _make_debate_node(self.llm, "analyst_response", "持仓分析师", "advisor_debate_state")
         debate_strategist = _make_debate_node(self.llm, "strategist_response", "策略师", "advisor_debate_state")
         debate_scout_l3 = _make_debate_node(self.llm, "scout_response", "侦察兵", "advisor_debate_state")
@@ -577,7 +636,7 @@ class AdvisorGraph:
 
         workflow.add_edge("stock_judge", "msg_clear_final_l2")
 
-        # === Level 3: 组合构建（工具型 Agent） ===
+        # === Level 3: 组合构建（工具型 Agent + 红队辩论） ===
         workflow.add_node("Analyst", portfolio_analyst)
         workflow.add_node("Strategist", strategist)
         workflow.add_node("Scout_L3", l3_scout)
@@ -588,6 +647,7 @@ class AdvisorGraph:
         workflow.add_node("debate_analyst", debate_analyst)
         workflow.add_node("debate_strategist", debate_strategist)
         workflow.add_node("debate_scout_l3", debate_scout_l3)
+        workflow.add_node("l3_contrarian", l3_contrarian)
         workflow.add_node("debate_advisor_ctr", debate_advisor_ctr)
 
         # L3: Analyst tool loop
@@ -609,8 +669,9 @@ class AdvisorGraph:
         workflow.add_edge("tools_l3_strategist", "Strategist")
         workflow.add_edge("msg_clear_l3b", "Scout_L3")
 
-        # L3: Scout (纯 prompt) + debate
-        workflow.add_edge("Scout_L3", "debate_analyst")
+        # L3: Scout (纯 prompt) → Contrarian 首发批评 → 红队辩论
+        workflow.add_edge("Scout_L3", "l3_contrarian")
+        workflow.add_edge("l3_contrarian", "debate_analyst")
         workflow.add_edge("debate_analyst", "debate_strategist")
         workflow.add_edge("debate_strategist", "debate_scout_l3")
         workflow.add_edge("debate_scout_l3", "debate_advisor_ctr")
@@ -898,6 +959,7 @@ class AdvisorGraph:
             "analyst_assessment": "",
             "strategist_assessment": "",
             "scout_assessment": "",
+            "contrarian_assessment": "",
             "advisor_debate_state": {
                 "history": "",
                 "current_speaker": "",
@@ -982,6 +1044,7 @@ class AdvisorGraph:
             "debate_strategist": "L3-辩论(策略师)",
             "debate_scout_l3": "L3-辩论(侦察兵)",
             "debate_advisor_ctr": None,
+            "l3_contrarian": "L3-组合反向者",
             "CIO": "L4-CIO",
             "Risk_Director": "L4-风险总监",
             "debate_cio_l4": "L4-辩论(CIO)",
@@ -1039,6 +1102,7 @@ class AdvisorGraph:
             "analyst_assessment": final_state.get("analyst_assessment", ""),
             "strategist_assessment": final_state.get("strategist_assessment", ""),
             "scout_assessment": final_state.get("scout_assessment", ""),
+            "contrarian_assessment": final_state.get("contrarian_assessment", ""),
             "macro_judge_verdict": final_state.get("macro_judge_verdict", ""),
             "market_intel": final_state.get("market_intel", {}),
             "stock_candidates": final_state.get("stock_candidates", []),
@@ -1048,4 +1112,9 @@ class AdvisorGraph:
             "market_debate_history": final_state.get("market_debate_state", {}).get("history", ""),
             "stock_debate_history": final_state.get("stock_debate_state", {}).get("history", ""),
             "elapsed_seconds": round(elapsed, 2),
+            # ── 新增字段 ──
+            "price_context": final_state.get("price_context", {}),
+            "risk_debate_final": final_state.get("risk_debate_final", {}),
+            "portfolio_summary_snapshot": final_state.get("portfolio_summary", {}),
+            "audit_results": final_state.get("audit_results", []),
         }

@@ -1,6 +1,7 @@
-"""侦察兵 (L2 辩手)：用工具扫描全市场标的，巴芒四层过滤器筛选好公司
+"""侦察兵 (L2 辩手)：全市场扫描 + 6维度评分筛选优秀公司
 
-重写：从纯 prompt agent 升级为 tool-agent，支持 A股+港股+美股 全市场扫描。
+重写：从"巴芒四层过滤器"模糊 prompt 升级为结构化 6 维度评分体系，
+修复回退模式无上下文问题。
 """
 
 import json
@@ -14,7 +15,7 @@ logger = logging.getLogger("webapi")
 
 
 def _sanitize_messages(msgs: list) -> list:
-    """确保消息历史中每个 tool_calls 都有对应的 ToolMessage 响应，否则清理"""
+    """确保消息历史中每个 tool_calls 都有对应的 ToolMessage 响应"""
     if not msgs:
         return msgs
     cleaned = []
@@ -30,21 +31,16 @@ def _sanitize_messages(msgs: list) -> list:
 
     if pending_tool_ids:
         logger.warning(
-            f"[Scout] 检测到 {len(pending_tool_ids)} 个未响应的 tool_calls，"
-            f"清理消息历史（保留最后一条非 tool_calls 消息）"
+            f"[Scout] 检测到 {len(pending_tool_ids)} 个未响应的 tool_calls，清理消息历史"
         )
-        # 找到最后一个安全的起点的消息之前，全部移除
-        # 策略：找到所有包含未响应 tool_calls 的 AIMessage，移除它们及之后的消息
-        # 简化：只保留安全的起始消息 + 重新开始
         safe = []
         for m in msgs:
             if isinstance(m, AIMessage) and hasattr(m, "tool_calls") and m.tool_calls:
                 if any(tc.get("id", "") in pending_tool_ids for tc in m.tool_calls):
-                    break  # 找到第一个问题消息，停止
+                    break
             safe.append(m)
         if safe:
             return safe
-        # 全部不安全：返回仅含最后一条 HumanMessage 的列表
         for m in reversed(msgs):
             if isinstance(m, HumanMessage):
                 return [m]
@@ -54,7 +50,7 @@ def _sanitize_messages(msgs: list) -> list:
 
 
 def _parse_candidates(text: str) -> list:
-    """从 LLM 输出中提取结构化候选标的列表，支持多种格式"""
+    """从 LLM 输出中提取结构化候选标的列表"""
     # Strategy 1: ```json[...]``` code block
     match = re.search(r"```json\s*(\[.*?\])\s*```", text, re.DOTALL)
     if match:
@@ -65,7 +61,7 @@ def _parse_candidates(text: str) -> list:
         except (json.JSONDecodeError, ValueError):
             pass
 
-    # Strategy 2: bare JSON array anywhere in text
+    # Strategy 2: bare JSON array
     for m in re.finditer(r"\[[\s\S]*?\{[\s\S]*?\"code\"[\s\S]*?\}[\s\S]*?\]", text):
         try:
             items = json.loads(m.group(0))
@@ -74,113 +70,135 @@ def _parse_candidates(text: str) -> list:
         except (json.JSONDecodeError, ValueError):
             continue
 
-    # Strategy 3: extract individual entries from markdown-style report
+    # Strategy 3: markdown entries
     entries = []
     entry_pattern = re.compile(
         r'(?:^|\n)\s*(?:[-*]|\d+[.、])\s*'
         r'(?:\*\*)?(\d{5,6}\.(?:SH|SZ|HK|US|[A-Z]+)|[A-Z]{1,5})\s*'
-        r'(?:\(([^)]+)\))?[：:\s]+'
-        r'(buy|observe|eliminate|sell|hold|add|reduce)[\s,，]+',
+        r'(?:\(([^)]+)\))?[：:\s]+',
         re.IGNORECASE
     )
     for m in entry_pattern.finditer(text):
         code = m.group(1)
         name = m.group(2) or ""
-        action = m.group(3).lower()
         entries.append({
-            "code": code,
-            "name": name,
+            "code": code, "name": name,
             "market": "cn" if any(s in code for s in (".SH", ".SZ")) else ("hk" if ".HK" in code else "us"),
-            "action": action,
-            "filter_result": "",
-            "reasoning": "",
-            "risk": "",
+            "action": "observe", "reasoning": "", "risk": "",
+            "score_business_model": 0, "score_moat": 0, "score_management": 0,
+            "score_financials": 0, "valuation": "", "top_risks": [],
         })
-
     return entries
+
+
+SCOUT_SYSTEM_PROMPT = """你是侦察兵（Scout），负责在全市场（A股+港股+美股）扫描和筛选真正的优秀公司。
+
+## 核心方法论：优秀公司 6 维度评分
+
+对每只候选标的，必须按以下 6 个维度逐一打分：
+
+### 1. 生意模式（1-10分）
+- 这家公司靠什么赚钱？一句话能讲清楚吗？
+- 客户是谁？供应商是谁？产业链位置？
+- 生意是否可持续？过去 5 年营收是否稳定增长？
+- ≤3分：看不懂的生意 → 直接淘汰
+
+### 2. 护城河（1-10分）
+- 定价权：能否提价而不丢失客户？
+- 品牌壁垒 / 技术壁垒 / 规模效应 / 网络效应 / 监管壁垒
+- ≤4分：无护城河 → 观察列表
+
+### 3. 管理层（1-5分）
+- 长期 ROE 是否 >12%？
+- 资本配置能力（再投资 vs 回购 vs 分红）
+- 诚信记录（是否有损害股东利益的历史？）
+- ≤2分：管理层有问题 → 淘汰
+
+### 4. 财务健康（1-10分）
+- 负债率、自由现金流、经营现金流 vs 净利润
+- 应收账款/存货是否异常增长？
+- ROE 来源（真实盈利能力 vs 高杠杆）
+
+### 5. 估值合理性
+- PE 分位 vs 历史区间
+- 与同行业对比
+- 判定：低估 / 合理 / 偏贵
+
+### 6. 风险因素
+- 列出 Top 3 关键风险（行业风险、监管风险、竞争风险、技术替代风险）
+
+## 综合推荐等级
+- 强烈推荐（≥35分）：生意好 + 护城河深 + 管理优秀 + 财务健康 + 估值合理
+- 推荐（≥28分）：多数维度优秀，有 1-2 个瑕疵
+- 观察（≥20分）：有亮点但风险显著，需要等待更好时机
+- 不推荐（<20分）：有致命缺陷
+
+## 工作流程
+1. 读取 L1 的 market_intel → Go 行业列表
+2. 对每个 Go 行业，调用 get_industry_constituents 获取成分股
+3. 对市值前 10-15 只，调用 get_company_profile + get_financial_summary + get_stock_quotes
+4. 调用 get_global_leaders(industry, market) 获取该行业全球优质对标公司
+5. 用 6 维度逐只评分，输出完整评分表
+
+## 输出格式
+
+### 第一部分：行业扫描摘要
+每个 Go 行业：成分股数量、代表性标的、行业趋势判断
+
+### 第二部分：标的评分表
+| 代码 | 名称 | 生意 | 护城河 | 管理 | 财务 | 估值 | 总分 | 推荐 |
+每只推荐标的附评分理由。
+
+### 第三部分：结构化数据
+```json
+[
+  {
+    "code": "标的代码", "name": "标的名称", "market": "cn/hk/us",
+    "action": "buy/observe/eliminate",
+    "score_business_model": 8, "score_moat": 7, "score_management": 4,
+    "score_financials": 7, "valuation": "合理/低估/偏贵",
+    "total_score": 26, "recommendation": "推荐/观察/不推荐",
+    "top_risks": ["风险1", "风险2", "风险3"],
+    "reasoning": "推荐理由一句话",
+    "priority": "high/medium/low"
+  }
+]
+```
+
+注意：
+- 不要只推荐大盘股（如腾讯/茅台）— 中小市值优质公司同样重要
+- 多个行业要覆盖，不要只关注一个行业
+- 港股代码格式为 5 位数字（如 00700），美股为字母（如 AAPL）
+- code 格式与工具返回一致（A股 600519.SH，港股 00700.HK，美股 AAPL）"""
 
 
 def create_scout(llm):
     tools = L2_TOOLS
 
-    system_message = """你是侦察兵（Scout），负责在全市场（A股+港股+美股）扫描和筛选优质标的。
-
-## 你的核心筛选框架：巴芒四层过滤器
-
-对每只候选标的，必须依次通过四层过滤：
-
-### 第一层：看懂生意
-- 这家公司靠什么赚钱？用一句话能讲清楚吗？
-- 它的客户是谁？供应商是谁？在产业链中处于什么位置？
-- AI 时代能力圈不再是瓶颈——你能看懂绝大多数行业的生意逻辑
-- → 讲不清楚生意逻辑的公司，直接淘汰
-
-### 第二层：护城河
-- 定价权：能否提价而不丢失客户？
-- 品牌壁垒：消费者是否愿意为品牌溢价买单？
-- 技术壁垒：技术领先性、专利保护
-- 规模效应：边际成本随规模递减
-- 网络效应：越多用户→产品越好
-- 监管壁垒：牌照或许可证限制竞争
-- → 没有护城河的公司，只能给"观察"评级
-
-### 第三层：管理层
-- ROE：长期 ROE 是否稳定 > 12%？
-- 资本配置：是否明智地再投资或回购？
-- 诚信记录：是否有损害股东利益的历史？
-- → 管理层有疑问的公司，降级处理
-
-### 第四层：价格合理
-- PE/PB 在历史区间的位置
-- 行业生命周期阶段校准（期望膨胀期 → 自动降级）
-- 市场情绪：当前是恐惧还是贪婪？
-- 安全边际：当前价格是否提供了足够的安全边际？
-- → "用合理的价格买好公司"，不是"用任何价格买好公司"
-
-## 工作流程
-1. 读取 L1 的 market_intel 中的 Go 行业列表
-2. 对每个 Go 行业，调用 get_industry_constituents 获取成分股
-3. 对市值前 10-15 的成分股，调用 get_company_profile 和 get_financial_summary
-4. 调用 get_stock_quotes 获取当前价格和走势
-5. 对基金方向，调用 get_fund_rankings 获取 top 基金
-6. 用四层过滤器逐只筛选
-
-## 输出格式
-
-### 第一部分：分析报告
-用中文写出完整的标的筛选报告，包括推荐标的（通过四层过滤）、观察列表（部分通过，有疑虑）、淘汰列表（未通过核心过滤）。
-
-### 第二部分：结构化数据
-```json
-[
-  {"code": "标的代码", "name": "标的名称", "market": "cn/hk/us", "action": "buy/observe/eliminate", "filter_result": "通过四层/通过三层/未通过", "reasoning": "一句话推荐理由", "risk": "关键风险", "priority": "high/medium/low"}
-]
-```
-
-注意：code 必须与工具返回的代码格式一致（如 A股 600519.SH，港股 00700.HK，美股 AAPL）。"""
-
     prompt = ChatPromptTemplate.from_messages([
         ("system", "{system_message}"),
         MessagesPlaceholder(variable_name="messages"),
     ])
-    prompt = prompt.partial(system_message=system_message)
+    prompt = prompt.partial(system_message=SCOUT_SYSTEM_PROMPT)
 
     chain = prompt | llm.bind_tools(tools)
+    fallback_chain = prompt | llm
 
     def scout_node(state: dict) -> dict:
-        # 注入选定行业（两阶段模式）
+        # 注入选定行业
         selected = state.get("selected_industries", [])
+        msg_list = list(state["messages"])
         if selected:
-            msg_list = list(state["messages"])
-            industry_hint = f"\n\n⚠️ 本次分析限定以下行业：{', '.join(selected)}。请仅扫描这些行业内的标的，不要扫描其他行业。"
-            last_msg = msg_list[-1]
-            if hasattr(last_msg, "content") and isinstance(last_msg.content, str):
+            industry_hint = (
+                f"\n\n⚠️ 本次分析限定以下行业：{', '.join(selected)}。"
+                f"请仅扫描这些行业内的标的，不要扫描其他行业。"
+            )
+            last_msg = msg_list[-1] if msg_list else None
+            if last_msg and hasattr(last_msg, "content") and isinstance(last_msg.content, str):
                 if "限定以下行业" not in last_msg.content:
                     msg_list[-1] = HumanMessage(content=last_msg.content + industry_hint)
-            state["messages"] = msg_list
 
-        # 防御：确保消息历史中 tool_calls 都有对应的 ToolMessage 响应
-        msgs = _sanitize_messages(state["messages"])
+        msgs = _sanitize_messages(msg_list)
 
         try:
             result = chain.invoke(msgs)
@@ -188,14 +206,15 @@ def create_scout(llm):
             err_msg = str(e)
             if "tool_calls" in err_msg or "insufficient tool messages" in err_msg:
                 logger.warning(
-                    f"[Scout] tool_calls 消息序列异常，降级为无工具模式: {err_msg[:150]}"
+                    f"[Scout] tool_calls 异常，降级为无工具模式: {err_msg[:150]}"
                 )
-                # 降级：不带工具直接调用
-                fallback_msgs = [HumanMessage(
-                    content="请根据你的知识库和此前已获取的数据，直接给出标的筛选报告。"
-                            "必须包含完整的分析文本和JSON结构化数据块，不要调用任何工具函数。"
-                )]
-                fallback_chain = prompt | llm
+                # 降级：保留已获取的数据作为上下文
+                fallback_msgs = list(msgs)
+                fallback_msgs.append(HumanMessage(
+                    content="工具调用出现问题。请基于你的知识库和此前已获取的所有数据，"
+                            "直接给出标的筛选报告。必须包含完整的分析文本和JSON结构化数据块，"
+                            "不要调用任何工具函数。"
+                ))
                 result = fallback_chain.invoke(fallback_msgs)
             else:
                 raise

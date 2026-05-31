@@ -201,6 +201,7 @@ class PortfolioAdvisorService:
                 "analyst_assessment": result.get("analyst_assessment", ""),
                 "strategist_assessment": result.get("strategist_assessment", ""),
                 "scout_assessment": result.get("scout_assessment", ""),
+                "contrarian_assessment": result.get("contrarian_assessment", ""),
                 "macro_judge_verdict": result.get("macro_judge_verdict", ""),
                 "market_intel": result.get("market_intel", {}),
                 "stock_candidates": result.get("stock_candidates", []),
@@ -212,6 +213,10 @@ class PortfolioAdvisorService:
                 "elapsed_seconds": result.get("elapsed_seconds", 0),
                 "completed_at": datetime.utcnow().isoformat(),
                 "updated_at": datetime.utcnow().isoformat(),
+                "price_context": result.get("price_context", {}),
+                "risk_debate_final": result.get("risk_debate_final", {}),
+                "portfolio_summary_snapshot": result.get("portfolio_summary_snapshot", {}),
+                "audit_results": result.get("audit_results", []),
             }},
         )
 

@@ -400,14 +400,31 @@ class ImprovedHKStockProvider:
         try:
             company_name = self.get_company_name(symbol)
 
-            return {
+            info = {
                 'symbol': symbol,
                 'name': company_name,
                 'currency': 'HKD',
                 'exchange': 'HKG',
                 'market': '港股',
-                'source': 'improved_hk_provider'
+                'source': 'improved_hk_provider',
+                'sector': '',
+                'industry': '',
             }
+
+            # 尝试从 yfinance 获取行业分类
+            try:
+                import yfinance as yf
+                clean = symbol.replace('.HK', '').replace('.hk', '').lstrip('0') or '0'
+                tk = yf.Ticker(f"{clean}.HK")
+                yf_info = tk.info or {}
+                if yf_info.get('sector'):
+                    info['sector'] = yf_info['sector']
+                if yf_info.get('industry'):
+                    info['industry'] = yf_info['industry']
+            except Exception:
+                pass
+
+            return info
             
         except Exception as e:
             logger.error(f"❌ [港股] 获取股票信息失败: {e}")
