@@ -1,6 +1,7 @@
 """标的反向者 (L2 辩手)：挑战 Scout 推荐的每只标的，防止确认偏误和过度乐观"""
 
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage
 from .market_tools import L2_TOOLS
 
 
