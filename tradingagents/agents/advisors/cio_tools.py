@@ -184,7 +184,22 @@ def create_cio_tools(state_provider):
             "violations": violations,
         }, ensure_ascii=False, indent=2)
 
+    @tool
+    def get_buy_signal(code: str) -> str:
+        """读取某只标的的预计算买入信号（由 Buy Signal Engine 计算，非 LLM 编造）。
+        返回: {code, name, signal, total_score, valuation_score, sentiment_score,
+               fund_flow_score, confidence, price_range, timing, lights}"""
+        state = state_provider()
+        buy_signals = state.get("buy_signals", {})
+        sig = buy_signals.get(code, {})
+        if sig:
+            return json.dumps(sig, ensure_ascii=False, indent=2)
+        return json.dumps(
+            {"code": code, "signal": "无信号", "note": "该标的不在 Buy Signal Engine 覆盖范围内"},
+            ensure_ascii=False)
+
     return [
         get_position_batch, get_l1_verdict, get_l2_candidates,
         dispatch_scout, search_industry_etf, validate_allocation,
+        get_buy_signal,
     ]

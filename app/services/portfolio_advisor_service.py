@@ -217,6 +217,8 @@ class PortfolioAdvisorService:
                 "risk_debate_final": result.get("risk_debate_final", {}),
                 "portfolio_summary_snapshot": result.get("portfolio_summary_snapshot", {}),
                 "audit_results": result.get("audit_results", []),
+                "buy_signals": result.get("buy_signals", {}),
+                "market_signals": result.get("market_signals", {}),
             }},
         )
 

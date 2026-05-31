@@ -163,6 +163,8 @@ async def cmd_run(user_id: str, lite: bool = False):
         "price_context": result.get("price_context", {}),
         "risk_debate_final": result.get("risk_debate_final", {}),
         "audit_results": result.get("audit_results", []),
+        "buy_signals": result.get("buy_signals", {}),
+        "market_signals": result.get("market_signals", {}),
     })
     print(f"\n已保存 MongoDB: advice_id={advice_id}")
 

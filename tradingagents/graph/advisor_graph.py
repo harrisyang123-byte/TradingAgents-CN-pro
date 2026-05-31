@@ -37,6 +37,8 @@ from tradingagents.agents.advisors.risk_tools import create_risk_tools
 from tradingagents.dataflows.pe_percentile import enrich_price_context
 from tradingagents.utils.logging_init import get_logger
 from app.services.portfolio_audit_service import audit_positions
+from app.services.buy_signal_engine import get_buy_signal_engine
+from app.services.market_signals import collect_market_signals, fetch_stock_sentiment
 
 logger = get_logger("default")
 
@@ -57,6 +59,135 @@ def enrich_price_data_node(state: dict) -> dict:
     success = sum(1 for v in price_context.values() if v.get("pe_percentile_source") not in ("data_unavailable", "unknown_market"))
     logger.info(f"[EnrichPrice] 完成: {success}/{len(price_context)} 标的价格数据可用")
     return {"price_context": price_context}
+
+
+# ── 买入信号计算节点 ───────────────────────────────────
+
+def compute_buy_signals_node(state: dict) -> dict:
+    """在 PE 数据就绪后、CIO 之前，为所有持仓 + 候选标的计算买点信号"""
+    engine = get_buy_signal_engine()
+    positions = state.get("portfolio_summary", {}).get("positions", [])
+    candidates = state.get("stock_candidates", [])
+    price_ctx = state.get("price_context", {})
+    audit_list = state.get("audit_results", [])
+    market_intel = state.get("market_intel", {})
+    tier1_reports = state.get("tier1_reports", [])
+
+    # 去重：持仓 + 候选（跳过基金/ETF）
+    all_targets = {}
+    for p in positions:
+        if p.get("instrument_type") in ("fund", "etf", "other"):
+            continue
+        code = p.get("code", "")
+        if code:
+            all_targets[code] = {
+                "code": code, "name": p.get("name", ""),
+                "market": p.get("market", p.get("market", "cn")),
+                "instrument_type": p.get("instrument_type", "stock"),
+            }
+    for c in candidates:
+        code = c.get("code", "")
+        if code and code not in all_targets:
+            mkt = c.get("market", "cn")
+            if mkt in ("hk", "us"):
+                pass
+            elif ".HK" in str(code) or ".hk" in str(code):
+                mkt = "hk"
+            all_targets[code] = {
+                "code": code, "name": c.get("name", ""),
+                "market": mkt,
+                "instrument_type": "stock",
+            }
+
+    # 构建 L1 行业索引
+    industries = (market_intel.get("industries", []) if isinstance(market_intel, dict) else []) or []
+    # 从 position 推断行业
+    pos_industry = {}
+    for p in positions:
+        ind = p.get("industry", "")
+        if ind:
+            pos_industry[p.get("code", "")] = ind
+
+    # 收集市场信号（全局，一次）
+    market_signals = {}
+    try:
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                import concurrent.futures
+                future = concurrent.futures.Future()
+                async def _collect():
+                    try:
+                        result = await collect_market_signals()
+                        future.set_result(result)
+                    except Exception as e:
+                        future.set_result({})
+                loop.create_task(_collect())
+            # sync fallback: empty, will be populated next run
+        except RuntimeError:
+            pass
+    except Exception:
+        pass
+
+    # 逐只计算买点信号
+    buy_signals = {}
+    for code, target in all_targets.items():
+        pe = price_ctx.get(code, {})
+        audit = next((a for a in audit_list if a.get("code") == code), {})
+        scout = next((c for c in candidates if c.get("code") == code), {})
+
+        # L1 行业匹配
+        p_ind = pos_industry.get(code, audit.get("industry", ""))
+        l1_ind = next((i for i in industries if isinstance(i, dict) and i.get("industry") == p_ind), {})
+
+        # Tier1 rating
+        tier1_r = ""
+        for r in tier1_reports:
+            rc = r.get("stock_code") or r.get("stock_symbol", "")
+            if rc == code:
+                tier1_r = r.get("rating", r.get("recommendation", ""))
+                break
+
+        # 个股情绪（轻量：用 market breadth + 简单启发式）
+        stock_sent = {
+            "sentiment_score": 50.0,
+            "sentiment_label": "中性",
+            "em_score": None,
+        }
+
+        signal = engine.compute(
+            code=code, name=target.get("name", ""),
+            market=target.get("market", "cn"),
+            pe_ctx=pe, scout_scores=scout,
+            audit=audit, l1_industry=l1_ind,
+            market_signals=market_signals,
+            stock_sentiment=stock_sent,
+            tier1_rating=tier1_r,
+        )
+        buy_signals[code] = {
+            "code": signal.code, "name": signal.name,
+            "signal": signal.signal, "confidence": signal.confidence,
+            "total_score": signal.total_score,
+            "quality_score": signal.quality_score,
+            "valuation_score": signal.valuation_score,
+            "sentiment_score": signal.sentiment_score,
+            "fund_flow_score": signal.fund_flow_score,
+            "lights": signal.lights,
+            "price_range": signal.price_range,
+            "timing": signal.timing,
+            "trigger_condition": signal.trigger_condition,
+            "data_quality": signal.data_quality,
+            "signal_details": signal.signal_details,
+        }
+
+    logger.info(
+        f"[BuySignal] {len(buy_signals)} 只标的完成打分 | "
+        f"STRONG_BUY={sum(1 for s in buy_signals.values() if s['signal'] == 'STRONG_BUY')} "
+        f"BUY={sum(1 for s in buy_signals.values() if s['signal'] == 'BUY')} "
+        f"HOLD={sum(1 for s in buy_signals.values() if s['signal'] == 'HOLD')}"
+    )
+    return {"buy_signals": buy_signals, "market_signals": market_signals}
 
 
 # ── 工具节点（带计数器） ──────────────────────────────
@@ -682,6 +813,7 @@ class AdvisorGraph:
 
         # === Level 4: 最终处方（工具型 Agent） ===
         workflow.add_node("enrich_price_data", enrich_price_data_node)
+        workflow.add_node("compute_buy_signals", compute_buy_signals_node)
         workflow.add_node("CIO", cio)
         workflow.add_node("Risk_Director", risk_director)
         workflow.add_node("tools_l4_cio", tools_l4_cio)
@@ -694,8 +826,9 @@ class AdvisorGraph:
         workflow.add_node("debate_final_ctr", debate_final_ctr)
         workflow.add_node("CIO_Final", cio)
 
-        # L4: enrich → CIO (tool loop)
-        workflow.add_edge("enrich_price_data", "CIO")
+        # L4: enrich → buy_signals → CIO (tool loop)
+        workflow.add_edge("enrich_price_data", "compute_buy_signals")
+        workflow.add_edge("compute_buy_signals", "CIO")
         workflow.add_conditional_edges("CIO", l4_router_cio, {
             "tools": "tools_l4_cio",
             "CIO": "CIO",
@@ -971,6 +1104,8 @@ class AdvisorGraph:
             },
             # L4
             "prescription": [],
+            "buy_signals": {},
+            "market_signals": {},
             "cio_verdict": "",
             "risk_director_review": "",
             "risk_debate_final": {
@@ -1119,4 +1254,6 @@ class AdvisorGraph:
             "risk_debate_final": final_state.get("risk_debate_final", {}),
             "portfolio_summary_snapshot": final_state.get("portfolio_summary", {}),
             "audit_results": final_state.get("audit_results", []),
+            "buy_signals": final_state.get("buy_signals", {}),
+            "market_signals": final_state.get("market_signals", {}),
         }

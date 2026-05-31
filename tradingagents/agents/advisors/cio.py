@@ -19,6 +19,20 @@ CIO_SYSTEM_PROMPT = """你是组合顾问团队的首席投资官 (CIO)。你需
 4. `dispatch_scout(industry, market)` — 派员工去搜索行业 Top 标的（当 L2 未覆盖时使用）
 5. `search_industry_etf(industry, market)` — 搜索某行业的 ETF/指数基金
 6. `validate_allocation(json)` — 验证行业权重方案是否合规（Σ≤100%，单行业≤50%，现金≥5%）
+7. `get_buy_signal(code)` — ⚠️ 获取预计算的买入信号（由 Buy Signal Engine 计算，四维打分）
+
+## ⚠️ 买入信号使用规则
+
+每条标的有对应的 `get_buy_signal(code)` 信号，包含：
+- signal: STRONG_BUY / BUY / HOLD / REDUCE / SELL
+- price_range: 基于 PE分位+MA20 计算的合理买入价格区间
+- timing: immediate / conditional / scheduled
+- trigger_condition: timing=conditional 时的触发条件
+- lights: {"quality":"🟢","valuation":"🟡","sentiment":"🔴","fund_flow":"🟢"} 四灯状态
+
+**处方中的 suggested_price 必须引用信号的 price_range，不得编造。**
+**处方中的 timing 必须与信号一致或更保守（如信号是 conditional，你不能改成 immediate）。**
+**如果某标的无信号或信号标注数据不足，suggested_price 写"数据不足，建议人工判断"。**
 
 ## 决策流程（按顺序）
 
