@@ -230,20 +230,6 @@
               <span>处方 {{ sortedHistoryPrescription.length }} 条</span>
               <span>耗时 {{ selectedAdvice.elapsed_seconds || 0 }}s</span>
               <span v-if="selectedAdvice.data_score !== undefined">数据完整度 {{ selectedAdvice.data_score }}%</span>
-              <span v-if="buySignalCount" class="signal-summary">
-                🟢{{ strongBuyCount }} 🟡{{ buyCount }} ⚪{{ holdCount }}
-              </span>
-            </div>
-
-            <!-- 市场信号快照 -->
-            <div v-if="selectedAdvice.market_signals" class="market-signals-bar">
-              <span class="ms-item">北向 {{ selectedAdvice.market_signals.north_net > 0 ? '流入' : '流出' }} {{ Math.abs(selectedAdvice.market_signals.north_net || 0) }}亿</span>
-              <span v-if="selectedAdvice.market_signals.breadth" class="ms-item">
-                涨跌比 {{ selectedAdvice.market_signals.breadth.up_ratio }}% · {{ selectedAdvice.market_signals.breadth.breadth_signal }}
-              </span>
-              <span v-if="selectedAdvice.market_signals.macro?.pmi" class="ms-item">
-                PMI {{ selectedAdvice.market_signals.macro.pmi }}
-              </span>
             </div>
 
             <!-- 决策流 -->
@@ -256,16 +242,16 @@
                   <span class="flow-arrow">{{ flowOpen === 'l1' ? '▼' : '▶' }}</span>
                 </div>
                 <div v-if="flowOpen === 'l1'" class="flow-step-body">
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))"></div>
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))" />
                   <div v-if="selectedAdvice.market_debate_history" class="debate-section">
-                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l1' ? '' : 'l1')">
-                      L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
+                    <div class="debate-toggle" @click="flowOpen === 'l1' ? flowOpen = 'l1-debate' : null">
+                      ▶ L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l1'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))"></div>
+                    <div v-if="flowOpen === 'l1-debate'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))" />
                 </div>
               </div>
 
-              <div class="flow-connector"></div>
+              <div class="flow-connector" />
 
               <div class="flow-step" v-if="selectedAdvice.stock_judge_verdict || selectedAdvice.stock_candidates?.length">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l2' ? '' : 'l2')">
@@ -293,17 +279,17 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))"></div>
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))" />
                   <div v-if="selectedAdvice.stock_debate_history" class="debate-section mt-2">
-                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l2' ? '' : 'l2')">
+                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l2' ? 'l2-debate' : flowOpen)">
                       L2 辩论记录 ({{ selectedAdvice.stock_debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l2'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))"></div>
+                    <div v-if="flowOpen === 'l2-debate'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))" />
                   </div>
                 </div>
               </div>
 
-              <div class="flow-connector"></div>
+              <div class="flow-connector" />
 
               <div class="flow-step">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l3' ? '' : 'l3')">
@@ -315,28 +301,28 @@
                 <div v-if="flowOpen === 'l3'" class="flow-step-body">
                   <el-tabs>
                     <el-tab-pane label="组合反向者">
-                      <div class="advice-text" v-html="renderMd((selectedAdvice.contrarian_assessment || selectedAdvice.debate_history?.split('[反向意见者]')[1] || '').slice(0, 8000))"></div>
+                      <div class="advice-text" v-html="renderMd((selectedAdvice.contrarian_assessment || selectedAdvice.debate_history?.split('[反向意见者]')[1] || '').slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="持仓分析师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 8000))"></div>
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="策略师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 8000))"></div>
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                     <el-tab-pane label="侦察兵">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 8000))"></div>
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 8000))" />
                     </el-tab-pane>
                   </el-tabs>
                   <div v-if="selectedAdvice.debate_history" class="debate-section mt-2">
-                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l3' ? '' : 'l3')">
+                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l3' ? 'l3-debate' : flowOpen)">
                       L3 完整辩论记录 ({{ selectedAdvice.debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l3'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))"></div>
+                    <div v-if="flowOpen === 'l3-debate'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))" />
                   </div>
                 </div>
               </div>
 
-              <div class="flow-connector"></div>
+              <div class="flow-connector" />
 
               <div class="flow-step">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l4' ? '' : 'l4')">
@@ -351,15 +337,14 @@
                       v-for="item in sortedHistoryPrescription"
                       :key="item.code"
                       :item="item"
-                      :buy-signal="selectedAdvice?.buy_signals?.[item.code] || null"
                     />
                   </div>
                   <el-collapse style="margin-top:12px">
                     <el-collapse-item v-if="selectedAdvice.cio_verdict" title="CIO 裁决原文">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 10000))"></div>
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 10000))" />
                     </el-collapse-item>
                     <el-collapse-item v-if="selectedAdvice.risk_director_review" title="风险总监审查">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)"></div>
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)" />
                     </el-collapse-item>
                   </el-collapse>
                 </div>
@@ -396,7 +381,6 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
 const flowOpen = ref('')
-const debateOpen = ref('')
 
 // 矩阵排序
 const matrixSortField = ref<string>('holdings_weight')
@@ -468,12 +452,6 @@ const sortedHistoryPrescription = computed(() => {
   const order: Record<string, number> = { urgent: 0, important: 1, optional: 2 }
   return [...items].sort((a, b) => (order[a.priority || 'optional'] ?? 2) - (order[b.priority || 'optional'] ?? 2))
 })
-
-const buySignals = computed(() => selectedAdvice.value?.buy_signals || {})
-const buySignalCount = computed(() => Object.keys(buySignals.value).length)
-const strongBuyCount = computed(() => Object.values(buySignals.value).filter((s: any) => s.signal === 'STRONG_BUY').length)
-const buyCount = computed(() => Object.values(buySignals.value).filter((s: any) => s.signal === 'BUY').length)
-const holdCount = computed(() => Object.values(buySignals.value).filter((s: any) => s.signal === 'HOLD').length)
 
 function coverageTagType(s: string) {
   return s === 'covered' ? 'success' : s === 'stale' ? 'warning' : s === 'planned' ? 'info' : 'danger'
@@ -621,14 +599,6 @@ onMounted(() => {
 
 /* 决策流 */
 .advice-summary-bar { display: flex; gap: 24px; padding: 8px 16px; background: #f0f5ff; border-radius: 6px; font-size: 13px; color: #606266; margin-bottom: 16px; }
-.signal-summary { font-size: 14px; margin-left: auto; }
-
-.market-signals-bar {
-  display: flex; gap: 16px; padding: 6px 14px;
-  background: #fef7e0; border-radius: 4px; margin-bottom: 12px;
-  font-size: 12px; color: #8c6d1f;
-}
-.ms-item { white-space: nowrap; }
 .decision-flow { }
 .flow-step { border: 1px solid #ebeef5; border-radius: 8px; margin-bottom: 0; }
 .flow-step-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.15s; }
