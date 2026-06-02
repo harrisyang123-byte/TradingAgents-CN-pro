@@ -397,6 +397,7 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
 const flowOpen = ref<'' | 'l1' | 'l1-debate' | 'l2' | 'l2-debate' | 'l3' | 'l3-debate' | 'l4'>('')
+const debateOpen = ref('')
 
 // 矩阵排序
 const matrixSortField = ref<string>('holdings_weight')
@@ -512,20 +513,20 @@ function openAdviceDetail(adv: PortfolioAdvice) {
 }
 
 function toggleL1Debate() {
-  flowOpen.value = (flowOpen.value as string) === 'l1' ? 'l1-debate' : flowOpen.value
+  debateOpen.value = debateOpen.value === 'l1' ? '' : 'l1'
 }
 
 function toggleL2Debate() {
-  flowOpen.value = (flowOpen.value as string) === 'l2' ? 'l2-debate' : flowOpen.value
+  debateOpen.value = debateOpen.value === 'l2' ? '' : 'l2'
 }
 
 function toggleL3Debate() {
-  flowOpen.value = (flowOpen.value as string) === 'l3' ? 'l3-debate' : flowOpen.value
+  debateOpen.value = debateOpen.value === 'l3' ? '' : 'l3'
 }
 
-const isL1DebateOpen = computed(() => (flowOpen.value as string) === 'l1-debate')
-const isL2DebateOpen = computed(() => (flowOpen.value as string) === 'l2-debate')
-const isL3DebateOpen = computed(() => (flowOpen.value as string) === 'l3-debate')
+const isL1DebateOpen = computed(() => debateOpen.value === 'l1')
+const isL2DebateOpen = computed(() => debateOpen.value === 'l2')
+const isL3DebateOpen = computed(() => debateOpen.value === 'l3')
 
 function renderMd(text: string | undefined): string {
   if (!text) return ''
