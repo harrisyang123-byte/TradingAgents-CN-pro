@@ -8,11 +8,6 @@
         <span class="stock-code">{{ item.code }}</span>
       </div>
       <div class="header-right">
-        <!-- 买点信号灯 -->
-        <span v-if="buySignal" class="signal-lights" :title="signalTitle">
-          <span v-for="(light, key) in buySignal.lights" :key="key" class="signal-dot">{{ light }}</span>
-          <span class="signal-score">{{ buySignal.total_score?.toFixed(0) }}分</span>
-        </span>
         <el-tag :type="priorityTag" size="small" effect="plain">{{ priorityLabel }}</el-tag>
         <el-tag v-if="item.timing" :type="timingTag" size="small" effect="plain">{{ timingLabel }}</el-tag>
         <span class="weight-change">
@@ -51,7 +46,7 @@
       <div class="price-text">{{ item.suggested_price }}</div>
       <div v-if="pePercentile !== null" class="pe-bar-container">
         <div class="pe-bar">
-          <div class="pe-fill" :style="{ width: peFillWidth }" :class="peColorClass" />
+          <div class="pe-fill" :style="{ width: peFillWidth }" :class="peColorClass"></div>
         </div>
         <span class="pe-label">{{ pePercentile }}% 分位 · {{ peLabel }}</span>
       </div>
@@ -96,11 +91,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { AdviceItem, BuySignalItem } from '@/api/paper'
+import type { AdviceItem } from '@/api/paper'
 
 const props = defineProps<{
   item: AdviceItem
-  buySignal?: BuySignalItem | null
 }>()
 
 const expanded = ref(false)
@@ -145,18 +139,6 @@ const timingLabel = computed(() => {
   if (props.item.timing === 'conditional') return '条件触发'
   if (props.item.timing === 'scheduled') return '定期操作'
   return props.item.timing
-})
-
-// --- buy signal ---
-const buySignal = computed(() => props.buySignal || null)
-const signalTitle = computed(() => {
-  if (!buySignal.value) return ''
-  const s = buySignal.value
-  return [
-    `质量:${s.quality_score?.toFixed(0) || '?'} 估值:${s.valuation_score?.toFixed(0) || '?'}`,
-    `情绪:${s.sentiment_score?.toFixed(0) || '?'} 资金:${s.fund_flow_score?.toFixed(0) || '?'}`,
-    `${s.signal || '?'} · 置信度:${s.confidence || '?'}`,
-  ].join(' | ')
 })
 
 // --- context ---
@@ -209,14 +191,6 @@ const peLabel = computed(() => {
   justify-content: space-between;
   margin-bottom: 8px;
 }
-
-.signal-lights {
-  display: inline-flex; align-items: center; gap: 1px;
-  padding: 2px 8px; background: #f5f7fa; border-radius: 4px;
-  margin-right: 4px; cursor: help;
-}
-.signal-dot { font-size: 11px; }
-.signal-score { font-size: 12px; font-weight: 700; color: #303133; margin-left: 4px; }
 .header-left { display: flex; align-items: center; gap: 8px; }
 .stock-name { font-weight: 600; font-size: 15px; }
 .stock-code { font-size: 12px; color: #909399; }
