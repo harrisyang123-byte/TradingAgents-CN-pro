@@ -8,6 +8,11 @@
         <span class="stock-code">{{ item.code }}</span>
       </div>
       <div class="header-right">
+        <!-- 买点信号灯 -->
+        <span v-if="buySignal" class="signal-lights" :title="signalTitle">
+          <span v-for="(light, key) in buySignal.lights" :key="key" class="signal-dot">{{ light }}</span>
+          <span class="signal-score">{{ buySignal.total_score?.toFixed(0) }}分</span>
+        </span>
         <el-tag :type="priorityTag" size="small" effect="plain">{{ priorityLabel }}</el-tag>
         <el-tag v-if="item.timing" :type="timingTag" size="small" effect="plain">{{ timingLabel }}</el-tag>
         <span class="weight-change">
@@ -91,10 +96,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { AdviceItem } from '@/api/paper'
+import type { AdviceItem, BuySignalItem } from '@/api/paper'
 
 const props = defineProps<{
   item: AdviceItem
+  buySignal?: BuySignalItem | null
 }>()
 
 const expanded = ref(false)
@@ -139,6 +145,14 @@ const timingLabel = computed(() => {
   if (props.item.timing === 'conditional') return '条件触发'
   if (props.item.timing === 'scheduled') return '定期操作'
   return props.item.timing
+})
+
+// --- buy signal ---
+const buySignal = computed(() => props.buySignal || null)
+const signalTitle = computed(() => {
+  if (!buySignal.value) return ''
+  const s = buySignal.value
+  return `质量:${s.quality_score?.toFixed(0) || '?'} 估值:${s.valuation_score?.toFixed(0) || '?'} 情绪:${s.sentiment_score?.toFixed(0) || '?'} 资金:${s.fund_flow_score?.toFixed(0) || '?'} | ${s.signal || '?'} · 置信度:${s.confidence || '?'}`
 })
 
 // --- context ---
@@ -196,6 +210,14 @@ const peLabel = computed(() => {
 .stock-code { font-size: 12px; color: #909399; }
 .header-right { display: flex; align-items: center; gap: 8px; }
 .weight-change { font-size: 13px; color: #606266; }
+
+.signal-lights {
+  display: inline-flex; align-items: center; gap: 1px;
+  padding: 2px 8px; background: #f5f7fa; border-radius: 4px;
+  cursor: help;
+}
+.signal-dot { font-size: 11px; }
+.signal-score { font-size: 12px; font-weight: 700; color: #303133; margin-left: 4px; }
 
 /* Context */
 .card-context { margin: 8px 0; cursor: pointer; }
