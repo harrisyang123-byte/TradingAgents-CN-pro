@@ -256,16 +256,16 @@
                   <span class="flow-arrow">{{ flowOpen === 'l1' ? '▼' : '▶' }}</span>
                 </div>
                 <div v-if="flowOpen === 'l1'" class="flow-step-body">
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))" />
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))"></div>
                   <div v-if="selectedAdvice.market_debate_history" class="debate-section">
                     <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l1' ? '' : 'l1')">
                       L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l1'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))" />
+                    <div v-if="debateOpen === 'l1'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))"></div>
                 </div>
               </div>
 
-              <div class="flow-connector" />
+              <div class="flow-connector"></div>
 
               <div class="flow-step" v-if="selectedAdvice.stock_judge_verdict || selectedAdvice.stock_candidates?.length">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l2' ? '' : 'l2')">
@@ -293,17 +293,17 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))" />
+                  <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))"></div>
                   <div v-if="selectedAdvice.stock_debate_history" class="debate-section mt-2">
                     <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l2' ? '' : 'l2')">
                       L2 辩论记录 ({{ selectedAdvice.stock_debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l2'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))" />
+                    <div v-if="debateOpen === 'l2'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))"></div>
                   </div>
                 </div>
               </div>
 
-              <div class="flow-connector" />
+              <div class="flow-connector"></div>
 
               <div class="flow-step">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l3' ? '' : 'l3')">
@@ -315,28 +315,28 @@
                 <div v-if="flowOpen === 'l3'" class="flow-step-body">
                   <el-tabs>
                     <el-tab-pane label="组合反向者">
-                      <div class="advice-text" v-html="renderMd((selectedAdvice.contrarian_assessment || selectedAdvice.debate_history?.split('[反向意见者]')[1] || '').slice(0, 8000))" />
+                      <div class="advice-text" v-html="renderMd((selectedAdvice.contrarian_assessment || selectedAdvice.debate_history?.split('[反向意见者]')[1] || '').slice(0, 8000))"></div>
                     </el-tab-pane>
                     <el-tab-pane label="持仓分析师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 8000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.analyst_assessment?.slice(0, 8000))"></div>
                     </el-tab-pane>
                     <el-tab-pane label="策略师">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 8000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.strategist_assessment?.slice(0, 8000))"></div>
                     </el-tab-pane>
                     <el-tab-pane label="侦察兵">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 8000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.scout_assessment?.slice(0, 8000))"></div>
                     </el-tab-pane>
                   </el-tabs>
                   <div v-if="selectedAdvice.debate_history" class="debate-section mt-2">
                     <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l3' ? '' : 'l3')">
                       L3 完整辩论记录 ({{ selectedAdvice.debate_history.length }} 字符)
                     </div>
-                    <div v-if="debateOpen === 'l3'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))" />
+                    <div v-if="debateOpen === 'l3'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))"></div>
                   </div>
                 </div>
               </div>
 
-              <div class="flow-connector" />
+              <div class="flow-connector"></div>
 
               <div class="flow-step">
                 <div class="flow-step-header" @click="flowOpen = (flowOpen === 'l4' ? '' : 'l4')">
@@ -356,10 +356,10 @@
                   </div>
                   <el-collapse style="margin-top:12px">
                     <el-collapse-item v-if="selectedAdvice.cio_verdict" title="CIO 裁决原文">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 10000))" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.cio_verdict?.slice(0, 10000))"></div>
                     </el-collapse-item>
                     <el-collapse-item v-if="selectedAdvice.risk_director_review" title="风险总监审查">
-                      <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)" />
+                      <div class="advice-text" v-html="renderMd(selectedAdvice.risk_director_review)"></div>
                     </el-collapse-item>
                   </el-collapse>
                 </div>
