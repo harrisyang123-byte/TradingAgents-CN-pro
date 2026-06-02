@@ -160,6 +160,7 @@ export interface PortfolioAdvice {
   created_at: string
   completed_at?: string
   error?: string
+  data_score?: number
   selected_industries?: string[]
   buy_signals?: Record<string, BuySignalItem>
   market_signals?: MarketSignalSnapshot
@@ -278,6 +279,7 @@ export const portfolioApi = {
       never_count: number
       planned_count: number
       latest_advice_at: string
+      data_score: number
     }>('/api/portfolio/overview')
   }
 }
@@ -286,6 +288,7 @@ export interface IndustryOverviewRow {
   industry: string
   market: string
   lifecycle: string
+  depth: string
   go_nogo: string
   confidence: string
   coverage_status: 'covered' | 'stale' | 'never' | 'planned'

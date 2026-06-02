@@ -258,10 +258,10 @@
                 <div v-if="flowOpen === 'l1'" class="flow-step-body">
                   <div class="advice-text" v-html="renderMd(selectedAdvice.macro_judge_verdict?.slice(0, 8000))" />
                   <div v-if="selectedAdvice.market_debate_history" class="debate-section">
-                    <div class="debate-toggle" @click="flowOpen === 'l1' ? flowOpen = 'l1-debate' : null">
-                      ▶ L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
+                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l1' ? '' : 'l1')">
+                      L1 辩论记录 ({{ selectedAdvice.market_debate_history.length }} 字符)
                     </div>
-                    <div v-if="flowOpen === 'l1-debate'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))" />
+                    <div v-if="debateOpen === 'l1'" class="advice-text" v-html="renderMd(selectedAdvice.market_debate_history?.slice(0, 5000))" />
                 </div>
               </div>
 
@@ -295,10 +295,10 @@
                   </div>
                   <div class="advice-text" v-html="renderMd(selectedAdvice.stock_judge_verdict?.slice(0, 8000))" />
                   <div v-if="selectedAdvice.stock_debate_history" class="debate-section mt-2">
-                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l2' ? 'l2-debate' : flowOpen)">
+                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l2' ? '' : 'l2')">
                       L2 辩论记录 ({{ selectedAdvice.stock_debate_history.length }} 字符)
                     </div>
-                    <div v-if="flowOpen === 'l2-debate'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))" />
+                    <div v-if="debateOpen === 'l2'" class="advice-text" v-html="renderMd(selectedAdvice.stock_debate_history?.slice(0, 5000))" />
                   </div>
                 </div>
               </div>
@@ -328,10 +328,10 @@
                     </el-tab-pane>
                   </el-tabs>
                   <div v-if="selectedAdvice.debate_history" class="debate-section mt-2">
-                    <div class="debate-toggle" @click="flowOpen = (flowOpen === 'l3' ? 'l3-debate' : flowOpen)">
+                    <div class="debate-toggle" @click="debateOpen = (debateOpen === 'l3' ? '' : 'l3')">
                       L3 完整辩论记录 ({{ selectedAdvice.debate_history.length }} 字符)
                     </div>
-                    <div v-if="flowOpen === 'l3-debate'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))" />
+                    <div v-if="debateOpen === 'l3'" class="advice-text" v-html="renderMd(selectedAdvice.debate_history?.slice(0, 8000))" />
                   </div>
                 </div>
               </div>
@@ -396,6 +396,7 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdvice = ref<PortfolioAdvice | null>(null)
 const showDetailDialog = ref(false)
 const flowOpen = ref('')
+const debateOpen = ref('')
 
 // 矩阵排序
 const matrixSortField = ref<string>('holdings_weight')
