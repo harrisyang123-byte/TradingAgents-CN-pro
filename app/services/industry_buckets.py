@@ -211,7 +211,7 @@ async def _map_l1_to_buckets_with_llm(
     # 检查缓存
     result: dict[str, str] = {}
     uncached = list(l1_names)
-    if db:
+    if db is not None:
         cursor = db["industry_coverage_bucket_map"].find(
             {"l1_name": {"$in": l1_names}}
         )
@@ -241,7 +241,7 @@ async def _map_l1_to_buckets_with_llm(
                 matched = _match_bucket(str(bucket))
                 if matched and l1_name in uncached:
                     result[l1_name] = matched
-                    if db:
+                    if db is not None:
                         try:
                             await db["industry_coverage_bucket_map"].update_one(
                                 {"l1_name": l1_name},
