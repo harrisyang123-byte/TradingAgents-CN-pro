@@ -21,20 +21,20 @@
 
 ## 3. Python 脚本
 
-- [ ] 3.1 适配 `scripts/collect_data.py`(或在 cli/ 新建),支持 `--user-id` 和 `--out-dir` 参数,产出 data_portfolio/data_tier1/data_pe/data_exposure/data_macro/data_market_temp 共 6 个 JSON 文件
-- [ ] 3.2 创建 `scripts/cross_validate.py` — 读 step3+step4+step5+step6+data_tier1+data_pe+data_exposure → 执行 4 条规则 → 写 conflicts.json
-- [ ] 3.3 创建 `scripts/save_step.py` — 读单个 step JSON 文件 → 写 MongoDB agent_steps collection
-- [ ] 3.4 创建 `scripts/save_to_mongodb.py` — 读 step9_final.json + conflicts.json → 组装 PortfolioAdvice → 写 MongoDB portfolio_advice collection (source='claude-code-workflow-v1')
+- [x] 3.1 适配 `scripts/collect_data.py`(或在 cli/ 新建),支持 `--user-id` 和 `--out-dir` 参数,产出 data_portfolio/data_tier1/data_pe/data_exposure/data_macro/data_market_temp 共 6 个 JSON 文件
+- [x] 3.2 创建 `scripts/cross_validate.py` — 读 step3+step4+step5+step6+data_tier1+data_pe+data_exposure → 执行 4 条规则 → 写 conflicts.json
+- [x] 3.3 创建 `scripts/save_step.py` — 读单个 step JSON 文件 → 写 MongoDB agent_steps collection
+- [x] 3.4 创建 `scripts/save_to_mongodb.py` — 读 step9_final.json + conflicts.json → 组装 PortfolioAdvice → 写 MongoDB portfolio_advice collection (source='claude-code-workflow-v1')
 
 ## 4. Workflow 编排脚本
 
-- [ ] 4.1 创建 Workflow 脚本(L1 辩论: strategist → contrarian → strategist_r2 → judge)
-- [ ] 4.2 实现 L2 Scout 单次调用 + 6维总分映射
-- [ ] 4.3 实现 L3 辩论(analyst → strategist → analyst_r2 → strategist_r2)
-- [ ] 4.4 实现交叉验证步骤(Bash 调 cross_validate.py)
-- [ ] 4.5 实现 L4 辩论(CIO初稿 → 风险总监 → CIO终裁)
-- [ ] 4.6 每步 agent() 后加 Bash("python save_step.py --step {name}")
-- [ ] 4.7 实现 --from 和 --only 参数逻辑(skip 已完成 Agent / 只跑指定 Agent)
+- [x] 4.1 创建 Workflow 脚本(L1 辩论: strategist → contrarian → strategist_r2 → judge)
+- [x] 4.2 实现 L2 Scout 单次调用 + 6维总分映射
+- [x] 4.3 实现 L3 辩论(analyst → strategist → analyst_r2 → strategist_r2)
+- [x] 4.4 实现交叉验证步骤(Bash 调 cross_validate.py)
+- [x] 4.5 实现 L4 辩论(CIO初稿 → 风险总监 → CIO终裁)
+- [x] 4.6 每步 agent() 后加 Bash("python save_step.py --step {name}")
+- [x] 4.7 实现 --from 和 --only 参数逻辑(skip 已完成 Agent / 只跑指定 Agent)
 
 ## 5. 集成测试
 
