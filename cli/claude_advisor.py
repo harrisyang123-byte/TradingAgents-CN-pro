@@ -287,24 +287,41 @@ def main():
         print(f"\n=== L4 CIO终裁 ===\n{l4_final[:1000]}\n")
     json.dump({"raw": l4_final}, open(DATA_DIR / "l4_final.json", "w"), ensure_ascii=False)
 
-    # 4. 提取处方
+    # 4. 提取处方 + 全覆盖后备
     logger.info("=" * 50)
     logger.info("Phase 4: 提取+保存")
-    prescription = extract_json(l4_final)
-    # 确保 prescriptions 是列表
-    if isinstance(prescription, dict):
-        # 可能从 JSON 对象中提取数组
-        for val in prescription.values():
-            if isinstance(val, list):
-                prescription = val
+    ciop = extract_json(l4_final)
+    if isinstance(ciop, dict):
+        for val in ciop.values():
+            if isinstance(val, list) and len(val) > 0:
+                ciop = val
                 break
-    if not isinstance(prescription, list):
-        # 后备：全部 hold
-        prescription = [{"code": p["code"], "name": p.get("name", ""), "action": "hold",
-                        "current_weight": round(p.get("weight", 0), 1),
-                        "target_weight": round(p.get("weight", 0), 1),
-                        "reasoning": "待更新（CIO终裁JSON解析失败）"}
-                       for p in pf.get("positions", [])]
+    if not isinstance(ciop, list):
+        ciop = []
+
+    # 全覆盖后备：CIO输出不足36条时，补全剩余为 hold
+    all_positions = pf.get("positions", [])
+    all_codes = {p["code"] for p in all_positions}
+    covered_codes = set()
+    for r in ciop:
+        if r.get("code") in all_codes:
+            covered_codes.add(r["code"])
+
+    for p in all_positions:
+        code = p["code"]
+        if code not in covered_codes:
+            ciop.append({
+                "code": code,
+                "name": p.get("name", "")[:20],
+                "action": "hold",
+                "current_weight": round(p.get("weight", 0), 1),
+                "target_weight": round(p.get("weight", 0), 1),
+                "reasoning": "CIO未指定，维持当前仓位",
+                "priority": "optional",
+            })
+            covered_codes.add(code)
+
+    prescription = ciop
 
     elapsed = (datetime.utcnow() - t0).total_seconds()
 

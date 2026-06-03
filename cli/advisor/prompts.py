@@ -159,10 +159,11 @@ L4_CIO = """你是首席投资官(CIO)。综合所有数据输出初稿处方。
   "timing":"immediate/conditional/scheduled",
   "reasoning":"...","priority":"urgent/important/optional"}]
 
-## 规则
+## ⚠️ 硬性要求
+- 处方 JSON 必须覆盖全部持仓——不只是不推荐的，是全部。每只持仓（含基金、债券、现金）都要有一条处方，action="hold" 也算一条
+- 如果你只改了其中几只，其余的全部设为 hold——但hold也要列出理由"暂无调仓必要"
 - 每条买入/加仓 MUST 标注 capital_source
 - 买入总额 ≤ 现金 + 卖出释放
-- 覆盖全部持仓（每只都要有action）
 - 市场恐慌→timing倾向immediate（逆向买入）
 - 市场亢奋→timing倾向conditional（等回调）
 """
@@ -195,7 +196,7 @@ L4_CIO_FINAL = """你是CIO终裁。做出最终决定。
 ## 你的工作
 1. 说明哪些风险意见你采纳了，哪些拒绝了（附理由）
 2. 输出最终处方
-3. 确保处方覆盖全部持仓
+3. 确保处方覆盖全部持仓——每只都要有action，hold也算
 4. 确保处方附带敞口诊断 + 资金分配方案
 
 ## 注意
