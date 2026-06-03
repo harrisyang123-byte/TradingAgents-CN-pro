@@ -32,6 +32,7 @@
 - [持仓管理 (Portfolio CRUD)](portfolio-crud.md) — 单账户单钱包 + 汇率折算 + 持仓上下文注入分析引擎
 - [基金详情 (FundDetail)](fund-detail.md) — AKShare 穿透数据 + 30 天缓存 + CSS 饼图
 - [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
+- [Claude Code 组合顾问](claude-code-advisor.md) — 2026-06-03 新架构：Python编排+9子Agent+交叉验证，替代LangGraph管线
 
 ### 记忆与反思
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
