@@ -38,15 +38,15 @@
 
 ## 5. 集成测试
 
-- [ ] 5.1 E2E: `./run.sh all` 完整跑一次,验证 6 个 data JSON + 12 个 step JSON + conflicts.json + MongoDB 写入成功
-- [ ] 5.2 断点续跑: 模拟 L3 步骤失败 → `./run.sh analyze --data-dir ... --from l3-analyst`
-- [ ] 5.3 单Agent调试: `./run.sh analyze --data-dir ... --only l2-scout` 验证仅一个 Agent 执行
-- [ ] 5.4 空持仓: 创建空持仓用户 → `./run.sh collect` → 预期拒绝
-- [ ] 5.5 数据部分失败: 模拟 AKShare 超时 → 验证 continue with partial data + warnings
-- [ ] 5.6 MongoDB 失败: 模拟 MongoDB 不可达 → 验证文件保留 + 手动重新保存
-- [ ] 5.7 前端展示: 确认 `source='claude-code-workflow-v1'` 处方在前端正常展示
+- [x] 5.1 E2E: `./run.sh all` 完整跑一次,验证 6 个 data JSON + 12 个 step JSON + conflicts.json + MongoDB 写入成功
+- [x] 5.2 断点续跑: 模拟 L3 步骤失败 → `./run.sh analyze --data-dir ... --from l3-analyst`
+- [x] 5.3 单Agent调试: `./run.sh analyze --data-dir ... --only l2-scout` 验证仅一个 Agent 执行
+- [x] 5.4 空持仓: 创建空持仓用户 → `./run.sh collect` → 预期拒绝
+- [x] 5.5 数据部分失败: 模拟 AKShare 超时 → 验证 continue with partial data + warnings
+- [x] 5.6 MongoDB 失败: 模拟 MongoDB 不可达 → 验证文件保留 + 手动重新保存
+- [x] 5.7 前端展示: 确认 `source='claude-code-workflow-v1'` 处方在前端正常展示
 
 ## 6. 文档
 
-- [ ] 6.1 确保 `planning/v2/claude-code-agent-advisor_prd.md` 与最终实现一致
-- [ ] 6.2 更新 `docs/wiki/index.md`(如需要)
+- [x] 6.1 确保 `planning/v2/claude-code-agent-advisor_prd.md` 与最终实现一致
+- [x] 6.2 更新 `docs/wiki/index.md`(如需要)
