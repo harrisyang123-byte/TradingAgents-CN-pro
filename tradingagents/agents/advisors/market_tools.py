@@ -1,0 +1,711 @@
+"""市场扫描工具函数 — AKShare (A股) + yfinance (港股/美股)
+
+L1 工具（行业/宏观扫描）：
+  - get_industry_rankings(market)
+  - get_sector_fund_flows(market)
+  - get_macro_indicators(market)
+
+L2 工具（标的筛选）：
+  - get_industry_constituents(industry, market)
+  - get_company_profile(code, market)
+  - get_financial_summary(code, market)
+  - get_stock_quotes(code, market)
+  - get_fund_rankings(fund_type, market)
+"""
+
+import time
+
+_sina_spot_cache = {"df": None, "ts": 0, "ttl": 120}  # 120s TTL
+
+
+def _get_sina_spot_cached():
+    """获取新浪全市场行情（缓存 120s），避免重复调用 16s 的全量查询"""
+    now = time.time()
+    if _sina_spot_cache["df"] is not None and (now - _sina_spot_cache["ts"]) < _sina_spot_cache["ttl"]:
+        return _sina_spot_cache["df"]
+    import akshare as ak
+    df = ak.stock_zh_a_spot()
+    _sina_spot_cache["df"] = df
+    _sina_spot_cache["ts"] = now
+    return df
+
+
+# Direct Sina quote cache (per-code, fast path)
+_sina_quote_cache: dict = {}  # {code: {"data": {...}, "ts": float}}
+
+
+def _get_sina_quote_direct(code: str) -> dict | None:
+    """直接调用新浪行情 API（单只股票，~0.1s）"""
+    import re, requests as req
+    now = time.time()
+    cached = _sina_quote_cache.get(code)
+    if cached and (now - cached["ts"]) < 120:
+        return cached["data"]
+
+    prefix = "sh" if code.startswith("6") else "sz"
+    url = f"https://hq.sinajs.cn/list={prefix}{code}"
+    headers = {"User-Agent": "Mozilla/5.0", "Referer": "https://finance.sina.com.cn/"}
+    try:
+        r = req.get(url, headers=headers, timeout=10)
+        r.encoding = "gbk"
+        m = re.match(r"var hq_str_\w+=\"(.+)\"", r.text.strip())
+        if not m:
+            return None
+        parts = m.group(1).split(",")
+        if len(parts) < 10:
+            return None
+        data = {
+            "name": parts[0],
+            "price": float(parts[3]) if parts[3] else 0,
+            "pre_close": float(parts[2]) if parts[2] else 0,
+            "open": float(parts[1]) if parts[1] else 0,
+            "high": float(parts[4]) if parts[4] else 0,
+            "low": float(parts[5]) if parts[5] else 0,
+            "volume": float(parts[8]) if parts[8] else 0,
+            "amount": float(parts[9]) if parts[9] else 0,
+            "date": parts[30] if len(parts) > 30 else "",
+            "change_pct": (float(parts[3]) / float(parts[2]) - 1) * 100 if parts[3] and parts[2] and float(parts[2]) > 0 else 0,
+        }
+        _sina_quote_cache[code] = {"data": data, "ts": now}
+        return data
+    except Exception:
+        return None
+
+from langchain_core.tools import tool
+
+
+# ── L1 工具 ────────────────────────────────────────────
+
+
+@tool
+def get_industry_rankings(market: str = "cn") -> dict:
+    """获取行业/板块涨跌幅排名，识别当前市场热点和冷门方向。
+
+    参数 market:
+      - "cn": A股（AKShare 同花顺行业板块）
+      - "hk": 港股（yfinance 恒生行业指数）
+      - "us": 美股（yfinance S&P 500 sector ETFs）
+    """
+    if market == "cn":
+        return _get_industry_rankings_cn()
+    elif market in ("hk", "us"):
+        return _get_industry_rankings_yf(market)
+    return {"error": f"不支持的市场: {market}", "market": market, "fallback": True}
+
+
+@tool
+def get_sector_fund_flows(market: str = "cn") -> dict:
+    """获取行业资金流向（主力净流入/流出），判断资金偏好。
+
+    参数 market: "cn"（A股） / "hk" / "us"
+    注意：港股/美股无公开免费的资金流向数据，非 cn 市场返回降级结果。
+    """
+    if market == "cn":
+        return _get_sector_fund_flows_cn()
+    return {
+        "market": market,
+        "fallback": True,
+        "note": f"{market} 市场无公开免费的资金流向数据，请基于行业涨跌幅和宏观指标判断资金偏好",
+        "data": [],
+    }
+
+
+@tool
+def get_macro_indicators(market: str = "cn") -> dict:
+    """获取宏观经济指标：大盘指数、利率、汇率。
+
+    参数 market: "cn"（上证/深证/创业板） / "hk"（恒生） / "us"（S&P 500/Nasdaq/Dow）
+    """
+    if market == "cn":
+        return _get_macro_indicators_cn()
+    elif market in ("hk", "us"):
+        return _get_macro_indicators_yf(market)
+    return {"error": f"不支持的市场: {market}", "market": market, "fallback": True}
+
+
+# ── L2 工具 ────────────────────────────────────────────
+
+
+@tool
+def get_industry_constituents(industry: str, market: str = "cn") -> dict:
+    """获取指定行业/板块的成分股列表。
+
+    参数:
+      industry: 行业名称（如 "白酒"、"银行"、"新能源"）
+      market: "cn" / "hk" / "us"
+    """
+    if market == "cn":
+        return _get_industry_constituents_cn(industry)
+    elif market == "hk":
+        return _get_industry_constituents_hk(industry)
+    elif market == "us":
+        return _get_industry_constituents_us(industry)
+    return {"error": f"不支持的市场: {market}", "fallback": True, "constituents": []}
+
+
+@tool
+def get_company_profile(code: str, market: str = "cn") -> dict:
+    """获取公司概况：主营业务、行业分类、上市时间、市值。
+
+    参数:
+      code: 股票代码（A股如 "600519"，港股如 "00700"，美股如 "AAPL"）
+      market: "cn" / "hk" / "us"
+    """
+    if market == "cn":
+        return _get_company_profile_cn(code)
+    elif market in ("hk", "us"):
+        return _get_company_profile_yf(code, market)
+    return {"error": f"不支持的市场: {market}", "code": code, "fallback": True}
+
+
+@tool
+def get_financial_summary(code: str, market: str = "cn") -> dict:
+    """获取财务摘要：PE、PB、ROE、营收增速、净利润率。
+
+    参数:
+      code: 股票代码
+      market: "cn" / "hk" / "us"
+    """
+    if market == "cn":
+        return _get_financial_summary_cn(code)
+    elif market in ("hk", "us"):
+        return _get_financial_summary_yf(code, market)
+    return {"error": f"不支持的市场: {market}", "code": code, "fallback": True}
+
+
+@tool
+def get_stock_quotes(code: str, market: str = "cn") -> dict:
+    """获取实时行情：最新价、涨跌幅、成交量、历史价格走势。
+
+    参数:
+      code: 股票代码
+      market: "cn" / "hk" / "us"
+    """
+    if market == "cn":
+        return _get_stock_quotes_cn(code)
+    elif market in ("hk", "us"):
+        return _get_stock_quotes_yf(code, market)
+    return {"error": f"不支持的市场: {market}", "code": code, "fallback": True}
+
+
+@tool
+def get_fund_rankings(fund_type: str = "股票型", market: str = "cn") -> dict:
+    """获取基金/ETF 同类排名和基本信息。
+
+    参数:
+      fund_type: 基金类型（"股票型" / "混合型" / "指数型" / "ETF"）
+      market: "cn"（AKShare 公募基金） / "hk" / "us"（yfinance ETF）
+    """
+    if market == "cn":
+        return _get_fund_rankings_cn(fund_type)
+    elif market in ("hk", "us"):
+        return _get_fund_rankings_yf(fund_type, market)
+    return {"error": f"不支持的市场: {market}", "fallback": True}
+
+
+# ── A股实现 (AKShare) ──────────────────────────────────
+
+
+def _get_industry_rankings_cn() -> dict:
+    try:
+        import akshare as ak
+        df = ak.stock_board_industry_name_ths()
+        if df is None or df.empty:
+            return {"market": "cn", "fallback": True, "note": "AKShare 返回空数据", "industries": []}
+        top_col = df.columns[0]
+        rankings = df.nlargest(30, "涨跌幅")[[top_col, "涨跌幅", "成交量"]].to_dict(orient="records")
+        return {"market": "cn", "source": "同花顺行业板块", "industries": rankings}
+    except Exception as e:
+        return {"market": "cn", "fallback": True, "error": str(e), "note": "AKShare 行业数据不可用"}
+
+
+def _get_sector_fund_flows_cn() -> dict:
+    try:
+        import akshare as ak
+        df = ak.stock_sector_fund_flow_rank(indicator="今日", sector_type="行业资金流向")
+        if df is None or df.empty:
+            return {"market": "cn", "fallback": True, "note": "资金流向数据为空", "data": []}
+        flows = df.head(20).to_dict(orient="records")
+        return {"market": "cn", "source": "东方财富行业资金流向", "data": flows}
+    except Exception as e:
+        return {"market": "cn", "fallback": True, "error": str(e), "note": "资金流向数据不可用"}
+
+
+def _get_macro_indicators_cn() -> dict:
+    result = {"market": "cn", "indices": {}, "fallback": False}
+    try:
+        import akshare as ak
+        df = ak.stock_zh_index_daily(symbol="sh000001")
+        if df is not None and not df.empty:
+            latest = df.iloc[-1]
+            result["indices"]["上证指数"] = {"close": float(latest["close"]), "date": str(latest.name)}
+    except Exception as e:
+        result["indices"]["上证指数"] = {"error": str(e)}
+    try:
+        import akshare as ak
+        df = ak.stock_zh_index_daily(symbol="sz399006")
+        if df is not None and not df.empty:
+            latest = df.iloc[-1]
+            result["indices"]["创业板指"] = {"close": float(latest["close"]), "date": str(latest.name)}
+    except Exception:
+        pass
+    if not result["indices"]:
+        result["fallback"] = True
+        result["note"] = "A股指数数据不可用"
+    return result
+
+
+def _get_industry_constituents_cn(industry: str) -> dict:
+    try:
+        import akshare as ak
+        df = ak.stock_board_industry_info_ths(symbol=industry)
+        if df is None or df.empty:
+            return {"industry": industry, "market": "cn", "constituents": [], "fallback": True}
+        constituents = df[["code", "name"]].head(50).to_dict(orient="records")
+        return {"industry": industry, "market": "cn", "constituents": constituents}
+    except Exception as e:
+        return {"industry": industry, "market": "cn", "fallback": True, "error": str(e), "constituents": []}
+
+
+def _get_industry_constituents_hk(industry: str) -> dict:
+    """通过 AKShare 获取全量港股 + yfinance 行业匹配"""
+    try:
+        import akshare as ak
+        df = ak.stock_hk_spot_em()
+        if df is None or df.empty:
+            return {"industry": industry, "market": "hk", "fallback": True, "constituents": []}
+
+        # 按行业关键词过滤（HK 股票无标准行业字段，使用名称+缓存匹配）
+        from app.services.industry_buckets import classify as bucket_classify, KNOWN_COMPANY_BUCKETS
+        matched = []
+        for _, row in df.head(200).iterrows():
+            code = str(row.get("代码", "")).strip()
+            name = str(row.get("名称", ""))
+            bucket = bucket_classify(code=code, name=name, instrument_type="stock")
+            if bucket == "其他":
+                bucket = KNOWN_COMPANY_BUCKETS.get(code, "")
+            if bucket and industry[:2] in bucket:
+                matched.append({"code": code, "name": name})
+            elif industry in name:
+                matched.append({"code": code, "name": name})
+        return {
+            "industry": industry, "market": "hk",
+            "constituents": matched[:30], "source": "akshare+bucket",
+        }
+    except Exception as e:
+        return {"industry": industry, "market": "hk", "fallback": True, "error": str(e), "constituents": []}
+
+
+def _get_industry_constituents_us(industry: str) -> dict:
+    """通过 yfinance sector 查询美股成分股"""
+    try:
+        import yfinance as yf
+        # 尝试通过 yfinance 常见行业关键词获取
+        from app.services.industry_buckets import GICS_TO_BUCKET
+        # 找匹配的 GICS 分类
+        gics_matches = [k for k, v in GICS_TO_BUCKET.items() if industry[:2] in v or industry in k]
+        matched = []
+        for gics_key in gics_matches[:3]:
+            try:
+                tk = yf.Ticker(gics_key.replace(" ", ""))
+                info = tk.info or {}
+                if info.get("sector") == gics_key or info.get("industry") == gics_key:
+                    matched.append({
+                        "code": info.get("symbol", gics_key),
+                        "name": info.get("longName", info.get("shortName", "")),
+                    })
+            except Exception:
+                pass
+        return {
+            "industry": industry, "market": "us",
+            "constituents": matched[:15], "source": "yfinance",
+            "note": "美股行业成分股数量有限，建议用 get_company_profile 补充查询" if not matched else "",
+        }
+    except Exception as e:
+        return {"industry": industry, "market": "us", "fallback": True, "error": str(e), "constituents": []}
+
+
+@tool
+def get_global_leaders(industry: str, market: str = "cn") -> dict:
+    """获取某行业全球范围内的标杆公司（含 PE/ROE/营收增速/市值）。
+
+    参数:
+      industry: 行业名称
+      market: "cn" / "hk" / "us"
+    返回: {industry, market, leaders: [{code, name, pe, roe, market_cap, revenue_growth}]}
+    """
+    result = {"industry": industry, "market": market, "leaders": []}
+    try:
+        import yfinance as yf
+
+        # 预定义的全球行业龙头（按行业关键词映射）
+        GLOBAL_LEADERS_MAP = {
+            "半导体": ["NVDA", "TSM", "ASML", "INTC", "002371.SZ"],
+            "消费/互联网": ["AAPL", "AMZN", "META", "00700.HK", "600519.SH"],
+            "人工智能": ["MSFT", "GOOGL", "NVDA", "002415.SZ", "BABA"],
+            "新能源": ["TSLA", "688599.SH", "601012.SH", "SEDG"],
+            "新能源车": ["TSLA", "BYDDY", "01211.HK", "LI", "NIO"],
+            "通信/5G": ["QCOM", "ERIC", "000063.SZ", "00941.HK"],
+            "金融/保险": ["JPM", "BRK-B", "600036.SH", "02318.HK"],
+            "医药健康": ["JNJ", "PFE", "300760.SZ", "02269.HK"],
+            "高端制造": ["CAT", "HON", "600031.SH", "SIEGY"],
+            "家电/电子": ["AAPL", "SONY", "000651.SZ", "01810.HK"],
+        }
+
+        leaders = GLOBAL_LEADERS_MAP.get(industry, [])
+        if not leaders:
+            # 尝试模糊匹配
+            for k, v in GLOBAL_LEADERS_MAP.items():
+                if industry[:2] in k or k[:2] in industry:
+                    leaders = v
+                    break
+
+        for ticker in leaders[:8]:
+            try:
+                tk = yf.Ticker(ticker)
+                info = tk.info or {}
+                result["leaders"].append({
+                    "code": ticker,
+                    "name": info.get("longName", info.get("shortName", ticker)),
+                    "pe": info.get("trailingPE"),
+                    "roe": info.get("returnOnEquity"),
+                    "market_cap": info.get("marketCap"),
+                    "revenue_growth": info.get("revenueGrowth"),
+                    "sector": info.get("sector", ""),
+                })
+            except Exception:
+                result["leaders"].append({"code": ticker, "name": ticker, "note": "数据获取失败"})
+
+        return result
+    except Exception as e:
+        return {"industry": industry, "market": market, "fallback": True, "error": str(e), "leaders": []}
+
+
+def _get_company_profile_cn(code: str) -> dict:
+    try:
+        import akshare as ak
+        # 优先尝试 eastmoney（被限流时快速失败，由外层 retry 处理）
+        try:
+            df = ak.stock_individual_info_em(symbol=code)
+            if df is not None and not df.empty:
+                info = {}
+                for _, row in df.iterrows():
+                    info[row["item"]] = row["value"]
+                return {"code": code, "market": "cn", "source": "eastmoney", "profile": info}
+        except Exception:
+            pass
+
+        # Fallback: 从 Sina 行情中提取名称（直接 API，不依赖 eastmoney）
+        quote = _get_sina_quote_direct(code)
+        if quote:
+            return {
+                "code": code,
+                "market": "cn",
+                "source": "sina",
+                "profile": {
+                    "股票简称": quote["name"],
+                    "最新价": quote["price"],
+                    "涨跌幅": round(quote["change_pct"], 2),
+                    "昨收": quote["pre_close"],
+                },
+            }
+
+        return {"code": code, "market": "cn", "fallback": True, "note": "未找到公司信息"}
+    except Exception as e:
+        return {"code": code, "market": "cn", "fallback": True, "error": str(e)}
+
+
+def _get_financial_summary_cn(code: str) -> dict:
+    try:
+        import akshare as ak
+        prefix = "sh" if code.startswith("6") else "sz"
+        symbol = f"{prefix}{code}"
+
+        # 获取资产负债表（最新期）
+        bs = ak.stock_financial_report_sina(stock=symbol, symbol="资产负债表")
+        if bs is None or bs.empty:
+            return {"code": code, "market": "cn", "fallback": True, "note": "未找到财务数据"}
+
+        latest = bs.iloc[0].to_dict()
+        return {
+            "code": code,
+            "market": "cn",
+            "source": "sina",
+            "financial": {
+                "report_date": str(latest.get("报告日", "")),
+                "total_assets": latest.get("资产总计"),
+                "total_liabilities": latest.get("负债合计"),
+                "shareholder_equity": latest.get("归属于母公司股东权益合计"),
+                "current_assets": latest.get("流动资产合计"),
+                "current_liabilities": latest.get("流动负债合计"),
+                "cash": latest.get("货币资金"),
+                "inventory": latest.get("存货"),
+            },
+        }
+    except Exception as e:
+        return {"code": code, "market": "cn", "fallback": True, "error": str(e)}
+
+
+def _get_stock_quotes_cn(code: str) -> dict:
+    try:
+        data = _get_sina_quote_direct(code)
+        if data is None:
+            return {"code": code, "market": "cn", "fallback": True, "note": "未找到行情数据"}
+        return {
+            "code": code,
+            "market": "cn",
+            "source": "sina",
+            "quote": {
+                "name": data["name"],
+                "price": data["price"],
+                "change_pct": round(data["change_pct"], 2),
+                "pre_close": data["pre_close"],
+                "open": data["open"],
+                "high": data["high"],
+                "low": data["low"],
+                "volume": data["volume"],
+                "amount": data["amount"],
+            },
+        }
+    except Exception as e:
+        return {"code": code, "market": "cn", "fallback": True, "error": str(e)}
+
+
+def _get_fund_rankings_cn(fund_type: str) -> dict:
+    try:
+        import akshare as ak
+        df = ak.fund_open_fund_info_em(symbol="全部", indicator="单位净值走势")
+        if df is None or df.empty:
+            return {"fund_type": fund_type, "market": "cn", "fallback": True, "funds": []}
+        funds = df.head(30).to_dict(orient="records")
+        return {"fund_type": fund_type, "market": "cn", "source": "天天基金", "funds": funds}
+    except Exception as e:
+        return {"fund_type": fund_type, "market": "cn", "fallback": True, "error": str(e), "funds": []}
+
+
+# ── 港美股实现 (yfinance) ──────────────────────────────
+
+# yfinance sector ETF tickers for industry rankings
+_SECTOR_ETFS = {
+    "hk": {
+        "科技": "3067.HK",
+        "金融": "2823.HK",
+        "地产": "2822.HK",
+        "消费": "2806.HK",
+        "医药": "2835.HK",
+        "能源": "2803.HK",
+    },
+    "us": {
+        "科技": "XLK",
+        "金融": "XLF",
+        "医疗": "XLV",
+        "能源": "XLE",
+        "消费": "XLY",
+        "工业": "XLI",
+        "材料": "XLB",
+        "公用事业": "XLU",
+        "房地产": "XLRE",
+        "通讯": "XLC",
+    },
+}
+
+_INDEX_TICKERS = {
+    "hk": {"恒生指数": "^HSI", "恒生科技": "^HSTECH", "国企指数": "^HSCE"},
+    "us": {"标普500": "^GSPC", "纳斯达克": "^IXIC", "道琼斯": "^DJI"},
+}
+
+
+def _get_industry_rankings_yf(market: str) -> dict:
+    try:
+        import yfinance as yf
+        sectors = _SECTOR_ETFS.get(market, {})
+        if not sectors:
+            return {"market": market, "fallback": True, "note": "无行业配置"}
+        rankings = []
+        for name, ticker in sectors.items():
+            try:
+                t = yf.Ticker(ticker)
+                hist = t.history(period="5d")
+                if len(hist) >= 2:
+                    change_pct = float((hist["Close"].iloc[-1] / hist["Close"].iloc[-2] - 1) * 100)
+                    rankings.append({"行业": name, "代码": ticker, "涨跌幅": round(change_pct, 2)})
+            except Exception:
+                rankings.append({"行业": name, "代码": ticker, "涨跌幅": None, "note": "数据获取失败"})
+        rankings.sort(key=lambda x: x.get("涨跌幅") or -999, reverse=True)
+        return {"market": market, "source": "yfinance sector ETFs", "industries": rankings}
+    except Exception as e:
+        return {"market": market, "fallback": True, "error": str(e), "note": "yfinance 不可用"}
+
+
+def _get_macro_indicators_yf(market: str) -> dict:
+    result = {"market": market, "indices": {}, "fallback": False}
+    indices = _INDEX_TICKERS.get(market, {})
+    try:
+        import yfinance as yf
+        for name, ticker in indices.items():
+            try:
+                t = yf.Ticker(ticker)
+                hist = t.history(period="5d")
+                if not hist.empty:
+                    close = float(hist["Close"].iloc[-1])
+                    change_pct = float((hist["Close"].iloc[-1] / hist["Close"].iloc[-2] - 1) * 100) if len(hist) >= 2 else None
+                    result["indices"][name] = {"close": close, "change_pct": round(change_pct, 2) if change_pct else None}
+            except Exception as e:
+                result["indices"][name] = {"error": str(e)}
+    except Exception as e:
+        result["fallback"] = True
+        result["error"] = str(e)
+    return result
+
+
+def _get_company_profile_yf(code: str, market: str) -> dict:
+    try:
+        import yfinance as yf
+        suffix = ".HK" if market == "hk" else ""
+        ticker_str = f"{code}{suffix}"
+        t = yf.Ticker(ticker_str)
+        info = t.info
+        if not info or info.get("regularMarketPrice") is None:
+            return {"code": code, "market": market, "fallback": True, "note": "yfinance 无此标的数据"}
+        return {
+            "code": code,
+            "market": market,
+            "profile": {
+                "name": info.get("longName") or info.get("shortName", ""),
+                "sector": info.get("sector", ""),
+                "industry": info.get("industry", ""),
+                "market_cap": info.get("marketCap"),
+                "description": (info.get("longBusinessSummary", "") or "")[:500],
+                "employees": info.get("fullTimeEmployees"),
+                "country": info.get("country", ""),
+            },
+        }
+    except Exception as e:
+        return {"code": code, "market": market, "fallback": True, "error": str(e)}
+
+
+def _get_financial_summary_yf(code: str, market: str) -> dict:
+    try:
+        import yfinance as yf
+        suffix = ".HK" if market == "hk" else ""
+        ticker_str = f"{code}{suffix}"
+        t = yf.Ticker(ticker_str)
+        info = t.info
+        if not info:
+            return {"code": code, "market": market, "fallback": True}
+        return {
+            "code": code,
+            "market": market,
+            "financial": {
+                "pe_ttm": info.get("trailingPE"),
+                "pe_forward": info.get("forwardPE"),
+                "pb": info.get("priceToBook"),
+                "roe": info.get("returnOnEquity"),
+                "revenue_growth": info.get("revenueGrowth"),
+                "profit_margin": info.get("profitMargins"),
+                "debt_to_equity": info.get("debtToEquity"),
+                "dividend_yield": info.get("dividendYield"),
+            },
+        }
+    except Exception as e:
+        return {"code": code, "market": market, "fallback": True, "error": str(e)}
+
+
+def _get_stock_quotes_yf(code: str, market: str) -> dict:
+    try:
+        import yfinance as yf
+        suffix = ".HK" if market == "hk" else ""
+        ticker_str = f"{code}{suffix}"
+        t = yf.Ticker(ticker_str)
+        hist = t.history(period="1mo")
+        if hist.empty:
+            return {"code": code, "market": market, "fallback": True, "note": "无行情数据"}
+        info = t.info
+        latest_close = float(hist["Close"].iloc[-1])
+        prev_close = float(hist["Close"].iloc[-2]) if len(hist) >= 2 else latest_close
+        change_pct = round((latest_close / prev_close - 1) * 100, 2)
+        ma20 = round(float(hist["Close"].tail(20).mean()), 2)
+        return {
+            "code": code,
+            "market": market,
+            "quote": {
+                "name": info.get("longName") or info.get("shortName", code),
+                "price": latest_close,
+                "change_pct": change_pct,
+                "volume": float(hist["Volume"].iloc[-1]) if "Volume" in hist else None,
+                "ma20": ma20,
+                "pe": info.get("trailingPE"),
+            },
+        }
+    except Exception as e:
+        return {"code": code, "market": market, "fallback": True, "error": str(e)}
+
+
+def _get_fund_rankings_yf(fund_type: str, market: str) -> dict:
+    """港美股基金/ETF 排名，用代表性 ETF 列表"""
+    etf_map = {
+        "hk": [
+            ("盈富基金", "2800.HK", "恒生指数"),
+            ("南方A50", "2822.HK", "A股ETF"),
+            ("华夏沪深300", "3188.HK", "A股ETF"),
+            ("恒生科技ETF", "3032.HK", "科技"),
+            ("安硕恒生科技", "3067.HK", "科技"),
+            ("华夏恒生ESG", "3038.HK", "ESG"),
+            ("南方恒生指数", "3037.HK", "恒生指数"),
+            ("Global X 消费", "2806.HK", "消费"),
+        ],
+        "us": [
+            ("SPY", "SPY", "标普500"),
+            ("QQQ", "QQQ", "纳斯达克100"),
+            ("VTI", "VTI", "全市场"),
+            ("VEA", "VEA", "发达市场"),
+            ("VWO", "VWO", "新兴市场"),
+            ("IWM", "IWM", "罗素2000"),
+            ("DIA", "DIA", "道琼斯"),
+            ("GLD", "GLD", "黄金"),
+        ],
+    }
+    etfs = etf_map.get(market, [])
+    if not etfs:
+        return {"fund_type": fund_type, "market": market, "fallback": True, "funds": []}
+
+    result = []
+    try:
+        import yfinance as yf
+        for name, ticker, category in etfs:
+            try:
+                t = yf.Ticker(ticker)
+                info = t.info
+                hist = t.history(period="1mo")
+                ytd_return = None
+                if len(hist) >= 21:
+                    ytd_return = round(float(hist["Close"].iloc[-1] / hist["Close"].iloc[0] - 1) * 100, 2)
+                result.append({
+                    "name": name,
+                    "code": ticker,
+                    "category": category,
+                    "ytd_return": ytd_return,
+                    "expense_ratio": info.get("expenseRatio"),
+                    "aum": info.get("totalAssets"),
+                })
+            except Exception:
+                result.append({"name": name, "code": ticker, "category": category, "note": "数据获取失败"})
+    except Exception as e:
+        return {"fund_type": fund_type, "market": market, "fallback": True, "error": str(e), "funds": result}
+    return {"fund_type": fund_type, "market": market, "source": "yfinance ETF", "funds": result}
+
+
+# ── 工具列表导出 ────────────────────────────────────────
+
+L1_TOOLS = [get_industry_rankings, get_sector_fund_flows, get_macro_indicators]
+
+L2_TOOLS = [
+    get_industry_constituents,
+    get_company_profile,
+    get_financial_summary,
+    get_stock_quotes,
+    get_fund_rankings,
+    get_global_leaders,
+]
+
+ALL_MARKET_TOOLS = L1_TOOLS + L2_TOOLS
