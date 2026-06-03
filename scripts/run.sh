@@ -197,23 +197,27 @@ run_collect() {
 
 run_analyze() {
     local RUN_DIR="$1"
-    local FROM_FLAG=""
-    local ONLY_FLAG=""
+    local FROM_MSG=""
+    local ONLY_MSG=""
 
     if [ -n "$FROM_STEP" ]; then
-        FROM_FLAG="--from $FROM_STEP"
+        FROM_MSG="从 $FROM_STEP 开始续跑。"
     fi
     if [ -n "$ONLY_STEP" ]; then
-        ONLY_FLAG="--only $ONLY_STEP"
+        ONLY_MSG="只运行 $ONLY_STEP 这一个步骤。"
     fi
 
     echo "[2/2] Agent 推理..."
     echo ""
 
     cd "$PROJECT_ROOT"
-    claude workflow run advisor \
-        --args "$RUN_DIR" \
-        $FROM_FLAG $ONLY_FLAG \
+    claude -p "运行组合顾问 Workflow。数据目录: $RUN_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$RUN_DIR', user_id: '$USER_ID'${FROM_STEP:+, from_step: '$FROM_STEP'}${ONLY_STEP:+, only_step: '$ONLY_STEP'}}。
+每步 agent() 必须指定 agentType 为对应的 Agent 名（l1-strategist 等），Agent 文件在 .claude/agents/advisor/。
+不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
+        --permission-mode bypassPermissions \
+        --output-format text \
+        --max-turns 30 \
         2>&1 | sed 's/^/  /'
 
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
@@ -279,10 +283,16 @@ case "$COMMAND" in
         fi
         echo "✅ 数据收集完成"
 
-        # Phase 2: Agent 推理（通过 Claude Code Workflow）
+        # Phase 2: Agent 推理（通过 Claude Code）
         echo ""
         echo "[2/3] Agent 推理（约 4-5 分钟）..."
-        claude workflow run advisor --args "{\"data_dir\": \"$RUN_DIR\", \"user_id\": \"$USER_ID\"}"
+        claude -p "运行组合顾问 Workflow。数据目录: $RUN_DIR, 用户ID: $USER_ID。
+Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$RUN_DIR', user_id: '$USER_ID'}。
+每步 agent() 必须指定 agentType 为对应的 Agent 名，Agent 文件在 .claude/agents/advisor/。
+不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
+            --permission-mode bypassPermissions \
+            --output-format text \
+            --max-turns 30
         WF_EXIT=$?
         if [ $WF_EXIT -ne 0 ]; then
             echo ""
@@ -329,14 +339,19 @@ case "$COMMAND" in
         fi
 
         cd "$PROJECT_ROOT"
-        ARGS_JSON="{\"data_dir\": \"$DATA_DIR\", \"user_id\": \"$USER_ID\""
+
+        FROM_MSG=""
+        ONLY_MSG=""
+        FROM_JSON=""
+        ONLY_JSON=""
         if [ -n "$FROM_STEP" ]; then
-            ARGS_JSON="$ARGS_JSON, \"from_step\": \"$FROM_STEP\""
+            FROM_MSG="从 $FROM_STEP 开始续跑。"
+            FROM_JSON=", from_step: '$FROM_STEP'"
         fi
         if [ -n "$ONLY_STEP" ]; then
-            ARGS_JSON="$ARGS_JSON, \"only_step\": \"$ONLY_STEP\""
+            ONLY_MSG="只运行 $ONLY_STEP 这一个步骤。"
+            ONLY_JSON=", only_step: '$ONLY_STEP'"
         fi
-        ARGS_JSON="$ARGS_JSON}"
 
         echo "Agent 推理中（约 4-5 分钟）..."
         echo "数据目录: $DATA_DIR"
@@ -344,7 +359,13 @@ case "$COMMAND" in
         [ -n "$ONLY_STEP" ] && echo "单步调试: $ONLY_STEP"
         echo ""
 
-        claude workflow run advisor --args "$ARGS_JSON"
+        claude -p "运行组合顾问 Workflow。数据目录: $DATA_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$DATA_DIR', user_id: '$USER_ID'${FROM_JSON}${ONLY_JSON}}。
+每步 agent() 必须指定 agentType 为对应的 Agent 名，Agent 文件在 .claude/agents/advisor/。
+不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
+            --permission-mode bypassPermissions \
+            --output-format text \
+            --max-turns 30
         if [ $? -ne 0 ]; then
             echo "❌ Agent 推理失败。输出文件: $DATA_DIR"
             [ -z "$ONLY_STEP" ] && echo "断点续跑: ./run.sh analyze --data-dir $DATA_DIR --from <step>"
