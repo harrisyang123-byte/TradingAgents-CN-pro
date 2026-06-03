@@ -30,6 +30,16 @@ def detect_tier1_conflicts(tier1: List[Dict]) -> List[Dict]:
 def detect_pe_vs_advice(pf: Dict, tier1: List[Dict]) -> List[Dict]:
     """PE 分位 vs 建议方向一致性检查"""
     conflicts = []
+
+    # 读取 PE 数据（如有）
+    pe_data = {}
+    pe_path = DATA_DIR / "pe.json"
+    if pe_path.exists():
+        try:
+            pe_data = json.load(open(pe_path))
+        except (json.JSONDecodeError, FileNotFoundError):
+            pass
+
     for pos in pf.get("positions", []):
         code = pos.get("code", "")
         inst = pos.get("instrument_type", "stock")
@@ -38,13 +48,16 @@ def detect_pe_vs_advice(pf: Dict, tier1: List[Dict]) -> List[Dict]:
         # 取 Tier1 建议方向
         t1_recs = [r for r in tier1 if r.get("code") == code]
         latest_rec = str(t1_recs[0].get("recommendation", "")) if t1_recs else ""
-        if "买入" not in latest_rec and "buy" not in latest_rec.lower():
-            continue
+        has_buy = "买入" in latest_rec or "buy" in latest_rec.lower()
+
         # PE 高估且建议买入 → 冲突
-        for r in t1_recs:
-            summary = r.get("summary", "")
-            if "pe" in summary.lower() or "PE" in summary:
-                pass  # Tier1 摘要中已包含 PE 判断
+        pe = pe_data.get(code, {})
+        pe_pct = pe.get("pe_percentile_5y")
+        if pe_pct is not None and pe_pct > 85 and has_buy:
+            conflicts.append({
+                "code": code, "type": "pe_overvalued_buy", "severity": "medium",
+                "detail": f"PE {pe_pct}% 分位（历史高位），但 Tier1 建议买入",
+            })
 
     return conflicts
 

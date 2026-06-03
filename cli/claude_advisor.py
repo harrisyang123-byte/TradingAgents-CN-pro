@@ -57,15 +57,9 @@ def create_llm(_user_id: str):
 
 def run_agent(llm, system_prompt: str, input_data: str = "") -> str:
     """一次子 Agent 调用"""
-    from langchain_core.messages import HumanMessage
+    from langchain_core.messages import SystemMessage, HumanMessage
 
-    messages = []
-    if system_prompt:
-        try:
-            from langchain_core.messages import SystemMessage
-            messages.append(SystemMessage(content=system_prompt))
-        except ImportError:
-            messages.append(HumanMessage(content=f"## System\n{system_prompt}"))
+    messages = [SystemMessage(content=system_prompt)]
     if input_data:
         messages.append(HumanMessage(content=f"## 输入数据\n{input_data}"))
 
@@ -325,8 +319,20 @@ def main():
 
     elapsed = (datetime.utcnow() - t0).total_seconds()
 
-    # 5. 保存
-    cio_verdict = f"# 组合顾问分析报告\n\n## L1 行业方向\n{l1_judge[:1000]}\n\n## L2 标的筛选\n{l2_scout[:800]}\n\n## L3 组合诊断\n{l3_strategist[:500]}\n\n## L4 处方\n{l4_final[:2000]}"
+    # 5. 保存完整 CIO 裁决
+    # 市场温度可用性标注
+    temp_note = ""
+    if market_temp.get("breadth_signal") in ("中性", None, "") or str(market_temp.get("north_net")) == "nan":
+        temp_note = "\n\n⚠️ 市场温度数据不可用（AKShare连接超时），情绪修正已跳过，处方基于纯基本面判断。"
+
+    cio_verdict = (
+        f"# 组合顾问分析报告\n\n"
+        f"## L1 行业方向\n{l1_judge[:2000]}\n\n"
+        f"## L2 标的筛选\n{l2_scout[:1500]}\n\n"
+        f"## L3 组合诊断\n{l3_strategist[:1000]}\n\n"
+        f"## L4 处方正文\n{l4_final[:4000]}"
+        f"{temp_note}"
+    )
 
     aid = asyncio.run(save_to_mongodb(
         args.user_id, cio_verdict, prescription, conflicts, elapsed))

@@ -137,12 +137,42 @@ async def collect_all(user_id: str) -> None:
         collect_tier1(codes),
         collect_exposure(user_id),
         collect_market_temp(),
+        collect_pe(codes),  # 新增 PE 数据
         return_exceptions=True,
     )
     logger.info("数据收集完成")
 
 
-async def load_portfolio() -> Dict:
+async def collect_pe(position_codes: List[str]) -> Dict:
+    """逐只计算 PE 分位"""
+    from tradingagents.dataflows.pe_percentile import compute_pe_context
+    await ensure_db()
+    results = {}
+    for code in position_codes:
+        inst_type = ""
+        try:
+            pf = json.load(open(DATA_DIR / "portfolio.json"))
+            for p in pf.get("positions", []):
+                if p["code"] == code:
+                    inst_type = p.get("instrument_type", "stock")
+                    break
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+        if inst_type in ("fund", "etf"):
+            continue
+        market = "cn"
+        if ".HK" in code or (code.isdigit() and len(code) == 5):
+            market = "hk"
+        elif not code.replace(".SH", "").replace(".SZ", "").isdigit() and not code.isdigit():
+            market = "us"
+        try:
+            ctx = compute_pe_context(code, market)
+            results[code] = ctx
+        except Exception as e:
+            results[code] = {"error": str(e)}
+    json.dump(results, open(DATA_DIR / "pe.json", "w"), ensure_ascii=False, default=str)
+    logger.info(f"PE: {len(results)} 只标的")
+    return results
     return json.load(open(DATA_DIR / "portfolio.json"))
 
 
