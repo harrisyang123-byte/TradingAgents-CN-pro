@@ -284,6 +284,17 @@ class PortfolioService:
             if total_assets > 0:
                 pos["weight"] = round(pos["market_value_cny"] / total_assets * 100, 2)
 
+        # 行业分类填充（关键词回退 + 已知公司映射，无需 LLM）
+        try:
+            from app.services.industry_buckets import classify as bucket_classify
+            for pos in position_details:
+                code = pos.get("code", "")
+                name = pos.get("name", "")
+                inst = pos.get("instrument_type", "stock")
+                pos["industry"] = bucket_classify(code, name, inst)
+        except ImportError:
+            pass  # industry_buckets 不可用时不阻塞
+
         return {
             "total_invested": round(total_invested, 2),
             "available_cash": round(available_cash, 2),

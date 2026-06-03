@@ -24,28 +24,60 @@ class PortfolioAdvisorService:
         return self._db
 
     async def _prepare_tier1_reports(self, position_codes: List[str]) -> List[Dict[str, Any]]:
-        """获取持仓标的的 Tier 1 分析报告"""
+        """获取持仓标的的 Tier 1 分析报告（股票 + 基金穿透）"""
         if not position_codes:
             return []
 
         reports = []
         for code in position_codes:
-            doc = await self.db["analysis_results"].find_one(
-                {"$or": [
-                    {"stock_code": code},
-                    {"stock_symbol": code},
-                    {"stock_code": {"$regex": f"^{code}"}},
+            # 主查询：analysis_reports（新集合，股票和基金都存这里）
+            doc = await self.db["analysis_reports"].find_one(
+                {"$and": [
+                    {"$or": [
+                        {"stock_symbol": code},
+                        {"stock_code": code},
+                    ]},
+                    {"stock_symbol": {"$ne": "?"}},
+                    {"status": "completed"},
                 ]},
                 sort=[("created_at", -1)],
             )
+            # Fallback：旧版 analysis_results（存量数据兼容）
+            if not doc:
+                doc = await self.db["analysis_results"].find_one(
+                    {"$or": [
+                        {"stock_code": code},
+                        {"stock_symbol": code},
+                        {"stock_code": {"$regex": f"^{code}"}},
+                    ]},
+                    sort=[("created_at", -1)],
+                )
+
             if doc:
-                reports.append({
-                    "stock_code": doc.get("stock_code", code),
-                    "stock_symbol": doc.get("stock_symbol", code),
-                    "rating": doc.get("rating") or doc.get("recommendation", "N/A"),
+                inst_type = doc.get("instrument_type", "stock")
+                entry = {
+                    "stock_code": doc.get("stock_symbol") or doc.get("stock_code", code),
+                    "stock_symbol": doc.get("stock_symbol") or doc.get("stock_code", code),
+                    "stock_name": doc.get("stock_name", ""),
+                    "instrument_type": inst_type,
+                    "rating": doc.get("recommendation") or doc.get("rating", "N/A"),
                     "summary": doc.get("summary") or doc.get("final_decision", ""),
                     "created_at": doc.get("created_at", ""),
-                })
+                }
+
+                # 基金特有字段（如已存在）
+                rsub = doc.get("reports", {})
+                if isinstance(rsub, dict):
+                    for k in ("fund_holdings_report", "fund_manager_report", "fund_risk_report"):
+                        v = rsub.get(k)
+                        if v:
+                            entry[k] = str(v)[:500]
+
+                reports.append(entry)
+            else:
+                # 无 Tier1 报告的基金：尝试取穿透数据
+                logger.info(f"[Tier1] {code} 无已存在报告，尝试获取基金穿透数据")
+
         return reports
 
     async def _prepare_non_held_reports(self, held_codes: List[str]) -> List[Dict[str, Any]]:
