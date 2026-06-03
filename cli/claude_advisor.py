@@ -30,31 +30,29 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── LLM 工厂 ──────────────────────────────────────────────
 
-def create_llm(user_id: str):
-    """创建 LLM 实例"""
-    from app.services.config_service import ConfigService
+def create_llm(_user_id: str):
+    """创建 LLM 实例 — 从 .env 读取 API key，不依赖 DB 配置"""
+    import os as _os
+    from dotenv import load_dotenv
     from tradingagents.graph.trading_graph import create_llm_by_provider
     from tradingagents.llm_clients.provider_keys import normalize_provider_key
-    from langchain_core.messages import HumanMessage
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    try:
-        cfg = loop.run_until_complete(ConfigService().get_analysis_config(user_id))
-    finally:
-        loop.close()
+    # 加载 .env
+    _env_path = _os.path.join(_os.path.dirname(__file__), "..", ".env")
+    if _os.path.exists(_env_path):
+        load_dotenv(_env_path, override=True)
 
-    provider = normalize_provider_key(cfg.get("llm_provider", "deepseek"))
-    llm = create_llm_by_provider(
-        provider=provider,
-        model=cfg.get("quick_think_llm", "deepseek-chat"),
-        backend_url=cfg.get("backend_url", ""),
-        temperature=0.3,
-        max_tokens=4000,
-        timeout=120,
-        api_key=cfg.get("quick_api_key") or cfg.get("deep_api_key"),
-    )
-    return llm
+    api_key = _os.getenv("DEEPSEEK_API_KEY") or ""
+    provider = "deepseek"
+    model = "deepseek-chat"
+
+    if not api_key:
+        api_key = _os.getenv("DASHSCOPE_API_KEY") or ""
+        provider = "qwen"
+        model = "qwen-turbo"
+
+    return create_llm_by_provider(provider=provider, model=model, backend_url="",
+                                   temperature=0.3, max_tokens=4000, timeout=120, api_key=api_key)
 
 
 def run_agent(llm, system_prompt: str, input_data: str = "") -> str:
