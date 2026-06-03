@@ -8,16 +8,16 @@
 
 ## 2. Agent 定义文件(9 个)
 
-- [ ] 2.1 创建 `l1-strategist.md` — 市场策略师(看多),输入 data_macro.json + data_portfolio.json,输出行业 Go/NoGo + 方向+数据支撑。model=sonnet, tools=[Read, Bash]
-- [ ] 2.2 创建 `l1-contrarian.md` — 反向者(看空),输入 step1_strategist.json + data_macro.json,输出质疑+数据反驳。model=sonnet
-- [ ] 2.3 创建 `l1-judge.md` — 宏观裁判,输入全部 L1 辩论记录,输出最终超配/标配/低配/零配裁定(≥5方向,每个≥200字)。model=sonnet
-- [ ] 2.4 创建 `l2-scout.md` — Scout(6维评分),输入 step3_judge.json + data_pe.json + data_tier1.json + data_portfolio.json,输出候选池(含financial_data + price_range + top_risks,≥30%中小市值)。model=sonnet, tools=[Read, Bash]
-- [ ] 2.5 创建 `l3-analyst.md` — 持仓分析师,输入 step3_judge.json + step4_scout.json + data_tier1.json + data_pe.json,输出每只持仓安全边际评估。model=sonnet
-- [ ] 2.6 创建 `l3-strategist.md` — 组合策略师(诊断报告员),输入 step5_analyst.json + data_exposure.json,输出集中度/一致性风险/隐形暴露汇总。不输出操作建议。model=sonnet
-- [ ] 2.7 创建 `l4-cio.md` — CIO初稿,输入全部前面产物+conflicts.json,输出敞口诊断+行业配置+资金分配方案。model=opus
-- [ ] 2.8 创建 `l4-risk.md` — 风险总监,输入 step7_cio.json + conflicts.json + data_exposure.json,输出风险审查(集中度/流动性/Tier1验证/压力测试)。model=opus
-- [ ] 2.9 创建 `l4-cio-final.md` — CIO终裁,输入 step7_cio.json + step8_risk.json + conflicts.json,输出最终处方+完整cio_verdict。model=opus
-- [ ] 2.10 为每个 Agent 定义 JSON Schema 输出结构(在 Agent .md 末尾,供 `agent({schema: ...})` 使用)
+- [x] 2.1 创建 `l1-strategist.md` — 市场策略师(看多),输入 data_macro.json + data_portfolio.json,输出行业 Go/NoGo + 方向+数据支撑。model=sonnet, tools=[Read, Bash]
+- [x] 2.2 创建 `l1-contrarian.md` — 反向者(看空),输入 step1_strategist.json + data_macro.json,输出质疑+数据反驳。model=sonnet
+- [x] 2.3 创建 `l1-judge.md` — 宏观裁判,输入全部 L1 辩论记录,输出最终超配/标配/低配/零配裁定(≥5方向,每个≥200字)。model=sonnet
+- [x] 2.4 创建 `l2-scout.md` — Scout(6维评分),输入 step3_judge.json + data_pe.json + data_tier1.json + data_portfolio.json,输出候选池(含financial_data + price_range + top_risks,≥30%中小市值)。model=sonnet, tools=[Read, Bash]
+- [x] 2.5 创建 `l3-analyst.md` — 持仓分析师,输入 step3_judge.json + step4_scout.json + data_tier1.json + data_pe.json,输出每只持仓安全边际评估。model=sonnet
+- [x] 2.6 创建 `l3-strategist.md` — 组合策略师(诊断报告员),输入 step5_analyst.json + data_exposure.json,输出集中度/一致性风险/隐形暴露汇总。不输出操作建议。model=sonnet
+- [x] 2.7 创建 `l4-cio.md` — CIO初稿,输入全部前面产物+conflicts.json,输出敞口诊断+行业配置+资金分配方案。model=opus
+- [x] 2.8 创建 `l4-risk.md` — 风险总监,输入 step7_cio.json + conflicts.json + data_exposure.json,输出风险审查(集中度/流动性/Tier1验证/压力测试)。model=opus
+- [x] 2.9 创建 `l4-cio-final.md` — CIO终裁,输入 step7_cio.json + step8_risk.json + conflicts.json,输出最终处方+完整cio_verdict。model=opus
+- [x] 2.10 为每个 Agent 定义 JSON Schema 输出结构(在 Agent .md 末尾,供 `agent({schema: ...})` 使用)
 
 ## 3. Python 脚本
 
