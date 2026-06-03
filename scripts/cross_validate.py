@@ -18,7 +18,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -142,7 +142,7 @@ def main():
     report = {
         "conflicts": all_conflicts,
         "total": len(all_conflicts),
-        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(timezone.utc).isoformat() + "Z",
     }
 
     output_path = data_dir / "conflicts.json"

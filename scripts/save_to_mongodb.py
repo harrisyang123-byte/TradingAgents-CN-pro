@@ -14,7 +14,7 @@ import os
 import sys
 import asyncio
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -45,9 +45,53 @@ async def save_to_mongodb(data_dir: str) -> bool:
             pass
 
     # 组装 PortfolioAdvice 文档
+    # Agent 可能用多种字段名: prescription/cio_verdict 或 execution_roadmap/final_verdict 等
     run_id = Path(data_dir).name
+
     prescription = final.get("prescription", [])
+    if not prescription:
+        # 从 execution_roadmap + glide_path 提取
+        roadmap = final.get("execution_roadmap", {})
+        glide_path = final.get("glide_path", [])
+        alloc = final.get("current_vs_target_allocation", {})
+
+        # 构建 prescription 列表
+        for g in glide_path:
+            if isinstance(g, dict):
+                prescription.append({
+                    "milestone": g.get("milestone", ""),
+                    "action": "rebalance",
+                    "target_positions": g.get("expected_positions", 0),
+                    "target_cash_pct": g.get("expected_cash_pct", 0),
+                    "key_moves": g.get("key_moves", ""),
+                    "risk_rating": g.get("risk_rating", ""),
+                    "timing": g.get("milestone", ""),
+                    "priority": "important" if "P0" in g.get("milestone", "") else "normal",
+                })
+
+        # 从 allocation 提取 per-asset prescriptions
+        for category, info in alloc.items():
+            if isinstance(info, dict) and "action" in info:
+                prescription.append({
+                    "category": category,
+                    "action": info.get("action", "hold"),
+                    "current_pct": info.get("current_pct", info.get("current", 0)),
+                    "target_pct": info.get("target_pct", info.get("target", 0)),
+                })
+
     cio_verdict = final.get("cio_verdict", "")
+    if not cio_verdict:
+        verdict = final.get("final_verdict", {})
+        if isinstance(verdict, dict):
+            parts = []
+            for k, v in verdict.items():
+                if isinstance(v, str):
+                    parts.append(f"{k}: {v}")
+                elif isinstance(v, list):
+                    parts.append(f"{k}: {'; '.join(str(x) for x in v[:3])}")
+            cio_verdict = "\n\n".join(parts)
+        elif isinstance(verdict, str):
+            cio_verdict = verdict
 
     doc = {
         "run_id": run_id,
@@ -57,7 +101,7 @@ async def save_to_mongodb(data_dir: str) -> bool:
         "prescription": prescription,
         "conflicts": conflicts,
         "conflict_count": len(conflicts),
-        "created_at": datetime.utcnow(),
+        "created_at": datetime.now(timezone.utc),
         "data_dir": str(data_dir),
     }
 

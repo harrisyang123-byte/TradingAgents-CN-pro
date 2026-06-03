@@ -13,7 +13,7 @@ import json
 import os
 import sys
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -65,7 +65,7 @@ async def save_step(data_dir: str, step_name: str) -> bool:
             "step_name": step_name,
             "data_dir": str(data_dir),
             "output": output_data,
-            "created_at": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc),
         }
         await db["agent_steps"].update_one(
             {"run_id": doc["run_id"], "step_name": step_name},

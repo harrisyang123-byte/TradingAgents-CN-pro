@@ -14,7 +14,7 @@ import asyncio
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -41,7 +41,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
 
         # 整理持仓数据
         portfolio_data = {
-            "collected_at": datetime.utcnow().isoformat() + "Z",
+            "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
             "status": "success",
             "user_id": user_id,
             "available_cash": summary.get("available_cash", 0),
@@ -157,7 +157,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
 
     # —— 5. 宏观指标 ——
     print("  [5/6] 收集宏观指标 + 行业排名 + 资金流向...")
-    macro_data = {"status": "partial", "collected_at": datetime.utcnow().isoformat() + "Z"}
+    macro_data = {"status": "partial", "collected_at": datetime.now(timezone.utc).isoformat() + "Z"}
     try:
         from tradingagents.agents.advisors.market_tools import (
             get_macro_indicators, get_industry_rankings, get_sector_fund_flows)
@@ -177,7 +177,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
     # —— 6. 市场温度 ——
     print("  [6/6] 收集市场温度数据...")
     market_temp = {
-        "collected_at": datetime.utcnow().isoformat() + "Z",
+        "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
         "status": "success",
         "north_net": 0, "north_days": 0,
         "breadth_signal": "中性", "up_ratio": 50,
