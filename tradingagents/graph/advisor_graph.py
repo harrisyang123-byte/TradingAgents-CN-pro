@@ -213,6 +213,22 @@ def _msg_clear_node(state: dict) -> dict:
     return {"messages": removal + [HumanMessage(content="Continue")]}
 
 
+# ── 行业缓存检查节点（v3 industry-layer-rebuild） ──────
+
+def _check_industry_cache(state: dict) -> dict:
+    """在 L1 运行前标记行业中哪些已有有效缓存。
+
+    对于缓存有效的行业，后续将在 parallel_industry_research 节点（Task 5）中跳过。
+    本节点仅做标记，不修改 market_intel。
+    """
+    scan_pool = state.get("industry_scan_pool", [])
+    if not scan_pool:
+        logger.info("[CacheCheck] 无行业扫描池，跳过")
+        return {}
+    logger.info(f"[CacheCheck] 扫描池 {len(scan_pool)} 个行业，等待缓存检查")
+    return {}
+
+
 # ── 辩论节点工厂 ───────────────────────────────────────
 
 def _make_debate_node(llm, role_key: str, label: str, debate_state_key: str):
@@ -671,6 +687,11 @@ class AdvisorGraph:
         # ── 构建图 ──
         workflow = StateGraph(AdvisorState)
 
+        # === L0: 缓存检查（v3 industry-layer-rebuild） ===
+        workflow.add_node("cache_check", _check_industry_cache)
+        workflow.add_edge(START, "cache_check")
+        workflow.add_edge("cache_check", "market_strategist")
+
         # === Level 1: 行业方向 ===
         workflow.add_node("market_strategist", market_strategist)
         workflow.add_node("contrarian", contrarian)
@@ -685,7 +706,7 @@ class AdvisorGraph:
         workflow.add_node("msg_clear_final_l1", _msg_clear_node)
 
         # Market Strategist tool loop
-        workflow.add_edge(START, "market_strategist")
+        # (routed via cache_check → START)
         workflow.add_conditional_edges("market_strategist", l1_router_market, {
             "tools": "tools_l1_market",
             "market_strategist": "market_strategist",

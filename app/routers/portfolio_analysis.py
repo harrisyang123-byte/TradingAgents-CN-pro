@@ -463,3 +463,27 @@ async def _get_planned_industries(user_id: str, db):
         "reasoning": d.get("reasoning", ""),
         "priority": d.get("priority", 0),
     } for d in docs]
+
+
+@router.post("/industry/{industry_name}/refresh")
+async def refresh_industry_coverage(
+    industry_name: str,
+    current_user: dict = Depends(get_current_user),
+):
+    """手动强制刷新某行业的辩论缓存（立即过期，下次分析重新研究）
+
+    将 industry_coverage 中对应记录的 expires_at 设为当前时间，
+    下次分析启动时该行业将触发完整的辩论流程。
+    """
+    db = get_mongo_db()
+    now_iso = datetime.utcnow().isoformat()
+    result = await db["industry_coverage"].update_one(
+        {"user_id": current_user["id"], "industry_name": industry_name},
+        {"$set": {"expires_at": now_iso, "updated_at": now_iso}},
+    )
+    if result.matched_count == 0:
+        logger.info(f"[Refresh] 行业 {industry_name} 无缓存记录，跳过")
+        return {"success": True, "message": f"行业 {industry_name} 无缓存记录，无需刷新"}
+
+    logger.info(f"[Refresh] 行业 {industry_name} 缓存已刷新")
+    return {"success": True, "message": f"行业 {industry_name} 缓存已刷新，下次分析将重新研究"}

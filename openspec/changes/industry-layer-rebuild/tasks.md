@@ -78,11 +78,11 @@
 - `advisor_graph.py`：L1 节点前插入缓存检查，命中则跳过研究
 - 验证：首次运行写入缓存，再次运行确认命中缓存，调用 refresh 接口后下次重新运行
 
-- [ ] industry_coverage schema 升级（新增字段，向后兼容）
-- [ ] 缓存读取逻辑（含旧记录兼容）
-- [ ] 缓存写入逻辑（expires_at 自动设置）
-- [ ] advisor_graph 缓存检查节点
-- [ ] 手动刷新接口
+- [x] industry_coverage schema 升级（新增字段，向后兼容）
+- [x] 缓存读取逻辑（含旧记录兼容）
+- [x] 缓存写入逻辑（expires_at 自动设置）
+- [x] advisor_graph 缓存检查节点
+- [x] 手动刷新接口
 - [ ] 验证端到端
 
 ---

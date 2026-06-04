@@ -2,7 +2,7 @@
 
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List
 from concurrent.futures import ThreadPoolExecutor
 
@@ -275,7 +275,11 @@ class PortfolioAdvisorService:
                         "confidence": ind.get("confidence", ""),
                         "reasoning": ind.get("reasoning", ""),
                         "priority": ind.get("priority", 0),
+                        "debate_history": ind.get("debate_history", ""),
+                        "vitality_level": ind.get("vitality_level", ""),
+                        "vitality_score": ind.get("vitality_score", 0),
                         "analyzed_at": datetime.utcnow().isoformat(),
+                        "expires_at": (datetime.utcnow() + timedelta(days=7)).isoformat(),
                         "advice_id": advice_id,
                         "status": "completed",
                         "updated_at": datetime.utcnow().isoformat(),
