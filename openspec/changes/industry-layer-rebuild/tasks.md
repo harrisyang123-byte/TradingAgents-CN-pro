@@ -35,12 +35,12 @@
   - 降级：信号不可用时跳过，标注 data_completeness
 - 验证：运行打分，确认输出18行记录，前3名标注 top3_flag=True
 
-- [ ] 资金流向信号（AKShare `stock_sector_fund_flow_rank`）
-- [ ] 北向资金信号（AKShare `stock_hsgt_hist_em`）
-- [ ] PE分位信号（AKShare `stock_board_industry_pe_em`）
-- [ ] PMI/PPI 信号（AKShare `macro_china_pmi` / `macro_china_ppi`）
-- [ ] 政策文件信号（AKShare 新闻 + 官网爬虫，含反爬降级）
-- [ ] 加权打分 + 排序 + top3 标注
+- [x] 资金流向信号（AKShare `stock_sector_fund_flow_rank`）
+- [x] 北向资金信号（AKShare `stock_hsgt_hist_em`）
+- [x] PE分位信号（AKShare `stock_board_industry_pe_em`）
+- [x] PMI/PPI 信号（AKShare `macro_china_pmi` / `macro_china_ppi`）
+- [x] 政策文件信号（AKShare 新闻 + 官网爬虫，含反爬降级）
+- [x] 加权打分 + 排序 + top3 标注
 - [ ] 验证端到端
 
 ---
