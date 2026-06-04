@@ -103,12 +103,12 @@
   - 结果写入 industry_coverage（Task 4 依赖）
 - 验证：5个行业并行运行，总耗时 < 最慢单行业 × 1.5，suggested_weight 不超 max_industry_weight
 
-- [ ] 行业研究员 agent（B+C 数据注入）
-- [ ] Strategist/Contrarian 辩论逻辑（2轮）
-- [ ] 行业研究员输出景气强度定性判断（强烈看好/看好/中性/看空），不直接输出数字权重
-- [ ] 跨行业权重辩论（1轮）：接收 total_weight_limit + 各行业景气强度，做资源分配输出 final_weight（加总 = total_weight_limit）
-- [ ] asyncio.gather 并行节点
-- [ ] advisor_graph 集成
+- [x] 行业研究员 agent（B+C 数据注入）
+- [x] Strategist/Contrarian 辩论逻辑（2轮）
+- [x] 行业研究员输出景气强度定性判断（强烈看好/看好/中性/看空），不直接输出数字权重
+- [x] 跨行业权重辩论（1轮）：接收 total_weight_limit + 各行业景气强度，做资源分配输出 final_weight（加总 = total_weight_limit）
+- [x] asyncio.gather 并行节点
+- [x] advisor_graph 集成
 - [ ] 验证端到端
 
 ---
