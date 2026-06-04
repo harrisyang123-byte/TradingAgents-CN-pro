@@ -818,10 +818,39 @@ async def save(data_dir: str) -> bool:
                 {"run_id": run_id, "source": "claude-code-workflow-v1"},
                 {"$set": doc}, upsert=True,
             )
+
+            # 写入 industry_coverage，让前端矩阵与处方一致
+            cov_written = 0
+            for ind in industries:
+                await db["industry_coverage"].update_one(
+                    {"user_id": user_id, "industry_name": ind["industry"]},
+                    {"$set": {
+                        "industry_name": ind["industry"],
+                        "user_id": user_id,
+                        "market": "cn",
+                        "go_nogo": ind.get("go_nogo", "Watch"),
+                        "lifecycle": "",
+                        "depth": ind.get("depth", "deep"),
+                        "reasoning": ind.get("reasoning", ""),
+                        "confidence": "",
+                        "holdings_weight": ind["holdings_weight"],
+                        "target_weight": ind["target_weight"],
+                        "position_codes": ind["codes"],
+                        "position_names": ind["names"],
+                        "position_count": ind["position_count"],
+                        "analyzed_at": now.isoformat(),
+                        "advice_id": doc["advice_id"],
+                        "status": "completed",
+                    }},
+                    upsert=True,
+                )
+                cov_written += 1
+
             actions = {}
             for p in prescriptions: actions[p["action"]] = actions.get(p["action"], 0) + 1
             print(f"✅ 处方已保存 (run_id={run_id})")
             print(f"   处方: {len(prescriptions)} 条 · 操作分布 {actions}")
+            print(f"   行业覆盖: {cov_written} 个行业已同步")
             print(f"   L1={len(macro_judge_verdict)}B L2={len(scout_assessment)}B L3={len(analyst_assessment)}B L4={len(cio_verdict)}B")
             return True
         except Exception as e:
