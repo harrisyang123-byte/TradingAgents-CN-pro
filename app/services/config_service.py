@@ -421,6 +421,52 @@ class ConfigService:
 
             return None
     
+    async def get_analysis_config(self, user_id: str = None) -> dict:
+        """获取分析用的 LLM 配置（返回 dict 兼容现有调用方）—— 优先取启用的 provider"""
+        config = await self.get_system_config()
+        if config and config.llm_configs:
+            # 优先取 default_llm 匹配的，其次取第一个 enabled 的，最后取第一个
+            llm = None
+            default_name = config.default_llm or ""
+            for c in config.llm_configs:
+                if c.enabled and (c.model_name == default_name or c.provider == default_name):
+                    llm = c
+                    break
+            if not llm:
+                for c in config.llm_configs:
+                    if c.enabled:
+                        llm = c
+                        break
+            if not llm:
+                llm = config.llm_configs[0]
+
+            # 如果 api_key 为空，尝试从环境变量读取
+            api_key = llm.api_key or ""
+            if not api_key and llm.provider:
+                import os
+                env_key_map = {
+                    "deepseek": "DEEPSEEK_API_KEY",
+                    "openai": "OPENAI_API_KEY",
+                    "zhipu": "ZHIPU_API_KEY",
+                    "qwen": "DASHSCOPE_API_KEY",
+                    "anthropic": "ANTHROPIC_API_KEY",
+                    "google": "GOOGLE_API_KEY",
+                    "siliconflow": "SILICONFLOW_API_KEY",
+                }
+                env_var = env_key_map.get(llm.provider.lower(), "")
+                if env_var:
+                    api_key = os.getenv(env_var, "")
+
+            return {
+                "llm_provider": llm.provider,
+                "deep_think_llm": llm.model_name,
+                "quick_think_llm": llm.model_name,
+                "backend_url": llm.api_base or "",
+                "deep_api_key": api_key,
+                "quick_api_key": api_key,
+            }
+        return {}
+
     async def _create_default_config(self) -> SystemConfig:
         """创建默认系统配置"""
         default_config = SystemConfig(
@@ -430,7 +476,7 @@ class ConfigService:
                 LLMConfig(
                     provider=ModelProvider.OPENAI,
                     model_name="gpt-3.5-turbo",
-                    api_key="your-openai-api-key",
+                    api_key="",  # placeholder: your-openai-api-key,
                     api_base="https://api.openai.com/v1",
                     max_tokens=4000,
                     temperature=0.7,
@@ -440,7 +486,7 @@ class ConfigService:
                 LLMConfig(
                     provider=ModelProvider.ZHIPU,
                     model_name="glm-4",
-                    api_key="your-zhipu-api-key",
+                    api_key="",  # placeholder: your-zhipu-api-key,
                     api_base="https://open.bigmodel.cn/api/paas/v4",
                     max_tokens=4000,
                     temperature=0.7,
@@ -482,7 +528,7 @@ class ConfigService:
                 LLMConfig(
                     provider=ModelProvider.QWEN,
                     model_name="qwen-turbo",
-                    api_key="your-qwen-api-key",
+                    api_key="",  # placeholder: your-qwen-api-key,
                     api_base="https://dashscope.aliyuncs.com/compatible-mode/v1",
                     max_tokens=4000,
                     temperature=0.7,
@@ -505,7 +551,7 @@ class ConfigService:
                 DataSourceConfig(
                     name="Tushare",
                     type=DataSourceType.TUSHARE,
-                    api_key="your-tushare-token",
+                    api_key="",  # placeholder: your-tushare-token,
                     endpoint="http://api.tushare.pro",
                     timeout=30,
                     rate_limit=200,
