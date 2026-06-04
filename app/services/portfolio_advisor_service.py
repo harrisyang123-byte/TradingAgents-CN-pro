@@ -24,22 +24,15 @@ class PortfolioAdvisorService:
         return self._db
 
     async def _prepare_tier1_reports(self, position_codes: List[str]) -> List[Dict[str, Any]]:
-        """获取持仓标的的 Tier 1 分析报告（股票 + 基金穿透）"""
+        """获取持仓标的的 Tier 1 分析报告（股票 + 基金）"""
         if not position_codes:
             return []
 
         reports = []
         for code in position_codes:
-            # 主查询：analysis_reports（新集合，股票和基金都存这里）
+            # 主查询：analysis_reports（股票和基金都存这里）
             doc = await self.db["analysis_reports"].find_one(
-                {"$and": [
-                    {"$or": [
-                        {"stock_symbol": code},
-                        {"stock_code": code},
-                    ]},
-                    {"stock_symbol": {"$ne": "?"}},
-                    {"status": "completed"},
-                ]},
+                {"stock_symbol": code, "status": "completed"},
                 sort=[("created_at", -1)],
             )
             # Fallback：旧版 analysis_results（存量数据兼容）
@@ -61,52 +54,28 @@ class PortfolioAdvisorService:
                     "stock_name": doc.get("stock_name", ""),
                     "instrument_type": inst_type,
                     "rating": doc.get("recommendation") or doc.get("rating", "N/A"),
-                    "summary": doc.get("summary") or doc.get("final_decision", ""),
+                    "summary": doc.get("summary", ""),
                     "created_at": doc.get("created_at", ""),
                 }
 
-                # 基金特有字段（如已存在）
-                rsub = doc.get("reports", {})
-                if isinstance(rsub, dict):
-                    for k in ("fund_holdings_report", "fund_manager_report", "fund_risk_report"):
-                        v = rsub.get(k)
-                        if v:
-                            entry[k] = str(v)[:500]
+                # 基金特有字段：从 reports 子文档提取
+                if inst_type == "fund":
+                    sub_reports = doc.get("reports", {})
+                    if isinstance(sub_reports, dict):
+                        entry["fund_manager_report"] = sub_reports.get("fund_manager_report", "")
+                        entry["fund_holdings_report"] = sub_reports.get("fund_holdings_report", "")
+                        entry["fund_risk_report"] = sub_reports.get("fund_risk_report", "")
+                    decision = doc.get("decision", {})
+                    if isinstance(decision, dict):
+                        entry["fund_action"] = decision.get("action", "N/A")
+                        entry["fund_confidence"] = decision.get("confidence", 0)
+                    else:
+                        entry["fund_action"] = "N/A"
+                        entry["fund_confidence"] = 0
 
                 reports.append(entry)
-            else:
-                # 无 Tier1 报告的基金：尝试取穿透数据
-                logger.info(f"[Tier1] {code} 无已存在报告，尝试获取基金穿透数据")
 
         return reports
-
-    async def _prepare_non_held_reports(self, held_codes: List[str]) -> List[Dict[str, Any]]:
-        """获取非持仓标的中评级为买入/增持的报告"""
-        cursor = self.db["analysis_results"].aggregate([
-            {"$sort": {"created_at": -1}},
-            {"$group": {
-                "_id": {"$ifNull": ["$stock_code", "$stock_symbol"]},
-                "doc": {"$first": "$$ROOT"},
-            }},
-            {"$replaceRoot": {"newRoot": "$doc"}},
-            {"$limit": 50},
-        ])
-        all_reports = await cursor.to_list(None)
-
-        held_set = set(held_codes)
-        non_held = []
-        for doc in all_reports:
-            code = doc.get("stock_code") or doc.get("stock_symbol") or ""
-            if code in held_set:
-                continue
-            non_held.append({
-                "stock_code": doc.get("stock_code", code),
-                "stock_symbol": doc.get("stock_symbol", code),
-                "rating": doc.get("rating") or doc.get("recommendation", "N/A"),
-                "summary": doc.get("summary") or doc.get("final_decision", ""),
-                "created_at": doc.get("created_at", ""),
-            })
-        return non_held
 
     async def generate_advice(
         self,
@@ -114,34 +83,24 @@ class PortfolioAdvisorService:
         advice_id: str,
         config_overrides: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """异步执行组合顾问分析（在线程池中运行）"""
-        _executor.submit(
-            self._run_advice_sync,
-            user_id,
-            advice_id,
-            config_overrides or {},
+        """异步执行组合顾问分析（主事件循环后台任务，避免 Motor 跨 loop 问题）"""
+        import asyncio
+        asyncio.create_task(
+            self._execute_advice_wrapper(user_id, advice_id, config_overrides or {})
         )
 
-    def _run_advice_sync(
+    async def _execute_advice_wrapper(
         self,
         user_id: str,
         advice_id: str,
         config_overrides: Dict[str, Any],
     ) -> None:
-        """同步执行组合顾问分析（线程池中运行）"""
-        import asyncio
-
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        """包装 _execute_advice，捕获异常并标记失败"""
         try:
-            loop.run_until_complete(
-                self._execute_advice(user_id, advice_id, config_overrides)
-            )
+            await self._execute_advice(user_id, advice_id, config_overrides)
         except Exception as e:
             logger.error(f"组合顾问执行失败: {e}", exc_info=True)
-            loop.run_until_complete(self._mark_failed(advice_id, str(e)))
-        finally:
-            loop.close()
+            await self._mark_failed(advice_id, str(e))
 
     async def _execute_advice(
         self,
@@ -165,12 +124,31 @@ class PortfolioAdvisorService:
 
         position_codes = [p["code"] for p in portfolio_summary.get("positions", [])]
         tier1_reports = await self._prepare_tier1_reports(position_codes)
-        non_held_reports = await self._prepare_non_held_reports(position_codes)
+
+        # 敞口引擎：穿透基金持仓 → 真实暴露矩阵
+        from app.services.exposure_service import ExposureService
+        exposure_svc = ExposureService()
+        exposure_matrix = await exposure_svc.compute(portfolio_summary)
+        exposure_context = exposure_svc.format_context_for_advisor(exposure_matrix)
+
+        # 情景压力测试：预设宏观情景，估算组合回撤
+        from app.services.stress_test import StressTestService
+        positions = portfolio_summary.get("positions", [])
+        sector_map = {}
+        for exp in exposure_matrix.stock_exposures:
+            if exp.sector:
+                sector_map[exp.code] = exp.sector
+        stress_results = StressTestService.run_all(positions, sector_map)
+        stress_context = StressTestService.format_context_for_advisor(stress_results)
 
         logger.info(
             f"[Advisor] 数据准备完成: {len(position_codes)} 只持仓, "
-            f"{len(tier1_reports)} 份 Tier1 报告, {len(non_held_reports)} 份非持仓报告"
+            f"{len(tier1_reports)} 份 Tier1 报告, "
+            f"敞口矩阵 {len(exposure_matrix.stock_exposures)} 只底层标的"
         )
+
+        # 反馈闭环：获取上一次处方上下文，注入 CIO prompt
+        feedback_context = await self._format_feedback_context(user_id, advice_id)
 
         config_service = ConfigService()
         llm_config = await config_service.get_analysis_config(user_id)
@@ -207,7 +185,9 @@ class PortfolioAdvisorService:
         result = advisor.propagate_advice(
             portfolio_summary=portfolio_summary,
             tier1_reports=tier1_reports,
-            non_held_reports=non_held_reports,
+            exposure_context=exposure_context + "\n\n" + stress_context if stress_context else exposure_context,
+            exposure_matrix=exposure_matrix,
+            feedback_context=feedback_context,
             progress_callback=progress_cb,
             **config_overrides,
         )
@@ -221,12 +201,91 @@ class PortfolioAdvisorService:
                 "analyst_assessment": result.get("analyst_assessment", ""),
                 "strategist_assessment": result.get("strategist_assessment", ""),
                 "scout_assessment": result.get("scout_assessment", ""),
+                "contrarian_assessment": result.get("contrarian_assessment", ""),
+                "macro_judge_verdict": result.get("macro_judge_verdict", ""),
+                "market_intel": result.get("market_intel", {}),
+                "stock_candidates": result.get("stock_candidates", []),
+                "stock_judge_verdict": result.get("stock_judge_verdict", ""),
+                "risk_director_review": result.get("risk_director_review", ""),
+                "market_debate_history": result.get("market_debate_history", ""),
+                "stock_debate_history": result.get("stock_debate_history", ""),
                 "debate_history": result.get("debate_history", ""),
                 "elapsed_seconds": result.get("elapsed_seconds", 0),
                 "completed_at": datetime.utcnow().isoformat(),
                 "updated_at": datetime.utcnow().isoformat(),
+                "price_context": result.get("price_context", {}),
+                "risk_debate_final": result.get("risk_debate_final", {}),
+                "portfolio_summary_snapshot": result.get("portfolio_summary_snapshot", {}),
+                "audit_results": result.get("audit_results", []),
+                "buy_signals": result.get("buy_signals", {}),
+                "market_signals": result.get("market_signals", {}),
             }},
         )
+
+        # 双写 analysis_reports（报告页可见）
+        try:
+            completed_at = datetime.utcnow().isoformat()
+            market_intel = result.get("market_intel", {})
+            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+            await self.db["analysis_reports"].insert_one({
+                "report_type": "portfolio",
+                "stock_symbol": f"portfolio_{advice_id}",
+                "stock_name": f"组合建议 {completed_at[:10]}",
+                "summary": (result.get("cio_verdict", "") or "")[:500],
+                "recommendation": f"覆盖 {len(industries)} 个行业, {len(result.get('prescription', []))} 条处方",
+                "created_at": completed_at,
+                "status": "completed",
+                "analysts": ["market_strategist", "contrarian", "macro_judge", "scout", "stock_contrarian", "stock_judge", "analyst", "strategist", "cio", "risk_director"],
+                "research_depth": 2,
+                "market_type": "portfolio",
+                "instrument_type": "portfolio",
+                "model_info": "Tier2-4Level",
+                "reports": {
+                    "market_intel": market_intel,
+                    "stock_candidates": result.get("stock_candidates", []),
+                    "analyst_assessment": result.get("analyst_assessment", ""),
+                    "strategist_assessment": result.get("strategist_assessment", ""),
+                    "scout_assessment": result.get("scout_assessment", ""),
+                    "cio_verdict": result.get("cio_verdict", ""),
+                    "risk_director_review": result.get("risk_director_review", ""),
+                },
+                "advice_id": advice_id,
+                "user_id": user_id,
+            })
+            logger.info(f"[Advisor] 双写 analysis_reports 完成, advice_id={advice_id}")
+        except Exception as e:
+            logger.warning(f"[Advisor] 双写 analysis_reports 失败（非致命）: {e}")
+
+        # 更新 industry_coverage（L1 行业扫描结果持久化）
+        try:
+            market_intel = result.get("market_intel", {})
+            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+            for ind in industries:
+                if not isinstance(ind, dict):
+                    continue
+                ind_name = ind.get("industry", "")
+                if not ind_name:
+                    continue
+                await self.db["industry_coverage"].update_one(
+                    {"user_id": user_id, "industry_name": ind_name},
+                    {"$set": {
+                        "market": ind.get("market", "cn"),
+                        "lifecycle": ind.get("lifecycle", ""),
+                        "go_nogo": ind.get("recommendation", ind.get("go_nogo", "")),
+                        "confidence": ind.get("confidence", ""),
+                        "reasoning": ind.get("reasoning", ""),
+                        "priority": ind.get("priority", 0),
+                        "analyzed_at": datetime.utcnow().isoformat(),
+                        "advice_id": advice_id,
+                        "status": "completed",
+                        "updated_at": datetime.utcnow().isoformat(),
+                    }},
+                    upsert=True,
+                )
+            if industries:
+                logger.info(f"[Advisor] industry_coverage 更新完成, {len(industries)} 个行业")
+        except Exception as e:
+            logger.warning(f"[Advisor] industry_coverage 更新失败（非致命）: {e}")
 
         await self._send_ws_notification(user_id, advice_id)
 
@@ -250,6 +309,46 @@ class PortfolioAdvisorService:
                 "updated_at": datetime.utcnow().isoformat(),
             }},
         )
+
+    async def _format_feedback_context(self, user_id: str, current_advice_id: str) -> str:
+        """获取最近的已完成处方，格式化为反馈上下文"""
+        try:
+            self._db = None
+            cursor = self.db["portfolio_advice"].find(
+                {
+                    "user_id": user_id,
+                    "advice_id": {"$ne": current_advice_id},
+                    "status": "COMPLETED",
+                }
+            ).sort("created_at", -1).limit(2)
+
+            previous = await cursor.to_list(length=2)
+            if not previous:
+                return ""
+
+            parts = ["## 历史处方反馈", ""]
+            for i, doc in enumerate(previous):
+                ts = doc.get("created_at", "")[:10]
+                presc = doc.get("prescription", [])
+                if not presc:
+                    continue
+
+                parts.append(f"### 第{i + 1}次回顾 ({ts})")
+                parts.append("| 标的 | 操作 | 目标权重 | 理由 |")
+                parts.append("|------|------|----------|------|")
+                for p in presc[:8]:
+                    parts.append(
+                        f"| {p.get('code','?')} {p.get('name','')} | "
+                        f"{p.get('action','?')} | {p.get('target_weight',0):.1f}% | "
+                        f"{str(p.get('reasoning',''))[:80]} |"
+                    )
+                parts.append("")
+
+            parts.append("**反馈要求**：对比本次处方与历史处方，说明哪些建议被延续、哪些已过时、哪些需要纠正。")
+            return "\n".join(parts)
+        except Exception as e:
+            logger.warning(f"获取历史处方失败: {e}")
+            return ""
 
     async def _send_ws_notification(self, user_id: str, advice_id: str):
         try:

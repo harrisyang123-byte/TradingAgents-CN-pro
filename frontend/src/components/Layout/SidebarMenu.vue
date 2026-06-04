@@ -6,16 +6,18 @@
     router
     class="sidebar-menu"
   >
-    <el-menu-item index="/dashboard">
-      <el-icon><Odometer /></el-icon>
-      <template #title>仪表板</template>
-    </el-menu-item>
+    <!-- ====== 持仓 ====== -->
+    <el-sub-menu index="/portfolio">
+      <template #title>
+        <el-icon><Wallet /></el-icon>
+        <span>持仓组合</span>
+      </template>
+      <el-menu-item index="/portfolio/holdings">持仓明细</el-menu-item>
+      <el-menu-item index="/portfolio/analysis">持仓分析</el-menu-item>
+      <el-menu-item index="/portfolio/overview">组合总揽</el-menu-item>
+    </el-sub-menu>
 
-    <el-menu-item index="/learning">
-      <el-icon><Reading /></el-icon>
-      <template #title>学习中心</template>
-    </el-menu-item>
-
+    <!-- ====== 分析 ====== -->
     <el-sub-menu index="/analysis">
       <template #title>
         <el-icon><TrendCharts /></el-icon>
@@ -23,7 +25,6 @@
       </template>
       <el-menu-item index="/analysis/single">单股分析</el-menu-item>
       <el-menu-item index="/analysis/batch">批量分析</el-menu-item>
-      <!-- 新增：将分析报告作为股票分析的子菜单 -->
       <el-menu-item index="/reports">分析报告</el-menu-item>
     </el-sub-menu>
 
@@ -32,6 +33,7 @@
       <template #title>任务中心</template>
     </el-menu-item>
 
+    <!-- ====== 工具 ====== -->
     <el-menu-item index="/screening">
       <el-icon><Search /></el-icon>
       <template #title>股票筛选</template>
@@ -42,27 +44,11 @@
       <template #title>我的自选股</template>
     </el-menu-item>
 
-    <el-menu-item index="/portfolio">
-      <el-icon><Wallet /></el-icon>
-      <template #title>我的持仓</template>
-    </el-menu-item>
-
-
-    <!-- 分析报告已移至“股票分析”子菜单，保留注释便于追踪 -->
-    <!--
-    <el-menu-item index="/reports">
-      <el-icon><Document /></el-icon>
-      <template #title>分析报告</template>
-    </el-menu-item>
-    -->
-
     <el-sub-menu index="/settings">
       <template #title>
         <el-icon><Setting /></el-icon>
         <span>设置</span>
       </template>
-
-      <!-- 个人设置 -->
       <el-sub-menu index="/settings-personal">
         <template #title>个人设置</template>
         <el-menu-item index="/settings">通用设置</el-menu-item>
@@ -71,15 +57,11 @@
         <el-menu-item index="/settings?tab=notifications">通知设置</el-menu-item>
         <el-menu-item index="/settings?tab=security">安全设置</el-menu-item>
       </el-sub-menu>
-
-      <!-- 系统配置 -->
       <el-sub-menu index="/settings-config">
         <template #title>系统配置</template>
         <el-menu-item index="/settings/config">配置管理</el-menu-item>
         <el-menu-item index="/settings/cache">缓存管理</el-menu-item>
       </el-sub-menu>
-
-      <!-- 系统管理 -->
       <el-sub-menu index="/settings-admin">
         <template #title>系统管理</template>
         <el-menu-item index="/settings/database">数据库管理</el-menu-item>
@@ -95,6 +77,17 @@
       <el-icon><InfoFilled /></el-icon>
       <template #title>关于</template>
     </el-menu-item>
+
+    <!-- ====== 废弃 ====== -->
+    <el-menu-item index="/dashboard">
+      <el-icon><Odometer /></el-icon>
+      <template #title>仪表板（废弃）</template>
+    </el-menu-item>
+
+    <el-menu-item index="/learning">
+      <el-icon><Reading /></el-icon>
+      <template #title>学习中心（废弃）</template>
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -109,7 +102,6 @@ import {
   Search,
   Star,
   List,
-  /* Document 移除：不再使用顶级分析报告菜单图标 */
   Setting,
   InfoFilled,
   Wallet
