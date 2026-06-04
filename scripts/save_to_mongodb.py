@@ -101,6 +101,7 @@ async def save_to_mongodb(data_dir: str) -> bool:
         "run_id": run_id,
         "source": "claude-code-workflow-v1",
         "user_id": final.get("user_id", ""),
+        "status": "COMPLETED",
         "cio_verdict": cio_verdict,
         "prescription": prescription,
         "conflicts": conflicts,
