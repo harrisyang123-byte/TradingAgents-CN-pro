@@ -107,20 +107,13 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
     print("  [3/6] 收集 PE 分位数据...")
     pe_data = {}
     try:
-        from cli.advisor.data_collector import collect_pe_context
-        for p in positions:
-            code = p.get("code", p.get("stock_code", ""))
-            if not code:
-                continue
-            try:
-                pe_ctx = await _collect_pe_single(code)
-                pe_data[code] = pe_ctx
-            except Exception:
-                pe_data[code] = {"pe_percentile_5y": None, "status": "unavailable"}
-
+        from cli.advisor.data_collector import collect_pe
+        position_codes = [p.get("code", p.get("stock_code", "")) for p in positions if p.get("code") or p.get("stock_code")]
+        pe_result = await collect_pe(position_codes)
+        pe_data = pe_result if isinstance(pe_result, dict) else {}
         with open(out_dir / "data_pe.json", "w") as f:
             json.dump(pe_data, f, ensure_ascii=False, default=str)
-        available = sum(1 for v in pe_data.values() if v.get("pe_percentile_5y") is not None)
+        available = sum(1 for v in pe_data.values() if isinstance(v, dict) and v.get("pe_percentile_5y") is not None)
         print(f"    {available}/{len(pe_data)} 只 PE 数据可用")
     except Exception as e:
         print(f"  警告: PE 数据收集失败: {e}")
@@ -161,9 +154,9 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
     try:
         from tradingagents.agents.advisors.market_tools import (
             get_macro_indicators, get_industry_rankings, get_sector_fund_flows)
-        macro_data["indicators"] = get_macro_indicators() or {}
-        macro_data["industry_rankings"] = get_industry_rankings() or []
-        macro_data["sector_fund_flows"] = get_sector_fund_flows() or []
+        macro_data["indicators"] = get_macro_indicators.func() or {}
+        macro_data["industry_rankings"] = get_industry_rankings.func() or []
+        macro_data["sector_fund_flows"] = get_sector_fund_flows.func() or []
         print(f"    宏观指标: {len(macro_data.get('indicators', {}))} 项, "
               f"行业排名: {len(macro_data.get('industry_rankings', []))} 行业, "
               f"资金流向: {len(macro_data.get('sector_fund_flows', []))} 行业")
@@ -216,16 +209,6 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
         print(f"\n  ⚠ 数据收集完成但有 {len(warnings)} 个警告: {', '.join(warnings)}")
 
     return True
-
-
-async def _collect_pe_single(code: str) -> dict:
-    """收集单只标的 PE 分位"""
-    try:
-        from cli.advisor.data_collector import collect_pe_context
-        import asyncio
-        return await collect_pe_context(code)
-    except Exception:
-        return {"pe_percentile_5y": None, "status": "unavailable"}
 
 
 def main():
