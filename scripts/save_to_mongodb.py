@@ -510,12 +510,19 @@ def _build_prescriptions(s3: dict, s4: dict, s7: dict, s9: dict,
             if code in detail or code in action_text or name[:6] in detail or name[:6] in action_text:
                 otype = o.get("type", "")
                 pid = o.get("order_id", "")
-                if any(w in action_text + detail for w in ("卖出", "减仓", "止损", "止盈", "减持", "清仓")):
+                # 优先用 order 的 action 字段判方向——order action 直接表达意图
+                # detail 里的关键字可能是其他标的的（如"QDII 止盈释放"写进了黄金 order）
+                act_lower = action_text.lower()
+                _is_sell = any(w in action_text for w in ("止损", "止盈", "卖出", "减仓", "减持", "清仓", "清理"))
+                _is_buy  = any(w in action_text for w in ("定投", "买入", "加仓", "增持", "建仓", "启动"))
+                if _is_sell and not _is_buy:
                     action = "reduce"
-                elif any(w in action_text + detail for w in ("买入", "加仓", "增持", "建仓")):
+                elif _is_buy and not _is_sell:
                     action = "add"
                 elif any(w in otype for w in ("风险管理", "个股决断")):
-                    action = "reduce" if "止损" in detail or "止盈" in detail else action
+                    if any(w in detail for w in ("止损", "止盈", "卖出")):
+                        action = "reduce"
+
                 reasoning_parts.append(f"[{pid}] {action_text[:200]}: {detail[:200]}")
                 priority = "important"
                 timing = "immediate" if o.get("_phase") == "P0" else "conditional"
@@ -533,8 +540,11 @@ def _build_prescriptions(s3: dict, s4: dict, s7: dict, s9: dict,
                 if code in gap_text:
                     final_order = g.get("final_order", "")
                     ruling = g.get("cio_final_ruling", "")
-                    if any(w in final_order + ruling for w in ("卖出", "减仓", "止损", "止盈")):
+                    # gap 的 final_order 直接表达意图——优先用它判方向
+                    if any(w in final_order for w in ("止损", "止盈", "卖出", "减仓", "减持", "清仓")):
                         action = "reduce"
+                    elif any(w in final_order for w in ("买入", "加仓", "增持", "定投")):
+                        action = "add"
                     reasoning_parts.append(f"[{g.get('gap_id', 'GAP')}] {g.get('title', '')}: {ruling[:200]}")
                     priority = "important"
 
@@ -565,11 +575,15 @@ def _build_prescriptions(s3: dict, s4: dict, s7: dict, s9: dict,
         for a in alerts:
             if code in json.dumps(a, ensure_ascii=False):
                 severity = a.get("severity", "")
+                alert_title = a.get("title", "")
+                alert_action = a.get("action", "")
                 if severity.startswith("P0"):
-                    if action == "hold": action = "reduce"
                     priority = "important"
                     timing = "immediate"
-                reasoning_parts.append(f"[ALERT {severity}] {a.get('title', '')}: {a.get('action', '')[:200]}")
+                # 只有 alerts 明确说卖才判 reduce（数据缺失类 P0 不判卖）
+                if any(w in alert_title + alert_action for w in ("卖出", "减仓", "止损", "止盈", "减持", "清仓")):
+                    if action == "hold": action = "reduce"
+                reasoning_parts.append(f"[ALERT {severity}] {alert_title}: {alert_action[:200]}")
 
         egu = egu_map.get(code, {})
         if egu:
@@ -590,11 +604,18 @@ def _build_prescriptions(s3: dict, s4: dict, s7: dict, s9: dict,
             priority = "normal"
             timing = "conditional"
 
-        # 计算目标权重
+        # 计算目标权重——从 order detail 尝试提取目标百分比
         if action == "reduce":
-            target_weight = round(weight * 0.7, 1) if weight > 1 else weight
+            # 尝试从 reasoning 中提取目标仓位（如 "减仓至 3%"）
+            tgt_match = re.search(r'降至?\s*(\d+\.?\d*)\s*%|减(?:仓)?至\s*(\d+\.?\d*)\s*%', " ".join(reasoning_parts))
+            if tgt_match:
+                tgt = float(tgt_match.group(1) or tgt_match.group(2))
+                target_weight = round(tgt, 1)
+            else:
+                target_weight = round(weight * 0.7, 1) if weight > 1 else weight
         elif action == "add":
-            target_weight = round(min(weight * 1.5, weight + 3.0), 1)
+            # add 类保持当前权重，不粗暴放大——实际增量由定投等机制决定
+            target_weight = round(weight, 1)
         else:
             target_weight = round(weight, 1)
 
@@ -620,7 +641,7 @@ def _build_prescriptions(s3: dict, s4: dict, s7: dict, s9: dict,
 # 3. 行业矩阵
 # ═══════════════════════════════════════════════════════════════
 
-def _build_industries(portfolio: dict, prescriptions: List[dict]):
+def _build_industries(portfolio: dict, prescriptions: List[dict], run_dir: Path):
     """从持仓 + 处方汇总行业视图"""
     positions = portfolio.get("positions", [])
     categories: Dict[str, Dict] = {}
@@ -629,22 +650,56 @@ def _build_industries(portfolio: dict, prescriptions: List[dict]):
         name = p.get("name", "")
         w = p.get("weight", 0)
         code = p.get("code", "")
+        itype = p.get("instrument_type", "stock")
 
-        # 行业分类
-        if "债" in name or "收益" in name: cat = "债券"
-        elif "黄金" in name or "金" in name: cat = "黄金"
-        elif "纳指" in name or "QDII" in name or "海外" in name or "全球" in name: cat = "QDII/海外"
-        elif "500" in name or "300" in name or "A50" in name or "沪深" in name: cat = "宽基指数"
-        elif "科创" in name or "芯片" in name or "AI" in name or "科技" in name: cat = "科技"
-        elif "医药" in name or "医疗" in name: cat = "医药"
-        elif "消费" in name: cat = "消费"
-        elif "新能源" in name or "光伏" in name or "电车" in name: cat = "新能源"
-        elif "家电" in name: cat = "家电"
-        elif "通信" in name or "5G" in name: cat = "通信设备"
-        elif "化工" in name or "新材" in name: cat = "新材料"
-        elif "传媒" in name or "游戏" in name or "娱乐" in name: cat = "传媒娱乐"
-        elif "ETF" in name: cat = "行业ETF"
-        else: cat = name[:10]
+        # 个股手写映射
+        _stock_map: Dict[str, str] = {
+            "603663": "新材料", "002517": "传媒娱乐", "603236": "通信设备",
+            "000063": "通信设备", "002415": "安防科技", "09992": "消费",
+            "01810": "科技", "002001": "新材料", "002050": "汽车零部件",
+        }
+        if code in _stock_map:
+            cat = _stock_map[code]
+        elif itype in ("fund", "etf", "other"):
+            # 基金——从名称关键词判断类型
+            if any(w in name for w in ("债", "稳健收益", "增强回报", "双债")):
+                cat = "债券"
+            elif any(w in name for w in ("黄金", "上海金")):
+                cat = "黄金"
+            elif "纳指" in name or "QDII" in name or "全球精选" in name or "全球多元" in name:
+                cat = "QDII/海外"
+            elif any(w in name for w in ("500", "300", "A50", "红利", "中证红利", "沪深")):
+                cat = "宽基指数"
+            elif any(w in name for w in ("科创", "芯片", "半导体", "AI", "人工智能")):
+                cat = "科技"
+            elif any(w in name for w in ("医疗", "医药")):
+                cat = "医药"
+            elif any(w in name for w in ("新能源", "绿色电力", "光伏", "电车")):
+                cat = "新能源"
+            elif "家电" in name:
+                cat = "家电"
+            elif "ETF" in name or "联接" in name:
+                cat = "行业ETF"
+            else:
+                cat = "基金"
+        else:
+            # 未映射的个股
+            if any(w in name for w in ("新材", "化工", "三祥")):
+                cat = "新材料"
+            elif any(w in name for w in ("通信", "中兴", "烽火", "移远")):
+                cat = "通信设备"
+            elif any(w in name for w in ("恺英", "游戏", "传媒", "娱乐")):
+                cat = "传媒娱乐"
+            elif any(w in name for w in ("海康", "安防")):
+                cat = "安防科技"
+            elif any(w in name for w in ("三花", "智控", "汽车")):
+                cat = "汽车零部件"
+            elif "泡泡玛特" in name or "Pop Mart" in name:
+                cat = "消费"
+            elif "小米" in name or "Xiaomi" in name:
+                cat = "科技"
+            else:
+                cat = name[:6]
 
         if cat not in categories:
             categories[cat] = {"holdings_weight": 0, "position_count": 0, "codes": [], "names": []}
@@ -652,6 +707,22 @@ def _build_industries(portfolio: dict, prescriptions: List[dict]):
         categories[cat]["position_count"] += 1
         categories[cat]["codes"].append(code)
         categories[cat]["names"].append(name)
+
+    # ── 从 order 提取行业级 target 覆盖 ──
+    _pos_map = {p.get("code", ""): p for p in positions}
+    _ind_target_overrides: Dict[str, float] = {}
+    for o in _extract_orders_regex(run_dir / "step7_cio.json"):
+        detail = o.get("detail", "")
+        action_text = o.get("action", "")
+        m = re.search(r'从\s*(\d+\.?\d*)\s*%\s*(?:提升|增至|提高|配置从).*?(\d+\.?\d*)\s*%', detail + action_text)
+        if m:
+            to_pct = float(m.group(2))
+            for code in _pos_map:
+                if code in detail or (len(code) >= 4 and code[:4] in detail):
+                    for cat, info in categories.items():
+                        if code in info["codes"]:
+                            _ind_target_overrides[cat] = to_pct
+                            break
 
     # 从处方反推 target_weight 和 go_nogo
     for rx in prescriptions:
@@ -671,10 +742,13 @@ def _build_industries(portfolio: dict, prescriptions: List[dict]):
 
     industries = []
     for cat, info in categories.items():
+        tw = info.get("target_weight_sum", info["holdings_weight"])
+        if cat in _ind_target_overrides:
+            tw = _ind_target_overrides[cat]
         industries.append({
             "industry": cat,
             "holdings_weight": round(info["holdings_weight"], 1),
-            "target_weight": round(info.get("target_weight_sum", info["holdings_weight"]), 1),
+            "target_weight": round(tw, 1),
             "position_count": info["position_count"],
             "codes": info["codes"],
             "names": info["names"],
@@ -715,7 +789,7 @@ async def save(data_dir: str) -> bool:
 
     # 组装
     prescriptions = _build_prescriptions(s3, s4, s7, s9, portfolio, pe_data, run_dir)
-    industries = _build_industries(portfolio, prescriptions)
+    industries = _build_industries(portfolio, prescriptions, run_dir)
 
     # 市场信号
     mkt_temp = _jls(run_dir / "data_market_temp.json") or {}
