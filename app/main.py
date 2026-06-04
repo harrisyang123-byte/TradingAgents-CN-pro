@@ -71,6 +71,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from app.services.quotes_ingestion_service import QuotesIngestionService
 from app.routers import paper as paper_router
 from app.routers import portfolio_analysis as portfolio_analysis_router
+from app.routers import watchlist as watchlist_router
 
 
 def get_version() -> str:
@@ -731,6 +732,7 @@ app.include_router(sync_router.router)
 app.include_router(multi_source_sync.router)
 app.include_router(paper_router.router, prefix="/api", tags=["portfolio"])
 app.include_router(portfolio_analysis_router.router, tags=["portfolio-analysis"])
+app.include_router(watchlist_router.router, prefix="/api", tags=["watchlist"])
 app.include_router(fund_router.router, prefix="/api", tags=["fund"])
 app.include_router(tushare_init.router, prefix="/api", tags=["tushare-init"])
 app.include_router(akshare_init.router, prefix="/api", tags=["akshare-init"])

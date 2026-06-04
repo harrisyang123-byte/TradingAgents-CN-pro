@@ -145,3 +145,6 @@ class AdvisorState(TypedDict, total=False):
     final_debate_rounds: int
     max_prescription_items: int
     rebalance_preference: str   # "periodic" (定期) or "opportunistic" (机会触发)
+
+    # === v3: 行业扫描池（industry-layer-rebuild） ===
+    industry_scan_pool: List[Dict[str, Any]]  # [{industry, source, vitality_score}]

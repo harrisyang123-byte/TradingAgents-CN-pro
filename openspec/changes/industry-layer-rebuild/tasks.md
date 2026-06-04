@@ -56,11 +56,11 @@
 - `app/services/portfolio_advisor_service.py`：启动前调用 scan_pool 构建
 - 验证：用户持仓含科技+消费，watchlist 含医药，景气前3含新能源，最终池包含4个行业
 
-- [ ] 确认 watchlist 是否已有（若无则新建 model + router）
-- [ ] 持仓行业聚合逻辑（读 paper_positions.industry）
-- [ ] 景气打分集成（Task 2 依赖）
-- [ ] 三层合并去重 + 来源标注
-- [ ] 注入 AdvisorState.industry_scan_pool
+- [x] 确认 watchlist 是否已有（若无则新建 model + router）
+- [x] 持仓行业聚合逻辑（读 paper_positions.industry）
+- [x] 景气打分集成（Task 2 依赖）
+- [x] 三层合并去重 + 来源标注
+- [x] 注入 AdvisorState.industry_scan_pool
 - [ ] 验证端到端
 
 ---
