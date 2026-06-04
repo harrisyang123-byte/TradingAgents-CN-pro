@@ -291,6 +291,24 @@ class PortfolioAdvisorService:
         except Exception as e:
             logger.warning(f"[Advisor] industry_coverage 更新失败（非致命）: {e}")
 
+        # 异步触发 Tier1 研究
+        try:
+            from app.services.stock_research_cache import trigger_auto_research
+            market_intel = result.get("market_intel", {})
+            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
+            for ind in industries:
+                if ind.get("go_nogo") == "Go":
+                    ind_name = ind.get("industry", "")
+                    if ind_name:
+                        import asyncio
+                        asyncio.create_task(
+                            _auto_trigger_tier1_for_industry(
+                                self, user_id, ind_name
+                            )
+                        )
+        except Exception as e:
+            logger.warning(f"[Advisor] Tier1 自动触发失败（非致命）: {e}")
+
         await self._send_ws_notification(user_id, advice_id)
 
         logger.info(f"[Advisor] 完成 advice_id={advice_id}, "
@@ -363,3 +381,25 @@ class PortfolioAdvisorService:
             )
         except Exception as e:
             logger.debug(f"WebSocket 通知失败（非致命）: {e}")
+
+
+async def _auto_trigger_tier1_for_industry(service, user_id: str, industry: str):
+    """行业 Go 后自动触发该行业主要公司的 Tier1 研究（后台异步）。"""
+    try:
+        db = get_mongo_db()
+        # 用户在该行业的持仓标的
+        cursor = db["paper_positions"].find(
+            {"user_id": user_id, "industry": industry},
+            {"code": 1, "name": 1},
+        )
+        codes = [doc["code"] async for doc in cursor]
+
+        if codes:
+            from app.services.stock_research_cache import trigger_auto_research
+            triggered = await trigger_auto_research(db, None, industry, codes, user_id)
+            if triggered:
+                logger.info(f"[AutoResearch] 行业 {industry}: 已触发 {triggered} 只标的 Tier1 研究")
+            else:
+                logger.info(f"[AutoResearch] 行业 {industry}: 所有标的缓存有效，无需触发")
+    except Exception as e:
+        logger.warning(f"[AutoResearch] 行业 {industry} 触发失败: {e}")

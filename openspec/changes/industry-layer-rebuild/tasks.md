@@ -127,12 +127,12 @@
 - `app/routers/portfolio_analysis.py`：手动触发 Tier1 时同样写入 stock_research_cache
 - 验证：科技行业判 Go 后，自动触发前10家公司研究；再次分析时命中缓存；手动分析茅台后组合分析可复用
 
-- [ ] stock_research_cache 集合设计 + 服务
-- [ ] 行业主要公司获取（AKShare 成分股按市值）
-- [ ] 异步触发逻辑（asyncio.create_task）
-- [ ] Tier1 结果写入研究库
-- [ ] 手动触发兼容写入
-- [ ] Step2 公司层读取研究库接口
+- [x] stock_research_cache 集合设计 + 服务
+- [x] 行业主要公司获取（AKShare 成分股按市值）
+- [x] 异步触发逻辑（asyncio.create_task）
+- [x] Tier1 结果写入研究库
+- [x] 手动触发兼容写入（analysis_reports 写入选入 stock_research_cache）
+- [x] Step2 公司层读取研究库接口
 - [ ] 验证端到端
 
 ---
