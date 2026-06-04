@@ -71,16 +71,18 @@ def detect_pe_overvalued(pe_data: Dict, scout_candidates: List[Dict],
     for candidate in scout_candidates:
         code = candidate.get("code", "")
         pe_info = pe_data.get(code, {})
+        if not isinstance(pe_info, dict):
+            continue
         percentile = pe_info.get("pe_percentile_5y")
         if percentile is not None and percentile > 85:
-            score = candidate.get("total_score", 0)
-            if score >= 28:  # 推荐或强烈推荐
-                conflicts.append({
-                    "type": "pe_overvalued",
-                    "code": code,
-                    "severity": "medium",
-                    "description": f"PE 处于 {percentile}% 分位(偏贵)，但 Scout 建议{'强烈推荐' if score >= 35 else '推荐'}",
-                })
+            # 放宽阈值——有 position_cross_reference 的标的就报（无 total_score 不阻检）
+            score = candidate.get("total_score", candidate.get("weight_pct", 0))
+            conflicts.append({
+                "type": "pe_overvalued",
+                "code": code,
+                "severity": "medium",
+                "description": f"PE 处于 {percentile}% 分位(偏贵)，仓位 {candidate.get('weight_pct', 'N/A')}%",
+            })
 
     return conflicts
 
@@ -130,9 +132,17 @@ def main():
     if isinstance(tier1, list):
         all_conflicts.extend(detect_tier1_conflicts(tier1))
 
-    # 规则 2: PE 高估 vs 买入
-    scout_candidates = scout.get("candidates", []) if isinstance(scout, dict) else []
-    all_conflicts.extend(detect_pe_overvalued(pe_data, scout_candidates, []))
+    # 规则 2: PE 高估——直接扫描 data_pe.json
+    for code, pe_info in pe_data.items():
+        if isinstance(pe_info, dict):
+            pct = pe_info.get("pe_percentile_5y")
+            if pct is not None and pct > 85:
+                all_conflicts.append({
+                    "type": "pe_overvalued",
+                    "code": code,
+                    "severity": "medium",
+                    "description": f"PE 处于 {pct}% 分位(偏贵)",
+                })
 
     # 规则 3: 敞口重叠
     if isinstance(exposure, dict):

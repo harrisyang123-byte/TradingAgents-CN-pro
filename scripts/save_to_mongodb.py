@@ -50,48 +50,52 @@ async def save_to_mongodb(data_dir: str) -> bool:
 
     prescription = final.get("prescription", [])
     if not prescription:
-        # 从 execution_roadmap + glide_path 提取
-        roadmap = final.get("execution_roadmap", {})
+        # 尝试多种 Agent 输出格式
+        roadmap = final.get("execution_roadmap", final.get("execution_plan", {}))
         glide_path = final.get("glide_path", [])
-        alloc = final.get("current_vs_target_allocation", {})
+        alloc = final.get("current_vs_target_allocation", final.get("target_allocation_12m", {}))
+        alerts = final.get("critical_alerts", [])
 
-        # 构建 prescription 列表
         for g in glide_path:
             if isinstance(g, dict):
                 prescription.append({
                     "milestone": g.get("milestone", ""),
                     "action": "rebalance",
                     "target_positions": g.get("expected_positions", 0),
-                    "target_cash_pct": g.get("expected_cash_pct", 0),
                     "key_moves": g.get("key_moves", ""),
                     "risk_rating": g.get("risk_rating", ""),
-                    "timing": g.get("milestone", ""),
                     "priority": "important" if "P0" in g.get("milestone", "") else "normal",
                 })
 
-        # 从 allocation 提取 per-asset prescriptions
-        for category, info in alloc.items():
-            if isinstance(info, dict) and "action" in info:
+        for a in alerts:
+            if isinstance(a, dict):
                 prescription.append({
-                    "category": category,
-                    "action": info.get("action", "hold"),
-                    "current_pct": info.get("current_pct", info.get("current", 0)),
-                    "target_pct": info.get("target_pct", info.get("target", 0)),
+                    "action": "alert",
+                    "title": a.get("title", ""),
+                    "severity": a.get("severity", ""),
+                    "summary": a.get("summary", ""),
+                    "action_required": a.get("action", ""),
+                    "deadline": a.get("deadline", ""),
+                    "priority": "important",
                 })
 
     cio_verdict = final.get("cio_verdict", "")
     if not cio_verdict:
-        verdict = final.get("final_verdict", {})
-        if isinstance(verdict, dict):
-            parts = []
-            for k, v in verdict.items():
-                if isinstance(v, str):
-                    parts.append(f"{k}: {v}")
-                elif isinstance(v, list):
-                    parts.append(f"{k}: {'; '.join(str(x) for x in v[:3])}")
-            cio_verdict = "\n\n".join(parts)
-        elif isinstance(verdict, str):
-            cio_verdict = verdict
+        # 从多个字段组装
+        parts = []
+        for k in ("overall_verdict", "risk_summary", "key_insights"):
+            v = final.get(k, "")
+            if isinstance(v, dict):
+                parts.append(json.dumps(v, ensure_ascii=False, indent=2))
+            elif isinstance(v, list):
+                parts.append(json.dumps(v, ensure_ascii=False, indent=2))
+            elif isinstance(v, str) and len(v) > 10:
+                parts.append(v)
+        # 加 alerts
+        alerts = final.get("critical_alerts", [])
+        if alerts:
+            parts.append("CRITICAL ALERTS:\n" + json.dumps(alerts, ensure_ascii=False, indent=2))
+        cio_verdict = "\n\n".join(parts)
 
     doc = {
         "run_id": run_id,
