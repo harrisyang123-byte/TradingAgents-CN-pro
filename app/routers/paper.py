@@ -326,6 +326,17 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
             {"$set": {"quantity": new_qty, "avg_cost": new_avg, "updated_at": now_iso}},
         )
     else:
+        # 持仓录入时前置行业分类，消除运行时 LLM 分类开销
+        from app.services.industry_classifier import classify_by_akshare
+        try:
+            industry = await classify_by_akshare(
+                code=normalized_code,
+                name=getattr(payload, "name", "") or "",
+                instrument_type=payload.instrument_type or "stock",
+            )
+        except Exception:
+            industry = "未分类"
+
         new_pos = {
             "user_id": current_user["id"],
             "code": normalized_code,
@@ -336,6 +347,7 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
             "buy_date": payload.buy_date,
             "notes": payload.notes,
             "instrument_type": payload.instrument_type or "stock",
+            "industry": industry,
             "created_at": now_iso,
             "updated_at": now_iso,
         }
@@ -371,6 +383,17 @@ async def update_position(code: str, payload: UpdatePositionRequest,
         updates["notes"] = payload.notes
     if payload.instrument_type is not None:
         updates["instrument_type"] = payload.instrument_type
+    # 仅当持仓无行业信息时补填（不重新分类，除非 industry 字段缺失）
+    if not pos.get("industry"):
+        from app.services.industry_classifier import classify_by_akshare
+        try:
+            updates["industry"] = await classify_by_akshare(
+                code=normalized_code,
+                name="",
+                instrument_type=pos.get("instrument_type", "stock"),
+            )
+        except Exception:
+            updates["industry"] = "未分类"
 
     await db["paper_positions"].update_one({"_id": pos["_id"]}, {"$set": updates})
 

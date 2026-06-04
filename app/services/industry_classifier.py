@@ -1,9 +1,63 @@
-"""行业分类工具：LLM 驱动 + MongoDB 缓存 + 关键词回退"""
+"""行业分类工具：LLM 驱动 + MongoDB 缓存 + 关键词回退
+
+新增 classify_by_akshare：持仓录入时用 AKShare 股票基本信息优先分类，
+消除 /overview 接口的运行时 LLM 分类开销。
+"""
 
 from typing import Dict, List, Any, Optional
+import asyncio
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+async def classify_by_akshare(code: str, name: str = "", instrument_type: str = "stock") -> str:
+    """持仓录入时的行业分类。
+
+    策略（按优先级）：
+      1. AKShare stock_individual_info_em 的「所属行业」字段（A股准确率高）
+      2. _fallback_classify 关键词匹配（基金/ETF/港股/美股）
+      3. 返回「未分类」（不阻断录入）
+
+    Returns:
+        18大行业 bucket 名称，失败时返回「未分类」
+    """
+    from app.services.industry_buckets import _match_bucket, _fallback_classify
+
+    # A股：用 AKShare 获取申万行业，再映射到 18-bucket
+    if _is_a_share(code):
+        try:
+            import akshare as ak
+            # AKShare 需要 6 位纯数字代码
+            clean_code = code.replace("SH", "").replace("SZ", "").strip()
+            df = await asyncio.to_thread(ak.stock_individual_info_em, symbol=clean_code)
+            if df is not None and not df.empty:
+                industry_row = df[df["item"] == "所属行业"]
+                if not industry_row.empty:
+                    raw_industry = str(industry_row["value"].iloc[0]).strip()
+                    # 尝试直接映射到 bucket
+                    bucket = _match_bucket(raw_industry)
+                    if bucket:
+                        return bucket
+                    # 映射失败：用关键词 fallback（传入原始行业名作为 name 辅助）
+                    bucket = _fallback_classify(code, name or raw_industry, instrument_type)
+                    return bucket if bucket != "其他" else "未分类"
+        except Exception as e:
+            logger.debug(f"AKShare 行业分类失败 {code}: {e}")
+
+    # 非A股 或 AKShare 失败：关键词 fallback
+    if name:
+        bucket = _fallback_classify(code, name, instrument_type)
+        if bucket != "其他":
+            return bucket
+
+    return "未分类"
+
+
+def _is_a_share(code: str) -> bool:
+    """判断是否为A股代码（6位数字）"""
+    clean = code.replace("SH", "").replace("SZ", "").replace(".", "").strip()
+    return clean.isdigit() and len(clean) == 6
 
 
 async def classify_holdings_industries(
