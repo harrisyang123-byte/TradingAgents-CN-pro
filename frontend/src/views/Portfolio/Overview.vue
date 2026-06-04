@@ -514,8 +514,6 @@ function openIndustryDetail(row: IndustryOverviewRow) {
   openPositionsDrawer(row)
 }
 
-const expandedRx = ref('')
-
 function actionTagType(a: string) {
   if (!a) return 'info'
   const act = a.toLowerCase()
