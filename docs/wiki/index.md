@@ -30,6 +30,8 @@
 
 ### 组合管理
 - [持仓管理 (Portfolio CRUD)](portfolio-crud.md) — 单账户单钱包 + 汇率折算 + 持仓上下文注入分析引擎
+- [持仓品种分类 (instrument_type)](instrument-type.md) — stock/etf/fund/bond/other + 前端自动识别 A 股 ETF
+- [基金净值获取 (fund-nav)](fund-nav.md) — AKShare 场外基金净值 + 北京时间 21:00 缓存过期 + 两层降级
 - [基金详情 (FundDetail)](fund-detail.md) — AKShare 穿透数据 + 30 天缓存 + CSS 饼图
 - [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
 - [Claude Code 组合顾问](claude-code-advisor.md) — 2026-06-03 新架构：Python编排+9子Agent+交叉验证，替代LangGraph管线
