@@ -379,15 +379,6 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: 'analysis',
-        name: 'PortfolioAnalysis',
-        component: () => import('@/views/Portfolio/Analysis.vue'),
-        meta: {
-          title: '持仓分析',
-          requiresAuth: true
-        }
-      },
-      {
         path: 'overview',
         name: 'PortfolioOverview',
         component: () => import('@/views/Portfolio/Overview.vue'),

@@ -300,7 +300,7 @@ export interface IndustryOverviewRow {
   gap?: number // v3: 配额缺口
   source?: string // v3: 入池来源（holding/watchlist/vitality）
   confidence: string
-  coverage_status: 'covered' | 'stale' | 'never' | 'planned'
+  coverage_status?: 'covered' | 'stale' | 'never' | 'planned'
   analyzed_at: string
   holdings_weight: number
   target_weight: number
@@ -308,6 +308,7 @@ export interface IndustryOverviewRow {
   position_count: number
   position_codes: string[]
   position_names: string[]
+  positions_detail?: AdviceItem[]  // v3: 该行业下个股处方列表
   reasoning: string
   advice_id: string
   prescriptions: AdviceItem[]
