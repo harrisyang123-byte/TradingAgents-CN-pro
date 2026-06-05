@@ -132,6 +132,22 @@ async def save_to_mongodb(
     return advice_id
 
 
+# ── 自动探测用户 ──────────────────────────────────────────
+
+async def _auto_detect_user() -> str | None:
+    """从 MongoDB 找第一个有持仓的用户"""
+    try:
+        from app.core.database import init_database, get_mongo_db
+        await init_database()
+        db = get_mongo_db()
+        pos = await db["paper_positions"].find_one({}, {"user_id": 1})
+        if pos:
+            return pos["user_id"]
+    except Exception:
+        pass
+    return None
+
+
 # ── 主流程 ────────────────────────────────────────────────
 
 def main():
@@ -143,8 +159,11 @@ def main():
 
     user_id = args.user_id or os.getenv("ADVISOR_USER_ID")
     if not user_id:
-        logger.error("请设置 ADVISOR_USER_ID 到 .env 或通过 --user-id 指定")
+        user_id = asyncio.run(_auto_detect_user())
+    if not user_id:
+        logger.error("未指定 user_id，且 MongoDB 中未找到用户")
         sys.exit(1)
+    logger.info(f"用户: {user_id}")
 
     t0 = datetime.utcnow()
 
