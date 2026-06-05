@@ -31,6 +31,7 @@ class AddPositionRequest(BaseModel):
     notes: Optional[str] = Field(None, description="备注")
     market: Optional[str] = Field(None, description="市场类型 (CN/HK/US)，不传则自动识别")
     instrument_type: Optional[str] = Field(None, description="标的类型: stock/etf/fund/bond/other，不传默认为 stock")
+    name: Optional[str] = Field(None, description="名称（可选，不传则自动查询）")
 
 
 class UpdatePositionRequest(BaseModel):
@@ -326,13 +327,33 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
             {"$set": {"quantity": new_qty, "avg_cost": new_avg, "updated_at": now_iso}},
         )
     else:
-        # 持仓录入时前置行业分类，消除运行时 LLM 分类开销
+        # 持仓录入时自动查 name + 前置行业分类
+        pos_name = getattr(payload, "name", "") or ""
+        itype = payload.instrument_type or "stock"
+        if not pos_name:
+            try:
+                if itype in ("fund", "etf", "other", "bond"):
+                    from app.services.fund_service import FundService
+                    info = await FundService().get_basic_info(normalized_code)
+                    if info and info.get("name"):
+                        pos_name = info["name"]
+                else:
+                    import akshare as ak
+                    import asyncio
+                    df = await asyncio.to_thread(ak.stock_individual_info_em, symbol=normalized_code)
+                    if df is not None and not df.empty:
+                        nr = df[df["item"] == "股票简称"]
+                        if not nr.empty:
+                            pos_name = str(nr["value"].iloc[0])
+            except Exception as e:
+                logger.debug(f"自动查名称失败 {normalized_code}: {e}")
+
         from app.services.industry_classifier import classify_by_akshare
         try:
             industry = await classify_by_akshare(
                 code=normalized_code,
-                name=getattr(payload, "name", "") or "",
-                instrument_type=payload.instrument_type or "stock",
+                name=pos_name,
+                instrument_type=itype,
             )
         except Exception:
             industry = "未分类"
@@ -340,13 +361,14 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
         new_pos = {
             "user_id": current_user["id"],
             "code": normalized_code,
+            "name": pos_name,
             "market": market,
             "currency": currency,
             "quantity": payload.quantity,
             "avg_cost": payload.avg_cost,
             "buy_date": payload.buy_date,
             "notes": payload.notes,
-            "instrument_type": payload.instrument_type or "stock",
+            "instrument_type": itype,
             "industry": industry,
             "created_at": now_iso,
             "updated_at": now_iso,
@@ -383,17 +405,38 @@ async def update_position(code: str, payload: UpdatePositionRequest,
         updates["notes"] = payload.notes
     if payload.instrument_type is not None:
         updates["instrument_type"] = payload.instrument_type
-    # 仅当持仓无行业信息时补填（不重新分类，除非 industry 字段缺失）
+    # 补填 name 和 industry（不重新分类已有数据的行业）
+    changed = False
+    if not pos.get("name"):
+        itype = pos.get("instrument_type", "stock")
+        try:
+            if itype in ("fund", "etf", "other", "bond"):
+                from app.services.fund_service import FundService
+                info = await FundService().get_basic_info(normalized_code)
+                if info and info.get("name"):
+                    updates["name"] = info["name"]
+            elif _is_a_share_code(normalized_code):
+                import akshare as ak
+                import asyncio
+                df = await asyncio.to_thread(ak.stock_individual_info_em, symbol=normalized_code)
+                if df is not None and not df.empty:
+                    nr = df[df["item"] == "股票简称"]
+                    if not nr.empty:
+                        updates["name"] = str(nr["value"].iloc[0])
+        except Exception:
+            pass
+        changed = True
     if not pos.get("industry"):
         from app.services.industry_classifier import classify_by_akshare
         try:
+            n = updates.get("name", pos.get("name", ""))
             updates["industry"] = await classify_by_akshare(
-                code=normalized_code,
-                name="",
+                code=normalized_code, name=n,
                 instrument_type=pos.get("instrument_type", "stock"),
             )
         except Exception:
             updates["industry"] = "未分类"
+        changed = True
 
     await db["paper_positions"].update_one({"_id": pos["_id"]}, {"$set": updates})
 
@@ -560,6 +603,10 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
     )
 
     synthesis = (latest_advice or {}).get("synthesis_result", {}) or {}
+    from app.services.portfolio_service import PortfolioService
+    pf_svc = PortfolioService()
+    pf_summary = await pf_svc.get_portfolio_summary(user_id)
+    total_assets = pf_summary.get("total_assets", 0)
     matrix = synthesis.get("industry_matrix", []) or latest_advice.get("industry_matrix", [])
 
     if matrix:
@@ -578,14 +625,14 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "never_count": never,
             "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
             "data_score": latest_advice.get("data_score", 0) if latest_advice else 0,
+            "total_assets": round(total_assets, 0) if total_assets else 0,
         })
 
-    # 降级：v2 兼容拼接逻辑（无 v3 advice 时保留）
+    # 降级：直接使用 paper_positions.industry（v3 前置分类已写入）
     from app.services.portfolio_service import PortfolioService
-    from app.services.industry_classifier import classify_holdings_industries
-
     portfolio_svc = PortfolioService()
     portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
+    total_assets = portfolio_summary.get("total_assets", 0)
     positions = portfolio_summary.get("positions", [])
 
     # 使用 paper_positions.industry（v3 前置分类已写入），无 LLM 调用
@@ -677,6 +724,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
         "never_count": sum(1 for r in matrix_list if r["coverage_status"] == "never"),
         "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
         "data_score": 0,
+        "total_assets": round(total_assets, 0) if total_assets else 0,
     })
 
 

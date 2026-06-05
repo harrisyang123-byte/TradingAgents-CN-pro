@@ -15,14 +15,34 @@ async def classify_by_akshare(code: str, name: str = "", instrument_type: str = 
     """持仓录入时的行业分类。
 
     策略（按优先级）：
-      1. AKShare stock_individual_info_em 的「所属行业」字段（A股准确率高）
-      2. _fallback_classify 关键词匹配（基金/ETF/港股/美股）
-      3. 返回「未分类」（不阻断录入）
+      1. fund/etf/other 类型：直接用名称关键词匹配（name 为空时先查 FundService）
+      2. A股股票：AKShare stock_individual_info_em 的「行业」字段
+      3. _fallback_classify 关键词匹配（港股/美股/fallback）
+      4. 返回「未分类」（不阻断录入）
 
     Returns:
         18大行业 bucket 名称，失败时返回「未分类」
     """
     from app.services.industry_buckets import _match_bucket, _fallback_classify
+
+    # fund/etf/other：跳过 AKShare 股票接口，直接用名称关键词
+    if instrument_type in ("fund", "etf", "other", "bond"):
+        effective_name = name
+        if not effective_name:
+            # name 为空时先查 FundService 获取名称
+            try:
+                from app.services.fund_service import FundService
+                svc = FundService()
+                info = await svc.get_basic_info(code)
+                if info and info.get("name"):
+                    effective_name = info["name"]
+            except Exception as e:
+                logger.debug(f"FundService 查名称失败 {code}: {e}")
+        if effective_name:
+            bucket = _fallback_classify(code, effective_name, instrument_type)
+            if bucket != "其他":
+                return bucket
+        return "未分类"
 
     # A股：用 AKShare 获取申万行业，再映射到 18-bucket
     if _is_a_share(code):
