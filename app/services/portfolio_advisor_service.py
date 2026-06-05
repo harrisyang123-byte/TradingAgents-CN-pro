@@ -184,10 +184,12 @@ class PortfolioAdvisorService:
             try:
                 import asyncio
                 _l = asyncio.new_event_loop()
+                asyncio.set_event_loop(_l)
                 _l.run_until_complete(
                     self._update_progress(advice_id, label)
                 )
                 _l.close()
+            except Exception:
             except Exception:
                 pass
 
