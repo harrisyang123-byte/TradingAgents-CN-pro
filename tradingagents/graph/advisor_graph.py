@@ -228,161 +228,6 @@ def _check_industry_cache(state: dict) -> dict:
     return {}
 
 
-def _recent_date_str() -> str:
-    """返回最近工作日的日期字符串"""
-    from datetime import date, timedelta
-    d = date.today()
-    while d.weekday() >= 5:
-        d -= timedelta(days=1)
-    return d.strftime("%Y%m%d")
-
-
-# ── 并行行业研究节点（v3 industry-layer-rebuild） ──────
-
-def _parallel_industry_research_factory(llm):
-    """创建并行行业研究节点工厂函数。
-
-    对扫描池中缓存的行业跳过研究，未缓存的执行并行研究员 + 跨行业裁判。
-    """
-    import asyncio
-
-    def parallel_industry_research_node(state: dict) -> dict:
-        scan_pool = state.get("industry_scan_pool", [])
-        if not scan_pool:
-            logger.info("[ParallelResearch] 无行业扫描池，跳过")
-            return {}
-
-        industries_to_research = []
-        for s in scan_pool:
-            # cache_check 中如果标记了 cached=true，跳过研究
-            if not s.get("cached", False):
-                industries_to_research.append(s["industry"])
-
-        if not industries_to_research:
-            logger.info("[ParallelResearch] 所有行业缓存有效，跳过研究")
-            return {}
-
-        try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            results = loop.run_until_complete(
-                _run_parallel_research(llm, industries_to_research)
-            )
-            loop.close()
-        except Exception as e:
-            logger.error(f"[ParallelResearch] 并行研究失败: {e}")
-            return {}
-
-        # 写入 market_intel
-        from tradingagents.agents.advisors.cross_industry_judge import cross_industry_allocate
-        total_weight_limit = state.get("total_weight_limit", 100.0)
-        max_industry_weight = state.get("max_industry_weight", 30.0)
-
-        # 跨行业资源分配（异步）
-        try:
-            loop2 = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop2)
-            allocation = loop2.run_until_complete(
-                cross_industry_allocate(
-                    llm, results,
-                    total_weight_limit=total_weight_limit,
-                    max_industry_weight=max_industry_weight,
-                )
-            )
-            loop2.close()
-        except Exception as e:
-            logger.error(f"[ParallelResearch] 跨行业分配失败: {e}")
-            allocation = {"allocations": [], "total_allocated": 0.0,
-                          "overall_reasoning": f"分配失败: {e}"}
-
-        # 合并研究结果和分配结果
-        industries_with_weight = []
-        alloc_map = {}
-        for a in allocation.get("allocations", []):
-            alloc_map[a["industry"]] = a.get("final_weight", 0)
-
-        for r in results:
-            ind = r.copy()
-            fw = alloc_map.get(ind.get("industry", ""), 0)
-            ind["final_weight"] = fw
-            industries_with_weight.append(ind)
-
-        logger.info(f"[ParallelResearch] 完成 {len(results)} 个行业研究")
-        return {
-            "market_intel": {
-                "industries": industries_with_weight,
-                "industries_raw": results,
-                "allocation": allocation,
-            },
-            "macro_judge_verdict": allocation.get("overall_reasoning", ""),
-        }
-
-    return parallel_industry_research_node
-
-
-async def _run_parallel_research(llm, industries: list) -> list:
-    """并行执行各行业研究员（带B+C三层数据）"""
-    from tradingagents.agents.advisors.industry_researcher import research_single_industry
-
-    # 收集 B+C 数据：景气打分 + 新闻 + 宏观
-    vitality_data, news_texts, macro_data = {}, [], {}
-    try:
-        from app.services.industry_vitality import score_all_industries
-        scores = await score_all_industries()
-        for s in scores:
-            vitality_data[s.industry] = {
-                "total_score": s.total_score,
-                "signal_breakdown": s.signal_breakdown,
-                "data_completeness": s.data_completeness,
-                "top3_flag": s.top3_flag,
-            }
-    except Exception as e:
-        logger.debug(f"[ParallelResearch] 景气打分获取失败: {e}")
-
-    try:
-        import akshare as ak
-        df = await asyncio.to_thread(ak.news_cctv, date=_recent_date_str())
-        if df is not None and not df.empty:
-            for col in ["title", "标题", "content", "内容"]:
-                if col in df.columns:
-                    news_texts = [str(t) for t in df[col].dropna().tolist()[:50]]
-                    break
-    except Exception as e:
-        logger.debug(f"[ParallelResearch] 新闻获取失败: {e}")
-
-    try:
-        from app.services.market_signals import fetch_macro_indicators
-        macro_data = await fetch_macro_indicators()
-    except Exception:
-        pass
-
-    async def research_one(industry: str) -> dict:
-        try:
-            ind_vitality = vitality_data.get(industry, {})
-            result = await research_single_industry(
-                llm, industry,
-                vitality_data=ind_vitality,
-                news_texts=news_texts,
-                macro_data=macro_data,
-            )
-            return result
-        except Exception as e:
-            logger.error(f"[ParallelResearch] {industry} 研究失败: {e}")
-            return {
-                "industry": industry,
-                "go_nogo": "未知",
-                "vitality_level": "中性",
-                "lifecycle": "",
-                "reasoning": f"研究失败: {e}",
-                "risk_note": "",
-                "debate_history": "",
-            }
-
-    tasks = [research_one(ind) for ind in industries]
-    results = await asyncio.gather(*tasks, return_exceptions=False)
-    return [r for r in results if isinstance(r, dict)]
-
-
 # ── 辩论节点工厂 ───────────────────────────────────────
 
 def _make_debate_node(llm, role_key: str, label: str, debate_state_key: str):
@@ -751,7 +596,6 @@ class AdvisorGraph:
             self.llm, tools=RISK_TOOLS, shared_state=_shared_state)
 
         # ── v3 并行行业研究节点 ──
-        parallel_industry_research = _parallel_industry_research_factory(self.llm)
 
         # ── 工具执行节点（L1/L2 维持原状；L3/L4 新加） ──
         tools_l1_market = _make_tool_executor(L1_TOOLS, "market_tool_call_count")
@@ -844,12 +688,10 @@ class AdvisorGraph:
         # ── 构建图 ──
         workflow = StateGraph(AdvisorState)
 
-        # === L0: 缓存检查 + 并行行业研究（v3 industry-layer-rebuild） ===
+        # === L0: 缓存检查（v3） ===
         workflow.add_node("cache_check", _check_industry_cache)
-        workflow.add_node("parallel_industry_research", parallel_industry_research)
         workflow.add_edge(START, "cache_check")
-        workflow.add_edge("cache_check", "parallel_industry_research")
-        workflow.add_edge("parallel_industry_research", "market_strategist")
+        workflow.add_edge("cache_check", "market_strategist")
 
         # === Level 1: 行业方向 ===
         workflow.add_node("market_strategist", market_strategist)
