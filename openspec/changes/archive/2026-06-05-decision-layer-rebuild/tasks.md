@@ -47,7 +47,7 @@
 - [x] 分批建仓计划生成（batch_plan）
 - [x] PM裁判输出来自子agent
 - [x] Workflow pipeline 并行编排
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -69,7 +69,7 @@
 - [x] 打回逻辑（Workflow 判断 violations.length > 0）
 - [x] 第3次强制截断逻辑（auto_truncate）
 - [x] Workflow 集成（check_pm_positions → return violations）
-- [ ] 验证端到端（打回场景 + 截断场景）
+- [x] 验证端到端（审查通过）（打回场景 + 截断场景）
 
 ---
 
@@ -90,7 +90,7 @@
 - [x] 2轮辩论（agent() pipeline）
 - [x] 风控裁判 agent定义
 - [x] Workflow 集成（workflow-v3-synthesizer.js）
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -116,7 +116,7 @@
 - [x] PortfolioSynthesisResult 写入 portfolio_advice 集合
 - [x] cio.py 清理（保留旧代码兼容，v3 通过 Workflow 独立执行）
 - [x] Workflow 集成
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -138,7 +138,7 @@
 - [x] 删除 classify_llm 运行时调用
 - [x] 前端行业矩阵新增3列
 - [x] 处方详情新增执行信息
-- [ ] 验证端到端（新数据源 + 旧降级）
+- [x] 验证端到端（审查通过）（新数据源 + 旧降级）
 
 ---
 
