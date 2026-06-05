@@ -1,6 +1,6 @@
 """Tier 2 组合顾问引擎状态定义 — 四层对抗架构"""
 
-from typing import Annotated, List, Dict, Any
+from typing import Annotated, List, Dict, Any, Optional
 from typing_extensions import TypedDict
 from langgraph.graph.message import add_messages
 
@@ -67,6 +67,63 @@ class RiskDebateState(TypedDict, total=False):
     cio_response: str
     riskdir_response: str
     count: int
+
+
+# ── v3: 决策层重构（decision-layer-rebuild） ──
+
+class IndustryPMResult(TypedDict, total=False):
+    """行业PM配仓结果（激进PM vs 保守PM 辩论产出）"""
+    industry: str
+    final_weight: float               # 行业配额
+    pm_debate_summary: str            # 辩论摘要
+    positions: List[Dict[str, Any]]   # [PMPosition]
+
+
+class PMPosition(TypedDict, total=False):
+    """PM配仓单项"""
+    code: str
+    name: str
+    action: str                       # buy/add/hold/reduce/sell/new_position
+    target_weight: float
+    entry_price_range: List[float]    # [low, high]
+    build_strategy: str               # immediate/batch/conditional
+    batch_plan: List[Dict[str, Any]]  # [{price, weight, condition}]
+    reasoning: str
+    risk_note: str
+    tier1_rating: str
+    pe_percentile: float
+
+
+class RiskAssessment(TypedDict, total=False):
+    """风险压测结果"""
+    max_drawdown_20pct: float
+    black_swan_trigger: List[str]
+    cash_buffer_suggestion: float
+    pessimist_view: str
+    optimist_view: str
+    verdict: str
+
+
+class IndustryMatrixRow(TypedDict, total=False):
+    """行业矩阵行"""
+    industry: str
+    source: str                        # holding/watchlist/vitality
+    go_nogo: str
+    vitality_level: str
+    final_weight: float                # 行业配额
+    actual_weight: float               # PM实际配仓加总
+    gap: float                         # final_weight - actual_weight
+    positions: List[str]
+
+
+class PortfolioSynthesisResult(TypedDict, total=False):
+    """Portfolio Synthesizer 输出"""
+    constraint_chain_valid: bool
+    violations: List[str]
+    industry_matrix: List[IndustryMatrixRow]
+    prescription: List[Dict[str, Any]]
+    gaps: List[Dict[str, Any]]         # [{industry, allocated, filled, gap, scout_triggered}]
+    gap_scout_triggered: bool
 
 
 class AdvisorState(TypedDict, total=False):
@@ -148,3 +205,15 @@ class AdvisorState(TypedDict, total=False):
 
     # === v3: 行业扫描池（industry-layer-rebuild） ===
     industry_scan_pool: List[Dict[str, Any]]  # [{industry, source, vitality_score}]
+
+    # === v3: 决策层约束传递（decision-layer-rebuild） ===
+    total_weight_limit: float    # 宏观层总仓位上限
+    cash_floor: float            # 宏观层现金下限
+    pm_retry_count: Dict[str, int]  # {industry: retry_count}
+
+    # === v3: 并行行业PM结果 ===
+    industry_pm_results: List[IndustryPMResult]
+
+    # === v3: 风险压测 + 合成器结果 ===
+    risk_assessment: RiskAssessment
+    synthesis_result: PortfolioSynthesisResult

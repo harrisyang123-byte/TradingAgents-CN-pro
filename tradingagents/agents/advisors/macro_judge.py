@@ -66,6 +66,8 @@ def create_macro_judge(llm):
 
         return {
             "macro_judge_verdict": verdict,
+            "total_weight_limit": state.get("total_weight_limit", 100.0),
+            "cash_floor": state.get("cash_floor", 0.0),
             "market_intel": {
                 **market_intel,
                 "judge_verdict": verdict,

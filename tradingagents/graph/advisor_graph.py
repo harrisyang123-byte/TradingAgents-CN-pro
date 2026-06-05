@@ -1322,6 +1322,13 @@ class AdvisorGraph:
             "cio_tool_call_count": 0,
             "cio_final_tool_call_count": 0,
             "risk_tool_call_count": 0,
+            # v3: 决策层约束传递 + 新字段（decision-layer-rebuild）
+            "total_weight_limit": config_overrides.get("total_weight_limit", 100.0),
+            "cash_floor": config_overrides.get("cash_floor", 0.0),
+            "pm_retry_count": {},
+            "industry_pm_results": [],
+            "risk_assessment": {},
+            "synthesis_result": {},
         }
 
         node_mapping = {
