@@ -5,4 +5,5 @@
 - [x] `README.md`：快速启动重新编排
 - [x] `app/core/database.py`：添加 `_db_initialized` 守卫，消除重复初始化
 - [x] `cli/advisor/data_collector.py`：`_db_ready` 守卫 + 删除死代码 + 除零保护
-- [x] E2E 全链路验证：MongoDB 8.0 + Redis 8.8 + DeepSeek API，9 Agent 全部成功，146s 产出 36 条处方
+- [x] `cli/claude_advisor.py`：修复 Event loop is closed — 所有异步逻辑合并到单一 `amain()`，一个 `asyncio.run()` 调度
+- [x] E2E 全链路验证（第2轮）：事件循环修复后重跑，923s 产出 72 条处方（6 buy / 2 sell / 64 hold），无 RuntimeError
