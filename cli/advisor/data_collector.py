@@ -24,9 +24,10 @@ async def collect_portfolio(user_id: str) -> Dict[str, Any]:
     s = await svc.get_portfolio_summary(user_id)
     json.dump(s, open(DATA_DIR / "portfolio.json", "w"), ensure_ascii=False, default=str)
     positions = s.get("positions", [])
-    cash = s.get("available_cash", 0)
-    total = s.get("total_assets", 1)
-    logger.info(f"持仓: {len(positions)} 只, 总资产: ¥{total:.0f}, 现金: {cash:.0f} ({cash/total*100:.0f}%)")
+    cash = s.get("available_cash", 0) or 0
+    total = s.get("total_assets", 0) or 0
+    cash_pct = (cash / total * 100) if total > 0 else 0
+    logger.info(f"持仓: {len(positions)} 只, 总资产: {total:.0f}, 现金: {cash:.0f} ({cash_pct:.0f}%)")
     return {"position_count": len(positions), "total_assets": total, "cash_ratio": round(cash / max(total, 1) * 100, 1)}
 
 
