@@ -1,110 +1,107 @@
 ---
 name: openspec-propose
-description: Propose a new change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation.
-license: MIT
-compatibility: Requires openspec CLI.
-metadata:
-  author: openspec
-  version: "1.0"
-  generatedBy: "1.3.0"
+description: "创建 OpenSpec 变更提案：自动生成 proposal/specs/design/tasks artifacts。"
 ---
 
-Propose a new change - create the change and generate all artifacts in one step.
+# openspec-propose
 
-I'll create a change with artifacts:
-- proposal.md (what & why)
-- design.md (how)
-- tasks.md (implementation steps)
+被 ace-planner 第三阶段调用，将 PRD + 原型转化为 OpenSpec 标准 artifacts。
 
-When ready to implement, run /opsx:apply
+## 输入上下文
 
----
+调用者（ace-planner）会提供：
+- 变更名称（kebab-case）
+- PRD 内容
+- 原型文件路径（如适用）
+- Grill 总结（术语决策、功能点）
+- 复杂度评估（简单/中等/复杂）
 
-**Input**: The user's request should include a change name (kebab-case) OR a description of what they want to build.
+## 输出结构
 
-**Steps**
+```
+openspec/changes/{name}/
+├── proposal.md   — 技术方案（含辩证分析）
+├── design.md     — 详细设计
+├── specs/        — 验收规格（每 capability 一个文件）
+│   └── {capability}/spec.md
+└── tasks.md      — 实现任务（vertical slicing）
+```
 
-1. **If no clear input provided, ask what they want to build**
+## 流程
 
-   Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
-   > "What change do you want to work on? Describe what you want to build or fix."
+### Step 1: 创建变更目录
 
-   From their description, derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`).
+```bash
+openspec new change "{name}"
+```
 
-   **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
+### Step 2: 按依赖顺序生成 artifacts
 
-2. **Create the change directory**
-   ```bash
-   openspec new change "<name>"
-   ```
-   This creates a scaffolded change at `openspec/changes/<name>/` with `.openspec.yaml`.
+**顺序**：proposal → specs → design → tasks
 
-3. **Get the artifact build order**
-   ```bash
-   openspec status --change "<name>" --json
-   ```
-   Parse the JSON to get:
-   - `applyRequires`: array of artifact IDs needed before implementation (e.g., `["tasks"]`)
-   - `artifacts`: list of all artifacts with their status and dependencies
+每步生成前调用模板和规则：
 
-4. **Create artifacts in sequence until apply-ready**
+```bash
+openspec instructions
+```
 
-   Use the **TodoWrite tool** to track progress through the artifacts.
+输出路径由 openspec 模板决定，默认在 `openspec/changes/{name}/` 下。
 
-   Loop through artifacts in dependency order (artifacts with no pending dependencies first):
+### Step 3: proposal.md — 技术方案
 
-   a. **For each artifact that is `ready` (dependencies satisfied)**:
-      - Get instructions:
-        ```bash
-        openspec instructions <artifact-id> --change "<name>" --json
-        ```
-      - The instructions JSON includes:
-        - `context`: Project background (constraints for you - do NOT include in output)
-        - `rules`: Artifact-specific rules (constraints for you - do NOT include in output)
-        - `template`: The structure to use for your output file
-        - `instruction`: Schema-specific guidance for this artifact type
-        - `outputPath`: Where to write the artifact
-        - `dependencies`: Completed artifacts to read for context
-      - Read any completed dependency files for context
-      - Create the artifact file using `template` as the structure
-      - Apply `context` and `rules` as constraints - but do NOT copy them into the file
-      - Show brief progress: "Created <artifact-id>"
+包含以下章节：
+- **Why** — 为什么做（链接 PRD 中的 P.A.M）
+- **PRD** — 链接到 `planning/{version}/{name}_prd.md`，写明版本号和路径
+- **原型** — 链接到 `planning/{version}/{name}_prototype.html`；无原型时写明跳过原因且不保留空标题
+- **Design Overview** — 技术方案概述
+- **Dialectical Analysis**（注释块，不可见）— 多路径对比：方案 A vs 方案 B 的权衡；参考的 upstream/reference 亮点；风险对冲（最可能失败的点 + 预备方案）
+- **Scoping and Materialization** — 变更范围界定
 
-   b. **Continue until all `applyRequires` artifacts are complete**
-      - After creating each artifact, re-run `openspec status --change "<name>" --json`
-      - Check if every artifact ID in `applyRequires` has `status: "done"` in the artifacts array
-      - Stop when all `applyRequires` artifacts are done
+### Step 4: specs/ — 验收规格
 
-   c. **If an artifact requires user input** (unclear context):
-      - Use **AskUserQuestion tool** to clarify
-      - Then continue with creation
+每 capability 一个 `specs/{capability}/spec.md`：
 
-5. **Show final status**
-   ```bash
-   openspec status --change "<name>"
-   ```
+```markdown
+## ADDED Requirements
 
-**Output**
+### Requirement: {标题}
+{描述}
 
-After completing all artifacts, summarize:
-- Change name and location
-- List of artifacts created with brief descriptions
-- What's ready: "All artifacts created! Ready for implementation."
-- Prompt: "Run `/opsx:apply` or ask me to implement to start working on the tasks."
+#### Scenario: {场景名}
+- **GIVEN** {前置条件}
+- **WHEN** 用户{操作}
+- **THEN** 系统{结果}
+```
 
-**Artifact Creation Guidelines**
+每 capability 至少包含一个边缘案例（Edge Case）场景。
 
-- Follow the `instruction` field from `openspec instructions` for each artifact type
-- The schema defines what each artifact should contain - follow it
-- Read dependency artifacts for context before creating new ones
-- Use `template` as the structure for your output file - fill in its sections
-- **IMPORTANT**: `context` and `rules` are constraints for YOU, not content for the file
-  - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
-  - These guide what you write, but should never appear in the output
+边缘案例要求（引自 `.claude/rules/coding-ace-dialectical-plugin.md`）：
+> 每一个新 Capability 必须至少包含一个"Edge Case"（边缘案例）的 Scenario。
 
-**Guardrails**
-- Create ALL artifacts needed for implementation (as defined by schema's `apply.requires`)
-- Always read dependency artifacts before creating a new one
-- If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
-- If a change with that name already exists, ask if user wants to continue it or create a new one
-- Verify each artifact file exists after writing before proceeding to next
+### Step 5: design.md — 详细设计
+
+包含数据结构、API 契约、状态迁移、模块交互等。
+
+### Step 6: tasks.md — 实现任务
+
+**强制规则**（引自 ace-planner 规范）：
+- 使用 **vertical slicing**（端到端切片，禁止水平分层）
+- 每一切片完成一个完整的用户可见功能
+- 示例（正确）："用户注册 → 邮箱验证 → 登录"
+- 示例（错误）："建数据库表 → 写 API → 画 UI"
+
+### Step 7: 验证
+
+```bash
+openspec validate "{name}"
+```
+
+## 规范引用
+
+| 引用 | 来源 | 适用 Artifact |
+|------|------|------|
+| 辩证分析（方案对比） | `.claude/rules/coding-ace-dialectical-plugin` | proposal.md |
+| 边缘案例（Edge Case） | `.claude/rules/coding-ace-dialectical-plugin` | specs/ |
+| proposal 链接 PRD + 原型 | ace-planner Phase 3 | proposal.md |
+| Vertical Slicing 切片 | ace-planner Phase 3 | tasks.md |
+| GIVEN/WHEN/THEN 格式 | ace-planner Phase 3 | specs/ |
