@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 async def migrate(dry_run: bool = False, user_id: str = None):
-    from app.database import get_mongo_db
+    from app.core.database import get_mongo_db
     from app.services.industry_classifier import classify_by_akshare
 
     db = get_mongo_db()

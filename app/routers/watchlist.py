@@ -1,5 +1,6 @@
 """用户行业关注列表（Watchlist）API"""
 
+import logging
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
@@ -11,8 +12,6 @@ from app.core.response import ok
 
 router = APIRouter(prefix="/watchlist", tags=["watchlist"])
 logger = logging.getLogger("webapi")
-
-import logging
 
 
 class AddWatchlistRequest(BaseModel):

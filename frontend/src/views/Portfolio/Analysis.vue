@@ -351,6 +351,7 @@ function extractIndustriesFromVerdict(verdict: string) {
         confidence: '',
         market: 'cn',
         reasoning: '',
+        depth: 'light',
         priority: m[2] === 'Go' ? 1 : 2,
       })
     }

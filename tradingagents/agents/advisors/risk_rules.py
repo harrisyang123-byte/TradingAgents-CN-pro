@@ -133,7 +133,7 @@ def auto_truncate(
             tw = float(pos.get("target_weight", 0))
             if tw > max_single_weight:
                 pos["target_weight"] = max_single_weight
-                pos["reasoning"] += f"\n【风控自动截断】target_weight 从 {tw}% 调整为 {max_single_weight}%"
+                pos["reasoning"] = pos.get("reasoning","") + f"\n【风控自动截断】target_weight 从 {tw}% 调整为 {max_single_weight}%"
 
         # 规则2：行业超限按比例缩放
         if industry_total > final_weight and industry_total > 0:
@@ -141,7 +141,7 @@ def auto_truncate(
             for pos in positions:
                 old_tw = pos.get("target_weight", 0)
                 pos["target_weight"] = round(float(old_tw) * ratio, 1)
-                pos["reasoning"] += f"\n【风控自动截断】行业超限，按比例缩放"
+                pos["reasoning"] = pos.get("reasoning","") + "\n【风控自动截断】行业超限，按比例缩放"
 
     # 规则3：总仓位超限按行业比例缩放
     all_total = sum(

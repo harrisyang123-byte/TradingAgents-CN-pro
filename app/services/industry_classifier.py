@@ -32,15 +32,19 @@ async def classify_by_akshare(code: str, name: str = "", instrument_type: str = 
             clean_code = code.replace("SH", "").replace("SZ", "").strip()
             df = await asyncio.to_thread(ak.stock_individual_info_em, symbol=clean_code)
             if df is not None and not df.empty:
-                industry_row = df[df["item"] == "所属行业"]
+                # AKShare stock_individual_info_em 字段名为「行业」（非「所属行业」）
+                industry_row = df[df["item"].isin(["行业", "所属行业"])]
                 if not industry_row.empty:
                     raw_industry = str(industry_row["value"].iloc[0]).strip()
+                    # 去除申万子分类后缀（如「白酒Ⅱ」→「白酒」）
+                    import re
+                    raw_industry = re.sub(r'[ⅠⅡⅢIiⅣⅤ]+$', '', raw_industry).strip()
                     # 尝试直接映射到 bucket
                     bucket = _match_bucket(raw_industry)
                     if bucket:
                         return bucket
                     # 映射失败：用关键词 fallback（传入原始行业名作为 name 辅助）
-                    bucket = _fallback_classify(code, name or raw_industry, instrument_type)
+                    bucket = _fallback_classify(code, raw_industry or name, instrument_type)
                     return bucket if bucket != "其他" else "未分类"
         except Exception as e:
             logger.debug(f"AKShare 行业分类失败 {code}: {e}")
