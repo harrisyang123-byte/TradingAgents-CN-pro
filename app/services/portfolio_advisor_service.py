@@ -171,6 +171,15 @@ class PortfolioAdvisorService:
 
         advisor = AdvisorGraph(llm, config=llm_config)
 
+        # v3: 构建行业扫描池
+        industry_scan_pool = []
+        try:
+            from app.services.industry_scan_pool import build_scan_pool
+            pool = await build_scan_pool(self.db, user_id)
+            industry_scan_pool = pool.to_dict()
+        except Exception as e:
+            logger.warning(f"[Advisor] 行业扫描池构建失败（非致命）: {e}")
+
         def progress_cb(label: str):
             try:
                 import asyncio
@@ -188,6 +197,7 @@ class PortfolioAdvisorService:
             exposure_context=exposure_context + "\n\n" + stress_context if stress_context else exposure_context,
             exposure_matrix=exposure_matrix,
             feedback_context=feedback_context,
+            industry_scan_pool=industry_scan_pool,
             progress_callback=progress_cb,
             **config_overrides,
         )

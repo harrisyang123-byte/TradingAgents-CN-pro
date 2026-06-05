@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 import logging
+from datetime import datetime
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Set
 
@@ -28,6 +29,7 @@ class IndustryScanItem:
     industry: str
     source: str  # holding / watchlist / vitality
     vitality_score: float = 0.0
+    cached: bool = False  # industry_coverage 缓存是否有效
 
 
 @dataclass
@@ -42,7 +44,8 @@ class IndustryScanPool:
 
     def to_dict(self) -> List[dict]:
         return [
-            {"industry": i.industry, "source": i.source, "vitality_score": i.vitality_score}
+            {"industry": i.industry, "source": i.source, "vitality_score": i.vitality_score,
+             "cached": i.cached}
             for i in self.industries
         ]
 
@@ -88,10 +91,28 @@ async def build_scan_pool(db, user_id: str) -> IndustryScanPool:
     # 4. 去重后构建扫描池
     pool = IndustryScanPool(industries=list(scan_set.values()))
 
+    # 5. 检查 industry_coverage 缓存是否有效
+    now_iso = datetime.utcnow().isoformat()
+    for item in pool.industries:
+        try:
+            cov = await db["industry_coverage"].find_one(
+                {"user_id": user_id, "industry_name": item.industry},
+                {"expires_at": 1},
+            )
+            if cov:
+                expires = cov.get("expires_at", "")
+                if expires and expires > now_iso:
+                    item.cached = True
+        except Exception:
+            pass
+
+    cached_count = sum(1 for i in pool.industries if i.cached)
+
     logger.info(
         f"[ScanPool] 构建完成，扫描 {len(pool.industries)} 个行业: "
         f"持仓{sum(1 for i in pool.industries if i.source == 'holding')} + "
         f"watchlist{sum(1 for i in pool.industries if i.source == 'watchlist')} + "
         f"景气{sum(1 for i in pool.industries if i.source == 'vitality')}"
+        f"，缓存有效 {cached_count} 个"
     )
     return pool

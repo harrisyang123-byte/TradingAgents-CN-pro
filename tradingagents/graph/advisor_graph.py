@@ -216,17 +216,25 @@ def _msg_clear_node(state: dict) -> dict:
 # ── 行业缓存检查节点（v3 industry-layer-rebuild） ──────
 
 def _check_industry_cache(state: dict) -> dict:
-    """在 L1 运行前标记行业中哪些已有有效缓存。
-
-    对于缓存有效的行业，后续将在 parallel_industry_research 节点（Task 5）中跳过。
-    本节点仅做标记，不修改 market_intel。
-    """
+    """记录扫描池中缓存有效的行业（缓存状态在 service 层已预检）。"""
     scan_pool = state.get("industry_scan_pool", [])
     if not scan_pool:
         logger.info("[CacheCheck] 无行业扫描池，跳过")
         return {}
-    logger.info(f"[CacheCheck] 扫描池 {len(scan_pool)} 个行业，等待缓存检查")
+    cached = sum(1 for s in scan_pool if s.get("cached"))
+    need_research = len(scan_pool) - cached
+    logger.info(f"[CacheCheck] 扫描池 {len(scan_pool)} 个行业: "
+                f"缓存有效 {cached} 个，需研究 {need_research} 个")
     return {}
+
+
+def _recent_date_str() -> str:
+    """返回最近工作日的日期字符串"""
+    from datetime import date, timedelta
+    d = date.today()
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d.strftime("%Y%m%d")
 
 
 # ── 并行行业研究节点（v3 industry-layer-rebuild） ──────
@@ -244,7 +252,15 @@ def _parallel_industry_research_factory(llm):
             logger.info("[ParallelResearch] 无行业扫描池，跳过")
             return {}
 
-        industries_to_research = [s["industry"] for s in scan_pool]
+        industries_to_research = []
+        for s in scan_pool:
+            # cache_check 中如果标记了 cached=true，跳过研究
+            if not s.get("cached", False):
+                industries_to_research.append(s["industry"])
+
+        if not industries_to_research:
+            logger.info("[ParallelResearch] 所有行业缓存有效，跳过研究")
+            return {}
 
         try:
             loop = asyncio.new_event_loop()
@@ -305,12 +321,50 @@ def _parallel_industry_research_factory(llm):
 
 
 async def _run_parallel_research(llm, industries: list) -> list:
-    """并行执行各行业研究员"""
+    """并行执行各行业研究员（带B+C三层数据）"""
     from tradingagents.agents.advisors.industry_researcher import research_single_industry
+
+    # 收集 B+C 数据：景气打分 + 新闻 + 宏观
+    vitality_data, news_texts, macro_data = {}, [], {}
+    try:
+        from app.services.industry_vitality import score_all_industries
+        scores = await score_all_industries()
+        for s in scores:
+            vitality_data[s.industry] = {
+                "total_score": s.total_score,
+                "signal_breakdown": s.signal_breakdown,
+                "data_completeness": s.data_completeness,
+                "top3_flag": s.top3_flag,
+            }
+    except Exception as e:
+        logger.debug(f"[ParallelResearch] 景气打分获取失败: {e}")
+
+    try:
+        import akshare as ak
+        df = await asyncio.to_thread(ak.news_cctv, date=_recent_date_str())
+        if df is not None and not df.empty:
+            for col in ["title", "标题", "content", "内容"]:
+                if col in df.columns:
+                    news_texts = [str(t) for t in df[col].dropna().tolist()[:50]]
+                    break
+    except Exception as e:
+        logger.debug(f"[ParallelResearch] 新闻获取失败: {e}")
+
+    try:
+        from app.services.market_signals import fetch_macro_indicators
+        macro_data = await fetch_macro_indicators()
+    except Exception:
+        pass
 
     async def research_one(industry: str) -> dict:
         try:
-            result = await research_single_industry(llm, industry)
+            ind_vitality = vitality_data.get(industry, {})
+            result = await research_single_industry(
+                llm, industry,
+                vitality_data=ind_vitality,
+                news_texts=news_texts,
+                macro_data=macro_data,
+            )
             return result
         except Exception as e:
             logger.error(f"[ParallelResearch] {industry} 研究失败: {e}")
@@ -1141,6 +1195,7 @@ class AdvisorGraph:
         tier1_reports: list,
         progress_callback: Optional[Callable] = None,
         selected_industries: Optional[list] = None,
+        industry_scan_pool: Optional[list] = None,
         exposure_context: str = "",
         exposure_matrix: Any = None,
         feedback_context: str = "",
@@ -1153,6 +1208,7 @@ class AdvisorGraph:
             tier1_reports: Tier1 分析报告列表
             progress_callback: 进度回调 fn(node_label, output_text, stage)
             selected_industries: 限定分析的行业列表（None=全量L1扫描）
+            industry_scan_pool: v3 行业扫描池列表 [{industry, source, cached}]
             exposure_context: 敞口引擎格式化的上下文文本
             exposure_matrix: ExposureMatrix 对象
             **config_overrides: 配置覆盖
@@ -1185,6 +1241,7 @@ class AdvisorGraph:
             "tier1_reports": tier1_reports,
             "exposure_matrix": exposure_matrix,
             "selected_industries": selected_industries or [],
+            "industry_scan_pool": industry_scan_pool or [],
             # L1
             "market_intel": {},
             "market_debate_state": {
