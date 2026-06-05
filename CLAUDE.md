@@ -1,17 +1,15 @@
 # TradingAgents-CN — 多智能体 A 股/港股 投资分析系统
 
-> 打开项目后直接说需求即可，Claude Code 按 ACE 工作流推进。
+## 快捷指令
 
-## 启动方式
+用户说以下任意一句即可触发：
 
-```bash
-# 一行命令：全链路组合分析
-python cli/claude_advisor.py --user-id <user_id>
-
-# 可选参数
-#   --verbose    打印每步 Agent 输出
-#   --skip-data  复用缓存数据（debug 用）
-```
+| 用户说 | 执行 |
+|--------|------|
+| `分析 <user_id>` | `python cli/claude_advisor.py --user-id <id>` |
+| `跑行业层` | 运行 workflow `v3-industry-layer`，dataDir 问用户或自动生成 |
+| `跑辩论` | 运行 workflow `v3-pm-debate` |
+| `跑合成` | 运行 workflow `v3-synthesizer` |
 
 ## 开发环境
 
