@@ -6,10 +6,11 @@
 
 | 用户说 | 执行 |
 |--------|------|
-| `分析 <user_id>` | `python cli/claude_advisor.py --user-id <id>` |
-| `跑行业层` | 运行 workflow `v3-industry-layer`，dataDir 问用户或自动生成 |
+| `分析 ` | `python cli/claude_advisor.py`（user_id 从 .env ADVISOR_USER_ID 读取） |
+| `跑行业层` | 运行 workflow `v3-industry-layer` |
 | `跑辩论` | 运行 workflow `v3-pm-debate` |
 | `跑合成` | 运行 workflow `v3-synthesizer` |
+| `加个功能：XXX` | 走 ACE 工作流 planner → applier → reviewer → archiver |
 
 ## 开发环境
 

@@ -2,7 +2,8 @@
 """组合顾问全链路分析 — Claude Code 编排 + 子 Agent
 
 用法:
-    python cli/claude_advisor.py --user-id 6a094caea814b57d3357fa0b
+    python cli/claude_advisor.py                          # 从 .env 读 ADVISOR_USER_ID
+    python cli/claude_advisor.py --user-id <id>           # 显式指定用户
 
 可选:
     --verbose    打印每步 Agent 输出摘要
@@ -135,17 +136,22 @@ async def save_to_mongodb(
 
 def main():
     parser = argparse.ArgumentParser(description="组合顾问 Claued Code 版")
-    parser.add_argument("--user-id", required=True, help="用户ID")
+    parser.add_argument("--user-id", default=None, help="用户ID（默认从 .env ADVISOR_USER_ID 读取）")
     parser.add_argument("--verbose", action="store_true", help="打印每步 Agent 输出")
     parser.add_argument("--skip-data", action="store_true", help="复用已缓存的数据")
     args = parser.parse_args()
+
+    user_id = args.user_id or os.getenv("ADVISOR_USER_ID")
+    if not user_id:
+        logger.error("请设置 ADVISOR_USER_ID 到 .env 或通过 --user-id 指定")
+        sys.exit(1)
 
     t0 = datetime.utcnow()
 
     # 1. 数据收集
     logger.info("=" * 50)
     logger.info("Phase 1: 数据收集")
-    asyncio.run(collect_all_data(args.user_id, args.skip_data))
+    asyncio.run(collect_all_data(user_id, args.skip_data))
 
     pf = json.load(open(DATA_DIR / "portfolio.json"))
     tier1 = json.load(open(DATA_DIR / "tier1.json")) if (DATA_DIR / "tier1.json").exists() else []
@@ -167,7 +173,7 @@ def main():
     # 3. LLM
     logger.info("=" * 50)
     logger.info("Phase 3: 子 Agent 链")
-    llm = create_llm(args.user_id)
+    llm = create_llm(user_id)
 
     from cli.advisor.prompts import (
         L1_STRATEGIST, L1_CONTRARIAN, L1_JUDGE,
@@ -335,7 +341,7 @@ def main():
     )
 
     aid = asyncio.run(save_to_mongodb(
-        args.user_id, cio_verdict, prescription, conflicts, elapsed))
+        user_id, cio_verdict, prescription, conflicts, elapsed))
 
     # 6. 完成
     logger.info("=" * 50)

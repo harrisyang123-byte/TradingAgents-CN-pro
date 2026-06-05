@@ -173,35 +173,30 @@ tradingagents-cn/
 
 **前置条件**：MongoDB、Redis 已启动。
 
+### 一键分析
+
 ```bash
-# 克隆后安装依赖
-pip install -r requirements.txt
-cd frontend && npm install
+# 1. 配置 .env（只需一次）
+echo "ADVISOR_USER_ID=<你的用户ID>" >> .env
 
-# 启动后端（:8000）
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# 启动前端（:3000）
-cd frontend && npm run dev
+# 2. 打开项目，对 Claude Code 说一个字：分析
 ```
 
-**首次使用**：
-1. 注册/登录账号
-2. 在「持仓管理」录入持仓（录入时自动识别行业）
-3. 在「持仓分析」运行组合分析
-4. 在「组合总揽」查看行业矩阵和处方
+### 手动启动
 
-**历史持仓行业补填**（已有持仓无 industry 字段时）：
 ```bash
-python scripts/migrate_position_industry.py --dry-run  # 预览
-python scripts/migrate_position_industry.py             # 执行
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000   # 后端
+cd frontend && npm run dev                                   # 前端
 ```
 
-**运行 v3 Workflow 分析**：
-```bash
-# 需要先准备数据目录，详见 docs/wiki/decision-layer-rebuild.md
-claude -p "Run workflow with args {dataDir: './data/run-001', max_single_weight: 30}"
-```
+### Workflow 快捷指令
+
+| 对话中说 | 执行 |
+|----------|------|
+| `分析` | 全链路 L1-L4 组合顾问 |
+| `跑行业层` | v3 行业研究员并行 + 反向者 |
+| `跑辩论` | v3 PM 辩论 |
+| `跑合成` | v3 风控 + 合成器 |
 
 ---
 
