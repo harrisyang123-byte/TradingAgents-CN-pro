@@ -40,6 +40,7 @@
 ### 变更记录
 - [P0 核心集成（结构化输出 + Checkpoint + 情绪预抓取）](p0-core-integration.md)
 - [P0 核心集成复盘（W.W.L.D）](retro-p0-core-integration.md)
+- [行业层重构（industry-layer-rebuild）](industry-layer-rebuild.md) — 并行行业研究员+景气打分+7天缓存+Tier1自动触发
 - [情绪数据源设置指南](sentiment-sources-setup.md)
   - eastmoney / eastmoney_comment / wechat_mp / xueqiu / tonghuashun / xiaohongshu
 - P1 Batch 2: TradingMemoryLog 结果反思系统 + LLM 工厂清理 (archived)

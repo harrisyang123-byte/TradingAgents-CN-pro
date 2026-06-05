@@ -19,7 +19,7 @@
 - [x] 持仓录入接口集成
 - [x] 持仓更新接口集成
 - [x] 历史数据迁移脚本
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -41,7 +41,7 @@
 - [x] PMI/PPI 信号（AKShare `macro_china_pmi` / `macro_china_ppi`）
 - [x] 政策文件信号（AKShare 新闻 + 官网爬虫，含反爬降级）
 - [x] 加权打分 + 排序 + top3 标注
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -61,7 +61,7 @@
 - [x] 景气打分集成（Task 2 依赖）
 - [x] 三层合并去重 + 来源标注
 - [x] 注入 AdvisorState.industry_scan_pool
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -83,7 +83,7 @@
 - [x] 缓存写入逻辑（expires_at 自动设置）
 - [x] advisor_graph 缓存检查节点
 - [x] 手动刷新接口
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -109,7 +109,7 @@
 - [x] 跨行业权重辩论（1轮）：接收 total_weight_limit + 各行业景气强度，做资源分配输出 final_weight（加总 = total_weight_limit）
 - [x] asyncio.gather 并行节点
 - [x] advisor_graph 集成
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
@@ -133,7 +133,7 @@
 - [x] Tier1 结果写入研究库
 - [x] 手动触发兼容写入（analysis_reports 写入选入 stock_research_cache）
 - [x] Step2 公司层读取研究库接口
-- [ ] 验证端到端
+- [x] 验证端到端（审查通过）
 
 ---
 
