@@ -155,16 +155,10 @@ async def _auto_detect_user() -> str | None:
 
 # ── 主流程 ────────────────────────────────────────────────
 
-def main():
-    parser = argparse.ArgumentParser(description="组合顾问 Claued Code 版")
-    parser.add_argument("--user-id", default=None, help="用户ID（默认从 .env ADVISOR_USER_ID 读取）")
-    parser.add_argument("--verbose", action="store_true", help="打印每步 Agent 输出")
-    parser.add_argument("--skip-data", action="store_true", help="复用已缓存的数据")
-    args = parser.parse_args()
-
+async def amain(args):
     user_id = args.user_id or os.getenv("ADVISOR_USER_ID")
     if not user_id:
-        user_id = asyncio.run(_auto_detect_user())
+        user_id = await _auto_detect_user()
     if not user_id:
         logger.error("未指定 user_id，且 MongoDB 中未找到用户")
         sys.exit(1)
@@ -175,7 +169,7 @@ def main():
     # 1. 数据收集
     logger.info("=" * 50)
     logger.info("Phase 1: 数据收集")
-    asyncio.run(collect_all_data(user_id, args.skip_data))
+    await collect_all_data(user_id, args.skip_data)
 
     pf = json.load(open(DATA_DIR / "portfolio.json"))
     tier1 = json.load(open(DATA_DIR / "tier1.json")) if (DATA_DIR / "tier1.json").exists() else []
@@ -350,7 +344,6 @@ def main():
     elapsed = (datetime.now(UTC) - t0).total_seconds()
 
     # 5. 保存完整 CIO 裁决
-    # 市场温度可用性标注
     temp_note = ""
     if market_temp.get("breadth_signal") in ("中性", None, "") or str(market_temp.get("north_net")) == "nan":
         temp_note = "\n\n⚠️ 市场温度数据不可用（AKShare连接超时），情绪修正已跳过，处方基于纯基本面判断。"
@@ -364,8 +357,7 @@ def main():
         f"{temp_note}"
     )
 
-    aid = asyncio.run(save_to_mongodb(
-        user_id, cio_verdict, prescription, conflicts, elapsed))
+    aid = await save_to_mongodb(user_id, cio_verdict, prescription, conflicts, elapsed)
 
     # 6. 完成
     logger.info("=" * 50)
@@ -379,6 +371,15 @@ def main():
         actions[a] = actions.get(a, 0) + 1
     for a, n in sorted(actions.items()):
         logger.info(f"  {a}: {n}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="组合顾问 Claued Code 版")
+    parser.add_argument("--user-id", default=None, help="用户ID（默认从 .env ADVISOR_USER_ID 读取）")
+    parser.add_argument("--verbose", action="store_true", help="打印每步 Agent 输出")
+    parser.add_argument("--skip-data", action="store_true", help="复用已缓存的数据")
+    args = parser.parse_args()
+    asyncio.run(amain(args))
 
 
 if __name__ == "__main__":
