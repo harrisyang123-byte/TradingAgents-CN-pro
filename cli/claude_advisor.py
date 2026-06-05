@@ -17,7 +17,7 @@ import logging
 import os
 import sys
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone, UTC
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -113,7 +113,7 @@ async def save_to_mongodb(
     await init_database()
     db = get_mongo_db()
     advice_id = str(uuid.uuid4())
-    now = datetime.utcnow().isoformat()
+    now = datetime.now(UTC).isoformat()
 
     doc = {
         "advice_id": advice_id,
@@ -170,7 +170,7 @@ def main():
         sys.exit(1)
     logger.info(f"用户: {user_id}")
 
-    t0 = datetime.utcnow()
+    t0 = datetime.now(UTC)
 
     # 1. 数据收集
     logger.info("=" * 50)
@@ -347,7 +347,7 @@ def main():
 
     prescription = ciop
 
-    elapsed = (datetime.utcnow() - t0).total_seconds()
+    elapsed = (datetime.now(UTC) - t0).total_seconds()
 
     # 5. 保存完整 CIO 裁决
     # 市场温度可用性标注

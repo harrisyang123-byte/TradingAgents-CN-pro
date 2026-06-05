@@ -6,7 +6,7 @@
 
 | 用户说 | 执行 |
 |--------|------|
-| `分析` | `python3 cli/claude_advisor.py`（自动取第一个用户） |
+| `分析` | `.venv/bin/python cli/claude_advisor.py`（自动取持仓最多用户） |
 | `跑行业层` | 运行 workflow `v3-industry-layer` |
 | `跑辩论` | 运行 workflow `v3-pm-debate` |
 | `跑合成` | 运行 workflow `v3-synthesizer` |

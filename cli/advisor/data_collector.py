@@ -10,9 +10,15 @@ logger = logging.getLogger("claude-advisor")
 DATA_DIR = Path("/tmp/claude_advisor")
 
 
+_db_ready = False
+
 async def ensure_db():
+    global _db_ready
+    if _db_ready:
+        return
     from app.core.database import init_database
     await init_database()
+    _db_ready = True
 
 
 async def collect_portfolio(user_id: str) -> Dict[str, Any]:
@@ -174,7 +180,6 @@ async def collect_pe(position_codes: List[str]) -> Dict:
     json.dump(results, open(DATA_DIR / "pe.json", "w"), ensure_ascii=False, default=str)
     logger.info(f"PE: {len(results)} 只标的")
     return results
-    return json.load(open(DATA_DIR / "portfolio.json"))
 
 
 async def load_tier1() -> List[Dict]:

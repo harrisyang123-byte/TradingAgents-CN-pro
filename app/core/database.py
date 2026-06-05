@@ -186,9 +186,14 @@ class DatabaseManager:
 db_manager = DatabaseManager()
 
 
+_db_initialized = False
+
 async def init_database():
     """初始化数据库连接"""
-    global mongo_client, mongo_db, redis_client, redis_pool
+    global mongo_client, mongo_db, redis_client, redis_pool, _db_initialized
+
+    if _db_initialized:
+        return
 
     try:
         # 初始化MongoDB
@@ -201,6 +206,7 @@ async def init_database():
         redis_client = db_manager.redis_client
         redis_pool = db_manager.redis_pool
 
+        _db_initialized = True
         logger.info("🎉 所有数据库连接初始化完成")
 
         # 🔥 初始化数据库视图和索引
