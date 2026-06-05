@@ -58,6 +58,9 @@
                   <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('target_weight')">建议仓位{{ matrixSortArrow('target_weight') }}</th>
                   <th style="width:64px;cursor:pointer" @click="toggleMatrixSort('delta')">变化{{ matrixSortArrow('delta') }}</th>
                   <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('go_nogo')">评级{{ matrixSortArrow('go_nogo') }}</th>
+                  <th style="width:80px;cursor:pointer" @click="toggleMatrixSort('vitality_level')">景气强度{{ matrixSortArrow('vitality_level') }}</th>
+                  <th style="width:60px;cursor:pointer" @click="toggleMatrixSort('gap')">缺口{{ matrixSortArrow('gap') }}</th>
+                  <th style="width:68px;cursor:pointer" @click="toggleMatrixSort('source')">来源{{ matrixSortArrow('source') }}</th>
                   <th style="width:100px;cursor:pointer" @click="toggleMatrixSort('position_names')">持仓标的{{ matrixSortArrow('position_names') }}</th>
                   <th style="width:72px;cursor:pointer" @click="toggleMatrixSort('coverage_status')">覆盖{{ matrixSortArrow('coverage_status') }}</th>
                   <th>判断摘要</th>
@@ -100,6 +103,31 @@
                       :type="row.go_nogo === 'Go' ? 'success' : row.go_nogo === 'NoGo' ? 'danger' : 'warning'"
                       size="small"
                     >{{ row.go_nogo }}</el-tag>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <el-tag
+                      v-if="row.vitality_level"
+                      :type="row.vitality_level === '强烈看好' || row.vitality_level === '看好' ? 'success' : row.vitality_level === '看空' ? 'danger' : 'info'"
+                      size="small"
+                      effect="plain"
+                    >{{ row.vitality_level }}</el-tag>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <span
+                      v-if="row.gap !== undefined && row.gap > 0"
+                      class="delta-tag delta-up"
+                    >{{ row.gap.toFixed(1) }}%</span>
+                    <span v-else class="text-muted">--</span>
+                  </td>
+                  <td>
+                    <el-tag
+                      v-if="row.source"
+                      :type="row.source === 'holding' ? 'primary' : row.source === 'watchlist' ? 'success' : 'warning'"
+                      size="small"
+                      effect="plain"
+                    >{{ {holding:'持仓', watchlist:'关注', vitality:'景气'}[row.source] || row.source }}</el-tag>
                     <span v-else class="text-muted">--</span>
                   </td>
                   <td>

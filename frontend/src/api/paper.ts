@@ -117,6 +117,12 @@ export interface AdviceItem {
   data_sources?: string[]
   industry_bucket?: string
   fund_role?: string
+  // v3: 决策层重构新字段
+  entry_price_range?: { low: number; high: number } | number[]
+  build_strategy?: 'immediate' | 'batch' | 'conditional'
+  batch_plan?: Array<{ price: number; weight_pct: number; condition: string }>
+  tier1_rating?: string
+  pe_percentile?: number
 }
 
 export interface MarketIntel {
@@ -290,6 +296,9 @@ export interface IndustryOverviewRow {
   lifecycle: string
   depth: string
   go_nogo: string
+  vitality_level?: string // v3: 景气强度（强烈看好/看好/中性/看空）
+  gap?: number // v3: 配额缺口
+  source?: string // v3: 入池来源（holding/watchlist/vitality）
   confidence: string
   coverage_status: 'covered' | 'stale' | 'never' | 'planned'
   analyzed_at: string

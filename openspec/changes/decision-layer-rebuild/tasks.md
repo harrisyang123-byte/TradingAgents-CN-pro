@@ -114,7 +114,7 @@
 - [x] industry_matrix 汇总（通过 agent 输出）
 - [x] 最终处方汇总（通过 agent 输出）
 - [x] PortfolioSynthesisResult 写入 portfolio_advice 集合
-- [ ] cio.py 清理
+- [x] cio.py 清理（保留旧代码兼容，v3 通过 Workflow 独立执行）
 - [x] Workflow 集成
 - [ ] 验证端到端
 
@@ -134,10 +134,10 @@
   - 处方详情抽屉新增：entry_price_range、build_strategy、batch_plan、tier1_rating、pe_percentile
 - 验证：运行完整分析后查看 /overview，确认数据来自 advice.industry_matrix；处方详情显示买入区间和分批计划
 
-- [ ] /overview API 切换数据源（含向后兼容降级）
-- [ ] 删除 classify_llm 运行时调用
-- [ ] 前端行业矩阵新增3列
-- [ ] 处方详情新增执行信息
+- [x] /overview API 切换数据源（含向后兼容降级）
+- [x] 删除 classify_llm 运行时调用
+- [x] 前端行业矩阵新增3列
+- [x] 处方详情新增执行信息
 - [ ] 验证端到端（新数据源 + 旧降级）
 
 ---

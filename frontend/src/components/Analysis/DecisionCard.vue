@@ -82,6 +82,34 @@
       </div>
     </div>
 
+    <!-- v3: Entry Price + Build Strategy -->
+    <div v-if="item.entry_price_range" class="card-v3-detail">
+      <div class="v3-row">
+        <span class="v3-label">买入区间</span>
+        <span class="v3-value">{{ formatPriceRange(item.entry_price_range) }}</span>
+      </div>
+      <div class="v3-row" v-if="item.build_strategy">
+        <span class="v3-label">建仓策略</span>
+        <span class="v3-value v3-tag" :class="'strat-' + item.build_strategy">{{ buildStrategyLabel(item.build_strategy) }}</span>
+      </div>
+      <div class="v3-row" v-if="item.tier1_rating">
+        <span class="v3-label">Tier1评级</span>
+        <span class="v3-value v3-tag" :class="'rating-' + item.tier1_rating">{{ item.tier1_rating }}</span>
+      </div>
+      <div class="v3-row" v-if="item.pe_percentile !== undefined">
+        <span class="v3-label">PE分位</span>
+        <span class="v3-value">{{ item.pe_percentile }}%</span>
+      </div>
+    </div>
+
+    <!-- Batch Plan -->
+    <div v-if="item.batch_plan?.length" class="card-batch">
+      <div class="batch-title">分批计划</div>
+      <div v-for="(bp, i) in item.batch_plan" :key="i" class="batch-item">
+        第{{ i + 1 }}批: ¥{{ bp.price }} · {{ bp.weight_pct }}% · {{ bp.condition }}
+      </div>
+    </div>
+
     <!-- Reasoning (footer) -->
     <div v-if="item.reasoning" class="card-reasoning">
       {{ item.reasoning }}
@@ -183,6 +211,20 @@ const peLabel = computed(() => {
   if (pePercentile.value <= 75) return '合理'
   return '高估'
 })
+
+// --- v3 helpers ---
+function formatPriceRange(epr: { low: number; high: number } | number[] | undefined): string {
+  if (!epr) return '--'
+  if (Array.isArray(epr)) {
+    if (epr.length >= 2) return `¥${epr[0]} - ¥${epr[1]}`
+    return '--'
+  }
+  return `¥${(epr as any).low} - ¥${(epr as any).high}`
+}
+function buildStrategyLabel(s: string): string {
+  const map: Record<string, string> = { immediate: '立即建仓', batch: '分批建仓', conditional: '条件触发' }
+  return map[s] || s
+}
 </script>
 
 <style scoped>
@@ -288,4 +330,40 @@ const peLabel = computed(() => {
   border-radius: 3px; font-size: 11px;
   max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+
+/* v3 细节区域 */
+.card-v3-detail {
+  margin: 8px 12px;
+  padding: 8px 0;
+  border-top: 1px dashed #ebeef5;
+  font-size: 12px;
+}
+.v3-row {
+  display: flex; align-items: center;
+  margin: 3px 0;
+}
+.v3-label {
+  color: #909399; width: 64px; flex-shrink: 0;
+}
+.v3-value { color: #303133; }
+.v3-tag {
+  display: inline-block; padding: 1px 6px;
+  border-radius: 3px; font-size: 11px;
+}
+.strat-immediate { background: #fef0f0; color: #f56c6c; }
+.strat-batch { background: #fdf6ec; color: #e6a23c; }
+.strat-conditional { background: #f0f5ff; color: #409eff; }
+.rating-强烈买入, .rating-买入 { background: #f0f9eb; color: #67c23a; }
+.rating-中性, .rating-持有 { background: #fafafa; color: #909399; }
+.rating-卖出, .rating-强烈卖出 { background: #fef0f0; color: #f56c6c; }
+
+.card-batch {
+  margin: 4px 12px 8px;
+  padding: 8px;
+  background: #fafafa;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.batch-title { font-weight: 600; margin-bottom: 4px; color: #606266; }
+.batch-item { margin: 2px 0; color: #909399; }
 </style>

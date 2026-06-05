@@ -545,178 +545,138 @@ async def place_order(payload: PlaceOrderRequest, current_user: dict = Depends(g
 
 @router.get("/overview", response_model=dict)
 async def get_portfolio_overview(current_user: dict = Depends(get_current_user)):
-    """组合总揽：行业覆盖矩阵（持仓现状 + 分析覆盖 + 处方建议）"""
+    """组合总揽：行业覆盖矩阵（持仓现状 + 分析覆盖 + 处方建议）
+
+    v3: 优先读最近一次 COMPLETED advice 的 industry_matrix 或 synthesis_result。
+    无 industry_matrix 时降级到现有拼接逻辑（向后兼容）。
+    """
     db = get_mongo_db()
     user_id = current_user["id"]
 
-    # 1. 持仓汇总（按行业聚合）
+    # 尝试读最近一次 advice 的 industry_matrix
+    latest_advice = await db["portfolio_advice"].find_one(
+        {"user_id": user_id, "status": "COMPLETED"},
+        sort=[("created_at", -1)],
+    )
+
+    synthesis = (latest_advice or {}).get("synthesis_result", {}) or {}
+    matrix = synthesis.get("industry_matrix", []) or latest_advice.get("industry_matrix", [])
+
+    if matrix:
+        # v3 新数据源：直接使用 advice 中的矩阵
+        matrix_list = list(matrix)
+        total = len(matrix_list)
+        covered = sum(1 for r in matrix_list if r.get("coverage_status", r.get("go_nogo", "")) in ("covered", "Go"))
+        stale = sum(1 for r in matrix_list if r.get("coverage_status") == "stale")
+        never = sum(1 for r in matrix_list if r.get("coverage_status") == "never")
+
+        return ok({
+            "matrix": matrix_list,
+            "total_industries": total,
+            "covered_count": covered,
+            "stale_count": stale,
+            "never_count": never,
+            "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
+            "data_score": latest_advice.get("data_score", 0) if latest_advice else 0,
+        })
+
+    # 降级：v2 兼容拼接逻辑（无 v3 advice 时保留）
     from app.services.portfolio_service import PortfolioService
     from app.services.industry_classifier import classify_holdings_industries
 
     portfolio_svc = PortfolioService()
     portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
-
     positions = portfolio_summary.get("positions", [])
-    # 尝试用 LLM 分类（更准），失败则回退关键词
-    classify_llm = None
-    try:
-        from app.services.config_service import ConfigService
-        from tradingagents.graph.trading_graph import create_llm_by_provider
-        from tradingagents.llm_clients.provider_keys import normalize_provider_key
-        cfg_svc = ConfigService()
-        llm_cfg = await cfg_svc.get_analysis_config(user_id)
-        provider = normalize_provider_key(llm_cfg.get("llm_provider", "deepseek"))
-        classify_llm = create_llm_by_provider(
-            provider=provider,
-            model=llm_cfg.get("quick_think_llm", "deepseek-chat"),
-            backend_url=llm_cfg.get("backend_url", ""),
-            temperature=0,
-            max_tokens=1500,
-            timeout=45,
-            api_key=llm_cfg.get("quick_api_key") or llm_cfg.get("deep_api_key"),
-        )
-    except Exception:
-        pass
-    industry_positions = await classify_holdings_industries(db, positions, llm=classify_llm)
 
-    # 2. 行业覆盖数据 → 映射到 18-bucket 体系
-    from app.services.industry_buckets import _map_l1_to_buckets_with_llm
+    # 使用 paper_positions.industry（v3 前置分类已写入），无 LLM 调用
+    industry_positions: Dict[str, List[Dict[str, Any]]] = {}
+    for p in positions:
+        ind = p.get("industry", "") or "未分类"
+        industry_positions.setdefault(ind, []).append(p)
+
+    # 从 industry_coverage 读取覆盖数据
     coverage_docs = await db["industry_coverage"].find(
         {"user_id": user_id}
     ).sort("analyzed_at", -1).to_list(None)
-    # 收集 L1 行业名并映射到 bucket
-    l1_name_map: Dict[str, str] = {}
     coverage_map: Dict[str, Dict[str, Any]] = {}
     for doc in coverage_docs:
         l1_name = doc.get("industry_name", "")
         if l1_name and l1_name not in coverage_map:
             coverage_map[l1_name] = doc
-    # 映射 L1 行业名 → bucket
-    l1_names = list(coverage_map.keys())
-    l1_to_bucket = await _map_l1_to_buckets_with_llm(l1_names, classify_llm, db)
-    # 按 bucket 合并 coverage 数据
-    bucket_coverage: Dict[str, Dict[str, Any]] = {}
-    for l1_name, doc in coverage_map.items():
-        bucket = l1_to_bucket.get(l1_name, l1_name[:2] if l1_name else "")
-        if bucket not in bucket_coverage:
-            # 合并：取最近的分析时间、最新的 go_nogo
-            bucket_coverage[bucket] = dict(doc)
-            bucket_coverage[bucket]["industry_name"] = bucket
-        else:
-            # 已有此 bucket，选更近的分析
-            existing = bucket_coverage[bucket]
-            if doc.get("analyzed_at", "") > existing.get("analyzed_at", ""):
-                bucket_coverage[bucket] = dict(doc)
-                bucket_coverage[bucket]["industry_name"] = bucket
 
-    # 3. 最近一次组合建议
-    latest_advice = await db["portfolio_advice"].find_one(
-        {"user_id": user_id, "status": "COMPLETED"},
-        sort=[("created_at", -1)],
-    )
     latest_prescriptions = latest_advice.get("prescription", []) if latest_advice else []
 
-    # 4. 构建行业覆盖矩阵 — 以 LLM bucket 为主，合并 L1 coverage
-    all_industries = set(list(industry_positions.keys()) + list(bucket_coverage.keys()))
-    matrix: List[Dict[str, Any]] = []
+    # 构建矩阵
+    all_industries = set(list(industry_positions.keys()) + list(coverage_map.keys()))
+    matrix_list = []
     from datetime import datetime, timezone
 
     for ind_name in sorted(all_industries):
         pos_list = industry_positions.get(ind_name, [])
-        cov = bucket_coverage.get(ind_name, {})
+        cov = coverage_map.get(ind_name, {})
         total_weight = sum(p.get("weight", 0) for p in pos_list)
         position_codes = [p.get("code", "") for p in pos_list]
-        position_names = [p.get("name", p.get("code", "")) for p in pos_list]
 
-        # 覆盖状态
-        if cov:
-            analyzed_at = cov.get("analyzed_at", "")
-            if cov.get("status") == "completed":
-                try:
-                    at_dt = datetime.fromisoformat(analyzed_at.replace("Z", "+00:00"))
-                    if at_dt.tzinfo is None:
-                        at_dt = at_dt.replace(tzinfo=timezone.utc)
-                    days_ago = (datetime.now(timezone.utc) - at_dt).days
-                    coverage_status = "stale" if days_ago > 30 else "covered"
-                except Exception:
-                    coverage_status = "covered"
-            else:
-                coverage_status = "covered"  # 向下兼容旧的 planned 等状态
+        if cov and cov.get("status") == "completed":
+            try:
+                at_dt = datetime.fromisoformat(str(cov.get("analyzed_at", "")).replace("Z", "+00:00"))
+                if at_dt.tzinfo is None:
+                    at_dt = at_dt.replace(tzinfo=timezone.utc)
+                days_ago = (datetime.now(timezone.utc) - at_dt).days
+                coverage_status = "stale" if days_ago > 30 else "covered"
+            except Exception:
+                coverage_status = "covered"
         else:
             coverage_status = "never"
-            analyzed_at = ""
 
-        # 处方匹配 — 按 code 匹配，同时汇总目标仓位
-        related_prescriptions = []
         target_weight = 0.0
         for rx in latest_prescriptions:
-            rx_code = rx.get("code", "")
-            if rx_code in position_codes:
-                related_prescriptions.append(rx)
-            target_weight += rx.get("target_weight", 0) if rx_code in position_codes or rx_code == "CASH" else 0
+            if rx.get("code") in position_codes:
+                target_weight += rx.get("target_weight", 0)
 
-        # 当前仓位 vs 建议仓位变化
-        delta = round(target_weight - total_weight, 2)
-
-        matrix.append({
+        matrix_list.append({
             "industry": ind_name,
             "market": cov.get("market", "cn"),
             "lifecycle": cov.get("lifecycle", ""),
-            "depth": cov.get("depth", "") if cov else "",
             "go_nogo": cov.get("go_nogo", ""),
             "confidence": cov.get("confidence", ""),
             "coverage_status": coverage_status,
-            "analyzed_at": analyzed_at,
             "holdings_weight": round(total_weight, 2),
             "target_weight": round(target_weight, 2),
-            "delta": delta,
+            "delta": round(target_weight - total_weight, 2),
             "position_count": len(pos_list),
             "position_codes": position_codes,
-            "position_names": position_names,
+            "position_names": [p.get("name", p.get("code", "")) for p in pos_list],
             "reasoning": cov.get("reasoning", ""),
-            "advice_id": cov.get("advice_id", ""),
-            "prescriptions": related_prescriptions,
         })
 
-    # 5. 现金行 — 从处方中提取
-    cash_rx = next((rx for rx in latest_prescriptions if rx.get("code") == "CASH"), None)
+    # 现金行
     cash_weight = portfolio_summary.get("available_cash", 0) / max(portfolio_summary.get("total_assets", 1), 1) * 100
-    cash_target = cash_rx.get("target_weight", cash_weight) if cash_rx else cash_weight
-    cash_row = {
+    cash_rx = next((rx for rx in latest_prescriptions if rx.get("code") == "CASH"), None)
+    matrix_list.append({
         "industry": "现金",
         "market": "",
         "lifecycle": "",
-        "depth": "",
         "go_nogo": "",
         "confidence": "",
         "coverage_status": "covered",
-        "analyzed_at": latest_advice.get("created_at", "") if latest_advice else "",
         "holdings_weight": round(cash_weight, 2),
-        "target_weight": round(cash_target, 2),
-        "delta": round(cash_target - cash_weight, 2),
+        "target_weight": round(cash_rx.get("target_weight", cash_weight) if cash_rx else cash_weight, 2),
+        "delta": round((cash_rx.get("target_weight", cash_weight) if cash_rx else cash_weight) - cash_weight, 2),
         "position_count": 0,
         "position_codes": [],
         "position_names": [],
         "reasoning": cash_rx.get("reasoning", "") if cash_rx else "",
-        "advice_id": latest_advice.get("advice_id", "") if latest_advice else "",
-        "prescriptions": [cash_rx] if cash_rx else [],
-    }
-    matrix.append(cash_row)
-
-    # 6. 数据完整度评分
-    price_ctx = latest_advice.get("price_context", {}) if latest_advice else {}
-    pe_available = sum(1 for v in price_ctx.values() if isinstance(v, dict) and v.get("pe_percentile_source") not in ("data_unavailable", "unknown_market", None))
-    total_stocks_in_ctx = max(len(price_ctx), 1)
-    data_score = round(pe_available / total_stocks_in_ctx * 100, 1) if price_ctx else 0
+    })
 
     return ok({
-        "matrix": matrix,
-        "total_industries": len(matrix),
-        "covered_count": sum(1 for r in matrix if r["coverage_status"] == "covered"),
-        "stale_count": sum(1 for r in matrix if r["coverage_status"] == "stale"),
-        "never_count": sum(1 for r in matrix if r["coverage_status"] == "never"),
+        "matrix": matrix_list,
+        "total_industries": len(matrix_list),
+        "covered_count": sum(1 for r in matrix_list if r["coverage_status"] == "covered"),
+        "stale_count": sum(1 for r in matrix_list if r["coverage_status"] == "stale"),
+        "never_count": sum(1 for r in matrix_list if r["coverage_status"] == "never"),
         "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
-        "data_score": data_score,
+        "data_score": 0,
     })
 
 
