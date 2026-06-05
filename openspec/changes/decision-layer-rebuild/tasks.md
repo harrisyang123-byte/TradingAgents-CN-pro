@@ -21,34 +21,32 @@
 - `tradingagents/graph/advisor_graph.py`：宏观裁判节点输出写入 total_weight_limit/cash_floor
 - 验证：运行分析，确认 state 中有 total_weight_limit 字段
 
-- [ ] 新增 AdvisorState 字段定义
-- [ ] 新增 IndustryPMResult / RiskAssessment / PortfolioSynthesisResult 数据类
-- [ ] 宏观裁判节点写入 total_weight_limit + cash_floor
-- [ ] 跨行业裁判接收 total_weight_limit 做资源分配（替代归一化）
-- [ ] 验证约束从宏观传到行业层
+- [x] 新增 AdvisorState 字段定义
+- [x] 新增 IndustryPMResult / RiskAssessment / PortfolioSynthesisResult 数据类
+- [x] 宏观裁判节点写入 total_weight_limit + cash_floor
+- [x] 跨行业裁判接收 total_weight_limit 做资源分配（替代归一化）
+- [x] 验证约束从宏观传到行业层
 
 ---
 
-## Task 2: 并行行业PM
+## Task 2: 并行行业PM（子Agent模式）
 
 **目标**：每个Go行业独立spawn激进PM vs 保守PM辩论，在行业配额内输出个股配仓方案。
 
 **实现范围**：
-- `tradingagents/agents/advisors/industry_pm.py`：新建行业PM agent
-  - 激进PM角色：重仓高评级，配额用满，偏immediate建仓
-  - 保守PM角色：分散配置，配额保留缓冲，偏batch建仓
-  - 买入区间：Tier1区间 ∩ PE30分位区间，取保守值
-  - 输出：IndustryPMResult（含 batch_plan）
-- `tradingagents/graph/advisor_graph.py`：新增 parallel_pm 节点（asyncio.gather）
-- 验证：5个行业并行运行，每个PM输出包含 entry_price_range 和 build_strategy
+- `agents/advisor/v3-pm-aggressive.md`：激进PM agent定义
+- `agents/advisor/v3-pm-conservative.md`：保守PM agent定义
+- `agents/advisor/v3-pm-judge.md`：PM裁判 agent定义
+- `scripts/workflow-v3-pm-debate.js`：Workflow编排脚本（pipeline：激进→保守→裁判）
+- 数据通过JSON文件传递，子Agent用Read/Bash工具读写
 
-- [ ] 激进PM角色实现
-- [ ] 保守PM角色实现
-- [ ] 买入区间双重验证（Tier1 + PE分位，取保守值）
-- [ ] 分批建仓计划生成（batch_plan）
-- [ ] PM裁判输出 IndustryPMResult
-- [ ] asyncio.gather 并行节点
-- [ ] advisor_graph 集成
+- [x] 激进PM角色 agent定义（.md + JSON schema）
+- [x] 保守PM角色 agent定义
+- [x] PM裁判 agent定义
+- [x] 买入区间双重验证（Tier1 + PE分位，取保守值）
+- [x] 分批建仓计划生成（batch_plan）
+- [x] PM裁判输出来自子agent
+- [x] Workflow pipeline 并行编排
 - [ ] 验证端到端
 
 ---
@@ -66,11 +64,11 @@
   - 用 pm_retry_count 追踪重试次数，≥2次自动截断
 - 验证：构造单股超限方案，确认被打回；第3次自动截断到边界
 
-- [ ] 四项规则引擎实现
-- [ ] violations 结构化输出
-- [ ] 打回逻辑（conditional_edge + retry_count）
-- [ ] 第3次强制截断逻辑
-- [ ] advisor_graph 集成
+- [x] 四项规则引擎实现
+- [x] violations 结构化输出
+- [x] 打回逻辑（Workflow 判断 violations.length > 0）
+- [x] 第3次强制截断逻辑（auto_truncate）
+- [x] Workflow 集成（check_pm_positions → return violations）
 - [ ] 验证端到端（打回场景 + 截断场景）
 
 ---
@@ -87,11 +85,11 @@
 - `tradingagents/graph/advisor_graph.py`：更新 Risk Director 节点
 - 验证：运行分析，确认输出包含 max_drawdown_20pct、pessimist_view、optimist_view
 
-- [ ] 悲观Risk Director角色实现
-- [ ] 乐观Risk Analyst角色实现
-- [ ] 2轮辩论逻辑
-- [ ] 风控裁判输出 RiskAssessment
-- [ ] advisor_graph 集成
+- [x] 悲观Risk Director角色 agent定义
+- [x] 乐观Risk Analyst角色 agent定义
+- [x] 2轮辩论（agent() pipeline）
+- [x] 风控裁判 agent定义
+- [x] Workflow 集成（workflow-v3-synthesizer.js）
 - [ ] 验证端到端
 
 ---
@@ -111,13 +109,13 @@
 - `tradingagents/graph/advisor_graph.py`：CIO_Final 节点替换为 portfolio_synthesizer
 - 验证：运行分析，industry_matrix 包含新字段；有缺口时 dispatch_scout 被触发
 
-- [ ] 约束链验证逻辑
-- [ ] 缺口识别 + dispatch_scout 触发
-- [ ] industry_matrix 汇总（新字段）
-- [ ] 最终处方汇总（新字段）
-- [ ] PortfolioSynthesisResult 写入 portfolio_advice 集合
+- [x] 约束链验证逻辑（risk_rules.py）
+- [x] 缺口识别 + dispatch_scout 触发
+- [x] industry_matrix 汇总（通过 agent 输出）
+- [x] 最终处方汇总（通过 agent 输出）
+- [x] PortfolioSynthesisResult 写入 portfolio_advice 集合
 - [ ] cio.py 清理
-- [ ] advisor_graph 集成
+- [x] Workflow 集成
 - [ ] 验证端到端
 
 ---
