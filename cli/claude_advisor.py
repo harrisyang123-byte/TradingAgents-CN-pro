@@ -135,14 +135,19 @@ async def save_to_mongodb(
 # ── 自动探测用户 ──────────────────────────────────────────
 
 async def _auto_detect_user() -> str | None:
-    """从 MongoDB 找第一个有持仓的用户"""
+    """从 MongoDB 取持仓最多的用户"""
     try:
         from app.core.database import init_database, get_mongo_db
         await init_database()
         db = get_mongo_db()
-        pos = await db["paper_positions"].find_one({}, {"user_id": 1})
-        if pos:
-            return pos["user_id"]
+        cursor = db["paper_positions"].aggregate([
+            {"$group": {"_id": "$user_id", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 1},
+        ])
+        results = await cursor.to_list(1)
+        if results:
+            return results[0]["_id"]
     except Exception:
         pass
     return None
