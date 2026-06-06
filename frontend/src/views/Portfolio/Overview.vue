@@ -101,6 +101,24 @@
       </div>
     </div>
 
+    <!-- 分析师辩论历程 -->
+    <div v-if="latestAdvice" class="card mt-4 debate-card">
+      <div class="card-header debate-header" @click="debateCollapsed = !debateCollapsed" style="cursor:pointer;">
+        <span>分析师辩论历程</span>
+        <span class="collapse-arrow" :class="debateCollapsed ? '' : 'open'">▸</span>
+      </div>
+      <div v-if="!debateCollapsed">
+        <div class="debate-tabs">
+          <button v-for="tab in debateTabs" :key="tab.key" class="debate-tab" :class="activeDebateTab === tab.key ? 'active' : ''" @click="activeDebateTab = tab.key">{{ tab.label }}</button>
+        </div>
+        <div class="debate-content">
+          <pre v-if="activeDebateTab === 'market'">{{ latestAdvice.market_debate_history || '暂无市场研判记录' }}</pre>
+          <pre v-else-if="activeDebateTab === 'stock'">{{ latestAdvice.stock_debate_history || '暂无个股辩论记录' }}</pre>
+          <pre v-else>{{ latestAdvice.debate_history || '暂无综合裁决记录' }}</pre>
+        </div>
+      </div>
+    </div>
+
     <!-- 历史建议 -->
     <div class="card mt-4">
       <div class="card-header">历史分析记录</div>
@@ -203,6 +221,15 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 const showIndustryDrawer = ref(false)
 const selectedIndustry = ref<IndustryOverviewRow | null>(null)
 const expandedRow = ref<string | null>(null)
+
+const latestAdvice = ref<any>(null)
+const debateCollapsed = ref(true)
+const activeDebateTab = ref('market')
+const debateTabs = [
+  { key: 'market', label: '市场研判（L1）' },
+  { key: 'stock', label: '个股辩论（L3）' },
+  { key: 'final', label: '综合裁决' },
+]
 
 // --- filtered matrix (exclude 现金 for display, show cash separately) ---
 const filteredMatrix = computed(() => {
@@ -321,6 +348,9 @@ async function loadHistory() {
       if (res.success) return (res.data.items || []).filter((a: PortfolioAdvice) => a.status === 'COMPLETED')
       throw new Error('API failed')
     })
+    if (adviceHistory.value.length > 0) {
+      latestAdvice.value = adviceHistory.value[0]
+    }
   } catch { /* ignore */ }
 }
 
@@ -422,4 +452,14 @@ onMounted(() => {
 .pe-high { background: #fef0f0; color: #f56c6c; }
 .pe-low { background: #f0f9eb; color: #67c23a; }
 .pe-mid { background: #f5f7fa; color: #909399; }
+
+.debate-card {}
+.debate-header { user-select: none; }
+.collapse-arrow { font-size: 14px; transition: transform 0.2s; display: inline-block; }
+.collapse-arrow.open { transform: rotate(90deg); }
+.debate-tabs { display: flex; gap: 0; border-bottom: 1px solid #eee; padding: 0 20px; }
+.debate-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 16px; cursor: pointer; font-size: 13px; color: #606266; }
+.debate-tab.active { color: #409eff; border-bottom-color: #409eff; font-weight: 600; }
+.debate-content { padding: 12px 20px 16px; }
+.debate-content pre { font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; max-height: 400px; overflow-y: auto; margin: 0; color: #303133; background: #f8f9fa; border-radius: 4px; padding: 12px; }
 </style>
