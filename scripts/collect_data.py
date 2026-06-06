@@ -4,9 +4,12 @@
 用法:
     python scripts/collect_data.py --user-id <id> --out-dir <path>
 
-输出 6 个 JSON 文件到指定目录:
+输出 JSON 文件到指定目录:
     data_portfolio.json, data_tier1.json, data_pe.json,
-    data_exposure.json, data_macro.json, data_market_temp.json
+    data_exposure.json, data_macro.json, data_market_temp.json,
+    data_vitality.json (全量18行业景气榜),
+    industry_list.json (深辩范围: 持仓+watchlist+景气top3),
+    data_scan_pool.json (扫描池来源标注)
 """
 
 import argparse
@@ -26,7 +29,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
     warnings = []
 
     # —— 1. 持仓数据 ——
-    print("  [1/6] 收集持仓数据...")
+    print("  [1/7] 收集持仓数据...")
     try:
         from app.core.database import init_database
         from app.services.portfolio_service import PortfolioService
@@ -59,7 +62,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
         return False
 
     # —— 2. Tier1 报告 ——
-    print("  [2/6] 收集 Tier1 报告...")
+    print("  [2/7] 收集 Tier1 报告...")
     try:
         from app.core.database import get_mongo_db
         db = get_mongo_db()
@@ -104,7 +107,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
             json.dump([], f)
 
     # —— 3. PE 分位数据 ——
-    print("  [3/6] 收集 PE 分位数据...")
+    print("  [3/7] 收集 PE 分位数据...")
     pe_data = {}
     try:
         from cli.advisor.data_collector import collect_pe
@@ -122,7 +125,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
             json.dump({}, f)
 
     # —— 4. 敞口矩阵 ——
-    print("  [4/6] 收集敞口数据...")
+    print("  [4/7] 收集敞口数据...")
     try:
         from app.services.portfolio_service import PortfolioService
         from app.services.exposure_service import ExposureService
@@ -149,7 +152,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
             json.dump({"hhi": 0, "status": "unavailable"}, f)
 
     # —— 5. 宏观指标 ——
-    print("  [5/6] 收集宏观指标 + 行业排名 + 资金流向...")
+    print("  [5/7] 收集宏观指标 + 行业排名 + 资金流向...")
     macro_data = {"status": "partial", "collected_at": datetime.now(timezone.utc).isoformat() + "Z"}
     try:
         from tradingagents.agents.advisors.market_tools import (
@@ -168,7 +171,7 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
         json.dump(macro_data, f, ensure_ascii=False, default=str)
 
     # —— 6. 市场温度 ——
-    print("  [6/6] 收集市场温度数据...")
+    print("  [6/7] 收集市场温度数据...")
     market_temp = {
         "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
         "status": "success",
@@ -203,6 +206,54 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
 
     with open(out_dir / "data_market_temp.json", "w") as f:
         json.dump(market_temp, f, ensure_ascii=False, default=str)
+
+    # —— 7. 行业扫描池 + 全量景气榜 ——
+    # 全量18行业景气打分（廉价雷达，喂前端矩阵）只跑一次，
+    # 复用给扫描池构建（深辩范围=持仓+watchlist+景气top3，无估值闸）
+    print("  [7/7] 全量景气打分 + 行业扫描池...")
+    try:
+        from dataclasses import asdict
+        from app.core.database import get_mongo_db
+        from app.services.industry_vitality import score_all_industries
+        from app.services.industry_scan_pool import build_scan_pool
+
+        db = get_mongo_db()
+        vitality_scores = await score_all_industries()
+
+        # A 档：全量18行业景气榜 → 前端雷达视图
+        vitality_data = {
+            "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "status": "success",
+            "top3": [s.industry for s in vitality_scores if s.top3_flag],
+            "scores": [asdict(s) for s in vitality_scores],
+        }
+        with open(out_dir / "data_vitality.json", "w") as f:
+            json.dump(vitality_data, f, ensure_ascii=False, default=str)
+
+        # B 档：扫描池（复用已算好的景气分，避免二次扫描）→ 深辩范围
+        pool = await build_scan_pool(db, user_id, vitality_scores=vitality_scores)
+        industry_list = pool.to_industry_list()
+
+        if industry_list:
+            with open(out_dir / "industry_list.json", "w") as f:
+                json.dump(industry_list, f, ensure_ascii=False, default=str)
+            with open(out_dir / "data_scan_pool.json", "w") as f:
+                json.dump(pool.to_dict(), f, ensure_ascii=False, default=str)
+            srcs = pool.to_source_map()
+            holding_n = sum(1 for v in srcs.values() if v == "holding")
+            watch_n = sum(1 for v in srcs.values() if v == "watchlist")
+            vit_n = sum(1 for v in srcs.values() if v == "vitality")
+            print(f"    景气榜 top3: {vitality_data['top3']}")
+            print(f"    深辩范围 {len(industry_list)} 个行业 "
+                  f"(持仓{holding_n} + watchlist{watch_n} + 景气{vit_n})")
+        else:
+            # 扫描池为空（无持仓行业分类/无watchlist/景气全失败）：
+            # 不写 industry_list.json，让编排器命中内置兜底，避免空列表导致行业层空跑
+            print("    警告: 扫描池为空，行业层将使用编排器内置兜底列表")
+            warnings.append("Scan pool empty")
+    except Exception as e:
+        print(f"  警告: 行业扫描池/景气榜构建失败: {e}")
+        warnings.append("Scan pool partial")
 
     # 写入警告
     if warnings:

@@ -50,8 +50,19 @@ class IndustryScanPool:
         ]
 
 
-async def build_scan_pool(db, user_id: str) -> IndustryScanPool:
-    """构建行业扫描池：持仓行业 + watchlist + 景气前3名 合并去重"""
+async def build_scan_pool(db, user_id: str, vitality_scores=None) -> IndustryScanPool:
+    """构建行业扫描池：持仓行业 + watchlist + 景气前3名 合并去重
+
+    深辩范围设计（方案②，长期主义）：
+      - 持仓 + watchlist → 必跑深辩
+      - 景气 top3 新方向 → 自动补充进深辩，**无估值闸**
+        （估值约束交给下游裁判/PM 调权重与买点，不在准入处否决）
+      - 货币/类现金 bucket（现金/债券固收/宽基/全球配置）不进行业深辩，
+        那是大类资产层的职责。
+
+    vitality_scores: 可选，外部预算好的 score_all_industries() 结果，
+        避免重复触发昂贵的全量景气扫描（采数阶段已算过一次）。
+    """
 
     scan_set: Dict[str, IndustryScanItem] = {}
 
@@ -72,15 +83,18 @@ async def build_scan_pool(db, user_id: str) -> IndustryScanPool:
         if ind not in scan_set:
             scan_set[ind] = IndustryScanItem(industry=ind, source="watchlist")
 
-    # 3. 景气打分前3名（自动补充）
+    # 3. 景气打分前3名（自动补充新方向，无估值闸）
     try:
-        vitality_results = await score_all_industries()
+        vitality_results = vitality_scores if vitality_scores is not None else await score_all_industries()
         top3 = [s for s in vitality_results if s.top3_flag]
     except Exception as e:
         logger.warning(f"[ScanPool] 景气打分失败: {e}")
         top3 = []
 
     for score in top3:
+        # 货币/类现金 bucket 归大类资产层管，不进行业深辩
+        if score.industry in CURRENCY_BUCKETS:
+            continue
         if score.industry not in scan_set:
             scan_set[score.industry] = IndustryScanItem(
                 industry=score.industry,
