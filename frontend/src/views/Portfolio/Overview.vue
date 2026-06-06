@@ -316,17 +316,15 @@ const matrixFlash = ref(false)
 const latestAdvice = ref<any>(null)
 const debateCollapsed = ref(true)
 const activeDebateTab = ref('market')
+// 四路辩论 tab 全部常驻：缺数据时显示「暂无…记录」空状态，不再隐藏整个 tab
+// （隐藏会掩盖「本次未跑大类层」与「前端故障」的区别，违背数据缺失需明示的原则）
 const debateTabs = computed(() => {
-  const tabs: Array<{ key: string; label: string }> = []
-  if ((latestAdvice.value as any)?.asset_debate_history) {
-    tabs.push({ key: 'asset', label: '大类配置辩论' })
-  }
-  tabs.push(
+  return [
+    { key: 'asset', label: '大类配置辩论' },
     { key: 'market', label: '市场研判（L1）' },
     { key: 'stock', label: '个股辩论（L3）' },
     { key: 'final', label: '综合裁决' },
-  )
-  return tabs
+  ]
 })
 
 // 当前 tab 的辩论文本（喂给 DebateTimeline 气泡组件）
