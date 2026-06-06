@@ -150,22 +150,37 @@
       <!-- 标的处方列表 -->
       <div v-if="industryPositions.length" class="rx-section">
         <div class="rx-title">处方明细</div>
-        <div v-for="pos in industryPositions" :key="pos.code" style="border:1px solid #eee; border-radius:6px; padding:12px; margin-bottom:10px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
-            <div>
+        <div v-for="pos in industryPositions" :key="pos.code" class="rx-card">
+          <!-- 行1: 名称 + 代码 + 操作 + 盈亏 + PE -->
+          <div class="rx-row1">
+            <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0;">
               <span class="rx-name">{{ pos.name || pos.code }}</span>
-              <span class="rx-code" style="margin-left:6px;">{{ pos.code }}</span>
+              <span class="rx-code">{{ pos.code }}</span>
+              <span :class="'action action-' + (pos.action === 'buy' || pos.action === 'add' || pos.action === 'new_position' ? 'buy' : pos.action === 'sell' || pos.action === 'reduce' ? 'sell' : 'hold')">
+                {{ actionLabel(pos.action) }}
+              </span>
             </div>
-            <span :class="'action action-' + (pos.action === 'buy' || pos.action === 'add' || pos.action === 'new_position' ? 'buy' : pos.action === 'sell' || pos.action === 'reduce' ? 'sell' : 'hold')">
-              {{ actionLabel(pos.action) }}
-            </span>
+            <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+              <span v-if="pos.pnl_pct !== undefined && pos.pnl_pct !== null"
+                :style="pos.pnl_pct >= 0 ? 'color:#f56c6c; font-size:12px; font-weight:600;' : 'color:#67c23a; font-size:12px; font-weight:600;'">
+                {{ pos.pnl_pct >= 0 ? '+' : '' }}{{ (pos.pnl_pct || 0).toFixed(1) }}%
+              </span>
+              <span v-if="pos.pe_data && pos.pe_data.pe_percentile_5y !== undefined"
+                class="pe-badge"
+                :class="pos.pe_data.pe_percentile_5y > 80 ? 'pe-high' : pos.pe_data.pe_percentile_5y < 30 ? 'pe-low' : 'pe-mid'">
+                PE {{ pos.pe_data.pe_percentile_5y.toFixed(0) }}%ile
+              </span>
+            </div>
           </div>
-          <div style="display:flex; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
-            <span style="font-size:12px; color:#606266;">{{ (pos.current_weight || 0).toFixed(1) }}% → {{ (pos.target_weight || 0).toFixed(1) }}%</span>
-            <span v-if="pos.build_strategy" class="strat-tag" :class="'strat-' + pos.build_strategy">{{ buildStrategyLabel(pos.build_strategy) }}</span>
-            <span v-if="pos.entry_price_range" style="font-size:12px; color:#409eff;">建仓价: {{ formatPrice(pos.entry_price_range) }}</span>
+          <!-- 行2: 仓位变动 + 调仓金额 + 时机 -->
+          <div class="rx-row2">
+            <span class="pos-change">{{ (pos.current_weight || 0).toFixed(1) }}% → {{ (pos.target_weight || 0).toFixed(1) }}%</span>
+            <span class="capital-amount">{{ formatMoney(calcCapital(pos)) }} 元</span>
+            <span v-if="pos.timing" class="timing-badge" :class="'timing-' + pos.timing">{{ timingLabel(pos.timing) }}</span>
+            <span v-if="pos.suggested_price" style="font-size:12px; color:#409eff;">参考价 {{ pos.suggested_price }}</span>
           </div>
-          <div class="reasoning-text">{{ pos.reasoning }}</div>
+          <!-- 行3: reasoning -->
+          <div v-if="pos.reasoning" class="reasoning-text" style="-webkit-line-clamp:3; display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden;">{{ pos.reasoning }}</div>
         </div>
       </div>
       <div v-else style="color:#909399; font-size:13px; margin-top:12px;">暂无处方明细</div>
@@ -239,6 +254,15 @@ function actionLabel(a: string): string {
 function buildStrategyLabel(s: string): string {
   const m: Record<string, string> = { immediate: '立即', batch: '分批', conditional: '条件' }
   return m[s] || s
+}
+function calcCapital(pos: any): number {
+  const total = overview.value?.total_assets || 0
+  const delta = (pos.target_weight || 0) - (pos.current_weight || 0)
+  return Math.abs(roundMoney(delta / 100 * total))
+}
+function timingLabel(t: string): string {
+  const m: Record<string, string> = { immediate: '立即建仓', batch: '分批建仓', conditional: '条件建仓', wait: '等待时机' }
+  return m[t] || t
 }
 
 function openIndustryDrawer(row: IndustryOverviewRow) {
@@ -384,4 +408,18 @@ onMounted(() => {
 .row-expanded { background: #f0f9eb; }
 .reasoning-row { background: #f9fbf9; }
 .reasoning-cell { padding: 10px 14px 10px 28px; font-size: 12px; color: #606266; line-height: 1.7; border-bottom: 1px solid #eee; }
+
+.rx-card { border: 1px solid #eee; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+.rx-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.rx-row2 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; font-size: 12px; }
+.pos-change { color: #606266; }
+.capital-amount { color: #303133; font-weight: 600; }
+.timing-badge { font-size: 11px; padding: 1px 6px; border-radius: 3px; }
+.timing-immediate { background: #fef0f0; color: #f56c6c; }
+.timing-batch { background: #fdf6ec; color: #e6a23c; }
+.timing-conditional, .timing-wait { background: #f0f5ff; color: #409eff; }
+.pe-badge { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+.pe-high { background: #fef0f0; color: #f56c6c; }
+.pe-low { background: #f0f9eb; color: #67c23a; }
+.pe-mid { background: #f5f7fa; color: #909399; }
 </style>
