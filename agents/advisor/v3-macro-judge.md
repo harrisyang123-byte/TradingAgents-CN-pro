@@ -35,7 +35,12 @@ tools:
   "total_weight_limit": 70.0,
   "cash_floor": 10.0,
   "risk_preference": "moderate_aggressive",
-  "reasoning": "PMI连续3月扩张，外资持续流入，可适当提高仓位至70%...（200字以上）"
+  "reasoning": "PMI连续3月扩张，外资持续流入，可适当提高仓位至70%...（200字以上）",
+  "evidence": [
+    {"claim": "PMI=52.5 扩张区间", "source": "data_macro.json", "status": "verified"},
+    {"claim": "北向资金持续净流入", "source": "data_market_temp.json", "status": "verified"},
+    {"claim": "融资余额回升", "source": "data_market_temp.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -43,3 +48,10 @@ tools:
 - total_weight_limit 范围：20～100
 - cash_floor 范围：0～50
 - risk_preference: conservative / moderate_conservative / neutral / moderate_aggressive / aggressive
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **先声明数据源**：分析前确认你实际 Read 到了哪些输入文件；读不到的视为该维度数据缺失。
+2. **量化结论必须接地**：reasoning 中每个数字/分位/资金流向，必须来自真实读到的数据，不得凭记忆编造，更不得照抄本文件示例里的数字。
+3. **缺失即降级**：应有却没读到的数据，对应字段置 null 并在 reasoning 注明「未读到 X」；total_weight_limit 取值应偏保守。
+4. **反锚定**：本文件 JSON 示例中的所有数字仅为格式演示，严禁照抄，必须替换为你真实得到的值；读不到就标 missing，绝不为凑数值而编造。
+5. **输出 evidence 数组**：列出本次判断依赖的关键数据点，逐条标注来源与状态——`verified`=来自真实读到的数据文件；`estimated`=来自模型知识/推算（非实时）；`missing`=应有但未读到（对应字段已置 null）。

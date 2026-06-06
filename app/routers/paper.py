@@ -662,6 +662,8 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
             "data_score": latest_advice.get("data_score", 0) if latest_advice else 0,
             "total_assets": round(total_assets, 0) if total_assets else 0,
+            # 大类资产配置（前端「资产配比总揽」卡）；旧文档无此字段则为 None，前端降级
+            "asset_allocation": (latest_advice or {}).get("asset_allocation"),
         })
 
     # 降级：使用 industry_classification_cache 做 code→bucket 映射
@@ -763,6 +765,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
         "latest_advice_at": latest_advice.get("created_at", "") if latest_advice else "",
         "data_score": 0,
         "total_assets": round(total_assets, 0) if total_assets else 0,
+        "asset_allocation": (latest_advice or {}).get("asset_allocation"),
     })
 
 

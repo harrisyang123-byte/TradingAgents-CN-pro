@@ -122,6 +122,7 @@ export interface AdviceItem {
   build_strategy?: 'immediate' | 'batch' | 'conditional'
   batch_plan?: Array<{ price: number; weight_pct: number; condition: string }>
   tier1_rating?: string
+  target_price?: string
   pe_percentile?: number
   pnl_pct?: number
   pe_data?: { pe_percentile_5y: number; [key: string]: any }
@@ -147,6 +148,25 @@ export interface StockCandidate {
   valuation?: string
 }
 
+export interface AssetAllocationItem {
+  asset_class: string // 股票/现金/债券/黄金/海外/其他
+  current_weight: number
+  target_weight: number | null // null = agent 未给目标（诚实降级，前端显示「未生成目标」）
+  delta: number | null
+  current_amount: number
+  target_amount: number | null
+  action: string // add/reduce/hold
+  reasoning: string
+}
+
+export interface AssetAllocation {
+  assets: AssetAllocationItem[]
+  stock_weight: number | null // 股票大类目标 = total_weight_limit 下传行业层
+  cash_floor: number | null
+  summary: string
+  has_targets: boolean // false = 仅现状聚合、无 agent 目标
+}
+
 export interface PortfolioAdvice {
   advice_id: string
   status: 'GENERATING' | 'RUNNING' | 'COMPLETED' | 'FAILED'
@@ -165,6 +185,8 @@ export interface PortfolioAdvice {
   risk_director_review?: string
   market_debate_history?: string
   stock_debate_history?: string
+  asset_debate_history?: string
+  asset_allocation?: AssetAllocation
   elapsed_seconds?: number
   created_at: string
   completed_at?: string
@@ -289,6 +311,8 @@ export const portfolioApi = {
       planned_count: number
       latest_advice_at: string
       data_score: number
+      total_assets?: number
+      asset_allocation?: AssetAllocation | null
     }>('/api/portfolio/overview')
   }
 }

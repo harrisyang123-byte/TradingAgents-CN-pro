@@ -26,6 +26,20 @@
           <div class="bubble-body" :class="bubble.roleClass">
             <div class="report-content" v-html="formatMarkdown(bubble.content)"></div>
           </div>
+
+          <!-- 数据凭据条：每条结论的取数状态 ✓ 已核实 / ~ 估算 / ✗ 缺失 -->
+          <div v-if="bubble.evidence && bubble.evidence.length" class="evidence-bar">
+            <span class="evidence-label">数据凭据</span>
+            <span
+              v-for="(ev, i) in bubble.evidence"
+              :key="i"
+              class="evidence-chip"
+              :class="evidenceFeature(ev.s).cls"
+              :title="(evidenceFeature(ev.s).label) + (ev.src ? ' · 来源：' + ev.src : '')"
+            >
+              <span class="ev-icon">{{ evidenceFeature(ev.s).icon }}</span>{{ ev.t }}
+            </span>
+          </div>
         </div>
 
         <!-- 右侧头像区 -->
@@ -76,107 +90,133 @@ const rawHistory = computed(() => {
 })
 
 // 解析气泡
+// 角色词表：ingest 的 _assemble_debates 按「角色名：内容」前缀输出，这里据此切气泡。
+// 长词在前，避免「裁判/反向者」等子串误匹配（行首锚定已基本规避，仍保守排序）。
+const ROLE_TOKENS = [
+  // 大类配置层（阶段2）
+  '战略配置师', '防御配置师', '大类裁判',
+  // 市场研判 L1
+  '宏观裁判', '跨行业裁判', '行业研究员', '行业反向者',
+  // 个股辩论 L3
+  '组合反向者', '持仓诊断', 'Scout候选', '激进PM', '保守PM', 'PM裁判',
+  // 综合裁决
+  '悲观风险总监', '乐观风险分析师', '风控裁判', '组合合成器',
+  // 兼容旧英文/中文角色名
+  'Bull Analyst', 'Bear Analyst', 'Aggressive Analyst', 'Conservative Analyst',
+  'Neutral Analyst', 'Research Manager', 'Manager Analyst', 'Fund Trader',
+  '多头分析师', '空头分析师', '激进分析师', '保守分析师', '中性分析师',
+  'Trader', 'Manager', '裁判', '分析师',
+]
+
 const parsedBubbles = computed(() => {
   const historyStr = rawHistory.value
   if (!historyStr) return []
 
-  // 尝试匹配常见的分析师发言开头格式
-  // 例如： "Bull Analyst: xxx" 或 "**Bear Analyst:** xxx"
-  const regex = /(?:^|\n)(?:\*\*)?(Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Research Manager|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]\s*([\s\S]*?)(?=(?:\n(?:\*\*)?(?:Bull Analyst|Bear Analyst|Aggressive Analyst|Conservative Analyst|Neutral Analyst|Research Manager|Manager Analyst|Fund Trader|Trader|裁判|多头分析师|空头分析师|激进分析师|保守分析师|中性分析师|分析师|Manager)(?:\*\*)?\s*[:：]|$))/gi
+  const tokens = ROLE_TOKENS.join('|')
+  // (?:^|\n) 角色名 [:：] 内容（非贪婪，直到下一个角色名行首或结尾）
+  const regex = new RegExp(
+    `(?:^|\\n)(?:\\*\\*)?(${tokens})(?:\\*\\*)?\\s*[:：]\\s*([\\s\\S]*?)(?=(?:\\n(?:\\*\\*)?(?:${tokens})(?:\\*\\*)?\\s*[:：]|$))`,
+    'gi'
+  )
 
   const bubbles = []
   let match
 
   while ((match = regex.exec(historyStr)) !== null) {
     const rawRole = match[1].trim()
-    const content = match[2].trim()
-
-    // 解析角色特征
+    let content = match[2].trim()
     const roleFeature = getRoleFeature(rawRole)
+
+    // 提取数据凭据标记行 __EVIDENCE__:<json>（ingest 追加在气泡正文尾部），渲染为 chip 条
+    const evidence = extractEvidence(content)
+    if (evidence.length) {
+      content = stripEvidence(content)
+    }
 
     bubbles.push({
       roleName: roleFeature.name,
       roleClass: roleFeature.className,
       icon: roleFeature.icon,
       alignment: roleFeature.alignment,
-      content: content
+      content: content,
+      evidence: evidence
     })
   }
 
   return bubbles
 })
 
-// 根据角色名称获取特征
+// 凭据标记：__EVIDENCE__:[{"t":"...","s":"verified|estimated|missing","src":"..."}]
+const EVIDENCE_RE = /__EVIDENCE__:(\[.*?\])\s*$/s
+
+interface EvidenceChip { t: string; s: string; src: string }
+
+function extractEvidence(content: string): EvidenceChip[] {
+  const m = content.match(EVIDENCE_RE)
+  if (!m) return []
+  try {
+    const arr = JSON.parse(m[1])
+    if (!Array.isArray(arr)) return []
+    return arr
+      .filter((e: any) => e && typeof e.t === 'string' && e.t.trim())
+      .map((e: any) => ({ t: String(e.t).trim(), s: String(e.s || 'estimated'), src: String(e.src || '') }))
+  } catch (e) {
+    return []
+  }
+}
+
+function stripEvidence(content: string): string {
+  return content.replace(EVIDENCE_RE, '').trim()
+}
+
+// 凭据状态 → 展示特征
+function evidenceFeature(status: string) {
+  if (status === 'verified') return { icon: '✓', cls: 'ev-verified', label: '已核实' }
+  if (status === 'missing') return { icon: '✗', cls: 'ev-missing', label: '数据缺失' }
+  return { icon: '~', cls: 'ev-estimated', label: '估算' }
+}
+
+// 根据角色名称获取特征（左=进攻/多头 绿，右=避险/空头 红，中=裁判 紫）
 function getRoleFeature(rawRole: string) {
   const roleLower = rawRole.toLowerCase()
 
-  // 多头特征 (左侧，绿色)
-  if (roleLower.includes('bull') || roleLower.includes('多头')) {
-    return {
-      name: rawRole,
-      className: 'role-bull',
-      icon: '🐂',
-      alignment: 'left'
-    }
+  // 激进 (左侧，橙红) — 先于多头判定
+  if (roleLower.includes('aggressive') || rawRole.includes('激进')) {
+    return { name: rawRole, className: 'role-aggressive', icon: '⚡', alignment: 'left' }
   }
 
-  // 空头特征 (右侧，红色)
-  if (roleLower.includes('bear') || roleLower.includes('空头')) {
-    return {
-      name: rawRole,
-      className: 'role-bear',
-      icon: '🐻',
-      alignment: 'right'
-    }
+  // 保守 (右侧，蓝) — 先于空头判定
+  if (roleLower.includes('conservative') || rawRole.includes('保守')) {
+    return { name: rawRole, className: 'role-conservative', icon: '🛡️', alignment: 'right' }
   }
 
-  // 激进特征 (左侧，橙红)
-  if (roleLower.includes('aggressive') || roleLower.includes('激进')) {
-    return {
-      name: rawRole,
-      className: 'role-aggressive',
-      icon: '⚡',
-      alignment: 'left'
-    }
+  // 多头/进攻/研究员/战略/乐观/Scout (左侧，绿色)
+  if (roleLower.includes('bull') || rawRole.includes('多头') || rawRole.includes('研究员')
+      || rawRole.includes('战略配置') || rawRole.includes('乐观')
+      || roleLower.includes('scout') || rawRole.includes('候选')) {
+    return { name: rawRole, className: 'role-bull', icon: '🐂', alignment: 'left' }
   }
 
-  // 保守特征 (右侧，蓝绿)
-  if (roleLower.includes('conservative') || roleLower.includes('保守')) {
-    return {
-      name: rawRole,
-      className: 'role-conservative',
-      icon: '🛡️',
-      alignment: 'right'
-    }
+  // 空头/反向者/防御/悲观 (右侧，红色)
+  if (roleLower.includes('bear') || rawRole.includes('空头') || rawRole.includes('反向者')
+      || rawRole.includes('防御配置') || rawRole.includes('悲观')) {
+    return { name: rawRole, className: 'role-bear', icon: '🐻', alignment: 'right' }
   }
 
-  // 中性特征 (居中偏左，灰色)
-  if (roleLower.includes('neutral') || roleLower.includes('中性')) {
-    return {
-      name: rawRole,
-      className: 'role-neutral',
-      icon: '⚖️',
-      alignment: 'left'
-    }
+  // 中性 (左侧，灰色)
+  if (roleLower.includes('neutral') || rawRole.includes('中性')) {
+    return { name: rawRole, className: 'role-neutral', icon: '⚖️', alignment: 'left' }
   }
 
-  // 管理者/裁判 (居中，紫色)
-  if (roleLower.includes('manager') || roleLower.includes('裁判') || roleLower.includes('trader')) {
-    return {
-      name: rawRole,
-      className: 'role-manager',
-      icon: '👨‍⚖️',
-      alignment: 'center'
-    }
+  // 管理者/裁判/宏观/合成器/诊断/大类 (居中，紫色)
+  if (roleLower.includes('manager') || roleLower.includes('trader') || roleLower.includes('synthesizer')
+      || rawRole.includes('裁判') || rawRole.includes('宏观') || rawRole.includes('合成器')
+      || rawRole.includes('诊断') || rawRole.includes('大类')) {
+    return { name: rawRole, className: 'role-manager', icon: '👨‍⚖️', alignment: 'center' }
   }
 
   // 默认 (左侧，蓝色)
-  return {
-    name: rawRole,
-    className: 'role-default',
-    icon: '👤',
-    alignment: 'left'
-  }
+  return { name: rawRole, className: 'role-default', icon: '👤', alignment: 'left' }
 }
 
 // 格式化 Markdown
@@ -313,5 +353,58 @@ function formatMarkdown(text: string) {
   padding: 20px;
   border-radius: 12px;
   border: 1px solid var(--el-border-color);
+}
+
+/* 数据凭据条 */
+.evidence-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
+.evidence-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-right: 2px;
+}
+
+.evidence-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: default;
+
+  .ev-icon {
+    font-weight: 700;
+  }
+
+  &.ev-verified {
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #a7f3d0;
+  }
+
+  &.ev-estimated {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fde68a;
+  }
+
+  &.ev-missing {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+    text-decoration: line-through;
+    text-decoration-color: rgba(185, 28, 28, 0.4);
+  }
 }
 </style>

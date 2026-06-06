@@ -6,8 +6,8 @@
 // args:
 //   dataDir       数据目录（必需）
 //   user_id       用户 ID
-//   from          从某段强制重跑到结尾   (macro|industry|scout|portfolio|pm|synth)
-//   only          只跑某段（调试）       (macro|industry|scout|portfolio|pm|synth)
+//   from          从某段强制重跑到结尾   (macro|asset|industry|scout|portfolio|pm|synth)
+//   only          只跑某段（调试）       (macro|asset|industry|scout|portfolio|pm|synth)
 //   refresh       强制失效某段并重跑 + 下游；"industry:<行业名>" 只刷单个行业
 //   full          忽略全部缓存，从头全跑
 //   total_weight_limit / cash_floor / max_single_weight / max_industry_weight  约束覆盖
@@ -17,6 +17,7 @@ export const meta = {
   description: 'v3 增量编排器 — 宏观/行业/Scout/组合诊断/PM/合成，按阶段缓存跳过',
   phases: [
     { title: '宏观裁判' },
+    { title: '大类配置' },
     { title: '行业研究' },
     { title: 'Scout标的侦察' },
     { title: '组合层诊断' },
@@ -30,17 +31,29 @@ const dataDir = args.dataDir || args.data_dir;
 const userId = args.user_id || args.userId || '6a094caea814b57d3357fa0b';
 const fromStage = args.from || null;
 const onlyStage = args.only || null;
-const refresh = args.refresh || null;        // "macro"|"industry"|"scout"|"portfolio"|"pm"|"synth"|"industry:<名>"
+const refresh = args.refresh || null;        // "macro"|"asset"|"industry"|"scout"|"portfolio"|"pm"|"synth"|"industry:<名>"
 const full = !!args.full;
 const maxIndustryWeight = args.max_industry_weight || 30;
 const maxSingle = args.max_single_weight || 30;
 
-const STAGES = ['macro', 'industry', 'scout', 'portfolio', 'pm', 'synth'];
+const STAGES = ['macro', 'asset', 'industry', 'scout', 'portfolio', 'pm', 'synth'];
+
+// ── 统一「数据接地与凭据」契约（注入每个 agent 提示，直接决定输出质量与前端凭据条）──
+// 注意：本工作流的内联提示是「操作性事实源」；agents/advisor/v3-*.md 为同源规格文档，二者须同步。
+const GROUNDING = `
+
+数据接地与凭据（强制）：
+- 每个量化结论（数字/分位/资金流向/估值）必须来自你真实 Read 到的数据；读不到就把对应字段置 null 并在 reasoning 注明「未读到 X」，严禁编造，也不得套用本提示里出现的任何示例数字。
+- 额外输出 evidence 数组：[{"claim":"本次判断依赖的关键数据点","source":"来源文件名 或 llm_knowledge","status":"verified|estimated|missing"}]；verified=来自真实读到的数据文件，estimated=模型知识/推算（非实时），missing=应有但未读到。`;
+
+const GROUNDING_CHALLENGE = GROUNDING + `
+- 每条挑战/反驳都必须在 evidence 里给出数据支撑；纯主观、无数据支撑的挑战不计入，宁可少挑战也不空泛开火。`;
 
 // 每段缓存配置：out 产物、ttl 天（<=0 表示永不缓存）、inputs 指纹输入
 const CACHE = {
   macro:     { out: 'macro_verdict.json',        ttl: 1, inputs: ['data_macro.json', 'data_market_temp.json'] },
-  industry:  { out: 'industry_allocations.json', ttl: 7, inputs: ['macro_verdict.json', 'industry_list.json'] },
+  asset:     { out: 'asset_allocation.json',     ttl: 1, inputs: ['macro_verdict.json', 'data_portfolio.json', 'data_market_temp.json'] },
+  industry:  { out: 'industry_allocations.json', ttl: 7, inputs: ['macro_verdict.json', 'asset_allocation.json', 'industry_list.json'] },
   scout:     { out: 'step4_scout.json',          ttl: 7, inputs: ['industry_allocations.json', 'data_portfolio.json'] },
   portfolio: { out: 'portfolio_diagnosis.json',  ttl: 0, inputs: ['data_portfolio.json', 'industry_allocations.json'] },
   pm:        { out: 'pm_results.json',            ttl: 0, inputs: ['industry_allocations.json', 'step4_scout.json', 'data_portfolio.json'] },
@@ -104,13 +117,71 @@ async function runMacro() {
   const macroResult = await agent(
     `Read ${p('data_macro.json')} and ${p('data_market_temp.json')}. \
 Perform as Macro Judge. Determine current risk environment and total_weight_limit. \
-Output JSON with keys: risk_environment, total_weight_limit (number %), cash_floor (number %), reasoning.`,
+Output JSON with keys: risk_environment, total_weight_limit (number %), cash_floor (number %), reasoning.${GROUNDING}`,
     { label: '宏观裁判', phase: '宏观裁判' }
   );
   await Bash(`cat > ${p('macro_verdict.json')} << 'ENDJSON'
 ${JSON.stringify(macroResult, null, 2)}
 ENDJSON`);
   log(`宏观裁判完成: total_weight_limit=${macroResult.total_weight_limit || 70}%`);
+}
+
+// Step 0.5: 大类资产配置辩论（战略配置师 → 防御配置师 → 大类裁判）
+// 产出 asset_allocation.json：6 大类现状→目标 + 股票额度(stock_weight) 下传行业层 total_weight_limit。
+async function runAsset() {
+  phase('大类配置');
+  log('运行大类资产配置辩论...');
+
+  // 战略配置师（进攻）
+  const strategist = await agent(
+    `Read ${p('data_portfolio.json')}, ${p('macro_verdict.json')}, ${p('data_macro.json')}, ${p('data_market_temp.json')}. \
+You are the Asset Strategist (进攻/aggressive) of the asset-allocation layer. \
+Across 6 asset classes (现金/债券/股票/黄金/海外/其他), classify holdings BY LOOK-THROUGH \
+(基金按底层穿透：黄金ETF→黄金；QDII/纳指/标普/恒生→海外；国债/债基/货基→债券；A股个股及行业/宽基ETF→股票；现金/逆回购→现金), \
+compute current per-class weights, then propose an AGGRESSIVE target allocation (加股票/黄金对冲/压现金). \
+Output JSON keys: stance, current_allocation:[{asset_class,current_weight}], \
+proposed_allocation:[{asset_class,target_weight,reasoning}], reasoning. \
+约束：proposed target_weight 之和=100；现金 target ≥ macro_verdict.cash_floor。${GROUNDING}`,
+    { label: '战略配置师', phase: '大类配置' }
+  );
+  await Bash(`cat > ${p('asset_strategist.json')} << 'ENDJSON'
+${JSON.stringify(strategist, null, 2)}
+ENDJSON`);
+  log('战略配置师完成');
+
+  // 防御配置师（避险）— 挑战战略师
+  const defender = await agent(
+    `Read ${p('asset_strategist.json')} first, then ${p('data_portfolio.json')}, ${p('macro_verdict.json')}, \
+${p('data_macro.json')}, ${p('data_market_temp.json')}. \
+You are the Asset Defender (避险/defensive). Challenge the strategist's aggressive tilt (指数点位/PMI/量价背离/估值分位), \
+then propose a DEFENSIVE target allocation across the same 6 asset classes (保现金/债券压舱/控股票上限/降海外beta). \
+Output JSON keys: stance, challenge, proposed_allocation:[{asset_class,target_weight,reasoning}], reasoning. \
+约束：proposed target_weight 之和=100；现金 target ≥ macro_verdict.cash_floor 且通常高于战略师。${GROUNDING_CHALLENGE}`,
+    { label: '防御配置师', phase: '大类配置' }
+  );
+  await Bash(`cat > ${p('asset_defender.json')} << 'ENDJSON'
+${JSON.stringify(defender, null, 2)}
+ENDJSON`);
+  log('防御配置师完成');
+
+  // 大类裁判 — 综合两方，输出最终配比 + 股票额度下传
+  const judge = await agent(
+    `Read ${p('asset_strategist.json')}, ${p('asset_defender.json')}, ${p('macro_verdict.json')}, ${p('data_portfolio.json')}. \
+You are the Asset Judge. Reconcile strategist vs defender into a FINAL 6-class allocation (有依据的折中，非机械平均). \
+Output JSON keys: assets:[{asset_class,current_weight,target_weight,action,reasoning}], stock_weight, cash_floor, summary. \
+硬约束：assets 各 target_weight 之和=100；现金 target ≥ macro_verdict.cash_floor；股票 target ≤ macro_verdict.total_weight_limit；\
+stock_weight 必须等于 股票 大类的 target_weight（下传行业层作 total_weight_limit）；\
+action ∈ add/reduce/hold（按 target vs current）。${GROUNDING}`,
+    { label: '大类裁判', phase: '大类配置' }
+  );
+  await Bash(`cat > ${p('asset_allocation.json')} << 'ENDJSON'
+${JSON.stringify(judge, null, 2)}
+ENDJSON`);
+  const sw = judge && judge.stock_weight != null
+    ? judge.stock_weight
+    : (Array.isArray(judge?.assets) ? (judge.assets.find((a) => a.asset_class === '股票') || {}).target_weight : null);
+  log(`大类配置完成: 股票额度=${sw != null ? sw : '?'}% 下传行业层`);
+  return { status: 'done', stock_weight: sw };
 }
 
 // Step 1-2: 并行行业研究员 + 反向者（按行业增量）+ 跨行业裁判
@@ -152,7 +223,9 @@ async function runIndustry() {
         const result = await agent(
           `Read ${p('macro_verdict.json')} first. \
 You are the chief industry researcher for ${ind}. \
-Read and analyze available data, then output your judgment as JSON.`,
+Read and analyze available data (景气打分/资金流向/PE分位/宏观背景/近7天新闻政策), then output your judgment as JSON \
+with keys: industry, go_nogo (Go/NoGo/观察), vitality_level (强烈看好/看好/中性/看空), lifecycle, \
+valuation_assessment, market (cn/hk/us), key_drivers:[], key_risks:[], reasoning (>=200字).${GROUNDING}`,
           { label: `研究员:${ind}`, phase: '行业研究' }
         );
         await Bash(`cat > ${p(`researcher_${sn}.json`)} << 'ENDJSON'
@@ -166,7 +239,9 @@ ENDJSON`);
         const { industry: ind, sn } = prev;
         const result = await agent(
           `Read ${p(`researcher_${sn}.json`)}. \
-You are the contrarian. Challenge the researcher's conclusions for ${ind}. Output JSON.`,
+You are the contrarian. Challenge the researcher's conclusions for ${ind}. \
+Output JSON with keys: challenges:[{point, severity, suggested_adjustment}], overall_assessment, \
+suggested_vitality_level, suggested_go_nogo.${GROUNDING_CHALLENGE}`,
           { label: `反向者:${ind}`, phase: '行业研究' }
         );
         await Bash(`cat > ${p(`contrarian_${sn}.json`)} << 'ENDJSON'
@@ -194,7 +269,12 @@ ENDJSON`);
 
   // 跨行业配置裁判（每次都跑——相对便宜）
   phase('行业研究');
-  const totalLimit = await readNum('macro_verdict.json', 'total_weight_limit', args.total_weight_limit || 70);
+  // total_weight_limit 优先取大类裁判的股票额度（asset_allocation.stock_weight），
+  // 缺失时回退宏观裁判 total_weight_limit（向后兼容无 asset 阶段的旧 run）。
+  let totalLimit = await readNum('asset_allocation.json', 'stock_weight', 0);
+  if (!totalLimit) {
+    totalLimit = await readNum('macro_verdict.json', 'total_weight_limit', args.total_weight_limit || 70);
+  }
   log('运行跨行业配置裁判...');
   const crossResult = await agent(
     `Read ${p('all_researchers.json')} and ${p('macro_verdict.json')}. \
@@ -212,7 +292,7 @@ Max single industry ${maxIndustryWeight}%.
 5. 所有行业 final_weight 之和应 ≤ ${totalLimit}%。
 
 Output a JSON array; each item: \
-{industry, go_nogo, stance, vitality_level, market, final_weight, reasoning}.`,
+{industry, go_nogo, stance, vitality_level, market, final_weight, reasoning}.${GROUNDING}`,
     { label: '跨行业配置裁判', phase: '行业研究' }
   );
   await Bash(`cat > ${p('industry_allocations.json')} << 'ENDJSON'
@@ -262,7 +342,7 @@ for real constituent & financial data; if tools fail, fall back to your knowledg
 4. 每只带 6 维 scores（含 total）、financial_data、catalyst、top_risks、recommendation_level。
 5. 不推荐用户已重仓(>10%)的标的；现持仓标的可标 is_holding=true 供 PM 决定加减。
 
-Output JSON: {search_scope, candidates:[...], market_cap_distribution}.`,
+Output JSON: {search_scope, candidates:[...], market_cap_distribution}.${GROUNDING}`,
     { label: 'Scout标的侦察', phase: 'Scout标的侦察' }
   );
   await Bash(`cat > ${p('step4_scout.json')} << 'ENDJSON'
@@ -296,7 +376,7 @@ You are the v3 组合层持仓诊断师. Produce a TWO-level diagnosis and outpu
 JSON shape: {holdings_assessment:[{code,name,current_weight,industry,industry_stance,pe_percentile_5y,valuation_status,safety_margin,assessment,contradictions:[],reasoning}], \
 concentration:{hhi,hhi_risk,top5_weight,max_single_weight,max_single_code,findings:[]}, \
 consistency_risks:[{type,severity,description,affected_codes:[],potential_impact}], \
-hidden_exposures:[], reduce_candidates:[{code,name,current_weight,reason,suggested_action}], diagnosis_summary}`,
+hidden_exposures:[], reduce_candidates:[{code,name,current_weight,reason,suggested_action}], diagnosis_summary}${GROUNDING}`,
     { label: '持仓诊断师', phase: '组合层诊断' }
   );
   await Bash(`cat > ${p('portfolio_diagnosis.json')} << 'ENDJSON'
@@ -314,7 +394,7 @@ and 该留没留 (analyst said 清仓 but it's a wrongly-killed good stock). At 
 Each challenge needs argument + suggested_adjustment.
 
 Output JSON: {challenges:[{code,name,analyst_assessment,my_view,argument,suggested_adjustment}], \
-missed_reductions:[{code,name,reason}], concentration_challenge, contrarian_summary}.`,
+missed_reductions:[{code,name,reason}], concentration_challenge, contrarian_summary}.${GROUNDING_CHALLENGE}`,
     { label: '组合反向者', phase: '组合层诊断' }
   );
   await Bash(`cat > ${p('portfolio_contrarian.json')} << 'ENDJSON'
@@ -381,7 +461,7 @@ print('行业 ${indName}: %d 个候选' % len(cands))
       const indName = ind.industry, sn = safeName(indName), fw = ind.final_weight;
       const result = await agent(
         `Read ${p(`candidates_${sn}.json`)} first, then ${p('industry_allocations.json')}. \
-Perform as Aggressive PM for ${indName} industry with ${fw}% quota, max single ${maxSingle}%. Output JSON.`,
+Perform as Aggressive PM for ${indName} industry with ${fw}% quota, max single ${maxSingle}%. Output JSON.${GROUNDING}`,
         { label: `激进:${indName}`, phase: 'PM辩论' }
       );
       await Bash(`cat > ${p(`aggressive_pm_${sn}.json`)} << 'ENDJSON'
@@ -394,7 +474,7 @@ ENDJSON`);
       const { industry: indName, sn, final_weight: fw } = prev;
       const result = await agent(
         `Read ${p(`candidates_${sn}.json`)} and ${p(`aggressive_pm_${sn}.json`)}. \
-Challenge the aggressive PM's plan. Output your conservative plan for ${indName} with ${fw}% quota as JSON.`,
+Challenge the aggressive PM's plan. Output your conservative plan for ${indName} with ${fw}% quota as JSON.${GROUNDING_CHALLENGE}`,
         { label: `保守:${indName}`, phase: 'PM辩论' }
       );
       await Bash(`cat > ${p(`conservative_pm_${sn}.json`)} << 'ENDJSON'
@@ -407,7 +487,7 @@ ENDJSON`);
       const { industry: indName, sn, final_weight: fw } = prev;
       const result = await agent(
         `Read ${p(`candidates_${sn}.json`)}, ${p(`aggressive_pm_${sn}.json`)}, ${p(`conservative_pm_${sn}.json`)}. \
-You are the PM Judge. Synthesize both PMs' opinions. Final allocation for ${indName}, ${fw}% quota. Output JSON.`,
+You are the PM Judge. Synthesize both PMs' opinions. Final allocation for ${indName}, ${fw}% quota. Output JSON.${GROUNDING}`,
         { label: `裁判:${indName}`, phase: 'PM辩论' }
       );
       pmResults.push({ industry: indName, result });
@@ -427,7 +507,8 @@ ENDJSON`);
 async function runSynth() {
   phase('风控合成');
 
-  const totalLimit = await readNum('macro_verdict.json', 'total_weight_limit', args.total_weight_limit || 100);
+  const totalLimit = (await readNum('asset_allocation.json', 'stock_weight', 0))
+    || (await readNum('macro_verdict.json', 'total_weight_limit', args.total_weight_limit || 100));
   const cashFloor = await readNum('macro_verdict.json', 'cash_floor', args.cash_floor || 0);
 
   // ── 风控规则引擎（纯 Python）+ 违规重做闭环 ──────────────────
@@ -538,7 +619,7 @@ ENDJSON`);
   phase('风控合成');
   const pessimist = await agent(
     `Read ${p('pm_results.json')} and ${p('data_exposure.json')} (if exists). \
-Perform as Pessimist Risk Director. Find worst-case scenarios. Output JSON.`,
+Perform as Pessimist Risk Director. Find worst-case scenarios. Output JSON.${GROUNDING_CHALLENGE}`,
     { label: '悲观风险总监', phase: '风控合成' }
   );
   await Bash(`cat > ${p('pessimist_risk.json')} << 'ENDJSON'
@@ -547,7 +628,7 @@ ENDJSON`);
 
   const optimist = await agent(
     `Read ${p('pm_results.json')} and ${p('pessimist_risk.json')}. \
-Challenge the pessimist's assumptions. Output JSON.`,
+Challenge the pessimist's assumptions. Output JSON.${GROUNDING_CHALLENGE}`,
     { label: '乐观风险分析师', phase: '风控合成' }
   );
   await Bash(`cat > ${p('optimist_risk.json')} << 'ENDJSON'
@@ -556,7 +637,7 @@ ENDJSON`);
 
   const riskVerdict = await agent(
     `Read ${p('pm_results.json')}, ${p('pessimist_risk.json')}, ${p('optimist_risk.json')}. \
-You are the Risk Judge. Synthesize both views into a final RiskAssessment. Output JSON.`,
+You are the Risk Judge. Synthesize both views into a final RiskAssessment. Output JSON.${GROUNDING}`,
     { label: '风控裁判', phase: '风控合成' }
   );
   await Bash(`cat > ${p('risk_assessment.json')} << 'ENDJSON'
@@ -608,14 +689,16 @@ C) ${p('capital_plan.json')} — 组合级资金分配（**只产权重，金额
     ]}
    ⚠️ 不要自己算任何金额：total_assets / invested_amount / cash_amount / 各 allocation 的
    current_amount·target_amount·delta_amount 全部由 ingest_advice.py 用真实 total_assets 统一计算。
-   本阶段只需给出权重(%) 与 action（action ∈ buy/add/clear/reduce/hold）。`,
+   本阶段只需给出权重(%) 与 action（action ∈ buy/add/clear/reduce/hold）。
+
+数据接地（强制）：你只对账、不做新判断。matrix / prescription 里的每个数字都必须可追溯到上游产物（industry_allocations / pm_results / portfolio_diagnosis / data_portfolio），严禁引入上游没有的新数字或新标的；每条 reasoning / risk_note 注明依据来自哪个上游产物；constraint_chain_valid 与 violations 必须基于真实数字校验，不得为「看起来对」而置 true。`,
     { label: 'Portfolio Synthesizer', phase: '风控合成' }
   );
   log('Portfolio Synthesizer 完成');
   return { status: 'done', violations: 0 };
 }
 
-const RUNNERS = { macro: runMacro, industry: runIndustry, scout: runScout, portfolio: runPortfolio, pm: runPm, synth: runSynth };
+const RUNNERS = { macro: runMacro, asset: runAsset, industry: runIndustry, scout: runScout, portfolio: runPortfolio, pm: runPm, synth: runSynth };
 
 // ── 编排：决定每段跑/跳 ──────────────────────────────────────
 const fromIdx = fromStage ? STAGES.indexOf(fromStage) : 0;

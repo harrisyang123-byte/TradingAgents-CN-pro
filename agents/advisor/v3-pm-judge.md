@@ -50,7 +50,11 @@ tools:
   ],
   "total_allocated": 18.0,
   "quota_remaining": 7.0,
-  "confidence": 75
+  "confidence": 75,
+  "evidence": [
+    {"claim": "Tier1估值区间", "source": "candidates_{industry}.json", "status": "verified"},
+    {"claim": "激进/保守PM分歧点", "source": "aggressive_pm_{industry}.json/conservative_pm_{industry}.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -58,3 +62,9 @@ tools:
 - 所有 position 的 target_weight 加总 = total_allocated，不超过 {final_weight}%
 - 单标的不超过 {max_single}%
 - 每个 position 的 reasoning 必须标注引用了激进PM还是保守PM的观点
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **凭据透传**：最终配仓依据来自激进/保守PM方案与候选原始数据；不得引入两方都没提过的、无依据的新数字。
+2. **买入区间接地**：entry_price_range 必须取 Tier1 估值 ∩ PE 分位的真实交集；读不到则标 missing 并偏保守。
+3. **反锚定**：本文件 JSON 示例中的代码/数字仅为格式演示，严禁照抄，必须替换为真实数据。
+4. **输出 evidence 数组**：列出裁决依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

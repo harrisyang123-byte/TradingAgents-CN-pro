@@ -77,7 +77,12 @@ tools:
   "reduce_candidates": [
     {"code": "159509", "name": "纳指ETF", "current_weight": 18.4, "reason": "行业低配+集中度过高", "suggested_action": "reduce"}
   ],
-  "diagnosis_summary": "200字组合健康度总结——集中在哪、矛盾在哪、该减谁"
+  "diagnosis_summary": "200字组合健康度总结——集中在哪、矛盾在哪、该减谁",
+  "evidence": [
+    {"claim": "各标的现持仓权重", "source": "data_portfolio.json", "status": "verified"},
+    {"claim": "HHI=0.12 集中度", "source": "data_exposure.json", "status": "verified"},
+    {"claim": "行业stance(超配/低配)", "source": "industry_allocations.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -87,3 +92,10 @@ tools:
 - `reduce_candidates` 列出所有 assessment ∈ {建议减仓, 建议清仓} 的标的——这是 Synthesizer 减仓的直接依据
 - 集中度数据优先引用 data_exposure.json；缺失时从持仓权重自算并标注 "estimated"
 - 每项 consistency_risk 必须有 potential_impact（不只说有风险，要说会怎样）
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **先声明数据源**：分析前确认你实际 Read 到了哪些输入文件；读不到的视为该维度数据缺失。
+2. **逐只评估必须接地**：每只持仓的 PE 分位/估值/集中度数字必须来自真实读到的数据；自算的集中度标 "estimated"，不得照抄本文件示例里的数字。
+3. **缺失即降级**：标的数据不足时，assessment 偏保守（持有但警惕），并在 reasoning 注明缺哪项数据。
+4. **反锚定**：本文件 JSON 示例中的代码/名称/数字仅为格式演示，严禁照抄，必须替换为真实持仓与数据。
+5. **输出 evidence 数组**：列出诊断整体依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=自算/推算；`missing`=应有但未读到。

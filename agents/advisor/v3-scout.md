@@ -83,7 +83,12 @@ tools:
       "reasoning": "评分依据的详细说明（80-120字）..."
     }
   ],
-  "market_cap_distribution": {"large_cap_pct": 60, "mid_small_cap_pct": 40}
+  "market_cap_distribution": {"large_cap_pct": 60, "mid_small_cap_pct": 40},
+  "evidence": [
+    {"claim": "行业成分股+财务数据(ROE/营收增速)", "source": "akshare:get_industry_constituents/get_financial_summary", "status": "verified"},
+    {"claim": "PE分位35%", "source": "data_pe.json", "status": "verified"},
+    {"claim": "Tier1深度评级", "source": "data_tier1.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -100,3 +105,10 @@ tools:
 - 不推荐用户已重仓（>10%）的标的，但可标注现持仓标的（is_holding=true）供 PM 决定加减
 - 不搜索低配/NoGo 行业
 - total ≥ 35 → 强烈推荐；≥ 28 → 推荐；≥ 20 → 观察；< 20 → 淘汰
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **先声明数据源**：分析前确认 market_tools / data_pe / data_tier1 哪些可用；工具不可用时候选的 `data_source` 必须标 "llm_knowledge"，不得伪装成 akshare。
+2. **量化结论必须接地**：每只候选的 scores 与 financial_data 必须来自真实读到的数据；读不到就置 null 并降低 recommendation_level，不得照抄本文件示例里的数字。
+3. **缺失即降级**：财务数据缺失的候选，valuation 标「数据不足」并下调评分，不得凭印象给高分。
+4. **反锚定**：本文件 JSON 示例中的代码/名称/数字仅为格式演示，严禁照抄，必须替换为你真实查到的标的与数据。
+5. **输出 evidence 数组**：列出候选池整体依赖的关键数据来源，逐条标注状态——`verified`=akshare/真实数据文件；`estimated`=模型知识；`missing`=应有但未读到。

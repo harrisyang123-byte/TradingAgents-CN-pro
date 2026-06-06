@@ -96,6 +96,46 @@ def _action_from_delta(current: float, target: float) -> str:
     return "hold"
 
 
+def _target_price_str(v: Any) -> str:
+    """目标价 → 字符串；区间 [lo,hi]/{low,high} → 'lo-hi'；缺失 → ''（前端显示「未给目标价」）。"""
+    if v is None or v == "":
+        return ""
+    if isinstance(v, dict):
+        lo, hi = v.get("low"), v.get("high")
+        if lo is not None and hi is not None:
+            return f"{lo}-{hi}"
+        return str(lo if lo is not None else hi or "")
+    if isinstance(v, (list, tuple)) and len(v) >= 2:
+        return f"{v[0]}-{v[1]}"
+    return str(v)
+
+
+# ── 大类资产（asset class）穿透分类 ───────────────────────────
+# 6 大类口径（与 mockup / plan §0 一致）：股票 / 现金 / 债券 / 黄金 / 海外 / 其他。
+# 基金按底层资产穿透归类，不看产品形态。
+ASSET_CLASSES = ["股票", "现金", "债券", "黄金", "海外", "其他"]
+
+
+def _asset_class_of(code: str, name: str, industry: str) -> str:
+    """把一只持仓穿透归到 6 大类之一（关键词优先级：现金→黄金→海外→债券→默认股票）。"""
+    s = f"{name or ''} {industry or ''}".strip()
+    c = str(code or "").strip().upper()
+    if c in ("CASH", "现金") or "现金" in s or "逆回购" in s:
+        return "现金"
+    # 黄金：先于海外（黄金类基金常为 A 股 ETF，不应被海外关键词截走）
+    if "黄金" in s or "金ETF" in s or industry.strip() == "黄金":
+        return "黄金"
+    # 海外(QDII)：底层为境外权益
+    for kw in ("QDII", "海外", "纳指", "纳斯达克", "标普", "标普500", "恒生", "港股", "美股", "境外", "全球"):
+        if kw in s:
+            return "海外"
+    # 债券/固收
+    for kw in ("债", "国债", "信用债", "利率债", "可转债", "货币", "货基", "固收", "纯债"):
+        if kw in s:
+            return "债券"
+    return "股票"
+
+
 # 入池来源白名单：前端按此渲染来源小标签（holding/watchlist/vitality）。
 # LLM 有时会把「分析链路描述」（如 "L1研究员+跨行业裁判+风险总监"）写进 source，
 # 直接透传会让前端把整串文字当标签渲染。非白名单值一律归一为 holding。
@@ -154,6 +194,81 @@ def _build_vitality_lookup(data_dir: Path) -> Dict[str, str]:
     return lookup
 
 
+def _build_asset_allocation(
+    data_dir: Path,
+    total_assets: float,
+    available_cash: float,
+    portfolio: Dict[str, Any],
+) -> Dict[str, Any]:
+    """组装大类资产配置（前端「资产配比总揽」卡）。
+
+    现状权重：从真实持仓穿透聚合（不靠 agent 估算）。
+    目标权重：取大类裁判 asset_allocation.json（agent 产出）；缺失则 target=None，
+              前端降级只显示现状条，不编造目标值（诚实原则）。
+    """
+    positions = portfolio.get("positions", []) or []
+    # 现状：按 6 大类穿透聚合持仓权重
+    cur_by_class: Dict[str, float] = {k: 0.0 for k in ASSET_CLASSES}
+    for pos in positions:
+        if not isinstance(pos, dict):
+            continue
+        w = pos.get("current_weight", pos.get("weight"))
+        try:
+            w = float(w)
+        except (TypeError, ValueError):
+            continue
+        cls = _asset_class_of(pos.get("code", ""), pos.get("name", ""), pos.get("industry", ""))
+        cur_by_class[cls] = cur_by_class.get(cls, 0.0) + w
+    # 现金现状：用真实可用现金口径（覆盖穿透值，避免持仓里无现金项时为 0）
+    if total_assets:
+        cur_by_class["现金"] = round(available_cash / total_assets * 100, 2)
+
+    # 目标：大类裁判输出
+    judge = _load(data_dir / "asset_allocation.json", {}) or {}
+    tgt_rows = judge.get("assets", []) if isinstance(judge, dict) else (judge or [])
+    tgt_by_class: Dict[str, Dict[str, Any]] = {}
+    for r in tgt_rows:
+        if isinstance(r, dict) and r.get("asset_class"):
+            tgt_by_class[str(r["asset_class"]).strip()] = r
+
+    assets_out: List[Dict[str, Any]] = []
+    for cls in ASSET_CLASSES:
+        cur = round(cur_by_class.get(cls, 0.0), 2)
+        tr = tgt_by_class.get(cls)
+        tgt = None
+        if tr is not None and tr.get("target_weight") is not None:
+            try:
+                tgt = round(float(tr["target_weight"]), 2)
+            except (TypeError, ValueError):
+                tgt = None
+        # 现状与目标都为 0/缺失 → 跳过（避免「其他」空行）
+        if cur <= 0 and tgt in (None, 0):
+            continue
+        delta = round(tgt - cur, 2) if tgt is not None else None
+        assets_out.append({
+            "asset_class": cls,
+            "current_weight": cur,
+            "target_weight": tgt,
+            "delta": delta,
+            "current_amount": _round_money(cur / 100.0 * total_assets),
+            "target_amount": _round_money(tgt / 100.0 * total_assets) if tgt is not None else None,
+            "action": (tr or {}).get("action") or (
+                _action_from_delta(cur, tgt) if tgt is not None else "hold"
+            ),
+            "reasoning": (tr or {}).get("reasoning", ""),
+        })
+
+    stock_weight = judge.get("stock_weight") if isinstance(judge, dict) else None
+    return {
+        "assets": assets_out,
+        "stock_weight": stock_weight,
+        "cash_floor": judge.get("cash_floor") if isinstance(judge, dict) else None,
+        "summary": judge.get("summary", "") if isinstance(judge, dict) else "",
+        # 是否有 agent 目标（供前端判断降级：无则只显示现状条）
+        "has_targets": bool(tgt_by_class),
+    }
+
+
 def _text(v: Any) -> str:
     """把 agent JSON 片段渲染成可读文本（dict/list → 缩进 JSON，标量 → str）。"""
     if v is None or v == "" or v == [] or v == {}:
@@ -164,6 +279,44 @@ def _text(v: Any) -> str:
         return json.dumps(v, ensure_ascii=False, indent=2)
     except Exception:
         return str(v)
+
+
+def _evidence_marker(ev: Any) -> str:
+    """把 agent 的 evidence 数组转成前端 DebateTimeline 可解析的单行标记。
+
+    输出形如：\\n\\n__EVIDENCE__:[{"t":"PE分位30%","s":"verified","src":"data_pe.json"}]
+    s ∈ verified / estimated / missing；前端据此渲染 ✓/~/✗ 凭据 chip 条。
+    """
+    if not isinstance(ev, list) or not ev:
+        return ""
+    items: List[Dict[str, str]] = []
+    for e in ev:
+        if not isinstance(e, dict):
+            continue
+        claim = str(e.get("claim", "")).strip()
+        if not claim:
+            continue
+        status = str(e.get("status", "")).strip().lower()
+        if status not in ("verified", "estimated", "missing"):
+            status = "estimated"
+        items.append({"t": claim, "s": status, "src": str(e.get("source", "")).strip()})
+    if not items:
+        return ""
+    return "\n\n__EVIDENCE__:" + json.dumps(items, ensure_ascii=False)
+
+
+def _agent_block(v: Any, evidence: Any = None) -> str:
+    """渲染 agent 输出为辩论气泡内容：正文 + 数据凭据标记行。
+
+    evidence 优先用显式传入；否则从 dict 顶层的 evidence 键提取（并从正文剔除，避免重复展示）。
+    """
+    ev = evidence
+    body = v
+    if isinstance(v, dict) and "evidence" in v:
+        if ev is None:
+            ev = v.get("evidence")
+        body = {k: val for k, val in v.items() if k != "evidence"}
+    return (_text(body) + _evidence_marker(ev)).strip()
 
 
 def _assemble_debates(data_dir: Path) -> Dict[str, str]:
@@ -183,55 +336,71 @@ def _assemble_debates(data_dir: Path) -> Dict[str, str]:
     pessimist = _load(data_dir / "pessimist_risk.json", {}) or {}
     optimist = _load(data_dir / "optimist_risk.json", {}) or {}
     risk_verdict = _load(data_dir / "risk_assessment.json", {}) or {}
+    asset_strategist = _load(data_dir / "asset_strategist.json", {}) or {}
+    asset_defender = _load(data_dir / "asset_defender.json", {}) or {}
+    asset_judge = _load(data_dir / "asset_allocation.json", {}) or {}
+
+    # ── 大类配置辩论 ──
+    asset_parts: List[str] = []
+    if asset_strategist:
+        asset_parts.append("战略配置师：" + _agent_block(asset_strategist))
+    if asset_defender:
+        asset_parts.append("防御配置师：" + _agent_block(asset_defender))
+    if asset_judge:
+        asset_parts.append("大类裁判：" + _agent_block(asset_judge))
 
     # ── 市场研判 L1 ──
+    # 输出格式: "角色名：内容"（前端 DebateTimeline 按 名[:：] 切气泡）。
+    # 行业等上下文放进内容里的（括号），不另起 fallback-only 的【】标记。
     market_parts: List[str] = []
     if macro:
-        market_parts.append("【宏观裁判】\n" + _text(macro))
+        market_parts.append("宏观裁判：" + _agent_block(macro))
     for item in researchers:
         if not isinstance(item, dict):
             continue
         ind = item.get("industry", "")
-        r = _text(item.get("researcher"))
-        c = _text(item.get("contrarian"))
-        seg = [f"——— {ind} ———"]
+        prefix = f"（{ind}）" if ind else ""
+        r = _agent_block(item.get("researcher"))
+        c = _agent_block(item.get("contrarian"))
         if r:
-            seg.append("【研究员】\n" + r)
+            market_parts.append(f"行业研究员：{prefix}{r}")
         if c:
-            seg.append("【反向者】\n" + c)
-        if len(seg) > 1:
-            market_parts.append("\n".join(seg))
+            market_parts.append(f"行业反向者：{prefix}{c}")
     alloc_rows = allocations if isinstance(allocations, list) else allocations.get("allocations", [])
+    alloc_ev = allocations.get("evidence") if isinstance(allocations, dict) else None
     if alloc_rows:
-        market_parts.append("【跨行业配置裁判】\n" + _text(alloc_rows))
+        market_parts.append("跨行业裁判：" + _agent_block(alloc_rows, evidence=alloc_ev))
 
     # ── 个股辩论 L3 ──
     stock_parts: List[str] = []
     cands = scout.get("candidates", scout) if isinstance(scout, dict) else scout
+    scout_ev = scout.get("evidence") if isinstance(scout, dict) else None
     if cands:
-        stock_parts.append("【Scout 候选标的】\n" + _text(cands))
+        stock_parts.append("Scout候选：" + _agent_block(cands, evidence=scout_ev))
     if diag:
-        stock_parts.append("【组合层持仓诊断】\n" + _text(diag))
+        stock_parts.append("持仓诊断：" + _agent_block(diag))
     if diag_contra:
-        stock_parts.append("【组合反向者】\n" + _text(diag_contra))
+        stock_parts.append("组合反向者：" + _agent_block(diag_contra))
     for pr in pm_results:
         if not isinstance(pr, dict):
             continue
         ind = pr.get("industry", "")
-        body = _text(pr.get("result", pr))
+        prefix = f"（{ind}）" if ind else ""
+        body = _agent_block(pr.get("result", pr))
         if body:
-            stock_parts.append(f"——— {ind} PM 裁判 ———\n" + body)
+            stock_parts.append(f"PM裁判：{prefix}{body}")
 
     # ── 综合裁决 ──
     final_parts: List[str] = []
     if pessimist:
-        final_parts.append("【悲观风险总监】\n" + _text(pessimist))
+        final_parts.append("悲观风险总监：" + _agent_block(pessimist))
     if optimist:
-        final_parts.append("【乐观风险分析师】\n" + _text(optimist))
+        final_parts.append("乐观风险分析师：" + _agent_block(optimist))
     if risk_verdict:
-        final_parts.append("【风控裁判 RiskAssessment】\n" + _text(risk_verdict))
+        final_parts.append("风控裁判：" + _agent_block(risk_verdict))
 
     return {
+        "asset_debate_history": "\n\n".join(p for p in asset_parts if p).strip(),
         "market_debate_history": "\n\n".join(p for p in market_parts if p).strip(),
         "stock_debate_history": "\n\n".join(p for p in stock_parts if p).strip(),
         "debate_history": "\n\n".join(p for p in final_parts if p).strip(),
@@ -318,11 +487,16 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
             "current_weight": round(current_w, 2),
             "target_weight": round(target_w, 2),
             "timing": rx.get("build_strategy", rx.get("timing", "")),
+            "build_strategy": rx.get("build_strategy", rx.get("timing", "")),
             "suggested_price": _suggested_price(rx.get("entry_price_range", rx.get("suggested_price"))),
             "entry_price_range": rx.get("entry_price_range"),
             "batch_plan": rx.get("batch_plan", []),
             "reasoning": rx.get("reasoning", ""),
             "risk_note": rx.get("risk_note", ""),
+            # Tier1 选股依据（前端个股行展开卡）：评级 / 目标价。
+            # agent 未给则保持空串，前端显示「--」/「未给目标价」，不补算。
+            "tier1_rating": rx.get("tier1_rating", rx.get("rating", "")),
+            "target_price": _target_price_str(rx.get("target_price")),
             "amount": _round_money((target_w - current_w) / 100.0 * total_assets),
         }
         pe_pct = rx.get("pe_percentile", rx.get("pe_percentile_5y"))
@@ -381,7 +555,10 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
 
     now = datetime.now(timezone.utc).isoformat()
 
-    # —— 5. 辩论历程（从各阶段产物组装三段文本，供前端三个 tab）——
+    # —— 4.5 大类资产配置（现状穿透聚合 + 大类裁判目标）——
+    asset_allocation = _build_asset_allocation(data_dir, total_assets, available_cash, portfolio)
+
+    # —— 5. 辩论历程（从各阶段产物组装四段文本，供前端 大类/市场/个股/综合 tab）——
     debates = _assemble_debates(data_dir)
 
     # —— 6. selected_industries（前端历史卡显示「N 个行业」，非现金行业名）——
@@ -406,10 +583,13 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
         "industry_matrix": matrix_out,
         "prescription": presc_out,
         "capital_plan": capital_plan,
+        # 大类资产配置（前端「资产配比总揽」卡）
+        "asset_allocation": asset_allocation,
         "selected_industries": selected_industries,
         "total_assets_snapshot": _round_money(total_assets),
         "data_score": data_score,
-        # 三段辩论历程（前端「分析师辩论历程」market/stock/final tab）
+        # 四段辩论历程（前端「分析师辩论历程」asset/market/stock/final tab）
+        "asset_debate_history": debates["asset_debate_history"],
         "market_debate_history": debates["market_debate_history"],
         "stock_debate_history": debates["stock_debate_history"],
         "debate_history": debates["debate_history"],

@@ -39,6 +39,16 @@ tools:
   ],
   "total_allocated": 60.0,
   "remaining": 0.0,
-  "overall_reasoning": "当前宏观环境偏乐观，科技是最具配置价值的行业..."
+  "overall_reasoning": "当前宏观环境偏乐观，科技是最具配置价值的行业...",
+  "evidence": [
+    {"claim": "total_weight_limit=60%", "source": "macro_verdict.json", "status": "verified"},
+    {"claim": "各行业vitality_level", "source": "all_researchers.json", "status": "verified"}
+  ]
 }
 ```
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **凭据透传**：分配依据来自上游研究员/反向者的结论与宏观约束；不得引入它们没提过的、无依据的新数字。
+2. **反锚定**：本文件 JSON 示例中的行业/数字仅为格式演示，严禁照抄，必须用真实读到的研究员结论与限额。
+3. **加总闭合**：所有 final_weight 加总必须 = total_weight_limit；读不到限额时不得擅自假设，标 missing 并保守分配。
+4. **输出 evidence 数组**：列出本次分配依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

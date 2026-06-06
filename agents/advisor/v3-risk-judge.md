@@ -32,6 +32,16 @@ tools:
   "risk_summary": "悲观说最大回撤25%，乐观说12%，裁判综合为18%...",
   "disagreement_resolution": "关于现金比例的争议：悲观坚持20%，乐观说15%足够，裁判认为15%+止损条件更合理",
   "agreed_risks": ["科技行业内部关联度高是共识风险"],
-  "verdict": "方案整体风险可控，建议在某行业设置止损条件"
+  "verdict": "方案整体风险可控，建议在某行业设置止损条件",
+  "evidence": [
+    {"claim": "悲观方最大回撤25%", "source": "pessimist_risk.json", "status": "verified"},
+    {"claim": "乐观方最大回撤12%", "source": "optimist_risk.json", "status": "verified"}
+  ]
 }
 ```
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **凭据透传**：最终风险报告综合悲观/乐观两方，agreed_risks 与 disagreement_resolution 都要可追溯到两方 evidence；不得引入两方都没提过的新风险数字。
+2. **反锚定**：本文件 JSON 示例中的数字仅为格式演示，严禁照抄，必须替换为两方真实给出的值。
+3. **缺失即标注**：某一方文件没读到时，risk_summary 注明「仅基于已有一方评估」并偏保守。
+4. **输出 evidence 数组**：列出最终裁决依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

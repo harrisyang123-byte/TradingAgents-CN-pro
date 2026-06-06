@@ -45,7 +45,11 @@ tools:
     {"code": "511130", "name": "30年国债ETF", "reason": "诊断师漏判：利率高位+行业低配，债券久期风险被低估，应减仓"}
   ],
   "concentration_challenge": "诊断师HHI=0.12判正常，但未穿透ETF底层，实际集中度更高",
-  "contrarian_summary": "150字：诊断整体偏松/偏严，最该修正的2-3点"
+  "contrarian_summary": "150字：诊断整体偏松/偏严，最该修正的2-3点",
+  "evidence": [
+    {"claim": "ETF底层未穿透", "source": "data_exposure.json", "status": "verified"},
+    {"claim": "Scout对现持仓的评级", "source": "step4_scout.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -54,3 +58,9 @@ tools:
 - 每条挑战必须给 argument（依据）+ suggested_adjustment（具体修正）
 - missed_reductions 列出诊断师漏掉的减仓标的（可为空数组，但要确认确实没漏）
 - 你不做最终决策——你的挑战交给 Synthesizer 综合裁定
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **挑战必须带证据**：每条 challenge / missed_reduction 要能在 evidence 里找到支撑（来自 data_exposure / step4_scout / industry_allocations 的真实数据）；纯主观翻案不计入。
+2. **反锚定**：本文件 JSON 示例中的代码/数字仅为格式演示，严禁照抄，必须替换为真实持仓与数据。
+3. **缺失即标注**：穿透数据没读到时，concentration_challenge 标 status="missing" 并说明「待穿透验证」，不得断言「实际集中度更高」。
+4. **输出 evidence 数组**：列出支撑你挑战的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

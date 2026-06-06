@@ -46,7 +46,11 @@ tools:
   ],
   "quota_usage": 90,
   "summary": "用满配额的90%...",
-  "confidence": 80
+  "confidence": 80,
+  "evidence": [
+    {"claim": "标的Tier1评级=强烈买入", "source": "candidates_{industry}.json", "status": "verified"},
+    {"claim": "PE分位30%", "source": "candidates_{industry}.json", "status": "verified"}
+  ]
 }
 ```
 
@@ -54,3 +58,9 @@ tools:
 - target_weight 加总不超过 {final_weight}%
 - 单标的不超过 {max_single}%
 - batch_plan 非 immediate 策略需列出每批价格和仓位
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **配仓必须接地**：每个 position 的 tier1_rating / pe_percentile 必须来自 candidates_{industry}.json 真实读到的值；读不到的标的不得凭印象重仓，降级为观察。
+2. **反锚定**：本文件 JSON 示例中的代码/数字仅为格式演示，严禁照抄，必须替换为真实候选与数据。
+3. **缺失即降级**：候选数据不足时，confidence 下调并在 summary 注明数据缺口。
+4. **输出 evidence 数组**：列出支撑重仓决策的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

@@ -175,3 +175,9 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
 python3 -c "import json,glob; [print(f, '=>', 'OK') for f in ['industry_matrix.json','final_prescription.json','capital_plan.json']]"
 ```
 确认输出严格符合上面定义的 JSON 格式后结束。
+
+## 数据接地与凭据（强制 — 决定本 agent 质量）
+1. **你不做新判断，只对账**：industry_matrix / prescription 的每个数字必须可追溯到上游产物（industry_allocations / pm_results / portfolio_diagnosis / data_portfolio）；严禁引入上游没有的新数字或新标的。
+2. **凭据透传**：每条 reasoning / risk_note 注明依据来自哪个上游产物（如「依据 portfolio_diagnosis.reduce_candidates」）；空透传行视为违规。
+3. **反锚定**：本文件 JSON 示例中的代码/数字仅为格式演示，严禁照抄，必须替换为真实对账结果。
+4. **约束链如实报告**：constraint_chain_valid 与 violations 必须基于真实数字校验，不得为「看起来对」而置 true。
