@@ -629,7 +629,11 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             # A3 防御兜底：即使上游脚本又写错，也保证前端契约成立
             # ① go_nogo 统一大写（前端严格判 === 'GO' / 'NOGO'）
             row["go_nogo"] = str(row.get("go_nogo", "") or "").strip().upper()
-            # ② delta 缺失时按 目标 - 现持仓 补算（前端目标%列依赖它）
+            # ② source 净化：非白名单（holding/watchlist/vitality）一律归 holding，
+            #    防止 LLM 把分析链路描述写进 source 被前端当标签整串渲染
+            if str(row.get("source", "")).strip().lower() not in ("holding", "watchlist", "vitality"):
+                row["source"] = "holding"
+            # ③ delta 缺失时按 目标 - 现持仓 补算（前端目标%列依赖它）
             if row.get("delta") is None:
                 try:
                     row["delta"] = round(

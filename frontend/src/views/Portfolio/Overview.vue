@@ -63,7 +63,7 @@
             >
               <td>
                 <span class="ind-name">{{ row.industry }}</span>
-                <span v-if="row.source" class="ind-source-tag" :class="'src-' + row.source">{{ sourceLabel(row.source) }}</span>
+                <span v-if="['holding','watchlist','vitality'].includes(row.source || '')" class="ind-source-tag" :class="'src-' + row.source">{{ sourceLabel(row.source || '') }}</span>
               </td>
               <td style="color:#606266; font-size:12px;">{{ row.market || '--' }}</td>
               <td>
@@ -94,8 +94,66 @@
                 <span v-else class="text-muted">--</span>
               </td>
             </tr>
-            <tr v-if="expandedRow === row.industry && row.reasoning" class="reasoning-row">
-              <td colspan="7" class="reasoning-cell">{{ row.reasoning }}</td>
+            <tr v-if="expandedRow === row.industry" class="detail-row">
+              <td colspan="7" class="detail-cell">
+                <div v-if="row.reasoning" class="detail-reasoning">{{ row.reasoning }}</div>
+                <table v-if="(row.positions_detail || []).length" class="stock-detail-table">
+                  <thead>
+                    <tr>
+                      <th>标的</th>
+                      <th>操作</th>
+                      <th>现仓 → 目标</th>
+                      <th>调仓金额</th>
+                      <th>时机</th>
+                      <th>参考价</th>
+                      <th>盈亏</th>
+                      <th>PE分位</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="pos in row.positions_detail" :key="pos.code">
+                      <td>
+                        <span class="rx-name">{{ pos.name || pos.code }}</span>
+                        <span class="rx-code">{{ pos.code }}</span>
+                      </td>
+                      <td>
+                        <span :class="'action action-' + (pos.action === 'buy' || pos.action === 'add' || pos.action === 'new_position' ? 'buy' : (pos.action === 'sell' || pos.action === 'reduce') ? 'sell' : 'hold')">
+                          {{ actionLabel(pos.action) }}
+                        </span>
+                      </td>
+                      <td class="pos-change">{{ (pos.current_weight || 0).toFixed(1) }}% → {{ (pos.target_weight || 0).toFixed(1) }}%</td>
+                      <td class="capital-amount">{{ formatMoney(calcCapital(pos)) }}</td>
+                      <td>
+                        <span v-if="pos.timing" class="timing-badge" :class="'timing-' + pos.timing">{{ timingLabel(pos.timing) }}</span>
+                        <span v-else class="text-muted">--</span>
+                      </td>
+                      <td>
+                        <span v-if="pos.suggested_price" style="color:#409eff;">{{ pos.suggested_price }}</span>
+                        <span v-else class="text-muted">--</span>
+                      </td>
+                      <td>
+                        <span v-if="pos.pnl_pct !== undefined && pos.pnl_pct !== null"
+                          :style="pos.pnl_pct >= 0 ? 'color:#f56c6c;' : 'color:#67c23a;'">
+                          {{ pos.pnl_pct >= 0 ? '+' : '' }}{{ (pos.pnl_pct || 0).toFixed(1) }}%
+                        </span>
+                        <span v-else class="text-muted">--</span>
+                      </td>
+                      <td>
+                        <span v-if="pos.pe_data && pos.pe_data.pe_percentile_5y !== undefined"
+                          class="pe-badge"
+                          :class="pos.pe_data.pe_percentile_5y > 80 ? 'pe-high' : pos.pe_data.pe_percentile_5y < 30 ? 'pe-low' : 'pe-mid'">
+                          {{ pos.pe_data.pe_percentile_5y.toFixed(0) }}%ile
+                        </span>
+                        <span v-else class="text-muted">--</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div v-else class="detail-empty">该行业暂无个股处方明细</div>
+                <div v-if="(row.positions_detail || []).length" class="detail-actions">
+                  <button class="detail-link" @click.stop="openIndustryDrawer(row)">查看完整处方 →</button>
+                </div>
+              </td>
             </tr>
             </template>
           </tbody>
@@ -142,7 +200,7 @@
           </div>
           <div class="history-summary">
             {{ (adv.prescription || []).length }} 条处方
-            · {{ (adv as any).selected_industries?.length || (adv as any).market_intel?.industries?.length || 0 }} 个行业
+            · {{ (adv as any).selected_industries?.length || (adv as any).market_intel?.industries?.length || (adv as any).industry_matrix?.length || 0 }} 个行业
             <span v-if="(adv as any).total_assets_snapshot"> · {{ formatMoney((adv as any).total_assets_snapshot) }} 元</span>
             · 耗时 {{ adv.elapsed_seconds ? (adv.elapsed_seconds / 60).toFixed(0) + ' 分钟' : '--' }}
           </div>
@@ -307,7 +365,6 @@ function toggleRowExpand(row: IndustryOverviewRow) {
     expandedRow.value = null
   } else {
     expandedRow.value = row.industry
-    openIndustryDrawer(row)
   }
 }
 
@@ -451,6 +508,18 @@ onMounted(() => {
 .row-expanded { background: #f0f9eb; }
 .reasoning-row { background: #f9fbf9; }
 .reasoning-cell { padding: 10px 14px 10px 28px; font-size: 12px; color: #606266; line-height: 1.7; border-bottom: 1px solid #eee; }
+
+.detail-row { background: #fafcff; }
+.detail-cell { padding: 14px 18px 16px 28px; border-bottom: 1px solid #eee; }
+.detail-reasoning { font-size: 12px; color: #606266; line-height: 1.7; margin-bottom: 12px; white-space: pre-wrap; }
+.stock-detail-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }
+.stock-detail-table th { text-align: left; padding: 8px 12px; font-size: 11px; color: #909399; background: #f5f7fa; border-bottom: 1px solid #ebeef5; white-space: nowrap; }
+.stock-detail-table td { padding: 9px 12px; font-size: 12px; border-bottom: 1px solid #f5f5f5; white-space: nowrap; }
+.stock-detail-table tr:last-child td { border-bottom: none; }
+.detail-empty { font-size: 12px; color: #c0c4cc; padding: 8px 0; }
+.detail-actions { margin-top: 10px; text-align: right; }
+.detail-link { background: none; border: none; color: #409eff; font-size: 12px; cursor: pointer; padding: 0; }
+.detail-link:hover { text-decoration: underline; }
 
 .rx-card { border: 1px solid #eee; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
 .rx-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }

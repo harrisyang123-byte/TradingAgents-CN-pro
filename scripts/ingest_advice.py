@@ -96,6 +96,148 @@ def _action_from_delta(current: float, target: float) -> str:
     return "hold"
 
 
+# 入池来源白名单：前端按此渲染来源小标签（holding/watchlist/vitality）。
+# LLM 有时会把「分析链路描述」（如 "L1研究员+跨行业裁判+风险总监"）写进 source，
+# 直接透传会让前端把整串文字当标签渲染。非白名单值一律归一为 holding。
+_VALID_SOURCES = {"holding", "watchlist", "vitality"}
+
+
+def _sanitize_source(v: Any) -> str:
+    s = str(v or "").strip().lower()
+    return s if s in _VALID_SOURCES else "holding"
+
+
+def _vitality_from_score(score: Any) -> str:
+    """景气总分(0-100) → 定性等级（与前端 CSS 类 v-* 一致）。"""
+    try:
+        s = float(score)
+    except (TypeError, ValueError):
+        return ""
+    if s >= 70:
+        return "强烈看好"
+    if s >= 55:
+        return "看好"
+    if s >= 40:
+        return "中性"
+    return "看空"
+
+
+def _build_alloc_lookup(data_dir: Path) -> Dict[str, Dict[str, Any]]:
+    """从 industry_allocations.json（跨行业裁判输出）建行业名→字段 的查找表。
+
+    跨行业裁判被强制对每个行业输出 vitality_level/stance/market/go_nogo，
+    而 Synthesizer 产 industry_matrix.json 时 LLM 常丢这些字段。用此表回填。
+    """
+    alloc = _load(data_dir / "industry_allocations.json", []) or []
+    rows = alloc if isinstance(alloc, list) else alloc.get("allocations", [])
+    lookup: Dict[str, Dict[str, Any]] = {}
+    for r in rows:
+        if isinstance(r, dict) and r.get("industry"):
+            lookup[str(r["industry"]).strip()] = r
+    return lookup
+
+
+def _build_vitality_lookup(data_dir: Path) -> Dict[str, str]:
+    """从 data_vitality.json（景气打分引擎产出，可选）建行业→等级 查找表。"""
+    vit = _load(data_dir / "data_vitality.json", []) or []
+    rows = vit if isinstance(vit, list) else vit.get("scores", vit.get("industries", []))
+    lookup: Dict[str, str] = {}
+    for r in rows:
+        if not isinstance(r, dict):
+            continue
+        name = str(r.get("industry", "")).strip()
+        if not name:
+            continue
+        level = r.get("vitality_level") or _vitality_from_score(r.get("total_score"))
+        if level:
+            lookup[name] = level
+    return lookup
+
+
+def _text(v: Any) -> str:
+    """把 agent JSON 片段渲染成可读文本（dict/list → 缩进 JSON，标量 → str）。"""
+    if v is None or v == "" or v == [] or v == {}:
+        return ""
+    if isinstance(v, str):
+        return v.strip()
+    try:
+        return json.dumps(v, ensure_ascii=False, indent=2)
+    except Exception:
+        return str(v)
+
+
+def _assemble_debates(data_dir: Path) -> Dict[str, str]:
+    """从 workflow 各阶段产物组装三段辩论历程文本，供前端「分析师辩论历程」三个 tab。
+
+    market（L1 市场研判）: 宏观裁判 + 各行业研究员/反向者 + 跨行业裁判
+    stock （L3 个股辩论）: Scout 候选 + 组合诊断/反向者 + 各行业 PM 激进/保守/裁判
+    final （综合裁决）   : 风控悲观/乐观/裁判 + Synthesizer summary
+    """
+    macro = _load(data_dir / "macro_verdict.json", {}) or {}
+    researchers = _load(data_dir / "all_researchers.json", []) or []
+    allocations = _load(data_dir / "industry_allocations.json", []) or []
+    scout = _load(data_dir / "step4_scout.json", {}) or {}
+    diag = _load(data_dir / "portfolio_diagnosis.json", {}) or {}
+    diag_contra = _load(data_dir / "portfolio_contrarian.json", {}) or {}
+    pm_results = _load(data_dir / "pm_results.json", []) or []
+    pessimist = _load(data_dir / "pessimist_risk.json", {}) or {}
+    optimist = _load(data_dir / "optimist_risk.json", {}) or {}
+    risk_verdict = _load(data_dir / "risk_assessment.json", {}) or {}
+
+    # ── 市场研判 L1 ──
+    market_parts: List[str] = []
+    if macro:
+        market_parts.append("【宏观裁判】\n" + _text(macro))
+    for item in researchers:
+        if not isinstance(item, dict):
+            continue
+        ind = item.get("industry", "")
+        r = _text(item.get("researcher"))
+        c = _text(item.get("contrarian"))
+        seg = [f"——— {ind} ———"]
+        if r:
+            seg.append("【研究员】\n" + r)
+        if c:
+            seg.append("【反向者】\n" + c)
+        if len(seg) > 1:
+            market_parts.append("\n".join(seg))
+    alloc_rows = allocations if isinstance(allocations, list) else allocations.get("allocations", [])
+    if alloc_rows:
+        market_parts.append("【跨行业配置裁判】\n" + _text(alloc_rows))
+
+    # ── 个股辩论 L3 ──
+    stock_parts: List[str] = []
+    cands = scout.get("candidates", scout) if isinstance(scout, dict) else scout
+    if cands:
+        stock_parts.append("【Scout 候选标的】\n" + _text(cands))
+    if diag:
+        stock_parts.append("【组合层持仓诊断】\n" + _text(diag))
+    if diag_contra:
+        stock_parts.append("【组合反向者】\n" + _text(diag_contra))
+    for pr in pm_results:
+        if not isinstance(pr, dict):
+            continue
+        ind = pr.get("industry", "")
+        body = _text(pr.get("result", pr))
+        if body:
+            stock_parts.append(f"——— {ind} PM 裁判 ———\n" + body)
+
+    # ── 综合裁决 ──
+    final_parts: List[str] = []
+    if pessimist:
+        final_parts.append("【悲观风险总监】\n" + _text(pessimist))
+    if optimist:
+        final_parts.append("【乐观风险分析师】\n" + _text(optimist))
+    if risk_verdict:
+        final_parts.append("【风控裁判 RiskAssessment】\n" + _text(risk_verdict))
+
+    return {
+        "market_debate_history": "\n\n".join(p for p in market_parts if p).strip(),
+        "stock_debate_history": "\n\n".join(p for p in stock_parts if p).strip(),
+        "debate_history": "\n\n".join(p for p in final_parts if p).strip(),
+    }
+
+
 # ── 核心映射 ─────────────────────────────────────────────────
 
 def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
@@ -103,6 +245,11 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
     presc_in = _load(data_dir / "final_prescription.json", {}) or {}
     capital_in = _load(data_dir / "capital_plan.json", {}) or {}
     portfolio = _load(data_dir / "data_portfolio.json", {}) or {}
+
+    # 回填源：跨行业裁判分配表（vitality/stance/market/go_nogo 的权威来源）
+    # + 景气打分引擎产出（可选）。Synthesizer 的 matrix 行常丢这些字段，用它们补。
+    alloc_lookup = _build_alloc_lookup(data_dir)
+    vitality_lookup = _build_vitality_lookup(data_dir)
 
     # —— 总资产口径：优先真实持仓数据，其次 capital_plan ——
     total_assets = (
@@ -121,20 +268,32 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
     matrix_out: List[Dict[str, Any]] = []
     sum_target = 0.0
     for row in raw_matrix:
+        industry = row.get("industry", "未分类")
+        alloc = alloc_lookup.get(str(industry).strip(), {})
         holdings_w = float(row.get("actual_weight", row.get("holdings_weight", 0)) or 0)
         target_w = float(row.get("final_weight", row.get("target_weight", 0)) or 0)
-        go = _map_go_nogo(row.get("go_nogo"))
+        # go_nogo：matrix 缺失时回退到分配表
+        go = _map_go_nogo(row.get("go_nogo") if row.get("go_nogo") not in (None, "") else alloc.get("go_nogo"))
+        # vitality_level：matrix → 分配表 → 景气引擎，三级回退
+        vitality = (
+            row.get("vitality_level")
+            or alloc.get("vitality_level")
+            or vitality_lookup.get(str(industry).strip(), "")
+        )
+        # stance / market 同理回退
+        stance = row.get("stance") or alloc.get("stance", "")
+        market = row.get("market") or alloc.get("market") or "cn"
         sum_target += target_w
         matrix_out.append({
-            "industry": row.get("industry", "未分类"),
-            "source": row.get("source", "holding"),
-            "market": row.get("market", "cn"),
+            "industry": industry,
+            "source": _sanitize_source(row.get("source")),
+            "market": market,
             "go_nogo": go,
-            "stance": row.get("stance", ""),
+            "stance": stance,
             # NOGO 行业是被深度研究后判定「不配置」，属于"已覆盖"；
             # 只有未被分析的行业（go 为空）才是 "never"。
             "coverage_status": "covered" if go in ("GO", "NOGO") else "never",
-            "vitality_level": row.get("vitality_level", ""),
+            "vitality_level": vitality,
             "lifecycle": row.get("lifecycle", ""),
             "holdings_weight": round(holdings_w, 2),
             "target_weight": round(target_w, 2),
@@ -142,7 +301,7 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
             "gap": round(float(row.get("gap", 0) or 0), 2),
             "scout_triggered": bool(row.get("scout_triggered", False)),
             "codes": row.get("positions", row.get("codes", [])) or [],
-            "reasoning": row.get("reasoning", ""),
+            "reasoning": row.get("reasoning", "") or alloc.get("reasoning", ""),
         })
 
     # —— 2. prescription 映射 ——
@@ -221,6 +380,20 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
     }
 
     now = datetime.now(timezone.utc).isoformat()
+
+    # —— 5. 辩论历程（从各阶段产物组装三段文本，供前端三个 tab）——
+    debates = _assemble_debates(data_dir)
+
+    # —— 6. selected_industries（前端历史卡显示「N 个行业」，非现金行业名）——
+    selected_industries = [r["industry"] for r in matrix_out if r["industry"] != CASH_INDUSTRY]
+
+    # —— 7. data_score（数据质量）：优先 matrix 自带，否则按覆盖率估算 ——
+    data_score = matrix_in.get("data_score", 0) if isinstance(matrix_in, dict) else 0
+    if not data_score and selected_industries:
+        covered = sum(1 for r in matrix_out
+                      if r["industry"] != CASH_INDUSTRY and r["go_nogo"] in ("GO", "NOGO"))
+        data_score = round(covered / len(selected_industries), 2)
+
     doc = {
         "advice_id": str(uuid.uuid4()),
         "user_id": user_id,
@@ -233,8 +406,13 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
         "industry_matrix": matrix_out,
         "prescription": presc_out,
         "capital_plan": capital_plan,
+        "selected_industries": selected_industries,
         "total_assets_snapshot": _round_money(total_assets),
-        "data_score": matrix_in.get("data_score", 0) if isinstance(matrix_in, dict) else 0,
+        "data_score": data_score,
+        # 三段辩论历程（前端「分析师辩论历程」market/stock/final tab）
+        "market_debate_history": debates["market_debate_history"],
+        "stock_debate_history": debates["stock_debate_history"],
+        "debate_history": debates["debate_history"],
         "constraint_chain_valid": (
             matrix_in.get("constraint_chain_valid", True) if isinstance(matrix_in, dict) else True
         ),
