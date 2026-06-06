@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>组合总揽 — 大类资产配置层 设计原型（v3.1）</title>
+<title>组合总揽 — 大类资产配置层 设计原型（v3.2）</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #303133; padding: 24px; }
@@ -18,6 +18,8 @@
   .stat-label { font-size: 12px; color: #909399; margin-top: 4px; }
 
   .card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .card.flash { animation: flash 1.2s; }
+  @keyframes flash { 0%{ box-shadow:0 0 0 3px #409eff; } 100%{ box-shadow:0 1px 3px rgba(0,0,0,0.08); } }
   .card-header { padding: 14px 20px; font-weight: 600; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; }
   .card-header .sub { font-size: 12px; color: #909399; font-weight: 400; }
   .btn { font-size: 12px; padding: 4px 12px; border: 1px solid #dcdfe6; border-radius: 4px; cursor: pointer; background: #fff; }
@@ -77,13 +79,24 @@
   .a-bull { background: linear-gradient(135deg,#10b981,#059669); }
   .a-bear { background: linear-gradient(135deg,#ef4444,#be123c); }
   .a-judge { background: linear-gradient(135deg,#8b5cf6,#6d28d9); }
-  .bubble-col { display: flex; flex-direction: column; min-width: 220px; }
+  .bubble-col { display: flex; flex-direction: column; min-width: 240px; }
   .bubble-row.right .bubble-col { align-items: flex-end; }
   .bubble-name { font-size: 13px; font-weight: 600; color: #4b5563; margin-bottom: 5px; padding: 0 4px; }
   .bubble-body { padding: 13px 16px; border-radius: 14px; background: #fff; border: 1px solid #e5e7eb; font-size: 13px; line-height: 1.8; color: #4a4a4a; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
   .bubble-row.left .bubble-body { border-top-left-radius: 4px; border-left: 4px solid #10b981; }
   .bubble-row.right .bubble-body { border-top-right-radius: 4px; border-right: 4px solid #ef4444; }
   .bubble-row.center .bubble-body { border: 2px solid #8b5cf6; }
+  /* 数据凭据条 */
+  .prov { margin-top: 9px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chip { font-size: 11px; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .chip-ok { background: #f0f9eb; color: #529b2e; border: 1px solid #e1f3d8; }
+  .chip-bad { background: #fef0f0; color: #f56c6c; border: 1px solid #fde2e2; font-weight: 600; }
+  .prov-toggle { font-size: 11px; color: #409eff; cursor: pointer; margin-left: 2px; }
+  .prov-detail { display: none; margin-top: 8px; background: #fafbfc; border: 1px dashed #dcdfe6; border-radius: 6px; padding: 10px 12px; font-size: 12px; line-height: 1.7; color: #606266; }
+  .prov-detail.open { display: block; }
+  .prov-detail .pd-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #ececec; }
+  .prov-detail .pd-row:last-child { border-bottom: none; }
+  .pd-bad { color: #f56c6c; }
 
   /* ===== Drawer ===== */
   .mask { position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 999; display: none; }
@@ -103,12 +116,28 @@
   table.rx { width: 100%; border-collapse: collapse; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }
   table.rx th { text-align: left; padding: 9px 12px; font-size: 11px; color: #909399; background: #f5f7fa; border-bottom: 1px solid #ebeef5; white-space: nowrap; }
   table.rx td { padding: 10px 12px; font-size: 12px; border-bottom: 1px solid #f5f5f5; white-space: nowrap; }
+  .rx-main { cursor: pointer; } .rx-main:hover { background: #f5f7fa; }
   .rx-name { font-weight: 600; } .rx-code { font-size: 11px; color: #909399; margin-left: 4px; }
+  .caret { display: inline-block; width: 14px; color: #c0c4cc; transition: transform .2s; }
+  .rx-main.open .caret { transform: rotate(90deg); color: #409eff; }
   .act { font-weight: 600; } .act-buy { color: #e6a23c; } .act-sell { color: #409eff; } .act-hold { color: #909399; }
   .strat { font-size: 11px; padding: 1px 6px; border-radius: 3px; }
   .strat-immediate { background: #fef0f0; color: #f56c6c; } .strat-batch { background: #fdf6ec; color: #e6a23c; } .strat-conditional { background: #f0f5ff; color: #409eff; }
   .pe { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
   .pe-high { background: #fef0f0; color: #f56c6c; } .pe-low { background: #f0f9eb; color: #67c23a; } .pe-mid { background: #f5f7fa; color: #909399; }
+  /* Tier1 展开行 */
+  .rx-detail-row > td { background: #fbfcfe; padding: 0 !important; }
+  .tier1 { padding: 14px 16px; }
+  .tier1-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tier1-tag { font-size: 11px; background: #ecf5ff; color: #409eff; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .rating { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 4px; background: #f0f9eb; color: #529b2e; }
+  .tier1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; margin-bottom: 10px; }
+  .t1-block { font-size: 12px; line-height: 1.75; }
+  .t1-block .lbl { color: #909399; font-weight: 600; margin-bottom: 3px; }
+  .t1-bull { border-left: 3px solid #67c23a; padding-left: 10px; }
+  .t1-bear { border-left: 3px solid #f56c6c; padding-left: 10px; }
+  .t1-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 11px; color: #909399; border-top: 1px dashed #e4e7ed; padding-top: 9px; }
+  .t1-meta b { color: #606266; }
   .drill-list .drill-item { display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #f5f5f5; font-size: 13px; cursor: pointer; }
   .drill-list .drill-item:hover { background: #f5f7fa; }
 </style>
@@ -116,11 +145,10 @@
 <body>
 <div class="page">
   <div class="design-note">
-    <b>设计原型 v3.1 — 大类资产配置层</b>（待确认后再改 <code>Overview.vue</code> / agent 链路 / <code>ingest_advice.py</code>）。本稿三个核心变化：<br>
-    ① 顶部新增 <b>「资产配比总揽」</b>卡片：6 大类（现金/债券/股票/黄金/海外/其他），现状→目标条形 + 表格，由<b>大类配置辩论 agent</b> 真实产出（非凑数）。<br>
-    ② <b>行业矩阵收口</b>：剔除现金/债券/黄金/海外，只留真行业，且明确标注"以下为<b>股票大类</b>内部细分（合计=股票目标 55%）"。<br>
-    ③ 大类行 / 行业行 <b>统一下钻</b>到右滑 Drawer：黄金→黄金ETF处方、债券→债基处方、股票→行业分布、行业→个股处方。买入价位/批次体验与现状一致。<br>
-    ④ 辩论历程改为<b>气泡式</b>（复用已有 <code>DebateTimeline.vue</code>），并新增 <b>「大类配置辩论」</b> tab（战略 vs 防御 vs 裁判）。
+    <b>设计原型 v3.2 — 大类资产配置层</b>（待确认后再改 <code>Overview.vue</code> / agent 链路 / <code>ingest_advice.py</code>）。本稿针对反馈修了三处：<br>
+    ① <b>消除下钻/矩阵不一致</b>：点「股票」大类 = 平滑滚动并高亮下方<b>完整行业矩阵</b>（不再开偷工减料的精简抽屉）；黄金/债券/海外才开抽屉看标的处方。同一份数据只画一遍。<br>
+    ② <b>个股选股依据 = Tier1</b>：个股处方表<b>每行可点开</b>，展开 = 该股 Tier1 研究卡（核心逻辑 / 主要风险 / 评级 / 目标价 / 取数时间）。主行=怎么买，展开=为什么买。<br>
+    ③ <b>辩论历程加「数据凭据条」</b>：每个 agent 气泡标注取到了哪些数据（<span style="color:#529b2e;">✓ 已取</span>）、哪些没取到（<span style="color:#f56c6c;">✗ 缺失，标红不掩盖</span>），点「查看依据」展开具体数值。第一眼看结论，想深入看依据。
   </div>
 
   <!-- 顶部统计 -->
@@ -131,7 +159,7 @@
     <div class="stat-card"><div class="stat-num">86%</div><div class="stat-label">数据质量</div></div>
   </div>
 
-  <!-- ===== 资产配比总揽（NEW 顶层）===== -->
+  <!-- ===== 资产配比总揽（顶层战略）===== -->
   <div class="card">
     <div class="card-header">
       <span>资产配比总揽 <span class="sub">· 战略层（大类）</span></span>
@@ -154,19 +182,19 @@
     </div>
   </div>
 
-  <!-- ===== 行业矩阵（股票内部，收口）===== -->
-  <div class="card">
-    <div class="card-header"><span>行业配置矩阵</span><span class="sub">点击行下钻个股处方</span></div>
+  <!-- ===== 行业矩阵（股票内部，常驻）===== -->
+  <div class="card" id="matrix-card">
+    <div class="card-header"><span>行业配置矩阵 <span class="sub">· 股票大类明细</span></span><span class="sub">点击行下钻个股处方</span></div>
     <div class="matrix-hint">⤷ 以下为 <b>股票大类</b> 内部细分，目标 % 合计 = 股票目标 <b>55%</b>（已剔除现金/债券/黄金/海外，避免与大类层重复）</div>
     <table class="matrix">
-      <thead><tr><th>行业</th><th>景气</th><th>现持仓%</th><th>目标%</th><th>操作</th><th>调仓金额</th></tr></thead>
+      <thead><tr><th>行业</th><th>景气</th><th>现持仓%</th><th>目标%</th><th>变动</th><th>操作</th><th>调仓金额</th></tr></thead>
       <tbody id="matrix-body"></tbody>
     </table>
   </div>
 
-  <!-- ===== 辩论历程（气泡 + 大类tab）===== -->
+  <!-- ===== 辩论历程（气泡 + 大类tab + 数据凭据）===== -->
   <div class="card">
-    <div class="card-header"><span>分析师辩论历程</span><span class="sub">12-agent 分层辩论</span></div>
+    <div class="card-header"><span>分析师辩论历程</span><span class="sub">12-agent 分层辩论 · 含取数凭据</span></div>
     <div class="debate-tabs">
       <button class="debate-tab active" data-tab="asset">大类配置辩论 ★</button>
       <button class="debate-tab" data-tab="market">市场研判（L1）</button>
@@ -190,28 +218,34 @@
 const TOTAL = 600000;
 // ── 大类（战略层）── 数据基于 capital_plan.json 真实聚合
 const assets = [
-  { key:'stock', name:'股票', cls:'c-stock', cur:39, tgt:55, drill:'industry',
-    reason:'risk-on 环境 + 高景气主题（AI/医药/新能源发电）确定性强，股票额度由大类裁判定为 55%，即 total_weight_limit，硬约束传给行业层。' },
+  { key:'stock', name:'股票', cls:'c-stock', cur:39, tgt:55, drill:'scroll',
+    reason:'risk-on 环境 + 高景气主题（AI/医药/新能源发电）确定性强，股票额度由大类裁判定为 55%，即 total_weight_limit，硬约束传给行业层。点此行直接定位下方行业明细。' },
   { key:'cash', name:'现金', cls:'c-cash', cur:27, tgt:15, drill:'none',
     reason:'指数高位需保留缓冲，但 27% 过高拖累收益，降至 15%（仍 ≥ cash_floor 10%）。' },
   { key:'bond', name:'债券', cls:'c-bond', cur:13, tgt:10, drill:'rx',
     reason:'利率下行通道未结束，保留 10% 作压舱石，久期适度拉长。',
     positions:[
-      { name:'国债ETF', code:'511010', action:'hold', current_weight:8, target_weight:6, entry:[105.0,106.5], strategy:'immediate', pe:null },
-      { name:'信用债基(易方达)', code:'110037', action:'reduce', current_weight:5, target_weight:4, entry:null, strategy:'batch', pe:null },
+      { name:'国债ETF', code:'511010', action:'hold', current_weight:8, target_weight:6, entry:[105.0,106.5], strategy:'immediate', pe:null,
+        rating:'持有', target_price:'106.5', bull:'久期压舱，利率下行受益。', bear:'已接近年内高点，上行空间有限。', dt:'2026-06-05' },
+      { name:'信用债基(易方达)', code:'110037', action:'reduce', current_weight:5, target_weight:4, entry:null, strategy:'batch', pe:null,
+        rating:'减持', target_price:'--', bull:'票息稳定。', bear:'信用利差走阔风险，略降仓位。', dt:'2026-06-05' },
     ]},
   { key:'overseas', name:'海外(QDII)', cls:'c-overseas', cur:18, tgt:12, drill:'rx',
     reason:'海外权益估值偏高 + 汇率扰动，下调降低组合 beta。基金按底层穿透归为海外大类。',
     positions:[
-      { name:'纳指ETF', code:'513100', action:'reduce', current_weight:12, target_weight:8, entry:[1.45,1.55], strategy:'batch', pe:88 },
-      { name:'标普500(QDII)', code:'050025', action:'reduce', current_weight:6, target_weight:4, entry:null, strategy:'batch', pe:75 },
+      { name:'纳指ETF', code:'513100', action:'reduce', current_weight:12, target_weight:8, entry:[1.45,1.55], strategy:'batch', pe:88,
+        rating:'减持', target_price:'1.55', bull:'AI 龙头盈利强劲。', bear:'PE 分位 88% 极高，回调风险大，分批减。', dt:'2026-06-05' },
+      { name:'标普500(QDII)', code:'050025', action:'reduce', current_weight:6, target_weight:4, entry:null, strategy:'batch', pe:75,
+        rating:'减持', target_price:'--', bull:'宽基分散。', bear:'估值偏高 + 汇率扰动，降低 beta。', dt:'2026-06-05' },
     ]},
   { key:'gold', name:'黄金', cls:'c-gold', cur:3, tgt:8, drill:'rx',
     reason:'地缘 + 降息预期 + 组合对冲需求，从 3% 加到 8%。具体在哪个价位买，见下钻标的处方。',
     positions:[
       { name:'黄金ETF', code:'518880', action:'add', current_weight:2, target_weight:5, entry:[5.8,6.1], strategy:'batch', pe:null,
+        rating:'增持', target_price:'6.1', bull:'实际利率下行 + 央行购金 + 组合对冲，趋势完整。', bear:'短期涨幅已大，需分批避免追高。', dt:'2026-06-06',
         batch:[{p:'5.80-5.95',w:'2.5%',cond:'回调首批'},{p:'5.95-6.10',w:'2.5%',cond:'站稳加第二批'}] },
       { name:'博时黄金', code:'002610', action:'add', current_weight:1, target_weight:3, entry:[5.9,6.2], strategy:'batch', pe:null,
+        rating:'增持', target_price:'6.2', bull:'与黄金ETF同逻辑，分散单一标的流动性风险。', bear:'跟踪误差略大。', dt:'2026-06-06',
         batch:[{p:'≤6.0',w:'3%',cond:'分两周定额买入'}] },
     ]},
   { key:'other', name:'其他', cls:'c-other', cur:0, tgt:0, drill:'none', reason:'暂无其他大类配置。' },
@@ -221,43 +255,62 @@ const assets = [
 const matrix = [
   { industry:'人工智能/软件', vit:'强烈看好', vc:'v-strong', hw:5.4, tw:16.0, go:'GO',
     positions:[
-      { name:'海光信息', code:'688041', action:'add', cw:2.1, tw:7.0, entry:[120,150], strategy:'batch', pe:72 },
-      { name:'中科曙光', code:'603019', action:'new_position', cw:0, tw:5.0, entry:[55,62], strategy:'conditional', pe:48 },
-      { name:'金山办公', code:'688111', action:'add', cw:3.3, tw:4.0, entry:[210,235], strategy:'immediate', pe:85 },
+      { name:'海光信息', code:'688041', action:'add', cw:2.1, tw:7.0, entry:[120,150], strategy:'batch', pe:72,
+        rating:'买入', target_price:'168', bull:'国产算力核心受益，DCU 放量 + 信创采购确定，营收增速 >60%。', bear:'PE 分位 72% 偏高，需分批；中美出口管制为政策变量。', dt:'2026-06-06' },
+      { name:'中科曙光', code:'603019', action:'new_position', cw:0, tw:5.0, entry:[55,62], strategy:'conditional', pe:48,
+        rating:'增持', target_price:'70', bull:'算力基建总集成商，与海光协同；估值分位中等，安全边际较好。', bear:'订单确认周期长，等回踩 55-62 再建仓（conditional）。', dt:'2026-06-06' },
+      { name:'金山办公', code:'688111', action:'add', cw:3.3, tw:4.0, entry:[210,235], strategy:'immediate', pe:85,
+        rating:'增持', target_price:'250', bull:'AI 办公订阅渗透加速，WPS AI 付费转化超预期。', bear:'PE 分位 85% 高，仅小幅加配。', dt:'2026-06-06' },
     ]},
   { industry:'医药健康', vit:'看好', vc:'v-good', hw:0.6, tw:8.0, go:'GO',
-    positions:[ { name:'恒瑞医药', code:'600276', action:'new_position', cw:0, tw:4.0, entry:[42,48], strategy:'batch', pe:40 } ]},
+    positions:[ { name:'恒瑞医药', code:'600276', action:'new_position', cw:0, tw:4.0, entry:[42,48], strategy:'batch', pe:40,
+      rating:'买入', target_price:'56', bull:'创新药出海兑现 + 集采影响出清，PE 分位 40% 合理。', bear:'新药审批节奏不确定，分批建仓。', dt:'2026-06-05' } ]},
   { industry:'新能源(发电)', vit:'看好', vc:'v-good', hw:2.0, tw:6.0, go:'GO',
-    positions:[ { name:'阳光电源', code:'300274', action:'add', cw:2.0, tw:4.0, entry:[78,90], strategy:'batch', pe:35 } ]},
+    positions:[ { name:'阳光电源', code:'300274', action:'add', cw:2.0, tw:4.0, entry:[78,90], strategy:'batch', pe:35,
+      rating:'增持', target_price:'105', bull:'储能 + 海外光伏逆变器份额提升，PE 分位 35% 低估。', bear:'海外贸易壁垒与价格战。', dt:'2026-06-05' } ]},
   { industry:'消费(可选)', vit:'中性', vc:'v-neutral', hw:3.5, tw:7.0, go:'GO', positions:[] },
   { industry:'宽基指数', vit:'中性', vc:'v-neutral', hw:10.7, tw:9.0, go:'NOGO', positions:[] },
   { industry:'通信/5G', vit:'中性', vc:'v-neutral', hw:2.7, tw:5.0, go:'GO', positions:[] },
   { industry:'互联网/平台', vit:'看空', vc:'v-bear', hw:4.0, tw:0, go:'NOGO',
-    positions:[ { name:'腾讯控股', code:'00700', action:'sell', cw:4.0, tw:0, entry:null, strategy:'immediate', pe:55 } ]},
+    positions:[ { name:'腾讯控股', code:'00700', action:'sell', cw:4.0, tw:0, entry:null, strategy:'immediate', pe:55,
+      rating:'卖出', target_price:'--', bull:'游戏 + 广告稳健。', bear:'景气看空 + 监管不确定，资金转向高景气主题，清仓。', dt:'2026-06-06' } ]},
   { industry:'化工/材料', vit:'看空', vc:'v-bear', hw:6.0, tw:0, go:'NOGO', positions:[] },
   { industry:'高端制造', vit:'中性', vc:'v-neutral', hw:1.1, tw:0, go:'NOGO', positions:[] },
 ];
 
+// 辩论 + 每条 agent 的取数凭据（prov）
 const debates = {
   asset: [
-    { role:'战略配置师（进攻）', a:'a-bull', align:'left', text:'北向资金连续净流入、宽度涨比 59%，risk-on 明确。建议<b>股票提到 60%</b>、<b>黄金加到 8%</b> 做组合对冲，现金压到 10%。错过高景气主题比短期回撤更可惜。' },
-    { role:'防御配置师（避险）', a:'a-bear', align:'right', text:'上证 4027 点处历史高位、PMI 边际走弱、量价背离。<b>现金不应低于 15%</b>、债券保留 10% 压舱，<b>股票上限 55%</b>。先保住本金再谈进攻。' },
-    { role:'大类裁判', a:'a-judge', align:'center', text:'取折中并写入硬约束：<b>股票 55%（=total_weight_limit）</b>、现金 15%（≥floor 10%）、债券 10%、<b>黄金 8%（避险对冲）</b>、海外 12%。股票额度下传行业层细分。' },
+    { role:'战略配置师（进攻）', a:'a-bull', align:'left', text:'北向资金连续净流入、宽度涨比 59%，risk-on 明确。建议<b>股票提到 60%</b>、<b>黄金加到 8%</b> 做组合对冲，现金压到 10%。错过高景气主题比短期回撤更可惜。',
+      prov:[{l:'北向资金(AKShare)',ok:true,v:'近5日净流入 +218亿'},{l:'涨跌比',ok:true,v:'涨比 59%'},{l:'降息预期',ok:true,v:'CME 7月概率 71%'}] },
+    { role:'防御配置师（避险）', a:'a-bear', align:'right', text:'上证 4027 点处历史高位、PMI 边际走弱、量价背离。<b>现金不应低于 15%</b>、债券保留 10% 压舱，<b>股票上限 55%</b>。先保住本金再谈进攻。',
+      prov:[{l:'上证点位(AKShare)',ok:true,v:'4027（分位 92%）'},{l:'PMI',ok:true,v:'49.0（荣枯线下）'},{l:'量价背离指标',ok:false,v:'数据源超时，未取到'}] },
+    { role:'大类裁判', a:'a-judge', align:'center', text:'取折中并写入硬约束：<b>股票 55%（=total_weight_limit）</b>、现金 15%（≥floor 10%）、债券 10%、<b>黄金 8%（避险对冲）</b>、海外 12%。股票额度下传行业层细分。',
+      prov:[{l:'综合双方输入',ok:true,v:'进攻/防御 stance 均已采纳'},{l:'cash_floor 约束',ok:true,v:'10%（满足）'}] },
   ],
   market: [
-    { role:'行业研究员·AI', a:'a-bull', align:'left', text:'算力国产替代加速、端侧 AI 放量，景气强烈看好。在股票额度内应优先加配，目标 16%。' },
-    { role:'行业反向者', a:'a-bear', align:'right', text:'AI 拥挤度已高，部分标的 PE 分位 >80%。加配可以，但买入区间要取 Tier1 ∩ PE分位保守值，避免追高。' },
-    { role:'跨行业裁判', a:'a-judge', align:'center', text:'在股票 55% 限额内分配：AI 16% / 医药 8% / 新能源 6% / 消费 7% / 宽基 9% / 通信 5%，清仓互联网·化工·制造。' },
+    { role:'行业研究员·AI', a:'a-bull', align:'left', text:'算力国产替代加速、端侧 AI 放量，景气强烈看好。在股票额度内应优先加配，目标 16%。',
+      prov:[{l:'AKShare 行业行情',ok:true,v:'AI 指数近20日 +12%'},{l:'新闻研报',ok:true,v:'抓取 14 篇'},{l:'景气打分',ok:true,v:'强烈看好（5/5 信号）'}] },
+    { role:'行业反向者', a:'a-bear', align:'right', text:'AI 拥挤度已高，部分标的 PE 分位 >80%。加配可以，但买入区间要取 Tier1 ∩ PE分位保守值，避免追高。',
+      prov:[{l:'PE 历史分位',ok:true,v:'板块中位 78%ile'},{l:'拥挤度(成交占比)',ok:true,v:'12.3%（偏高）'},{l:'融资余额',ok:false,v:'当日未更新'}] },
+    { role:'跨行业裁判', a:'a-judge', align:'center', text:'在股票 55% 限额内分配：AI 16% / 医药 8% / 新能源 6% / 消费 7% / 宽基 9% / 通信 5%，清仓互联网·化工·制造。',
+      prov:[{l:'各行业 stance',ok:true,v:'9 行业均有研究员输出'},{l:'total_weight_limit',ok:true,v:'55%（未超）'}] },
   ],
   stock: [
-    { role:'激进 PM', a:'a-bull', align:'left', text:'海光信息确定性高，建议直接配满 7%、immediate 介入。' },
-    { role:'保守 PM', a:'a-bear', align:'right', text:'海光 PE 分位 72% 偏高，分两批：120-130 首批，确认放量再加。' },
-    { role:'PM 裁判', a:'a-judge', align:'center', text:'采纳分批：海光 batch 合计 7%，中科曙光 conditional 等回踩。买入区间取保守交集。' },
+    { role:'激进 PM', a:'a-bull', align:'left', text:'海光信息确定性高，建议直接配满 7%、immediate 介入。',
+      prov:[{l:'Tier1 研究库',ok:true,v:'海光 评级买入·目标价168'},{l:'实时报价',ok:true,v:'¥132.5'}] },
+    { role:'保守 PM', a:'a-bear', align:'right', text:'海光 PE 分位 72% 偏高，分两批：120-130 首批，确认放量再加。',
+      prov:[{l:'PE 分位',ok:true,v:'72%ile'},{l:'Tier1 买入区间',ok:true,v:'120-150'}] },
+    { role:'PM 裁判', a:'a-judge', align:'center', text:'采纳分批：海光 batch 合计 7%，中科曙光 conditional 等回踩。买入区间取保守交集。',
+      prov:[{l:'Tier1 ∩ PE分位',ok:true,v:'取交集 120-150'},{l:'单股上限',ok:true,v:'≤8%（满足）'}] },
   ],
   final: [
-    { role:'悲观风险总监', a:'a-bear', align:'right', text:'AI 合计 16% 接近单行业上限，组合 max_drawdown 估 -18%，在 20% 阈值内，但需盯单股集中度。' },
-    { role:'乐观风险分析师', a:'a-bull', align:'left', text:'清仓互联网/化工/制造释放约 11% 资金转高景气，夏普改善，踏空风险更大，支持处方。' },
-    { role:'Portfolio Synthesizer', a:'a-judge', align:'center', text:'约束链完整：股票 55%=上限、现金 15%≥floor、黄金 8%。无缺口 >3%。最终：买 9 / 减 10 / 持 4，可直接执行。' },
+    { role:'悲观风险总监', a:'a-bear', align:'right', text:'AI 合计 16% 接近单行业上限，组合 max_drawdown 估 -18%，在 20% 阈值内，但需盯单股集中度。',
+      prov:[{l:'历史波动率',ok:true,v:'年化 22%'},{l:'相关性矩阵',ok:true,v:'已计算'},{l:'压力测试',ok:false,v:'极端情景库未配置'}] },
+    { role:'乐观风险分析师', a:'a-bull', align:'left', text:'清仓互联网/化工/制造释放约 11% 资金转高景气，夏普改善，踏空风险更大，支持处方。',
+      prov:[{l:'夏普测算',ok:true,v:'0.9 → 1.2'},{l:'资金释放',ok:true,v:'+11% 可用'}] },
+    { role:'Portfolio Synthesizer', a:'a-judge', align:'center', text:'约束链完整：股票 55%=上限、现金 15%≥floor、黄金 8%。无缺口 >3%。最终：买 9 / 减 10 / 持 4，可直接执行。',
+      prov:[{l:'约束链校验',ok:true,v:'4/4 通过'},{l:'行业缺口扫描',ok:true,v:'无 gap>3%'}] },
   ],
 };
 
@@ -276,51 +329,81 @@ document.getElementById('legend').innerHTML=assets.map(a=>`<span><i class="${a.c
 // 大类表
 document.getElementById('alloc-body').innerHTML=assets.map((a,i)=>{
   const d=a.tgt-a.cur; const dh=d>0?`<span class="delta-up">+${d}%</span>`:(d<0?`<span class="delta-down">${d}%</span>`:'0%');
-  const drill=a.drill==='none'?'':`<span class="drill">下钻 →</span>`;
+  const drill=a.drill==='none'?'':(a.drill==='scroll'?`<span class="drill">↓ 见下方矩阵</span>`:`<span class="drill">下钻 →</span>`);
   return `<tr class="alloc-row" data-type="asset" data-i="${i}">
     <td><span class="dot ${a.cls}"></span><span class="alloc-name">${a.name}</span></td>
     <td>${a.cur}%</td><td><span class="target">${a.tgt}%</span></td><td>${dh}</td>
     <td>${opBadge(a.cur,a.tgt)}</td><td>${d===0?'<span class="muted">--</span>':money(d)}</td><td>${drill}</td></tr>`;
 }).join('');
 
-// 行业表
+// 行业表（常驻，含变动列，与大类表列对齐）
 document.getElementById('matrix-body').innerHTML=matrix.map((r,i)=>{
-  const cls=r.go==='GO'?'go':'nogo';
+  const cls=r.go==='GO'?'go':'nogo'; const d=r.tw-r.hw;
   return `<tr class="ind-row ${cls}" data-type="ind" data-i="${i}">
     <td><span class="ind-name">${r.industry}</span></td>
     <td><span class="v-tag ${r.vc}">${r.vit}</span></td>
-    <td>${r.hw.toFixed(1)}%<span class="arrow">→</span><span class="target">${r.tw.toFixed(1)}%</span></td>
-    <td><span class="${r.tw-r.hw>0?'delta-up':'delta-down'}">${(r.tw-r.hw>0?'+':'')+(r.tw-r.hw).toFixed(1)}%</span></td>
-    <td>${opBadge(r.hw,r.tw)}</td><td>${money(r.tw-r.hw)}</td></tr>`;
+    <td>${r.hw.toFixed(1)}%</td>
+    <td><span class="target">${r.tw.toFixed(1)}%</span></td>
+    <td><span class="${d>0?'delta-up':'delta-down'}">${(d>0?'+':'')+d.toFixed(1)}%</span></td>
+    <td>${opBadge(r.hw,r.tw)}</td><td>${money(d)}</td></tr>`;
 }).join('');
 
-// 辩论
+// 辩论（含数据凭据条）
+function provHtml(prov){
+  if(!prov||!prov.length) return '';
+  const chips=prov.map(p=>`<span class="chip ${p.ok?'chip-ok':'chip-bad'}">${p.ok?'✓':'✗'} ${p.l}</span>`).join('');
+  const detail=prov.map(p=>`<div class="pd-row"><span class="${p.ok?'':'pd-bad'}">${p.ok?'✓':'✗'} ${p.l}</span><span class="${p.ok?'':'pd-bad'}">${p.v}</span></div>`).join('');
+  return `<div class="prov">${chips}<span class="prov-toggle">查看依据 ▾</span></div><div class="prov-detail">${detail}</div>`;
+}
 function renderDebate(tab){
   document.getElementById('debate-body').innerHTML=debates[tab].map(d=>`
     <div class="bubble-row ${d.align}">
       <div class="avatar ${d.a}">${d.a==='a-bull'?'🐂':d.a==='a-bear'?'🐻':'⚖️'}</div>
-      <div class="bubble-col"><div class="bubble-name">${d.role}</div><div class="bubble-body">${d.text}</div></div>
+      <div class="bubble-col"><div class="bubble-name">${d.role}</div><div class="bubble-body">${d.text}${provHtml(d.prov)}</div></div>
     </div>`).join('');
+  document.querySelectorAll('.prov-toggle').forEach(t=>t.onclick=()=>{ const dt=t.parentElement.nextElementSibling; dt.classList.toggle('open'); t.textContent=dt.classList.contains('open')?'收起依据 ▴':'查看依据 ▾'; });
 }
 renderDebate('asset');
 document.querySelectorAll('.debate-tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.debate-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderDebate(b.dataset.tab);});
 
 // Drawer
 const drawer=document.getElementById('drawer'), mask=document.getElementById('mask');
+function tier1Html(p, showPe){
+  const peLine = showPe&&p.pe!=null ? `<span><b>PE 分位</b> <span class="pe ${peCls(p.pe)}">${p.pe}%ile</span></span>` : '';
+  const batchLine = p.batch&&p.batch.length ? `<div class="t1-block" style="margin-bottom:8px;"><div class="lbl">分批计划</div>${p.batch.map(b=>`• ${b.p} ｜ ${b.w} ｜ ${b.cond}`).join('<br>')}</div>` : '';
+  return `<div class="tier1">
+    <div class="tier1-head"><span class="tier1-tag">Tier1 研究库</span><span class="rating">${p.rating||'--'}</span><span style="font-size:12px;color:#909399;">目标价 <b style="color:#409eff;">${p.target_price||'--'}</b></span></div>
+    <div class="tier1-grid">
+      <div class="t1-block t1-bull"><div class="lbl">核心逻辑（多头）</div>${p.bull||'<span class="muted">未分析</span>'}</div>
+      <div class="t1-block t1-bear"><div class="lbl">主要风险（空头）</div>${p.bear||'<span class="muted">未分析</span>'}</div>
+    </div>
+    ${batchLine}
+    <div class="t1-meta">${peLine}<span><b>建仓策略</b> ${stratLabel[p.strategy]||p.strategy}</span><span><b>取数时间</b> ${p.dt||'--'}</span></div>
+  </div>`;
+}
 function rxTable(positions, showPe){
   if(!positions||!positions.length) return '<div style="color:#c0c4cc;padding:24px;text-align:center;">暂无标的处方数据</div>';
-  return `<table class="rx"><thead><tr><th>标的</th><th>操作</th><th>现仓→目标</th><th>买入区间</th><th>策略</th>${showPe?'<th>PE分位</th>':''}<th>分批计划</th></tr></thead><tbody>${
-    positions.map(p=>{
-      const entry=p.entry?`${p.entry[0]} - ${p.entry[1]}`:'<span class="muted">--</span>';
-      const batch=p.batch&&p.batch.length?p.batch.map(b=>`• ${b.p} ｜ ${b.w} ｜ ${b.cond}`).join('<br>'):'<span class="muted">--</span>';
-      const cw=p.cw!==undefined?p.cw:p.current_weight, tw=p.tw!==undefined?p.tw:p.target_weight;
-      const pe=showPe?(p.pe!=null?`<td><span class="pe ${peCls(p.pe)}">${p.pe}%ile</span></td>`:'<td><span class="muted">--</span></td>'):'';
-      return `<tr><td><span class="rx-name">${p.name}</span><span class="rx-code">${p.code}</span></td>
-        <td><span class="act ${actCls[p.action]}">${actLabel[p.action]||p.action}</span></td>
-        <td>${cw.toFixed(1)}% → ${tw.toFixed(1)}%</td><td>${entry}</td>
-        <td><span class="strat strat-${p.strategy}">${stratLabel[p.strategy]||p.strategy}</span></td>${pe}
-        <td style="white-space:normal;min-width:160px;">${batch}</td></tr>`;
-    }).join('')}</tbody></table>`;
+  const rows=positions.map((p,idx)=>{
+    const entry=p.entry?`${p.entry[0]} - ${p.entry[1]}`:'<span class="muted">--</span>';
+    const cw=p.cw!==undefined?p.cw:p.current_weight, tw=p.tw!==undefined?p.tw:p.target_weight;
+    const pe=showPe?(p.pe!=null?`<td><span class="pe ${peCls(p.pe)}">${p.pe}%ile</span></td>`:'<td><span class="muted">--</span></td>'):'';
+    const main=`<tr class="rx-main" data-rx="${idx}"><td><span class="caret">▸</span><span class="rx-name">${p.name}</span><span class="rx-code">${p.code}</span></td>
+      <td><span class="act ${actCls[p.action]}">${actLabel[p.action]||p.action}</span></td>
+      <td>${cw.toFixed(1)}% → ${tw.toFixed(1)}%</td><td>${entry}</td>
+      <td><span class="strat strat-${p.strategy}">${stratLabel[p.strategy]||p.strategy}</span></td>${pe}</tr>`;
+    const colspan=showPe?6:5;
+    const detail=`<tr class="rx-detail-row" data-detail="${idx}" style="display:none;"><td colspan="${colspan}">${tier1Html(p,showPe)}</td></tr>`;
+    return main+detail;
+  }).join('');
+  return `<table class="rx"><thead><tr><th>标的（点击看选股依据）</th><th>操作</th><th>现仓→目标</th><th>买入区间</th><th>策略</th>${showPe?'<th>PE分位</th>':''}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+function bindRxExpand(){
+  document.querySelectorAll('.rx-main').forEach(m=>m.onclick=()=>{
+    const det=m.parentElement.querySelector(`.rx-detail-row[data-detail="${m.dataset.rx}"]`);
+    const show=det.style.display==='none';
+    det.style.display=show?'table-row':'none';
+    m.classList.toggle('open',show);
+  });
 }
 function openDrawer(type,i){
   const content=document.getElementById('dr-content');
@@ -332,14 +415,8 @@ function openDrawer(type,i){
       <div class="snap-item"><div class="k">操作</div><div class="v">${opBadge(a.cur,a.tgt)}</div></div>
       <div class="snap-item"><div class="k">调仓金额</div><div class="v">${a.tgt-a.cur===0?'--':money(a.tgt-a.cur)}</div></div>`;
     document.getElementById('dr-reasoning').textContent=a.reason;
-    if(a.drill==='industry'){
-      content.innerHTML=`<div class="rx-title">股票大类 → 行业分布（点击进入行业看个股）</div><div class="drill-list">${
-        matrix.map((r,mi)=>`<div class="drill-item" data-type="ind" data-i="${mi}"><span><span class="v-tag ${r.vc}" style="margin-right:8px;">${r.vit}</span>${r.industry}</span><span>${r.hw.toFixed(1)}% → <span class="target">${r.tw.toFixed(1)}%</span></span></div>`).join('')
-      }</div>`;
-      content.querySelectorAll('.drill-item').forEach(el=>el.onclick=()=>openDrawer('ind',+el.dataset.i));
-    } else if(a.drill==='rx'){
-      content.innerHTML=`<div class="rx-title">${a.name} → 标的处方（含买入价位 / 批次）</div>`+rxTable(a.positions,a.key==='overseas');
-    } else { content.innerHTML=''; }
+    content.innerHTML=`<div class="rx-title">${a.name} → 标的处方（点标的看 Tier1 选股依据）</div>`+rxTable(a.positions,a.key==='overseas');
+    bindRxExpand();
   } else {
     const r=matrix[i];
     document.getElementById('dr-title').textContent='【行业】'+r.industry;
@@ -347,12 +424,26 @@ function openDrawer(type,i){
       <div class="snap-item"><div class="k">景气</div><div class="v"><span class="v-tag ${r.vc}">${r.vit}</span></div></div>
       <div class="snap-item"><div class="k">现状 → 目标</div><div class="v">${r.hw.toFixed(1)}% <span class="arrow">→</span> <span class="target">${r.tw.toFixed(1)}%</span></div></div>
       <div class="snap-item"><div class="k">操作</div><div class="v">${opBadge(r.hw,r.tw)}</div></div>`;
-    document.getElementById('dr-reasoning').textContent='该行业在股票大类额度内的目标权重与个股处方如下。';
+    document.getElementById('dr-reasoning').textContent='该行业在股票大类额度内的目标权重与个股处方如下。点任意个股看 Tier1 选股依据（核心逻辑/风险/评级/目标价）。';
     content.innerHTML=`<div class="rx-title">个股处方</div>`+rxTable(r.positions,true);
+    bindRxExpand();
   }
   drawer.classList.add('open'); mask.classList.add('open');
 }
-document.querySelectorAll('[data-type]').forEach(el=>{ if(el.classList.contains('alloc-row')||el.classList.contains('ind-row')) el.onclick=()=>openDrawer(el.dataset.type,+el.dataset.i); });
+
+// 行点击：股票大类 → 滚动高亮矩阵；其余大类 → 抽屉；行业 → 抽屉
+document.querySelectorAll('[data-type]').forEach(el=>{
+  if(!el.classList.contains('alloc-row')&&!el.classList.contains('ind-row')) return;
+  el.onclick=()=>{
+    const type=el.dataset.type, i=+el.dataset.i;
+    if(type==='asset'){
+      const a=assets[i];
+      if(a.drill==='scroll'){ const c=document.getElementById('matrix-card'); c.scrollIntoView({behavior:'smooth',block:'start'}); c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash'); return; }
+      if(a.drill==='none') return;
+    }
+    openDrawer(type,i);
+  };
+});
 document.getElementById('dr-close').onclick=()=>{drawer.classList.remove('open');mask.classList.remove('open');};
 mask.onclick=()=>{drawer.classList.remove('open');mask.classList.remove('open');};
 </script>
