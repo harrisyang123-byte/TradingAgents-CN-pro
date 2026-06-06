@@ -97,3 +97,75 @@ stage 取值：`macro | industry | pm | synth`。
 - **ingest**：把 v3 产物（`final_prescription.json` / `industry_matrix.json`）写入 MongoDB `portfolio_advice`，与前端读取对齐。
 - **前端**：`Overview.vue` 行业矩阵读 `advice.industry_matrix`。
 - **持仓快照指纹**：已纳入本轮（`pm`/`synth` 指纹含持仓），后续可扩展到自动检测触发重跑。
+
+---
+
+## 6. 端到端真跑发现（2026-06-06，真实数据 + 截图持仓夹具）
+
+按 `Step0→synth` 顺序真跑了一遍（宏观/行情用 akshare 实时真数据，持仓按参考截图造 14 行业 / 60 万夹具），
+落到真 `ingest_advice.py --out-json` 并逐字段比对前端 `Overview.vue` / 后端 `paper.py` overview 契约。
+暴露并修复了一个**静态审查没发现、只有真跑才会触发的端到端阻断 bug**，另记录 akshare 接口漂移。
+全部证据夹具留存于 `.adv_e2e/`，可用 `scripts/verify_advice_e2e.py` 复跑回归。
+
+### 6.1 🔴 cash_floor 中止 bug（已修复）
+
+**现象**：只要宏观裁判给了 `cash_floor > 0`（本轮=10%），`runSynth()` 在风控规则引擎处必报
+`cash_floor` 违规 → 返回 `violations_found` → 整条编排在 Synthesizer 之前中止，**处方永远产不出来**。
+
+**根因**（`tradingagents/agents/advisors/risk_rules.py::check_pm_positions` 规则4，第 91-106 行）：
+
+```
+cash_pm = next((p for p in pm_results if p.get("industry") == "现金"), None)
+if cash_pm: ...校验现金权重 ≥ cash_floor...
+elif cash_floor > 0:
+    # 没有「现金」项 → 直接报违规「无现金行业配仓，但要求不低于 N%」
+```
+
+而 PM 阶段（`workflow-v3-pm-debate.js`）只把 **Go 行业**喂进风控引擎，**从不构造「现金」项** →
+`cash_pm` 恒为 `None` → 只要 `cash_floor > 0` 必然命中 `elif` 分支报违规。这是规则引擎期望的
+「现金项」与 PM 阶段实际产物之间的契约缺口，全量/增量编排都会触发。
+
+**修复**（`scripts/workflow-v3-advisor.js::runSynth`，调风控前注入合成「现金」项）：
+现金权重 = `100 − 跨行业裁判分配表(industry_allocations.json)里全部非现金行业 final_weight 之和`
+（本轮 = 100 − 73.5 = 26.5%），若分配表已有「现金」行则直接取其 `final_weight`，兜底回退到 `cashFloor`。
+注入后再调 `check_pm_positions`，违规归零，流水线跑到 Synthesizer 出完整处方。`node --check` 通过。
+
+> ⚠️ 同步提醒：`.claude/workflows/workflow-v3-advisor.js` 副本需同步此修复（见 §4 改动清单第 3 项）。
+> 更彻底的修法是让 PM 阶段或 synthesizer 显式落一个「现金」配仓项，本轮先在编排器侧注入兜住阻断。
+
+### 6.2 ⚠️ akshare 接口漂移适配（沙箱 akshare 1.18.64 实测）
+
+真查时装的 akshare **1.18.64** 与 `market_tools.py` 代码假设的列名/参数已漂移，对应函数会抛异常降级：
+
+| 位置 | 调用 | 漂移点 | 现象 |
+|---|---|---|---|
+| `market_tools.py::_get_industry_rankings_cn`（~209-216 行） | `ak.stock_board_industry_name_ths()` 后 `df.nlargest(30, "涨跌幅")[[top_col,"涨跌幅","成交量"]]` | 新版该接口**不再返回「涨跌幅」「成交量」列** | `KeyError: '涨跌幅'` → 行业排名走 fallback |
+| `market_tools.py::_get_sector_fund_flows_cn`（~219 行） | `ak.stock_sector_fund_flow_rank(indicator="今日", sector_type="行业资金流向")` | `sector_type` **取值已变**（"行业资金流向" 不再被接受） | `KeyError`/参数错误 → 资金流向走 fallback |
+
+补充观察：东财（EM）系接口在沙箱内连接易被重置不稳定；同花顺（THS）行业名表、指数历史
+（上证 8655 行真实历史）、sina 全市场快照（5524 只算涨跌家数=市场宽度）这三类是稳定可用的。
+
+**建议适配**（非本轮编排器范围，记一笔待办）：
+1. `_get_industry_rankings_cn`：改用东财行业接口（如 `stock_board_industry_name_em` + 实时行情）取真实涨跌幅，
+   或对 THS 返回列做存在性判断（`"涨跌幅" in df.columns` 再排序），缺列则降级而非抛 `KeyError`。
+2. `_get_sector_fund_flows_cn`：核对当前 akshare 版本 `stock_sector_fund_flow_rank` 的 `sector_type`
+   合法取值并改用新值，同样加列/参数存在性保护。
+3. 统一在 A股实现层对 akshare 列名/参数做防御式校验，避免一次接口漂移就让整段行业数据静默降级。
+
+> 注：本机若锁的是旧版 akshare，上述函数可能仍正常；漂移仅在升级到 1.18.x 后暴露。建议在
+> `requirements` 锁定 akshare 版本，或按上面做版本无关的防御式取列。
+
+### 6.3 真跑结果对比（验证「敢不敢给指导」）
+
+| 维度 | 截图坏状态 | 本轮真跑产出 |
+|---|---|---|
+| 目标% | 全 0% | 科技 13% / 黄金 8% / 债券 7% … |
+| 操作 | 全「持有」 | add 8 / reduce 7 / new 1 |
+| delta | 几乎全 0 | 科技 +6.6% / 黄金 +5% / QDII −5.4% / 债券 −6.2% |
+| 资金 | 看不到 | 60万→投资44.1万(73.5%)+现金15.9万(26.5%) |
+
+前端契约字段（`delta` 数字 / `go_nogo` 大写 GO/NOGO / `holdings_weight` / `target_weight` /
+`vitality_level` / `market` / `codes→prescription.code` 关联 / `industry_bucket`）逐项断言通过。
+
+> 边界诚实标注：本轮**未真写 MongoDB**（沙箱无 DB，走 `--out-json` 旁路验证字段契约，落库代码路径本身未跑）；
+> 行情/宏观为真数据，持仓为按截图造的夹具。

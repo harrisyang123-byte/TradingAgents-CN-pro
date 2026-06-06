@@ -322,13 +322,29 @@ async function runSynth() {
   let violations = [];
   try {
     const result = await Bash(`python3 -c "
-import json
+import json, os
 from tradingagents.agents.advisors.risk_rules import check_pm_positions
 with open('${p('pm_results.json')}') as f: pm_results = json.load(f)
 all_results = []
 for pr in pm_results:
     if isinstance(pr, dict):
         all_results.append(pr.get('result', pr))
+# 注入「现金」项：PM 阶段只产 Go 行业，风控规则4(cash_floor)需要现金项，
+# 否则 cash_floor>0 时必报违规导致 synth 永远被中止。
+# 现金权重 = 100 - 全部非现金行业目标权重之和（取自跨行业裁判分配表）。
+cash_weight = None
+alloc_path = '${p('industry_allocations.json')}'
+if os.path.exists(alloc_path):
+    with open(alloc_path) as f: alloc = json.load(f)
+    rows = alloc if isinstance(alloc, list) else alloc.get('allocations', [])
+    invested = sum(float(r.get('final_weight', 0) or 0) for r in rows if str(r.get('industry','')) != '现金')
+    cash_row = next((r for r in rows if str(r.get('industry','')) == '现金'), None)
+    cash_weight = float(cash_row.get('final_weight')) if cash_row and cash_row.get('final_weight') is not None else round(100.0 - invested, 1)
+if cash_weight is None:
+    cash_weight = ${cashFloor}
+if not any(str(r.get('industry','')) == '现金' for r in all_results):
+    all_results.append({'industry': '现金', 'final_weight': cash_weight,
+                        'positions': [{'code': 'CASH', 'target_weight': cash_weight}]})
 violations = check_pm_positions(all_results, ${totalLimit}, ${cashFloor}, ${maxSingle})
 print(json.dumps(violations, ensure_ascii=False, indent=2))
 " 2>&1`);

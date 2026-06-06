@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "collected_at": "2026-06-06T04:06:20.268858+00:00Z",
+  "source": "akshare-live(sina spot)",
+  "up_ratio": 59.3,
+  "breadth_signal": "偏暖",
+  "advancers": 3276,
+  "decliners": 2113,
+  "unchanged": 135,
+  "north_net": 0,
+  "north_days": 0,
+  "north_direction": "N/A",
+  "margin_balance": 0,
+  "margin_change_pct": 0,
+  "flow_signal": "中性",
+  "note": "涨跌家数为本次会话 akshare sina spot 实时采集(5524只,涨比59.3%); 北向/融资(EM)沙箱不稳定置默认"
+}

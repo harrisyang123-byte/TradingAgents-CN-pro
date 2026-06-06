@@ -1,0 +1,186 @@
+{
+  "collected_at": "2026-06-06T04:06:00Z",
+  "status": "success",
+  "user_id": "6a094caea814b57d3357fa0b",
+  "available_cash": 173400.0,
+  "total_assets": 600000.0,
+  "position_count": 16,
+  "positions": [
+    {
+      "code": "513100",
+      "name": "纳指ETF",
+      "industry": "QDII/海外",
+      "weight": 9.2,
+      "market_value": 55200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "513500",
+      "name": "标普500ETF",
+      "industry": "QDII/海外",
+      "weight": 9.2,
+      "market_value": 55200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "000725",
+      "name": "京东方A",
+      "industry": "科技",
+      "weight": 3.2,
+      "market_value": 19200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "002415",
+      "name": "海康威视",
+      "industry": "科技",
+      "weight": 3.2,
+      "market_value": 19200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "511260",
+      "name": "十年国债ETF",
+      "industry": "债券",
+      "weight": 13.2,
+      "market_value": 79200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "510300",
+      "name": "沪深300ETF",
+      "industry": "宽基指数",
+      "weight": 10.7,
+      "market_value": 64200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "industry": "新能源",
+      "weight": 2.8,
+      "market_value": 16800.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "518880",
+      "name": "黄金ETF",
+      "industry": "黄金",
+      "weight": 3.0,
+      "market_value": 18000.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "512170",
+      "name": "医疗ETF",
+      "industry": "行业ETF",
+      "weight": 2.7,
+      "market_value": 16200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "600276",
+      "name": "恒瑞医药",
+      "industry": "医药",
+      "weight": 0.6,
+      "market_value": 3600.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "002460",
+      "name": "赣锋锂业",
+      "industry": "新材料",
+      "weight": 3.2,
+      "market_value": 19200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "603799",
+      "name": "华友钴业",
+      "industry": "新材料",
+      "weight": 3.2,
+      "market_value": 19200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "002027",
+      "name": "分众传媒",
+      "industry": "传媒娱乐",
+      "weight": 2.7,
+      "market_value": 16200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "000063",
+      "name": "中兴通讯",
+      "industry": "通信设备",
+      "weight": 2.7,
+      "market_value": 16200.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "002236",
+      "name": "大华股份",
+      "industry": "安防科技",
+      "weight": 1.1,
+      "market_value": 6600.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    },
+    {
+      "code": "002050",
+      "name": "三花智控",
+      "industry": "汽车零部件",
+      "weight": 0.4,
+      "market_value": 2400.0,
+      "market": "cn",
+      "cost_price": 0,
+      "current_price": 0,
+      "quantity": 0
+    }
+  ]
+}

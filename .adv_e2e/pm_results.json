@@ -1,0 +1,30 @@
+[
+  {"industry": "科技", "result": {"industry": "科技", "final_weight": 13.0, "positions": [
+    {"code": "000725", "name": "京东方A", "target_weight": 6.5, "current_weight": 3.2, "action": "add",
+     "entry_price_range": {"low": 4.2, "high": 4.6}, "build_strategy": "batch",
+     "batch_plan": ["首批 4.4 建 3.5%", "回调 4.2 补至 6.5%"],
+     "reasoning": "面板周期上行+OLED放量，半导体景气主线，由3.2%加至6.5%。", "risk_note": "面板价格波动", "pe_percentile": 35},
+    {"code": "002415", "name": "海康威视", "target_weight": 6.5, "current_weight": 3.2, "action": "add",
+     "entry_price_range": {"low": 28.0, "high": 31.0}, "build_strategy": "batch",
+     "batch_plan": ["首批 30 建 3.5%", "回调 28 补至 6.5%"],
+     "reasoning": "AI+安防需求复苏，海外收入修复，由3.2%加至6.5%。", "risk_note": "海外政策风险", "pe_percentile": 30}
+  ]}},
+  {"industry": "黄金", "result": {"industry": "黄金", "final_weight": 8.0, "positions": [
+    {"code": "518880", "name": "黄金ETF", "target_weight": 8.0, "current_weight": 3.0, "action": "add",
+     "entry_price_range": {"low": 5.8, "high": 6.2}, "build_strategy": "immediate",
+     "batch_plan": ["立即加至6%", "回调6.0以下补满8%"],
+     "reasoning": "指数高位需避险对冲，央行购金+实际利率下行支撑，由3%加至8%。", "risk_note": "美元反弹压制", "pe_percentile": null}
+  ]}},
+  {"industry": "医药", "result": {"industry": "医药", "final_weight": 3.0, "positions": [
+    {"code": "600276", "name": "恒瑞医药", "target_weight": 3.0, "current_weight": 0.6, "action": "add",
+     "entry_price_range": {"low": 45.0, "high": 50.0}, "build_strategy": "batch",
+     "batch_plan": ["首批 48 建 1.5%", "回调 45 补至 3%"],
+     "reasoning": "创新药管线兑现+集采出清，估值历史低位，由0.6%加至3%。", "risk_note": "研发不及预期", "pe_percentile": 25}
+  ]}},
+  {"industry": "通信设备", "result": {"industry": "通信设备", "final_weight": 4.0, "positions": [
+    {"code": "000063", "name": "中兴通讯", "target_weight": 4.0, "current_weight": 2.7, "action": "add",
+     "entry_price_range": {"low": 32.0, "high": 36.0}, "build_strategy": "batch",
+     "batch_plan": ["首批 34 建 2.7%", "回调 32 补至 4%"],
+     "reasoning": "AI算力基建拉动光通信/交换机需求，由2.7%加至4%。", "risk_note": "运营商资本开支节奏", "pe_percentile": 40}
+  ]}}
+]
