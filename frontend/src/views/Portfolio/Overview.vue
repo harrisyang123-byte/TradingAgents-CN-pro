@@ -52,6 +52,12 @@
         </template>
         <div v-else class="alloc-note">⚠️ 本次未生成大类目标配比（大类配置 agent 未产出），仅展示当前持仓现状，不编造目标值。</div>
 
+        <!-- 大类裁判一句话结论（asset_allocation.summary）：让用户一眼看到本次大类层的总体判断 -->
+        <div v-if="assetAllocation && assetAllocation.summary" class="alloc-summary">
+          <span class="alloc-summary-tag">大类裁判结论</span>
+          <span class="alloc-summary-text">{{ assetAllocation.summary }}</span>
+        </div>
+
         <table class="alloc-table">
           <thead>
             <tr><th>大类</th><th>现状%</th><th>目标%</th><th>变动</th><th>操作</th><th>调仓金额</th><th></th></tr>
@@ -76,7 +82,7 @@
               <td><span v-if="a.target_amount != null && a.delta">{{ formatMoney(Math.abs(a.target_amount - a.current_amount)) }}</span><span v-else class="text-muted">--</span></td>
               <td>
                 <span v-if="a.asset_class === '股票'" class="drill-hint">↓ 见下方矩阵</span>
-                <span v-else-if="['黄金','债券','海外'].includes(a.asset_class)" class="drill-hint">下钻 →</span>
+                <span v-else class="drill-hint">下钻 →</span>
               </td>
             </tr>
           </tbody>
@@ -237,8 +243,26 @@
 
       <!-- 配置理由 -->
       <div v-if="(drawerType==='asset' ? drawerAsset?.reasoning : selectedIndustry?.reasoning)" class="reasoning-box">
-        <div class="reasoning-head">配置理由</div>
+        <div class="reasoning-head">{{ drawerType==='asset' ? '大类配置理由（大类裁判）' : '配置理由' }}</div>
         <div class="reasoning-body">{{ drawerType==='asset' ? drawerAsset?.reasoning : selectedIndustry?.reasoning }}</div>
+      </div>
+      <div v-else-if="drawerType==='asset'" class="reasoning-box reasoning-box-empty">
+        <div class="reasoning-head">大类配置理由</div>
+        <div class="reasoning-body text-muted">本次大类裁判未给出该大类的单独配置理由（agent 未产出，不编造）。可参考上方「大类裁判结论」。</div>
+      </div>
+
+      <!-- 标的目标对账（问题3）：大类目标 vs 标的目标之和，不一致时诚实标注差额来源 -->
+      <div v-if="drawerType==='asset' && drawerTargetGap !== null" class="recon-box" :class="Math.abs(drawerTargetGap) >= 0.5 ? 'recon-warn' : 'recon-ok'">
+        <div class="recon-row">
+          <span>大类目标 <b>{{ drawerAssetTarget?.toFixed(1) }}%</b></span>
+          <span class="recon-vs">vs</span>
+          <span>标的目标合计 <b>{{ drawerTargetSum.toFixed(1) }}%</b></span>
+          <span class="recon-gap">差额 {{ drawerTargetGap > 0 ? '+' : '' }}{{ drawerTargetGap.toFixed(1) }}%</span>
+        </div>
+        <div v-if="Math.abs(drawerTargetGap) >= 0.5" class="recon-note">
+          ⚠️ 标的目标之和与大类目标不一致。大类目标由「大类裁判」给出，标的目标由「PM 层」逐只给出，
+          两层各自产出、链路未强制对账，差额通常是<b>未细分到具体标的的大类缓冲/待分配额度</b>，并非错误。
+        </div>
       </div>
 
       <!-- 标的处方表（行可展开看 Tier1 选股依据）-->
@@ -285,7 +309,16 @@
           </template>
         </tbody>
       </table>
-      <div v-else class="rx-empty">暂无标的处方明细</div>
+      <div v-else class="rx-empty">
+        <template v-if="drawerType==='asset' && drawerAsset?.asset_class==='现金'">
+          现金为防御性敞口，无标的处方。为什么持有这些现金，见上方「大类配置理由」。
+        </template>
+        <template v-else-if="drawerType==='asset'">
+          本大类作为整体敞口配置（如 ETF/QDII/债基/金 ETF），组合顾问当前不细分到具体标的。
+          配置原因见上方「大类配置理由」；想深挖具体标的可用「股票分析」单独研究。
+        </template>
+        <template v-else>暂无标的处方明细</template>
+      </div>
     </div>
   </div>
 </template>
@@ -404,6 +437,23 @@ const drawerPositions = computed<AdviceItem[]>(() => {
 // 海外大类 PE 有意义，其余大类（债券/黄金）无 PE
 const drawerShowPe = computed(() => drawerType.value === 'industry' || drawerAsset.value?.asset_class === '海外')
 
+// 标的目标对账（问题3）：大类目标 vs 其下标的目标之和。
+// 大类目标来自「大类裁判」，标的目标来自「PM 层」，两套 agent 各自产出、
+// 链路里没有强制对账步骤，因此可能不一致。这里诚实展示差额，不掩盖。
+const drawerTargetSum = computed(() =>
+  Math.round(drawerPositions.value.reduce((s, p) => s + (p.target_weight || 0), 0) * 10) / 10
+)
+const drawerAssetTarget = computed<number | null>(() => {
+  if (drawerType.value !== 'asset') return null
+  const t = drawerAsset.value?.target_weight
+  return t == null ? null : t
+})
+const drawerTargetGap = computed<number | null>(() => {
+  const t = drawerAssetTarget.value
+  if (t == null || !drawerPositions.value.length) return null
+  return Math.round((t - drawerTargetSum.value) * 10) / 10
+})
+
 // --- helpers ---
 function actionAmount(row: IndustryOverviewRow): number {
   const total = overview.value?.total_assets || 0
@@ -446,13 +496,14 @@ function openIndustryDrawer(row: IndustryOverviewRow) {
   showIndustryDrawer.value = true
 }
 
-// 大类行点击：股票→滚动高亮下方矩阵；黄金/债券/海外→开抽屉；现金/其他→不下钻
+// 大类行点击：股票→滚动高亮下方矩阵；其余大类（含现金/债券/黄金/海外/其他）→开抽屉看配置理由
+// 现金/其他过去直接 return 导致「为什么持有 35% 现金」无处可看——大类裁判其实给了 reasoning，
+// 只是前端没让它下钻。现统一可下钻，抽屉里展示该大类的配置理由（即使无标的明细）。
 function onAssetRowClick(item: any) {
   if (item.asset_class === '股票') {
     scrollToMatrix()
     return
   }
-  if (['现金', '其他'].includes(item.asset_class)) return
   drawerType.value = 'asset'
   drawerAsset.value = item
   expandedRx.value = null
@@ -674,6 +725,24 @@ onMounted(() => {
 .alloc-table .target { color: #409eff; font-weight: 600; }
 .drill-hint { color: #409eff; font-size: 12px; }
 
+/* 大类裁判一句话结论 */
+.alloc-summary { display: flex; gap: 10px; align-items: flex-start; background: #f0f7ff; border: 1px solid #d6e7ff; border-radius: 6px; padding: 10px 14px; margin: 12px 0 4px; }
+.alloc-summary-tag { flex-shrink: 0; font-size: 11px; font-weight: 600; color: #409eff; background: #ecf5ff; padding: 2px 8px; border-radius: 4px; margin-top: 1px; }
+.alloc-summary-text { font-size: 13px; line-height: 1.7; color: #4a5568; }
+
+/* 标的目标对账横幅 */
+.recon-box { border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 13px; }
+.recon-ok { background: #f0f9eb; border: 1px solid #e1f3d8; }
+.recon-warn { background: #fdf6ec; border: 1px solid #faecd8; }
+.recon-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.recon-row b { color: #303133; }
+.recon-vs { color: #c0c4cc; font-size: 12px; }
+.recon-gap { margin-left: auto; font-weight: 600; color: #e6a23c; }
+.recon-ok .recon-gap { color: #67c23a; }
+.recon-note { margin-top: 8px; font-size: 12px; color: #b88230; line-height: 1.7; }
+.recon-note b { color: #a86a1a; }
+.reasoning-box-empty { background: #fafafa; }
+
 /* 矩阵收口提示 + 滚动高亮 */
 .matrix-hint { font-size: 12px; color: #e6a23c; background: #fdf6ec; padding: 8px 20px; border-bottom: 1px solid #faecd8; }
 .matrix-flash { animation: matrixFlash 1.2s; }
@@ -710,7 +779,9 @@ onMounted(() => {
 .rating { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 4px; background: #f0f9eb; color: #529b2e; }
 .t1-target { font-size: 12px; color: #909399; }
 .t1-target b { color: #409eff; }
-.tier1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; margin-bottom: 10px; }
+/* 多头逻辑/空头风险：原为 1fr 1fr 两栏并排，窄抽屉里长文本被挤成又窄又高、不好读。
+   改为各自跨整行（单列堆叠），行宽更宽、行数更少，阅读更顺。 */
+.tier1-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 10px; }
 .t1-block { font-size: 12px; line-height: 1.75; color: #4a4a4a; }
 .t1-block .lbl { color: #909399; font-weight: 600; margin-bottom: 3px; }
 .t1-bull { border-left: 3px solid #67c23a; padding-left: 10px; }

@@ -1,7 +1,7 @@
 <template>
   <div class="debate-timeline">
     <div v-if="parsedBubbles.length === 0" class="fallback-view">
-      <div class="report-content" v-html="formatMarkdown(rawHistory)"></div>
+      <div class="report-content" v-html="formatMarkdown(humanizeContent(rawHistory))"></div>
     </div>
 
     <div v-else class="chat-container">
@@ -22,6 +22,7 @@
         <div class="bubble-content-col">
           <div class="bubble-meta">
             <span class="bubble-name">{{ bubble.roleName }}</span>
+            <span v-if="bubble.roleDesc" class="bubble-role-desc" :class="bubble.roleClass">{{ bubble.roleDesc }}</span>
           </div>
           <div class="bubble-body" :class="bubble.roleClass">
             <div class="report-content" v-html="formatMarkdown(bubble.content)"></div>
@@ -136,15 +137,140 @@ const parsedBubbles = computed(() => {
     bubbles.push({
       roleName: roleFeature.name,
       roleClass: roleFeature.className,
+      roleDesc: roleDesc(roleFeature.className),
       icon: roleFeature.icon,
       alignment: roleFeature.alignment,
-      content: content,
+      // 关键：把 agent 的结构化 JSON 渲染成可读 markdown（修复「辩论展示成一坨 JSON」）
+      content: humanizeContent(content),
       evidence: evidence
     })
   }
 
   return bubbles
 })
+
+// 角色职能副标题：让用户一眼分清「谁在首发分析、谁在反方挑战、谁在裁决」
+function roleDesc(className: string): string {
+  const m: Record<string, string> = {
+    'role-bull': '看多方 · 首发分析',
+    'role-bear': '看空方 · 反方挑战',
+    'role-aggressive': '激进观点',
+    'role-conservative': '保守观点',
+    'role-neutral': '中性观点',
+    'role-manager': '裁决 / 综合',
+  }
+  return m[className] || ''
+}
+
+// ── JSON → 可读 markdown ───────────────────────────────────────────
+// 根因：ingest 的 _text() 把 agent dict 直接 json.dumps 塞进气泡，前端 marked 渲染成一坨 JSON。
+// 这里在前端兜底解析：已落库的旧数据与未来新数据都能读得顺，无需重跑分析。
+
+// agent 字段 → 中文标签
+const FIELD_LABELS: Record<string, string> = {
+  reasoning: '判断依据', overall_assessment: '总体评估', summary: '结论',
+  macro_assessment: '宏观定调', sentiment_assessment: '情绪研判',
+  total_weight_limit: '总仓位上限', cash_floor: '现金底线', risk_preference: '风险偏好',
+  go_nogo: '结论', vitality_level: '景气', lifecycle: '生命周期',
+  tam_assessment: '市场空间(TAM)', valuation_assessment: '估值评估',
+  key_drivers: '关键驱动', key_risks: '主要风险',
+  suggested_vitality_level: '建议景气', suggested_go_nogo: '建议结论', challenges: '挑战点',
+  asset_class: '大类', industry: '行业', stance: '立场', action: '操作',
+  target_weight: '目标仓位', current_weight: '当前仓位', final_weight: '最终权重',
+  name: '名称', code: '代码', rating: '评级', target_price: '目标价',
+}
+// 作为「标签」集中成一行展示的短标量字段
+const TAG_FIELDS = new Set([
+  'go_nogo', 'suggested_go_nogo', 'vitality_level', 'suggested_vitality_level',
+  'lifecycle', 'risk_preference', 'total_weight_limit', 'cash_floor', 'action', 'stance',
+  'target_weight', 'current_weight', 'final_weight', 'rating', 'target_price',
+])
+
+function humanizeContent(raw: string): string {
+  if (!raw) return ''
+  let text = raw.trim()
+  // 抽取行业等上下文前缀 （xxx）
+  let prefix = ''
+  const pm = text.match(/^（([^）]*)）\s*/)
+  if (pm) { prefix = pm[1]; text = text.slice(pm[0].length).trim() }
+  // 仅当剩余内容确为 JSON 对象/数组才转换，散文原样返回（不破坏已可读内容）
+  if (!(text.startsWith('{') || text.startsWith('['))) return raw
+  let parsed: any
+  try { parsed = JSON.parse(text) } catch { return raw }
+  const body = renderValue(parsed)
+  if (!body) return raw
+  return (prefix ? `**【${prefix}】**\n\n` : '') + body
+}
+
+function renderValue(val: any): string {
+  if (val == null) return ''
+  if (typeof val === 'string') return val.trim()
+  if (typeof val === 'number' || typeof val === 'boolean') return String(val)
+  if (Array.isArray(val)) return renderArray(val)
+  if (typeof val === 'object') return renderObject(val)
+  return String(val)
+}
+
+function renderObject(obj: Record<string, any>): string {
+  const tagParts: string[] = []
+  const proseParts: string[] = []
+  const listParts: string[] = []
+  for (const [k, v] of Object.entries(obj)) {
+    if (v == null || v === '' || (Array.isArray(v) && !v.length)) continue
+    const label = FIELD_LABELS[k] || k
+    if (k === 'challenges' && Array.isArray(v)) { listParts.push(renderChallenges(v)); continue }
+    if (Array.isArray(v)) {
+      if (v.every(x => typeof x !== 'object' || x == null)) {
+        proseParts.push(`**${label}**：${v.filter(x => x != null).join('、')}`)
+      } else {
+        listParts.push(`**${label}**\n\n${renderArray(v)}`)
+      }
+      continue
+    }
+    if (typeof v === 'object') { listParts.push(`**${label}**\n\n${renderObject(v)}`); continue }
+    // 标量
+    if (TAG_FIELDS.has(k)) {
+      tagParts.push(`**${label}** ${formatTag(k, v)}`)
+    } else {
+      const sv = String(v).trim()
+      if (sv.length <= 16 && !/[。.\n,，]/.test(sv)) tagParts.push(`**${label}** ${sv}`)
+      else proseParts.push(`**${label}**\n\n${sv}`)
+    }
+  }
+  const out: string[] = []
+  if (tagParts.length) out.push(tagParts.join('　·　'))
+  if (proseParts.length) out.push(proseParts.join('\n\n'))
+  if (listParts.length) out.push(listParts.join('\n\n'))
+  return out.join('\n\n')
+}
+
+function renderArray(arr: any[]): string {
+  return arr.map((item, i) => {
+    if (item == null) return ''
+    if (typeof item !== 'object') return `- ${String(item)}`
+    const obj = item as Record<string, any>
+    const title = obj.industry || obj.name || obj.code || obj.asset_class || `#${i + 1}`
+    return `**${title}**\n\n${renderObject(obj)}`
+  }).filter(Boolean).join('\n\n———\n\n')
+}
+
+function renderChallenges(arr: any[]): string {
+  const sevMap: Record<string, string> = { high: '🔴 高', medium: '🟡 中', low: '⚪ 低' }
+  const items = arr.map((c, i) => {
+    if (typeof c !== 'object' || !c) return ''
+    const sev = sevMap[String(c.severity || '').toLowerCase()] || c.severity || ''
+    const point = c.point || c.challenge || ''
+    const adj = c.suggested_adjustment ? `\n　→ 建议调整：${c.suggested_adjustment}` : ''
+    return `${i + 1}. ${sev ? `(${sev}) ` : ''}${point}${adj}`
+  }).filter(Boolean)
+  return `**挑战点**\n\n${items.join('\n')}`
+}
+
+function formatTag(key: string, v: any): string {
+  if (key === 'total_weight_limit' || key === 'cash_floor') return `${v}%`
+  if ((key === 'target_weight' || key === 'current_weight' || key === 'final_weight') && typeof v === 'number') return `${v}%`
+  return String(v)
+}
 
 // 凭据标记：__EVIDENCE__:[{"t":"...","s":"verified|estimated|missing","src":"..."}]
 const EVIDENCE_RE = /__EVIDENCE__:(\[.*?\])\s*$/s
@@ -309,6 +435,22 @@ function formatMarkdown(text: string) {
   font-size: 14px;
   font-weight: 600;
   color: #4b5563;
+}
+
+.bubble-role-desc {
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #64748b;
+
+  &.role-bull { background: #ecfdf5; color: #047857; }
+  &.role-bear { background: #fef2f2; color: #b91c1c; }
+  &.role-aggressive { background: #fffbeb; color: #b45309; }
+  &.role-conservative { background: #eff6ff; color: #1d4ed8; }
+  &.role-manager { background: #f5f3ff; color: #6d28d9; }
 }
 
 .bubble-body {
