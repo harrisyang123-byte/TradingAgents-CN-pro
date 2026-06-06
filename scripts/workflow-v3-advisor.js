@@ -109,6 +109,20 @@ function refreshMatches(stage) {
   return String(refresh).split(':')[0] === stage;
 }
 
+// 保证编排：无论成功/违规/崩溃，都落一份可读的运行报告（run_report.json + run_report.md）。
+// 纯离线分析磁盘产物——回答「停在哪/为什么/前端会不会降级」，替代手动翻 json 的诊断循环。
+async function writeRunReport(finalResult) {
+  try {
+    await Bash(`cat > ${p('_run_disposition.json')} << 'ENDJSON'
+${JSON.stringify(finalResult, null, 2)}
+ENDJSON`);
+    const out = await Bash(`python3 scripts/run_report.py --data-dir ${dataDir} 2>&1 || true`);
+    log(`[run-report] ${String(out).trim().split('\n')[0] || '已生成'}`);
+  } catch (e) {
+    log(`[WARNING] 运行报告生成失败（不影响主流程）: ${e}`);
+  }
+}
+
 // ── 阶段实现 ────────────────────────────────────────────────
 
 // Step 0: 宏观裁判
@@ -731,56 +745,71 @@ const toIdx = toStage ? STAGES.indexOf(toStage) : STAGES.length - 1;
 let forceDownstream = false;
 const summary = [];
 let lastResult = null;
+let finalResult = null;
 
-for (const stage of STAGES) {
-  const idx = STAGES.indexOf(stage);
+try {
+  for (const stage of STAGES) {
+    const idx = STAGES.indexOf(stage);
 
-  // 作用域过滤
-  if (onlyStage && stage !== onlyStage) continue;
-  if (!onlyStage && fromStage && idx < fromIdx) continue;
-  if (!onlyStage && toStage && idx > toIdx) break;  // --to 截止
+    // 作用域过滤
+    if (onlyStage && stage !== onlyStage) continue;
+    if (!onlyStage && fromStage && idx < fromIdx) continue;
+    if (!onlyStage && toStage && idx > toIdx) break;  // --to 截止
 
-  let run = false, reason = '';
-  if (full) { run = true; reason = 'full'; }
-  else if (onlyStage === stage) { run = true; reason = 'only'; }
-  else if (fromStage && idx >= fromIdx) { run = true; reason = 'from'; }
-  else if (refreshMatches(stage)) { run = true; reason = 'refresh'; }
-  else if (forceDownstream) { run = true; reason = 'upstream-changed'; }
-  else {
+    let run = false, reason = '';
+    if (full) { run = true; reason = 'full'; }
+    else if (onlyStage === stage) { run = true; reason = 'only'; }
+    else if (fromStage && idx >= fromIdx) { run = true; reason = 'from'; }
+    else if (refreshMatches(stage)) { run = true; reason = 'refresh'; }
+    else if (forceDownstream) { run = true; reason = 'upstream-changed'; }
+    else {
+      const cfg = CACHE[stage];
+      const fresh = await gateFresh(stage, cfg.out, cfg.inputs, cfg.ttl);
+      if (fresh) { log(`[skip] ${stage} 缓存命中`); summary.push(`${stage}:skip`); continue; }
+      run = true; reason = 'stale';
+    }
+
+    if (!run) continue;
+    log(`[run] ${stage} (${reason})`);
+
+    // refresh 单行业：删掉该行业的研究产物，迫使重研究
+    if (stage === 'industry' && refresh && String(refresh).startsWith('industry:')) {
+      const target = String(refresh).slice('industry:'.length);
+      const sn = safeName(target);
+      await gateInvalidate(`researcher_${sn}.json`, true);
+      await Bash(`rm -f ${p(`contrarian_${sn}.json`)}`);
+      log(`已失效行业 ${target} 的研究产物`);
+    }
+
+    lastResult = await RUNNERS[stage]();
+
+    // 违规打回：synth 报违规则中止，不盖戳（但下方仍会写运行报告）
+    if (lastResult && lastResult.status === 'violations_found') {
+      log(`[abort] ${stage} 报告违规，中止编排`);
+      finalResult = { status: 'violations_found', stage, violations: lastResult.violations, data_dir: dataDir };
+      break;
+    }
+
+    // 盖戳（pm/synth ttl=0 也盖，便于审计）
     const cfg = CACHE[stage];
-    const fresh = await gateFresh(stage, cfg.out, cfg.inputs, cfg.ttl);
-    if (fresh) { log(`[skip] ${stage} 缓存命中`); summary.push(`${stage}:skip`); continue; }
-    run = true; reason = 'stale';
+    await gateStamp(stage, cfg.out, cfg.inputs, cfg.ttl);
+    summary.push(`${stage}:run(${reason})`);
+    forceDownstream = true;
+
+    if (onlyStage) break;
   }
 
-  if (!run) continue;
-  log(`[run] ${stage} (${reason})`);
-
-  // refresh 单行业：删掉该行业的研究产物，迫使重研究
-  if (stage === 'industry' && refresh && String(refresh).startsWith('industry:')) {
-    const target = String(refresh).slice('industry:'.length);
-    const sn = safeName(target);
-    await gateInvalidate(`researcher_${sn}.json`, true);
-    await Bash(`rm -f ${p(`contrarian_${sn}.json`)}`);
-    log(`已失效行业 ${target} 的研究产物`);
+  if (!finalResult) {
+    log(`编排完成: ${summary.join(' ')}`);
+    finalResult = { status: 'done', stages: summary, data_dir: dataDir, user_id: userId };
   }
-
-  lastResult = await RUNNERS[stage]();
-
-  // 违规打回：synth 报违规则中止，不盖戳
-  if (lastResult && lastResult.status === 'violations_found') {
-    log(`[abort] ${stage} 报告违规，中止编排`);
-    return { status: 'violations_found', stage, violations: lastResult.violations, data_dir: dataDir };
-  }
-
-  // 盖戳（pm/synth ttl=0 也盖，便于审计）
-  const cfg = CACHE[stage];
-  await gateStamp(stage, cfg.out, cfg.inputs, cfg.ttl);
-  summary.push(`${stage}:run(${reason})`);
-  forceDownstream = true;
-
-  if (onlyStage) break;
+} catch (err) {
+  const msg = err && err.message ? err.message : String(err);
+  log(`[crash] 编排异常中止: ${msg}`);
+  finalResult = { status: 'crashed', error: msg, stages: summary, data_dir: dataDir };
 }
 
-log(`编排完成: ${summary.join(' ')}`);
-return { status: 'done', stages: summary, data_dir: dataDir, user_id: userId };
+// 保证编排：无论 done / violations_found / crashed，都产出运行报告
+await writeRunReport(finalResult);
+
+return finalResult;
