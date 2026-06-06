@@ -131,7 +131,8 @@
           v-for="adv in adviceHistory"
           :key="adv.advice_id"
           class="history-card"
-          @click="openAdviceDetail(adv)"
+          :class="latestAdvice && latestAdvice.advice_id === adv.advice_id ? 'history-card-selected' : ''"
+          @click="selectAdvice(adv)"
         >
           <div class="history-header">
             <span class="history-date">{{ formatDateTime(adv.created_at) }}</span>
@@ -139,6 +140,8 @@
           </div>
           <div class="history-summary">
             {{ (adv.prescription || []).length }} 条处方
+            · {{ (adv as any).selected_industries?.length || (adv as any).market_intel?.industries?.length || 0 }} 个行业
+            <span v-if="(adv as any).total_assets_snapshot"> · {{ formatMoney((adv as any).total_assets_snapshot) }} 元</span>
             · 耗时 {{ adv.elapsed_seconds ? (adv.elapsed_seconds / 60).toFixed(0) + ' 分钟' : '--' }}
           </div>
         </div>
@@ -306,6 +309,12 @@ function toggleRowExpand(row: IndustryOverviewRow) {
   }
 }
 
+function selectAdvice(adv: PortfolioAdvice) {
+  latestAdvice.value = adv
+  debateCollapsed.value = false
+  openAdviceDetail(adv)
+}
+
 function openAdviceDetail(adv: PortfolioAdvice) {
   // Load overview with this advice's data
   loadOverview(false, adv)
@@ -419,6 +428,8 @@ onMounted(() => {
 
 .history-card { padding: 12px 16px; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
 .history-card:hover { background: #f5f7fa; }
+.history-card-selected { border-left: 3px solid #409eff; background: #ecf5ff; }
+.history-card-selected:hover { background: #dbeeff; }
 .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .history-date { font-size: 13px; color: #606266; }
 .history-summary { font-size: 12px; color: #909399; }
