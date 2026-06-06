@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合总揽 — 设计原型（对齐 openspec/overview-matrix-refactor）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f8; color: #303133; padding: 24px; }
+  .page { max-width: 1280px; margin: 0 auto; }
+  .design-note { background: #fff7e6; border: 1px solid #ffd591; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #874d00; margin-bottom: 16px; line-height: 1.7; }
+  .design-note b { color: #d46b08; }
+
+  /* 顶部统计卡 */
+  .stat-row { display: flex; gap: 12px; margin-bottom: 16px; }
+  .stat-card { flex: 1; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-align: center; padding: 16px; }
+  .stat-num { font-size: 24px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: #909399; margin-top: 4px; }
+
+  .card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .card-header { padding: 14px 20px; font-weight: 600; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; }
+  .btn { font-size: 12px; padding: 4px 12px; border: 1px solid #dcdfe6; border-radius: 4px; cursor: pointer; background: #fff; }
+
+  /* 行业矩阵 */
+  table.matrix { width: 100%; border-collapse: collapse; }
+  table.matrix th { text-align: left; padding: 10px 14px; font-size: 12px; color: #909399; border-bottom: 1px solid #eee; white-space: nowrap; }
+  table.matrix td { padding: 12px 14px; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+  .ind-row { cursor: pointer; transition: background .15s; }
+  .ind-row:hover { background: #f5f7fa; }
+  .ind-row.go { border-left: 3px solid #67c23a; }
+  .ind-row.nogo { border-left: 3px solid #f56c6c; }
+  .ind-name { font-weight: 600; margin-right: 6px; }
+  .src-tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; }
+  .src-holding { background: #ecf5ff; color: #409eff; }
+  .src-watchlist { background: #f0f9eb; color: #67c23a; }
+  .src-vitality { background: #fdf6ec; color: #e6a23c; }
+  .arrow { margin: 0 6px; color: #c0c4cc; font-size: 11px; }
+  .target { color: #409eff; font-weight: 600; }
+  .v-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; font-weight: 600; }
+  .v-strong, .v-good { background: #f0f9eb; color: #67c23a; }
+  .v-neutral { background: #f5f7fa; color: #909399; }
+  .v-bear { background: #fef0f0; color: #f56c6c; }
+  .delta-up { color: #67c23a; }
+  .delta-down { color: #f56c6c; }
+  .gap-pos { color: #e6a23c; }
+  .gap-neg { color: #909399; }
+  .badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .badge-go { background: #67c23a; color: #fff; }
+  .badge-nogo { background: #f56c6c; color: #fff; }
+  .badge-hold { background: #e9e9eb; color: #909399; }
+  .badge-clear { background: #f56c6c; color: #fff; }
+  .muted { color: #c0c4cc; }
+
+  /* 辩论历程 */
+  .debate-tabs { display: flex; border-bottom: 1px solid #eee; padding: 0 20px; }
+  .debate-tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; cursor: pointer; font-size: 13px; color: #606266; }
+  .debate-tab.active { color: #409eff; border-bottom-color: #409eff; font-weight: 600; }
+  .debate-body { padding: 16px 20px; }
+  .debate-round { margin-bottom: 14px; }
+  .debate-role { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 3px; margin-bottom: 6px; display: inline-block; }
+  .role-bull { background: #f0f9eb; color: #67c23a; }
+  .role-bear { background: #fef0f0; color: #f56c6c; }
+  .role-judge { background: #ecf5ff; color: #409eff; }
+  .debate-text { font-size: 13px; line-height: 1.8; color: #4a4a4a; padding: 6px 0 0 4px; }
+
+  /* Drawer */
+  .mask { position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 999; display: none; }
+  .drawer { position: fixed; top: 0; right: 0; width: 65%; max-width: 920px; height: 100vh; background: #fff; box-shadow: -4px 0 12px rgba(0,0,0,.12); z-index: 1000; overflow-y: auto; padding: 24px 28px; transform: translateX(100%); transition: transform .25s; }
+  .drawer.open { transform: translateX(0); }
+  .mask.open { display: block; }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .drawer-title { font-size: 18px; font-weight: 700; }
+  .close-btn { border: none; background: none; font-size: 22px; cursor: pointer; color: #909399; }
+
+  /* 配置快览 */
+  .snapshot { display: flex; gap: 24px; flex-wrap: wrap; background: #f8f9fb; border-radius: 6px; padding: 16px; margin-bottom: 16px; }
+  .snap-item { font-size: 13px; }
+  .snap-item .k { color: #909399; font-size: 12px; }
+  .snap-item .v { font-size: 16px; font-weight: 700; margin-top: 2px; }
+
+  /* reasoning collapse */
+  .reasoning-box { border: 1px solid #ebeef5; border-radius: 6px; margin-bottom: 16px; }
+  .reasoning-head { padding: 10px 14px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; background: #fafafa; }
+  .reasoning-body { padding: 12px 14px; font-size: 13px; line-height: 1.8; color: #606266; white-space: pre-wrap; }
+
+  /* 个股处方表格 */
+  .rx-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  table.rx { width: 100%; border-collapse: collapse; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }
+  table.rx th { text-align: left; padding: 9px 12px; font-size: 11px; color: #909399; background: #f5f7fa; border-bottom: 1px solid #ebeef5; white-space: nowrap; }
+  table.rx td { padding: 10px 12px; font-size: 12px; border-bottom: 1px solid #f5f5f5; white-space: nowrap; vertical-align: top; }
+  .rx-name { font-weight: 600; }
+  .rx-code { font-size: 11px; color: #909399; margin-left: 4px; }
+  .act { font-weight: 600; }
+  .act-buy { color: #e6a23c; }
+  .act-sell { color: #409eff; }
+  .act-hold { color: #909399; }
+  .strat { font-size: 11px; padding: 1px 6px; border-radius: 3px; }
+  .strat-immediate { background: #fef0f0; color: #f56c6c; }
+  .strat-batch { background: #fdf6ec; color: #e6a23c; }
+  .strat-conditional { background: #f0f5ff; color: #409eff; }
+  .tier { font-size: 11px; padding: 1px 6px; border-radius: 3px; background: #f4ecff; color: #8957e6; font-weight: 600; }
+  .pe { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+  .pe-high { background: #fef0f0; color: #f56c6c; }
+  .pe-low { background: #f0f9eb; color: #67c23a; }
+  .pe-mid { background: #f5f7fa; color: #909399; }
+  .expand-btn { cursor: pointer; color: #409eff; user-select: none; font-weight: 700; }
+  .rx-expand { background: #fafcff; }
+  .rx-expand td { padding: 12px 16px; }
+  .batch-line { color: #606266; margin: 3px 0; padding-left: 14px; font-size: 12px; }
+  .rx-reason { font-size: 12px; color: #606266; line-height: 1.7; margin-top: 8px; }
+  .rx-risk { font-size: 12px; color: #f56c6c; line-height: 1.7; margin-top: 6px; }
+  .block-label { font-weight: 700; color: #303133; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="design-note">
+    <b>设计原型</b>：本页对齐 <code>openspec/specs/overview-matrix-refactor</code> + <code>overview-simplify</code> 的原始设计，用于和你确认后再改 <code>Overview.vue</code>。重点修复：
+    ① 景气列有值；② 目标%/操作按真实 delta/go_nogo 渲染；③ 点击行业行 → 右滑 Drawer（宽65%）展示<b>个股处方表格</b>（含买入区间/建仓策略/Tier1评级/PE分位 + 展开看分批计划/理由/风险）；④ 辩论历程三 tab 有真实结构化内容。
+  </div>
+
+  <!-- 顶部统计 -->
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num" style="color:#409eff;">14</div><div class="stat-label">总行业数</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#67c23a;">14</div><div class="stat-label">已覆盖</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#e6a23c;">0</div><div class="stat-label">待更新</div></div>
+    <div class="stat-card"><div class="stat-num">86%</div><div class="stat-label">数据质量</div></div>
+  </div>
+
+  <!-- 行业矩阵 -->
+  <div class="card">
+    <div class="card-header"><span>行业配置矩阵</span><button class="btn">刷新</button></div>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>行业</th><th>市场</th><th>景气</th><th>现持仓%</th><th>目标%</th><th>缺口</th><th>操作</th><th>调仓金额</th>
+        </tr>
+      </thead>
+      <tbody id="matrix-body"></tbody>
+    </table>
+  </div>
+
+  <!-- 辩论历程 -->
+  <div class="card">
+    <div class="card-header"><span>分析师辩论历程</span></div>
+    <div class="debate-tabs">
+      <button class="debate-tab active" data-tab="market">市场研判（L1）</button>
+      <button class="debate-tab" data-tab="stock">个股辩论（L3）</button>
+      <button class="debate-tab" data-tab="final">综合裁决</button>
+    </div>
+    <div class="debate-body" id="debate-body"></div>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div class="mask" id="mask"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <span class="drawer-title" id="dr-title">科技</span>
+    <button class="close-btn" id="dr-close">×</button>
+  </div>
+  <div class="snapshot" id="dr-snapshot"></div>
+  <div class="reasoning-box">
+    <div class="reasoning-head" id="reason-toggle"><span>行业分析</span><span id="reason-arrow">▾</span></div>
+    <div class="reasoning-body" id="dr-reasoning"></div>
+  </div>
+  <div class="rx-title">个股处方</div>
+  <table class="rx">
+    <thead>
+      <tr>
+        <th></th><th>标的</th><th>操作</th><th>现仓 → 目标</th><th>买入区间</th><th>建仓策略</th><th>Tier1评级</th><th>PE分位</th>
+      </tr>
+    </thead>
+    <tbody id="dr-rx-body"></tbody>
+  </table>
+</div>
+
+<script>
+// ---- mock 数据：字段名与后端 industry_matrix / prescription 真实契约一致 ----
+const matrix = [
+  { industry:'全球配置', market:'cn', vitality_level:'看空', vclass:'v-bear', source:'holding', holdings_weight:20.1, target_weight:18.1, delta:-2.0, gap:-2.0, go_nogo:'NOGO', amount:'2.3万',
+    reasoning:'海外权益估值偏高、汇率扰动加大，下调配置降低组合 beta。', positions:[] },
+  { industry:'债券/固收', market:'cn', vitality_level:'看好', vclass:'v-good', source:'holding', holdings_weight:14.6, target_weight:15.5, delta:0.9, gap:0.9, go_nogo:'GO', amount:'1.0万',
+    reasoning:'利率下行通道未结束，久期适度拉长，作为组合压舱石小幅加配。', positions:[] },
+  { industry:'宽基指数', market:'cn', vitality_level:'中性', vclass:'v-neutral', source:'holding', holdings_weight:12.2, target_weight:9.0, delta:-3.2, gap:-3.2, go_nogo:'NOGO', amount:'3.8万',
+    reasoning:'指数处历史高位区，宽度虽偏暖但性价比下降，减配腾挪给高景气主题。', positions:[] },
+  { industry:'人工智能/软件', market:'cn', vitality_level:'强烈看好', vclass:'v-strong', source:'vitality', holdings_weight:5.4, target_weight:9.5, delta:4.1, gap:4.1, go_nogo:'GO', amount:'4.7万',
+    reasoning:'算力与端侧 AI 景气向上，国产替代加速。在 total_weight_limit 内优先加配，买入区间取 Tier1 ∩ PE分位保守值。',
+    positions:[
+      { name:'海光信息', code:'688041', action:'add', current_weight:2.1, target_weight:4.5, entry:[120,150], strategy:'batch', tier1:'A', pe_pctile:72,
+        batch_plan:[{p:'120-130',w:'2%',cond:'回调首批'},{p:'130-150',w:'2.5%',cond:'放量确认加第二批'}],
+        reason:'DCU 国产算力龙头，订单能见度高；当前 PE 分位偏高，分批介入控成本。', risk:'美方制裁升级、流片良率不及预期。' },
+      { name:'中科曙光', code:'603019', action:'new_position', current_weight:0, target_weight:3.0, entry:[55,62], strategy:'conditional', tier1:'A-', pe_pctile:48,
+        batch_plan:[{p:'≤58',w:'3%',cond:'突破前高回踩不破'}],
+        reason:'算力基础设施+液冷布局，Tier1 评级 A-，估值分位中性。', risk:'政府订单节奏波动。' },
+      { name:'金山办公', code:'688111', action:'add', current_weight:3.3, target_weight:2.0, entry:[210,235], strategy:'immediate', tier1:'B+', pe_pctile:85,
+        batch_plan:[], reason:'WPS AI 商业化兑现偏慢，估值分位 85% 偏贵，降低权重锁定收益。', risk:'AI 订阅转化低于预期。' },
+    ]},
+  { industry:'新能源（发电）', market:'cn', vitality_level:'看好', vclass:'v-good', source:'watchlist', holdings_weight:2.0, target_weight:3.0, delta:1.0, gap:1.0, go_nogo:'GO', amount:'1.2万',
+    reasoning:'光储平价临近、海外需求修复，景气拐点确认，小幅加配优质龙头。',
+    positions:[
+      { name:'阳光电源', code:'300274', action:'add', current_weight:2.0, target_weight:3.0, entry:[78,90], strategy:'batch', tier1:'A', pe_pctile:35,
+        batch_plan:[{p:'78-83',w:'1.5%',cond:'首批'},{p:'83-90',w:'1.5%',cond:'确认加仓'}],
+        reason:'逆变器+储能双轮驱动，海外占比提升，估值分位 35% 安全边际充足。', risk:'欧洲去库存超预期。' },
+    ]},
+  { industry:'消费（可选）', market:'cn', vitality_level:'中性', vclass:'v-neutral', source:'holding', holdings_weight:3.5, target_weight:3.5, delta:0.1, gap:0.1, go_nogo:'GO', amount:'600',
+    reasoning:'复苏温和，维持标配等待消费数据进一步确认。', positions:[] },
+  { industry:'医药健康', market:'cn', vitality_level:'看好', vclass:'v-good', source:'vitality', holdings_weight:0.6, target_weight:2.5, delta:1.9, gap:1.9, go_nogo:'GO', amount:'2.3万',
+    reasoning:'创新药出海+院内复苏，当前严重低配，提升至标配。',
+    positions:[
+      { name:'恒瑞医药', code:'600276', action:'new_position', current_weight:0, target_weight:1.5, entry:[42,48], strategy:'batch', tier1:'A', pe_pctile:40,
+        batch_plan:[{p:'42-45',w:'0.8%',cond:'首批'},{p:'45-48',w:'0.7%',cond:'放量加'}],
+        reason:'创新药管线兑现，license-out 持续，估值回到合理分位。', risk:'集采降价超预期。' },
+    ]},
+  { industry:'通信/5G', market:'cn', vitality_level:'中性', vclass:'v-neutral', source:'holding', holdings_weight:2.7, target_weight:2.4, delta:-0.3, gap:-0.3, go_nogo:'NOGO', amount:'3800', reasoning:'景气平淡，小幅减配。', positions:[] },
+  { industry:'互联网/平台', market:'cn', vitality_level:'看空', vclass:'v-bear', source:'holding', holdings_weight:4.0, target_weight:0, delta:-4.0, gap:-4.0, go_nogo:'NOGO', amount:'4.8万',
+    reasoning:'监管与增长双重压力，景气下行，清仓规避。', positions:[
+      { name:'腾讯控股', code:'00700', action:'sell', current_weight:4.0, target_weight:0, entry:null, strategy:'immediate', tier1:'B', pe_pctile:55,
+        batch_plan:[], reason:'游戏版号与广告增速放缓，景气判空，清仓兑现。', risk:'若回购加码可能错过反弹。' },
+    ]},
+  { industry:'化工/材料', market:'cn', vitality_level:'看空', vclass:'v-bear', source:'holding', holdings_weight:6.0, target_weight:0, delta:-6.0, gap:-6.0, go_nogo:'NOGO', amount:'7.2万', reasoning:'周期下行+库存高企，清仓。', positions:[] },
+  { industry:'半导体', market:'cn', vitality_level:'中性', vclass:'v-neutral', source:'holding', holdings_weight:0.8, target_weight:0, delta:-0.8, gap:-0.8, go_nogo:'NOGO', amount:'9900', reasoning:'仓位过小且景气未确认，清仓集中火力到 AI 算力。', positions:[] },
+  { industry:'新能源车', market:'cn', vitality_level:'看空', vclass:'v-bear', source:'holding', holdings_weight:1.0, target_weight:0, delta:-1.0, gap:-1.0, go_nogo:'NOGO', amount:'1.2万', reasoning:'价格战持续，毛利承压，清仓。', positions:[] },
+  { industry:'高端制造', market:'cn', vitality_level:'中性', vclass:'v-neutral', source:'holding', holdings_weight:1.1, target_weight:0, delta:-1.1, gap:-1.1, go_nogo:'NOGO', amount:'1.3万', reasoning:'订单能见度低，清仓。', positions:[] },
+];
+
+const debates = {
+  market: [
+    { role:'多头(L1)', cls:'role-bull', text:'上证 4027 点处历史高位区，但市场宽度涨比 59.3%（3276涨/2113跌）偏暖，北向资金连续净流入，risk-on 环境下应保持较高仓位，建议 total_weight_limit 上调至 78%。' },
+    { role:'空头(L1)', cls:'role-bear', text:'指数高位+成交放量但量价背离，PMI 边际走弱，需警惕高位回调。建议留足现金缓冲，total_weight_limit 不超过 70%、cash_floor 至少 10%。' },
+    { role:'宏观裁判', cls:'role-judge', text:'综合：risk-on 但高位，取折中——total_weight_limit=73%，cash_floor=10%。结构上减防御（债券小加作压舱石）、加高景气主题（AI/医药/新能源发电）。' },
+  ],
+  stock: [
+    { role:'激进PM(L3)', cls:'role-bull', text:'海光信息算力国产替代确定性高，建议直接配满 4.5%，immediate 介入不等回调，错过比买贵更可惜。' },
+    { role:'保守PM(L3)', cls:'role-bear', text:'海光当前 PE 分位 72% 偏高，一次性买满风险大。建议分两批：120-130 首批 2%，确认放量再加 2.5%，控制成本。' },
+    { role:'PM裁判', cls:'role-judge', text:'采纳分批方案：海光 batch（120-130 / 130-150 两批合计 4.5%），买入区间取 Tier1 估值 ∩ PE分位保守值的交集。中科曙光 conditional 等突破回踩。' },
+  ],
+  final: [
+    { role:'风控总监', cls:'role-bear', text:'AI 板块合计目标 12.5%，叠加单股集中度，需校验：单股 ≤ max_single_weight、行业合计 ≤ final_weight。组合 max_drawdown 估算 -18%，在 20% 阈值内。' },
+    { role:'风控分析师', cls:'role-bull', text:'清仓互联网/化工/半导体释放约 13% 资金，再配置到高景气方向，整体夏普改善。踏空风险大于回撤风险，支持当前处方。' },
+    { role:'Portfolio Synthesizer', cls:'role-judge', text:'约束链完整：投资合计 73%（=上限）、现金 27%（≥floor 10%）。无行业缺口 >3%。最终处方：买 9 / 减 10 / 持 4，共 23 条，可直接执行。' },
+  ],
+};
+
+const actLabel = { add:'加仓', new_position:'建仓', buy:'买入', sell:'卖出', reduce:'减仓', hold:'持有' };
+const actCls = { add:'act-buy', new_position:'act-buy', buy:'act-buy', sell:'act-sell', reduce:'act-sell', hold:'act-hold' };
+const stratLabel = { immediate:'立即', batch:'分批', conditional:'条件' };
+const srcLabel = { holding:'持仓', watchlist:'关注', vitality:'景气' };
+
+function opBadge(r) {
+  if (r.target_weight === 0 && r.holdings_weight > 0) return '<span class="badge badge-clear">清仓</span>';
+  if (r.delta > 0) return '<span class="badge badge-go">'+(r.go_nogo==='GO'?'GO ':'')+'加仓</span>';
+  if (r.delta < 0) return '<span class="badge badge-nogo">'+(r.go_nogo==='NOGO'?'NOGO ':'')+'减仓</span>';
+  return '<span class="badge badge-hold">持有</span>';
+}
+function peCls(p){ return p>80?'pe-high':p<30?'pe-low':'pe-mid'; }
+
+// 渲染矩阵
+const mb = document.getElementById('matrix-body');
+matrix.forEach((r, i) => {
+  const rowCls = r.go_nogo==='GO'?'go':(r.go_nogo==='NOGO'?'nogo':'');
+  const deltaHtml = r.delta>0?`<span class="delta-up">+${r.delta.toFixed(1)}%</span>`:(r.delta<0?`<span class="delta-down">${r.delta.toFixed(1)}%</span>`:'0%');
+  const gapHtml = r.gap>0?`<span class="gap-pos">+${r.gap.toFixed(1)}%</span>`:`<span class="gap-neg">${r.gap.toFixed(1)}%</span>`;
+  const tr = document.createElement('tr');
+  tr.className = 'ind-row '+rowCls;
+  tr.innerHTML = `
+    <td><span class="ind-name">${r.industry}</span><span class="src-tag src-${r.source}">${srcLabel[r.source]||''}</span></td>
+    <td style="color:#606266;font-size:12px;">${r.market||'--'}</td>
+    <td><span class="v-tag ${r.vclass}">${r.vitality_level}</span></td>
+    <td><span>${r.holdings_weight.toFixed(1)}%</span><span class="arrow">→</span><span class="target">${r.target_weight.toFixed(1)}%</span></td>
+    <td style="font-size:12px;">${deltaHtml}</td>
+    <td style="font-size:12px;">${gapHtml}</td>
+    <td>${opBadge(r)}</td>
+    <td style="font-size:13px;">${r.amount}</td>`;
+  tr.onclick = () => openDrawer(i);
+  mb.appendChild(tr);
+});
+
+// 辩论历程
+function renderDebate(tab){
+  const body = document.getElementById('debate-body');
+  body.innerHTML = debates[tab].map(d=>`
+    <div class="debate-round">
+      <span class="debate-role ${d.cls}">${d.role}</span>
+      <div class="debate-text">${d.text}</div>
+    </div>`).join('');
+}
+renderDebate('market');
+document.querySelectorAll('.debate-tab').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll('.debate-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDebate(btn.dataset.tab);
+  };
+});
+
+// Drawer
+const drawer = document.getElementById('drawer'), mask = document.getElementById('mask');
+function openDrawer(i){
+  const r = matrix[i];
+  document.getElementById('dr-title').textContent = r.industry;
+  document.getElementById('dr-snapshot').innerHTML = `
+    <div class="snap-item"><div class="k">景气强度</div><div class="v"><span class="v-tag ${r.vclass}">${r.vitality_level}</span></div></div>
+    <div class="snap-item"><div class="k">当前 → 目标</div><div class="v">${r.holdings_weight.toFixed(1)}% <span class="arrow">→</span> <span class="target">${r.target_weight.toFixed(1)}%</span></div></div>
+    <div class="snap-item"><div class="k">操作</div><div class="v">${opBadge(r)}</div></div>
+    <div class="snap-item"><div class="k">调仓金额</div><div class="v">${r.amount}</div></div>
+    <div class="snap-item"><div class="k">入池来源</div><div class="v" style="font-size:13px;">${srcLabel[r.source]||'--'}</div></div>`;
+  document.getElementById('dr-reasoning').textContent = r.reasoning || '暂无行业分析';
+  const tb = document.getElementById('dr-rx-body');
+  if (!r.positions.length){
+    tb.innerHTML = `<tr><td colspan="8" style="text-align:center;color:#c0c4cc;padding:24px;">该行业暂无个股处方数据</td></tr>`;
+  } else {
+    tb.innerHTML = r.positions.map((p, idx)=>{
+      const entry = p.entry ? `${p.entry[0]} - ${p.entry[1]}` : '<span class="muted">--</span>';
+      const batchHtml = (p.batch_plan&&p.batch_plan.length)
+        ? `<span class="block-label">分批计划</span>`+p.batch_plan.map(b=>`<div class="batch-line">• ${b.p} ｜ ${b.w} ｜ ${b.cond}</div>`).join('')
+        : `<span class="block-label">分批计划</span><div class="batch-line muted">无（${stratLabel[p.strategy]||p.strategy}）</div>`;
+      return `
+      <tr>
+        <td><span class="expand-btn" onclick="toggleRx(${idx})" id="exp-${idx}">▸</span></td>
+        <td><span class="rx-name">${p.name}</span><span class="rx-code">${p.code}</span></td>
+        <td><span class="act ${actCls[p.action]}">${actLabel[p.action]||p.action}</span></td>
+        <td>${p.current_weight.toFixed(1)}% → ${p.target_weight.toFixed(1)}%</td>
+        <td>${entry}</td>
+        <td><span class="strat strat-${p.strategy}">${stratLabel[p.strategy]||p.strategy}</span></td>
+        <td><span class="tier">${p.tier1}</span></td>
+        <td><span class="pe ${peCls(p.pe_pctile)}">${p.pe_pctile}%ile</span></td>
+      </tr>
+      <tr class="rx-expand" id="rxd-${idx}" style="display:none;">
+        <td colspan="8">
+          ${batchHtml}
+          <div class="rx-reason"><span class="block-label">理由</span>${p.reason}</div>
+          <div class="rx-risk"><span class="block-label" style="color:#f56c6c;">风险提示</span>${p.risk}</div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+  drawer.classList.add('open'); mask.classList.add('open');
+}
+window.toggleRx = function(idx){
+  const row = document.getElementById('rxd-'+idx), arrow = document.getElementById('exp-'+idx);
+  const open = row.style.display==='none';
+  row.style.display = open?'table-row':'none';
+  arrow.textContent = open?'▾':'▸';
+};
+document.getElementById('dr-close').onclick = ()=>{ drawer.classList.remove('open'); mask.classList.remove('open'); };
+mask.onclick = ()=>{ drawer.classList.remove('open'); mask.classList.remove('open'); };
+document.getElementById('reason-toggle').onclick = ()=>{
+  const b = document.getElementById('dr-reasoning'), a = document.getElementById('reason-arrow');
+  const hide = b.style.display==='none';
+  b.style.display = hide?'block':'none';
+  a.textContent = hide?'▾':'▸';
+};
+</script>
+</body>
+</html>
