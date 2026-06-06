@@ -626,8 +626,26 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             codes = row.get("codes", []) or []
             row["positions_detail"] = [code_to_rx[c] for c in codes if c in code_to_rx]
 
+            # A3 防御兜底：即使上游脚本又写错，也保证前端契约成立
+            # ① go_nogo 统一大写（前端严格判 === 'GO' / 'NOGO'）
+            row["go_nogo"] = str(row.get("go_nogo", "") or "").strip().upper()
+            # ② delta 缺失时按 目标 - 现持仓 补算（前端目标%列依赖它）
+            if row.get("delta") is None:
+                try:
+                    row["delta"] = round(
+                        float(row.get("target_weight", 0) or 0)
+                        - float(row.get("holdings_weight", 0) or 0),
+                        2,
+                    )
+                except (TypeError, ValueError):
+                    row["delta"] = 0.0
+
         total = len(matrix_list)
-        covered = sum(1 for r in matrix_list if r.get("coverage_status", r.get("go_nogo", "")) in ("covered", "Go", "GO"))
+        # B3 覆盖计数口径：只统计真实深度覆盖（go_nogo 判定 GO/NOGO 或 coverage_status=covered）
+        covered = sum(
+            1 for r in matrix_list
+            if r.get("coverage_status") == "covered" or r.get("go_nogo") in ("GO", "NOGO")
+        )
         stale = sum(1 for r in matrix_list if r.get("coverage_status") == "stale")
         never = sum(1 for r in matrix_list if r.get("coverage_status") == "never")
 

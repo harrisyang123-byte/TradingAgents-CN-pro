@@ -194,9 +194,21 @@ ENDJSON`);
   log('运行跨行业配置裁判...');
   const crossResult = await agent(
     `Read ${p('all_researchers.json')} and ${p('macro_verdict.json')}. \
-You are the Cross-Industry Judge. Allocate ${totalLimit}% across Go industries. \
-Max single industry ${maxIndustryWeight}%. \
-Output a JSON array; each item: {industry, go_nogo, vitality_level, final_weight, reasoning}.`,
+You are the Cross-Industry Judge. Allocate ${totalLimit}% of capital across industries. \
+Max single industry ${maxIndustryWeight}%.
+
+关键要求（必须遵守）：
+1. 输出必须覆盖 all_researchers.json 里的**每一个行业**，禁止只输出 Go 行业。
+2. 每个行业必须给出明确立场 stance ∈ "超配" | "标配" | "低配"：
+   - 超配 = go_nogo "Go" 且配额高于其现持仓权重（加仓）
+   - 低配 = 景气差/高估，目标权重低于现持仓（减仓或清仓）
+   - 标配 = 维持，但**必须写明为什么维持**（不可空白）
+3. 每个行业必须给出 final_weight（目标权重%）。低配行业可以低于现持仓甚至为 0。
+4. 禁止「目标=现持仓 且无理由」的空透传行——每行 reasoning 不得为空。
+5. 所有行业 final_weight 之和应 ≤ ${totalLimit}%。
+
+Output a JSON array; each item: \
+{industry, go_nogo, stance, vitality_level, market, final_weight, reasoning}.`,
     { label: '跨行业配置裁判', phase: '行业研究' }
   );
   await Bash(`cat > ${p('industry_allocations.json')} << 'ENDJSON'
@@ -366,24 +378,45 @@ ${JSON.stringify(riskVerdict)}
 ENDJSON`);
   log('风险辩论完成');
 
-  // Portfolio Synthesizer（固定输出 schema，供 save_v3 直接消费）
+  // Portfolio Synthesizer（固定输出 schema，供 ingest_advice.py 直接消费）
   await agent(
     `Read ${p('pm_results.json')}, ${p('industry_allocations.json')}, ${p('risk_assessment.json')}, \
-${p('data_portfolio.json')} (if exists).
+${p('all_researchers.json')}, ${p('data_portfolio.json')} (if exists).
 
 You are the Portfolio Synthesizer. Do NOT make new investment decisions. Do:
 1. Validate the constraint chain (allocations vs PM actuals)
 2. Identify gaps (allocated quota not filled by PM)
 3. Summarize the industry matrix and final prescription
+4. Compute portfolio-level capital allocation (金额)
 
-写两个文件（严格 JSON，键名照抄）:
+关键要求（直接决定前端是否显示「无指导/全持有」，必须遵守）：
+- industry_matrix 必须覆盖 industry_allocations.json / all_researchers.json 里的**每一个行业**。
+- 每个行业必须带 go_nogo（"Go"/"NoGo"/"观察"）、stance（超配/标配/低配）、vitality_level、market。
+- 禁止「target_weight = actual_weight 且 reasoning 为空」的空透传行——标配行业也要写明维持理由。
+- final_weight 来自 industry_allocations.json 的目标权重；actual_weight 来自 data_portfolio.json 现持仓权重之和。
 
-A) ${p('industry_matrix.json')} — JSON 数组，每项:
-   {"industry","holdings_weight","target_weight","position_count","codes","names","go_nogo","depth","reasoning"}
+写三个文件（严格 JSON，键名照抄）:
 
-B) ${p('final_prescription.json')} — JSON 数组，每项一条持仓处方:
-   {"code","name","action","current_weight","target_weight","capital_source","timing","suggested_price","reasoning","priority"}
-   action ∈ buy/sell/hold/add/reduce/new_position；覆盖全部持仓。`,
+A) ${p('industry_matrix.json')}:
+   {"constraint_chain_valid": bool, "violations": [...], "matrix": [
+     {"industry","source","go_nogo","stance","vitality_level","market","lifecycle",
+      "actual_weight","final_weight","gap","scout_triggered","positions":[codes],"reasoning"}
+   ]}
+   （go_nogo 用 "Go"/"NoGo"/"观察"，下游统一转大写；positions 为该行业涉及标的代码数组）
+
+B) ${p('final_prescription.json')}:
+   {"prescription": [
+     {"code","name","industry","action","current_weight","target_weight",
+      "entry_price_range":{"low","high"},"build_strategy","batch_plan":[...],"reasoning","risk_note","pe_percentile"}
+   ], "summary": {"gaps_found","constraint_chain_valid","total_allocated_weight","available_cash"}}
+   （action ∈ buy/sell/hold/add/reduce/new_position；industry 必须与 matrix 的 industry 完全一致；覆盖全部现持仓 + 拟买入）
+
+C) ${p('capital_plan.json')} — 组合级资金分配（前端「资金总览卡」直接用）:
+   {"total_assets","invested_weight","invested_amount","cash_weight","cash_amount","cash_floor",
+    "allocations": [
+      {"industry","go_nogo","current_weight","target_weight","current_amount","target_amount","delta_amount","action"}
+    ]}
+   金额 = round(total_assets × weight / 100)；total_assets 取自 data_portfolio.json，缺失则金额置 0 由下游补算。`,
     { label: 'Portfolio Synthesizer', phase: '风控合成' }
   );
   log('Portfolio Synthesizer 完成');

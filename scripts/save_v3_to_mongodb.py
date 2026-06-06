@@ -1,5 +1,26 @@
 #!/usr/bin/env python3
-"""save_v3_to_mongodb.py — v3 编排器产物 → MongoDB
+"""save_v3_to_mongodb.py — 【已弃用 DEPRECATED，请勿使用】
+
+⚠️ 弃用原因（2026-06-06）：
+本脚本与 v3 synthesizer 实际产出的 schema 全面错位，是「组合总揽全显示
+持有 / 目标 0% / 市场景气 --」的解析层根因：
+  1. _as_list 不认 industry_matrix.json 的 `matrix` 键 → 矩阵读空
+  2. 读 holdings_weight/target_weight/codes，而 synthesizer 写的是
+     actual_weight/final_weight/positions → 现持仓恒为 0、处方关联不上
+  3. go_nogo 不转大写（写 "Go"），前端严格判 === 'GO' → 全显「持有」
+  4. 不计算 delta → 前端目标%列恒为 0%
+  5. 不写 market/vitality_level/lifecycle/source → 市场、景气列恒 '--'
+  6. 写错挂载点（market_intel.industries），capital_plan.json 不落库
+
+✅ 正确替代：scripts/ingest_advice.py
+   它把以上 6 点全部修对，并写到后端主路径优先读的顶层 `industry_matrix`。
+   run.sh 已切换为调用 ingest_advice.py。
+
+本文件仅作历史留存，不再被 run.sh 调用，请勿在新流程中引用。
+
+---
+原 docstring：
+v3 编排器产物 → MongoDB
 
 读 v3 编排器的固定 schema 产物：
     final_prescription.json   逐持仓处方数组

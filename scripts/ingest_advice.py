@@ -121,6 +121,7 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
             "source": row.get("source", "holding"),
             "market": row.get("market", "cn"),
             "go_nogo": go,
+            "stance": row.get("stance", ""),
             "coverage_status": "covered" if go == "GO" else "never",
             "vitality_level": row.get("vitality_level", ""),
             "lifecycle": row.get("lifecycle", ""),

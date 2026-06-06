@@ -43,12 +43,23 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
 
 ## 字段约定（必须严格遵守，下游直接消费）
 - `go_nogo` 用 **"Go" / "NoGo" / "观察"**（下游会统一映射为大写）
+- `stance` 用 **"超配" / "标配" / "低配"**（每个行业必填，表达明确信念）
 - `actual_weight` = 该行业**现持仓权重之和**（来自 data_portfolio.json）
 - `final_weight` = 该行业**目标权重**（来自 industry_allocations.json）
+- `vitality_level` = 景气判断（来自研究员，每行必填，不可空）
+- `market` = 市场（cn/hk/us，每行必填）
 - `positions` = 该行业**涉及的标的代码数组**（现持仓 + 拟买入），用于关联处方
 - `source` = "holding"（已有持仓）/ "watchlist"（关注未持仓）/ "vitality"（景气推荐）
 - prescription 的 `industry` 字段必须与 matrix 的 `industry` 完全一致（用于分组）
 - `build_strategy` 用 **"immediate" / "batch" / "conditional"**
+
+## 覆盖广度铁律（直接决定前端是否显示「无指导/全持有」）
+1. industry_matrix 必须覆盖 industry_allocations.json / all_researchers.json 里的**每一个行业**，
+   不允许只输出 Go 行业，也不允许把非 Go 行业静默透传原仓。
+2. 每个行业必须给出 `stance`（超配/标配/低配）+ `vitality_level` + `reasoning`。
+3. **禁止空透传行**：若 `final_weight == actual_weight`，`reasoning` 必须写明「为什么维持」，
+   不得为空或「持有」这类无信息内容。
+4. 低配行业的 `final_weight` 可低于现持仓甚至为 0（对应减仓/清仓），并在 reasoning 说明依据。
 
 ## 输出格式
 
@@ -65,6 +76,7 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
       "industry": "科技",
       "source": "holding",
       "go_nogo": "Go",
+      "stance": "超配",
       "vitality_level": "强烈看好",
       "market": "cn",
       "final_weight": 25.0,

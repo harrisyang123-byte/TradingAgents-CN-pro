@@ -281,12 +281,12 @@ run_save() {
     echo "[3/3] 保存到 MongoDB（v3）..."
 
     cd "$PROJECT_ROOT"
-    $PYTHON "$SCRIPT_DIR/save_v3_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
+    $PYTHON "$SCRIPT_DIR/ingest_advice.py" --data-dir "$RUN_DIR" --user-id "$USER_ID" 2>&1 | sed 's/^/  /'
 
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
         echo ""
         echo "❌ MongoDB 保存失败。输出文件保留在 $RUN_DIR"
-        echo "   可手动执行: $PYTHON scripts/save_v3_to_mongodb.py --dir $RUN_DIR"
+        echo "   可手动执行: $PYTHON scripts/ingest_advice.py --data-dir $RUN_DIR --user-id $USER_ID"
         exit 1
     fi
 
@@ -350,7 +350,7 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
         # Phase 3: 最终保存（v3 适配器）
         echo ""
         echo "[3/3] 保存到 MongoDB（v3）..."
-        $PYTHON "$SCRIPT_DIR/save_v3_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
+        $PYTHON "$SCRIPT_DIR/ingest_advice.py" --data-dir "$RUN_DIR" --user-id "$USER_ID" 2>&1 | sed 's/^/  /'
         if [ ${PIPESTATUS[0]} -ne 0 ]; then
             echo "❌ 保存失败"
             exit 1
