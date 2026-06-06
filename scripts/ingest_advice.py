@@ -305,6 +305,15 @@ def _evidence_marker(ev: Any) -> str:
     return "\n\n__EVIDENCE__:" + json.dumps(items, ensure_ascii=False)
 
 
+def _safe_name(ind: Any) -> str:
+    """行业名 → 安全文件名，必须与 workflow-v3-advisor.js 的 safeName 完全一致：
+    把 / \\ : * ? " < > | （） () 及空白连续段替换为单个下划线（保留中文）。
+    用于按行业名定位 aggressive_pm_{sn}.json / conservative_pm_{sn}.json。
+    """
+    import re
+    return re.sub(r'[\/\\:\*\?"<>\|（）()\s]+', '_', str(ind or ""))
+
+
 def _agent_block(v: Any, evidence: Any = None) -> str:
     """渲染 agent 输出为辩论气泡内容：正文 + 数据凭据标记行。
 
@@ -381,12 +390,35 @@ def _assemble_debates(data_dir: Path) -> Dict[str, str]:
         stock_parts.append("持仓诊断：" + _agent_block(diag))
     if diag_contra:
         stock_parts.append("组合反向者：" + _agent_block(diag_contra))
+    # 个股层 PM 三方交锋：激进PM（进攻）→ 保守PM（挑战/避险）→ PM裁判（裁决）。
+    # 激进/保守原始方案此前只落盘不接线，导致前端 PM 层只剩裁判独白、看不出辩论。
+    # 这里按行业名 safeName 回读 aggressive_pm_{sn}.json / conservative_pm_{sn}.json，
+    # 与行业层「研究员→反向者→裁判」对齐成同构的对立结构。
     for pr in pm_results:
         if not isinstance(pr, dict):
             continue
         ind = pr.get("industry", "")
         prefix = f"（{ind}）" if ind else ""
-        body = _agent_block(pr.get("result", pr))
+        sn = _safe_name(ind)
+        aggressive = _load(data_dir / f"aggressive_pm_{sn}.json", {}) or {}
+        conservative = _load(data_dir / f"conservative_pm_{sn}.json", {}) or {}
+        agg_body = _agent_block(aggressive)
+        con_body = _agent_block(conservative)
+        if agg_body:
+            stock_parts.append(f"激进PM：{prefix}{agg_body}")
+        if con_body:
+            stock_parts.append(f"保守PM：{prefix}{con_body}")
+        result = pr.get("result", pr)
+        # pm_debate_summary（裁判对三方分歧的一句话总结）此前埋在 JSON 里、处方表不展示，
+        # 这里拎到裁判气泡顶部单独成行，正文里剔除避免重复。
+        summary = ""
+        body_src = result
+        if isinstance(result, dict) and result.get("pm_debate_summary"):
+            summary = str(result.get("pm_debate_summary")).strip()
+            body_src = {k: v for k, v in result.items() if k != "pm_debate_summary"}
+        body = _agent_block(body_src)
+        if summary:
+            body = f"【辩论小结】{summary}\n\n{body}".strip()
         if body:
             stock_parts.append(f"PM裁判：{prefix}{body}")
 
