@@ -1,15 +1,22 @@
 #!/bin/bash
-# run.sh — Claude Code Workflow 组合顾问引擎入口
+# run.sh — Claude Code Workflow 组合顾问引擎入口（v3 增量编排）
 #
 # 用法:
-#   ./run.sh all [--user-id <id>]
+#   ./run.sh all [--user-id <id>] [--from <stage>] [--refresh <stage>] [--full]
 #   ./run.sh collect [--user-id <id>]
-#   ./run.sh analyze --data-dir <path> [--from <step>] [--only <step>]
+#   ./run.sh analyze --data-dir <path> [--from <stage>] [--only <stage>] [--refresh <stage>] [--full]
 #
 # 子命令:
-#   all       数据收集 + Agent 推理 + MongoDB 最终保存（全流程）
+#   all       数据收集 + Agent 推理（v3 增量）+ MongoDB 保存（全流程）
 #   collect   只跑数据收集，产出 data/advisor_runs/{ts}/
-#   analyze   只跑 Agent 推理 + 渐进式保存（需已有数据目录）
+#   analyze   只跑 Agent 推理（v3 增量）+ 保存（需已有数据目录）
+#
+# v3 阶段(stage): macro | industry | pm | synth
+#   默认增量：缓存新鲜的阶段自动跳过；任一阶段跑了，其下游强制重跑。
+#   --from <stage>      从某阶段强制重跑到结尾
+#   --only <stage>      只跑某阶段（调试）
+#   --refresh <stage>   强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
+#   --full              忽略全部缓存，从头全跑
 
 set -euo pipefail
 
@@ -32,6 +39,8 @@ USER_ID="$DEFAULT_USER_ID"
 DATA_DIR=""
 FROM_STEP=""
 ONLY_STEP=""
+REFRESH=""
+FULL=""
 COMMAND=""
 
 # ── 参数解析 ──────────────────────────────────────────────
@@ -39,33 +48,41 @@ COMMAND=""
 usage() {
     cat <<'EOF'
 用法:
-  ./run.sh all [--user-id <id>]
+  ./run.sh all [--user-id <id>] [--from <stage>] [--refresh <stage>] [--full]
   ./run.sh collect [--user-id <id>]
-  ./run.sh analyze --data-dir <path> [--from <step>] [--only <step>]
+  ./run.sh analyze --data-dir <path> [--from <stage>] [--only <stage>] [--refresh <stage>] [--full]
 
 子命令:
-  all       数据收集 + Agent 推理 + MongoDB 最终保存
+  all       数据收集 + Agent 推理（v3 增量）+ MongoDB 保存
   collect   只跑数据收集
-  analyze   只跑 Agent 推理 + 渐进式保存
+  analyze   只跑 Agent 推理（v3 增量）+ 保存
+
+v3 阶段(stage): macro | industry | pm | synth
 
 参数:
   --user-id     用户 ID（默认: 6a094caea814b57d3357fa0b）
   --data-dir    数据目录路径（analyze 必需）
-  --from        从指定 Agent step 开始（断点续跑）
-  --only        只跑指定 Agent step（单 Agent 调试）
+  --from        从指定阶段开始重跑到结尾（断点续跑）
+  --only        只跑指定阶段（单阶段调试）
+  --refresh     强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
+  --full        忽略全部缓存，从头全跑
 EOF
     exit 1
 }
 
-VALID_STEPS=("l1-strategist" "l1-contrarian" "l1-judge" "l2-scout"
-             "l3-analyst" "l3-strategist" "l3-analyst-r2" "l3-strategist-r2"
-             "l4-cio" "l4-risk" "l4-cio-final")
+VALID_STEPS=("macro" "industry" "pm" "synth")
 
 is_valid_step() {
     for s in "${VALID_STEPS[@]}"; do
         [ "$s" = "$1" ] && return 0
     done
     return 1
+}
+
+# refresh 允许 "industry:<名>" 形式，取冒号前的 stage 校验
+is_valid_refresh() {
+    local base="${1%%:*}"
+    is_valid_step "$base"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -88,7 +105,7 @@ while [[ $# -gt 0 ]]; do
             FROM_STEP="${2:-}"
             [ -z "$FROM_STEP" ] && { echo "错误: --from 需要值"; usage; }
             if ! is_valid_step "$FROM_STEP"; then
-                echo "错误: Unknown step '$FROM_STEP'"
+                echo "错误: Unknown stage '$FROM_STEP'"
                 echo "Valid: ${VALID_STEPS[*]}"
                 exit 1
             fi
@@ -98,11 +115,25 @@ while [[ $# -gt 0 ]]; do
             ONLY_STEP="${2:-}"
             [ -z "$ONLY_STEP" ] && { echo "错误: --only 需要值"; usage; }
             if ! is_valid_step "$ONLY_STEP"; then
-                echo "错误: Unknown step '$ONLY_STEP'"
+                echo "错误: Unknown stage '$ONLY_STEP'"
                 echo "Valid: ${VALID_STEPS[*]}"
                 exit 1
             fi
             shift 2
+            ;;
+        --refresh)
+            REFRESH="${2:-}"
+            [ -z "$REFRESH" ] && { echo "错误: --refresh 需要值"; usage; }
+            if ! is_valid_refresh "$REFRESH"; then
+                echo "错误: Unknown refresh stage '$REFRESH'"
+                echo "Valid: ${VALID_STEPS[*]} (或 industry:<行业名>)"
+                exit 1
+            fi
+            shift 2
+            ;;
+        --full)
+            FULL="1"
+            shift
             ;;
         -h|--help)
             usage
@@ -195,25 +226,35 @@ run_collect() {
 
 # ── Agent 推理 ──────────────────────────────────────────────
 
+# 构建 v3 编排器 args 片段（from/only/refresh/full）
+wf_extra_args() {
+    local extra=""
+    [ -n "$FROM_STEP" ] && extra="$extra, from: '$FROM_STEP'"
+    [ -n "$ONLY_STEP" ] && extra="$extra, only: '$ONLY_STEP'"
+    [ -n "$REFRESH" ]   && extra="$extra, refresh: '$REFRESH'"
+    [ -n "$FULL" ]      && extra="$extra, full: true"
+    echo "$extra"
+}
+
 run_analyze() {
     local RUN_DIR="$1"
     local FROM_MSG=""
     local ONLY_MSG=""
 
     if [ -n "$FROM_STEP" ]; then
-        FROM_MSG="从 $FROM_STEP 开始续跑。"
+        FROM_MSG="从阶段 $FROM_STEP 开始续跑。"
     fi
     if [ -n "$ONLY_STEP" ]; then
-        ONLY_MSG="只运行 $ONLY_STEP 这一个步骤。"
+        ONLY_MSG="只运行 $ONLY_STEP 这一个阶段。"
     fi
 
-    echo "[2/2] Agent 推理..."
+    echo "[2/2] Agent 推理（v3 增量）..."
     echo ""
 
     cd "$PROJECT_ROOT"
-    claude -p "运行组合顾问 Workflow。数据目录: $RUN_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
-Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$RUN_DIR', user_id: '$USER_ID'${FROM_STEP:+, from_step: '$FROM_STEP'}${ONLY_STEP:+, only_step: '$ONLY_STEP'}}。
-每步 agent() 必须指定 agentType 为对应的 Agent 名（l1-strategist 等），Agent 文件在 .claude/agents/advisor/。
+    claude -p "运行 v3 组合顾问编排器。数据目录: $RUN_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$RUN_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
+v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
         --permission-mode bypassPermissions \
         --output-format text \
@@ -223,7 +264,7 @@ Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
         echo ""
         echo "❌ Agent 推理失败。输出文件保留在 $RUN_DIR"
-        echo "   修复后可执行: ./run.sh analyze --data-dir $RUN_DIR --from <failed-step>"
+        echo "   修复后可执行: ./run.sh analyze --data-dir $RUN_DIR --from <failed-stage>"
         exit 1
     fi
 
@@ -237,15 +278,15 @@ run_save() {
     local RUN_DIR="$1"
 
     echo ""
-    echo "[3/3] 保存到 MongoDB..."
+    echo "[3/3] 保存到 MongoDB（v3）..."
 
     cd "$PROJECT_ROOT"
-    $PYTHON "$SCRIPT_DIR/save_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
+    $PYTHON "$SCRIPT_DIR/save_v3_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
 
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
         echo ""
         echo "❌ MongoDB 保存失败。输出文件保留在 $RUN_DIR"
-        echo "   可手动执行: $PYTHON scripts/save_to_mongodb.py --dir $RUN_DIR"
+        echo "   可手动执行: $PYTHON scripts/save_v3_to_mongodb.py --dir $RUN_DIR"
         exit 1
     fi
 
@@ -264,11 +305,14 @@ case "$COMMAND" in
         mkdir -p "$RUN_DIR"
 
         echo "========================================"
-        echo "Claude Code 组合顾问引擎 v1"
+        echo "Claude Code 组合顾问引擎 v3（增量编排）"
         echo "========================================"
         echo "Run ID: $RUN_ID"
         echo "用户:   $USER_ID"
         echo "数据目录: $RUN_DIR"
+        [ -n "$FROM_STEP" ] && echo "起始阶段: $FROM_STEP"
+        [ -n "$REFRESH" ]   && echo "强制刷新: $REFRESH"
+        [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"
         echo ""
 
         # Phase 1: 数据收集
@@ -283,12 +327,12 @@ case "$COMMAND" in
         fi
         echo "✅ 数据收集完成"
 
-        # Phase 2: Agent 推理（通过 Claude Code）
+        # Phase 2: Agent 推理（v3 增量编排，通过 Claude Code）
         echo ""
-        echo "[2/3] Agent 推理（约 4-5 分钟）..."
-        claude -p "运行组合顾问 Workflow。数据目录: $RUN_DIR, 用户ID: $USER_ID。
-Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$RUN_DIR', user_id: '$USER_ID'}。
-每步 agent() 必须指定 agentType 为对应的 Agent 名，Agent 文件在 .claude/agents/advisor/。
+        echo "[2/3] Agent 推理（v3 增量）..."
+        claude -p "运行 v3 组合顾问编排器。数据目录: $RUN_DIR, 用户ID: $USER_ID。
+Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$RUN_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
+v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
             --permission-mode bypassPermissions \
             --output-format text \
@@ -298,15 +342,15 @@ Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它
             echo ""
             echo "❌ Agent 推理失败。"
             echo "   输出文件: $RUN_DIR"
-            echo "   断点续跑: ./run.sh analyze --data-dir $RUN_DIR --from <step>"
+            echo "   断点续跑: ./run.sh analyze --data-dir $RUN_DIR --from <stage>"
             exit 1
         fi
         echo "✅ Agent 推理完成"
 
-        # Phase 3: 最终保存
+        # Phase 3: 最终保存（v3 适配器）
         echo ""
-        echo "[3/3] 保存到 MongoDB..."
-        $PYTHON "$SCRIPT_DIR/save_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
+        echo "[3/3] 保存到 MongoDB（v3）..."
+        $PYTHON "$SCRIPT_DIR/save_v3_to_mongodb.py" --dir "$RUN_DIR" 2>&1 | sed 's/^/  /'
         if [ ${PIPESTATUS[0]} -ne 0 ]; then
             echo "❌ 保存失败"
             exit 1
@@ -342,33 +386,31 @@ Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它
 
         FROM_MSG=""
         ONLY_MSG=""
-        FROM_JSON=""
-        ONLY_JSON=""
         if [ -n "$FROM_STEP" ]; then
-            FROM_MSG="从 $FROM_STEP 开始续跑。"
-            FROM_JSON=", from_step: '$FROM_STEP'"
+            FROM_MSG="从阶段 $FROM_STEP 开始续跑。"
         fi
         if [ -n "$ONLY_STEP" ]; then
-            ONLY_MSG="只运行 $ONLY_STEP 这一个步骤。"
-            ONLY_JSON=", only_step: '$ONLY_STEP'"
+            ONLY_MSG="只运行 $ONLY_STEP 这一个阶段。"
         fi
 
-        echo "Agent 推理中（约 4-5 分钟）..."
+        echo "Agent 推理中（v3 增量）..."
         echo "数据目录: $DATA_DIR"
-        [ -n "$FROM_STEP" ] && echo "起始步骤: $FROM_STEP"
-        [ -n "$ONLY_STEP" ] && echo "单步调试: $ONLY_STEP"
+        [ -n "$FROM_STEP" ] && echo "起始阶段: $FROM_STEP"
+        [ -n "$ONLY_STEP" ] && echo "单阶段调试: $ONLY_STEP"
+        [ -n "$REFRESH" ]   && echo "强制刷新: $REFRESH"
+        [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"
         echo ""
 
-        claude -p "运行组合顾问 Workflow。数据目录: $DATA_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
-Workflow 脚本在 scripts/workflow-advisor.js，请用 Workflow 工具调用它，args 传 {data_dir: '$DATA_DIR', user_id: '$USER_ID'${FROM_JSON}${ONLY_JSON}}。
-每步 agent() 必须指定 agentType 为对应的 Agent 名，Agent 文件在 .claude/agents/advisor/。
+        claude -p "运行 v3 组合顾问编排器。数据目录: $DATA_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$DATA_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
+v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
             --permission-mode bypassPermissions \
             --output-format text \
             --max-turns 30
         if [ $? -ne 0 ]; then
             echo "❌ Agent 推理失败。输出文件: $DATA_DIR"
-            [ -z "$ONLY_STEP" ] && echo "断点续跑: ./run.sh analyze --data-dir $DATA_DIR --from <step>"
+            [ -z "$ONLY_STEP" ] && echo "断点续跑: ./run.sh analyze --data-dir $DATA_DIR --from <stage>"
             exit 1
         fi
         echo "✅ Agent 推理完成"
