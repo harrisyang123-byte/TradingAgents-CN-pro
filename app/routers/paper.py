@@ -609,11 +609,25 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
     total_assets = pf_summary.get("total_assets", 0)
     matrix = synthesis.get("industry_matrix", []) or latest_advice.get("industry_matrix", [])
 
+    # 主路径: market_intel.industries (L1 行业研究员输出，最新数据源)
+    market_intel_industries = (latest_advice or {}).get("market_intel", {}).get("industries", []) if latest_advice else []
+    if not matrix and market_intel_industries:
+        matrix = market_intel_industries
+
     if matrix:
-        # v3 新数据源：直接使用 advice 中的矩阵
+        # v3 新数据源：直接使用 advice 中的矩阵，注入 positions_detail
         matrix_list = list(matrix)
+
+        # 构建 prescription code → rx_item 映射，用于注入 positions_detail
+        prescriptions = (latest_advice or {}).get("prescription", []) if latest_advice else []
+        code_to_rx: Dict[str, Dict[str, Any]] = {rx["code"]: rx for rx in prescriptions if rx.get("code")}
+
+        for row in matrix_list:
+            codes = row.get("codes", []) or []
+            row["positions_detail"] = [code_to_rx[c] for c in codes if c in code_to_rx]
+
         total = len(matrix_list)
-        covered = sum(1 for r in matrix_list if r.get("coverage_status", r.get("go_nogo", "")) in ("covered", "Go"))
+        covered = sum(1 for r in matrix_list if r.get("coverage_status", r.get("go_nogo", "")) in ("covered", "Go", "GO"))
         stale = sum(1 for r in matrix_list if r.get("coverage_status") == "stale")
         never = sum(1 for r in matrix_list if r.get("coverage_status") == "never")
 
