@@ -628,27 +628,29 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
             "total_assets": round(total_assets, 0) if total_assets else 0,
         })
 
-    # 降级：直接使用 paper_positions.industry（v3 前置分类已写入）
-    from app.services.portfolio_service import PortfolioService
-    portfolio_svc = PortfolioService()
-    portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
-    total_assets = portfolio_summary.get("total_assets", 0)
+    # 降级：使用 industry_classification_cache 做 code→bucket 映射
+    from app.services.industry_buckets import BUCKETS
+    portfolio_summary = pf_summary
     positions = portfolio_summary.get("positions", [])
 
-    # 使用 paper_positions.industry（v3 前置分类已写入），无 LLM 调用
+    # 从 cache 建立 code→bucket 映射，cache 无则归入"未分类"
+    cache_docs = await db["industry_classification_cache"].find({}).to_list(None)
+    code_to_bucket = {c["code"]: c["bucket"] for c in cache_docs if c.get("code") and c.get("bucket")}
+
     industry_positions: Dict[str, List[Dict[str, Any]]] = {}
     for p in positions:
-        ind = p.get("industry", "") or "未分类"
+        ind = code_to_bucket.get(p.get("code", ""), "") or "未分类"
         industry_positions.setdefault(ind, []).append(p)
 
-    # 从 industry_coverage 读取覆盖数据
+    # 从 industry_coverage 读取覆盖数据，只保留合法 BUCKETS 名称
+    valid_buckets = set(BUCKETS.keys())
     coverage_docs = await db["industry_coverage"].find(
         {"user_id": user_id}
     ).sort("analyzed_at", -1).to_list(None)
     coverage_map: Dict[str, Dict[str, Any]] = {}
     for doc in coverage_docs:
         l1_name = doc.get("industry_name", "")
-        if l1_name and l1_name not in coverage_map:
+        if l1_name and l1_name in valid_buckets and l1_name not in coverage_map:
             coverage_map[l1_name] = doc
 
     latest_prescriptions = latest_advice.get("prescription", []) if latest_advice else []

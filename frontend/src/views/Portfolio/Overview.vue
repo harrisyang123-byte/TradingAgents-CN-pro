@@ -113,7 +113,7 @@
           @click="openAdviceDetail(adv)"
         >
           <div class="history-header">
-            <span class="history-date">{{ adv.created_at?.slice(0, 16).replace('T', ' ') }}</span>
+            <span class="history-date">{{ formatDateTime(adv.created_at) }}</span>
             <span style="font-size:11px; padding:2px 8px; border-radius:3px; background:#f0f9eb; color:#67c23a;">{{ adv.status }}</span>
           </div>
           <div class="history-summary">
@@ -214,6 +214,14 @@ function formatPrice(epr: any): string {
   if (Array.isArray(epr) && epr.length >= 2) return `${epr[0]} - ${epr[1]}`
   if (epr?.low && epr?.high) return `${epr.low} - ${epr.high}`
   return `${epr}`
+}
+function formatDateTime(utcStr?: string): string {
+  if (!utcStr) return '--'
+  return new Date(utcStr).toLocaleString('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  })
 }
 function sourceLabel(s: string): string {
   const m: Record<string, string> = { holding: '持仓', watchlist: '关注', vitality: '景气' }
