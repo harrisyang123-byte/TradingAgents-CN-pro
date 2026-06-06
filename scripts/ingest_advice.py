@@ -474,6 +474,14 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
         })
 
     # —— 2. prescription 映射 ——
+    # 从 pm_results 构建 code→detail 查找表，补充 synthesizer 遗漏的个股级字段
+    pm_detail_lookup: Dict[str, Dict[str, Any]] = {}
+    pm_results_raw = _load(data_dir / "pm_results.json", []) or []
+    for pm_entry in (pm_results_raw if isinstance(pm_results_raw, list) else []):
+        for pos in (pm_entry.get("result", {}) or {}).get("target_positions", []):
+            if pos.get("code"):
+                pm_detail_lookup[pos["code"]] = pos
+
     presc_out: List[Dict[str, Any]] = []
     for rx in raw_presc:
         current_w = float(rx.get("current_weight", 0) or 0)
@@ -500,6 +508,24 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
             "amount": _round_money((target_w - current_w) / 100.0 * total_assets),
         }
         pe_pct = rx.get("pe_percentile", rx.get("pe_percentile_5y"))
+        # PM detail 回填：synthesizer 的 final_prescription 经常缺少个股级细节
+        pm_d = pm_detail_lookup.get(rx.get("code", ""), {})
+        if not item["tier1_rating"] and pm_d.get("tier1_rating"):
+            item["tier1_rating"] = pm_d["tier1_rating"]
+        if not item["risk_note"] and (pm_d.get("risk_warning") or pm_d.get("risk_note")):
+            item["risk_note"] = pm_d.get("risk_warning") or pm_d.get("risk_note", "")
+        if not item["reasoning"] and pm_d.get("reasoning"):
+            item["reasoning"] = pm_d["reasoning"]
+        if pe_pct is None:
+            pe_pct = pm_d.get("pe_percentile", pm_d.get("pe_percentile_5y"))
+        if not item["batch_plan"] and pm_d.get("batch_plan"):
+            item["batch_plan"] = pm_d["batch_plan"]
+        if not item["build_strategy"] and pm_d.get("build_strategy"):
+            item["build_strategy"] = pm_d["build_strategy"]
+            item["timing"] = pm_d["build_strategy"]
+        if not item["entry_price_range"] and pm_d.get("entry_price_range"):
+            item["entry_price_range"] = pm_d["entry_price_range"]
+            item["suggested_price"] = _suggested_price(pm_d["entry_price_range"])
         if pe_pct is not None:
             item["pe_data"] = {"pe_percentile_5y": float(pe_pct)}
         presc_out.append(item)
