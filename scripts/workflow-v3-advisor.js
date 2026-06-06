@@ -6,18 +6,20 @@
 // args:
 //   dataDir       数据目录（必需）
 //   user_id       用户 ID
-//   from          从某段强制重跑到结尾   (macro|industry|pm|synth)
-//   only          只跑某段（调试）       (macro|industry|pm|synth)
+//   from          从某段强制重跑到结尾   (macro|industry|scout|portfolio|pm|synth)
+//   only          只跑某段（调试）       (macro|industry|scout|portfolio|pm|synth)
 //   refresh       强制失效某段并重跑 + 下游；"industry:<行业名>" 只刷单个行业
 //   full          忽略全部缓存，从头全跑
 //   total_weight_limit / cash_floor / max_single_weight / max_industry_weight  约束覆盖
 
 export const meta = {
   name: 'v3-advisor',
-  description: 'v3 增量编排器 — 宏观/行业/PM/合成，按阶段缓存跳过',
+  description: 'v3 增量编排器 — 宏观/行业/Scout/组合诊断/PM/合成，按阶段缓存跳过',
   phases: [
     { title: '宏观裁判' },
     { title: '行业研究' },
+    { title: 'Scout标的侦察' },
+    { title: '组合层诊断' },
     { title: 'PM辩论' },
     { title: '风控合成' },
   ],
@@ -28,19 +30,21 @@ const dataDir = args.dataDir || args.data_dir;
 const userId = args.user_id || args.userId || '6a094caea814b57d3357fa0b';
 const fromStage = args.from || null;
 const onlyStage = args.only || null;
-const refresh = args.refresh || null;        // "macro" | "industry" | "pm" | "synth" | "industry:<名>"
+const refresh = args.refresh || null;        // "macro"|"industry"|"scout"|"portfolio"|"pm"|"synth"|"industry:<名>"
 const full = !!args.full;
 const maxIndustryWeight = args.max_industry_weight || 30;
 const maxSingle = args.max_single_weight || 30;
 
-const STAGES = ['macro', 'industry', 'pm', 'synth'];
+const STAGES = ['macro', 'industry', 'scout', 'portfolio', 'pm', 'synth'];
 
 // 每段缓存配置：out 产物、ttl 天（<=0 表示永不缓存）、inputs 指纹输入
 const CACHE = {
-  macro:    { out: 'macro_verdict.json',        ttl: 1, inputs: ['data_macro.json', 'data_market_temp.json'] },
-  industry: { out: 'industry_allocations.json', ttl: 7, inputs: ['macro_verdict.json', 'industry_list.json'] },
-  pm:       { out: 'pm_results.json',           ttl: 0, inputs: ['industry_allocations.json', 'data_portfolio.json'] },
-  synth:    { out: 'final_prescription.json',   ttl: 0, inputs: ['pm_results.json', 'data_portfolio.json'] },
+  macro:     { out: 'macro_verdict.json',        ttl: 1, inputs: ['data_macro.json', 'data_market_temp.json'] },
+  industry:  { out: 'industry_allocations.json', ttl: 7, inputs: ['macro_verdict.json', 'industry_list.json'] },
+  scout:     { out: 'step4_scout.json',          ttl: 7, inputs: ['industry_allocations.json', 'data_portfolio.json'] },
+  portfolio: { out: 'portfolio_diagnosis.json',  ttl: 0, inputs: ['data_portfolio.json', 'industry_allocations.json'] },
+  pm:        { out: 'pm_results.json',            ttl: 0, inputs: ['industry_allocations.json', 'step4_scout.json', 'data_portfolio.json'] },
+  synth:     { out: 'final_prescription.json',    ttl: 0, inputs: ['pm_results.json', 'portfolio_diagnosis.json', 'data_portfolio.json'] },
 };
 
 // ── 缓存门辅助（调用 scripts/stage_cache.py）───────────────────
@@ -216,6 +220,108 @@ ${JSON.stringify(crossResult, null, 2)}
 ENDJSON`);
   const n = Array.isArray(crossResult) ? crossResult.length : (crossResult.allocations?.length || 0);
   log(`跨行业配置完成: ${n} 个行业获配额`);
+}
+
+// Step 2: Scout 标的侦察（在 Go 行业里挖候选标的，产 step4_scout.json 供 PM 消费）
+async function runScout() {
+  phase('Scout标的侦察');
+
+  let allocations;
+  try {
+    allocations = JSON.parse(await Bash(`cat ${p('industry_allocations.json')}`));
+  } catch (e) {
+    log(`[ERROR] 无法读取行业分配表: ${e}`);
+    await Bash(`echo '{"candidates": []}' > ${p('step4_scout.json')}`);
+    return { status: 'failed', error: 'no_industry_allocations' };
+  }
+  const list = Array.isArray(allocations) ? allocations : (allocations.allocations || []);
+  const goIndustries = list.filter(
+    (a) => a.go_nogo === 'Go' && ['超配', '标配'].includes(a.stance) && (a.final_weight || 0) > 0
+  );
+  log(`待侦察 Go 行业: ${goIndustries.length} 个`);
+
+  if (goIndustries.length === 0) {
+    log('无 Go 行业，跳过 Scout');
+    await Bash(`echo '{"candidates": []}' > ${p('step4_scout.json')}`);
+    return { status: 'done', candidates: 0 };
+  }
+
+  const scoutResult = await agent(
+    `Read ${p('industry_allocations.json')} first, then ${p('data_portfolio.json')}, \
+${p('data_pe.json')} (if exists), ${p('data_tier1.json')} (if exists).
+
+You are the v3 Scout (标的侦察兵). Search for concrete buyable stocks ONLY in industries where \
+go_nogo=="Go" AND stance in {超配,标配}. For each such industry find >=2 candidates. \
+Use Bash to call market_tools.get_industry_constituents / get_company_profile / get_financial_summary \
+for real constituent & financial data; if tools fail, fall back to your knowledge and mark data_source="llm_knowledge".
+
+关键要求（必须遵守，否则 PM 拿不到候选）：
+1. 每个 candidate 的 industry 字段必须与 industry_allocations.json 里的行业名**完全一致**（PM 按名字前缀匹配）。
+2. market 用 "cn"/"hk"/"us"；price_range 用 {low,high} 对象；target_position 用数字（百分比）。
+3. 每个 Go 行业 >=2 只候选，全部候选 >=5 只，中小盘(<500亿)占比 >=30%。
+4. 每只带 6 维 scores（含 total）、financial_data、catalyst、top_risks、recommendation_level。
+5. 不推荐用户已重仓(>10%)的标的；现持仓标的可标 is_holding=true 供 PM 决定加减。
+
+Output JSON: {search_scope, candidates:[...], market_cap_distribution}.`,
+    { label: 'Scout标的侦察', phase: 'Scout标的侦察' }
+  );
+  await Bash(`cat > ${p('step4_scout.json')} << 'ENDJSON'
+${JSON.stringify(scoutResult, null, 2)}
+ENDJSON`);
+  const nc = Array.isArray(scoutResult?.candidates) ? scoutResult.candidates.length
+    : (Array.isArray(scoutResult) ? scoutResult.length : 0);
+  log(`Scout 完成: ${nc} 只候选标的`);
+  return { status: 'done', candidates: nc };
+}
+
+// Step 3: 组合层诊断（持仓诊断师 → 组合反向者，产 portfolio_diagnosis.json 供 Synthesizer 做减仓决策）
+async function runPortfolio() {
+  phase('组合层诊断');
+
+  // 持仓诊断师：逐只安全边际 + 全局集中度/一致性/隐形敞口
+  const diag = await agent(
+    `Read ${p('data_portfolio.json')} first, then ${p('industry_allocations.json')}, \
+${p('step4_scout.json')} (if exists), ${p('data_exposure.json')} (if exists), \
+${p('data_tier1.json')} (if exists), ${p('data_pe.json')} (if exists).
+
+You are the v3 组合层持仓诊断师. Produce a TWO-level diagnosis and output ONLY JSON (no prose):
+1. holdings_assessment: 逐只评估 data_portfolio.json 每只持仓的 safety_margin + assessment \
+(继续持有/持有但警惕/建议减仓/建议清仓)，结合该标的行业 stance + PE + Tier1。
+2. 全局: concentration(HHI/top5/单标的) + consistency_risks + hidden_exposures。
+3. reduce_candidates: 列出所有 assessment∈{建议减仓,建议清仓} 的标的（Synthesizer 减仓的直接依据）。
+
+覆盖 data_portfolio.json 中每只持仓；每只引用至少一个数据源；集中度优先用 data_exposure.json，\
+缺失则从持仓权重自算并标 estimated。
+
+JSON shape: {holdings_assessment:[{code,name,current_weight,industry,industry_stance,pe_percentile_5y,valuation_status,safety_margin,assessment,contradictions:[],reasoning}], \
+concentration:{hhi,hhi_risk,top5_weight,max_single_weight,max_single_code,findings:[]}, \
+consistency_risks:[{type,severity,description,affected_codes:[],potential_impact}], \
+hidden_exposures:[], reduce_candidates:[{code,name,current_weight,reason,suggested_action}], diagnosis_summary}`,
+    { label: '持仓诊断师', phase: '组合层诊断' }
+  );
+  await Bash(`cat > ${p('portfolio_diagnosis.json')} << 'ENDJSON'
+${JSON.stringify(diag, null, 2)}
+ENDJSON`);
+  log('持仓诊断完成');
+
+  // 组合反向者：挑战诊断（该减没减 / 该留没留）
+  const contrarian = await agent(
+    `Read ${p('portfolio_diagnosis.json')} first, then ${p('data_portfolio.json')}, \
+${p('industry_allocations.json')}, ${p('step4_scout.json')} (if exists).
+
+You are the v3 组合反向者. Challenge the diagnosis: find 该减没减 (analyst said 继续持有 but should reduce) \
+and 该留没留 (analyst said 清仓 but it's a wrongly-killed good stock). At least 2 challenges; not full agreement. \
+Each challenge needs argument + suggested_adjustment.
+
+Output JSON: {challenges:[{code,name,analyst_assessment,my_view,argument,suggested_adjustment}], \
+missed_reductions:[{code,name,reason}], concentration_challenge, contrarian_summary}.`,
+    { label: '组合反向者', phase: '组合层诊断' }
+  );
+  await Bash(`cat > ${p('portfolio_contrarian.json')} << 'ENDJSON'
+${JSON.stringify(contrarian, null, 2)}
+ENDJSON`);
+  log('组合反向者完成');
+  return { status: 'done' };
 }
 
 // Step 4: 并行行业 PM 辩论
@@ -397,13 +503,17 @@ ENDJSON`);
   // Portfolio Synthesizer（固定输出 schema，供 ingest_advice.py 直接消费）
   await agent(
     `Read ${p('pm_results.json')}, ${p('industry_allocations.json')}, ${p('risk_assessment.json')}, \
-${p('all_researchers.json')}, ${p('data_portfolio.json')} (if exists).
+${p('all_researchers.json')}, ${p('portfolio_diagnosis.json')} (if exists), \
+${p('portfolio_contrarian.json')} (if exists), ${p('data_portfolio.json')} (if exists).
 
 You are the Portfolio Synthesizer. Do NOT make new investment decisions. Do:
 1. Validate the constraint chain (allocations vs PM actuals)
 2. Identify gaps (allocated quota not filled by PM)
 3. Summarize the industry matrix and final prescription
 4. Compute portfolio-level capital allocation (金额)
+5. 把组合层诊断落到处方：portfolio_diagnosis.json 的 reduce_candidates（经 portfolio_contrarian.json \
+   挑战修正后）必须在 final_prescription 里体现为 action=reduce/sell/clear 的明确卖出条目，\
+   每条 risk_note 引用诊断依据（集中度/估值/行业低配）。没有诊断支持的现持仓维持时也要写明维持理由。
 
 关键要求（直接决定前端是否显示「无指导/全持有」，必须遵守）：
 - industry_matrix 必须覆盖 industry_allocations.json / all_researchers.json 里的**每一个行业**。
@@ -439,7 +549,7 @@ C) ${p('capital_plan.json')} — 组合级资金分配（前端「资金总览�
   return { status: 'done', violations: 0 };
 }
 
-const RUNNERS = { macro: runMacro, industry: runIndustry, pm: runPm, synth: runSynth };
+const RUNNERS = { macro: runMacro, industry: runIndustry, scout: runScout, portfolio: runPortfolio, pm: runPm, synth: runSynth };
 
 // ── 编排：决定每段跑/跳 ──────────────────────────────────────
 const fromIdx = fromStage ? STAGES.indexOf(fromStage) : 0;

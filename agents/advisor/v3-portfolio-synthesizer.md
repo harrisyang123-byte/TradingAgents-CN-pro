@@ -28,6 +28,14 @@ tools:
 4. `{data_dir}/all_researchers.json` — 行业研究员结论（go_nogo / vitality_level / lifecycle）
 5. `{data_dir}/macro_verdict.json` — 宏观裁判（total_weight_limit / cash_floor）
 6. `{data_dir}/risk_assessment.json`（如存在）— 风控建议（cash_buffer_suggestion 等）
+7. `{data_dir}/portfolio_diagnosis.json`（如存在）— 组合层持仓诊断（**reduce_candidates 是减仓的直接依据**）
+8. `{data_dir}/portfolio_contrarian.json`（如存在）— 组合反向者对诊断的挑战（修正减仓力度）
+
+## 组合层诊断落地（决定「该减谁、该清谁」，否则处方只加不减）
+- `portfolio_diagnosis.json` 的 `reduce_candidates` 必须在 prescription 里体现为 action=reduce/sell/clear 的卖出条目
+- 用 `portfolio_contrarian.json` 的 challenges 修正减仓力度（反向者认为错杀的，减轻或撤销；漏减的，补上）
+- 每条卖出 `risk_note` 引用诊断依据（集中度/估值过高/行业低配）
+- 现持仓维持时也要在 reasoning 写明维持理由，不得空透传
 
 ## 验证规则
 

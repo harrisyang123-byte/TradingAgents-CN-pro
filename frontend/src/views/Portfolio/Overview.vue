@@ -83,8 +83,10 @@
                 <span v-else>0%</span>
               </td>
               <td>
-                <span v-if="row.go_nogo === 'GO'" class="go-badge go-badge-go">GO 加仓</span>
-                <span v-else-if="row.go_nogo === 'NOGO'" class="go-badge go-badge-nogo">NOGO 减仓</span>
+                <span v-if="row.industry === '现金'" class="go-badge go-badge-hold">现金</span>
+                <span v-else-if="row.target_weight === 0 && row.holdings_weight > 0" class="go-badge go-badge-nogo">清仓</span>
+                <span v-else-if="row.delta > 0" class="go-badge go-badge-go">{{ row.go_nogo === 'GO' ? 'GO ' : '' }}加仓</span>
+                <span v-else-if="row.delta < 0" class="go-badge go-badge-nogo">{{ row.go_nogo === 'NOGO' ? 'NOGO ' : '' }}减仓</span>
                 <span v-else class="go-badge go-badge-hold">持有</span>
               </td>
               <td style="font-size:13px;">

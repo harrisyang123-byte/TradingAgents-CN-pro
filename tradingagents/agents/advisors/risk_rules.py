@@ -78,7 +78,9 @@ def check_pm_positions(
                 message=f"{industry} 配仓总计 {industry_total:.1f}% 超过行业配额 {final_weight}%",
             ))
 
-        total_allocated += industry_total
+        # 现金是投资仓位的补集，不计入「已投资」总仓位（total_weight_limit 约束的是投资部分）
+        if industry != "现金":
+            total_allocated += industry_total
 
     # 规则3：总仓位上限
     if total_allocated > total_weight_limit:

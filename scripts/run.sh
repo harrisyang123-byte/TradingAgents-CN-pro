@@ -11,7 +11,7 @@
 #   collect   只跑数据收集，产出 data/advisor_runs/{ts}/
 #   analyze   只跑 Agent 推理（v3 增量）+ 保存（需已有数据目录）
 #
-# v3 阶段(stage): macro | industry | pm | synth
+# v3 阶段(stage): macro | industry | scout | portfolio | pm | synth
 #   默认增量：缓存新鲜的阶段自动跳过；任一阶段跑了，其下游强制重跑。
 #   --from <stage>      从某阶段强制重跑到结尾
 #   --only <stage>      只跑某阶段（调试）
@@ -57,7 +57,7 @@ usage() {
   collect   只跑数据收集
   analyze   只跑 Agent 推理（v3 增量）+ 保存
 
-v3 阶段(stage): macro | industry | pm | synth
+v3 阶段(stage): macro | industry | scout | portfolio | pm | synth
 
 参数:
   --user-id     用户 ID（默认: 6a094caea814b57d3357fa0b）
@@ -70,7 +70,7 @@ EOF
     exit 1
 }
 
-VALID_STEPS=("macro" "industry" "pm" "synth")
+VALID_STEPS=("macro" "industry" "scout" "portfolio" "pm" "synth")
 
 is_valid_step() {
     for s in "${VALID_STEPS[@]}"; do
