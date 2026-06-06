@@ -238,7 +238,7 @@ class ExposureService:
         pass
 
     def format_context_for_advisor(self, matrix: ExposureMatrix) -> str:
-        """将敞口矩阵格式化为 AdvisorGraph 可读的上下文"""
+        """将敞口矩阵格式化为组合顾问可读的上下文"""
         if not matrix.stock_exposures:
             return ""
 

@@ -2,9 +2,9 @@
 # run.sh — Claude Code Workflow 组合顾问引擎入口（v3 增量编排）
 #
 # 用法:
-#   ./run.sh all [--user-id <id>] [--from <stage>] [--refresh <stage>] [--full]
+#   ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full]
 #   ./run.sh collect [--user-id <id>]
-#   ./run.sh analyze --data-dir <path> [--from <stage>] [--only <stage>] [--refresh <stage>] [--full]
+#   ./run.sh analyze --data-dir <path> [--from <stage>] [--to <stage>] [--only <stage>] [--refresh <stage>] [--full]
 #
 # 子命令:
 #   all       数据收集 + Agent 推理（v3 增量）+ MongoDB 保存（全流程）
@@ -49,6 +49,7 @@ DEFAULT_USER_ID="6a094caea814b57d3357fa0b"
 USER_ID="$DEFAULT_USER_ID"
 DATA_DIR=""
 FROM_STEP=""
+TO_STEP=""
 ONLY_STEP=""
 REFRESH=""
 FULL=""
@@ -59,9 +60,9 @@ COMMAND=""
 usage() {
     cat <<'EOF'
 用法:
-  ./run.sh all [--user-id <id>] [--from <stage>] [--refresh <stage>] [--full]
+  ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full]
   ./run.sh collect [--user-id <id>]
-  ./run.sh analyze --data-dir <path> [--from <stage>] [--only <stage>] [--refresh <stage>] [--full]
+  ./run.sh analyze --data-dir <path> [--from <stage>] [--to <stage>] [--only <stage>] [--refresh <stage>] [--full]
 
 子命令:
   all       数据收集 + Agent 推理（v3 增量）+ MongoDB 保存
@@ -74,6 +75,7 @@ v3 阶段(stage): macro | industry | scout | portfolio | pm | synth
   --user-id     用户 ID（默认: 6a094caea814b57d3357fa0b）
   --data-dir    数据目录路径（analyze 必需）
   --from        从指定阶段开始重跑到结尾（断点续跑）
+  --to          跑到指定阶段为止（含），后续阶段不跑
   --only        只跑指定阶段（单阶段调试）
   --refresh     强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
   --full        忽略全部缓存，从头全跑
@@ -127,6 +129,16 @@ while [[ $# -gt 0 ]]; do
             [ -z "$ONLY_STEP" ] && { echo "错误: --only 需要值"; usage; }
             if ! is_valid_step "$ONLY_STEP"; then
                 echo "错误: Unknown stage '$ONLY_STEP'"
+                echo "Valid: ${VALID_STEPS[*]}"
+                exit 1
+            fi
+            shift 2
+            ;;
+        --to)
+            TO_STEP="${2:-}"
+            [ -z "$TO_STEP" ] && { echo "错误: --to 需要值"; usage; }
+            if ! is_valid_step "$TO_STEP"; then
+                echo "错误: Unknown stage '$TO_STEP'"
                 echo "Valid: ${VALID_STEPS[*]}"
                 exit 1
             fi
@@ -241,6 +253,7 @@ run_collect() {
 wf_extra_args() {
     local extra=""
     [ -n "$FROM_STEP" ] && extra="$extra, from: '$FROM_STEP'"
+    [ -n "$TO_STEP" ]   && extra="$extra, to: '$TO_STEP'"
     [ -n "$ONLY_STEP" ] && extra="$extra, only: '$ONLY_STEP'"
     [ -n "$REFRESH" ]   && extra="$extra, refresh: '$REFRESH'"
     [ -n "$FULL" ]      && extra="$extra, full: true"
@@ -250,10 +263,14 @@ wf_extra_args() {
 run_analyze() {
     local RUN_DIR="$1"
     local FROM_MSG=""
+    local TO_MSG=""
     local ONLY_MSG=""
 
     if [ -n "$FROM_STEP" ]; then
         FROM_MSG="从阶段 $FROM_STEP 开始续跑。"
+    fi
+    if [ -n "$TO_STEP" ]; then
+        TO_MSG="跑到阶段 $TO_STEP 为止。"
     fi
     if [ -n "$ONLY_STEP" ]; then
         ONLY_MSG="只运行 $ONLY_STEP 这一个阶段。"
@@ -322,6 +339,7 @@ case "$COMMAND" in
         echo "用户:   $USER_ID"
         echo "数据目录: $RUN_DIR"
         [ -n "$FROM_STEP" ] && echo "起始阶段: $FROM_STEP"
+        [ -n "$TO_STEP" ]   && echo "截止阶段: $TO_STEP"
         [ -n "$REFRESH" ]   && echo "强制刷新: $REFRESH"
         [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"
         echo ""
@@ -396,9 +414,13 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
         cd "$PROJECT_ROOT"
 
         FROM_MSG=""
+        TO_MSG=""
         ONLY_MSG=""
         if [ -n "$FROM_STEP" ]; then
             FROM_MSG="从阶段 $FROM_STEP 开始续跑。"
+        fi
+        if [ -n "$TO_STEP" ]; then
+            TO_MSG="跑到阶段 $TO_STEP 为止。"
         fi
         if [ -n "$ONLY_STEP" ]; then
             ONLY_MSG="只运行 $ONLY_STEP 这一个阶段。"
@@ -407,6 +429,7 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
         echo "Agent 推理中（v3 增量）..."
         echo "数据目录: $DATA_DIR"
         [ -n "$FROM_STEP" ] && echo "起始阶段: $FROM_STEP"
+        [ -n "$TO_STEP" ]   && echo "截止阶段: $TO_STEP"
         [ -n "$ONLY_STEP" ] && echo "单阶段调试: $ONLY_STEP"
         [ -n "$REFRESH" ]   && echo "强制刷新: $REFRESH"
         [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"

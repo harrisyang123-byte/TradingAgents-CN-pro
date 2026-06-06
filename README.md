@@ -3,7 +3,6 @@
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.5%2B-4FC08D.svg)](https://vuejs.org/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.4%2B-1C3C3C.svg)](https://langchain-ai.github.io/langgraph/)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Workflow-orange.svg)](https://claude.ai/code)
 
 面向中国 A股/港股 用户的**多智能体分层辩论式投资系统**。以用户持久盈利为目标，从宏观行业配置到个股配仓、事前风控全覆盖，所有 LLM 决策环节都有对立角色辩论。
@@ -128,8 +127,7 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 | 后端 | FastAPI 0.115+ + Uvicorn |
 | 前端 | Vue 3.5+ + Vite + Element Plus |
 | 数据库 | MongoDB + Redis |
-| LangGraph | 时序确定性流程（Step 0-3） |
-| Workflow 子 Agent | 并行判断性流程（Step 1/4/5-7） |
+| Workflow 子 Agent | v3 全链路编排（Step 0-7） |
 | 数据源 | AKShare / Tushare / BaoStock |
 | 市场覆盖 | A股 / 港股 / 美股 |
 | 行业体系 | 18大投资主题（消费/科技/金融/医药等） |
@@ -158,7 +156,7 @@ tradingagents-cn/
 │       ├── stock_research_cache.py # Tier1 研究库（7天缓存）
 │       └── market_signals.py       # 市场温度计
 ├── tradingagents/
-│   ├── graph/advisor_graph.py  # L0-L3 LangGraph 主图
+│   ├── graph/trading_graph.py  # 个股分析 LangGraph 图（保留）
 │   └── agents/advisors/
 │       ├── advisor_states.py   # AdvisorState（含v3约束传递字段）
 │       └── risk_rules.py       # 事前风控规则引擎（纯Python）
@@ -195,7 +193,7 @@ cd frontend && npm run dev                                   # 前端
 
 | 对话中说 | 执行 |
 |----------|------|
-| `分析` | 全链路 L1-L4 组合顾问 |
+| `分析` | v3 全链路组合顾问 |
 | `跑行业层` | v3 行业研究员并行 + 反向者 |
 | `跑辩论` | v3 PM 辩论 |
 | `跑合成` | v3 风控 + 合成器 |
@@ -223,7 +221,7 @@ cd frontend && npm run dev                                   # 前端
 |------|------|
 | [行业层重构](docs/wiki/industry-layer-rebuild.md) | 景气打分/并行研究员/7天缓存/Tier1触发 |
 | [决策层重构](docs/wiki/decision-layer-rebuild.md) | 并行PM/约束传递链/风控引擎/Portfolio Synthesizer |
-| [组合顾问引擎](docs/wiki/portfolio-advisor-engine.md) | LangGraph辩论架构/结构化处方 |
+| [组合顾问引擎](docs/wiki/portfolio-advisor-engine.md) | v3 子 Agent 辩论架构/结构化处方 |
 | [认证与部署](docs/wiki/auth-bootstrap.md) | 初始 admin 创建/首次部署 |
 
 ---

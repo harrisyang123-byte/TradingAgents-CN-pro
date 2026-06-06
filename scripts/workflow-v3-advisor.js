@@ -30,6 +30,7 @@ export const meta = {
 const dataDir = args.dataDir || args.data_dir;
 const userId = args.user_id || args.userId || '6a094caea814b57d3357fa0b';
 const fromStage = args.from || null;
+const toStage = args.to || null;             // 跑到指定 stage 为止（含），后续阶段不跑
 const onlyStage = args.only || null;
 const refresh = args.refresh || null;        // "macro"|"asset"|"industry"|"scout"|"portfolio"|"pm"|"synth"|"industry:<名>"
 const full = !!args.full;
@@ -315,9 +316,21 @@ async function runScout() {
     return { status: 'failed', error: 'no_industry_allocations' };
   }
   const list = Array.isArray(allocations) ? allocations : (allocations.allocations || []);
-  const goIndustries = list.filter(
+
+  // selected_industries.json 过滤（API 两阶段模式：用户只选了部分行业）
+  let selectedFilter = null;
+  try {
+    const selRaw = await Bash(`cat ${p('selected_industries.json')} 2>/dev/null || echo ""`);
+    if (selRaw.trim()) selectedFilter = JSON.parse(selRaw.trim());
+  } catch (e) { /* no filter */ }
+
+  let goIndustries = list.filter(
     (a) => a.go_nogo === 'Go' && ['超配', '标配'].includes(a.stance) && (a.final_weight || 0) > 0
   );
+  if (selectedFilter && Array.isArray(selectedFilter) && selectedFilter.length > 0) {
+    goIndustries = goIndustries.filter(a => selectedFilter.includes(a.industry));
+    log(`selected_industries 过滤后: ${goIndustries.length} 个`);
+  }
   log(`待侦察 Go 行业: ${goIndustries.length} 个`);
 
   if (goIndustries.length === 0) {
@@ -416,7 +429,19 @@ async function runPm() {
     return { status: 'failed', error: 'no_industry_allocations' };
   }
   const list = Array.isArray(allocations) ? allocations : (allocations.allocations || []);
-  const goIndustries = list.filter((a) => a.go_nogo === 'Go' && (a.final_weight || 0) > 0);
+
+  // selected_industries.json 过滤
+  let selectedFilter = null;
+  try {
+    const selRaw = await Bash(`cat ${p('selected_industries.json')} 2>/dev/null || echo ""`);
+    if (selRaw.trim()) selectedFilter = JSON.parse(selRaw.trim());
+  } catch (e) { /* no filter */ }
+
+  let goIndustries = list.filter((a) => a.go_nogo === 'Go' && (a.final_weight || 0) > 0);
+  if (selectedFilter && Array.isArray(selectedFilter) && selectedFilter.length > 0) {
+    goIndustries = goIndustries.filter(a => selectedFilter.includes(a.industry));
+    log(`selected_industries 过滤后: ${goIndustries.length} 个`);
+  }
   log(`Go行业: ${goIndustries.length} 个（待配仓）`);
 
   if (goIndustries.length === 0) {
@@ -702,6 +727,7 @@ const RUNNERS = { macro: runMacro, asset: runAsset, industry: runIndustry, scout
 
 // ── 编排：决定每段跑/跳 ──────────────────────────────────────
 const fromIdx = fromStage ? STAGES.indexOf(fromStage) : 0;
+const toIdx = toStage ? STAGES.indexOf(toStage) : STAGES.length - 1;
 let forceDownstream = false;
 const summary = [];
 let lastResult = null;
@@ -712,6 +738,7 @@ for (const stage of STAGES) {
   // 作用域过滤
   if (onlyStage && stage !== onlyStage) continue;
   if (!onlyStage && fromStage && idx < fromIdx) continue;
+  if (!onlyStage && toStage && idx > toIdx) break;  // --to 截止
 
   let run = false, reason = '';
   if (full) { run = true; reason = 'full'; }

@@ -1,16 +1,17 @@
-"""组合顾问服务：数据准备 + 引擎编排 + 结果存储"""
+"""组合顾问服务：数据准备工具（Tier1 报告、历史反馈等）
+
+注: AdvisorGraph（LangGraph 大脑）已退役。
+    组合分析由 v3 pipeline（v3_advisor_runner → run.sh → workflow-v3-advisor.js）驱动。
+    本服务保留 _prepare_tier1_reports 等数据准备方法供其他模块复用。
+"""
 
 import logging
-import uuid
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List
-from concurrent.futures import ThreadPoolExecutor
 
 from app.core.database import get_mongo_db
 
 logger = logging.getLogger("webapi")
-
-_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="advisor")
 
 
 class PortfolioAdvisorService:
@@ -30,12 +31,10 @@ class PortfolioAdvisorService:
 
         reports = []
         for code in position_codes:
-            # 主查询：analysis_reports（股票和基金都存这里）
             doc = await self.db["analysis_reports"].find_one(
                 {"stock_symbol": code, "status": "completed"},
                 sort=[("created_at", -1)],
             )
-            # Fallback：旧版 analysis_results（存量数据兼容）
             if not doc:
                 doc = await self.db["analysis_results"].find_one(
                     {"$or": [
@@ -58,7 +57,6 @@ class PortfolioAdvisorService:
                     "created_at": doc.get("created_at", ""),
                 }
 
-                # 基金特有字段：从 reports 子文档提取
                 if inst_type == "fund":
                     sub_reports = doc.get("reports", {})
                     if isinstance(sub_reports, dict):
@@ -77,274 +75,7 @@ class PortfolioAdvisorService:
 
         return reports
 
-    async def generate_advice(
-        self,
-        user_id: str,
-        advice_id: str,
-        config_overrides: Optional[Dict[str, Any]] = None,
-    ) -> None:
-        """异步执行组合顾问分析（主事件循环后台任务，避免 Motor 跨 loop 问题）"""
-        import asyncio
-        asyncio.create_task(
-            self._execute_advice_wrapper(user_id, advice_id, config_overrides or {})
-        )
-
-    async def _execute_advice_wrapper(
-        self,
-        user_id: str,
-        advice_id: str,
-        config_overrides: Dict[str, Any],
-    ) -> None:
-        """包装 _execute_advice，捕获异常并标记失败"""
-        try:
-            await self._execute_advice(user_id, advice_id, config_overrides)
-        except Exception as e:
-            logger.error(f"组合顾问执行失败: {e}", exc_info=True)
-            await self._mark_failed(advice_id, str(e))
-
-    async def _execute_advice(
-        self,
-        user_id: str,
-        advice_id: str,
-        config_overrides: Dict[str, Any],
-    ) -> None:
-        """实际执行逻辑"""
-        from app.services.portfolio_service import PortfolioService
-        from app.services.config_service import ConfigService
-
-        self._db = None
-
-        await self.db["portfolio_advice"].update_one(
-            {"advice_id": advice_id},
-            {"$set": {"status": "RUNNING", "updated_at": datetime.utcnow().isoformat()}},
-        )
-
-        portfolio_svc = PortfolioService()
-        portfolio_summary = await portfolio_svc.get_portfolio_summary(user_id)
-
-        position_codes = [p["code"] for p in portfolio_summary.get("positions", [])]
-        tier1_reports = await self._prepare_tier1_reports(position_codes)
-
-        # 敞口引擎：穿透基金持仓 → 真实暴露矩阵
-        from app.services.exposure_service import ExposureService
-        exposure_svc = ExposureService()
-        exposure_matrix = await exposure_svc.compute(portfolio_summary)
-        exposure_context = exposure_svc.format_context_for_advisor(exposure_matrix)
-
-        # 情景压力测试：预设宏观情景，估算组合回撤
-        from app.services.stress_test import StressTestService
-        positions = portfolio_summary.get("positions", [])
-        sector_map = {}
-        for exp in exposure_matrix.stock_exposures:
-            if exp.sector:
-                sector_map[exp.code] = exp.sector
-        stress_results = StressTestService.run_all(positions, sector_map)
-        stress_context = StressTestService.format_context_for_advisor(stress_results)
-
-        logger.info(
-            f"[Advisor] 数据准备完成: {len(position_codes)} 只持仓, "
-            f"{len(tier1_reports)} 份 Tier1 报告, "
-            f"敞口矩阵 {len(exposure_matrix.stock_exposures)} 只底层标的"
-        )
-
-        # 反馈闭环：获取上一次处方上下文，注入 CIO prompt
-        feedback_context = await self._format_feedback_context(user_id, advice_id)
-
-        config_service = ConfigService()
-        llm_config = await config_service.get_analysis_config(user_id)
-
-        from tradingagents.graph.trading_graph import create_llm_by_provider
-        from tradingagents.llm_clients.provider_keys import normalize_provider_key
-
-        provider = normalize_provider_key(llm_config.get("llm_provider", "qwen"))
-        llm = create_llm_by_provider(
-            provider=provider,
-            model=llm_config.get("deep_think_llm", llm_config.get("quick_think_llm", "qwen-plus")),
-            backend_url=llm_config.get("backend_url", ""),
-            temperature=0.7,
-            max_tokens=4000,
-            timeout=180,
-            api_key=llm_config.get("deep_api_key") or llm_config.get("quick_api_key"),
-        )
-
-        from tradingagents.graph.advisor_graph import AdvisorGraph
-
-        advisor = AdvisorGraph(llm, config=llm_config)
-
-        # v3: 构建行业扫描池
-        industry_scan_pool = []
-        try:
-            from app.services.industry_scan_pool import build_scan_pool
-            pool = await build_scan_pool(self.db, user_id)
-            industry_scan_pool = pool.to_dict()
-        except Exception as e:
-            logger.warning(f"[Advisor] 行业扫描池构建失败（非致命）: {e}")
-
-        def progress_cb(label: str):
-            try:
-                import asyncio
-                _l = asyncio.new_event_loop()
-                asyncio.set_event_loop(_l)
-                _l.run_until_complete(
-                    self._update_progress(advice_id, label)
-                )
-                _l.close()
-            except Exception:
-            except Exception:
-                pass
-
-        result = advisor.propagate_advice(
-            portfolio_summary=portfolio_summary,
-            tier1_reports=tier1_reports,
-            exposure_context=exposure_context + "\n\n" + stress_context if stress_context else exposure_context,
-            exposure_matrix=exposure_matrix,
-            feedback_context=feedback_context,
-            industry_scan_pool=industry_scan_pool,
-            progress_callback=progress_cb,
-            **config_overrides,
-        )
-
-        await self.db["portfolio_advice"].update_one(
-            {"advice_id": advice_id},
-            {"$set": {
-                "status": "COMPLETED",
-                "prescription": result.get("prescription", []),
-                "cio_verdict": result.get("cio_verdict", ""),
-                "analyst_assessment": result.get("analyst_assessment", ""),
-                "strategist_assessment": result.get("strategist_assessment", ""),
-                "scout_assessment": result.get("scout_assessment", ""),
-                "contrarian_assessment": result.get("contrarian_assessment", ""),
-                "macro_judge_verdict": result.get("macro_judge_verdict", ""),
-                "market_intel": result.get("market_intel", {}),
-                "stock_candidates": result.get("stock_candidates", []),
-                "stock_judge_verdict": result.get("stock_judge_verdict", ""),
-                "risk_director_review": result.get("risk_director_review", ""),
-                "market_debate_history": result.get("market_debate_history", ""),
-                "stock_debate_history": result.get("stock_debate_history", ""),
-                "debate_history": result.get("debate_history", ""),
-                "elapsed_seconds": result.get("elapsed_seconds", 0),
-                "completed_at": datetime.utcnow().isoformat(),
-                "updated_at": datetime.utcnow().isoformat(),
-                "price_context": result.get("price_context", {}),
-                "risk_debate_final": result.get("risk_debate_final", {}),
-                "portfolio_summary_snapshot": result.get("portfolio_summary_snapshot", {}),
-                "audit_results": result.get("audit_results", []),
-                "buy_signals": result.get("buy_signals", {}),
-                "market_signals": result.get("market_signals", {}),
-            }},
-        )
-
-        # 双写 analysis_reports（报告页可见）
-        try:
-            completed_at = datetime.utcnow().isoformat()
-            market_intel = result.get("market_intel", {})
-            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
-            await self.db["analysis_reports"].insert_one({
-                "report_type": "portfolio",
-                "stock_symbol": f"portfolio_{advice_id}",
-                "stock_name": f"组合建议 {completed_at[:10]}",
-                "summary": (result.get("cio_verdict", "") or "")[:500],
-                "recommendation": f"覆盖 {len(industries)} 个行业, {len(result.get('prescription', []))} 条处方",
-                "created_at": completed_at,
-                "status": "completed",
-                "analysts": ["market_strategist", "contrarian", "macro_judge", "scout", "stock_contrarian", "stock_judge", "analyst", "strategist", "cio", "risk_director"],
-                "research_depth": 2,
-                "market_type": "portfolio",
-                "instrument_type": "portfolio",
-                "model_info": "Tier2-4Level",
-                "reports": {
-                    "market_intel": market_intel,
-                    "stock_candidates": result.get("stock_candidates", []),
-                    "analyst_assessment": result.get("analyst_assessment", ""),
-                    "strategist_assessment": result.get("strategist_assessment", ""),
-                    "scout_assessment": result.get("scout_assessment", ""),
-                    "cio_verdict": result.get("cio_verdict", ""),
-                    "risk_director_review": result.get("risk_director_review", ""),
-                },
-                "advice_id": advice_id,
-                "user_id": user_id,
-            })
-            logger.info(f"[Advisor] 双写 analysis_reports 完成, advice_id={advice_id}")
-        except Exception as e:
-            logger.warning(f"[Advisor] 双写 analysis_reports 失败（非致命）: {e}")
-
-        # 更新 industry_coverage（L1 行业扫描结果持久化）
-        try:
-            market_intel = result.get("market_intel", {})
-            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
-            for ind in industries:
-                if not isinstance(ind, dict):
-                    continue
-                ind_name = ind.get("industry", "")
-                if not ind_name:
-                    continue
-                await self.db["industry_coverage"].update_one(
-                    {"user_id": user_id, "industry_name": ind_name},
-                    {"$set": {
-                        "market": ind.get("market", "cn"),
-                        "lifecycle": ind.get("lifecycle", ""),
-                        "go_nogo": ind.get("recommendation", ind.get("go_nogo", "")),
-                        "confidence": ind.get("confidence", ""),
-                        "reasoning": ind.get("reasoning", ""),
-                        "priority": ind.get("priority", 0),
-                        "debate_history": ind.get("debate_history", ""),
-                        "vitality_level": ind.get("vitality_level", ""),
-                        "vitality_score": ind.get("vitality_score", 0),
-                        "analyzed_at": datetime.utcnow().isoformat(),
-                        "expires_at": (datetime.utcnow() + timedelta(days=7)).isoformat(),
-                        "advice_id": advice_id,
-                        "status": "completed",
-                        "updated_at": datetime.utcnow().isoformat(),
-                    }},
-                    upsert=True,
-                )
-            if industries:
-                logger.info(f"[Advisor] industry_coverage 更新完成, {len(industries)} 个行业")
-        except Exception as e:
-            logger.warning(f"[Advisor] industry_coverage 更新失败（非致命）: {e}")
-
-        # 异步触发 Tier1 研究
-        try:
-            from app.services.stock_research_cache import trigger_auto_research
-            market_intel = result.get("market_intel", {})
-            industries = market_intel.get("industries", []) if isinstance(market_intel, dict) else []
-            for ind in industries:
-                if ind.get("go_nogo") == "Go":
-                    ind_name = ind.get("industry", "")
-                    if ind_name:
-                        import asyncio
-                        asyncio.create_task(
-                            _auto_trigger_tier1_for_industry(
-                                self, user_id, ind_name
-                            )
-                        )
-        except Exception as e:
-            logger.warning(f"[Advisor] Tier1 自动触发失败（非致命）: {e}")
-
-        await self._send_ws_notification(user_id, advice_id)
-
-        logger.info(f"[Advisor] 完成 advice_id={advice_id}, "
-                     f"{len(result.get('prescription', []))} 条处方")
-
-    async def _update_progress(self, advice_id: str, step: str):
-        self._db = None
-        await self.db["portfolio_advice"].update_one(
-            {"advice_id": advice_id},
-            {"$set": {"current_step": step, "updated_at": datetime.utcnow().isoformat()}},
-        )
-
-    async def _mark_failed(self, advice_id: str, error: str):
-        self._db = None
-        await self.db["portfolio_advice"].update_one(
-            {"advice_id": advice_id},
-            {"$set": {
-                "status": "FAILED",
-                "error": error[:500],
-                "updated_at": datetime.utcnow().isoformat(),
-            }},
-        )
-
-    async def _format_feedback_context(self, user_id: str, current_advice_id: str) -> str:
+    async def format_feedback_context(self, user_id: str, current_advice_id: str) -> str:
         """获取最近的已完成处方，格式化为反馈上下文"""
         try:
             self._db = None
@@ -383,35 +114,3 @@ class PortfolioAdvisorService:
         except Exception as e:
             logger.warning(f"获取历史处方失败: {e}")
             return ""
-
-    async def _send_ws_notification(self, user_id: str, advice_id: str):
-        try:
-            from app.core.ws_manager import manager as ws_manager
-            await ws_manager.send_personal_message(
-                {"type": "advice_completed", "advice_id": advice_id},
-                user_id,
-            )
-        except Exception as e:
-            logger.debug(f"WebSocket 通知失败（非致命）: {e}")
-
-
-async def _auto_trigger_tier1_for_industry(service, user_id: str, industry: str):
-    """行业 Go 后自动触发该行业主要公司的 Tier1 研究（后台异步）。"""
-    try:
-        db = get_mongo_db()
-        # 用户在该行业的持仓标的
-        cursor = db["paper_positions"].find(
-            {"user_id": user_id, "industry": industry},
-            {"code": 1, "name": 1},
-        )
-        codes = [doc["code"] async for doc in cursor]
-
-        if codes:
-            from app.services.stock_research_cache import trigger_auto_research
-            triggered = await trigger_auto_research(db, None, industry, codes, user_id)
-            if triggered:
-                logger.info(f"[AutoResearch] 行业 {industry}: 已触发 {triggered} 只标的 Tier1 研究")
-            else:
-                logger.info(f"[AutoResearch] 行业 {industry}: 所有标的缓存有效，无需触发")
-    except Exception as e:
-        logger.warning(f"[AutoResearch] 行业 {industry} 触发失败: {e}")
