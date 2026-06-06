@@ -178,10 +178,13 @@ API 采用**两阶段 + 人工确认**：`/plan`（收集数据 + 跑到行业�
 tradingagents-cn/
 ├── agents/advisor/              # 17 个 v3 子 Agent .md 定义（含大类资产层）
 ├── scripts/
-│   ├── workflow-v3-advisor.js   # v3 增量编排器（macro→asset→…→synth）
-│   ├── run.sh                   # 编排入口（all / collect / analyze）
-│   ├── collect_data.py          # 数据采集 → data/advisor_runs/{ts}/
-│   ├── ingest_advice.py         # v3 产物 → portfolio_advice 落库
+│   ├── workflow-v3-advisor.js   # v3 增量编排器（macro→asset→…→synth），终态守卫强制吐 run_report
+│   ├── run.sh                   # 编排入口（all / collect / analyze），支持 --portfolio-file / --snapshot
+│   ├── collect_data.py          # 数据采集 → data/advisor_runs/{ts}/（含文件输入模式，脱离 MongoDB）
+│   ├── ingest_advice.py         # v3 产物 → portfolio_advice 落库（--out-json 可不连库出 doc）
+│   ├── export_inputs.py         # 本地导出文件总线输入（holdings/watchlist/tier1 → data/_inputs/）
+│   ├── build_snapshot.py        # 运行产物 → 前端静态快照（frontend/public/snapshot/*.json）
+│   ├── run_report.py            # 离线运行报告（逐阶段体检 + 是否降级），保证「看得见」
 │   └── migrate_position_industry.py  # 历史持仓行业补填
 ├── app/
 │   ├── routers/
@@ -271,6 +274,32 @@ cd frontend && npm run dev                                         # 前端
 > ⚠️ `analyze` 直接吃目录里**已存在的** `industry_list.json`，不会重算深辩范围。想换范围要重新 `collect`（带 `--industries`）或手动改该文件后再 `analyze`。
 
 > `run.sh` 硬前置（`check_prereqs` 会校验）：24 位 hex 的 `--user-id`、Python、Claude Code CLI（LLM 推理这层需要 claude CLI 鉴权）。
+
+#### 文件总线（B 档：脱离 MongoDB 在异地跑）
+
+为了让分析能在没有本地 MongoDB 的环境（如远端 Pod）里跑，链路提供一条**叠加式**的文件输入/输出旁路——不改动上面的 Mongo 全量路径，两条路都跑得通：
+
+```bash
+# ① 本地（有 Mongo）导出文件总线输入 → data/_inputs/{holdings,watchlist,tier1_reports}.json
+python scripts/export_inputs.py --user-id <id> --out-dir data/_inputs
+
+# ② 异地（无 Mongo）：collect 改读文件，跳过所有 Mongo 调用
+./scripts/run.sh collect --portfolio-file data/_inputs/holdings.json \
+    --watchlist-file data/_inputs/watchlist.json --tier1-file data/_inputs/tier1_reports.json
+
+# ③ 跑分析并生成前端静态快照（frontend/public/snapshot/*.json）
+./scripts/run.sh analyze --data-dir data/advisor_runs/<ts> --snapshot
+```
+
+- **输入端**：`collect_data.py --portfolio-file` 进入「文件输入模式」，持仓 / 扫描池 / Tier1 全读本地 JSON（`watchlist.json` / `tier1_reports.json` 可空）。景气榜（`score_all_industries`）本就不碰 Mongo，照常联网全扫。基金穿透因依赖 Mongo 基金库而降级为「仅直接个股敞口」。
+- **输出端**：`build_snapshot.py` 把运行产物组装成与 API **完全同构**的 `overview.json` / `advice_latest.json`，前端设 `VITE_STATIC_SNAPSHOT=1` 即不连后端、直接 fetch 仓库里的快照展示，效果与走 API 一致。
+- **保证看得见**：每次运行（成功 / 风控拦截 / 崩溃）编排器都强制吐 `run_report.json` + `run_report.md`，逐阶段报告「跑没跑 / 产物空不空 / 停在哪为什么 / 前端会不会降级」。可单独离线复盘任意历史目录：
+
+```bash
+python scripts/run_report.py --data-dir data/advisor_runs/<ts>
+```
+
+> ⚠️ 文件总线产出的 `holdings.json` 等是**敏感财务数据**，`data/` 已在 `.gitignore` 内；若要把静态快照（`frontend/public/snapshot/`）推上库共享，注意它含持仓/处方，务必用私有仓库。
 
 ---
 

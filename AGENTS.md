@@ -79,6 +79,26 @@ collect_data.py  ──写出──▶ data/advisor_runs/{ts}/ ──读入─�
 
 ⚠️ **接力陷阱**：`analyze` 直接吃目录里**已存在的** `industry_list.json`，不会重算。如果一方预生成了子集，另一方 analyze 时不会被覆盖。要换深辩范围，要么重新 `collect`，要么手动改 `industry_list.json` 后再 `analyze`。
 
+### 4.1 文件总线（脱离 MongoDB 异地跑，B 档）
+
+接力机制的延伸：让链路在**没有 MongoDB 的环境**（如远端 Pod）也能跑。所有改动是**叠加式**的——给文件输入开新分支，**绝不动现有 Mongo 全量路径**，两条路都必须跑得通。
+
+```
+本地(有Mongo)                          异地(无Mongo)
+export_inputs.py ──holdings/watchlist/tier1.json──▶ collect_data.py --portfolio-file
+                                                          │ (跳过全部 Mongo 调用)
+                                                          ▼
+                                    run.sh analyze --snapshot
+                                                          │
+build_snapshot.py ──overview.json / advice_latest.json──▶ 前端 VITE_STATIC_SNAPSHOT=1 直接 fetch
+```
+
+- `collect_data.py --portfolio-file <holdings.json>` 进入文件输入模式：持仓 / 扫描池 / Tier1 改读本地 JSON（`--watchlist-file` / `--tier1-file` 可空），跳过全部 Mongo。`score_all_industries()` 本就不碰 Mongo，照常联网全扫。基金穿透依赖 Mongo 基金库 → 文件模式降级为「仅直接个股敞口」。
+- `build_snapshot.py --data-dir <ts> --snapshot` 产出与 API **完全同构**的 `overview.json` / `advice_latest.json`（复用 `ingest_advice.py` 的 `build_doc` + `paper.py` 的矩阵组装逻辑，保证字段契约一致），写到 `frontend/public/snapshot/`。
+- **保证看得见**：编排器主循环包了 `try/catch`，无论 done / violations_found / crashed 三条出口，都先写 `run_report.json` + `run_report.md` 再返回。`run_report.py` 也能离线复盘任意历史目录：`python scripts/run_report.py --data-dir data/advisor_runs/<ts>`。它专门标红两个老坑：`Scout 候选全是已持仓 → 0 只新股票`、`industry_matrix 为空 → 前端必降级`。
+
+⚠️ **改文件总线铁律**：任何新增能力都要**同时验证老路（Mongo 全量）和新路（文件模式）都通**，不许只顾一头。`data/` 已在 `.gitignore`；静态快照含持仓/处方，是敏感财务数据，推库务必私有仓库。
+
 ---
 
 ## 5. 行业深辩范围开关 `--industries`
@@ -156,6 +176,8 @@ collect_data.py  ──写出──▶ data/advisor_runs/{ts}/ ──读入─�
 4. MongoDB 可达 —— `ingest_advice.py` 写 `portfolio_advice`，前端读这张表。
 5. 联网 —— `collect_data.py` 抓 AKShare/Tushare 行情、北向、PE 分位。
 
+> 文件总线（4.1 节）放宽其中两条：`--portfolio-file` 文件模式**不需要 MongoDB**（持仓/扫描池/Tier1 读本地 JSON），`--user-id` 校验也放宽为元信息标签；`--snapshot` 只产前端静态 JSON，不需要 claude CLI。但**真正跑 v3 分析（analyze）仍需 claude CLI 鉴权 + 联网**。
+
 ---
 
 ## 9. 改代码后的验证
@@ -163,6 +185,7 @@ collect_data.py  ──写出──▶ data/advisor_runs/{ts}/ ──读入─�
 - 改 Python：`.venv/bin/python -c "import <module>"` 做导入级冒烟 + `python -m pytest tests/ -v`。
 - 改 JS 编排器：`node --check scripts/workflow-v3-advisor.js`。
 - 改前端：`cd frontend && npm run build`（不要跑 `npm run dev`，那是阻塞命令）。
+- 改文件总线脚本（`collect_data.py` 文件模式 / `build_snapshot.py` / `export_inputs.py` / `run_report.py`）：`python -m py_compile <file>` 语法检查 + 用合成 fixtures 跑一遍（这些脚本 `build_doc` 等是纯 stdlib，sandbox 里可真跑验证），并离线 `python scripts/run_report.py --data-dir <目录>` 确认报告正确。
 - 端到端真跑需 MongoDB + 联网 + claude CLI，sandbox 环境跑不通时明确标注「未端到端验证」。
 
 ---
