@@ -148,3 +148,59 @@ frontend_snapshot/                   # 【新增】仓库根：指向"最新一�
 3. **要不要一并做 Part B**（让被风控拦下的处方带"禁止执行"标签露出来，根治"前端降级成只显示历史股"）？
 
 你回我这三个，我就按第 7 节顺序开干。
+
+---
+
+## 9. 实施记录（B 档已落地 · 叠加式，新老两条路都跑通）
+
+> 你已拍板 **B 档**，并要求「之前那套本地 Mongo 全量路径」与「新的文件输入路径」**都要跑通**。
+> 下面是已落地的改动，全部**叠加式**——不给文件参数/不设环境开关时，行为与现在 **完全一致**。
+
+### 9.1 改了哪些文件
+
+| 文件 | 改动 | 对老路（Mongo 全量）的影响 |
+|---|---|---|
+| `scripts/build_snapshot.py` | **新增**。复用 `ingest_advice.build_doc`（纯 stdlib）产 `advice_latest.json` + `overview.json` + `meta.json`，写到 `<run>/_snapshot/` 与 `frontend/public/snapshot/` | 无（新文件） |
+| `scripts/export_inputs.py` | **新增**。本地连 Mongo 导出 `holdings.json`/`watchlist.json`/`tier1_reports.json` | 无（新文件，只读 Mongo） |
+| `scripts/collect_data.py` | 加 `--portfolio-file/--watchlist-file/--tier1-file` 文件输入模式 | **零影响**：不给 `--portfolio-file` 时走原 Mongo 分支（原逻辑原样移进 `else:`） |
+| `frontend/src/api/paper.ts` | 加 `VITE_STATIC_SNAPSHOT` 静态加载 | **零影响**：不设该环境变量时照常走 API |
+| `scripts/run.sh` | 透传文件参数 + `--snapshot` 步骤 | **零影响**：不传新参数时与原命令等价 |
+| `.gitignore` | 保护 `data/_inputs/` 等敏感持仓输入 | 无 |
+
+### 9.2 两条路怎么跑（都已验证语法/合成数据，端到端需你的真实环境）
+
+**老路（本地 Mongo 全量，原样不变）：**
+```bash
+./scripts/run.sh all --user-id <24hex>        # collect(Mongo)→claude→ingest(Mongo)
+```
+
+**新路（文件总线，B 档）：**
+```bash
+# ① 本地（连 Mongo）导出输入
+python scripts/export_inputs.py --user-id <24hex> --out-dir data/_inputs
+# ② Pod/任意机（不连 Mongo）：采数（联网 akshare）+ 分析 + 出快照
+./scripts/run.sh collect --portfolio-file data/_inputs/holdings.json \
+    --watchlist-file data/_inputs/watchlist.json --tier1-file data/_inputs/tier1_reports.json
+./scripts/run.sh analyze --data-dir data/advisor_runs/<ts> --snapshot
+# ③ 本地 git pull 后纯前端查看（无需后端/Mongo）
+cd frontend && VITE_STATIC_SNAPSHOT=1 npm run dev
+```
+
+### 9.3 文件契约（export_inputs 产出 ←→ collect 文件模式消费，对称）
+
+- `holdings.json` = `{available_cash, total_assets, positions:[{code,name,weight,industry,instrument_type,...}]}`
+  （`industry` 字段供文件版扫描池分组；export_inputs 会从 `paper_positions` 补齐）
+- `watchlist.json` = `["半导体", ...]` 或 `[{"industry":"半导体"}, ...]`（两种都兼容）
+- `tier1_reports.json` = 个股深度分析摘要 list（可空 `[]`）
+
+### 9.4 文件模式与 Mongo 模式的差异（诚实标注）
+
+- **基金穿透敞口**：文件模式无 Mongo 基金持仓库，降级为「仅直接个股敞口」（`data_exposure.json` 带 `note` 标注）。敞口是告警级次要信号，不阻断分析。
+- **行业覆盖缓存**：文件模式无 `industry_coverage`，扫描池一律 `cached=False`（不影响深辩范围本身）。
+- **数据硬闸照常生效**：宏观/水温/北向缺任一仍中止（文件模式不绕过「数据盲区不出处方」铁律）。
+- **景气打分/PE/宏观/水温**：两模式**完全共用**联网采集，无差异。
+
+### 9.5 仍未做（等你单独点头）
+
+- **Part B（fail-open-labeled synth）**：被风控拦下的处方仍写出、打 `blocked_by_risk` 标签，而非凭空消失——根治「只显示历史股」。这会动风控语义，未做。
+- **模型 C（在 Pod 跑 `claude -p` 大脑）**：B 档分析大脑仍由你本地跑，未烧你额度。

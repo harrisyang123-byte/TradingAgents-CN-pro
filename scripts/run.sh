@@ -56,6 +56,10 @@ REFRESH=""
 FULL=""
 INDUSTRIES=""
 COMMAND=""
+PORTFOLIO_FILE=""
+WATCHLIST_FILE=""
+TIER1_FILE=""
+SNAPSHOT=""
 
 # ── 参数解析 ──────────────────────────────────────────────
 
@@ -82,6 +86,22 @@ v3 阶段(stage): macro | industry | scout | portfolio | pm | synth
   --refresh     强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
   --full        忽略全部缓存，从头全跑
   --industries  深辩范围：scope=持仓+watchlist+景气top3（默认），all=全量可投资行业（采数阶段生效）
+
+文件总线（B 档，叠加式，不影响上面的 Mongo 全量路径）:
+  --portfolio-file <holdings.json>   文件输入模式：持仓改读文件，脱离 MongoDB
+  --watchlist-file <watchlist.json>  关注行业文件（可选）
+  --tier1-file <tier1_reports.json>  个股深度分析导出（可选）
+  --snapshot                         分析后生成前端静态快照（frontend/public/snapshot/）
+
+文件总线典型用法:
+  # 本地（连 Mongo）导出输入
+  python scripts/export_inputs.py --user-id <id> --out-dir data/_inputs
+  # Pod/任意机（不连 Mongo）采数 → 分析 → 出快照
+  ./run.sh collect --portfolio-file data/_inputs/holdings.json \
+      --watchlist-file data/_inputs/watchlist.json --tier1-file data/_inputs/tier1_reports.json
+  ./run.sh analyze --data-dir data/advisor_runs/<ts> --snapshot
+  # 本地 git pull 后纯前端查看
+  cd frontend && VITE_STATIC_SNAPSHOT=1 npm run dev
 EOF
     exit 1
 }
@@ -170,6 +190,25 @@ while [[ $# -gt 0 ]]; do
             fi
             shift 2
             ;;
+        --portfolio-file)
+            PORTFOLIO_FILE="${2:-}"
+            [ -z "$PORTFOLIO_FILE" ] && { echo "错误: --portfolio-file 需要值"; usage; }
+            shift 2
+            ;;
+        --watchlist-file)
+            WATCHLIST_FILE="${2:-}"
+            [ -z "$WATCHLIST_FILE" ] && { echo "错误: --watchlist-file 需要值"; usage; }
+            shift 2
+            ;;
+        --tier1-file)
+            TIER1_FILE="${2:-}"
+            [ -z "$TIER1_FILE" ] && { echo "错误: --tier1-file 需要值"; usage; }
+            shift 2
+            ;;
+        --snapshot)
+            SNAPSHOT="1"
+            shift
+            ;;
         -h|--help)
             usage
             ;;
@@ -225,6 +264,13 @@ check_prereqs || exit 1
 
 # ── 收集数据 ──────────────────────────────────────────────
 
+# 文件输入参数（B 档文件总线）：用数组确保含空格的路径也安全传递。
+# set -u 下空数组展开用 ${arr[@]+"${arr[@]}"} 习语避免 unbound 报错。
+COLLECT_FILE_ARGS=()
+[ -n "$PORTFOLIO_FILE" ] && COLLECT_FILE_ARGS+=(--portfolio-file "$PORTFOLIO_FILE")
+[ -n "$WATCHLIST_FILE" ] && COLLECT_FILE_ARGS+=(--watchlist-file "$WATCHLIST_FILE")
+[ -n "$TIER1_FILE" ]     && COLLECT_FILE_ARGS+=(--tier1-file "$TIER1_FILE")
+
 # 构建 collect_data.py 额外参数（industries）
 # INDUSTRIES 仅取 scope|all（无空格），可安全用不带引号的展开
 collect_extra_args() {
@@ -250,6 +296,7 @@ run_collect() {
         --user-id "$USER_ID" \
         --out-dir "$RUN_DIR" \
         $(collect_extra_args) \
+        ${COLLECT_FILE_ARGS[@]+"${COLLECT_FILE_ARGS[@]}"} \
         2>&1 | sed 's/^/  /'
 
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
@@ -370,6 +417,7 @@ case "$COMMAND" in
             --user-id "$USER_ID" \
             --out-dir "$RUN_DIR" \
             $(collect_extra_args) \
+            ${COLLECT_FILE_ARGS[@]+"${COLLECT_FILE_ARGS[@]}"} \
             2>&1 | sed 's/^/  /'
         if [ ${PIPESTATUS[0]} -ne 0 ]; then
             echo "❌ 数据收集失败"
@@ -405,6 +453,14 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
             echo "❌ 保存失败"
             exit 1
         fi
+
+        # Phase 4（可选）: 生成前端静态快照（--snapshot）
+        if [ -n "$SNAPSHOT" ]; then
+            echo ""
+            echo "[4/4] 生成前端静态快照..."
+            $PYTHON "$SCRIPT_DIR/build_snapshot.py" --data-dir "$RUN_DIR" --user-id "$USER_ID" 2>&1 | sed 's/^/  /'
+        fi
+
         echo ""
         echo "========================================"
         echo "Done. 处方已保存。"
@@ -469,5 +525,13 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
             exit 1
         fi
         echo "✅ Agent 推理完成"
+
+        # 可选: 生成前端静态快照（--snapshot）。文件总线关键路径：
+        # 不落 Mongo，直接把产物组装成前端可静态加载的快照。
+        if [ -n "$SNAPSHOT" ]; then
+            echo ""
+            echo "生成前端静态快照..."
+            $PYTHON "$SCRIPT_DIR/build_snapshot.py" --data-dir "$DATA_DIR" --user-id "$USER_ID" 2>&1 | sed 's/^/  /'
+        fi
         ;;
 esac

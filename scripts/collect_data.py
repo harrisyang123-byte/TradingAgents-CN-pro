@@ -23,8 +23,88 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
+# ════════════════════════════════════════════════════════════════════
+# 文件输入模式（B 档「文件总线」）——叠加式，不影响下方 Mongo 全量路径
+#
+# Pod 内没有 MongoDB，但持仓/watchlist/Tier1 这三类输入本来就在本地 Mongo。
+# 文件模式下用本地导出的 JSON 替代这 3 处 Mongo 读取（export_inputs.py 产出），
+# 其余联网采集环节（PE / 宏观 / 市场水温 / 景气打分）两模式完全共用、零改动。
+# ════════════════════════════════════════════════════════════════════
+
+def _read_json_file(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"    警告: 无法解析 {path.name}: {e}")
+        return default
+
+
+def load_portfolio_from_file(portfolio_file: Path) -> dict:
+    """读取本地导出的 holdings.json，归一成与 get_portfolio_summary 同构的 summary。
+
+    接受两种形态：
+      ① 完整 summary dict: {available_cash, total_assets, positions:[...]}（推荐，export_inputs 产出）
+      ② 裸 positions 列表: [...]（此时 total_assets/available_cash 需在文件里另带，缺则置 0）
+    每条 position 至少含 code/name/weight；scan pool 还会用到 industry 字段。
+    """
+    raw = _read_json_file(portfolio_file, None)
+    if raw is None:
+        raise FileNotFoundError(f"持仓文件不存在或无法解析: {portfolio_file}")
+    if isinstance(raw, list):
+        summary = {"positions": raw, "available_cash": 0, "total_assets": 0}
+    elif isinstance(raw, dict):
+        summary = dict(raw)
+        summary.setdefault("positions", [])
+        summary.setdefault("available_cash", 0)
+        summary.setdefault("total_assets", 0)
+    else:
+        raise ValueError(f"持仓文件格式不支持（应为 dict 或 list）: {portfolio_file}")
+    return summary
+
+
+def build_scan_pool_from_inputs(positions, watchlist_industries, vitality_scores,
+                                all_industries: bool = False):
+    """文件版扫描池：复刻 industry_scan_pool.build_scan_pool 的去重/来源标注逻辑，
+    但来源换成 持仓 positions[].industry + watchlist 文件 + 景气打分（不碰 Mongo）。
+
+    industry_coverage 缓存检查在文件模式下不可用（无 Mongo），一律 cached=False。
+    返回与 build_scan_pool 同类型的 IndustryScanPool，下游 to_industry_list/to_dict 一致。
+    """
+    from app.services.industry_scan_pool import (
+        IndustryScanItem, IndustryScanPool, CURRENCY_BUCKETS)
+
+    scan_set = {}
+    # 1. 持仓行业（必选）
+    for p in positions:
+        ind = (p.get("industry") or "").strip()
+        if ind and ind not in ("未分类",) and ind not in scan_set:
+            scan_set[ind] = IndustryScanItem(industry=ind, source="holding")
+    # 2. watchlist（必选）
+    for ind in watchlist_industries:
+        ind = (ind or "").strip()
+        if ind and ind not in scan_set:
+            scan_set[ind] = IndustryScanItem(industry=ind, source="watchlist")
+    # 3. 景气打分（默认 top3；all_industries 时纳入全部可投资行业，均无估值闸）
+    candidates = list(vitality_scores) if all_industries else [
+        s for s in vitality_scores if getattr(s, "top3_flag", False)]
+    for score in candidates:
+        if score.industry in CURRENCY_BUCKETS:
+            continue
+        if score.industry not in scan_set:
+            scan_set[score.industry] = IndustryScanItem(
+                industry=score.industry, source="vitality",
+                vitality_score=score.total_score)
+    return IndustryScanPool(industries=list(scan_set.values()))
+
+
 async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
-                      allow_partial: bool = False) -> bool:
+                      allow_partial: bool = False,
+                      portfolio_file: Path = None,
+                      watchlist_file: Path = None,
+                      tier1_file: Path = None) -> bool:
     """全量数据收集
 
     all_industries: 为 True 时，行业扫描池纳入全部可投资行业（全量深辩），
@@ -33,29 +113,42 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
         缺任一即中止采集并返回 False，下游 LLM 分析根本不会启动——
         贯彻「拿不到数据就不分析，绝不在数据盲区出处方」。
         置 True 仅供接力/调试时绕过硬闸（缺数据时会改为告警放行）。
+    portfolio_file: 给定即进入「文件输入模式」（B 档文件总线）——持仓/Tier1/扫描池
+        三处 Mongo 读取改用本地导出的 JSON，跳过 init_database()。其余联网采集
+        （PE/宏观/水温/景气）与 Mongo 模式完全一致。不给则走原 Mongo 全量路径。
+    watchlist_file / tier1_file: 文件模式下的可选输入（缺省 → 空），仅文件模式生效。
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     warnings = []
+    file_mode = portfolio_file is not None
+    if file_mode:
+        print(f"  ▶ 文件输入模式（脱离 MongoDB）：持仓={portfolio_file}")
 
     # —— 1. 持仓数据 ——
     print("  [1/7] 收集持仓数据...")
     try:
-        from app.core.database import init_database
-        from app.services.portfolio_service import PortfolioService
-        await init_database()
-        svc = PortfolioService()
-        summary = await svc.get_portfolio_summary(user_id)
-        positions = summary.get("positions", [])
+        if file_mode:
+            # 文件模式：读本地导出的 holdings.json，不连 Mongo
+            summary = load_portfolio_from_file(portfolio_file)
+            positions = summary.get("positions", [])
+        else:
+            from app.core.database import init_database
+            from app.services.portfolio_service import PortfolioService
+            await init_database()
+            svc = PortfolioService()
+            summary = await svc.get_portfolio_summary(user_id)
+            positions = summary.get("positions", [])
 
         if not positions:
             print("  错误: 当前用户无持仓数据，无法进行分析")
             return False
 
-        # 整理持仓数据
+        # 整理持仓数据（两模式产物结构一致，下游 ingest/build_snapshot 无感知）
         portfolio_data = {
             "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
             "status": "success",
             "user_id": user_id,
+            "input_mode": "file" if file_mode else "mongo",
             "available_cash": summary.get("available_cash", 0),
             "total_assets": summary.get("total_assets", 0),
             "position_count": len(positions),
@@ -64,7 +157,7 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
         with open(out_dir / "data_portfolio.json", "w") as f:
             json.dump(portfolio_data, f, ensure_ascii=False, default=str)
         cash = summary.get("available_cash", 0)
-        total = summary.get("total_assets", 1)
+        total = summary.get("total_assets", 1) or 1
         print(f"    {len(positions)} 只持仓, 总资产 ¥{total:.0f}, 现金 ¥{cash:.0f} ({cash/total*100:.0f}%)")
     except Exception as e:
         print(f"  错误: {e}")
@@ -72,48 +165,57 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
 
     # —— 2. Tier1 报告 ——
     print("  [2/7] 收集 Tier1 报告...")
-    try:
-        from app.core.database import get_mongo_db
-        db = get_mongo_db()
-        position_codes = [p.get("code", p.get("stock_code", "")) for p in positions]
-        reports = []
+    if file_mode:
+        # 文件模式：读本地导出的 tier1_reports.json（可空）
+        reports = _read_json_file(tier1_file, []) if tier1_file else []
+        if not isinstance(reports, list):
+            reports = []
+        with open(out_dir / "data_tier1.json", "w") as f:
+            json.dump(reports, f, ensure_ascii=False, default=str)
+        print(f"    {len(reports)} 份 Tier1 报告（文件输入）")
+    else:
+        try:
+            from app.core.database import get_mongo_db
+            db = get_mongo_db()
+            position_codes = [p.get("code", p.get("stock_code", "")) for p in positions]
+            reports = []
 
-        for code in position_codes:
-            if not code:
-                continue
-            doc = await db["analysis_reports"].find_one(
-                {"$and": [
-                    {"$or": [{"stock_symbol": code}, {"stock_code": code}]},
-                    {"stock_symbol": {"$ne": "?"}},
-                    {"status": "completed"},
-                ]},
-                sort=[("created_at", -1)],
-            )
-            if not doc:
-                doc = await db["analysis_results"].find_one(
-                    {"$or": [{"stock_code": code}, {"stock_symbol": code}]},
+            for code in position_codes:
+                if not code:
+                    continue
+                doc = await db["analysis_reports"].find_one(
+                    {"$and": [
+                        {"$or": [{"stock_symbol": code}, {"stock_code": code}]},
+                        {"stock_symbol": {"$ne": "?"}},
+                        {"status": "completed"},
+                    ]},
                     sort=[("created_at", -1)],
                 )
-            if doc:
-                reports.append({
-                    "code": doc.get("stock_symbol") or doc.get("stock_code", code),
-                    "name": doc.get("stock_name", ""),
+                if not doc:
+                    doc = await db["analysis_results"].find_one(
+                        {"$or": [{"stock_code": code}, {"stock_symbol": code}]},
+                        sort=[("created_at", -1)],
+                    )
+                if doc:
+                    reports.append({
+                        "code": doc.get("stock_symbol") or doc.get("stock_code", code),
+                        "name": doc.get("stock_name", ""),
                     "instrument_type": doc.get("instrument_type", "stock"),
                     "recommendation": str(doc.get("recommendation", "") or doc.get("rating", ""))[:200],
                     "summary": str(doc.get("summary", "") or doc.get("final_decision", ""))[:500],
-                    "risk_level": doc.get("risk_level", ""),
-                    "confidence": doc.get("confidence_score", 0),
-                    "created_at": str(doc.get("created_at", ""))[:19],
-                })
+                        "risk_level": doc.get("risk_level", ""),
+                        "confidence": doc.get("confidence_score", 0),
+                        "created_at": str(doc.get("created_at", ""))[:19],
+                    })
 
-        with open(out_dir / "data_tier1.json", "w") as f:
-            json.dump(reports, f, ensure_ascii=False, default=str)
-        print(f"    {len(reports)} 份 Tier1 报告")
-    except Exception as e:
-        print(f"  警告: Tier1 数据收集失败: {e}")
-        warnings.append("Tier1 data partial")
-        with open(out_dir / "data_tier1.json", "w") as f:
-            json.dump([], f)
+            with open(out_dir / "data_tier1.json", "w") as f:
+                json.dump(reports, f, ensure_ascii=False, default=str)
+            print(f"    {len(reports)} 份 Tier1 报告")
+        except Exception as e:
+            print(f"  警告: Tier1 数据收集失败: {e}")
+            warnings.append("Tier1 data partial")
+            with open(out_dir / "data_tier1.json", "w") as f:
+                json.dump([], f)
 
     # —— 3. PE 分位数据 ——
     print("  [3/7] 收集 PE 分位数据...")
@@ -135,30 +237,58 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
 
     # —— 4. 敞口矩阵 ——
     print("  [4/7] 收集敞口数据...")
-    try:
-        from app.services.portfolio_service import PortfolioService
-        from app.services.exposure_service import ExposureService
-        svc2 = PortfolioService()
-        s = await svc2.get_portfolio_summary(user_id)
-        m = await ExposureService().compute(s)
-        exposure = {
-            "hhi": round(m.hhi or 0, 3) if m else 0,
-            "penetration_ratio": round(m.penetration_ratio or 0, 1) if m else 0,
-            "exposures": [{"code": e.code, "name": e.name, "direct": round(e.direct_weight, 1),
-                           "fund": round(e.fund_derived_weight, 1), "total": round(e.total_weight, 1)}
+    if file_mode:
+        # 文件模式：基金穿透需 Mongo 基金持仓库，Pod 无法做 → 降级为「仅直接个股敞口」。
+        # 敞口是次要信号（仅告警级），降级不阻断分析；如实标注 penetration unavailable。
+        try:
+            stocks = [p for p in positions if p.get("instrument_type", "stock") == "stock"]
+            total_w = sum(float(p.get("weight", 0) or 0) for p in positions) or 1.0
+            norm = 100.0 / total_w
+            exps = sorted(
+                ({"code": p.get("code", ""), "name": p.get("name", p.get("code", "")),
+                  "direct": round(float(p.get("weight", 0) or 0) * norm, 1),
+                  "fund": 0.0, "total": round(float(p.get("weight", 0) or 0) * norm, 1)}
+                 for p in stocks if p.get("code")),
+                key=lambda x: x["total"], reverse=True)
+            hhi = round(sum((e["total"]) ** 2 for e in exps) / 10000, 3)
+            exposure = {
+                "hhi": hhi, "penetration_ratio": 0.0,
+                "exposures": exps, "overlaps": [],
+                "note": "file_mode: 仅直接个股敞口，基金穿透需 Mongo 不可用",
+            }
+            with open(out_dir / "data_exposure.json", "w") as f:
+                json.dump(exposure, f, ensure_ascii=False, default=str)
+            print(f"    HHI: {exposure['hhi']}（文件模式·仅直接持仓，基金穿透跳过）")
+        except Exception as e:
+            print(f"  警告: 敞口数据（文件模式）计算失败: {e}")
+            warnings.append("Exposure file-mode partial")
+            with open(out_dir / "data_exposure.json", "w") as f:
+                json.dump({"hhi": 0, "status": "unavailable"}, f)
+    else:
+        try:
+            from app.services.portfolio_service import PortfolioService
+            from app.services.exposure_service import ExposureService
+            svc2 = PortfolioService()
+            s = await svc2.get_portfolio_summary(user_id)
+            m = await ExposureService().compute(s)
+            exposure = {
+                "hhi": round(m.hhi or 0, 3) if m else 0,
+                "penetration_ratio": round(m.penetration_ratio or 0, 1) if m else 0,
+                "exposures": [{"code": e.code, "name": e.name, "direct": round(e.direct_weight, 1),
+                               "fund": round(e.fund_derived_weight, 1), "total": round(e.total_weight, 1)}
                           for e in (m.stock_exposures if m else [])],
             "overlaps": [{"code": e.name, "name": e.name, "overlap_weight": round(e.total_weight, 1),
                           "sources": getattr(e, "fund_sources", [])}
                          for e in (m.top_overlaps if m else [])],
-        }
-        with open(out_dir / "data_exposure.json", "w") as f:
-            json.dump(exposure, f, ensure_ascii=False, default=str)
-        print(f"    HHI: {exposure['hhi']}, 穿透率: {exposure['penetration_ratio']}%")
-    except Exception as e:
-        print(f"  警告: 敞口数据收集失败: {e}")
-        warnings.append("Exposure data partial")
-        with open(out_dir / "data_exposure.json", "w") as f:
-            json.dump({"hhi": 0, "status": "unavailable"}, f)
+            }
+            with open(out_dir / "data_exposure.json", "w") as f:
+                json.dump(exposure, f, ensure_ascii=False, default=str)
+            print(f"    HHI: {exposure['hhi']}, 穿透率: {exposure['penetration_ratio']}%")
+        except Exception as e:
+            print(f"  警告: 敞口数据收集失败: {e}")
+            warnings.append("Exposure data partial")
+            with open(out_dir / "data_exposure.json", "w") as f:
+                json.dump({"hhi": 0, "status": "unavailable"}, f)
 
     # —— 5. 宏观指标 ——
     print("  [5/7] 收集宏观指标 + 行业排名 + 资金流向...")
@@ -289,11 +419,9 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
     print("  [7/7] 全量景气打分 + 行业扫描池...")
     try:
         from dataclasses import asdict
-        from app.core.database import get_mongo_db
         from app.services.industry_vitality import score_all_industries
-        from app.services.industry_scan_pool import build_scan_pool
 
-        db = get_mongo_db()
+        # 景气打分纯联网（不碰 Mongo），两模式共用
         vitality_scores = await score_all_industries()
 
         # A 档：全量18行业景气榜 → 前端雷达视图
@@ -307,8 +435,22 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
             json.dump(vitality_data, f, ensure_ascii=False, default=str)
 
         # B 档：扫描池（复用已算好的景气分，避免二次扫描）→ 深辩范围
-        pool = await build_scan_pool(db, user_id, vitality_scores=vitality_scores,
-                                     all_industries=all_industries)
+        if file_mode:
+            # 文件模式：持仓行业取 positions[].industry，watchlist 取文件，不碰 Mongo
+            wl_raw = _read_json_file(watchlist_file, []) if watchlist_file else []
+            watchlist_industries = []
+            for w in (wl_raw if isinstance(wl_raw, list) else []):
+                # 兼容 ["半导体", ...] 或 [{"industry": "半导体"}, ...]
+                watchlist_industries.append(w if isinstance(w, str) else w.get("industry", ""))
+            pool = build_scan_pool_from_inputs(
+                positions, watchlist_industries, vitality_scores,
+                all_industries=all_industries)
+        else:
+            from app.core.database import get_mongo_db
+            from app.services.industry_scan_pool import build_scan_pool
+            db = get_mongo_db()
+            pool = await build_scan_pool(db, user_id, vitality_scores=vitality_scores,
+                                         all_industries=all_industries)
         industry_list = pool.to_industry_list()
 
         if industry_list:
@@ -353,17 +495,39 @@ def main():
         help="绕过关键数据硬闸：默认关键市场数据(宏观/水温/北向)缺任一即中止；"
              "加此开关仅在缺数据时改为告警放行（接力/调试用，慎用）",
     )
+    # —— 文件输入模式（B 档文件总线）：叠加式，不给则走原 Mongo 全量路径 ——
+    parser.add_argument(
+        "--portfolio-file", default=None,
+        help="持仓 JSON 文件（holdings.json）。给定即进入文件输入模式，"
+             "脱离 MongoDB（持仓/Tier1/扫描池改读文件，PE/宏观/水温/景气仍联网）",
+    )
+    parser.add_argument(
+        "--watchlist-file", default=None,
+        help="关注行业 JSON 文件（watchlist.json，可选）。仅文件模式生效",
+    )
+    parser.add_argument(
+        "--tier1-file", default=None,
+        help="个股深度分析导出 JSON（tier1_reports.json，可选）。仅文件模式生效",
+    )
     args = parser.parse_args()
 
-    if not (len(args.user_id) == 24 and all(c in "0123456789abcdef" for c in args.user_id.lower())):
-        print(f"错误: Invalid user_id format: must be 24-character hex string")
-        sys.exit(1)
+    file_mode = bool(args.portfolio_file)
+
+    # user_id 校验：Mongo 模式必须 24 位 hex（用于查库）；
+    # 文件模式 user_id 仅作文档元信息标签，放宽校验（允许 file-bus 等占位）
+    if not file_mode:
+        if not (len(args.user_id) == 24 and all(c in "0123456789abcdef" for c in args.user_id.lower())):
+            print(f"错误: Invalid user_id format: must be 24-character hex string")
+            sys.exit(1)
 
     out_dir = Path(args.out_dir)
     success = asyncio.run(collect_all(
         args.user_id, out_dir,
         all_industries=(args.industries == "all"),
         allow_partial=args.allow_partial_data,
+        portfolio_file=Path(args.portfolio_file) if args.portfolio_file else None,
+        watchlist_file=Path(args.watchlist_file) if args.watchlist_file else None,
+        tier1_file=Path(args.tier1_file) if args.tier1_file else None,
     ))
     sys.exit(0 if success else 1)
 

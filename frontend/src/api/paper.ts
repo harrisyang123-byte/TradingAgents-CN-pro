@@ -1,4 +1,24 @@
 import { ApiClient } from './request'
+import type { ApiResponse } from './request'
+
+// ── 静态快照模式（B 档「文件总线」）────────────────────────────
+// 设 VITE_STATIC_SNAPSHOT=1 时，组合总揽 / 最新处方不走后端 API，
+// 改 fetch 仓库里 build_snapshot.py 产出的静态 JSON（frontend/public/snapshot/）。
+// 这样本地 git pull 后无需起后端/Mongo，纯前端即可看到分析结果。
+// 不设此开关时行为与现在完全一致（照常走 API），向后兼容、零影响。
+const STATIC_SNAPSHOT =
+  String(import.meta.env.VITE_STATIC_SNAPSHOT ?? '').trim() === '1'
+
+async function loadSnapshot<T>(file: string): Promise<ApiResponse<T>> {
+  // Vite 把 public/ 映射到根路径 /，故 fetch('/snapshot/xxx.json')
+  const res = await fetch(`/snapshot/${file}`, { cache: 'no-cache' })
+  if (!res.ok) {
+    throw new Error(`静态快照加载失败 (${res.status}): /snapshot/${file}`)
+  }
+  const data = (await res.json()) as T
+  // 包成与后端 ok() 同构的信封，调用方无感知
+  return { success: true, data, message: '', code: 0 }
+}
 
 export interface PortfolioAccountInfo {
   total_invested: number
@@ -270,6 +290,9 @@ export const portfolioApi = {
     )
   },
   async getLatestAdvice() {
+    if (STATIC_SNAPSHOT) {
+      return loadSnapshot<PortfolioAdvice>('advice_latest.json')
+    }
     return ApiClient.get<PortfolioAdvice>('/api/portfolio/advice/latest')
   },
   async getAdvice(adviceId: string) {
@@ -302,7 +325,7 @@ export const portfolioApi = {
     )
   },
   async getPortfolioOverview() {
-    return ApiClient.get<{
+    type OverviewResp = {
       matrix: IndustryOverviewRow[]
       total_industries: number
       covered_count: number
@@ -313,7 +336,11 @@ export const portfolioApi = {
       data_score: number
       total_assets?: number
       asset_allocation?: AssetAllocation | null
-    }>('/api/portfolio/overview')
+    }
+    if (STATIC_SNAPSHOT) {
+      return loadSnapshot<OverviewResp>('overview.json')
+    }
+    return ApiClient.get<OverviewResp>('/api/portfolio/overview')
   }
 }
 
