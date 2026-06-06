@@ -131,7 +131,9 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
             "market": row.get("market", "cn"),
             "go_nogo": go,
             "stance": row.get("stance", ""),
-            "coverage_status": "covered" if go == "GO" else "never",
+            # NOGO 行业是被深度研究后判定「不配置」，属于"已覆盖"；
+            # 只有未被分析的行业（go 为空）才是 "never"。
+            "coverage_status": "covered" if go in ("GO", "NOGO") else "never",
             "vitality_level": row.get("vitality_level", ""),
             "lifecycle": row.get("lifecycle", ""),
             "holdings_weight": round(holdings_w, 2),

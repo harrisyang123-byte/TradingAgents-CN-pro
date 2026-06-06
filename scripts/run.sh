@@ -20,6 +20,17 @@
 
 set -euo pipefail
 
+# 强制 UTF-8 locale：脚本含中文字符，非 UTF-8 locale（如 POSIX/latin1）下
+# bash 可能把变量名后紧贴的中文字节并入标识符，触发 `set -u` 的 unbound variable。
+# 选一个系统真实存在的 UTF-8 locale；都没有则保持原样（花括号定界已能兜底）。
+for _loc in C.UTF-8 en_US.UTF-8 zh_CN.UTF-8; do
+    if locale -a 2>/dev/null | grep -qix "$_loc"; then
+        export LANG="$_loc" LC_ALL="$_loc"
+        break
+    fi
+done
+unset _loc
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DATA_BASE_DIR="$PROJECT_ROOT/data/advisor_runs"
@@ -252,7 +263,7 @@ run_analyze() {
     echo ""
 
     cd "$PROJECT_ROOT"
-    claude -p "运行 v3 组合顾问编排器。数据目录: $RUN_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+    claude -p "运行 v3 组合顾问编排器。数据目录: ${RUN_DIR}, 用户ID: ${USER_ID}。$FROM_MSG $ONLY_MSG
 Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$RUN_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
 v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
@@ -330,7 +341,7 @@ case "$COMMAND" in
         # Phase 2: Agent 推理（v3 增量编排，通过 Claude Code）
         echo ""
         echo "[2/3] Agent 推理（v3 增量）..."
-        claude -p "运行 v3 组合顾问编排器。数据目录: $RUN_DIR, 用户ID: $USER_ID。
+        claude -p "运行 v3 组合顾问编排器。数据目录: ${RUN_DIR}, 用户ID: ${USER_ID}。
 Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$RUN_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
 v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
@@ -401,7 +412,7 @@ v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
         [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"
         echo ""
 
-        claude -p "运行 v3 组合顾问编排器。数据目录: $DATA_DIR, 用户ID: $USER_ID。$FROM_MSG $ONLY_MSG
+        claude -p "运行 v3 组合顾问编排器。数据目录: ${DATA_DIR}, 用户ID: ${USER_ID}。$FROM_MSG $ONLY_MSG
 Workflow 脚本在 scripts/workflow-v3-advisor.js，请用 Workflow 工具调用它，args 传 {dataDir: '$DATA_DIR', user_id: '$USER_ID'$(wf_extra_args)}。
 v3 子 Agent 定义在 .claude/agents/advisor/（v3-*.md）。
 不要嵌大 JSON 在 prompt 里——Agent 用 Read 工具自己读数据文件。" \
