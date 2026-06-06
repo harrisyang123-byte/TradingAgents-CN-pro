@@ -31,6 +31,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+# 现金行业标识：与风控引擎共用同一常量，消除「现金」字面量在多处各写各的耦合。
+# 兜底：最小依赖环境（仅跑 --out-json 字段契约校验、未装 toml 等）下导入失败时回退到字面量，
+# 该字面量必须与 tradingagents.agents.advisors.risk_rules.CASH_INDUSTRY 保持一致。
+try:
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from tradingagents.agents.advisors.risk_rules import CASH_INDUSTRY
+except Exception:
+    CASH_INDUSTRY = "现金"
+
 
 # ── 工具 ────────────────────────────────────────────────────
 
@@ -164,7 +173,7 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
     cash_target_w = float(capital_in.get("cash_weight", max(0.0, 100.0 - sum_target)))
     cash_holdings_w = round(available_cash / total_assets * 100, 2) if total_assets else 0.0
     matrix_out.append({
-        "industry": "现金",
+        "industry": CASH_INDUSTRY,
         "source": "holding",
         "market": "",
         "go_nogo": "",
@@ -183,7 +192,7 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
     allocations: List[Dict[str, Any]] = []
     invested_amount = 0
     for row in matrix_out:
-        if row["industry"] == "现金":
+        if row["industry"] == CASH_INDUSTRY:
             continue
         cur_amt = _round_money(row["holdings_weight"] / 100.0 * total_assets)
         tgt_amt = _round_money(row["target_weight"] / 100.0 * total_assets)
@@ -259,7 +268,7 @@ def main() -> None:
 
     doc = build_doc(data_dir, args.user_id)
 
-    n_matrix = len([r for r in doc["industry_matrix"] if r["industry"] != "现金"])
+    n_matrix = len([r for r in doc["industry_matrix"] if r["industry"] != CASH_INDUSTRY])
     n_buy = len([p for p in doc["prescription"] if p["action"] in ("buy", "add", "new_position")])
     n_sell = len([p for p in doc["prescription"] if p["action"] in ("sell", "reduce")])
     cp = doc["capital_plan"]

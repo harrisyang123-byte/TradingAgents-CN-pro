@@ -133,19 +133,15 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
 }
 ```
 
-### 3. `{data_dir}/capital_plan.json` —— 组合级资金分配（新增，前端「资金总览卡」直接用）
+### 3. `{data_dir}/capital_plan.json` —— 组合级资金分配（只产权重，金额下游统一换算）
 
 > 这是回答用户「我这些钱整体怎么分配」的核心输出。
-> 权重你来定，**金额按 `total_assets × 权重 / 100` 计算**（total_assets 取自 data_portfolio.json）。
-> 若 data_portfolio.json 缺 total_assets，则 amount 全部置 0，由下游 ingest 用真实总资产补算。
+> **你只产权重(%)，金额一律不要自己算** —— total_assets / 各项 amount / cash_amount 全部由下游
+> `ingest_advice.py` 用真实 total_assets 统一换算（单一事实源，避免你算一遍、下游再算一遍对不上）。
 
 ```json
 {
-  "total_assets": 600000,
-  "invested_weight": 65.0,
-  "invested_amount": 390000,
   "cash_weight": 35.0,
-  "cash_amount": 210000,
   "cash_floor": 10.0,
   "allocations": [
     {
@@ -153,9 +149,6 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
       "go_nogo": "Go",
       "current_weight": 14.0,
       "target_weight": 25.0,
-      "current_amount": 84000,
-      "target_amount": 150000,
-      "delta_amount": 66000,
       "action": "add"
     },
     {
@@ -163,9 +156,6 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
       "go_nogo": "NoGo",
       "current_weight": 8.0,
       "target_weight": 0.0,
-      "current_amount": 48000,
-      "target_amount": 0,
-      "delta_amount": -48000,
       "action": "clear"
     }
   ]
@@ -173,10 +163,10 @@ gap = 行业配额 - 该行业 PM 的实际配仓加总
 ```
 
 ## 资金分配规则
-- `target_amount = round(total_assets × target_weight / 100)`（四舍五入到百元）
-- `delta_amount = target_amount − current_amount`；>0 为加仓买入，<0 为减仓卖出
-- `action`: delta>0 且 current=0 → "buy"；delta>0 → "add"；target=0 → "clear"；delta<0 → "reduce"；其余 "hold"
-- `cash_amount = total_assets − Σ target_amount`，且 `cash_weight ≥ cash_floor`，否则在 violations 标注
+- **只产权重(%)，不产金额**：`current_amount` / `target_amount` / `delta_amount` / `cash_amount` /
+  `invested_amount` / `total_assets` 一律不要写，由 `ingest_advice.py` 用真实总资产统一计算。
+- `action`: target>current 且 current=0 → "buy"；target>current → "add"；target=0 → "clear"；target<current → "reduce"；其余 "hold"
+- `cash_weight ≥ cash_floor`，否则在 industry_matrix 的 violations 标注
 - allocations 必须覆盖**所有现持仓行业 + 所有获配额行业**，现金单列在顶层不进 allocations
 
 ## 最后一步

@@ -15,7 +15,45 @@
 """
 
 from __future__ import annotations
+import re
 from typing import Dict, Any, List
+
+# ── 现金口径常量（消除魔法字符串耦合）──────────────────────────
+# 现金是投资仓位的补集，单列为一个伪「行业」+伪「标的代码」，
+# workflow / ingest / 规则引擎三处必须共用同一标识，避免各写各的字面量导致对不上。
+CASH_INDUSTRY = "现金"   # 现金在 industry / pm_results / industry_matrix 里的行业名
+CASH_CODE = "CASH"        # 现金伪持仓在 positions 里的标的代码
+
+
+def _num(value: Any, default: float = 0.0) -> float:
+    """把可能是 字符串/None/带%/区间 的权重值稳健转为 float。
+
+    LLM 产出的 target_weight / final_weight 不保证是裸数字，可能是
+    "30"、"30%"、" 30 % "、"15-20"（区间）等。直接 float() 会抛异常，
+    在风控引擎里抛异常会被上层 fail-closed 拦截、误判为「风控引擎异常」。
+
+    规则：
+      - 数字 → 原样
+      - "30" / "30%" / "３0％" 去掉百分号后解析
+      - "15-20" / "15~20"（区间）→ 取上界（风控对「超限」取保守上界，避免低估）
+      - None / "" / 无法解析 → default
+    """
+    if isinstance(value, bool):  # bool 是 int 子类，单独挡掉
+        return default
+    if isinstance(value, (int, float)):
+        return float(value)
+    if value is None:
+        return default
+    s = str(value).strip().replace("%", "").replace("％", "")
+    if not s:
+        return default
+    try:
+        return float(s)
+    except ValueError:
+        nums = re.findall(r"\d+(?:\.\d+)?", s)  # 不含符号，避免把区间的 '-' 当负号
+        if not nums:
+            return default
+        return max(float(n) for n in nums)  # 区间取上界，风控保守
 
 
 def Violation(industry: str, rule: str, code: str, current: float, limit: float, message: str) -> Dict[str, Any]:
@@ -52,17 +90,18 @@ def check_pm_positions(
 
     for pm in pm_results:
         industry = pm.get("industry", "")
-        final_weight = pm.get("final_weight", 0)
+        final_weight = _num(pm.get("final_weight", 0))
         positions = pm.get("positions", [])
         industry_total = 0.0
+        is_cash = industry == CASH_INDUSTRY
 
         for pos in positions:
             code = pos.get("code", "")
-            tw = float(pos.get("target_weight", 0))
+            tw = _num(pos.get("target_weight", 0))
             industry_total += tw
 
-            # 规则1：单股上限
-            if tw > max_single_weight:
+            # 规则1：单股上限（现金是仓位补集、非个股，cash_weight 本就可能 > 单股上限，跳过）
+            if not is_cash and tw > max_single_weight:
                 violations.append(Violation(
                     industry=industry, rule="single_stock_limit",
                     code=code, current=tw, limit=max_single_weight,
@@ -79,7 +118,7 @@ def check_pm_positions(
             ))
 
         # 现金是投资仓位的补集，不计入「已投资」总仓位（total_weight_limit 约束的是投资部分）
-        if industry != "现金":
+        if not is_cash:
             total_allocated += industry_total
 
     # 规则3：总仓位上限
@@ -91,13 +130,13 @@ def check_pm_positions(
         ))
 
     # 规则4：现金下限（检查是否有现金行业）
-    cash_pm = next((p for p in pm_results if p.get("industry") == "现金"), None)
+    cash_pm = next((p for p in pm_results if p.get("industry") == CASH_INDUSTRY), None)
     if cash_pm:
         cash_positions = cash_pm.get("positions", [])
-        cash_weight = sum(float(p.get("target_weight", 0)) for p in cash_positions)
+        cash_weight = sum(_num(p.get("target_weight", 0)) for p in cash_positions)
         if cash_weight < cash_floor:
             violations.append(Violation(
-                industry="现金", rule="cash_floor",
+                industry=CASH_INDUSTRY, rule="cash_floor",
                 code="", current=cash_weight, limit=cash_floor,
                 message=f"现金 {cash_weight}% 低于现金下限 {cash_floor}%",
             ))
@@ -126,13 +165,13 @@ def auto_truncate(
 
     for pm in fixed:
         industry = pm.get("industry", "")
-        final_weight = pm.get("final_weight", 0)
+        final_weight = _num(pm.get("final_weight", 0))
         positions = pm.get("positions", [])
-        industry_total = sum(float(p.get("target_weight", 0)) for p in positions)
+        industry_total = sum(_num(p.get("target_weight", 0)) for p in positions)
 
         # 规则1：单股超限截断
         for pos in positions:
-            tw = float(pos.get("target_weight", 0))
+            tw = _num(pos.get("target_weight", 0))
             if tw > max_single_weight:
                 pos["target_weight"] = max_single_weight
                 pos["reasoning"] = pos.get("reasoning","") + f"\n【风控自动截断】target_weight 从 {tw}% 调整为 {max_single_weight}%"
@@ -141,19 +180,19 @@ def auto_truncate(
         if industry_total > final_weight and industry_total > 0:
             ratio = final_weight / industry_total
             for pos in positions:
-                old_tw = pos.get("target_weight", 0)
-                pos["target_weight"] = round(float(old_tw) * ratio, 1)
+                old_tw = _num(pos.get("target_weight", 0))
+                pos["target_weight"] = round(old_tw * ratio, 1)
                 pos["reasoning"] = pos.get("reasoning","") + "\n【风控自动截断】行业超限，按比例缩放"
 
     # 规则3：总仓位超限按行业比例缩放
     all_total = sum(
-        sum(float(p.get("target_weight", 0)) for p in pm.get("positions", []))
+        sum(_num(p.get("target_weight", 0)) for p in pm.get("positions", []))
         for pm in fixed
     )
     if all_total > total_weight_limit and all_total > 0:
         ratio = total_weight_limit / all_total
         for pm in fixed:
             for pos in pm["positions"]:
-                pos["target_weight"] = round(float(pos.get("target_weight", 0)) * ratio, 1)
+                pos["target_weight"] = round(_num(pos.get("target_weight", 0)) * ratio, 1)
 
     return fixed

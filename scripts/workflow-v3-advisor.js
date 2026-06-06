@@ -256,7 +256,7 @@ Use Bash to call market_tools.get_industry_constituents / get_company_profile / 
 for real constituent & financial data; if tools fail, fall back to your knowledge and mark data_source="llm_knowledge".
 
 关键要求（必须遵守，否则 PM 拿不到候选）：
-1. 每个 candidate 的 industry 字段必须与 industry_allocations.json 里的行业名**完全一致**（PM 按名字前缀匹配）。
+1. 每个 candidate 的 industry 字段必须与 industry_allocations.json 里的行业名**完全一致**（PM 按行业名精确匹配，带包含兜底）。
 2. market 用 "cn"/"hk"/"us"；price_range 用 {low,high} 对象；target_position 用数字（百分比）。
 3. 每个 Go 行业 >=2 只候选，全部候选 >=5 只，中小盘(<500亿)占比 >=30%。
 4. 每只带 6 维 scores（含 total）、financial_data、catalyst、top_risks、recommendation_level。
@@ -357,8 +357,15 @@ cands=[]
 if os.path.exists(path):
     with open(path) as f: data=json.load(f)
     items = data if isinstance(data, list) else data.get('candidates', [])
-    key='${indName.slice(0, 2)}'
-    cands=[c for c in items if str(c.get('industry','')).startswith(key) or str(c.get('industry_bucket','')).startswith(key)]
+    def norm(s): return str(s or '').strip()
+    target = norm('${indName}')
+    def field(c): return norm(c.get('industry','')) or norm(c.get('industry_bucket',''))
+    # 1) 行业名精确匹配（Scout 已被要求输出与分配表完全一致的行业名）
+    cands=[c for c in items if field(c) == target]
+    # 2) 兜底：用完整行业名做双向包含（容忍 LLM 轻微命名差异，如 '金融' vs '金融/保险'），
+    #    比旧版「取前 2 字前缀」稳健得多——不会把 '金融街' 这类无关名误匹配。
+    if not cands and target:
+        cands=[c for c in items if (target in field(c)) or (field(c) and field(c) in target)]
 with open('${p(`candidates_${sn}.json`)}','w') as f: json.dump(cands, f, ensure_ascii=False, indent=2)
 print('行业 ${indName}: %d 个候选' % len(cands))
 " 2>&1`);
@@ -423,58 +430,109 @@ async function runSynth() {
   const totalLimit = await readNum('macro_verdict.json', 'total_weight_limit', args.total_weight_limit || 100);
   const cashFloor = await readNum('macro_verdict.json', 'cash_floor', args.cash_floor || 0);
 
-  // 风控规则引擎（纯 Python）
-  log('运行风控规则引擎...');
-  let violations = [];
-  try {
-    const result = await Bash(`python3 -c "
+  // ── 风控规则引擎（纯 Python）+ 违规重做闭环 ──────────────────
+  // 设计（对齐 README）：违规 → 打回 PM 重做（最多 2 次）；第 3 次仍违规 → auto_truncate
+  // 强制截断到边界后放行。引擎自身异常 → fail-closed（注入阻断性违规，绝不静默放行）。
+  // 现金项注入：PM 阶段只产 Go 行业，规则4(cash_floor) 需要现金项，否则 cash_floor>0 必误报。
+
+  // 跑一次风控检查，返回 violations 数组（引擎异常时返回一条 risk_engine_error 违规）。
+  async function riskCheck() {
+    try {
+      const result = await Bash(`python3 -c "
 import json, os
-from tradingagents.agents.advisors.risk_rules import check_pm_positions
+from tradingagents.agents.advisors.risk_rules import check_pm_positions, CASH_INDUSTRY, CASH_CODE
 with open('${p('pm_results.json')}') as f: pm_results = json.load(f)
 all_results = []
 for pr in pm_results:
     if isinstance(pr, dict):
         all_results.append(pr.get('result', pr))
-# 注入「现金」项：PM 阶段只产 Go 行业，风控规则4(cash_floor)需要现金项，
-# 否则 cash_floor>0 时必报违规导致 synth 永远被中止。
-# 现金权重 = 100 - 全部非现金行业目标权重之和（取自跨行业裁判分配表）。
 cash_weight = None
 alloc_path = '${p('industry_allocations.json')}'
 if os.path.exists(alloc_path):
     with open(alloc_path) as f: alloc = json.load(f)
     rows = alloc if isinstance(alloc, list) else alloc.get('allocations', [])
-    invested = sum(float(r.get('final_weight', 0) or 0) for r in rows if str(r.get('industry','')) != '现金')
-    cash_row = next((r for r in rows if str(r.get('industry','')) == '现金'), None)
+    invested = sum(float(r.get('final_weight', 0) or 0) for r in rows if str(r.get('industry','')) != CASH_INDUSTRY)
+    cash_row = next((r for r in rows if str(r.get('industry','')) == CASH_INDUSTRY), None)
     cash_weight = float(cash_row.get('final_weight')) if cash_row and cash_row.get('final_weight') is not None else round(100.0 - invested, 1)
 if cash_weight is None:
     cash_weight = ${cashFloor}
-if not any(str(r.get('industry','')) == '现金' for r in all_results):
-    all_results.append({'industry': '现金', 'final_weight': cash_weight,
-                        'positions': [{'code': 'CASH', 'target_weight': cash_weight}]})
+if not any(str(r.get('industry','')) == CASH_INDUSTRY for r in all_results):
+    all_results.append({'industry': CASH_INDUSTRY, 'final_weight': cash_weight,
+                        'positions': [{'code': CASH_CODE, 'target_weight': cash_weight}]})
 violations = check_pm_positions(all_results, ${totalLimit}, ${cashFloor}, ${maxSingle})
-print(json.dumps(violations, ensure_ascii=False, indent=2))
+print(json.dumps(violations, ensure_ascii=False))
 " 2>&1`);
-    violations = JSON.parse(result);
-    log(`风控检查: ${violations.length} 条违规`);
-  } catch (e) {
-    // fail-closed：风控是事前硬拦截，引擎异常时绝不放行（旧实现 violations=[] 会静默通过违规方案）。
-    // 注入一条阻断性违规，让下游 abort，而不是让未经风控的处方进入合成。
-    log(`[ERROR] 风控引擎执行异常，fail-closed 视为违规并中止合成: ${e}`);
-    violations = [{
-      industry: '*', rule: 'risk_engine_error', code: '',
-      current: 0, limit: 0,
-      message: `风控引擎执行异常，已 fail-closed 中止合成（未放行任何方案）：${e}`,
-    }];
+      return JSON.parse(result);
+    } catch (e) {
+      log(`[ERROR] 风控引擎执行异常，fail-closed 视为违规：${e}`);
+      return [{
+        industry: '*', rule: 'risk_engine_error', code: '',
+        current: 0, limit: 0,
+        message: `风控引擎执行异常，已 fail-closed（未放行任何方案）：${e}`,
+      }];
+    }
   }
+
+  const hasEngineError = (vs) => vs.some((v) => v.rule === 'risk_engine_error');
+
+  log('运行风控规则引擎...');
+  let violations = await riskCheck();
+  log(`风控检查: ${violations.length} 条违规`);
+
+  // 违规打回 PM 重做，最多 2 次（引擎异常不重做——重做无意义）
+  let redo = 0;
+  while (violations.length > 0 && !hasEngineError(violations) && redo < 2) {
+    redo += 1;
+    log(`发现 ${violations.length} 条违规，第 ${redo}/2 次打回 PM 重做`);
+    await runPm();
+    violations = await riskCheck();
+    log(`重做后风控检查: ${violations.length} 条违规`);
+  }
+
+  // 第 3 次仍违规（且非引擎异常）→ auto_truncate 强制截断到边界后放行
+  let truncated = false;
+  if (violations.length > 0 && !hasEngineError(violations)) {
+    log('PM 重做 2 次仍违规，触发 auto_truncate 强制截断');
+    try {
+      await Bash(`python3 -c "
+import json
+from tradingagents.agents.advisors.risk_rules import auto_truncate
+pm_path = '${p('pm_results.json')}'
+with open(pm_path) as f: pm_results = json.load(f)
+# 解包真实 PM 结果（现金不参与缩放），截断后按原索引回写
+real = [pr.get('result', pr) if isinstance(pr, dict) else pr for pr in pm_results]
+fixed = auto_truncate(real, ${totalLimit}, ${maxSingle})
+for i, fx in enumerate(fixed):
+    if isinstance(pm_results[i], dict) and 'result' in pm_results[i]:
+        pm_results[i]['result'] = fx
+    else:
+        pm_results[i] = fx
+with open(pm_path, 'w') as f: json.dump(pm_results, f, ensure_ascii=False, indent=2)
+print('truncated %d' % len(fixed))
+" 2>&1`);
+      truncated = true;
+      violations = await riskCheck();
+      log(`截断后风控检查: ${violations.length} 条违规`);
+    } catch (e) {
+      log(`[ERROR] auto_truncate 执行异常，fail-closed：${e}`);
+      violations = [{
+        industry: '*', rule: 'risk_engine_error', code: '',
+        current: 0, limit: 0,
+        message: `auto_truncate 执行异常，已 fail-closed：${e}`,
+      }];
+    }
+  }
+
   await Bash(`cat > ${p('risk_violations.json')} << 'ENDJSON'
 ${JSON.stringify(violations, null, 2)}
 ENDJSON`);
 
+  // 截断后仍违规 或 引擎异常 → fail-closed 中止合成
   if (violations.length > 0) {
-    log(`发现 ${violations.length} 条违规，需打回PM重做`);
-    return { status: 'violations_found', violations };
+    log(`风控未通过（${truncated ? '截断后仍违规' : '引擎异常'}），中止合成`);
+    return { status: 'violations_found', violations, truncated };
   }
-  log('风控检查通过');
+  log(truncated ? '风控经自动截断后通过' : '风控检查通过');
 
   // Risk Director 双角色辩论
   phase('风控合成');
@@ -516,7 +574,7 @@ You are the Portfolio Synthesizer. Do NOT make new investment decisions. Do:
 1. Validate the constraint chain (allocations vs PM actuals)
 2. Identify gaps (allocated quota not filled by PM)
 3. Summarize the industry matrix and final prescription
-4. Compute portfolio-level capital allocation (金额)
+4. Compute portfolio-level capital allocation — **只产权重(%)，金额一律不要自己算**（见下方 C）
 5. 把组合层诊断落到处方：portfolio_diagnosis.json 的 reduce_candidates（经 portfolio_contrarian.json \
    挑战修正后）必须在 final_prescription 里体现为 action=reduce/sell/clear 的明确卖出条目，\
    每条 risk_note 引用诊断依据（集中度/估值/行业低配）。没有诊断支持的现持仓维持时也要写明维持理由。
@@ -543,12 +601,14 @@ B) ${p('final_prescription.json')}:
    ], "summary": {"gaps_found","constraint_chain_valid","total_allocated_weight","available_cash"}}
    （action ∈ buy/sell/hold/add/reduce/new_position；industry 必须与 matrix 的 industry 完全一致；覆盖全部现持仓 + 拟买入）
 
-C) ${p('capital_plan.json')} — 组合级资金分配（前端「资金总览卡」直接用）:
-   {"total_assets","invested_weight","invested_amount","cash_weight","cash_amount","cash_floor",
+C) ${p('capital_plan.json')} — 组合级资金分配（**只产权重，金额由下游 ingest_advice.py 统一换算，避免双重事实源**）:
+   {"cash_weight","cash_floor",
     "allocations": [
-      {"industry","go_nogo","current_weight","target_weight","current_amount","target_amount","delta_amount","action"}
+      {"industry","go_nogo","current_weight","target_weight","action"}
     ]}
-   金额 = round(total_assets × weight / 100)；total_assets 取自 data_portfolio.json，缺失则金额置 0 由下游补算。`,
+   ⚠️ 不要自己算任何金额：total_assets / invested_amount / cash_amount / 各 allocation 的
+   current_amount·target_amount·delta_amount 全部由 ingest_advice.py 用真实 total_assets 统一计算。
+   本阶段只需给出权重(%) 与 action（action ∈ buy/add/clear/reduce/hold）。`,
     { label: 'Portfolio Synthesizer', phase: '风控合成' }
   );
   log('Portfolio Synthesizer 完成');
