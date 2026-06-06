@@ -457,8 +457,14 @@ print(json.dumps(violations, ensure_ascii=False, indent=2))
     violations = JSON.parse(result);
     log(`风控检查: ${violations.length} 条违规`);
   } catch (e) {
-    log(`[ERROR] 风控引擎失败: ${e}`);
-    violations = [];
+    // fail-closed：风控是事前硬拦截，引擎异常时绝不放行（旧实现 violations=[] 会静默通过违规方案）。
+    // 注入一条阻断性违规，让下游 abort，而不是让未经风控的处方进入合成。
+    log(`[ERROR] 风控引擎执行异常，fail-closed 视为违规并中止合成: ${e}`);
+    violations = [{
+      industry: '*', rule: 'risk_engine_error', code: '',
+      current: 0, limit: 0,
+      message: `风控引擎执行异常，已 fail-closed 中止合成（未放行任何方案）：${e}`,
+    }];
   }
   await Bash(`cat > ${p('risk_violations.json')} << 'ENDJSON'
 ${JSON.stringify(violations, null, 2)}

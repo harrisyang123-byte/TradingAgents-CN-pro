@@ -99,13 +99,13 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 | 风控 | `v3-risk-judge.md` | 综合两者，输出 RiskAssessment |
 | 合成 | `v3-portfolio-synthesizer.md` | 验证约束链 + 缺口处理 + 汇总 |
 
-编排脚本（3个 Workflow）：
+编排脚本（单一增量编排器）：
 
 | Workflow | 覆盖步骤 |
 |---------|---------|
-| `workflow-v3-industry-layer.js` | Step 0-1：宏观 + 行业研究员并行 + 跨行业裁判 |
-| `workflow-v3-pm-debate.js` | Step 4：行业PM并行辩论 |
-| `workflow-v3-synthesizer.js` | Step 5-7：风控规则 + Risk Director + Portfolio Synthesizer |
+| `workflow-v3-advisor.js` | Step 0-7 全链路：宏观 → 行业研究/反向者 → 跨行业裁判 → Scout 标的侦察 → 组合层诊断 → PM 并行辩论 → 风控规则 + Risk Director + Portfolio Synthesizer。按阶段缓存增量跳过。 |
+
+> 早期按层拆分的 `workflow-v3-industry-layer.js` / `workflow-v3-pm-debate.js` / `workflow-v3-synthesizer.js` 已合并进 `workflow-v3-advisor.js`，归档于 `scripts/archived/`。
 
 ---
 
@@ -142,7 +142,9 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 tradingagents-cn/
 ├── agents/advisor/          # 12个 v3 子 Agent .md 定义
 ├── scripts/
-│   ├── workflow-v3-*.js     # 3个 Workflow 编排脚本
+│   ├── workflow-v3-advisor.js  # v3 增量编排器（Step 0-7 全链路）
+│   ├── ingest_advice.py        # v3 产物 → portfolio_advice 落库
+│   ├── archived/               # 被取代的旧 workflow / 弃用脚本
 │   └── migrate_position_industry.py  # 历史持仓行业补填
 ├── app/
 │   ├── routers/
