@@ -246,6 +246,7 @@
                   </td>
                   <td>
                     <button class="btn-text-success" @click="goAnalysis(pos.code)">分析</button>
+                    <button class="btn-text-warning" @click="openSellDialog(pos)">卖出</button>
                     <button class="btn-text" @click="editPosition(pos)">编辑</button>
                     <button class="btn-text-danger" @click="removePosition(pos.code)">删除</button>
                   </td>
@@ -350,6 +351,36 @@
       </template>
     </el-dialog>
 
+    <!-- 卖出持仓 -->
+    <el-dialog v-model="sellDialog" title="卖出持仓" width="480px">
+      <el-form label-width="90px">
+        <el-form-item label="标的">
+          <span style="font-weight:500">{{ sellForm.name || sellForm.code }}（{{ sellForm.code }}）</span>
+        </el-form-item>
+        <el-form-item label="持有数量">
+          <span>{{ sellForm.holdQuantity }}</span>
+        </el-form-item>
+        <el-form-item label="卖出数量">
+          <el-input-number v-model="sellForm.quantity" :min="1" :max="sellForm.holdQuantity" style="width:100%" />
+          <el-button link type="primary" size="small" style="margin-left:8px"
+            @click="sellForm.quantity = sellForm.holdQuantity">全部</el-button>
+        </el-form-item>
+        <el-form-item label="卖出价格">
+          <el-input-number v-model="sellForm.price" :min="0.01" :precision="2" style="width:100%" />
+        </el-form-item>
+        <el-form-item label=" ">
+          <span style="font-size:12px;color:var(--text-secondary)">
+            预计回收现金 ≈ ¥{{ (sellForm.quantity * sellForm.price).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+            <template v-if="sellForm.quantity >= sellForm.holdQuantity"> · 全部卖出后该持仓将清空</template>
+          </span>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="sellDialog = false">取消</el-button>
+        <el-button type="warning" @click="submitSell">确认卖出</el-button>
+      </template>
+    </el-dialog>
+
     <!-- 设置账户 -->
     <el-dialog v-model="showAccountDialog" title="设置账户" width="400px">
       <el-form label-width="90px">
@@ -446,6 +477,9 @@ const addForm = ref({ code: '', quantity: 100, avg_cost: 0, buy_date: '', notes:
 
 const editDialog = ref(false)
 const editForm = ref({ code: '', quantity: 0, avg_cost: 0, notes: '', instrument_type: 'stock' })
+
+const sellDialog = ref(false)
+const sellForm = ref({ code: '', name: '', market: '', holdQuantity: 0, quantity: 1, price: 0 })
 
 const showAccountDialog = ref(false)
 const accountForm = ref({ total_invested: 0, available_cash: 0 })
@@ -699,6 +733,54 @@ async function submitEdit() {
   }
 }
 
+function openSellDialog(row: any) {
+  sellForm.value = {
+    code: row.code,
+    name: row.name || '',
+    market: row.market || '',
+    holdQuantity: Number(row.quantity) || 0,
+    quantity: Number(row.quantity) || 1,
+    // 默认成交价取最新价，缺失则回退到成本价
+    price: Number(row.last_price ?? row.avg_cost ?? 0) || 0,
+  }
+  sellDialog.value = true
+}
+
+async function submitSell() {
+  const f = sellForm.value
+  if (!f.quantity || !f.price) {
+    ElMessage.warning('请填写卖出数量和价格')
+    return
+  }
+  if (f.quantity > f.holdQuantity) {
+    ElMessage.warning(`卖出数量不能超过持有数量（${f.holdQuantity}）`)
+    return
+  }
+  try {
+    const full = f.quantity >= f.holdQuantity
+    await ElMessageBox.confirm(
+      `确认以 ¥${f.price} 卖出 ${f.name || f.code} ${f.quantity} 股？` +
+      (full ? '（全部卖出，该持仓将清空）' : ''),
+      '卖出确认',
+      { type: 'warning' },
+    )
+    const res = await portfolioApi.placeOrder({
+      code: f.code,
+      side: 'sell',
+      quantity: f.quantity,
+      price: f.price,
+      market: f.market || undefined,
+    })
+    if (res.success) {
+      ElMessage.success('卖出成功')
+      sellDialog.value = false
+      await refreshAll()
+    }
+  } catch (e: any) {
+    if (e !== 'cancel') ElMessage.error(e?.message || '卖出失败')
+  }
+}
+
 async function removePosition(code: string) {
   try {
     await ElMessageBox.confirm(`确认删除持仓 ${code}？`, '删除确认', { type: 'warning' })
@@ -930,6 +1012,8 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 .btn-text:hover { color: #66b1ff; }
 .btn-text-success { background: none; border: none; color: #67c23a; padding: 4px 8px; font-size: 13px; cursor: pointer; }
 .btn-text-success:hover { color: #85ce61; }
+.btn-text-warning { background: none; border: none; color: #e6a23c; padding: 4px 8px; font-size: 13px; cursor: pointer; }
+.btn-text-warning:hover { color: #ebb563; }
 .btn-text-danger { background: none; border: none; color: #f56c6c; padding: 4px 8px; font-size: 13px; cursor: pointer; }
 .btn-text-danger:hover { color: #f89898; }
 
