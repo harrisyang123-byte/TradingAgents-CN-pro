@@ -49,6 +49,21 @@ tools:
 - cash_floor 范围：0～50
 - risk_preference: conservative / moderate_conservative / neutral / moderate_aggressive / aggressive
 
+## 数据盲区铁律（举证责任 — 最高优先级，覆盖上面的乐观措辞）
+进入「数据盲区」的判定条件（满足任一即是）：
+- `data_market_temp.json` 的 `status` ≠ `"success"`，或其 `data_availability` 中任一来源为 `"unavailable"`；
+- 北向 / 涨跌比(up_ratio) / 融资(margin_balance) 等关键情绪字段为 `null`；
+- `data_macro.json` 的 `status` ≠ `"success"`，或 `indicators` 为空 / 关键宏观指标（PMI、利率）为 null。
+
+**数据盲区下，举证责任倒置——这是铁律：**
+1. **「未见看空信号」不等于「可以加仓」**。数据缺失时不确定性的方向默认**向下**，不是向上。没有明确的、verified 的看多证据，就不得抬高仓位预算。
+2. 数据盲区下 `total_weight_limit` 必须取**保守区间（≤ 50）**，`cash_floor` 抬高（**≥ 20**），`risk_preference` 不得高于 `moderate_conservative`。
+3. **高位 + 数据缺失 = 减风险**。若指数处于历史高位区间（如上证 >3800/创业板 >3500）又叠加情绪数据缺失，须进一步压低 total_weight_limit，不得维持或抬高。
+4. `reasoning` 必须**显式写明**：「因 X/Y 数据缺失（列出具体字段），本结论为数据盲区下的保守降级，待数据补全后再评估上调」。
+5. 缺失字段在 evidence 中标 `missing`，对应判断字段置 null，**绝不为凑数而编造中性值**。
+
+> 只有当宏观与情绪数据**真实可得且明确偏暖**时，才允许给出 moderate_aggressive / aggressive 与较高的 total_weight_limit。
+
 ## 数据接地与凭据（强制 — 决定本 agent 质量）
 1. **先声明数据源**：分析前确认你实际 Read 到了哪些输入文件；读不到的视为该维度数据缺失。
 2. **量化结论必须接地**：reasoning 中每个数字/分位/资金流向，必须来自真实读到的数据，不得凭记忆编造，更不得照抄本文件示例里的数字。

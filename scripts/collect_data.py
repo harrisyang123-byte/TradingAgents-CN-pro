@@ -23,11 +23,16 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
-async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False) -> bool:
+async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False,
+                      allow_partial: bool = False) -> bool:
     """全量数据收集
 
     all_industries: 为 True 时，行业扫描池纳入全部可投资行业（全量深辩），
         否则只取 持仓 + watchlist + 景气top3（默认增量范围）。
+    allow_partial: 默认 False = 严格模式。关键市场数据（宏观指标 / 市场水温 / 北向资金）
+        缺任一即中止采集并返回 False，下游 LLM 分析根本不会启动——
+        贯彻「拿不到数据就不分析，绝不在数据盲区出处方」。
+        置 True 仅供接力/调试时绕过硬闸（缺数据时会改为告警放行）。
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     warnings = []
@@ -157,59 +162,126 @@ async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False)
 
     # —— 5. 宏观指标 ——
     print("  [5/7] 收集宏观指标 + 行业排名 + 资金流向...")
-    macro_data = {"status": "partial", "collected_at": datetime.now(timezone.utc).isoformat() + "Z"}
+    # status 初值 pending —— 取到才置 success，绝不预设 success 让缺失蒙混过关
+    macro_data = {"status": "pending", "collected_at": datetime.now(timezone.utc).isoformat() + "Z"}
     try:
         from tradingagents.agents.advisors.market_tools import (
             get_macro_indicators, get_industry_rankings, get_sector_fund_flows)
-        macro_data["indicators"] = get_macro_indicators.func() or {}
+        indicators = get_macro_indicators.func() or {}
+        macro_data["indicators"] = indicators
         macro_data["industry_rankings"] = get_industry_rankings.func() or []
         macro_data["sector_fund_flows"] = get_sector_fund_flows.func() or []
-        print(f"    宏观指标: {len(macro_data.get('indicators', {}))} 项, "
+        # 关键宏观指标（PMI/利率等）没取到 → partial，下游须按数据盲区降级
+        macro_data["status"] = "success" if indicators else "partial"
+        if not indicators:
+            warnings.append("Macro indicators empty (PMI/利率等未取到)")
+        print(f"    宏观指标: {len(indicators)} 项, "
               f"行业排名: {len(macro_data.get('industry_rankings', []))} 行业, "
               f"资金流向: {len(macro_data.get('sector_fund_flows', []))} 行业")
     except Exception as e:
         print(f"  警告: 宏观数据收集失败: {e}")
-        warnings.append("Macro data partial")
+        macro_data["status"] = "unavailable"
+        macro_data.setdefault("indicators", {})
+        warnings.append("Macro data unavailable")
 
     with open(out_dir / "data_macro.json", "w") as f:
         json.dump(macro_data, f, ensure_ascii=False, default=str)
 
     # —— 6. 市场温度 ——
     print("  [6/7] 收集市场温度数据...")
+
+    def _src_ok(res):
+        """判断 fetch_* 是否真取到数据。
+        fetch_* 失败/空时会返回带 source='error:...' 或 '...empty' 的 dict，
+        并把 north_net/margin_balance 等字段填成 0 —— 这是「假中性」的根源。
+        只有 source 既非 error 也非 empty，才算真实读到。"""
+        if not isinstance(res, dict):
+            return False
+        src = str(res.get("source", ""))
+        return bool(src) and not src.startswith("error") and not src.endswith("empty")
+
     market_temp = {
         "collected_at": datetime.now(timezone.utc).isoformat() + "Z",
-        "status": "success",
-        "north_net": 0, "north_days": 0,
-        "breadth_signal": "中性", "up_ratio": 50,
-        "limit_up": 0, "limit_down": 0,
-        "margin_balance": 0, "margin_change_pct": 0,
-        "flow_signal": "中性",
+        "status": "pending",
+        # 默认一律 null —— 未取到就是未取到，绝不用 0 / 中性 / up_ratio=50 伪装成真实读数，
+        # 否则下游宏观裁判/战略师会把「数据盲区」误读成「中性行情」从而放心加仓。
+        "north_net": None, "north_days": None, "north_direction": None,
+        "breadth_signal": None, "up_ratio": None,
+        "limit_up": None, "limit_down": None,
+        "margin_balance": None, "margin_change_pct": None,
+        "flow_signal": None,
+        "data_availability": {"breadth": "unavailable", "north": "unavailable", "margin": "unavailable"},
     }
     try:
         from app.services.market_signals import fetch_market_breadth, fetch_north_flow, fetch_margin_data
         breadth, north, margin = await asyncio.gather(
             fetch_market_breadth(), fetch_north_flow(), fetch_margin_data(), return_exceptions=True)
-        if isinstance(breadth, dict):
-            market_temp["breadth_signal"] = breadth.get("breadth_signal", "中性")
-            market_temp["up_ratio"] = breadth.get("up_ratio", 50)
-            market_temp["limit_up"] = breadth.get("limit_up", 0)
-            market_temp["limit_down"] = breadth.get("limit_down", 0)
-        if isinstance(north, dict):
-            market_temp["north_net"] = north.get("net_flow", 0)
-            market_temp["north_days"] = north.get("consecutive_days", 0)
-            market_temp["north_direction"] = north.get("direction", "中性")
-        if isinstance(margin, dict):
-            market_temp["margin_balance"] = margin.get("balance", 0)
-            market_temp["margin_change_pct"] = margin.get("weekly_change_pct", 0)
-        print(f"    水温: {market_temp['breadth_signal']}, 北向: {market_temp.get('north_direction', 'N/A')}, "
-              f"融资变化: {market_temp['margin_change_pct']}%")
+        if _src_ok(breadth):
+            market_temp["breadth_signal"] = breadth.get("breadth_signal")
+            market_temp["up_ratio"] = breadth.get("up_ratio")
+            market_temp["limit_up"] = breadth.get("limit_up")
+            market_temp["limit_down"] = breadth.get("limit_down")
+            market_temp["data_availability"]["breadth"] = "ok"
+        if _src_ok(north):
+            # 修正 key 错配：fetch_north_flow 返回 north_net/north_days（不是 net_flow/consecutive_days）
+            nn = north.get("north_net")
+            market_temp["north_net"] = nn
+            market_temp["north_days"] = north.get("north_days")
+            if isinstance(nn, (int, float)):
+                market_temp["north_direction"] = "净流入" if nn > 0 else ("净流出" if nn < 0 else "中性")
+                market_temp["flow_signal"] = (
+                    "大幅流入" if nn > 50 else "流入" if nn > 10 else
+                    "中性" if nn > -10 else "流出" if nn > -50 else "大幅流出")
+            market_temp["data_availability"]["north"] = "ok"
+        if _src_ok(margin):
+            # 修正 key 错配：fetch_margin_data 返回 margin_balance（不是 balance）
+            market_temp["margin_balance"] = margin.get("margin_balance")
+            market_temp["data_availability"]["margin"] = "ok"
+        ok_n = sum(1 for v in market_temp["data_availability"].values() if v == "ok")
+        market_temp["status"] = "success" if ok_n == 3 else ("partial" if ok_n else "unavailable")
+        if ok_n < 3:
+            missing = [k for k, v in market_temp["data_availability"].items() if v != "ok"]
+            warnings.append(f"Market temperature degraded: {','.join(missing)} unavailable ({ok_n}/3)")
+        print(f"    水温: {market_temp['breadth_signal'] or '数据不可用'}, "
+              f"北向: {market_temp['north_direction'] or '数据不可用'}, "
+              f"可用源: {ok_n}/3")
     except Exception as e:
         print(f"  警告: 市场温度数据收集失败: {e}")
-        market_temp["status"] = "partial"
-        warnings.append("Market temperature partial")
+        market_temp["status"] = "unavailable"
+        warnings.append("Market temperature unavailable")
 
     with open(out_dir / "data_market_temp.json", "w") as f:
         json.dump(market_temp, f, ensure_ascii=False, default=str)
+
+    # —— 数据硬闸：关键市场气候数据「必须拿到」，否则中止本次分析 ——
+    # 用户铁律：拿不到数据就不许继续分析，绝不在数据盲区出处方。
+    # 关键源（缺任一即中止）——它们是宏观裁判/战略师判定 risk-on/off
+    # 与 total_weight_limit / cash_floor 的硬输入，缺失=决策层在盲区里拍脑袋加仓：
+    #   ① 宏观指标(PMI/利率等)  ② 市场水温(涨跌广度)  ③ 北向资金
+    # 次要源（融资/Tier1/PE/敞口/景气）缺失仍只告警，不阻断——避免单个二级慢信号
+    # 偶发抓不到就瘫痪整条链。确需在缺数据下调试可加 --allow-partial-data 绕过本闸。
+    critical_missing = []
+    if macro_data.get("status") != "success" or not macro_data.get("indicators"):
+        critical_missing.append("宏观指标(PMI/利率等)")
+    if market_temp["data_availability"].get("breadth") != "ok":
+        critical_missing.append("市场水温(涨跌广度)")
+    if market_temp["data_availability"].get("north") != "ok":
+        critical_missing.append("北向资金")
+
+    if critical_missing:
+        if allow_partial:
+            print(f"\n  ⚠ 关键数据缺失，但 --allow-partial-data 已开启，强行继续: "
+                  f"{', '.join(critical_missing)}")
+            warnings.append(f"CRITICAL data missing but bypassed: {', '.join(critical_missing)}")
+        else:
+            print("\n  ❌ 关键市场数据未取到，按「数据盲区不出处方」铁律中止本次分析：")
+            for m in critical_missing:
+                print(f"       - {m}（未取到）")
+            print("     这些是宏观/大类层判定 risk-on/off 与仓位上限、现金下限的硬输入，")
+            print("     缺失即无法可靠决策 —— 中止，不进入 Agent 分析阶段。")
+            print("     处置：检查网络 / AKShare 可用性后重跑 collect；")
+            print("     确需在缺数据下调试，可加 --allow-partial-data 绕过本闸（仅调试用）。")
+            return False
 
     # —— 7. 行业扫描池 + 全量景气榜 ——
     # 全量18行业景气打分（廉价雷达，喂前端矩阵）只跑一次，
@@ -276,6 +348,11 @@ def main():
         "--industries", choices=["scope", "all"], default="scope",
         help="深辩范围：scope=持仓+watchlist+景气top3（默认），all=全量可投资行业",
     )
+    parser.add_argument(
+        "--allow-partial-data", action="store_true",
+        help="绕过关键数据硬闸：默认关键市场数据(宏观/水温/北向)缺任一即中止；"
+             "加此开关仅在缺数据时改为告警放行（接力/调试用，慎用）",
+    )
     args = parser.parse_args()
 
     if not (len(args.user_id) == 24 and all(c in "0123456789abcdef" for c in args.user_id.lower())):
@@ -283,7 +360,11 @@ def main():
         sys.exit(1)
 
     out_dir = Path(args.out_dir)
-    success = asyncio.run(collect_all(args.user_id, out_dir, all_industries=(args.industries == "all")))
+    success = asyncio.run(collect_all(
+        args.user_id, out_dir,
+        all_industries=(args.industries == "all"),
+        allow_partial=args.allow_partial_data,
+    ))
     sys.exit(0 if success else 1)
 
 

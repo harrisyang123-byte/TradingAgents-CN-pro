@@ -48,7 +48,11 @@ def _find_python() -> str:
 
 
 async def run_collect(user_id: str, run_dir: Path) -> bool:
-    """Phase 1: 数据收集 → run_dir"""
+    """Phase 1: 数据收集 → run_dir
+
+    关键市场数据（宏观/水温/北向）缺失时，collect_data.py 会按「数据盲区不出处方」
+    硬闸返回非 0，这里捕获其 stdout 中的中止原因供上层透传给前端。
+    """
     run_dir.mkdir(parents=True, exist_ok=True)
     python = _find_python()
     collect_script = str(SCRIPTS_DIR / "collect_data.py")
@@ -57,8 +61,16 @@ async def run_collect(user_id: str, run_dir: Path) -> bool:
         [python, collect_script, "--user-id", user_id, "--out-dir", str(run_dir)]
     )
     if rc != 0:
-        logger.error(f"[v3-runner] collect 失败: {err[:500]}")
+        # 提取硬闸中止原因（❌ 之后的关键数据缺失说明），透传给前端
+        reason = ""
+        if "数据盲区不出处方" in out:
+            lines = [ln.strip() for ln in out.splitlines()
+                     if "未取到" in ln or "数据盲区不出处方" in ln]
+            reason = " ".join(lines)[:300]
+        run_collect.last_error = reason or err[:300] or "数据收集失败"
+        logger.error(f"[v3-runner] collect 失败: {(reason or err)[:500]}")
         return False
+    run_collect.last_error = ""
     return True
 
 
@@ -126,7 +138,8 @@ async def plan(user_id: str) -> dict:
 
     # Phase 1: collect
     if not await run_collect(user_id, run_dir):
-        return {"run_dir": str(run_dir), "industries": [], "error": "数据收集失败"}
+        reason = getattr(run_collect, "last_error", "") or "数据收集失败"
+        return {"run_dir": str(run_dir), "industries": [], "error": reason}
 
     # Phase 2: analyze --to industry
     if not await run_analyze(user_id, run_dir, to_stage="industry"):

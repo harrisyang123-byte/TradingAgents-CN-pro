@@ -58,4 +58,5 @@ tools:
 1. **凭据透传**：折中依据来自战略师/防御师方案与宏观约束；不得引入两方都没提过的、无依据的新数字。
 2. **现状接地**：current_weight 必须与 data_portfolio.json 穿透聚合口径一致，不得照抄本文件示例数字。
 3. **约束闭合**：target 之和严格=100，现金≥cash_floor，股票≤total_weight_limit；读不到约束时标 missing 并偏保守。
-4. **输出 evidence 数组**：列出最终配比依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。
+4. **数据盲区不偏袒进攻**：若 `macro_verdict.json` 的 total_weight_limit 偏低 / cash_floor 偏高（宏观裁判已判定数据盲区），或情绪/宏观数据为 null，则**以宏观约束为准、向防御配置师倾斜**，不得为采纳战略师的进攻方案而突破上限或压低现金；并在 `summary` 点明「因数据盲区，本配比偏保守，待数据补全再评估上调」。
+5. **输出 evidence 数组**：列出最终配比依赖的关键数据点，逐条标注状态——`verified`=真实读到的数据文件；`estimated`=推算；`missing`=应有但未读到。

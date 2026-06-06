@@ -110,7 +110,12 @@ collect_data.py  ──写出──▶ data/advisor_runs/{ts}/ ──读入─�
 3. **辩论驱动质量**：每层都有对立角色，避免确认偏误。风控规则是硬约束，Risk Director 是建议，职责分开。
 4. **目标是绝对收益**：让用户持久盈利，不跑赢基准、不追板块轮动。全量扫描是廉价雷达，不是决策引擎。
 5. **无估值准入闸**：见第 5 节，估值只在下游调权重/买点。
-6. **市场覆盖按链路分层，别假设组合顾问支持美股个票**：
+6. **数据盲区 = 举证责任倒置；关键数据「拿不到就不分析」（硬闸）**：
+   - `collect_data.py` 对采不到的市场/宏观数据**写 `null` + `data_availability` + 真实 `status`（success/partial/unavailable）**，**严禁**用 `0`/`中性`/`up_ratio=50` 伪装成真实读数（这是历史病根：`fetch_*` 失败时返回 0、collect 又读错 key，导致战略师永远看到「假中性」放心加仓）。
+   - **硬闸（最高优先级）**：`collect_data.py` 采完市场温度后做关键数据校验，**关键源缺任一即 `return False` → `exit(1)`，整条链在进入 Agent 分析前中止**，绝不在数据盲区出处方。关键源 = ①宏观指标(PMI/利率) ②市场水温(涨跌广度 breadth) ③北向资金(north)；次要源（融资/Tier1/PE/敞口/景气）缺失仍只告警不阻断。命令行（`run.sh all/collect`）与前端 `/plan` API（`v3_advisor_runner.run_collect`）共用此咽喉点，中止原因会透传到前端。调试/接力可加 `--allow-partial-data` 绕过（缺数据改为告警放行）。
+   - 兜底层（万一硬闸被 `--allow-partial-data` 绕过）：宏观裁判 / 战略师 / 大类裁判 / 防御师的 prompt 仍写死铁律：**`status≠success` 或关键字段 null 时进入数据盲区**——「未见看空信号」≠「可以加仓」，不确定性方向默认向下；盲区下 `total_weight_limit ≤50`、`cash_floor ≥20`、禁止压现金到地板/加股票到上限、禁止「承认高位又加满」的认知-行动矛盾。
+   - 改这条链路任一环时，**各文件口径必须一致**：硬闸在 `scripts/collect_data.py`（关键源定义）+ `app/services/v3_advisor_runner.py`（原因透传）；盲区兜底在 `v3-macro-judge.md` + `v3-asset-strategist.md` + `v3-asset-defender.md` + `v3-asset-judge.md`。
+7. **市场覆盖按链路分层，别假设组合顾问支持美股个票**：
    - 大类资产层：A股/港股 + 海外（纳指/标普/QDII/黄金）作为「全球配置」一整块敞口。
    - 行业景气雷达 + 行业深辩：**仅 A 股**（`score_all_industries()` 全是北向/A股PE分位/中国政策信号，18 bucket 申万口径，不拆美股行业）。
    - 组合顾问个股推荐（Scout/PM）：实跑**仅 A 股**。`market_tools` 技术上能取港股/美股（yfinance），但当前无触发路径，Tier1 自动研究（`trigger_auto_research`）写死 `ak.stock_individual_info_em`，**只认 A 股代码**。
