@@ -123,6 +123,9 @@ export interface AdviceItem {
   batch_plan?: Array<{ price: number; weight_pct: number; condition: string }>
   tier1_rating?: string
   pe_percentile?: number
+  pnl_pct?: number
+  pe_data?: { pe_percentile_5y: number; [key: string]: any }
+  codes?: string[]
 }
 
 export interface MarketIntel {
@@ -308,7 +311,7 @@ export interface IndustryOverviewRow {
   position_count: number
   position_codes: string[]
   position_names: string[]
-  positions_detail?: AdviceItem[]  // v3: 该行业下个股处方列表
+  positions_detail?: AdviceItem[] // v3: 该行业下个股处方列表
   reasoning: string
   advice_id: string
   prescriptions: AdviceItem[]

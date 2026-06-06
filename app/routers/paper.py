@@ -607,7 +607,7 @@ async def get_portfolio_overview(current_user: dict = Depends(get_current_user))
     pf_svc = PortfolioService()
     pf_summary = await pf_svc.get_portfolio_summary(user_id)
     total_assets = pf_summary.get("total_assets", 0)
-    matrix = synthesis.get("industry_matrix", []) or latest_advice.get("industry_matrix", [])
+    matrix = synthesis.get("industry_matrix", []) or (latest_advice or {}).get("industry_matrix", [])
 
     # 主路径: market_intel.industries (L1 行业研究员输出，最新数据源)
     market_intel_industries = (latest_advice or {}).get("market_intel", {}).get("industries", []) if latest_advice else []
