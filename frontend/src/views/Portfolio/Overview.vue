@@ -55,12 +55,11 @@
             </tr>
           </thead>
           <tbody>
+            <template v-for="row in filteredMatrix" :key="row.industry">
             <tr
-              v-for="row in filteredMatrix"
-              :key="row.industry"
               class="industry-row"
-              :class="row.go_nogo === 'GO' ? 'row-go' : (row.go_nogo === 'NOGO' ? 'row-nogo' : '')"
-              @click="openIndustryDrawer(row)"
+              :class="[row.go_nogo === 'GO' ? 'row-go' : (row.go_nogo === 'NOGO' ? 'row-nogo' : ''), expandedRow === row.industry ? 'row-expanded' : '']"
+              @click="toggleRowExpand(row)"
             >
               <td>
                 <span class="ind-name">{{ row.industry }}</span>
@@ -84,15 +83,19 @@
                 <span v-else>0%</span>
               </td>
               <td>
-                <span v-if="row.go_nogo === 'GO'" style="color:#67c23a; font-weight:600; font-size:12px;">加仓</span>
-                <span v-else-if="row.go_nogo === 'NOGO'" style="color:#f56c6c; font-weight:600; font-size:12px;">减仓</span>
-                <span v-else class="text-muted">持有</span>
+                <span v-if="row.go_nogo === 'GO'" class="go-badge go-badge-go">GO 加仓</span>
+                <span v-else-if="row.go_nogo === 'NOGO'" class="go-badge go-badge-nogo">NOGO 减仓</span>
+                <span v-else class="go-badge go-badge-hold">持有</span>
               </td>
               <td style="font-size:13px;">
                 <span v-if="row.delta !== 0">{{ formatMoney(actionAmount(row)) }}</span>
                 <span v-else class="text-muted">--</span>
               </td>
             </tr>
+            <tr v-if="expandedRow === row.industry && row.reasoning" class="reasoning-row">
+              <td colspan="7" class="reasoning-cell">{{ row.reasoning }}</td>
+            </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -125,7 +128,7 @@
     </div>
 
     <!-- 行业详情抽屉 -->
-    <div v-if="showIndustryDrawer && selectedIndustry" style="position:fixed; top:0; right:0; width:420px; height:100vh; background:#fff; box-shadow:-4px 0 12px rgba(0,0,0,0.12); z-index:1000; overflow-y:auto; padding:24px;">
+    <div v-if="showIndustryDrawer && selectedIndustry" style="position:fixed; top:0; right:0; width:520px; height:100vh; background:#fff; box-shadow:-4px 0 12px rgba(0,0,0,0.12); z-index:1000; overflow-y:auto; padding:24px;">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
         <span style="font-size:16px; font-weight:600;">{{ selectedIndustry.industry }}</span>
         <button style="border:none; background:none; font-size:18px; cursor:pointer; color:#909399;" @click="showIndustryDrawer = false">×</button>
@@ -184,6 +187,7 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 
 const showIndustryDrawer = ref(false)
 const selectedIndustry = ref<IndustryOverviewRow | null>(null)
+const expandedRow = ref<string | null>(null)
 
 // --- filtered matrix (exclude 现金 for display, show cash separately) ---
 const filteredMatrix = computed(() => {
@@ -240,6 +244,15 @@ function buildStrategyLabel(s: string): string {
 function openIndustryDrawer(row: IndustryOverviewRow) {
   selectedIndustry.value = row
   showIndustryDrawer.value = true
+}
+
+function toggleRowExpand(row: IndustryOverviewRow) {
+  if (expandedRow.value === row.industry) {
+    expandedRow.value = null
+  } else {
+    expandedRow.value = row.industry
+    openIndustryDrawer(row)
+  }
 }
 
 function openAdviceDetail(adv: PortfolioAdvice) {
@@ -362,4 +375,13 @@ onMounted(() => {
 
 .text-muted { color: #c0c4cc; }
 .mt-4 { margin-top: 16px; }
+
+.go-badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.go-badge-go { background: #67c23a; color: #fff; }
+.go-badge-nogo { background: #f56c6c; color: #fff; }
+.go-badge-hold { background: #e9e9eb; color: #909399; }
+
+.row-expanded { background: #f0f9eb; }
+.reasoning-row { background: #f9fbf9; }
+.reasoning-cell { padding: 10px 14px 10px 28px; font-size: 12px; color: #606266; line-height: 1.7; border-bottom: 1px solid #eee; }
 </style>
