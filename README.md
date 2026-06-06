@@ -5,7 +5,7 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3.5%2B-4FC08D.svg)](https://vuejs.org/)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Workflow-orange.svg)](https://claude.ai/code)
 
-面向中国 A股/港股 用户的**多智能体分层辩论式投资系统**。以用户持久盈利为目标，从宏观行业配置到个股配仓、事前风控全覆盖，所有 LLM 决策环节都有对立角色辩论。
+面向中国 A股/港股 用户的**多智能体分层辩论式投资系统**。以用户持久盈利为目标，从大类资产配置到宏观行业、个股配仓、事前风控全覆盖，所有 LLM 决策环节都有对立角色辩论。
 
 ---
 
@@ -19,7 +19,7 @@
 
 ## 核心架构
 
-投资决策从**宏观到微观**分 7 层展开，每层都有多视角辩论，约束从上到下硬传递。
+投资决策从**大类资产到个股**分层展开，每层都有多视角辩论，约束从上到下硬传递。
 
 ```
 【常态化后台，独立运行】
@@ -35,10 +35,17 @@ Step 0  宏观裁判
         输出：risk-on/off + total_weight_limit + cash_floor
            ↓ 硬约束
 
+Step 0.5  大类资产配置（战略配置师 vs 防御配置师 → 大类裁判）
+        在「现金 / 债券 / 股票 / 黄金 / 海外(QDII) / 其他」6大类间分配
+        进攻派 vs 避险派辩论，基金按底层资产穿透归类
+        裁判：各类配比之和=100，现金≥cash_floor，股票≤total_weight_limit
+        输出：6大类 current→target + stock_weight（股票额度下传行业层）
+           ↓ stock_weight 成为行业层 total_weight_limit
+
 Step 1  行业研究员 ×N（并行）
         每行业独立：LLM知识 + AKShare硬数据 + 新闻研报
         研究员首发 → 反向者挑战 → 行业内辩论（2轮）
-        → 跨行业裁判：在 total_weight_limit 内做资源分配
+        → 跨行业裁判：在 stock_weight 限额内做资源分配
         输出：go_nogo + vitality_level + final_weight
         缓存：7天有效期，手动可强制刷新
            ↓ 同时触发 Tier1 研究库异步更新
@@ -49,8 +56,7 @@ Step 2  公司层（Tier1 驱动）
         输出：每行业候选排序 + 评级 + 目标价
 
 Step 3  组合层（与 Step 2 并行）
-        持仓分析师 + 策略师 + Scout_L3 并行诊断
-        → 组合反向者挑战
+        持仓分析师 + Scout_L3 诊断 → 组合反向者挑战
         输出：建议减仓/清仓标的 + 敞口风险
 
 Step 4  行业PM ×N（并行，子 Agent 模式）
@@ -76,20 +82,26 @@ Step 6  Risk Director（子 Agent 模式）
 Step 7  Portfolio Synthesizer（子 Agent 模式）
         验证约束链完整性（不修正，只报警）
         识别行业缺口（gap > 3% 触发补充侦察）
-        汇总 industry_matrix + 最终处方
+        汇总 asset_allocation + industry_matrix + 最终处方
         输出：可直接执行的组合调整方案
 ```
 
 ---
 
-## Agent 列表（12个 v3 子 Agent）
+## Agent 列表（17 个 v3 子 Agent）
 
 | 层 | Agent 文件 | 职责 |
 |----|-----------|------|
-| 宏观 | `v3-macro-judge.md` | 宏观信号 → total_weight_limit |
+| 宏观 | `v3-macro-judge.md` | 宏观信号 → total_weight_limit / cash_floor |
+| 大类 | `v3-asset-strategist.md` | 战略配置师（进攻）：6大类偏进攻配比 |
+| 大类 | `v3-asset-defender.md` | 防御配置师（避险）：挑战进攻倾向，给避险配比 |
+| 大类 | `v3-asset-judge.md` | 大类裁判：综合两者 → 6大类目标 + stock_weight 下传 |
 | 行业 | `v3-industry-researcher.md` | B+C三层数据 → 首次判断 |
 | 行业 | `v3-industry-contrarian.md` | 挑战研究员，暴露盲点 |
-| 跨行业 | `v3-cross-industry-judge.md` | 在限额内分配 final_weight |
+| 跨行业 | `v3-cross-industry-judge.md` | 在 stock_weight 限额内分配 final_weight |
+| 公司 | `v3-scout.md` | Go 行业内找候选标的，读 Tier1 横向比较 |
+| 组合 | `v3-portfolio-analyst.md` | 持仓分析师：诊断现有持仓与敞口 |
+| 组合 | `v3-portfolio-contrarian.md` | 组合反向者：挑战诊断，暴露集中风险 |
 | PM | `v3-pm-aggressive.md` | 激进PM：配额用满，重仓高评级 |
 | PM | `v3-pm-conservative.md` | 保守PM：保留缓冲，偏分批 |
 | PM | `v3-pm-judge.md` | PM裁判：综合两者，取保守买入区间 |
@@ -100,11 +112,29 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 
 编排脚本（单一增量编排器）：
 
-| Workflow | 覆盖步骤 |
-|---------|---------|
-| `workflow-v3-advisor.js` | Step 0-7 全链路：宏观 → 行业研究/反向者 → 跨行业裁判 → Scout 标的侦察 → 组合层诊断 → PM 并行辩论 → 风控规则 + Risk Director + Portfolio Synthesizer。按阶段缓存增量跳过。 |
+| Workflow | 阶段（stage） | 覆盖步骤 |
+|---------|--------------|---------|
+| `workflow-v3-advisor.js` | `macro` → `asset` → `industry` → `scout` → `portfolio` → `pm` → `synth` | Step 0-7 全链路：宏观 → 大类资产辩论 → 行业研究/反向者 → 跨行业裁判 → Scout 标的侦察 → 组合层诊断 → PM 并行辩论 → 风控规则 + Risk Director + Portfolio Synthesizer。按阶段缓存增量跳过，下游随上游失效强制重跑。 |
 
-> 早期按层拆分的 `workflow-v3-industry-layer.js` / `workflow-v3-pm-debate.js` / `workflow-v3-synthesizer.js` 已合并进 `workflow-v3-advisor.js`，归档于 `scripts/archived/`。
+---
+
+## 单一大脑：v3 pipeline
+
+历史上系统有两条并行的分析路径（LangGraph 的 `AdvisorGraph` 与 v3 子 Agent workflow），两者写同一张 `portfolio_advice` 表互相覆盖，导致前端读到的字段时有时无。**该 LangGraph 大脑已退役**，现在只有一条规范路径：
+
+```
+前端「组合分析」 / 对话「分析」 / scripts/run.sh
+        ↓
+v3_advisor_runner.py（subprocess 驱动，两阶段）
+        ↓
+collect_data.py  → workflow-v3-advisor.js（claude -p 跑 v3 子 Agent）→ ingest_advice.py
+        ↓
+portfolio_advice 集合（含 asset_allocation / industry_matrix / vitality_level / 辩论历程等富字段）
+        ↓
+前端 Overview 读取
+```
+
+API 采用**两阶段 + 人工确认**：`/plan`（收集数据 + 跑到行业层，返回推荐行业）→ 用户勾选行业 → `/execute`（续跑 Scout→PM→合成 + 落库）。
 
 ---
 
@@ -112,11 +142,11 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 
 **景气度 × 安全边际双因子**：景气度高但估值极端时调节权重，不直接否决（避免错过 AI 等成长赛道）。
 
-**约束从宏观层硬传递**：宏观 → 行业 → PM，每层输出满足上游约束，Portfolio Synthesizer 验证链路完整性。
+**约束从大类层硬传递**：宏观 → 大类资产 → 行业 → PM，每层输出满足上游约束（如股票额度 stock_weight 下传为行业层 total_weight_limit），Portfolio Synthesizer 验证链路完整性。
 
-**辩论驱动质量**：每层都有对立角色，避免单一视角的确认偏误。风控是硬约束，Risk Director 是建议，两者职责分开。
+**辩论驱动质量**：每层都有对立角色，避免单一视角的确认偏误。风控规则是硬约束，Risk Director 是建议，两者职责分开。
 
-**子 Agent 而非 `llm.invoke()`**：所有 LLM 决策逻辑都通过 `.md` 文件定义 + Workflow `agent()` 调用，不在 Python 中直接调 LLM——实践证明质量更好。
+**子 Agent 而非 `llm.invoke()`**：所有 LLM 决策逻辑都通过 `.md` 文件定义 + Workflow `agent()` 调用，不在 Python 中直接调 LLM——这也是退役 LangGraph 大脑、收敛到 v3 单一路径的原因。
 
 ---
 
@@ -127,7 +157,7 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 | 后端 | FastAPI 0.115+ + Uvicorn |
 | 前端 | Vue 3.5+ + Vite + Element Plus |
 | 数据库 | MongoDB + Redis |
-| Workflow 子 Agent | v3 全链路编排（Step 0-7） |
+| Workflow 子 Agent | v3 全链路编排（Step 0-7），claude -p 驱动 |
 | 数据源 | AKShare / Tushare / BaoStock |
 | 市场覆盖 | A股 / 港股 / 美股 |
 | 行业体系 | 18大投资主题（消费/科技/金融/医药等） |
@@ -138,65 +168,78 @@ Step 7  Portfolio Synthesizer（子 Agent 模式）
 
 ```
 tradingagents-cn/
-├── agents/advisor/          # 12个 v3 子 Agent .md 定义
+├── agents/advisor/              # 17 个 v3 子 Agent .md 定义（含大类资产层）
 ├── scripts/
-│   ├── workflow-v3-advisor.js  # v3 增量编排器（Step 0-7 全链路）
-│   ├── ingest_advice.py        # v3 产物 → portfolio_advice 落库
-│   ├── archived/               # 被取代的旧 workflow / 弃用脚本
+│   ├── workflow-v3-advisor.js   # v3 增量编排器（macro→asset→…→synth）
+│   ├── run.sh                   # 编排入口（all / collect / analyze）
+│   ├── collect_data.py          # 数据采集 → data/advisor_runs/{ts}/
+│   ├── ingest_advice.py         # v3 产物 → portfolio_advice 落库
 │   └── migrate_position_industry.py  # 历史持仓行业补填
 ├── app/
 │   ├── routers/
-│   │   ├── paper.py             # 持仓/概览 API
-│   │   ├── portfolio_analysis.py  # 组合分析 API
-│   │   └── watchlist.py         # 行业关注列表 API
+│   │   ├── paper.py                  # 持仓/概览 API
+│   │   ├── portfolio_analysis.py     # 组合分析 API（两阶段 plan/execute）
+│   │   └── watchlist.py              # 行业关注列表 API
 │   └── services/
-│       ├── industry_vitality.py    # 景气打分引擎（5类信号）
-│       ├── industry_scan_pool.py   # 行业扫描池（持仓+watchlist+景气）
-│       ├── industry_classifier.py  # 持仓录入时前置行业分类
-│       ├── stock_research_cache.py # Tier1 研究库（7天缓存）
-│       └── market_signals.py       # 市场温度计
+│       ├── v3_advisor_runner.py      # subprocess 驱动 run.sh 的两阶段 runner
+│       ├── portfolio_advisor_service.py  # Tier1 数据准备（LangGraph 已退役）
+│       ├── industry_vitality.py      # 景气打分引擎（5类信号）
+│       ├── industry_scan_pool.py     # 行业扫描池（持仓+watchlist+景气）
+│       ├── industry_classifier.py    # 持仓录入时前置行业分类
+│       ├── stock_research_cache.py   # Tier1 研究库（7天缓存）
+│       └── market_signals.py         # 市场温度计
 ├── tradingagents/
-│   ├── graph/trading_graph.py  # 个股分析 LangGraph 图（保留）
+│   ├── graph/trading_graph.py        # 个股分析 LangGraph 图（保留，独立于组合顾问）
 │   └── agents/advisors/
-│       ├── advisor_states.py   # AdvisorState（含v3约束传递字段）
-│       └── risk_rules.py       # 事前风控规则引擎（纯Python）
-├── frontend/                   # Vue 3 前端
+│       ├── advisor_states.py         # AdvisorState（含v3约束传递字段）
+│       └── risk_rules.py             # 事前风控规则引擎（纯Python）
+├── frontend/                         # Vue 3 前端
 │   └── src/views/Portfolio/
-│       └── Overview.vue        # 行业矩阵（含v3新列）
-├── docs/wiki/                  # 架构知识库
-└── openspec/                   # 变更记录（全部归档）
+│       └── Overview.vue              # 资产配置 + 行业矩阵 + Drawer + 辩论历程
+├── start.sh / stop.sh                # 一键启停脚本
+├── docs/wiki/                        # 架构知识库
+└── openspec/                         # 变更记录
 ```
 
 ---
 
 ## 快速启动
 
-**前置条件**：MongoDB、Redis 已启动。
+**前置条件**：MongoDB、Redis 已启动；已配 `.env`；已建 `.venv` 并装好依赖。
 
-### 一键分析
-
-```bash
-# 1. 配置 .env（只需一次）
-echo "ADVISOR_USER_ID=<你的用户ID>" >> .env
-
-# 2. 打开项目，对 Claude Code 说一个字：分析
-```
-
-### 手动启动
+### 一键启停
 
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000   # 后端
-cd frontend && npm run dev                                   # 前端
+./start.sh    # 起 DB（docker compose）+ 后端(8000) + 前端(3000)
+./stop.sh     # 停止
 ```
 
-### Workflow 快捷指令
+`start.sh` 会：起 MongoDB/Redis → 用 `.venv/bin/uvicorn` 起后端（默认 8000，热重载）→ `npm run dev` 起前端（默认 3000）→ 轮询 `/api/health` 等就绪。
 
-| 对话中说 | 执行 |
-|----------|------|
-| `分析` | v3 全链路组合顾问 |
-| `跑行业层` | v3 行业研究员并行 + 反向者 |
-| `跑辩论` | v3 PM 辩论 |
-| `跑合成` | v3 风控 + 合成器 |
+### 手动启动（调试）
+
+```bash
+docker compose up -d mongodb redis                                # 数据库
+.venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000  # 后端
+cd frontend && npm run dev                                         # 前端
+```
+
+访问：前端 `http://localhost:3000`、API 文档 `http://localhost:8000/docs`。
+
+> ⚠️ 起服务前必须先配 `.env`（`cp .env.example .env`），至少填 MongoDB / Redis / `JWT_SECRET` / `CSRF_SECRET`，以及至少一个大模型 API key（DeepSeek / DashScope / AIHubMix 任一）。生产环境务必改掉 `JWT_SECRET`、`CSRF_SECRET` 和数据库默认密码。
+
+### 触发组合分析
+
+| 对话中说 | 实际执行 | 等价命令 |
+|----------|----------|----------|
+| `分析` | 全链路 Step 0-7 | `./scripts/run.sh all --user-id <id>` |
+| `跑行业层` | 行业研究+反向者 | `./scripts/run.sh analyze --data-dir <path> --only industry` |
+| `跑辩论` | PM 辩论 | `./scripts/run.sh analyze ... --only pm` |
+| `跑合成` | 风控+合成器 | `./scripts/run.sh analyze ... --only synth` |
+
+`run.sh all` 三阶段：`collect_data.py` 采数 → `claude -p` 驱动 `workflow-v3-advisor.js` 跑 v3 子 Agent → `ingest_advice.py` 落库到 `portfolio_advice`，前端 Overview 即读这张表。
+
+> `run.sh` 硬前置（`check_prereqs` 会校验）：24 位 hex 的 `--user-id`、Python、Claude Code CLI（LLM 推理这层需要 claude CLI 鉴权）。
 
 ---
 
@@ -204,12 +247,15 @@ cd frontend && npm run dev                                   # 前端
 
 | 接口 | 说明 |
 |------|------|
-| `GET /api/portfolio/overview` | 行业覆盖矩阵（v3有则读 advice.industry_matrix，否则降级拼接） |
+| `GET /api/portfolio/overview` | 组合总揽（v3 有则读 advice 的 asset_allocation/industry_matrix，否则降级拼接） |
+| `POST /api/portfolio/analysis/plan` | 触发 v3 plan 阶段（收集数据+行业分析），返回推荐行业 |
+| `POST /api/portfolio/analysis/execute` | 用户确认行业后执行全量（Scout→PM→合成→落库） |
+| `GET /api/portfolio/analysis/{task_id}/status` | 轮询任务状态 |
+| `POST /api/portfolio/analysis/industry/{name}/refresh` | 强制刷新某行业缓存 |
 | `POST /api/portfolio/positions` | 新增持仓（自动分类行业） |
 | `GET /api/watchlist` | 行业关注列表 |
 | `POST /api/watchlist` | 添加关注行业 |
 | `DELETE /api/watchlist/{industry}` | 删除关注行业 |
-| `POST /api/portfolio/analysis/industry/{name}/refresh` | 强制刷新某行业缓存 |
 
 完整 API 文档：`http://localhost:8000/docs`
 
