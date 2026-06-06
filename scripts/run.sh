@@ -2,8 +2,8 @@
 # run.sh — Claude Code Workflow 组合顾问引擎入口（v3 增量编排）
 #
 # 用法:
-#   ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full]
-#   ./run.sh collect [--user-id <id>]
+#   ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full] [--industries scope|all]
+#   ./run.sh collect [--user-id <id>] [--industries scope|all]
 #   ./run.sh analyze --data-dir <path> [--from <stage>] [--to <stage>] [--only <stage>] [--refresh <stage>] [--full]
 #
 # 子命令:
@@ -17,6 +17,7 @@
 #   --only <stage>      只跑某阶段（调试）
 #   --refresh <stage>   强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
 #   --full              忽略全部缓存，从头全跑
+#   --industries        深辩范围：scope=持仓+watchlist+景气top3（默认），all=全量可投资行业（采数阶段生效）
 
 set -euo pipefail
 
@@ -53,6 +54,7 @@ TO_STEP=""
 ONLY_STEP=""
 REFRESH=""
 FULL=""
+INDUSTRIES=""
 COMMAND=""
 
 # ── 参数解析 ──────────────────────────────────────────────
@@ -60,8 +62,8 @@ COMMAND=""
 usage() {
     cat <<'EOF'
 用法:
-  ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full]
-  ./run.sh collect [--user-id <id>]
+  ./run.sh all [--user-id <id>] [--from <stage>] [--to <stage>] [--refresh <stage>] [--full] [--industries scope|all]
+  ./run.sh collect [--user-id <id>] [--industries scope|all]
   ./run.sh analyze --data-dir <path> [--from <stage>] [--to <stage>] [--only <stage>] [--refresh <stage>] [--full]
 
 子命令:
@@ -79,6 +81,7 @@ v3 阶段(stage): macro | industry | scout | portfolio | pm | synth
   --only        只跑指定阶段（单阶段调试）
   --refresh     强制失效某阶段并重跑；"industry:<行业名>" 只刷单个行业
   --full        忽略全部缓存，从头全跑
+  --industries  深辩范围：scope=持仓+watchlist+景气top3（默认），all=全量可投资行业（采数阶段生效）
 EOF
     exit 1
 }
@@ -158,6 +161,15 @@ while [[ $# -gt 0 ]]; do
             FULL="1"
             shift
             ;;
+        --industries)
+            INDUSTRIES="${2:-}"
+            [ -z "$INDUSTRIES" ] && { echo "错误: --industries 需要值"; usage; }
+            if [ "$INDUSTRIES" != "scope" ] && [ "$INDUSTRIES" != "all" ]; then
+                echo "错误: --industries 只接受 scope | all"
+                exit 1
+            fi
+            shift 2
+            ;;
         -h|--help)
             usage
             ;;
@@ -213,6 +225,12 @@ check_prereqs || exit 1
 
 # ── 收集数据 ──────────────────────────────────────────────
 
+# 构建 collect_data.py 额外参数（industries）
+# INDUSTRIES 仅取 scope|all（无空格），可安全用不带引号的展开
+collect_extra_args() {
+    [ -n "$INDUSTRIES" ] && echo "--industries $INDUSTRIES"
+}
+
 run_collect() {
     RUN_ID="${1:-$(date +%Y%m%d_%H%M%S)}"
     RUN_DIR="$DATA_BASE_DIR/$RUN_ID"
@@ -231,6 +249,7 @@ run_collect() {
     $PYTHON "$SCRIPT_DIR/collect_data.py" \
         --user-id "$USER_ID" \
         --out-dir "$RUN_DIR" \
+        $(collect_extra_args) \
         2>&1 | sed 's/^/  /'
 
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
@@ -342,6 +361,7 @@ case "$COMMAND" in
         [ -n "$TO_STEP" ]   && echo "截止阶段: $TO_STEP"
         [ -n "$REFRESH" ]   && echo "强制刷新: $REFRESH"
         [ -n "$FULL" ]      && echo "全量模式: 忽略缓存"
+        [ "$INDUSTRIES" = "all" ] && echo "深辩范围: 全量可投资行业"
         echo ""
 
         # Phase 1: 数据收集
@@ -349,6 +369,7 @@ case "$COMMAND" in
         $PYTHON "$SCRIPT_DIR/collect_data.py" \
             --user-id "$USER_ID" \
             --out-dir "$RUN_DIR" \
+            $(collect_extra_args) \
             2>&1 | sed 's/^/  /'
         if [ ${PIPESTATUS[0]} -ne 0 ]; then
             echo "❌ 数据收集失败"

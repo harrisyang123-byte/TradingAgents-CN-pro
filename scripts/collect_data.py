@@ -23,8 +23,12 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
-async def collect_all(user_id: str, out_dir: Path) -> bool:
-    """全量数据收集"""
+async def collect_all(user_id: str, out_dir: Path, all_industries: bool = False) -> bool:
+    """全量数据收集
+
+    all_industries: 为 True 时，行业扫描池纳入全部可投资行业（全量深辩），
+        否则只取 持仓 + watchlist + 景气top3（默认增量范围）。
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     warnings = []
 
@@ -231,7 +235,8 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
             json.dump(vitality_data, f, ensure_ascii=False, default=str)
 
         # B 档：扫描池（复用已算好的景气分，避免二次扫描）→ 深辩范围
-        pool = await build_scan_pool(db, user_id, vitality_scores=vitality_scores)
+        pool = await build_scan_pool(db, user_id, vitality_scores=vitality_scores,
+                                     all_industries=all_industries)
         industry_list = pool.to_industry_list()
 
         if industry_list:
@@ -244,7 +249,8 @@ async def collect_all(user_id: str, out_dir: Path) -> bool:
             watch_n = sum(1 for v in srcs.values() if v == "watchlist")
             vit_n = sum(1 for v in srcs.values() if v == "vitality")
             print(f"    景气榜 top3: {vitality_data['top3']}")
-            print(f"    深辩范围 {len(industry_list)} 个行业 "
+            scope_tag = "全量行业深辩" if all_industries else "增量深辩"
+            print(f"    深辩范围({scope_tag}) {len(industry_list)} 个行业 "
                   f"(持仓{holding_n} + watchlist{watch_n} + 景气{vit_n})")
         else:
             # 扫描池为空（无持仓行业分类/无watchlist/景气全失败）：
@@ -266,6 +272,10 @@ def main():
     parser = argparse.ArgumentParser(description="Collect advisor data")
     parser.add_argument("--user-id", required=True, help="User ID (24-char hex)")
     parser.add_argument("--out-dir", required=True, help="Output directory")
+    parser.add_argument(
+        "--industries", choices=["scope", "all"], default="scope",
+        help="深辩范围：scope=持仓+watchlist+景气top3（默认），all=全量可投资行业",
+    )
     args = parser.parse_args()
 
     if not (len(args.user_id) == 24 and all(c in "0123456789abcdef" for c in args.user_id.lower())):
@@ -273,7 +283,7 @@ def main():
         sys.exit(1)
 
     out_dir = Path(args.out_dir)
-    success = asyncio.run(collect_all(args.user_id, out_dir))
+    success = asyncio.run(collect_all(args.user_id, out_dir, all_industries=(args.industries == "all")))
     sys.exit(0 if success else 1)
 
 
