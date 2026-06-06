@@ -239,6 +239,29 @@ cd frontend && npm run dev                                         # 前端
 
 `run.sh all` 三阶段：`collect_data.py` 采数 → `claude -p` 驱动 `workflow-v3-advisor.js` 跑 v3 子 Agent → `ingest_advice.py` 落库到 `portfolio_advice`，前端 Overview 即读这张表。
 
+#### 行业深辩范围开关 `--industries`
+
+行业层默认只对「持仓 + watchlist + 当下景气 top3 新方向」做昂贵的多 Agent 深度辩论（全 18 行业的廉价景气榜照常全扫，写入 `data_vitality.json` 供前端全景视图）。需要全量深辩时加 `--industries all`：
+
+```bash
+./scripts/run.sh all                   # 默认 scope：持仓 + watchlist + 景气 top3
+./scripts/run.sh all --industries all  # 全量：全部可投资行业进深辩（货币/固收类不计）
+./scripts/run.sh collect --industries all   # collect 阶段同样支持
+```
+
+> 景气 top3 只看景气排名进深辩，**不设估值准入闸**——估值约束交给下游各层调权重/买点（「景气×安全边际」「调权重而非否决」）。`--full` 是忽略缓存重跑，不是「全量行业」，别混淆。
+
+#### 接力跑（collect / analyze 分离）
+
+链路天然分两段，靠 `data/advisor_runs/{ts}/` 目录交接，可在不同机器上接力：
+
+```bash
+./scripts/run.sh collect --user-id <id>            # 第一段：要 MongoDB + 联网抓 AKShare，产出数据目录
+./scripts/run.sh analyze --data-dir <目录> --full  # 第二段：要 claude CLI 鉴权，读目录跑 v3 子 Agent + 落库
+```
+
+> ⚠️ `analyze` 直接吃目录里**已存在的** `industry_list.json`，不会重算深辩范围。想换范围要重新 `collect`（带 `--industries`）或手动改该文件后再 `analyze`。
+
 > `run.sh` 硬前置（`check_prereqs` 会校验）：24 位 hex 的 `--user-id`、Python、Claude Code CLI（LLM 推理这层需要 claude CLI 鉴权）。
 
 ---
@@ -265,6 +288,7 @@ cd frontend && npm run dev                                         # 前端
 
 | 文档 | 内容 |
 |------|------|
+| [**AGENTS.md**](AGENTS.md) | **主 Agent 指南（唯一真源）**：链路/快捷指令/接力/`--industries`/设计铁律 |
 | [行业层重构](docs/wiki/industry-layer-rebuild.md) | 景气打分/并行研究员/7天缓存/Tier1触发 |
 | [决策层重构](docs/wiki/decision-layer-rebuild.md) | 并行PM/约束传递链/风控引擎/Portfolio Synthesizer |
 | [组合顾问引擎](docs/wiki/portfolio-advisor-engine.md) | v3 子 Agent 辩论架构/结构化处方 |
