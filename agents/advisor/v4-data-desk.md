@@ -18,15 +18,23 @@ tools:
 ## 两档取数（由编排器用 `tier` 指定）
 
 ### 档 A — 全局公共指标（`tier: global`）
-**只取那十来个对所有单元都一样的宏观/市场公共指标**（一个 LPR 全单元共用同一个值，保证约束链一致性）。这是薄薄一层，不是「把所有数据抓完」。
+**只取那些对所有单元都一样的宏观/市场公共指标**（一个 LPR 全单元共用同一个值，保证约束链一致性）。相对档 B 的逐单元深取，这仍是薄薄一层，不是「把所有数据抓完」。
 
-清单（取到几个写几个，取不到标 missing）：
-- 货币/利率：1年期 LPR、5年期 LPR、7天逆回购利率、10年期国债收益率
-- 物价/景气：CPI 同比、PMI（制造业）
-- 资金/汇率：北向资金当日净流入、人民币兑美元汇率（USDCNY）
-- 大宗/避险：布伦特原油、伦敦金/COMEX 黄金
+清单按**自上而下 7 个维度结构化覆盖**（取到几个写几个，取不到标 missing）。维度划分对齐真实多资产配置台的公共面板——既覆盖「信用驱动的 A 股」，也覆盖 v4 大类层自带的「海外敞口（纳指/标普/QDII）」：
 
-来源优先级：① 官方源（中国人民银行 / 国家统计局 / 上交所深交所 / 财政部）→ ② 主流财经数据公开页（东方财富/新浪财经/英为财情）。先 `web_search` 找最新读数与日期，再 `web_fetch` 核实。
+| 维度 | 指标（`indicators` key） | 服务对象 |
+|------|------------------------|----------|
+| 货币/利率 | 1年期 LPR `lpr_1y`、5年期 LPR `lpr_5y`、7天逆回购 `reverse_repo_7d`、10年期国债收益率 `cn10y`、期限利差(10Y-2Y) `term_spread` | 全单元（利率锚） |
+| 物价/景气 | CPI 同比 `cpi_yoy`、PPI 同比 `ppi_yoy`、制造业 PMI `pmi_mfg`、非制造业 PMI `pmi_nonmfg` | 全单元（景气面） |
+| 信用/流动性 | 社融存量同比 `tsf_yoy`、M2 同比 `m2_yoy`、两融余额 `margin_balance` | A 股权益/行业（信用脉冲） |
+| 汇率 | 人民币兑美元 `usdcny`、美元指数 `dxy` | 全单元 + 海外敞口 |
+| 跨市场/海外敞口 | 美10年期国债 `us10y`、联邦基金目标利率 `fed_funds`、标普500 `sp500`、纳斯达克综指 `nasdaq` | 大类层海外敞口 |
+| 风险情绪 | VIX 恐慌指数 `vix` | 全单元（risk-on/off） |
+| 大宗/避险 | 布伦特原油 `brent`、COMEX/伦敦金 `gold`、LME铜 `copper` | 大宗/贵金属/周期行业 |
+
+> 注：北向资金自 2024-08 起停止每日实时披露，不再纳入档 A 必取项；如需资金面信号，用两融余额 `margin_balance` 替代。
+
+来源优先级：① 官方源（中国人民银行 / 国家统计局 / 上交所深交所 / 财政部 / 美联储 FRED）→ ② 主流财经数据公开页（东方财富/新浪财经/英为财情/Investing）。先 `web_search` 找最新读数与日期，再 `web_fetch` 核实。**跨市场/海外指标（美10Y/DXY/标普/纳指/VIX）只服务大类层海外敞口，A 股行业/个股层不引用。**
 
 ### 档 B — 单元级深取（`tier: unit`，`selector` 指定单元）
 **真正的大量、深度取数在这里，按单元、按需进行，一个单元内可多次取**。按单元类型取：
@@ -58,12 +66,24 @@ tools:
     "lpr_5y":      {"value": null, "status": "missing", "note": "未取到"},
     "reverse_repo_7d": {"value": null, "status": "missing"},
     "cn10y":       {"value": null, "status": "missing"},
+    "term_spread": {"value": null, "status": "missing", "note": "10Y-2Y，可由 cn10y 与 2Y 派生"},
     "cpi_yoy":     {"value": null, "status": "missing"},
-    "pmi":         {"value": null, "status": "missing"},
-    "northbound_net": {"value": null, "status": "missing"},
+    "ppi_yoy":     {"value": null, "status": "missing"},
+    "pmi_mfg":     {"value": null, "status": "missing"},
+    "pmi_nonmfg":  {"value": null, "status": "missing"},
+    "tsf_yoy":     {"value": null, "status": "missing", "note": "社融存量同比"},
+    "m2_yoy":      {"value": null, "status": "missing"},
+    "margin_balance": {"value": null, "status": "missing", "note": "两融余额"},
     "usdcny":      {"value": null, "status": "missing"},
+    "dxy":         {"value": null, "status": "missing", "note": "美元指数"},
+    "us10y":       {"value": null, "status": "missing", "note": "美10年期国债，服务海外敞口"},
+    "fed_funds":   {"value": null, "status": "missing"},
+    "sp500":       {"value": null, "status": "missing"},
+    "nasdaq":      {"value": null, "status": "missing"},
+    "vix":         {"value": null, "status": "missing"},
     "brent":       {"value": null, "status": "missing"},
-    "gold":        {"value": null, "status": "missing"}
+    "gold":        {"value": null, "status": "missing"},
+    "copper":      {"value": null, "status": "missing", "note": "LME铜"}
   },
   "evidence": [{"claim": "1年期LPR 3.1% (2026-05-20)", "source_url": "http://www.pbc.gov.cn/...", "status": "verified"}]
 }
