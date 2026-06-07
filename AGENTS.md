@@ -239,6 +239,10 @@ v4 是一条**与 v3 完全并存、零侵入**的新链路：独立集合 `v4_u
 | `导入 v4` | 代跑产物导入 Mongo | `import_v4.py --user-id <id>` |
 | `v4 报告` / `体检` | 逐单元体检 | `run_report_v4.py` |
 | `v4 快照` | 生成前端静态快照 | `build_snapshot_v4.py` |
+| `我的持仓是…` / `更新持仓` / `录入持仓` | 解析口述 → 写入 holdings.json | AI 解析并写 `data/v4/_inputs/holdings.json` |
+| `加一笔 XX` / `新买了 XX` | 追加持仓条目 | 读 → 追加 → 写回 |
+| `卖了 XX` / `清仓 XX` | 移除持仓条目 | 读 → 删除 → 写回 |
+| `看看我的持仓` / `当前持仓` | 展示持仓 | 读取并格式化展示 |
 
 所有命令默认带 `--user-id $V4_USER_ID --portfolio-file data/v4/_inputs/holdings.json`。`分析` = 有缓存则跳过；`刷新` = 强制重跑。未指定行业/个股时 AI 应列出可选项让用户选择，**不猜测**。
 
