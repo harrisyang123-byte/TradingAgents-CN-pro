@@ -93,6 +93,14 @@ export interface V4Overview {
 }
 
 // ── Tab2 大类详情 ─────────────────────────────────────────────────────
+export interface ReflectionData {
+  prev_stance?: string | null
+  prev_date?: string | null
+  what_changed?: string
+  why_changed?: string
+  self_check?: string
+}
+
 export interface AssetVerdict {
   stance?: string
   situation?: string
@@ -100,6 +108,8 @@ export interface AssetVerdict {
   risks?: string[]
   trend?: string
   confidence?: string
+  // §5.9 B：结果闭环反思（Layer 1，跨版本自省），首跑 self_check='first_run'
+  reflection?: ReflectionData | null
 }
 
 export interface PlanInstrument {
@@ -134,6 +144,9 @@ export interface AssetDetail {
   verdict: AssetVerdict | null
   tradable: Array<{ code?: string; name?: string; note?: string; weight?: number }>
   holding_only_exposure: number
+  // §5.9 A：大类多空辩论 + 三专项分析师（所有大类通用，DebateRound 复用 Tab3 类型）
+  debate_rounds: DebateRound[]
+  analysts?: Record<string, any>
   // 非权益分支
   plan_unit?: UnitMeta
   plan?: AssetPlan | null

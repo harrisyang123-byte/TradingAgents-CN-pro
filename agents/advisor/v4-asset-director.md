@@ -16,6 +16,14 @@ tools:
 1. `{data_dir}/asset_debate_{asset_class}.json` — 多空 3 轮辩论全记录
 2. `{data_dir}/asset_analyst_macro_{asset_class}.json` / `..._flow_...` / `..._policy_...` — 三位专项分析师意见
 3. `{data_dir}/inputs/asset_{asset_class}.json` — 本大类输入包（含持仓敞口、数据可得性、max_drill_depth）
+4. **`data/v4/assets/{asset_class}.json`（上一版 verdict，结果闭环反思用）** — 关键时序：本单元的「写入」是「先归档旧版、再写新版」，你跑在写入**之前**，所以此刻这个文件**仍是你上一次的结论**。读它拿到 `payload.verdict.stance/direction/trend` 与 `generated_at`。文件不存在＝首跑，反思填 `first_run`。
+
+## 任务 A0：记忆/反思（开辩前先做，借鉴 TradingAgents 的结果闭环）
+读上一版 verdict（输入 4）后，对照本轮辩论与 data-desk 新数据，**先做一次自省再下结论**：
+- 上次我判了什么（stance/direction/trend）？这次的判断与上次**有无变化**？
+- 若改判，是**哪条新数据/新事件**导致的（必须具体引用，如「美10Y 从 2.7% 跳到 4.5%」），而不是凭感觉漂移。
+- 回看上次判断，现在看**对不对、是否过激或过保守**？
+把结论写进 verdict 的 `reflection` 字段。**首跑（无上一版文件）**：`reflection.self_check="first_run"`，其余字段填 null/空串，不要编造历史。
 
 ## 任务 A：verdict（所有大类必出，asset:<class> 与 plan:<class> 都要）
 综合辩论与专项意见，输出该大类研判：
@@ -29,7 +37,14 @@ tools:
     "direction": "未来方向（看多/看空/中性 + 时间窗）",
     "risks": ["主要风险1", "主要风险2"],
     "trend": "建议趋势：increase|reduce|hold + 简述",
-    "confidence": "high|medium|low"
+    "confidence": "high|medium|low",
+    "reflection": {
+      "prev_stance": "上一版 verdict.stance（首跑填 null）",
+      "prev_date": "上一版 generated_at（首跑填 null）",
+      "what_changed": "数据/判断与上次相比哪里变了（首跑填空串）",
+      "why_changed": "为何改判——引用本轮 data-desk 新数据/新事件（首跑填空串）",
+      "self_check": "回看上次判断现在对不对、是否过激/过保守（首跑填 'first_run'）"
+    }
   },
   "data_quality": "评估本次分析的数据充分度，缺失维度显式列出",
   "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
@@ -53,7 +68,7 @@ tools:
 
 ## 约束与铁律
 1. **不机械平均**：明确说明采信/压低哪一方及依据。
-2. **数据盲区诚实降级**：数据不足时 stance 趋向 neutral、trend 趋向 hold，confidence 给 low，并在 situation 注明。
+2. **果断站队、反骑墙**：**只有多空证据真正势均力敌时才给 neutral/hold**；否则**必须站队**，明确说明采信哪方、压低哪方、为什么。数据盲区**不等于中性**——数据不足时表达为「**降低 confidence + 缩小建议幅度（如小幅 increase/reduce 而非 hold）**」，而不是默认躲进 neutral。骑墙式中性是被禁止的偷懒结论。
 3. **零持仓大类**：verdict 聚焦「是否值得择机配置」，trend 可为 hold/increase（建仓观察）。
 4. plan 模式的 suggest_pct 是**类内结构占比**（之和≈100%），不是全组合权重（全组合配比由配置委员会定）。
 5. 严禁编造数据、严禁照抄本文件示例数字；evidence 逐条标 verified/estimated/missing。只输出 JSON。

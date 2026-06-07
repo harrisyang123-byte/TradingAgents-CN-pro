@@ -30,12 +30,61 @@
               {{ r }}
             </el-tag>
           </div>
+
+          <!-- §5.9 B：较上次 / 自检（结果闭环反思 Layer 1），首跑或无历史不显示 -->
+          <div
+            v-if="detail.verdict.reflection && detail.verdict.reflection.self_check !== 'first_run'"
+            class="adt-reflection"
+          >
+            <div class="adt-reflection-tag">较上次 / 自检</div>
+            <p v-if="detail.verdict.reflection.prev_stance">
+              <b>上次结论：</b>{{ stanceText(detail.verdict.reflection.prev_stance) }}
+              <span v-if="detail.verdict.reflection.prev_date" class="adt-reflection-date">
+                （{{ detail.verdict.reflection.prev_date }}）
+              </span>
+            </p>
+            <p v-if="detail.verdict.reflection.what_changed"><b>变化：</b>{{ detail.verdict.reflection.what_changed }}</p>
+            <p v-if="detail.verdict.reflection.why_changed"><b>改判原因：</b>{{ detail.verdict.reflection.why_changed }}</p>
+            <p v-if="detail.verdict.reflection.self_check"><b>自检：</b>{{ detail.verdict.reflection.self_check }}</p>
+          </div>
         </div>
         <EmptyUnitState
           v-else
           title="尚未深析此大类"
           :cli-hint="detail.asset_unit.cli_hint"
         />
+      </div>
+
+      <!-- §5.9 A：大类深辩历程（折叠）+ 三专项分析师 -->
+      <div v-if="detail.debate_rounds?.length" class="card adt-debate">
+        <el-collapse>
+          <el-collapse-item :title="`大类深辩历程（${detail.debate_rounds.length} 轮 多空辩论）`" name="debate">
+            <div v-for="rd in detail.debate_rounds" :key="rd.round" class="adt-round">
+              <div class="adt-round-no">第 {{ rd.round }} 轮</div>
+              <div class="adt-duel">
+                <div class="adt-bull">
+                  <div class="adt-side-tag adt-tag-bull">多头</div>
+                  <p>{{ extractText(rd.bull) }}</p>
+                </div>
+                <div class="adt-bear">
+                  <div class="adt-side-tag adt-tag-bear">空头</div>
+                  <p>{{ extractText(rd.bear) }}</p>
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+
+          <el-collapse-item
+            v-if="analystList.length"
+            :title="`专项分析师视角（${analystList.length} 位）`"
+            name="analysts"
+          >
+            <div v-for="a in analystList" :key="a.key" class="adt-analyst">
+              <div class="adt-analyst-tag">{{ a.label }}</div>
+              <p>{{ a.text }}</p>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
       </div>
 
       <!-- 权益：行业表格（AC8.2 权益） -->
@@ -90,12 +139,37 @@ defineEmits<{ (e: 'open-industry', name: string): void }>()
 
 const { detail, loading, load } = useAssetDetail()
 
+const STANCE_ZH: Record<string, string> = { bullish: '看多', bearish: '看空', neutral: '中性' }
+
 const stanceLabel = computed(
-  () => ({ bullish: '看多', bearish: '看空', neutral: '中性' }[detail.value?.verdict?.stance || ''] || detail.value?.verdict?.stance),
+  () => STANCE_ZH[detail.value?.verdict?.stance || ''] || detail.value?.verdict?.stance,
 )
 const stanceType = computed(
   () => ({ bullish: 'success', bearish: 'danger', neutral: 'info' }[detail.value?.verdict?.stance || ''] || 'info') as 'success' | 'danger' | 'info',
 )
+
+function stanceText(s?: string | null): string {
+  if (!s) return ''
+  return STANCE_ZH[s] || s
+}
+
+// 照搬行业层：辩论 side 可能是字符串或对象，统一抽文本
+function extractText(side: any): string {
+  if (!side) return ''
+  if (typeof side === 'string') return side
+  return side.thesis || side.challenge || side.reasoning || JSON.stringify(side).slice(0, 300)
+}
+
+// 三专项分析师（macro/flow/policy）→ 展示用列表
+const ANALYST_LABEL: Record<string, string> = { macro: '宏观', flow: '资金', policy: '政策' }
+const analystList = computed(() => {
+  const a = detail.value?.analysts || {}
+  return Object.keys(a).map((key) => ({
+    key,
+    label: ANALYST_LABEL[key] || key,
+    text: a[key]?.reasoning || extractText(a[key]),
+  }))
+})
 
 watch(() => props.assetClass, (c) => { if (c) load(c) }, { immediate: true })
 </script>
@@ -136,6 +210,51 @@ watch(() => props.assetClass, (c) => { if (c) load(c) }, { immediate: true })
   gap: 6px;
   align-items: center;
 }
+.adt-reflection {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-left: 3px solid #409eff;
+  background: #f4f8ff;
+  border-radius: 4px;
+}
+.adt-reflection-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #409eff;
+  margin-bottom: 6px;
+}
+.adt-reflection p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #606266;
+  line-height: 1.6;
+}
+.adt-reflection-date { color: #909399; }
+.adt-debate {
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #ebeef5;
+  border-radius: 8px;
+  background: #fff;
+}
+.adt-round { margin-bottom: 14px; }
+.adt-round-no { font-weight: 700; color: #909399; font-size: 12px; margin-bottom: 6px; }
+.adt-duel { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.adt-side-tag { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 8px; margin-bottom: 4px; }
+.adt-tag-bull { background: #f0f9eb; color: #67c23a; }
+.adt-tag-bear { background: #fef0f0; color: #f56c6c; }
+.adt-duel p { font-size: 12px; color: #606266; line-height: 1.5; margin: 0; }
+.adt-analyst { margin-bottom: 12px; }
+.adt-analyst-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  background: #ecf5ff;
+  color: #409eff;
+}
+.adt-analyst p { font-size: 12px; color: #606266; line-height: 1.5; margin: 0; }
 .adt-body {
   padding: 16px;
   border: 1px solid #ebeef5;

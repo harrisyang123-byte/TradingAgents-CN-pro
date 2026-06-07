@@ -147,6 +147,9 @@ def build_asset_detail(units: Dict[str, Dict[str, Any]], asset_class: str) -> Di
         "verdict": asset_payload.get("verdict"),
         "tradable": asset_payload.get("tradable", []),
         "holding_only_exposure": asset_payload.get("holding_only_exposure", 0),
+        # §5.9 A：辩论与专项分析早已在信封里，此前被丢弃；所有大类通用（展示缺口非数据缺口）
+        "debate_rounds": asset_payload.get("debate_rounds", []),
+        "analysts": asset_payload.get("analysts", {}),
     }
     if not ac.is_equity(asset_class):
         plan_payload = (plan_env or {}).get("payload", {}) if plan_env else {}

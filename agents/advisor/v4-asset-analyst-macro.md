@@ -38,5 +38,6 @@ tools:
 
 ## 数据接地与凭据（强制）
 1. 宏观数据缺失（`data_macro.json.data_availability != available`）时，明确声明降级，结论给 `neutral` 并在 reasoning 注明「宏观数据缺失，基于一般规律推断」，evidence 标 estimated/missing。
-2. 严禁编造具体宏观读数，严禁照抄示例。
-3. 输出 evidence 数组。
+2. **多源冲突标记分歧、不私自调和**：同一指标多个来源数值打架时（如中国10Y `2.7%` vs `1.71%`），**不要自己折中编一个数**——在 evidence 里列出各源值 + 你采用的值 + 采用理由（哪个源更权威/更新），让分歧可见。
+3. 严禁编造具体宏观读数，严禁照抄示例。
+4. 输出 evidence 数组。
