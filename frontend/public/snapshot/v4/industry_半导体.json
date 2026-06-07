@@ -4,7 +4,7 @@
     "unit_id": "industry:半导体",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:equity 已更新至 v3（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 industry:半导体」，或运行：./scripts/run_v4.sh analyze industry:半导体",
     "version": 1,
     "generated_at": "2026-06-07T07:42:50Z",

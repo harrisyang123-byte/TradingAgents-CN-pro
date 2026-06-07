@@ -40,11 +40,11 @@
     "asset:equity": {
       "unit_id": "asset:equity",
       "unit_type": "asset",
-      "version": 2,
-      "fingerprint": "sha256:45b297bf64eaf3b943ee65bf7aff4b7c0f4c42158b1e859cf2047658be6811e1",
+      "version": 3,
+      "fingerprint": "sha256:e8bac86e0f0484b46029cfe7623793b235893bdafa47de66b7a7c694ad8eae92",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T09:11:27Z",
+      "generated_at": "2026-06-07T12:26:30Z",
       "upstream": [],
       "error": null,
       "path": "assets/equity.json"
@@ -880,5 +880,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-07T10:47:07Z"
+  "updated_at": "2026-06-07T12:26:37Z"
 }
