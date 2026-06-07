@@ -40,6 +40,7 @@
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
 
 ### v4 分层独立深度投研
+- [v4 产品架构图（规范真源）](v4-architecture.md) — 6 横层×3 纵深 + 通用能力层（data-desk 取数/辩论分离）+ 五级存储 + 双跑闭环
 - [v4 全量分析执行计划（P0–P5）](v4-full-analysis-plan.md) — 活文档：归类修复 + Agent 补强决策 + 5 阶段验证闸 + 执行记录
 - [v4 AI 代跑指南](v4-ai-proxy-run.md) — 本会话 AI 直跑 / claude -p 双驱动 + 文件总线回传
 
