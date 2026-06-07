@@ -733,6 +733,9 @@ app.include_router(multi_source_sync.router)
 app.include_router(paper_router.router, prefix="/api", tags=["portfolio"])
 app.include_router(portfolio_analysis_router.router, tags=["portfolio-analysis"])
 app.include_router(watchlist_router.router, prefix="/api", tags=["watchlist"])
+# v4 分层独立深度投研系统（只读 + 导入；触发链路在 CLI/本地，不经 Web）
+from app.routers import portfolio_v4 as portfolio_v4_router
+app.include_router(portfolio_v4_router.router, prefix="/api", tags=["portfolio-v4"])
 app.include_router(fund_router.router, prefix="/api", tags=["fund"])
 app.include_router(tushare_init.router, prefix="/api", tags=["tushare-init"])
 app.include_router(akshare_init.router, prefix="/api", tags=["akshare-init"])

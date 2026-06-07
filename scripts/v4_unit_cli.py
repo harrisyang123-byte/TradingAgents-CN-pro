@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+"""v4_unit_cli.py — v4 编排器辅助 CLI（供 workflow-v4-advisor.js 通过 Bash 调用）
+
+把单元锁、信封写入、上游版本解析、指纹计算等存储操作收敛到此，
+让 JS 编排器保持轻薄、只管 agent 辩论编排。
+
+子命令：
+  lock     <unit_id>                    获取运行锁（已锁→退出码 3，AC4.7）
+  unlock   <unit_id>                    释放锁
+  upstream <unit_id>                    打印上游单元当前 {version,fingerprint}（JSON）
+  fingerprint <file1> [file2 ...]       计算输入文件集指纹
+  write    <unit_id> --payload <f> [opts]  写单元信封（version+1，更新索引）
+  build-upstream <ref1> [ref2 ...]      根据上游 unit_id 列表组装 upstream[]（JSON）
+"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
+from app.services.v4 import v4_state, v4_unit_store as store  # noqa: E402
+
+
+def _build_upstream(unit_ids):
+    """根据上游 unit_id 组装 upstream[]（取各上游当前 version+fingerprint）。"""
+    out = []
+    for uid in unit_ids:
+        env = store.read_unit(uid)
+        if env is None:
+            idx = store.load_index().get("units", {}).get(uid)
+            if idx:
+                out.append({"unit_id": uid, "version": idx.get("version"),
+                            "fingerprint": idx.get("fingerprint")})
+            else:
+                out.append({"unit_id": uid, "version": None, "fingerprint": None})
+        else:
+            out.append({"unit_id": uid, "version": env.get("version"),
+                        "fingerprint": env.get("fingerprint")})
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="v4 编排器辅助 CLI")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+
+    s_lock = sub.add_parser("lock"); s_lock.add_argument("unit_id")
+    s_unlock = sub.add_parser("unlock"); s_unlock.add_argument("unit_id")
+    s_up = sub.add_parser("upstream"); s_up.add_argument("unit_id")
+    s_fp = sub.add_parser("fingerprint"); s_fp.add_argument("files", nargs="+")
+    s_bu = sub.add_parser("build-upstream"); s_bu.add_argument("refs", nargs="*")
+
+    s_w = sub.add_parser("write")
+    s_w.add_argument("unit_id")
+    s_w.add_argument("--payload", required=True, help="payload JSON 文件路径")
+    s_w.add_argument("--fingerprint", default="")
+    s_w.add_argument("--upstream", default="", help="upstream JSON 数组（或 unit_id 逗号列表）")
+    s_w.add_argument("--run-mode", default="local")
+    s_w.add_argument("--status", default="green")
+    s_w.add_argument("--error", default="")
+    s_w.add_argument("--ttl-days", type=int, default=None)
+
+    args = ap.parse_args()
+
+    if args.cmd == "lock":
+        try:
+            store.acquire_lock(args.unit_id)
+            print("LOCKED_OK")
+            return 0
+        except store.LockError as e:
+            print(f"ALREADY_LOCKED {e}", file=sys.stderr)
+            return 3
+
+    if args.cmd == "unlock":
+        store.release_lock(args.unit_id)
+        print("UNLOCKED")
+        return 0
+
+    if args.cmd == "upstream":
+        env = store.read_unit(args.unit_id)
+        if env:
+            print(json.dumps({"unit_id": args.unit_id, "version": env.get("version"),
+                              "fingerprint": env.get("fingerprint"),
+                              "status": env.get("status")}, ensure_ascii=False))
+        else:
+            print(json.dumps({"unit_id": args.unit_id, "version": None}, ensure_ascii=False))
+        return 0
+
+    if args.cmd == "fingerprint":
+        print(v4_state.fingerprint(args.files))
+        return 0
+
+    if args.cmd == "build-upstream":
+        print(json.dumps(_build_upstream(args.refs), ensure_ascii=False))
+        return 0
+
+    if args.cmd == "write":
+        payload = {}
+        pf = Path(args.payload)
+        if pf.exists():
+            try:
+                payload = json.loads(pf.read_text(encoding="utf-8"))
+            except (OSError, ValueError) as e:
+                print(f"payload 读取失败: {e}", file=sys.stderr)
+                return 1
+        # upstream：JSON 数组 或 逗号分隔 unit_id 列表
+        upstream = []
+        up_raw = (args.upstream or "").strip()
+        if up_raw:
+            if up_raw.startswith("["):
+                try:
+                    upstream = json.loads(up_raw)
+                except ValueError:
+                    upstream = []
+            else:
+                upstream = _build_upstream([x.strip() for x in up_raw.split(",") if x.strip()])
+
+        env = store.new_envelope(
+            args.unit_id,
+            payload,
+            fingerprint=args.fingerprint,
+            upstream=upstream,
+            run_mode=args.run_mode,
+            status=args.status,
+            error=(args.error or None),
+            ttl_days=args.ttl_days,
+        )
+        written = store.write_unit(env, bump_version=True)
+        print(json.dumps({"unit_id": args.unit_id, "version": written["version"],
+                          "status": written["status"]}, ensure_ascii=False))
+        return 0
+
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,16 @@
+{
+  "positions": [
+    {"code": "600519", "name": "贵州茅台", "weight": 15, "market_value": 150000, "instrument_type": "stock"},
+    {"code": "00700", "name": "腾讯控股", "weight": 10, "market_value": 100000, "instrument_type": "stock"},
+    {"code": "AAPL", "name": "Apple Inc", "weight": 8, "market_value": 80000, "instrument_type": "stock"},
+    {"code": "511990", "name": "华宝添益货币ETF", "weight": 12, "market_value": 120000, "instrument_type": "fund"},
+    {"code": "511260", "name": "十年国债ETF", "weight": 10, "market_value": 100000, "instrument_type": "fund"},
+    {"code": "518880", "name": "华安黄金ETF", "weight": 8, "market_value": 80000, "instrument_type": "fund"},
+    {"code": "159985", "name": "豆粕ETF商品期货", "weight": 5, "market_value": 50000, "instrument_type": "fund"},
+    {"code": "180101", "name": "中金普洛斯REIT", "weight": 5, "market_value": 50000, "instrument_type": "fund"},
+    {"code": "", "name": "活期存款", "weight": 7, "market_value": 70000, "instrument_type": "cash"},
+    {"code": "", "name": "实物房产-自住房", "weight": 0, "market_value": 500000, "instrument_type": "other"},
+    {"code": "BTC", "name": "比特币", "weight": 3, "market_value": 30000, "instrument_type": "other"},
+    {"code": "XYZ999", "name": "某神秘标的", "weight": 2, "market_value": 20000, "instrument_type": "other"}
+  ]
+}
