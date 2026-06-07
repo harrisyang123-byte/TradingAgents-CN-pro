@@ -5,32 +5,49 @@
   "max_drill_depth": "instrument",
   "asset_unit": {
     "unit_id": "asset:precious_metal",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:precious_metal」，或运行：./scripts/run_v4.sh analyze asset:precious_metal",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "bullish",
+    "situation": "金价$4,460历史高位的结构性牛市(央行购金+去美元化+地缘避险)，近期高位震荡。",
+    "direction": "战略看多，作为核心避险底仓；当前2.9%偏低，逢回调分批增配至5-8%战略权重。",
+    "risks": [
+      "美联储转鹰/实际利率上行压制无息资产",
+      "历史高位动量见顶回撤",
+      "高位单点重仓的择时风险"
+    ],
+    "trend_advice": "战略底仓，回调分批增至5-8%，控制入场节奏不追高",
+    "confidence": "high"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:precious_metal",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:precious_metal」，或运行：./scripts/run_v4.sh analyze plan:precious_metal",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:precious_metal",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }

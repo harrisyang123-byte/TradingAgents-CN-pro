@@ -1,0 +1,116 @@
+{
+  "industry": "创新药",
+  "industry_unit": {
+    "unit_id": "industry:创新药",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:创新药」，或运行：./scripts/run_v4.sh analyze industry:创新药",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:portfolio",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "asset:equity",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "verdict": {
+    "direction": "go",
+    "vitality_level": "medium_high",
+    "allocation_advice": "景气回升的结构性机会，标配偏多；以医疗ETF分散，新和成偏化工/维生素另计。",
+    "suggested_weight_pct": 3
+  },
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "创新药出海/license-out兑现、集采影响出清，医保支持创新；估值修复中。",
+      "bear": "研发不确定+融资环境、医保控费长期压制；个股分化大。"
+    },
+    {
+      "round": 2,
+      "bull": "(承上)景气与政策支撑中期方向",
+      "bear": "(承上)地缘与估值约束短期空间"
+    },
+    {
+      "round": 3,
+      "bull": "维持方向，强调分批与龙头",
+      "bear": "认同分批、控制单一暴露"
+    }
+  ],
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:创新药",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:创新药」，或运行：./scripts/run_v4.sh analyze alloc:industry:创新药",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:equity_industries",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "stock:002001",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "stock_weights": [
+    {
+      "name": "医疗ETF009881",
+      "w": 2.2,
+      "type": "etf"
+    },
+    {
+      "name": "新和成002001",
+      "w": 0.8,
+      "type": "stock"
+    }
+  ],
+  "stocks": [
+    {
+      "unit_id": "stock:002001",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
+      "version": 1,
+      "generated_at": "2026-06-07T07:42:50Z",
+      "ttl_days": 5,
+      "upstream": [
+        {
+          "unit_id": "alloc:equity_industries",
+          "version": 1,
+          "fingerprint": ""
+        },
+        {
+          "unit_id": "industry:创新药",
+          "version": 1,
+          "fingerprint": ""
+        }
+      ],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "002001",
+      "name": "新和成",
+      "rating": null,
+      "target_price": null
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "unit_id": "asset:real_estate",
+  "unit_type": "asset",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:36:52Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "real_estate",
+    "current_weight": 0.0,
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "国内公募REITs(产业园/仓储物流/保障房/能源)提供4-6%分派率，低利率(10Y2.7%)环境下相对吸引；政策持续扩容REITs；当前零配置可小幅纳入做收益增强+分散。",
+        "bear": "房地产板块结构性下行未完、地产开发商风险高、市场情绪低迷；实物房产流动性差、不在可投范围；REITs二级波动也受利率与基本面双重影响。"
+      },
+      {
+        "round": 2,
+        "bull": "区分对待——回避住宅开发商，聚焦经营性基础设施REITs(现金流稳定、政策支持)，作为类固收的收益型配置而非地产β。",
+        "bear": "REITs在中国仍是新兴品种、流动性与定价效率有限，单一项目经营风险集中；不宜高配。"
+      },
+      {
+        "round": 3,
+        "bull": "结论倾向：中性偏谨慎，仅选择性配置经营性基础设施REITs(小仓位、收益型)，明确回避地产开发链与实物房产。",
+        "bear": "认同选择性REITs且小仓位，强调挑现金流稳健的底层资产。"
+      }
+    ],
+    "verdict": {
+      "stance": "neutral",
+      "situation": "地产开发链结构性承压，但低利率环境下经营性基础设施REITs具收益型配置价值。",
+      "direction": "选择性配置基础设施REITs(小仓位、类固收收益型)，回避地产开发商与实物房产β。",
+      "risks": [
+        "地产板块结构性下行",
+        "REITs流动性/定价效率有限",
+        "单一项目经营风险集中",
+        "利率上行压制REITs估值"
+      ],
+      "trend_advice": "仅小仓位精选经营性基础设施REITs做收益增强，回避开发链",
+      "confidence": "medium"
+    },
+    "evidence": [
+      {
+        "claim": "国内公募REITs分派率约4-6%，低利率环境相对吸引(行业一般水平，口径估算)",
+        "source_url": "llm_knowledge+10Y2.7%(data_macro.json)",
+        "status": "estimated"
+      }
+    ],
+    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+  }
+}

@@ -296,6 +296,7 @@ data/v4/                              # 已在 .gitignore（含敏感财务，�
 
 | Agent 文件 | 角色 | 部门 | 输出 |
 |-----------|------|------|------|
+| `v4-data-desk.md` | **数据采集台（唯一带 web 工具）** | **通用能力层（各层共用）** | 两档取数 → `inputs/data_macro.json` + `inputs/<单元>.json`（每项 evidence verified+URL） |
 | `v4-asset-bull.md` | 多头研究员 | 大类研究 | 看多论点 + evidence |
 | `v4-asset-bear.md` | 空头研究员 | 大类研究 | 看空/风险论点 + evidence |
 | `v4-asset-analyst-macro.md` | 宏观视角分析师 | 大类研究 | 利率/通胀/周期 |
@@ -312,6 +313,8 @@ data/v4/                              # 已在 .gitignore（含敏感财务，�
 | `v4-stock-director.md` | 行业内研究总监 | 行业内研究 | 个股评级/目标价 + 行业内配比 |
 
 > 辩论轮次：大类/行业固定 3 轮（AC2.2），编排器循环 append `debate_rounds[]`，总监最后拍板。角色 prompt 沿用 v3 GROUNDING 凭据契约（evidence + verified/estimated/missing）。
+>
+> **取数/辩论分离（§5.8 优化）**：上表 14 个辩论/分析角色全部 `tools: [Read]`，**只消费 `v4-data-desk` 产出的输入包、绝不自己联网取数**；唯一带 `web_search`/`web_fetch` 的 Agent 是 `v4-data-desk`。这解决了原设计「14 个 Agent 各自重复解读宏观、且只有 Read 工具却被要求联网」的矛盾。详见 §5.8。
 
 ### 5.4 关键 payload schema（按单元类型，FR-009 同构）
 
@@ -374,7 +377,82 @@ Overview.vue（顶部 el-tabs）
 - 公共组件 `UnitStatusBadge.vue`（五色 + stale 文案 + `cli_hint` tooltip，AC8.4）；`EmptyUnitState.vue`（空态 + CLI 引导，AC8.5）。
 - 数据源统一封装 `useV4Units.ts`：`VITE_STATIC_SNAPSHOT=1` 时 fetch `snapshot/v4/*.json`，否则走 API（FR-009 双来源同构解析）。
 
+### 5.8 通用能力层与数据采集台 `v4-data-desk`（★架构优化，取数/辩论分离）
+
+> 本节是 `docs/wiki/v4-architecture.md`（规范架构图）落到详细设计的实现规格。把原本散在 14 个辩论 Agent prompt 里的「自行联网补齐」抽成**一个共享的数据采集 Agent**，借鉴 [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) 的 Analyst-toolkit / Researcher-debate 分层。
+
+#### 5.8.1 为什么要这一层（解决的矛盾）
+
+| 旧设计问题 | 本节方案 |
+|-----------|---------|
+| 14 个辩论 Agent 各自解读宏观，N 个单元重复取同一份 LPR/CPI/北向，且各单元读数可能对不齐 → 破坏约束链一致性 | 公共指标 **run 级取一次、全单元同源共读**，一致性由「同源同指纹」构造保证 |
+| 辩论 Agent `tools:[Read]` 却被 prompt 要求「联网补齐」——空头支票，做不到 | 联网集中到唯一带 `web_search`/`web_fetch` 的 `v4-data-desk`；辩论 Agent 维持 Read-only |
+| akshare/Mongo 在 Pod 缺失即静默降级标 missing/编造 | data-desk 联网兜底，取到标 `verified`+URL；取不到才 `missing` 并显式提示，**严禁编造** |
+
+#### 5.8.2 两档取数（消除重复 + 保证一致）
+
+| 档 | 取什么 | 时机 | 产物 | 谁消费 |
+|----|--------|------|------|--------|
+| **档 A 全局公共指标**（薄薄一层、十来个数） | LPR、7天逆回购、CPI、PMI、北向资金、人民币汇率、原油、金价、10Y 国债收益率 | **run 起手取一次**（`data_macro.json` 在 TTL 内则跳过，复用同源） | `inputs/data_macro.json` | 全部 7 大类 + 所有行业 + 所有个股**共读同一份** |
+| **档 B 单元级深取**（重活在此、按需多次） | 权益→行业景气/估值；固收→收益率曲线/信用利差；大宗→库存/期货升贴水；个股→财报/资金流 | **触发该单元时**、单元内可多次取 | `inputs/<单元>.json` 的 `desk_*` 字段 | 仅该单元的部门 |
+
+- 心智模型：data-desk 是「**按单元调用的取数角色**」——深研到哪个单元就为它深取一轮，**不是**开跑前抓完全宇宙数据的批处理。
+- 档 A 的「run 级一次」在 CLI 单元粒度运行下落为：**`data_macro.json` 带 `fetched_at`+`ttl_hours`（默认当个交易日内有效）；data-desk 启动先检查其新鲜度，新鲜则复用、过期才重取**——这样跨多次 `run_v4.sh analyze <unit>` 调用也能同源共读。
+
+#### 5.8.3 `data_macro.json` 升级后 schema（档 A 产物）
+
+```jsonc
+{
+  "source": "v4-data-desk",                 // 旧 needs_fetch/market_signals 之外的新来源
+  "data_availability": "available",          // available | partial | unavailable
+  "fetched_at": "2026-06-07T09:00:00Z",
+  "ttl_hours": 12,
+  "indicators": {
+    "lpr_1y": {"value": 3.1, "unit": "%", "as_of": "2026-05-20",
+               "status": "verified", "source_url": "http://www.pbc.gov.cn/..."},
+    "cpi_yoy": {"value": 0.3, "unit": "%", "as_of": "2026-04", "status": "verified", "source_url": "..."},
+    "northbound_net": {"value": null, "status": "missing", "note": "未取到当日北向净流入"}
+    // … pmi / reverse_repo_7d / usdcny / brent / gold / cn10y
+  },
+  "evidence": [{"claim":"1年期LPR 3.1%","source_url":"...","status":"verified"}]
+}
+```
+
+每个指标自带 `status`（verified/estimated/missing）+ `source_url`，下游辩论 Agent 引用时直接继承凭据，无需自己核实。
+
+#### 5.8.4 编排器接入点（`workflow-v4-advisor.js`）
+
+在 `main()` 跑具体部门**之前**插入一个 `ensureDataDesk(sel)` 阶段：
+
+```
+main(sel)
+  ├─ ensureDataDesk(sel)                       // ★新增
+  │    ├─ 档A：data_macro.json 不存在/过期 → agent('v4-data-desk', {tier:'global'}) → 写 inputs/data_macro.json
+  │    └─ 档B：按 sel.type 取该单元深数据 → agent('v4-data-desk', {tier:'unit', selector}) → 写 inputs/<单元>.json 的 desk_* 字段
+  └─ runAssetDepartment / runIndustryDepartment / runStockDepartment / runAllocation*  // 不变，只 Read 输入包
+```
+
+- `ensureDataDesk` 是编排器内唯一调用带 web 工具 Agent 的地方；其余 `agent()` 调用全是 Read-only 辩论角色，**一行不改**。
+- `alloc:*` 单元只读上游落盘单元、不需要档 B 深取，仅确保档 A `data_macro.json` 新鲜。
+
+#### 5.8.5 `collect_v4.py` 职责退化
+
+collect_v4 从「取数 + 拼包」**退化为「持仓穿透归类 + 拼输入包骨架」**：
+
+- **保留**：`classify_holdings` 七大类穿透归类、按单元类型拼 `asset_/plan_/industry_/stock_` 包的**骨架结构**（字段占位）。
+- **移除/降级**：`build_macro_snapshot()` 的 best-effort 联网与 `score_all_industries`/个股基本面的 best-effort 抓取——这些**改由 data-desk 在 stage2 联网取**。collect 阶段只写 `data_macro.json` 的占位（`source:"pending_data_desk"`），或在 data-desk 接入前保持 `needs_fetch` 兼容。
+- 好处：stage1 变成纯 Python、零网络依赖、永远成功；所有联网取数收敛到 stage2 的 data-desk（有 web 工具、有凭据契约）。
+
+> 兼容策略：data-desk 落地前，编排器若检测不到 `v4-data-desk.md` 或运行环境无 web 工具，回落到「collect_v4 best-effort + needs_fetch 占位」旧路径——**不阻断**，仅在 run_report 标注「宏观未联网核实」。
+
+#### 5.8.6 `v4-data-desk.md` Agent 契约要点
+
+- frontmatter：`tools: [Read, web_search, web_fetch]`（**唯一开 web 的 v4 Agent**）。
+- 入参：`tier`（global|unit）、`selector`、`data_dir`。
+- 铁律：① 只取数、不做投资研判（研判是辩论部门的职责）；② 每个数字必须 `verified`+`source_url` 或显式 `missing`，**严禁编造/套用示例**；③ 优先官方源（PBoC/统计局/交易所/Wind 公开页），取不到再标 missing；④ 输出严格 JSON，写回 data_dir 由编排器 Bash 落盘。
+
 ---
+
 
 ## 六、分阶段落地建议（staged，对齐 requirements 边界声明）
 
@@ -394,11 +472,12 @@ Overview.vue（顶部 el-tabs）
 
 ```
 agents/advisor/
-└── v4-*.md                          # 14 个部门角色（§5.3，新增）
+├── v4-data-desk.md                  # ★通用能力层：数据采集台（唯一带 web 工具，§5.8，新增）
+└── v4-*.md                          # 14 个部门角色（§5.3，Read-only，新增）
 scripts/
-├── workflow-v4-advisor.js           # v4 单元调度编排器（新增）
+├── workflow-v4-advisor.js           # v4 单元调度编排器；main() 前插 ensureDataDesk 阶段（§5.8.4，新增/改动）
 ├── run_v4.sh                        # CLI 入口：analyze/refresh/status/scan（新增）
-├── collect_v4.py                    # 数据采集（扩展 collect_data.py 思路，新增）
+├── collect_v4.py                    # 退化为「持仓归类 + 拼包骨架」，联网取数交 data-desk（§5.8.5，新增/改动）
 ├── import_v4.py                     # 幂等 upsert 入 v4_units（新增）
 ├── build_snapshot_v4.py             # v4 同构静态快照（新增）
 ├── run_report_v4.py                 # 单元级运行报告（新增）
@@ -426,7 +505,7 @@ frontend/src/views/Portfolio/
 | 风险 | 缓解 |
 |------|------|
 | 单元数量膨胀（7大类+N行业+M个股）调度复杂 | 单元化天然解耦，编排器只跑被选单元；`_units.json` 索引 + 锁防并发 |
-| 非权益数据源缺失（大宗/另类） | 降级「LLM 知识 + 可得行情」并 evidence 标 missing（技术约束已允许） |
+| 非权益数据源缺失（大宗/另类） | `v4-data-desk` 联网兜底（§5.8）：取到标 verified+URL，**取不到才** evidence 标 missing 并显式提示，不静默降级、不编造 |
 | 约束链跨单元一致性 | upstream 指纹 + version 比对，stale 软提醒；不自动改数值（AC5.5） |
 | v3/v4 并存维护成本 | 独立集合/目录/路由/编排器，互不干扰，可灰度可回退 |
 | CLI 自然语言解析歧义 | 提供等价显式脚本命令兜底（§5.2），AI 解析失败回落脚本 |

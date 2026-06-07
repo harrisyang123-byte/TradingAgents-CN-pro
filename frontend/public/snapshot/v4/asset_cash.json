@@ -5,32 +5,49 @@
   "max_drill_depth": "holding_structure",
   "asset_unit": {
     "unit_id": "asset:cash",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:cash」，或运行：./scripts/run_v4.sh analyze asset:cash",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "neutral",
+    "situation": "现金27.9%偏高；当前risk-off下作为弹药合理，但对长期复利构成拖累，实际收益近零。",
+    "direction": "中期下调现金目标至约10-15%，按分批纪律将超额现金投向便宜A股/中等久期债/黄金。",
+    "risks": [
+      "长期持币的机会成本(复利拖累)",
+      "择时失败(等不到更低点)",
+      "货基收益跑不赢温和通胀"
+    ],
+    "trend_advice": "作为流动性与弹药桶，当前暂留较高但设定分批投入纪律逐步降至10-15%",
+    "confidence": "high"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:cash",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:cash」，或运行：./scripts/run_v4.sh analyze plan:cash",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:cash",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }

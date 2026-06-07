@@ -20,13 +20,16 @@ from app.services.v4 import asset_classes as ac
 # ── 关键词规则（按优先级从特殊到一般） ────────────────────────────────
 # 每条：(类别, [关键词...])。先匹配到的胜出。
 _KEYWORD_RULES = [
-    (ac.PRECIOUS_METAL, ["黄金", "白银", "铂金", "钯金", "贵金属", "gold", "silver", "au(t+d)", "ag(t+d)"]),
+    (ac.PRECIOUS_METAL, ["黄金", "白银", "铂金", "钯金", "贵金属", "上海金", "沪金", "金etf", "金交所", "gold", "silver", "au(t+d)", "ag(t+d)", "au99"]),
     (ac.ALTERNATIVE, ["比特币", "以太坊", "以太币", "虚拟币", "数字货币", "加密", "bitcoin", "ethereum", "btc", "eth", "crypto"]),
     (ac.REAL_ESTATE, ["reit", "reits", "房地产", "不动产", "地产", "物流仓储", "产业园", "保障房", "实物房产", "房产"]),
     (ac.COMMODITY, ["原油", "天然气", "能源化工", "工业金属", "有色", "铜", "铝", "螺纹", "焦煤", "焦炭", "农产品", "大豆", "玉米", "豆粕", "白糖", "棉花", "商品期货", "南华商品"]),
-    (ac.FIXED_INCOME, ["国债", "政金债", "地方债", "政府债", "企业债", "信用债", "可转债", "转债", "债券", "债基", "纯债", "中长期债", "短债", "利率债", "城投"]),
+    (ac.FIXED_INCOME, ["国债", "政金债", "地方债", "政府债", "企业债", "信用债", "可转债", "转债", "债券", "债基", "纯债", "中长期债", "短债", "利率债", "城投", "国开债", "收益债", "回报债", "添利债", "中债", "债a", "债b", "债c", "债指数"]),
     (ac.CASH, ["货币基金", "货币市场", "货基", "现金", "活期", "存款", "逆回购", "同业存单", "理财", "宝"]),
 ]
+
+# 多资产/投顾组合：无法穿透到单一大类，标待人工归类（AC1.1，不静默丢入权益）
+_MIXED_ASSET_HINTS = ["投顾组合", "多元配置", "多元稳健", "多资产", "全球多元", "fof", "资产配置组合", "稳健配置组合"]
 
 # 现金/持有型强信号（用于 tradable vs holding_only）
 _HOLDING_ONLY_HINTS = ["实物", "活期", "存款", "现金", "房产", "金条", "金币"]
@@ -73,6 +76,12 @@ def classify_position(pos: Dict[str, Any]) -> Dict[str, Any]:
 
     # 1. 名称/代码关键词
     klass = _match_keyword(text)
+
+    # 1.5 多资产/投顾组合 → 待人工归类（无法穿透到单一大类，不静默丢入权益，AC1.1）
+    if not klass:
+        n_lower = _norm(text)
+        if any(h in n_lower for h in _MIXED_ASSET_HINTS):
+            klass = ac.UNCLASSIFIED
 
     # 2. instrument_type 兜底
     if not klass:

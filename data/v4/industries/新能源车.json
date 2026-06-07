@@ -1,0 +1,68 @@
+{
+  "unit_id": "industry:新能源车",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "新能源车",
+    "direction": "neutral",
+    "vitality_level": "medium",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "智能驾驶渗透+出海+人形机器人执行器外溢(三花)；电池技术迭代。",
+        "bear": "价格战+产能过剩压制盈利、行业内卷；β整体承压。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "neutral",
+      "vitality_level": "medium",
+      "allocation_advice": "中性，标配；聚焦智能化/机器人外溢的结构机会(三花)，整车链谨慎。",
+      "suggested_weight_pct": 2
+    },
+    "related_holdings": [
+      "013180 新能源车电池ETF",
+      "002050 三花智控"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}

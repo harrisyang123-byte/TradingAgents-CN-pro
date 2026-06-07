@@ -1,0 +1,47 @@
+{
+  "unit_id": "plan:alternative",
+  "unit_type": "plan",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "asset:alternative",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:39:49Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "alternative",
+    "target_weight": 0,
+    "verdict": {
+      "stance": "bearish",
+      "summary": "主动归零，回避加密下跌中的刀"
+    },
+    "instrument_mix": [
+      {
+        "bucket": "比特币/以太坊",
+        "target_share": "0%",
+        "tradable": true,
+        "rationale": "FTX以来最差周(BTC-17%/ETH-22%)+地缘risk-off破位，回避；如确有兴趣仅可承受归零的≤1-2%投机仓，不纳入核心"
+      },
+      {
+        "bucket": "其他另类(对冲/一级)",
+        "target_share": "0%",
+        "rationale": "流动性与门槛限制，不在本组合范围"
+      }
+    ],
+    "note": "主动归零(actively_zeroed)。等趋势企稳与监管明朗再评估；当前稳健长期组合不应介入。",
+    "risk_flags": [
+      "崩盘式下跌+杠杆连环清算",
+      "地缘risk-off持续",
+      "监管不确定",
+      "极端波动不适配稳健组合"
+    ]
+  }
+}

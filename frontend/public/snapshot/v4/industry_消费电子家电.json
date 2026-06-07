@@ -1,0 +1,154 @@
+{
+  "industry": "消费电子家电",
+  "industry_unit": {
+    "unit_id": "industry:消费电子家电",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze industry:消费电子家电",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:portfolio",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "asset:equity",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "verdict": {
+    "direction": "neutral",
+    "vitality_level": "medium",
+    "allocation_advice": "标配，结构分化——潮玩/小米高景气标的偏多，家电ETF做底仓。",
+    "suggested_weight_pct": 3
+  },
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "以旧换新+出海+AIoT；泡泡玛特潮玩出海高景气、小米手机+汽车+AIoT放量。",
+      "bear": "内需复苏弱(PMI50)、可选消费承压；泡泡玛特估值高。"
+    },
+    {
+      "round": 2,
+      "bull": "(承上)景气与政策支撑中期方向",
+      "bear": "(承上)地缘与估值约束短期空间"
+    },
+    {
+      "round": 3,
+      "bull": "维持方向，强调分批与龙头",
+      "bear": "认同分批、控制单一暴露"
+    }
+  ],
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:消费电子家电",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze alloc:industry:消费电子家电",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:equity_industries",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "stock:09992",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "stock:01810",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "stock_weights": [
+    {
+      "name": "家电ETF005063",
+      "w": 1.0,
+      "type": "etf"
+    },
+    {
+      "name": "泡泡玛特09992",
+      "w": 1.0,
+      "type": "stock"
+    },
+    {
+      "name": "小米01810",
+      "w": 1.0,
+      "type": "stock"
+    }
+  ],
+  "stocks": [
+    {
+      "unit_id": "stock:01810",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
+      "version": 1,
+      "generated_at": "2026-06-07T07:42:50Z",
+      "ttl_days": 5,
+      "upstream": [
+        {
+          "unit_id": "alloc:equity_industries",
+          "version": 1,
+          "fingerprint": ""
+        },
+        {
+          "unit_id": "industry:消费电子家电",
+          "version": 1,
+          "fingerprint": ""
+        }
+      ],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "01810",
+      "name": "小米集团",
+      "rating": null,
+      "target_price": null
+    },
+    {
+      "unit_id": "stock:09992",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
+      "version": 1,
+      "generated_at": "2026-06-07T07:42:50Z",
+      "ttl_days": 5,
+      "upstream": [
+        {
+          "unit_id": "alloc:equity_industries",
+          "version": 1,
+          "fingerprint": ""
+        },
+        {
+          "unit_id": "industry:消费电子家电",
+          "version": 1,
+          "fingerprint": ""
+        }
+      ],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "09992",
+      "name": "泡泡玛特",
+      "rating": null,
+      "target_price": null
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "unit_id": "industry:消费电子家电",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "消费电子家电",
+    "direction": "neutral",
+    "vitality_level": "medium",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "以旧换新+出海+AIoT；泡泡玛特潮玩出海高景气、小米手机+汽车+AIoT放量。",
+        "bear": "内需复苏弱(PMI50)、可选消费承压；泡泡玛特估值高。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "neutral",
+      "vitality_level": "medium",
+      "allocation_advice": "标配，结构分化——潮玩/小米高景气标的偏多，家电ETF做底仓。",
+      "suggested_weight_pct": 3
+    },
+    "related_holdings": [
+      "005063 家用电器ETF联接",
+      "09992 泡泡玛特",
+      "01810 小米"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}

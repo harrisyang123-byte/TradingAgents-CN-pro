@@ -1,0 +1,117 @@
+{
+  "industry": "人工智能算力",
+  "industry_unit": {
+    "unit_id": "industry:人工智能算力",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:portfolio",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "asset:equity",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "verdict": {
+    "direction": "go",
+    "vitality_level": "high",
+    "allocation_advice": "景气高、政策最强主线，超配；以AI主题ETF打底+龙头(海康)做阿尔法，回调分批。",
+    "suggested_weight_pct": 6
+  },
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "国家『AI+』顶层推进(能源/文旅/制造全面赋能)、算力国产化与大模型应用落地，景气与政策双驱动；海康等龙头安防AI+海外，AI ETF覆盖科创AI主题。",
+      "bear": "估值偏高、地缘risk-off下高β成长股折现率扰动放大波动；算力国产链业绩兑现仍需时间。"
+    },
+    {
+      "round": 2,
+      "bull": "(承上)景气与政策支撑中期方向",
+      "bear": "(承上)地缘与估值约束短期空间"
+    },
+    {
+      "round": 3,
+      "bull": "维持方向，强调分批与龙头",
+      "bear": "认同分批、控制单一暴露"
+    }
+  ],
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:人工智能算力",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze alloc:industry:人工智能算力",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:equity_industries",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "stock:002415",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "stock_weights": [
+    {
+      "name": "AI主题ETF(012733/012734/024245)",
+      "w": 4.0,
+      "type": "etf"
+    },
+    {
+      "name": "海康威视002415",
+      "w": 2.0,
+      "type": "stock",
+      "entry": "低估值分批"
+    }
+  ],
+  "stocks": [
+    {
+      "unit_id": "stock:002415",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
+      "version": 1,
+      "generated_at": "2026-06-07T07:42:50Z",
+      "ttl_days": 5,
+      "upstream": [
+        {
+          "unit_id": "alloc:equity_industries",
+          "version": 1,
+          "fingerprint": ""
+        },
+        {
+          "unit_id": "industry:人工智能算力",
+          "version": 1,
+          "fingerprint": ""
+        }
+      ],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "002415",
+      "name": "海康威视",
+      "rating": null,
+      "target_price": null
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "unit_id": "alloc:industry:人工智能算力",
+  "unit_type": "alloc_industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:equity_industries",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "stock:002415",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "人工智能算力",
+    "industry_target_weight": 6,
+    "stock_weights": [
+      {
+        "name": "AI主题ETF(012733/012734/024245)",
+        "w": 4.0,
+        "type": "etf"
+      },
+      {
+        "name": "海康威视002415",
+        "w": 2.0,
+        "type": "stock",
+        "entry": "低估值分批"
+      }
+    ],
+    "sum_weight": 6.0,
+    "input_warnings": [],
+    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+  }
+}

@@ -5,32 +5,50 @@
   "max_drill_depth": "instrument",
   "asset_unit": {
     "unit_id": "asset:alternative",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:alternative」，或运行：./scripts/run_v4.sh analyze asset:alternative",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "bearish",
+    "situation": "加密遭遇FTX以来最差一周(BTC~$65K-17%/wk，ETH~$1,500-22%/wk)，地缘risk-off+杠杆清算+ETF流出，ETH逼近关键支撑。",
+    "direction": "近期看空/回避，不在下跌破位中抄底；如配置仅限可承受归零的极小投机仓位(≤1-2%)。",
+    "risks": [
+      "崩盘式下跌+杠杆连环清算",
+      "地缘risk-off持续",
+      "监管不确定",
+      "极端波动不适配稳健长期组合"
+    ],
+    "trend_advice": "近期回避，等趋势企稳；至多极小投机仓位，绝不核心配置",
+    "confidence": "high"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:alternative",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:alternative」，或运行：./scripts/run_v4.sh analyze plan:alternative",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:alternative",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }

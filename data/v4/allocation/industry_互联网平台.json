@@ -1,0 +1,43 @@
+{
+  "unit_id": "alloc:industry:互联网平台",
+  "unit_type": "alloc_industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:equity_industries",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "stock:002517",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "互联网平台",
+    "industry_target_weight": 2,
+    "stock_weights": [
+      {
+        "name": "海外互联网ETF006327",
+        "w": 1.0,
+        "type": "etf"
+      },
+      {
+        "name": "恺英网络002517",
+        "w": 1.0,
+        "type": "stock"
+      }
+    ],
+    "sum_weight": 2.0,
+    "input_warnings": [],
+    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+  }
+}

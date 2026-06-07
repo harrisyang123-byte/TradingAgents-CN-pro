@@ -5,32 +5,50 @@
   "max_drill_depth": "instrument",
   "asset_unit": {
     "unit_id": "asset:commodity",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:commodity」，或运行：./scripts/run_v4.sh analyze asset:commodity",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "neutral",
+    "situation": "油价$90+受美伊/霍尔木兹地缘供给溢价驱动，但需求端(PMI50)疲弱，属事件驱动。",
+    "direction": "中性，仅小仓位(≤3-5%)机会性配置能源/抗通胀工具作地缘+通胀对冲，非核心。",
+    "risks": [
+      "地缘缓和致油价急速回吐",
+      "中国需求弱拖累工业金属",
+      "大宗高波动+工具可得性差",
+      "事件驱动行情追高接盘"
+    ],
+    "trend_advice": "小仓位机会性对冲为主，明确事件性属性，地缘缓和即减",
+    "confidence": "medium"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:commodity",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:commodity」，或运行：./scripts/run_v4.sh analyze plan:commodity",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:commodity",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }

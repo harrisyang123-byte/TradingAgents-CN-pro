@@ -1,0 +1,59 @@
+{
+  "unit_id": "asset:cash",
+  "unit_type": "asset",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:36:52Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "cash",
+    "current_weight": 27.93,
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "当前现金高达27.9%，在美伊地缘冲击、股/币大跌的risk-off中提供宝贵的安全垫与逢跌承接的弹药；货基/逆回购流动性好，CPI仅+1.2%下实际购买力损失有限。",
+        "bear": "27.9%现金对『长期复利、不错失机会』的总目标是巨大拖累——货基约1.3-1.5%年化对1.2%CPI实际收益近零；过度持币在A股估值洼地+黄金牛市中是显著机会成本。"
+      },
+      {
+        "round": 2,
+        "bull": "并非长期持有28%，而是当前阶段性高配以待地缘明朗；一旦冲击缓和即分批投向便宜A股/中等久期债/黄金，现金是过渡而非终点。",
+        "bear": "择时持币常见的错误是『等不到更好的点』；建议设定明确的分批投入纪律(如按周/按跌幅档)，把超额现金降到合理水平(如10-15%)，而非无限期观望。"
+      },
+      {
+        "round": 3,
+        "bull": "结论倾向：现金视为持有型流动性桶，当前可暂留较高比例做弹药，但中期目标下调，按纪律分批投入权益/固收/黄金。",
+        "bear": "认同下调中期现金目标并强调分批纪律，避免risk-off中一次性抄底。"
+      }
+    ],
+    "verdict": {
+      "stance": "neutral",
+      "situation": "现金27.9%偏高；当前risk-off下作为弹药合理，但对长期复利构成拖累，实际收益近零。",
+      "direction": "中期下调现金目标至约10-15%，按分批纪律将超额现金投向便宜A股/中等久期债/黄金。",
+      "risks": [
+        "长期持币的机会成本(复利拖累)",
+        "择时失败(等不到更低点)",
+        "货基收益跑不赢温和通胀"
+      ],
+      "trend_advice": "作为流动性与弹药桶，当前暂留较高但设定分批投入纪律逐步降至10-15%",
+      "confidence": "high"
+    },
+    "evidence": [
+      {
+        "claim": "活期/现金当前占比27.93%(¥332,212)",
+        "source_url": "portfolio_classified.json",
+        "status": "verified"
+      },
+      {
+        "claim": "CPI+1.2%，货基收益约1.3-1.5%实际收益近零(口径估算)",
+        "source_url": "https://www.stats.gov.cn/english/PressRelease/202605/t20260512_1963677.html",
+        "status": "verified"
+      }
+    ],
+    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+  }
+}

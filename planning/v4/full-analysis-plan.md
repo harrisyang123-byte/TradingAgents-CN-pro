@@ -18,34 +18,41 @@
 
 ---
 
-## 1. 持仓快照（穿透归类输入，37 笔 ≈ ¥1,190,090）
+## 1. 持仓快照（穿透归类输入，37 笔 ≈ ¥1,189,621）
 
-按 `v4_classifier` 七大类穿透归类（**含 P0 待修正项**，见 Wave 0）：
+按 `v4_classifier` 七大类穿透归类（**Wave 0 已修正**，2026-06-07）：
 
-| 大类 | 笔数 | 代表持仓 | 备注 |
-|------|------|----------|------|
-| 权益 equity | 26 | 三祥新材/PopMart/恺英/移远/中兴/海康/小米/新和成/三花 + AI/半导体/医疗/家电/新能源/红利 ETF + 沪深300/中证500/A500/创业板宽基 + 纳指/全球QDII | 占比最高，下钻三层 |
-| 固定收益 fixed_income | 5 | 易方达稳健收益债B/增强回报债A/双债添利/7-10国开债/投资级信用债 | 久期+品种结构 |
-| 现金及等价物 cash | 1 | 活期存款 ¥332,212（27.9%） | holding_only，持有结构 |
-| 贵金属 precious_metal | 2 | 易方达黄金ETF / **广发上海金ETF（⚠ 当前误归权益，Wave 0 修正）** | 品种/工具 |
-| 大宗商品 commodity | 0 | — | 零持仓，仍可分析（AC2.5）|
-| 房地产 real_estate | 0 | — | 零持仓 |
-| 另类投资 alternative | 0 | — | 零持仓 |
-| 待人工归类 | 0/1 | **广发全球多元稳健投顾组合（⚠ 多资产投顾组合，需穿透或标待归类）** | Wave 0 决策 |
+| 大类 | 笔数 | 权重 | 市值 | 代表持仓 |
+|------|------|------|------|----------|
+| 权益 equity | 28 | 44.24% | ¥526,245 | 三祥新材/PopMart/恺英/移远/中兴/海康/小米/新和成/三花 + AI/半导体/医疗/家电/新能源/红利 ETF + 沪深300/中证500/A500/创业板宽基 + 纳指/全球QDII |
+| 现金及等价物 cash | 1 | 27.93% | ¥332,212 | 活期存款（holding_only） |
+| 固定收益 fixed_income | 5 | 12.77% | ¥151,902 | 稳健收益债B/增强回报债A/双债添利/7-10国开债/投资级信用债 |
+| **待人工归类 unclassified** | 1 | 12.18% | ¥144,884 | **广发全球多元稳健投顾组合**（多资产，需穿透；暂不丢入权益） |
+| 贵金属 precious_metal | 2 | 2.89% | ¥34,377 | 易方达黄金ETF / 广发上海金ETF |
+| 大宗商品 commodity | 0 | 0% | ¥0 | 零持仓，仍可分析（AC2.5） |
+| 房地产 real_estate | 0 | 0% | ¥0 | 零持仓 |
+| 另类投资 alternative | 0 | 0% | ¥0 | 零持仓 |
 
-> ⚠ **Wave 0 必修**：① `广发上海金ETF联接C(008987)` 名称含"上海金"但关键词表只认"黄金"，当前误归权益 → 应归贵金属；② `广发全球多元稳健投顾组合(GF-GLOBAL-STABLE)` 是多资产投顾组合，当前按 fund 默认归权益 → 需穿透或标"待人工归类"。
+> ✅ **Wave 0 已完成**（`app/services/v4/v4_classifier.py`）：① 补 FIXED_INCOME 关键词（收益债/回报债/国开债/中债/债A·B·C…）→ 3 只被误归权益的债基（¥117,881）已归位，权益从虚高的 67.84% 修正为真实 44.24%；② 补 PRECIOUS_METAL「上海金/沪金/金ETF」→ `008987 广发上海金ETF` 归贵金属；③ 新增多资产/投顾组合识别 → `广发全球多元稳健投顾组合`（¥144,884）标「待人工归类」而非静默归权益。
+>
+> ⚠ **待用户决策**：`广发全球多元稳健投顾组合`（12.18%）是多资产投顾组合，需用户提供其底层大致配比（权益/债/现金/黄金占比）才能穿透归类；在此之前它独立占一桶、不参与权益深链。
 
 ---
 
 ## 2. MECE 单元全景（依赖 DAG）
 
 ```
-Wave 0  归类校正（纯代码，非 LLM）
-        └─ 修 classifier → 重归类 → 验证 0 漏归类
+Wave 0  归类校正（纯代码，非 LLM）✅ 已完成
+        └─ 修 classifier → 重归类 → 验证 0 漏归类（equity 67.8%→44.2%）
                 │
+Wave 0.5 数据采集台 档A（v4-data-desk，本会话 Agent 联网取一次）
+        └─ 全局公共指标：LPR/逆回购/CPI/PMI/北向/汇率/原油/金价/10Y国债
+           → data/v4/inputs/data_macro.json（每项 verified+来源URL，全单元同源共读）
+                │（所有下游单元共读这一份宏观）
 Wave 1  七大类研究部门 ×7（完全并行，相互独立）
         asset:equity  asset:fixed_income  asset:cash
         asset:commodity  asset:precious_metal  asset:real_estate  asset:alternative
+        （各单元触发时 data-desk 档B 再为其深取该类专属数据）
                 │（7 个 fingerprint 汇入）
 Wave 2  资产配置委员会 ×1
         alloc:portfolio  →  产出七大类目标配比 + equity_quota 下传
@@ -193,7 +200,10 @@ python scripts/build_snapshot_v4.py             # → frontend/public/snapshot/v
 
 **存档落点**：单元信封 `data/v4/{assets,allocation,industries,stocks,plans}/<unit>.json`（git 传输载体，diff 友好）；前端静态快照 `frontend/public/snapshot/v4/*.json`。用户 `git pull` 后设 `VITE_STATIC_SNAPSHOT=1` 直接解析展示，无需 Mongo/后端（可选 `import_v4.py` 入库增强）。
 
-**数据获取铁律**：任何缺失的宏观/行情/估值数据,**先 web 联网补齐**,每个关键数字在 evidence 里记 `verified` + 来源 URL/口径;确实无法获取才标 `estimated` 并说明假设。**严禁静默标 missing 或编造数字。**
+**数据获取铁律（取数/辩论分离，本会话 Agent 兼任 data-desk）**：在模式 A 下，**我同时扮演 `v4-data-desk`**——
+- **档 A（Wave 0.5，run 级一次）**：开跑前我先联网取十来个全局公共指标（LPR/逆回购/CPI/PMI/北向/汇率/原油/金价/10Y国债）写入 `data_macro.json`，**全部单元共读同一份**（保证约束链一致性）；`fetched_at` 在当个交易日内复用、不重复取。
+- **档 B（每单元）**：分析某单元时再为它联网深取专属数据（行业景气/估值、个股财报/资金流、债收益率曲线等）。
+- 每个关键数字在 evidence 里记 `verified` + 来源 URL/口径；确实无法获取才标 `missing` 并说明。**严禁静默降级或编造数字**（辩论时引用 data_macro.json 的同源读数，不各自重新解读宏观）。
 
 ---
 

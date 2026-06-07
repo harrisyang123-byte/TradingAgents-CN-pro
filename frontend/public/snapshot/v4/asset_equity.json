@@ -5,32 +5,143 @@
   "max_drill_depth": "industry_stock",
   "asset_unit": {
     "unit_id": "asset:equity",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:equity」，或运行：./scripts/run_v4.sh analyze asset:equity",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "neutral_bullish",
+    "situation": "A股估值中低位、国内货币宽松持稳、盈利底部温和回升，但正逢美伊地缘risk-off冲击全球风险资产，外围(美股急跌/加密崩盘)情绪传导。",
+    "direction": "中期看多A股(便宜+宽松+盈利触底)，短期受地缘扰动；策略=维持权益总仓但内部由高β海外成长转向低估值红利/价值+确定性AI龙头。",
+    "risks": [
+      "美伊冲突升级→全球衰退与持续risk-off",
+      "国内需求复苏不及预期(PMI停滞)",
+      "油价高企输入性成本侵蚀中下游盈利",
+      "美股高估值深度回调拖累全球风险偏好"
+    ],
+    "trend_advice": "维持权益敞口，降海外高β、增A股红利价值与AI龙头，保留现金分批逢跌承接",
+    "confidence": "medium"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "equity_industries_unit": {
     "unit_id": "alloc:equity_industries",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:portfolio",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:人工智能算力",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:半导体",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:创新药",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:新能源车",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:电力公用事业",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:消费电子家电",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:互联网平台",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "industry:有色资源",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "industries": []
+  "industries": [
+    {
+      "industry": "人工智能算力",
+      "target_weight": 6,
+      "direction": "go"
+    },
+    {
+      "industry": "半导体",
+      "target_weight": 5,
+      "direction": "go"
+    },
+    {
+      "industry": "创新药",
+      "target_weight": 3,
+      "direction": "go"
+    },
+    {
+      "industry": "新能源车",
+      "target_weight": 2,
+      "direction": "neutral"
+    },
+    {
+      "industry": "电力公用事业",
+      "target_weight": 2,
+      "direction": "go"
+    },
+    {
+      "industry": "消费电子家电",
+      "target_weight": 3,
+      "direction": "neutral"
+    },
+    {
+      "industry": "互联网平台",
+      "target_weight": 2,
+      "direction": "neutral"
+    },
+    {
+      "industry": "有色资源",
+      "target_weight": 2,
+      "direction": "neutral"
+    },
+    {
+      "industry": "被动底仓(沪深300/中证500/A500/创业板/红利)",
+      "target_weight": 16,
+      "direction": "core_passive",
+      "note": "宽基+红利做底仓压舱，risk-off中提供安全垫；含 270010/110020/010736/007029/022424/003765/009052"
+    },
+    {
+      "industry": "海外敞口(纳指/全球精选/海外互联网QDII)",
+      "target_weight": 4,
+      "direction": "reduce",
+      "note": "降海外β：美股高估值(标普7383)+地缘risk-off，由历史敞口下调至4%；含 270042/161130/270023"
+    }
+  ]
 }

@@ -5,32 +5,50 @@
   "max_drill_depth": "instrument",
   "asset_unit": {
     "unit_id": "asset:fixed_income",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:fixed_income」，或运行：./scripts/run_v4.sh analyze asset:fixed_income",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "bullish",
+    "situation": "10Y 2.7%低位、货币宽松持稳，地缘risk-off强化避险配置需求；固收是当前组合的关键压舱石。",
+    "direction": "超配/增配，中等久期利率债+高等级信用债为主，回避低评级与极端久期。",
+    "risks": [
+      "CPI持续回升压制久期",
+      "财政发力/经济超预期致长端调整",
+      "信用利差走阔(增长停滞)",
+      "地缘缓和致避险溢价回吐"
+    ],
+    "trend_advice": "作为防御压舱石适度增配，中等久期、高等级，利率债打底信用债增厚",
+    "confidence": "medium_high"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:fixed_income",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:fixed_income」，或运行：./scripts/run_v4.sh analyze plan:fixed_income",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:fixed_income",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }

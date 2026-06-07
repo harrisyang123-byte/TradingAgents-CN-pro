@@ -1,0 +1,68 @@
+{
+  "unit_id": "industry:创新药",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "创新药",
+    "direction": "go",
+    "vitality_level": "medium_high",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "创新药出海/license-out兑现、集采影响出清，医保支持创新；估值修复中。",
+        "bear": "研发不确定+融资环境、医保控费长期压制；个股分化大。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "go",
+      "vitality_level": "medium_high",
+      "allocation_advice": "景气回升的结构性机会，标配偏多；以医疗ETF分散，新和成偏化工/维生素另计。",
+      "suggested_weight_pct": 3
+    },
+    "related_holdings": [
+      "009881 中证医疗ETF联接",
+      "002001 新和成(维生素/化工)"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}

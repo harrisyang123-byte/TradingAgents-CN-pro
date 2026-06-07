@@ -1,0 +1,77 @@
+{
+  "industry": "电力公用事业",
+  "industry_unit": {
+    "unit_id": "industry:电力公用事业",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze industry:电力公用事业",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:portfolio",
+        "version": 1,
+        "fingerprint": ""
+      },
+      {
+        "unit_id": "asset:equity",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "verdict": {
+    "direction": "go",
+    "vitality_level": "medium",
+    "allocation_advice": "防御+政策双重逻辑，标配偏多；绿电ETF表达。",
+    "suggested_weight_pct": 2
+  },
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "『AI+能源』国策(国家能源局51个高价值场景)+绿电装机+红利防御属性，risk-off中攻守兼备。",
+      "bear": "电价市场化与来水/利用小时波动；成长性有限。"
+    },
+    {
+      "round": 2,
+      "bull": "(承上)景气与政策支撑中期方向",
+      "bear": "(承上)地缘与估值约束短期空间"
+    },
+    {
+      "round": 3,
+      "bull": "维持方向，强调分批与龙头",
+      "bear": "认同分批、控制单一暴露"
+    }
+  ],
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:电力公用事业",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze alloc:industry:电力公用事业",
+    "version": 1,
+    "generated_at": "2026-06-07T07:42:50Z",
+    "ttl_days": 7,
+    "upstream": [
+      {
+        "unit_id": "alloc:equity_industries",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "stock_weights": [
+    {
+      "name": "绿电ETF019058",
+      "w": 2.0,
+      "type": "etf"
+    }
+  ],
+  "stocks": []
+}

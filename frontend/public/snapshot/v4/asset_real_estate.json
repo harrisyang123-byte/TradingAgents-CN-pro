@@ -5,32 +5,50 @@
   "max_drill_depth": "instrument",
   "asset_unit": {
     "unit_id": "asset:real_estate",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:real_estate」，或运行：./scripts/run_v4.sh analyze asset:real_estate",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
+    "version": 1,
+    "generated_at": "2026-06-07T07:36:52Z",
+    "ttl_days": 14,
     "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "run_mode": "ai_proxy",
+    "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "neutral",
+    "situation": "地产开发链结构性承压，但低利率环境下经营性基础设施REITs具收益型配置价值。",
+    "direction": "选择性配置基础设施REITs(小仓位、类固收收益型)，回避地产开发商与实物房产β。",
+    "risks": [
+      "地产板块结构性下行",
+      "REITs流动性/定价效率有限",
+      "单一项目经营风险集中",
+      "利率上行压制REITs估值"
+    ],
+    "trend_advice": "仅小仓位精选经营性基础设施REITs做收益增强，回避开发链",
+    "confidence": "medium"
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "plan_unit": {
     "unit_id": "plan:real_estate",
-    "status": "gray",
-    "status_label": "未运行",
+    "status": "green",
+    "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 plan:real_estate」，或运行：./scripts/run_v4.sh analyze plan:real_estate",
-    "version": null,
-    "generated_at": null,
-    "ttl_days": null,
-    "upstream": [],
-    "run_mode": null,
-    "exists": false
+    "version": 1,
+    "generated_at": "2026-06-07T07:39:49Z",
+    "ttl_days": 14,
+    "upstream": [
+      {
+        "unit_id": "asset:real_estate",
+        "version": 1,
+        "fingerprint": ""
+      }
+    ],
+    "run_mode": "ai_proxy",
+    "exists": true
   },
   "plan": null
 }
