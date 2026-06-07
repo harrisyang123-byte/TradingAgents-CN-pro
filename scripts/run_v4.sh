@@ -1,7 +1,10 @@
 #!/bin/bash
 # run_v4.sh — v4 分层独立深度投研系统 CLI 入口（FR-004）
 #
-# 触发链路与 Web 分离：重计算只在本地/AI 代跑由 claude 调起，Web 仅只读。
+# 触发链路与 Web 分离：重计算只在本地/AI 代跑触发，Web 仅只读。
+# 第 2 阶段（Agent 推理）两种驱动：① 本会话 AI agent 直跑（默认，无需 claude CLI，
+#   缺数据源联网补齐而非降级，存档 data/v4/ 单元 JSON，前端走静态快照、Mongo 可选）；
+#   ② 本脚本 shell 出 claude -p 子进程（需 claude 鉴权）。完整步骤见 docs/wiki/v4-ai-proxy-run.md。
 #
 # 用法:
 #   ./run_v4.sh analyze <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
@@ -126,10 +129,14 @@ run_orchestrator() {
     "$PYTHON" "$SCRIPT_DIR/collect_v4.py" "${collect_args[@]}" || {
         echo "❌ 数据采集失败" >&2; exit 1; }
 
-    # [2/2] Agent 推理：claude -p 调起 v4 Workflow 编排器（部门辩论 + 落盘单元）
+    # [2/2] Agent 推理：默认本会话 agent 直跑；无 claude 子进程时不阻塞（退出码 2，改走 agent 直跑）
     if ! command -v claude &>/dev/null; then
-        echo "⚠ 未找到 claude CLI —— 输入包已就绪，可在具备 claude 鉴权的环境运行：" >&2
-        echo "   claude -p \"运行 v4 编排器，Workflow 脚本 scripts/workflow-v4-advisor.js，args {verb:'$verb', selector:'$SELECTOR', user_id:'$USER_ID'}\"" >&2
+        echo "ℹ 未找到 claude CLI —— 输入包已就绪（data/v4/inputs/）。" >&2
+        echo "  方式①（推荐）：由本会话 AI agent 直跑——读输入包+联网补数+部门辩论，再用" >&2
+        echo "    python3 scripts/v4_unit_cli.py write '<unit>' --payload <f> --run-mode ai_proxy 落盘。" >&2
+        echo "    完整步骤见 docs/wiki/v4-ai-proxy-run.md。" >&2
+        echo "  方式②：在具备 claude 鉴权的环境运行：" >&2
+        echo "    claude -p \"运行 v4 编排器，Workflow scripts/workflow-v4-advisor.js，args {verb:'$verb', selector:'$SELECTOR', user_id:'$USER_ID'}\"" >&2
         exit 2
     fi
     local wf_extra=""

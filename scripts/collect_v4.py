@@ -81,9 +81,9 @@ def load_positions(portfolio_file: str, user_id: str) -> tuple:
 def build_macro_snapshot() -> dict:
     """宏观快照。可得则填，缺失整体标 missing（AC2.1 降级）。"""
     snapshot = {
-        "source": "degraded",
+        "source": "needs_fetch",
         "data_availability": "unavailable",
-        "note": "未取到实时宏观数据，分析降级为「LLM 知识 + 可得行情」，相关结论 evidence 应标 estimated/missing",
+        "note": "未取到实时宏观数据。Agent 直跑第 2 阶段时必须用联网（web 搜索/抓取）补齐 LPR/逆回购/CPI/PMI/北向等关键指标，evidence 标 verified+来源 URL；不得静默降级为 missing/estimated，也不得编造或套用示例数字。详见 docs/wiki/v4-ai-proxy-run.md。",
         "indicators": {},
     }
     try:

@@ -359,7 +359,7 @@ python scripts/run_report_v4.py                # 逐单元体检
 python scripts/build_snapshot_v4.py            # （可选）静态快照 → frontend/public/snapshot/v4/
 ```
 
-> `run_v4.sh` 第 2 阶段（Agent 推理）需 `claude` CLI 鉴权；无 claude 时第 1 阶段（采集输入包）仍完成并打印待手动执行的命令。
+> `run_v4.sh` 第 2 阶段（Agent 推理）有两种驱动：**① 本会话 AI agent 直跑（默认，无需 `claude` CLI，缺数据源时联网补齐而非降级，存档为 `data/v4/` 单元 JSON，前端走静态快照即可、MongoDB 可选）；② `claude -p` 子进程（需 claude 鉴权）。** 无 claude 时第 1 阶段（采集输入包）仍完成、退出码 2 不是阻塞——改走方式 ①。完整步骤见 [`docs/wiki/v4-ai-proxy-run.md`](docs/wiki/v4-ai-proxy-run.md)。
 
 ---
 

@@ -94,4 +94,4 @@ python scripts/run_report_v4.py            # 逐单元体检：跑没跑/产物�
 python scripts/build_snapshot_v4.py        # （可选）生成前端静态快照
 ```
 
-`run_v4.sh` 第 2 阶段需要 `claude` CLI 鉴权；无 claude 时第 1 阶段（采集输入包）仍会完成并打印待手动执行的命令。
+`run_v4.sh` 第 2 阶段（Agent 推理）有两种驱动：**① 本会话 AI agent 直跑**（默认，无需 `claude` CLI，缺数据源联网补齐而非降级，产物存 `data/v4/` 单元 JSON，前端走静态快照、MongoDB 可选）；**② `claude -p` 子进程**（需 claude 鉴权）。无 claude 时第 1 阶段（采集输入包）仍完成、退出码 2 不是阻塞——改走方式 ①。完整步骤见 `docs/wiki/v4-ai-proxy-run.md`。

@@ -17,6 +17,34 @@ tools: ["Read", "Bash", "Grep"]
 - user-id 默认使用环境变量 `V4_USER_ID`，未设则用 `000000000000000000000000`（24 位 hex）
 - 产物目录：`data/v4/{assets,allocation,industries,stocks,plans}/`
 
+## 两种执行模式（重要）
+
+第 2 阶段（部门辩论推理）有两条等价驱动方式，产出**同构信封**：
+
+| 模式 | 谁跑推理 | 是否需要 claude CLI | 何时用 |
+|------|----------|--------------------|--------|
+| **A. 本会话 agent 直跑（默认推荐）** | 当前对话中的你（可 spawn subagent ≤3 并发） | ❌ 不需要 | 用户把持仓交给 AI 代跑、要联网补数、环境没装/没鉴权 claude CLI |
+| B. `claude -p` 子进程 | `run_v4.sh` 自动起的 claude 子进程 | ✅ 需要 | 本地已装并鉴权 claude，想一条命令无人值守跑完 |
+
+**模式 A 的本质**：`run_v4.sh` 第 2 阶段只是 shell 出 `claude -p`；但**你自己就是执行体**——直接读 `data/v4/inputs/` 输入包 + `agents/advisor/v4-*.md` 角色定义，做 3 轮辩论推理，再用 `python scripts/v4_unit_cli.py write` 落盘即可，**无需另起 claude 子进程、无需 CLI 鉴权**。`run_v4.sh` 无 claude 时退出码 2 不是阻塞，改走模式 A。
+
+完整可执行步骤见 `docs/wiki/v4-ai-proxy-run.md`。模式 A 单元 4 步：
+1. `python scripts/collect_v4.py --selector <unit> --user-id <id> --verb analyze --portfolio-file data/v4/_inputs/holdings.json`（纯 Python，不需 LLM/Mongo）
+2. 读输入包 + **联网补齐缺失数据**（见下「数据获取铁律」）→ 3 轮多空辩论 + 3 分析师 + 总监拍板 → 组装 payload
+3. `python scripts/v4_unit_cli.py lock '<unit>'` → `write '<unit>' --payload <f> --fingerprint <fp> --upstream '<上游>' --run-mode ai_proxy --status green` → `unlock '<unit>'`
+4. `python scripts/run_report_v4.py` 体检
+
+### 数据获取铁律（不降级）
+
+- 运行环境缺 AKShare 等依赖、`data_macro.json` 的 `source=="degraded"` 或关键指标为空时，**必须用 `web_search`/`web_fetch` 联网补齐**（宏观利率/CPI/PMI、指数 PE 分位、北向资金、货基年化、个股最新价/估值/公告等）。
+- 取到的数字写进 `evidence`：`{"claim":"...","source":"<URL>","status":"verified"}`。
+- **只有联网也确实取不到**才允许 `estimated`（注明推算依据）/`null`（注明已尝试来源）。**严禁静默标 missing 当默认，严禁编造或套用示例数字。**
+
+### 存档与前端解析（不依赖 Mongo）
+
+- AI 代跑只需把单元信封写进 `data/v4/`，再 `python scripts/build_snapshot_v4.py` 生成 `frontend/public/snapshot/v4/*.json`。
+- 用户 `git pull` 后：设 `VITE_STATIC_SNAPSHOT=1` 起前端**直接 fetch 快照展示，不连后端/Mongo**；或 `python scripts/import_v4.py` 导入 Mongo 走在线 API（可选增强）。
+
 ## 意图识别 → 命令映射表
 
 | 用户说（自然语言） | 映射 unit-selector | 执行命令 |
@@ -177,6 +205,8 @@ python scripts/run_report_v4.py
 ```
 
 > 权益深链（行业/个股）需用户指定具体行业/标的，不在全量中自动跑（成本控制）。
+
+> **模式 A（agent 直跑）下**：把上面每条 `run_v4.sh analyze <unit>` 拆成「`collect_v4.py` 采集 → 你直跑部门辩论+联网补数 → `v4_unit_cli.py write` 落盘」三步（见「两种执行模式」与 `docs/wiki/v4-ai-proxy-run.md`），无需 claude CLI。跑完 `build_snapshot_v4.py` 出快照即可前端解析，Mongo 可选。
 
 ### Step 4: 结果反馈
 

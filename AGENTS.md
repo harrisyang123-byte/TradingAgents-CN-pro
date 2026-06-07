@@ -295,14 +295,21 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 - 🚫 同 v3：**禁止 `llm.invoke()`**，LLM 决策全走 `agents/advisor/v4-*.md` 子 Agent + 编排器 `agent()`。
 - 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005 / AC5.5）；约束链不满足只软提醒。
 - 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4 / NFR4.2）。
-- 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑由 `claude -p` 调起。
+- 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发——**驱动方式有二**：① 本会话 agent 直跑（默认，无需 claude CLI，可 spawn subagent）；② `run_v4.sh` shell 出 `claude -p` 子进程（需 claude 鉴权）。两者产出同构信封，详见 §11.7 与 `docs/wiki/v4-ai-proxy-run.md`。
+- **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`，不得编造或套示例数字。
 - 改 v4 同样守第 0 节铁律：改链路/入口/格式 → 同 commit 更新本节 + `README.md` + `.kiro/specs/v4/`。
 
 ### 11.6 改 v4 后的验证
 
 - 改 Python：`python -m py_compile app/services/v4/*.py scripts/*v4*.py` + `python scripts/test/test_v4_unit_store.py`。
 - 改编排器：`node --check scripts/workflow-v4-advisor.js`；改 `run_v4.sh`：`bash -n scripts/run_v4.sh`。
-- 纯 Python 链路（collect_v4 归类 / build_snapshot_v4 / import_v4 --dry-run / run_report_v4）sandbox 里可用示例持仓真跑验证文件总线闭环；端到端 LLM 真跑需 MongoDB + claude CLI + 联网，跑不通时标注「未端到端验证」。
+- 纯 Python 链路（collect_v4 归类 / build_snapshot_v4 / import_v4 --dry-run / run_report_v4）sandbox 里可用示例持仓真跑验证文件总线闭环；**端到端 LLM 真跑不强依赖 MongoDB / claude CLI**——本会话 agent 可直跑第 2 阶段（读输入包+联网补数+`v4_unit_cli.py write`），前端可走静态快照（`VITE_STATIC_SNAPSHOT=1`，无需 Mongo）。Mongo（在线 API）与 claude CLI（`claude -p` 子进程）都是可选增强，非必需。
+
+### 11.7 AI 代跑落地步骤（本会话 agent 直跑）
+
+把持仓交给 AI、AI 直接跑完整分析 → 存档 `data/v4/` → 用户 `git pull` 后前端解析，这条路径的**可执行步骤、各单元 payload schema、联网取数与存档/快照细节**统一见 **`docs/wiki/v4-ai-proxy-run.md`**。要点：
+- 第 2 阶段执行体 = 当前对话的 AI（可 spawn subagent ≤3 并发），**不需要 `claude` CLI 鉴权**；`run_v4.sh` 无 claude 退出码 2 不是阻塞，改走 agent 直跑。
+- 缺数据源**联网补齐**而非降级；存档为 `data/v4/**/*.json` 单元信封，前端走**静态快照**即可，**MongoDB 可选**。
 
 ---
 
