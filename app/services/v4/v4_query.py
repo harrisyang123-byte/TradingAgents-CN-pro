@@ -6,10 +6,13 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any, Dict, List, Optional
 
 from app.services.v4 import asset_classes as ac
 from app.services.v4 import v4_state, v4_unit_store as store
+
+logger = logging.getLogger("webapi")
 
 
 async def load_user_units(db, user_id: str) -> Dict[str, Dict[str, Any]]:
@@ -25,8 +28,8 @@ async def load_user_units(db, user_id: str) -> Dict[str, Dict[str, Any]]:
                 uid = doc.get("unit_id")
                 if uid:
                     units[uid] = doc
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("v4 load_user_units: Mongo 查询失败，回退文件落盘: %s", e)
     # 文件回退（本地运行未导入 Mongo 时）
     if not units:
         try:
@@ -35,8 +38,8 @@ async def load_user_units(db, user_id: str) -> Dict[str, Dict[str, Any]]:
                 env = store.read_unit(u["unit_id"])
                 if env:
                     units[env["unit_id"]] = env
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("v4 load_user_units: 文件落盘回退失败: %s", e)
     return units
 
 
@@ -85,6 +88,10 @@ def build_overview(units: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         meta = decorate_unit(unit_id, env, units)
         payload = (env or {}).get("payload", {})
         verdict = payload.get("verdict", {}) if payload else {}
+        # 防御：代跑 LLM 产物的 verdict 可能为字符串/缺省结构，强制成 dict，
+        # 单个单元 schema 异常只让该卡片字段降级为 None，绝不崩掉整个 Tab1/快照（FR-005 软降级）。
+        if not isinstance(verdict, dict):
+            verdict = {}
         target = alloc_targets.get(key, {})
         cards.append({
             **meta,
@@ -120,3 +127,58 @@ def build_units_status(units: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]
     for uid in sorted(units.keys()):
         out.append(decorate_unit(uid, units[uid], units))
     return out
+
+
+def build_asset_detail(units: Dict[str, Dict[str, Any]], asset_class: str) -> Dict[str, Any]:
+    """Tab2 大类详情（AC8.2）。权益→行业列表；非权益→方案 payload。
+
+    供 portfolio_v4 路由与 build_snapshot_v4 共用，保证 API/快照同构（NFR4.1）。
+    """
+    asset_env = units.get(f"asset:{asset_class}")
+    plan_env = units.get(f"plan:{asset_class}")
+    meta = decorate_unit(f"asset:{asset_class}", asset_env, units)
+    asset_payload = (asset_env or {}).get("payload", {}) if asset_env else {}
+    resp: Dict[str, Any] = {
+        "asset_class": asset_class,
+        "label": ac.label_of(asset_class),
+        "is_equity": ac.is_equity(asset_class),
+        "max_drill_depth": ac.max_drill_depth(asset_class),
+        "asset_unit": meta,
+        "verdict": asset_payload.get("verdict"),
+        "tradable": asset_payload.get("tradable", []),
+        "holding_only_exposure": asset_payload.get("holding_only_exposure", 0),
+    }
+    if not ac.is_equity(asset_class):
+        plan_payload = (plan_env or {}).get("payload", {}) if plan_env else {}
+        resp["plan_unit"] = decorate_unit(f"plan:{asset_class}", plan_env, units)
+        resp["plan"] = plan_payload.get("plan") or asset_payload.get("plan")
+    else:
+        eq_alloc = units.get("alloc:equity_industries")
+        resp["equity_industries_unit"] = decorate_unit("alloc:equity_industries", eq_alloc, units)
+        resp["industries"] = (eq_alloc or {}).get("payload", {}).get("allocations", []) if eq_alloc else []
+    return resp
+
+
+def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[str, Any]:
+    """Tab3 行业详情（AC8.3）：深辩报告 + 个股列表 + 行业内配比。"""
+    ind_env = units.get(f"industry:{name}")
+    alloc_env = units.get(f"alloc:industry:{name}")
+    ind_payload = (ind_env or {}).get("payload", {}) if ind_env else {}
+    resp: Dict[str, Any] = {
+        "industry": name,
+        "industry_unit": decorate_unit(f"industry:{name}", ind_env, units),
+        "verdict": ind_payload.get("verdict"),
+        "debate_rounds": ind_payload.get("debate_rounds", []),
+        "intra_alloc_unit": decorate_unit(f"alloc:industry:{name}", alloc_env, units),
+        "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],
+    }
+    stocks = []
+    for uid, env in units.items():
+        if uid.startswith("stock:"):
+            pl = env.get("payload", {})
+            if pl.get("industry") == name:
+                stocks.append({**decorate_unit(uid, env, units),
+                               "code": pl.get("code"), "name": pl.get("name"),
+                               "rating": pl.get("rating"), "target_price": pl.get("target_price")})
+    resp["stocks"] = stocks
+    return resp

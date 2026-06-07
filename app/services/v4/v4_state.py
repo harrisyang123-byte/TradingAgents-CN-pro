@@ -57,7 +57,9 @@ def fingerprint(inputs: List[str]) -> str:
             sys.path.insert(0, scripts_dir)
         from stage_cache import _fingerprint as _sc_fp  # type: ignore
         return "sha256:" + _sc_fp(inputs)
-    except Exception:
+    except ImportError:
+        # 仅在 stage_cache 模块不可用时回退到本地等价实现；
+        # 其它真实错误（如 OSError）不再被掩盖，交由调用方暴露。
         return "sha256:" + _fingerprint_local(inputs)
 
 

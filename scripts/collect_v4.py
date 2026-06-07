@@ -159,11 +159,106 @@ def main() -> int:
         print(f"  ✓ {ut}:{key} 输入包 → inputs/{out_name}"
               + ("（零持仓，仍可分析是否值得择机配置）" if pack["zero_holding"] else ""))
     else:
-        # 其它单元类型（alloc/industry/stock）在 Task 2/3 扩展；此处先产出归类与宏观即可
-        print(f"  · {ut}:{key} 采集：已产出归类与宏观快照（该单元类型专属采集在后续阶段扩展）")
+        # alloc:* 单元不需要专属输入包（直接读上游 asset:*/industry:*/stock:* 落盘单元）；
+        # industry:<name> / stock:<code> 拼装专属输入包（FR-006）。
+        if ut == "industry":
+            _build_industry_pack(inputs, key, classified, macro)
+        elif ut == "stock":
+            _build_stock_pack(inputs, key, classified, macro, args.user_id)
+        else:
+            print(f"  · {ut}:{key} 采集：已产出归类与宏观快照（alloc 单元直接读上游落盘单元）")
 
     print(f"✅ collect_v4 完成 → {inputs}")
     return 0
+
+
+def _safe(s: str) -> str:
+    import re as _re
+    return _re.sub(r"[/\\:\*\?\"<>\|（）()\s]+", "_", str(s)) or "_"
+
+
+def _build_industry_pack(inputs: Path, name: str, classified: dict, macro: dict) -> None:
+    """行业深辩输入包（FR-006 AC6.2）：候选信息 + 景气信号(best-effort) + 权益持仓敞口。"""
+    from app.services.v4 import industry_candidates as ic
+
+    # 候选元信息（rationale/kind）
+    cand_meta = next((c for c in ic.builtin_candidates() if c["name"] == name), None)
+
+    # best-effort 景气信号
+    vitality = {"available": False, "note": "未取到实时景气信号，行业分析降级为 LLM 知识 + 可得行情"}
+    try:
+        import asyncio
+        from app.services.industry_vitality import score_all_industries
+        scores = asyncio.run(score_all_industries())
+        hit = next((s for s in scores
+                    if ic._VITALITY_HINT.get(getattr(s, "industry", "")) == name
+                    or getattr(s, "industry", "") == name), None)
+        if hit:
+            vitality = {
+                "available": True,
+                "total_score": round(float(getattr(hit, "total_score", 0) or 0), 3),
+                "top3_flag": bool(getattr(hit, "top3_flag", False)),
+                "signal_breakdown": getattr(hit, "signal_breakdown", {}),
+            }
+    except Exception as e:
+        vitality["error"] = str(e)
+
+    # 权益持仓中属于该行业关键词的敞口（粗匹配，供 agent 参考）
+    equity_bucket = classified.get("by_class", {}).get(ac.EQUITY, {})
+    related = [h for h in equity_bucket.get("holdings", [])
+               if name.split("/")[0] in (h.get("name", "") + h.get("code", ""))]
+
+    pack = {
+        "industry": name,
+        "candidate_meta": cand_meta,
+        "vitality": vitality,
+        "related_holdings": related,
+        "macro_context": macro,
+        "data_availability": {"vitality": vitality["available"], "macro": macro["data_availability"]},
+    }
+    out = inputs / f"industry_{_safe(name)}.json"
+    _write_json(out, pack)
+    print(f"  ✓ industry:{name} 输入包 → inputs/{out.name}"
+          + ("" if vitality["available"] else "（景气降级，仅 LLM 知识）"))
+
+
+def _build_stock_pack(inputs: Path, code: str, classified: dict, macro: dict, user_id: str) -> None:
+    """个股输入包（FR-006 AC6.4）：基本面/行情(best-effort) + 所属行业推断。"""
+    # 从持仓里找该 code 的名称/行业线索
+    name = code
+    industry = ""
+    for h in classified.get("by_class", {}).get(ac.EQUITY, {}).get("holdings", []):
+        if h.get("code") == code:
+            name = h.get("name") or code
+            break
+
+    # best-effort 取个股基本面（缺库/缺网降级）
+    fundamentals = {"available": False, "note": "未取到个股基本面，分析降级为 LLM 知识 + 可得行情"}
+    try:
+        from app.core.database import get_mongo_db_sync
+        db = get_mongo_db_sync()
+        doc = db["stock_basic_info"].find_one({"code": code}) or db["stocks"].find_one({"code": code})
+        if doc:
+            doc.pop("_id", None)
+            industry = doc.get("industry") or industry
+            fundamentals = {"available": True, "data": {k: v for k, v in doc.items()
+                            if k in ("name", "industry", "pe", "pb", "total_mv", "roe")}}
+            name = doc.get("name") or name
+    except Exception as e:
+        fundamentals["error"] = str(e)
+
+    pack = {
+        "code": code,
+        "name": name,
+        "industry": industry,  # 编排器据此 Read 所属行业 verdict
+        "fundamentals": fundamentals,
+        "macro_context": macro,
+        "data_availability": {"fundamentals": fundamentals["available"], "macro": macro["data_availability"]},
+    }
+    out = inputs / f"stock_{_safe(code)}.json"
+    _write_json(out, pack)
+    print(f"  ✓ stock:{code} 输入包 → inputs/{out.name}"
+          + (f"（行业={industry}）" if industry else "（未推断出所属行业，agent 将仅按个股数据分析）"))
 
 
 if __name__ == "__main__":

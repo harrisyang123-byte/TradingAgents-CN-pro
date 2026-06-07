@@ -198,6 +198,81 @@ build_snapshot.py ──overview.json / advice_latest.json──▶ 前端 VITE_
 
 ---
 
+## 11. v4 分层独立深度投研系统（与 v3 并存）
+
+v4 是一条**与 v3 完全并存、零侵入**的新链路：独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器 `scripts/workflow-v4-advisor.js`、独立只读路由 `app/routers/portfolio_v4.py`。v3 链路一行不动，可灰度、可回退。完整规格见 `.kiro/specs/v4/`。
+
+**核心抽象 = 分析单元（unit）**：七大类资产 → 行业 → 个股 + 各层配比，每个都是一个有稳定 `unit_id`、独立产物 JSON、独立五色状态、独立 TTL 的「单元」。触发只跑命中单元，绝不连带重跑其它。`unit_id` 形如 `asset:<class>` / `plan:<class>` / `alloc:portfolio` / `alloc:equity_industries` / `industry:<name>` / `stock:<code>` / `alloc:industry:<name>`。
+
+### 11.1 触发命令（CLI，与 Web 分离）
+
+```bash
+./scripts/run_v4.sh analyze <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
+./scripts/run_v4.sh refresh <unit-selector> ...   # 强制失效重跑，重绑最新上游指纹
+./scripts/run_v4.sh status [--json]               # 列全部单元五色状态
+./scripts/run_v4.sh scan   [--json]               # 仅置黄过期单元，绝不自动重跑
+```
+
+七大类 class：`equity / fixed_income / cash / commodity / precious_metal / real_estate / alternative`。
+
+### 11.2 双跑文件总线（本地 ↔ AI 代跑，靠 git 传输）⚠️ 关键
+
+v4 的 git 传输载体 = `data/v4/**/*.json` **单元粒度结构化文件**（diff 友好、可 review，非 dump/二进制，FR-009 AC9.3）。
+
+```
+本地: 编辑 data/v4/_inputs/holdings.json ──git push──▶ 私有仓
+                                                          │ git pull
+                                  AI 代跑: ./run_v4.sh analyze <unit> --portfolio-file data/v4/_inputs/holdings.json
+                                                          │ 产出 data/v4/{assets,allocation,industries,stocks,plans}/*.json + _units.json
+本地: git pull ◀──git push（AI 提交单元产物）─────────────┘
+      python scripts/import_v4.py --user-id <id>   # 幂等 upsert v4_units，前端三层 Tab 即与代跑一致
+```
+
+**`.gitignore` 双跑路径约定（已落地，别再改回去）**：`data/` 整体忽略（隐私），但**仅 `data/v4/` 子树解除忽略**（`.gitignore` 末尾 `data/*` + `!data/v4/` + `!data/v4/**`）。其中 `data/v4/_locks/`（运行锁）、`data/v4/inputs/`（collect 中间输入包）、`data/v4/**/*.tmp`（原子写临时）再被排除——**只有单元信封 + `_units.json` + `_inputs/holdings.json` 进 git**。⚠️ `data/v4/` 含真实持仓/处方，**务必私有仓库**。
+
+### 11.3 持仓推送格式（用户本地 → gitlab 的入口）
+
+固定路径 `data/v4/_inputs/holdings.json`，格式（详见 `data/v4/_inputs/README.md` + `holdings.example.json`）：
+
+```json
+{"positions": [
+  {"code": "600519", "name": "贵州茅台", "weight": 15, "market_value": 150000, "instrument_type": "stock"}
+]}
+```
+
+字段：`code`（市场代码，现金/房产留空）、`name`（归类主依据）、`weight`(%)、`market_value`、`instrument_type`（`stock/etf/fund/bond/cash/other` 兜底归类）。名称关键词优先归类，未命中按 `instrument_type` 兜底；仍判不出 → `unclassified`（不丢弃）。
+
+### 11.4 跑全量分析（拿到 holdings 后，按约束链自上而下）
+
+```bash
+H=data/v4/_inputs/holdings.json
+for c in equity fixed_income cash commodity precious_metal real_estate alternative; do
+  ./scripts/run_v4.sh analyze asset:$c --user-id <id> --portfolio-file $H; done
+./scripts/run_v4.sh analyze alloc:portfolio --user-id <id> --portfolio-file $H   # 下传 equity_quota
+# 权益深链：industry:<行业> → alloc:equity_industries → stock:<代码> → alloc:industry:<行业>
+for c in fixed_income cash commodity precious_metal real_estate alternative; do
+  ./scripts/run_v4.sh analyze plan:$c --user-id <id> --portfolio-file $H; done
+python scripts/import_v4.py --user-id <id>   # 回传后导入
+python scripts/run_report_v4.py              # 逐单元体检
+python scripts/build_snapshot_v4.py          # （可选）前端静态快照 → frontend/public/snapshot/v4/
+```
+
+### 11.5 v4 设计铁律（沿用 v3 精神 + 单元化特有）
+
+- 🚫 同 v3：**禁止 `llm.invoke()`**，LLM 决策全走 `agents/advisor/v4-*.md` 子 Agent + 编排器 `agent()`。
+- 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005 / AC5.5）；约束链不满足只软提醒。
+- 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4 / NFR4.2）。
+- 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑由 `claude -p` 调起。
+- 改 v4 同样守第 0 节铁律：改链路/入口/格式 → 同 commit 更新本节 + `README.md` + `.kiro/specs/v4/`。
+
+### 11.6 改 v4 后的验证
+
+- 改 Python：`python -m py_compile app/services/v4/*.py scripts/*v4*.py` + `python scripts/test/test_v4_unit_store.py`。
+- 改编排器：`node --check scripts/workflow-v4-advisor.js`；改 `run_v4.sh`：`bash -n scripts/run_v4.sh`。
+- 纯 Python 链路（collect_v4 归类 / build_snapshot_v4 / import_v4 --dry-run / run_report_v4）sandbox 里可用示例持仓真跑验证文件总线闭环；端到端 LLM 真跑需 MongoDB + claude CLI + 联网，跑不通时标注「未端到端验证」。
+
+---
+
 ## 技术栈
 
 Python 3.12+ / FastAPI 0.115+ / Vue 3.5+ + Vite + Element Plus / MongoDB + Redis。

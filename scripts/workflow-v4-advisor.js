@@ -275,6 +275,285 @@ async function runAllocationPortfolio() {
   }
 }
 
+// ── 工具：读 equity_quota（来自 alloc:portfolio） ─────────────
+async function readEquityQuota() {
+  try {
+    const raw = await Bash(
+      `python3 -c "import json;d=json.load(open('${p('allocation/portfolio.json')}'));print(d.get('payload',{}).get('equity_quota',''))" 2>/dev/null || echo ''`
+    );
+    const v = parseFloat(String(raw).trim());
+    return Number.isFinite(v) ? v : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// 列出已落盘的行业深辩单元（供行业配置总监读取）
+async function listIndustryUnits() {
+  try {
+    const raw = await Bash(
+      `ls ${dataDir}/industries/*.json 2>/dev/null | grep -v '.tmp' || true`
+    );
+    return String(raw).trim().split('\n').filter(Boolean);
+  } catch (e) {
+    return [];
+  }
+}
+
+// ── 部门：行业研究（industry:<name>，3 轮辩论 + 总监，FR-006 AC6.2） ──
+async function runIndustryDepartment(name) {
+  const unitId = `industry:${name}`;
+  const sn = safeName(name);
+  phase('行业研究部门');
+  log(`运行行业研究部门：${unitId}（3 轮辩论 + 总监定方向，早于配比）`);
+
+  const packName = `inputs/industry_${sn}.json`;
+  const inputs = [p(packName), p('inputs/data_macro.json'), p('allocation/portfolio.json')];
+  const upstreamRefs = ['alloc:portfolio', 'asset:equity'];
+
+  await lockUnit(unitId);
+  try {
+    const rounds = [];
+    let lastBear = null;
+    for (let r = 1; r <= DEBATE_ROUNDS; r++) {
+      const bull = await agent(
+        `你是行业多头研究员。Read ${p(packName)}、${p('inputs/data_macro.json')}、${p('allocation/portfolio.json')}。` +
+        (r > 1 ? `这是第 ${r} 轮，先回应上一轮空头挑战再强化：${JSON.stringify(lastBear).slice(0, 1200)}。` : `这是第 1 轮，给出看多核心论点。`) +
+        `论证行业「${name}」是否景气向上、值得在 equity_quota 内配置。` +
+        `输出 JSON：{role:"bull",industry:"${name}",round:${r},thesis,bull_points,vitality_view,catalysts,suggested_stance,evidence}。${GROUNDING}`,
+        { label: `行业多头 R${r}`, phase: '行业研究部门' }
+      );
+      const bear = await agent(
+        `你是行业空头研究员。先 Read 多头本轮论点：${JSON.stringify(bull).slice(0, 1600)}。再 Read ${p(packName)}、${p('inputs/data_macro.json')}。` +
+        `逐条挑战，论证「${name}」的景气拐点/估值/配置风险。无数据支撑的挑战不计入。` +
+        `输出 JSON：{role:"bear",industry:"${name}",round:${r},challenge,bear_points,vitality_view,key_risks,suggested_stance,evidence}。${GROUNDING}`,
+        { label: `行业空头 R${r}`, phase: '行业研究部门' }
+      );
+      lastBear = bear;
+      rounds.push({ round: r, bull, bear });
+    }
+    await writeJson(`industry_debate_${sn}.json`, { industry: name, rounds });
+
+    const director = await agent(
+      `你是行业研究部门总监。Read ${p(`industry_debate_${sn}.json`)}、${p(packName)}、${p('allocation/portfolio.json')}。` +
+      `综合 ${DEBATE_ROUNDS} 轮多空辩论，拍板「${name}」的方向研判（景气/空间/风险/配置建议 go|watch|avoid）。**此步先于行业间配比**。` +
+      `输出 JSON：{industry:"${name}",verdict:{stance,situation,direction,vitality_level,risks,allocation_advice,confidence},data_quality,evidence}。${GROUNDING}`,
+      { label: '行业总监', phase: '行业研究部门' }
+    );
+
+    const payload = {
+      industry: name,
+      debate_rounds: rounds,
+      verdict: director.verdict || director,
+      data_quality: director.data_quality || null,
+      evidence: director.evidence || [],
+    };
+    await writeEnvelope(unitId, payload, { upstreamRefs, inputs, status: 'green' });
+    log(`✅ ${unitId} 完成：stance=${(payload.verdict || {}).stance || '?'} advice=${(payload.verdict || {}).allocation_advice || '?'}`);
+    return { status: 'done', unit_id: unitId };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 失败: ${e}`);
+    await writeEnvelope(unitId, { industry: name, error: String(e) }, { upstreamRefs, inputs, status: 'red', error: String(e) });
+    throw e;
+  } finally {
+    await unlockUnit(unitId);
+  }
+}
+
+// ── 部门：行业间配比（alloc:equity_industries，FR-006 AC6.3） ──
+async function runEquityIndustriesAllocation() {
+  const unitId = 'alloc:equity_industries';
+  phase('行业配置团队');
+  log('运行行业配置总监：在 equity_quota 内对各行业 verdict 做行业间配比');
+
+  const equityQuota = await readEquityQuota();
+  if (equityQuota === 0) {
+    log('equity_quota=0%，本期不配置权益，跳过行业间配比');
+    throw new Error('equity_quota=0，本期不触发权益深链');
+  }
+  const industryFiles = await listIndustryUnits();
+  if (!industryFiles.length) {
+    throw new Error('尚无任何行业深辩单元；请先 analyze industry:<name>（深辩先于配比）');
+  }
+
+  const upstreamRefs = ['alloc:portfolio',
+    ...industryFiles.map((f) => 'industry:' + f.split('/').pop().replace(/\.json$/, ''))];
+  const inputs = [p('allocation/portfolio.json'), ...industryFiles];
+
+  await lockUnit(unitId);
+  try {
+    const director = await agent(
+      `你是行业配置总监。Read ${p('allocation/portfolio.json')}（取 payload.equity_quota=${equityQuota}）` +
+      `与已就绪的行业深辩单元：${industryFiles.join('、')}（每份 payload.verdict 含 stance/vitality_level/allocation_advice）。` +
+      `基于各行业 verdict 在 equity_quota 内产出行业间配比，校验 Σtarget_weight ≤ equity_quota。只读 verdict 不重研判行业。` +
+      `输出 JSON：{equity_quota:${equityQuota},allocations:[{industry,target_weight,reasoning}],sum_weight,cash_buffer_in_equity,input_warnings,summary,evidence}。${GROUNDING}`,
+      { label: '行业配置总监', phase: '行业配置团队' }
+    );
+
+    const allocations = Array.isArray(director.allocations) ? director.allocations : [];
+    const sumW = allocations.reduce((acc, a) => acc + (Number(a.target_weight) || 0), 0);
+    const payload = {
+      equity_quota: equityQuota,
+      allocations,
+      sum_weight: Math.round(sumW * 10) / 10,
+      cash_buffer_in_equity: director.cash_buffer_in_equity ?? (equityQuota != null ? Math.round((equityQuota - sumW) * 10) / 10 : null),
+      input_warnings: director.input_warnings || [],
+      summary: director.summary || '',
+      evidence: director.evidence || [],
+    };
+    if (equityQuota != null && sumW > equityQuota + 0.5) {
+      payload.input_warnings.push({ industry: '*', issue: 'over_quota', detail: `Σ行业权重=${sumW.toFixed(1)}% > equity_quota=${equityQuota}%，请复核` });
+    }
+    await writeEnvelope(unitId, payload, { upstreamRefs, inputs, status: 'green' });
+    log(`✅ ${unitId} 完成：Σ=${sumW.toFixed(1)}% ≤ quota ${equityQuota}%`);
+    return { status: 'done', unit_id: unitId };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 失败: ${e}`);
+    await writeEnvelope(unitId, { error: String(e) }, { upstreamRefs, inputs, status: 'red', error: String(e) });
+    throw e;
+  } finally {
+    await unlockUnit(unitId);
+  }
+}
+
+// 读个股输入包里的所属行业
+async function readStockIndustry(code) {
+  const sn = safeName(code);
+  try {
+    const raw = await Bash(
+      `python3 -c "import json;d=json.load(open('${p(`inputs/stock_${sn}.json`)}'));print(d.get('industry',''))" 2>/dev/null || echo ''`
+    );
+    return String(raw).trim();
+  } catch (e) {
+    return '';
+  }
+}
+
+// ── 部门：个股分析（stock:<code>，每只独立单元独立缓存，FR-006 AC6.4） ──
+async function runStockDepartment(code) {
+  const unitId = `stock:${code}`;
+  const sn = safeName(code);
+  phase('行业内研究部门');
+  log(`运行行业内研究部门：${unitId}（个股独立分析）`);
+
+  const packName = `inputs/stock_${sn}.json`;
+  const industry = await readStockIndustry(code);
+  const indSafe = safeName(industry);
+  const industryFile = industry ? p(`industries/${indSafe}.json`) : '';
+  const inputs = [p(packName)];
+  if (industryFile) inputs.push(industryFile);
+  const upstreamRefs = industry ? [`industry:${industry}`] : [];
+
+  await lockUnit(unitId);
+  try {
+    const bull = await agent(
+      `你是个股多头研究员。Read ${p(packName)}${industryFile ? '、' + industryFile : ''}。` +
+      `论证个股 ${code} 的投资价值与上行空间（不逆所属行业大方向）。` +
+      `输出 JSON：{role:"bull",code:"${code}",name,thesis,bull_points,upside_target,evidence}。${GROUNDING}`,
+      { label: '个股多头', phase: '行业内研究部门' }
+    );
+    const bear = await agent(
+      `你是个股空头研究员。先 Read 多头论点：${JSON.stringify(bull).slice(0, 1400)}。再 Read ${p(packName)}${industryFile ? '、' + industryFile : ''}。` +
+      `逐条挑战，揭示 ${code} 的风险与下行。无数据支撑不计入。` +
+      `输出 JSON：{role:"bear",code:"${code}",name,challenge,bear_points,downside_risk,evidence}。${GROUNDING}`,
+      { label: '个股空头', phase: '行业内研究部门' }
+    );
+    await writeJson(`stock_debate_${sn}.json`, { code, rounds: [{ round: 1, bull, bear }] });
+
+    const director = await agent(
+      `你是行业内研究总监（任务 A 个股评级）。Read ${p(`stock_debate_${sn}.json`)}、${p(packName)}${industryFile ? '、' + industryFile : ''}。` +
+      `综合多空拍板 ${code} 的评级/目标价/买入区间。` +
+      `输出 JSON：{code:"${code}",name,industry:"${industry}",rating,target_price,entry_price_range,thesis,risks,confidence,evidence}。${GROUNDING}`,
+      { label: '行业内总监', phase: '行业内研究部门' }
+    );
+
+    const payload = {
+      code,
+      name: director.name || bull.name || code,
+      industry,
+      rating: director.rating || null,
+      target_price: director.target_price ?? null,
+      entry_price_range: director.entry_price_range || null,
+      thesis: director.thesis || '',
+      risks: director.risks || [],
+      debate_rounds: [{ round: 1, bull, bear }],
+      confidence: director.confidence || null,
+      evidence: director.evidence || [],
+    };
+    await writeEnvelope(unitId, payload, { upstreamRefs, inputs, status: 'green' });
+    log(`✅ ${unitId} 完成：rating=${payload.rating || '?'} tp=${payload.target_price ?? '?'}`);
+    return { status: 'done', unit_id: unitId };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 失败: ${e}`);
+    await writeEnvelope(unitId, { code, error: String(e) }, { upstreamRefs, inputs, status: 'red', error: String(e) });
+    throw e;
+  } finally {
+    await unlockUnit(unitId);
+  }
+}
+
+// 列出某行业内已落盘的个股单元
+async function listStockUnitsForIndustry(name) {
+  try {
+    const raw = await Bash(
+      `for f in ${dataDir}/stocks/*.json; do [ -f "$f" ] || continue; python3 -c "import json,sys;d=json.load(open('$f'));print('$f') if d.get('payload',{}).get('industry')=='''${name}''' else None" 2>/dev/null; done || true`
+    );
+    return String(raw).trim().split('\n').filter(Boolean);
+  } catch (e) {
+    return [];
+  }
+}
+
+// ── 部门：行业内资金配比（alloc:industry:<name>，FR-006 AC6.5） ──
+async function runIntraIndustryAllocation(name) {
+  const unitId = `alloc:industry:${name}`;
+  const sn = safeName(name);
+  phase('行业内研究部门');
+  log(`运行行业内资金配比：${unitId}`);
+
+  const stockFiles = await listStockUnitsForIndustry(name);
+  if (!stockFiles.length) {
+    throw new Error(`行业「${name}」尚无个股分析单元；请先 analyze stock:<code>`);
+  }
+  const upstreamRefs = ['alloc:equity_industries',
+    ...stockFiles.map((f) => 'stock:' + f.split('/').pop().replace(/\.json$/, ''))];
+  const inputs = [p('allocation/equity_industries.json'), ...stockFiles];
+
+  await lockUnit(unitId);
+  try {
+    const director = await agent(
+      `你是行业内研究总监（任务 B 行业内配比）。Read ${p('allocation/equity_industries.json')}（取「${name}」的 target_weight 为上限）` +
+      `与本行业个股单元：${stockFiles.join('、')}（读各自 rating/target_price/entry_price_range）。` +
+      `在行业目标权重内对个股做配比，校验 Σstock_weight ≤ 行业 target_weight。高评级/高确定性多配，避免单股过度集中。` +
+      `输出 JSON：{industry:"${name}",industry_target_weight,stock_weights:[{code,target_weight,entry_price_range,reasoning}],sum_weight,input_warnings,evidence}。${GROUNDING}`,
+      { label: '行业内配比总监', phase: '行业内研究部门' }
+    );
+    const stockWeights = Array.isArray(director.stock_weights) ? director.stock_weights : [];
+    const sumW = stockWeights.reduce((acc, s) => acc + (Number(s.target_weight) || 0), 0);
+    const payload = {
+      industry: name,
+      industry_target_weight: director.industry_target_weight ?? null,
+      stock_weights: stockWeights,
+      sum_weight: Math.round(sumW * 10) / 10,
+      input_warnings: director.input_warnings || [],
+      evidence: director.evidence || [],
+    };
+    const cap = director.industry_target_weight;
+    if (cap != null && sumW > cap + 0.5) {
+      payload.input_warnings.push({ code: '*', issue: 'over_weight', detail: `Σ个股权重=${sumW.toFixed(1)}% > 行业上限=${cap}%，请复核` });
+    }
+    await writeEnvelope(unitId, payload, { upstreamRefs, inputs, status: 'green' });
+    log(`✅ ${unitId} 完成：Σ=${sumW.toFixed(1)}%`);
+    return { status: 'done', unit_id: unitId };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 失败: ${e}`);
+    await writeEnvelope(unitId, { industry: name, error: String(e) }, { upstreamRefs, inputs, status: 'red', error: String(e) });
+    throw e;
+  } finally {
+    await unlockUnit(unitId);
+  }
+}
+
 // ── 主调度 ──────────────────────────────────────────────────
 async function main() {
   const sel = parseSelector(selector);
@@ -287,10 +566,16 @@ async function main() {
       return runAssetDepartment(sel.key, true);
     case 'alloc':
       if (sel.key === 'portfolio') return runAllocationPortfolio();
-      throw new Error(`alloc:${sel.key} 的编排在 Task 3 扩展（equity_industries）`);
-    // industry / stock / alloc_industry 路径在 Task 3 扩展
+      if (sel.key === 'equity_industries') return runEquityIndustriesAllocation();
+      throw new Error(`未知 alloc 单元: alloc:${sel.key}`);
+    case 'alloc_industry':
+      return runIntraIndustryAllocation(sel.key);
+    case 'industry':
+      return runIndustryDepartment(sel.key);
+    case 'stock':
+      return runStockDepartment(sel.key);
     default:
-      throw new Error(`单元类型 ${sel.type} 的编排尚未实现（将在后续阶段补全）`);
+      throw new Error(`未知单元类型: ${sel.type}`);
   }
 }
 

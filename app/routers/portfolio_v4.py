@@ -15,6 +15,7 @@ from app.core.response import ok
 from app.routers.auth_db import get_current_user
 from app.services.v4 import asset_classes as ac
 from app.services.v4 import v4_query
+from app.services.v4 import v4_unit_store as store
 
 router = APIRouter(prefix="/portfolio/v4", tags=["portfolio-v4"])
 logger = logging.getLogger("webapi")
@@ -46,59 +47,16 @@ async def v4_units_status(current_user: dict = Depends(get_current_user)):
 
 @router.get("/asset/{asset_class}", response_model=dict)
 async def v4_asset_detail(asset_class: str, current_user: dict = Depends(get_current_user)):
-    """Tab2：大类详情。权益→行业列表（Task 3 填充）；非权益→方案 payload。"""
+    """Tab2：大类详情。权益→行业列表；非权益→方案 payload。"""
     units = await v4_query.load_user_units(_db(), current_user["id"])
-    asset_env = units.get(f"asset:{asset_class}")
-    plan_env = units.get(f"plan:{asset_class}")
-    meta = v4_query.decorate_unit(f"asset:{asset_class}", asset_env, units)
-    resp = {
-        "asset_class": asset_class,
-        "label": ac.label_of(asset_class),
-        "is_equity": ac.is_equity(asset_class),
-        "max_drill_depth": ac.max_drill_depth(asset_class),
-        "asset_unit": meta,
-        "verdict": (asset_env or {}).get("payload", {}).get("verdict") if asset_env else None,
-        "tradable": (asset_env or {}).get("payload", {}).get("tradable", []) if asset_env else [],
-        "holding_only_exposure": (asset_env or {}).get("payload", {}).get("holding_only_exposure", 0) if asset_env else 0,
-    }
-    if not ac.is_equity(asset_class):
-        # 非权益：方案 payload（plan:<class> 优先，回退 asset 的 plan 字段）
-        plan_payload = (plan_env or {}).get("payload", {}) if plan_env else {}
-        resp["plan_unit"] = v4_query.decorate_unit(f"plan:{asset_class}", plan_env, units)
-        resp["plan"] = plan_payload.get("plan") or (asset_env or {}).get("payload", {}).get("plan")
-    else:
-        # 权益：行业列表（Task 3 由 alloc:equity_industries + industry:* 提供）
-        eq_alloc = units.get("alloc:equity_industries")
-        resp["equity_industries_unit"] = v4_query.decorate_unit("alloc:equity_industries", eq_alloc, units)
-        resp["industries"] = (eq_alloc or {}).get("payload", {}).get("allocations", []) if eq_alloc else []
-    return ok(resp)
+    return ok(v4_query.build_asset_detail(units, asset_class))
 
 
 @router.get("/industry/{name}", response_model=dict)
 async def v4_industry_detail(name: str, current_user: dict = Depends(get_current_user)):
-    """Tab3：行业深辩报告 + 个股列表 + 行业内配比（Task 3 链路）。"""
+    """Tab3：行业深辩报告 + 个股列表 + 行业内配比。"""
     units = await v4_query.load_user_units(_db(), current_user["id"])
-    ind_env = units.get(f"industry:{name}")
-    alloc_env = units.get(f"alloc:industry:{name}")
-    resp = {
-        "industry": name,
-        "industry_unit": v4_query.decorate_unit(f"industry:{name}", ind_env, units),
-        "verdict": (ind_env or {}).get("payload", {}).get("verdict") if ind_env else None,
-        "debate_rounds": (ind_env or {}).get("payload", {}).get("debate_rounds", []) if ind_env else [],
-        "intra_alloc_unit": v4_query.decorate_unit(f"alloc:industry:{name}", alloc_env, units),
-        "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],
-    }
-    # 个股单元（从已落盘的 stock:* 中挑该行业的，前端按 stock_weights 关联）
-    stocks = []
-    for uid, env in units.items():
-        if uid.startswith("stock:"):
-            pl = env.get("payload", {})
-            if pl.get("industry") == name:
-                stocks.append({**v4_query.decorate_unit(uid, env, units),
-                               "code": pl.get("code"), "name": pl.get("name"),
-                               "rating": pl.get("rating"), "target_price": pl.get("target_price")})
-    resp["stocks"] = stocks
-    return ok(resp)
+    return ok(v4_query.build_industry_detail(units, name))
 
 
 @router.post("/import", response_model=dict)
@@ -109,9 +67,18 @@ async def v4_import(payload: dict, current_user: dict = Depends(get_current_user
         return ok({"imported": 0, "message": "Mongo 不可用"})
     envelopes = payload.get("units") or ([payload] if payload.get("unit_id") else [])
     n = 0
+    rejected: list[str] = []
     for env in envelopes:
         uid = env.get("unit_id")
         if not uid:
+            rejected.append("(缺少 unit_id)")
+            continue
+        # 校验 unit_id 格式合法（防脏数据入库）：非法前缀/格式直接拒绝
+        try:
+            store.parse_unit_id(uid)
+        except ValueError as e:
+            logger.warning("v4 import 拒绝非法 unit_id=%r: %s", uid, e)
+            rejected.append(str(uid))
             continue
         doc = dict(env)
         doc["user_id"] = current_user["id"]
@@ -121,4 +88,4 @@ async def v4_import(payload: dict, current_user: dict = Depends(get_current_user
             upsert=True,
         )
         n += 1
-    return ok({"imported": n})
+    return ok({"imported": n, "rejected": rejected})

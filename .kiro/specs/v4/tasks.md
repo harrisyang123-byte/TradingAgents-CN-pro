@@ -134,7 +134,7 @@
 **文件**: `app/services/v4/v4_classifier.py`、`agents/advisor/v4-asset-*.md`（6 个）、`scripts/collect_v4.py`、`scripts/workflow-v4-advisor.js`
 **验证**: 用样例持仓跑穿透归类，校验七大类 + unclassified 桶 + tradable/holding_only 分离；CLI `run_v4.sh analyze asset:equity` 跑通，产物含 3 轮 debate_rounds + verdict；对零持仓大类（如 alternative）触发能产报告；重跑某类不影响其它类文件。
 
-### Task 2: S2 配比机制 — 资产配比决策 + 约束下传 + 状态机收口 + Tab1 ⬜
+### Task 2: S2 配比机制 — 资产配比决策 + 约束下传 + 状态机收口 + Tab1 ✅
 **关联需求**: AC3.1, AC3.2, AC3.3, AC3.4, AC3.5, AC4.2, AC4.6, AC5.2, AC5.5, AC8.1, AC8.4, AC8.5, NFR1.2, NFR2.2, NFR3.1
 **目标**: 落地资产配置委员会配比决策（Σ=100%、允许主动归零、equity_quota 下传）、上游变更级联软提醒的完整状态机闭环，以及前端 Tab1 七大类卡片 + 公共状态组件（design FR-003/FR-004/FR-005、§5.4 `alloc:portfolio`、§5.5 API、§5.7 前端）。
 **依赖**: Task 0, Task 1
@@ -147,7 +147,7 @@
 **文件**: `agents/advisor/v4-allocation-director.md`、`scripts/workflow-v4-advisor.js`（扩展）、`app/services/v4/v4_state.py`（扩展）、`app/routers/portfolio_v4.py`、`frontend/src/views/Portfolio/v4/{AssetAllocationTab,AssetCard,UnitStatusBadge,EmptyUnitState}.vue`、`useV4Units.ts`
 **验证**: `run_v4.sh analyze alloc:portfolio` 产配比，Σ=100% 校验；构造某类目标 0% 校验 actively_zeroed 合法；权益=0% 时前端标「本期不配置权益」；改某 `asset:*` 重跑使 version+1，`scan` 后配比单元置黄并显示 stale_reason；前端 Tab1 渲染 7 卡 + 五色 + 空态。
 
-### Task 3: S3 权益深链 — 行业深辩 → 行业配比 → 个股 → 行业内配比 + Tab2/3 ⬜
+### Task 3: S3 权益深链 — 行业深辩 → 行业配比 → 个股 → 行业内配比 + Tab2/3 ✅
 **关联需求**: AC6.1, AC6.2, AC6.3, AC6.4, AC6.5, AC6.6, AC8.2（权益）, AC8.3
 **目标**: 贯通权益大类三层深链（正确顺序：先深辩定方向→行业间配比→独立行业内部门做个股→行业内资金配比），并落地 Tab2 权益行业表格与 Tab3 行业/个股表格（design FR-006、§5.3 行业/个股角色、§5.7）。
 **依赖**: Task 2
@@ -161,7 +161,7 @@
 **文件**: `app/services/v4/industry_candidates.py`、`agents/advisor/v4-industry-*.md`（4 个）、`agents/advisor/v4-stock-*.md`（3 个）、`scripts/workflow-v4-advisor.js`（扩展）、`app/routers/portfolio_v4.py`（扩展 asset/industry 详情）、`frontend/src/views/Portfolio/v4/{AssetDetailTab,IndustryTable,IndustryDetailTab,StockTable}.vue`
 **验证**: `run_v4.sh analyze industry:AI算力` 产深辩 + verdict；`analyze alloc:equity_industries` 校验 Σ≤equity_quota；`analyze stock:<code>` 独立缓存、重跑不影响他股；行业配比变更后行业内配比置黄；前端 Tab2 行业表格、Tab3 深辩+个股表格渲染正确。
 
-### Task 4: S4 非权益六类 — 差异化投资方案 ⬜
+### Task 4: S4 非权益六类 — 差异化投资方案 ✅
 **关联需求**: AC7.1, AC7.2, AC7.3, AC7.4, AC7.5, AC7.6, AC7.7, AC8.2（非权益）
 **目标**: 为固收/现金/大宗/贵金属/房地产/另类六大类落地与其本质匹配的差异化方案（复用大类研究部门范式，director 注入按类方案模板），并在 Tab2 渲染方案视图（design FR-007、§5.4 `plan:<class>` payload）。
 **依赖**: Task 1（复用大类部门范式）, Task 2（Tab2 框架）
@@ -177,7 +177,7 @@
 **文件**: `scripts/workflow-v4-advisor.js`（扩展 plan 路径）、`agents/advisor/v4-asset-director.md`（方案模板）、`app/routers/portfolio_v4.py`（plan 详情）、`frontend/src/views/Portfolio/v4/PlanCard.vue`
 **验证**: 对 cash/fixed_income/commodity/precious_metal/real_estate/alternative 各 `run_v4.sh analyze plan:<class>` 跑通，校验各自 payload 字段（holding_structure / duration_view+instrument_mix / risk_flags 等）；前端 Tab2 进入非权益大类展示对应方案卡片；非权益单元遵守状态机软提醒。
 
-### Task 5: S5 双跑 / 导入 / 快照 / 运行报告 — 本地与代跑一致 ⬜
+### Task 5: S5 双跑 / 导入 / 快照 / 运行报告 — 本地与代跑一致 ✅
 **关联需求**: AC9.1, AC9.5, NFR3.2, NFR4.1
 **目标**: 打通「本地运行 / AI 代跑」两入口同构、git JSON → MongoDB 幂等导入、静态快照降级与单元级运行报告，确保本地拉取后前端三层 Tab 展示与本地运行一致（design FR-009、§5.5 import、§5.1 快照、NFR3.2）。
 **依赖**: Task 0（信封 schema/落盘）, Task 2（前端解析层）；建议在 Task 3/4 单元齐备后做端到端一致性验证
@@ -196,7 +196,9 @@
 |------|----------|------|
 | Task 0 单元化基础骨架 | AC1.3/4.1/4.3/4.4/4.5/4.7/5.1/5.3/5.4/9.2/9.3/9.6 + NFR1.1/2.1/4.2/5.1/5.2 | ✅ |
 | Task 1 S1 资产层（归类+大类部门） | AC1.1/1.2/1.4/2.1~2.5/9.4 | ✅ |
-| Task 2 S2 配比机制 + 状态机 + Tab1 | AC3.1~3.5/4.2/4.6/5.2/5.5/8.1/8.4/8.5 + NFR1.2/2.2/3.1 | ⬜ |
-| Task 3 S3 权益深链 + Tab2/3 | AC6.1~6.6/8.2(权益)/8.3 | ⬜ |
-| Task 4 S4 非权益六类方案 | AC7.1~7.7/8.2(非权益) | ⬜ |
-| Task 5 S5 双跑/导入/快照/报告 | AC9.1/9.5 + NFR3.2/4.1 | ⬜ |
+| Task 2 S2 配比机制 + 状态机 + Tab1 | AC3.1~3.5/4.2/4.6/5.2/5.5/8.1/8.4/8.5 + NFR1.2/2.2/3.1 | ✅ |
+| Task 3 S3 权益深链 + Tab2/3 | AC6.1~6.6/8.2(权益)/8.3 | ✅ |
+| Task 4 S4 非权益六类方案 | AC7.1~7.7/8.2(非权益) | ✅ |
+| Task 5 S5 双跑/导入/快照/报告 | AC9.1/9.5 + NFR3.2/4.1 | ✅ |
+
+> 状态更新（2026-06-07）：S2-S5 全部已落地——后端（`portfolio_v4.py` 只读+导入路由 / `v4_query.py` / `v4_state.py` 收口 / `industry_candidates.py` / 编排器 `workflow-v4-advisor.js` 全单元路径）、Agent（`v4-allocation-director` + `v4-industry-*` + `v4-stock-*`）、前端三层 Tab（`V4Overview.vue` + `v4/` 下 11 个组件/composable）、脚本（`import_v4.py` / `build_snapshot_v4.py` / `run_report_v4.py`）均已创建并通过 `py_compile` + `node --check` + `bash -n`。审查报告点名的 3 处遗留（`v4_query` 静默吞异常、`v4_state.fingerprint` 宽泛 except、`/import` 缺 unit_id 校验）已修复。端到端真跑（claude -p 驱动子 Agent + Mongo）仍需具鉴权与数据库的部署环境验证。

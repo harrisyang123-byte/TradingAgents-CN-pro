@@ -303,6 +303,66 @@ python scripts/run_report.py --data-dir data/advisor_runs/<ts>
 
 ---
 
+## v4 分层独立深度投研系统（与 v3 并存，预览）
+
+v4 是一条**与 v3 完全并存、零侵入**的新链路，把投研拆成常驻的「分析单元」：七大类资产（权益/固收/现金/大宗/贵金属/房地产/另类）→ 行业 → 个股 + 各层配比，每个单元有稳定 `unit_id`、独立产物 JSON、独立五色状态与 TTL，触发只跑命中单元。独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器/路由，v3 一行不动。完整规格见 `.kiro/specs/v4/`，Agent 指南见 [AGENTS.md](AGENTS.md) 第 11 节。
+
+### 触发（CLI 与 Web 分离）
+
+```bash
+./scripts/run_v4.sh analyze asset:equity --user-id <id> --portfolio-file data/v4/_inputs/holdings.json
+./scripts/run_v4.sh status            # 列全部单元五色状态
+```
+
+`unit-selector`：`asset:<class>` / `plan:<class>` / `alloc:portfolio` / `alloc:equity_industries` / `industry:<name>` / `stock:<code>` / `alloc:industry:<name>`。
+
+### 双跑文件总线：本地 ↔ AI 代跑（靠 git 传输）
+
+v4 的 git 传输载体 = `data/v4/**/*.json` **单元粒度结构化文件**（diff 友好、可 review）。**`data/` 整体忽略，但 `data/v4/` 子树显式解除忽略**（运行锁 `_locks/`、collect 中间包 `inputs/`、`.tmp` 仍排除），所以 AI 代跑产出的单元 JSON 能经 git 回传本地。
+
+```
+本地: 编辑 data/v4/_inputs/holdings.json ──git push──▶ 私有仓
+                                                         │ git pull
+                                 AI 代跑: ./run_v4.sh analyze <unit> --portfolio-file data/v4/_inputs/holdings.json
+                                                         │ 产出 data/v4/{assets,allocation,industries,stocks,plans}/*.json
+本地: git pull ◀──git push（AI 提交单元产物）────────────┘
+      python scripts/import_v4.py --user-id <id>   # 幂等导入 v4_units，前端三层 Tab 即与代跑一致
+```
+
+> ⚠️ `data/v4/` 含真实持仓/处方财务数据，**只在私有仓库 / 私有分支使用**。仓库其它位置的 `holdings.json` 仍被忽略。
+
+### 本地持仓推送格式
+
+把持仓放到固定路径 `data/v4/_inputs/holdings.json`（模板 `holdings.example.json` + 字段说明见 `data/v4/_inputs/README.md`）：
+
+```json
+{"positions": [
+  {"code": "600519", "name": "贵州茅台", "weight": 15, "market_value": 150000, "instrument_type": "stock"},
+  {"code": "511990", "name": "华宝添益货币ETF", "weight": 12, "market_value": 120000, "instrument_type": "fund"},
+  {"code": "", "name": "活期存款", "weight": 7, "market_value": 70000, "instrument_type": "cash"}
+]}
+```
+
+- `name` 是归类主依据（名称关键词优先），`instrument_type`（`stock/etf/fund/bond/cash/other`）做兜底；判不出归 `unclassified`（不丢弃）。
+- 现金、实物房产等无市场代码的敞口 `code` 留空。零持仓的大类也能分析。
+
+### 跑全量分析
+
+```bash
+H=data/v4/_inputs/holdings.json
+for c in equity fixed_income cash commodity precious_metal real_estate alternative; do
+  ./scripts/run_v4.sh analyze asset:$c --user-id <id> --portfolio-file $H; done
+./scripts/run_v4.sh analyze alloc:portfolio --user-id <id> --portfolio-file $H
+# 权益深链：industry:<行业> → alloc:equity_industries → stock:<代码> → alloc:industry:<行业>
+python scripts/import_v4.py --user-id <id>     # 回传后导入
+python scripts/run_report_v4.py                # 逐单元体检
+python scripts/build_snapshot_v4.py            # （可选）静态快照 → frontend/public/snapshot/v4/
+```
+
+> `run_v4.sh` 第 2 阶段（Agent 推理）需 `claude` CLI 鉴权；无 claude 时第 1 阶段（采集输入包）仍完成并打印待手动执行的命令。
+
+---
+
 ## API 说明
 
 | 接口 | 说明 |

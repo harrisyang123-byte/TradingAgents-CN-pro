@@ -388,6 +388,15 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'v4-overview',
+        name: 'PortfolioV4Overview',
+        component: () => import('@/views/Portfolio/V4Overview.vue'),
+        meta: {
+          title: '组合总揽 v4',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'fund/:code',
         name: 'FundDetail',
         component: () => import('@/views/FundDetail/index.vue'),

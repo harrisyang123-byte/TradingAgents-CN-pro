@@ -1,0 +1,16 @@
+{
+  "_comment": "v4 持仓输入模板。复制本文件为 holdings.json 并填入你的真实持仓后，git 推送到【私有仓库】，AI 代跑即读取它。字段说明见同目录 README.md。",
+  "positions": [
+    {"code": "600519", "name": "贵州茅台",        "weight": 15, "market_value": 150000, "instrument_type": "stock"},
+    {"code": "00700",  "name": "腾讯控股",        "weight": 10, "market_value": 100000, "instrument_type": "stock"},
+    {"code": "510300", "name": "沪深300ETF",      "weight": 8,  "market_value": 80000,  "instrument_type": "etf"},
+    {"code": "511260", "name": "十年国债ETF",      "weight": 10, "market_value": 100000, "instrument_type": "fund"},
+    {"code": "511990", "name": "华宝添益货币ETF",  "weight": 12, "market_value": 120000, "instrument_type": "fund"},
+    {"code": "518880", "name": "华安黄金ETF",      "weight": 8,  "market_value": 80000,  "instrument_type": "fund"},
+    {"code": "159985", "name": "豆粕ETF商品期货",  "weight": 5,  "market_value": 50000,  "instrument_type": "fund"},
+    {"code": "180101", "name": "中金普洛斯REIT",   "weight": 5,  "market_value": 50000,  "instrument_type": "fund"},
+    {"code": "",       "name": "活期存款",         "weight": 7,  "market_value": 70000,  "instrument_type": "cash"},
+    {"code": "",       "name": "实物房产-自住房",   "weight": 0,  "market_value": 500000, "instrument_type": "other"},
+    {"code": "BTC",    "name": "比特币",           "weight": 3,  "market_value": 30000,  "instrument_type": "other"}
+  ]
+}
