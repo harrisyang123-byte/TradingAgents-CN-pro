@@ -512,6 +512,30 @@ A（展示管线，纯前端/查询，改完即可前端验证看到辩论）
 - A 验证：`build_asset_detail` 加字段后 `py_compile` 绿；重生成快照；前端点大类卡 → 大类详情页见多空 3 轮对栏。
 - B/C 验证：director prompt 加 `reflection` 节后，部署机（claude 鉴权）重跑 `asset:equity`，确认 v2 verdict 带 reflection 引用 v1 结论；`AssetDetailTab` 显示「较上次」条。沙箱仅静态验证（`py_compile` / `node --check` / Vue 由 `vue-tsc` 或构建）。
 
+#### 5.9.5 适用范围（全局通用能力 + 分阶段落地）
+
+**定性**：B（结果闭环反思）与 C（反骑墙 + 源冲突接地）**本质是全局通用能力**，与 §5.8 的 `v4-data-desk` 同属「通用能力层」——它们不是大类层专属机制，而是对 v4 全部研判型角色普适。**但本期落地范围收窄到大类层**（`v4-asset-director` + data-desk），先验证闭环与效果，其余层下一阶段低成本铺开。
+
+v4 有 4 个「总监/裁判」型角色，都满足同一模式（有结论 + 会重跑覆盖 + 已被 archive 归档）：
+
+| Agent | 层 | 结论字段 | B 反思天然适用 | C 反骑墙天然适用 |
+|-------|----|---------|:---:|:---:|
+| `v4-asset-director` | 大类 | `verdict.stance` | ✅ | ✅ |
+| `v4-industry-director` | 行业 | `verdict.stance/go_nogo` | ✅ | ✅ |
+| `v4-stock-director` | 个股 | `rating/目标价` | ✅ | ✅ |
+| `v4-allocation-director` | 配比 | `weights` | ✅ | （配比裁判无 stance，仅适用反思） |
+
+**为什么说反思「地基已全局通用」**：`archive_v4.py` 的归档不分层级（`baseline` 一次性归档全部单元、`write_unit` 覆盖前留底对所有单元生效、`_conclusion()` 已兼容 stance/direction/weight/rating/vitality_level/go_nogo 全部结论字段），且「write 前落盘仍是旧版」的时序巧合对 4 个 director 同样成立。因此让行业/个股总监也读上一版、出 `reflection`，**不需要任何新基建，只是把同一段 prompt 节复制到另外 3 个 director**。C 的源冲突接地同理——任何读数角色（不止大类三专项分析师，含行业/个股层分析师）都普适。
+
+**分阶段**：
+
+| 阶段 | B 反思 | C 反骑墙 / 源冲突 | 说明 |
+|------|--------|------------------|------|
+| **本期**（随大类 equity 主线） | `v4-asset-director` | `v4-asset-director` + `v4-data-desk` + 大类三专项分析师 | 即本节 5.9.1~5.9.4 范围，先跑通验证 |
+| **下一阶段**（低成本铺开） | `v4-industry-director` / `v4-stock-director` / `v4-allocation-director` | 行业/个股 director + 各层读数分析师 | prompt 措辞几乎一致、地基全通用，仅复制 reflection 节 + 反骑墙条款；reflection JSON schema 保持同构，避免各层各搞一套不一致格式 |
+
+> 约束：下一阶段铺开时**沿用本期定稿的 `reflection` 字段结构与反骑墙措辞**，不得在行业/个股层另立格式。本说明仅定性与排期，不改动本期实现范围与其余 spec。
+
 ---
 
 ## 六、分阶段落地建议（staged，对齐 requirements 边界声明）
