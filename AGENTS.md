@@ -215,6 +215,35 @@ v4 是一条**与 v3 完全并存、零侵入**的新链路：独立集合 `v4_u
 
 七大类 class：`equity / fixed_income / cash / commodity / precious_metal / real_estate / alternative`。
 
+#### 快捷指令 → 真实命令（v4 对话触发）
+
+| 用户说 | 实际执行 | 等价命令 |
+|--------|----------|----------|
+| `分析权益` / `analyze equity` | 权益大类深度分析 | `run_v4.sh analyze asset:equity` |
+| `分析固收` / `分析债券` | 固收大类分析 | `run_v4.sh analyze asset:fixed_income` |
+| `分析现金` | 现金大类分析 | `run_v4.sh analyze asset:cash` |
+| `分析大宗` / `分析商品` | 大宗商品分析 | `run_v4.sh analyze asset:commodity` |
+| `分析贵金属` / `分析黄金` | 贵金属分析 | `run_v4.sh analyze asset:precious_metal` |
+| `分析房地产` / `分析 REIT` | 房地产分析 | `run_v4.sh analyze asset:real_estate` |
+| `分析另类` / `分析虚拟币` | 另类投资分析 | `run_v4.sh analyze asset:alternative` |
+| `跑资产配比` / `配比` | 七大类配比决策 | `run_v4.sh analyze alloc:portfolio` |
+| `分析<行业>行业` / `深辩<行业>` | 行业深度辩论 | `run_v4.sh analyze industry:<行业>` |
+| `行业配比` | 权益行业间配比 | `run_v4.sh analyze alloc:equity_industries` |
+| `分析<代码>` | 个股独立分析 | `run_v4.sh analyze stock:<代码>` |
+| `行业内配比 <行业>` | 行业内资金分配 | `run_v4.sh analyze alloc:industry:<行业>` |
+| `<大类>投资方案` | 非权益差异化方案 | `run_v4.sh analyze plan:<class>` |
+| `刷新<单元>` / `refresh <unit>` | 强制失效重跑 | `run_v4.sh refresh <unit-selector>` |
+| `v4 状态` | 查看全部单元五色状态 | `run_v4.sh status --json` |
+| `v4 扫描` / `扫描过期` | 仅置黄过期单元 | `run_v4.sh scan --json` |
+| `跑全量 v4` / `全部分析` | 七大类+配比+非权益方案 | 见 §11.4 全量序列 |
+| `导入 v4` | 代跑产物导入 Mongo | `import_v4.py --user-id <id>` |
+| `v4 报告` / `体检` | 逐单元体检 | `run_report_v4.py` |
+| `v4 快照` | 生成前端静态快照 | `build_snapshot_v4.py` |
+
+所有命令默认带 `--user-id $V4_USER_ID --portfolio-file data/v4/_inputs/holdings.json`。`分析` = 有缓存则跳过；`刷新` = 强制重跑。未指定行业/个股时 AI 应列出可选项让用户选择，**不猜测**。
+
+详细意图解析规则见 Skill `.claude/skills/v4-advisor/SKILL.md`。
+
 ### 11.2 双跑文件总线（本地 ↔ AI 代跑，靠 git 传输）⚠️ 关键
 
 v4 的 git 传输载体 = `data/v4/**/*.json` **单元粒度结构化文件**（diff 友好、可 review，非 dump/二进制，FR-009 AC9.3）。
