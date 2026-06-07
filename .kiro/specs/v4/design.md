@@ -454,6 +454,66 @@ collect_v4 从「取数 + 拼包」**退化为「持仓穿透归类 + 拼输入�
 ---
 
 
+### 5.9 大类辩论展示 + 结果闭环反思 + 反骑墙措辞（★借鉴 TradingAgents）
+
+本节固化三块增强：**A 大类详情展示多轮辩论（纯展示管线，零 LLM 重跑）**、**B 结果闭环反思（director 跨轮自省，Layer 1）**、**C prompt 反骑墙 + 源冲突接地**。三者均叠加在 §5.8 之上，不改单元信封 schema 外壳、不改状态机/约束链/v3。
+
+#### 5.9.1 A — 大类详情展示多轮辩论（展示缺口，非数据缺口）
+
+**根因**：`asset:<class>` 信封 `payload` 早已存了完整的 `debate_rounds`（多空 3 轮）与 `analysts`（macro/flow/policy 三专项），但 `build_asset_detail`（`v4_query.py`）只吐 `verdict/tradable/industries/plan`，把辩论与专项分析丢弃；前端 `AssetDetailTab.vue` 也无渲染区。行业层 `build_industry_detail` 与 `IndustryDetailTab.vue` 已有现成的辩论折叠块（`idt-debate`），照搬即可。**这是展示管线缺口，不需要任何 LLM 重跑。**
+
+改动点（4 处，全展示/管线）：
+
+| # | 文件 | 改动 |
+|---|------|------|
+| 1 | `app/services/v4/v4_query.py` `build_asset_detail` | 响应加 `debate_rounds`（取 `payload.debate_rounds`，默认 `[]`）与 `analysts`（取 `payload.analysts`，默认 `{}`）。**所有大类通用**——非权益大类同样有多空辩论，一并展示 |
+| 2 | `frontend/src/api/portfolioV4.ts` | `AssetDetail` 接口加 `debate_rounds: DebateRound[]` 与 `analysts?: Record<string, any>`（`DebateRound` 类型已存在，复用） |
+| 3 | `frontend/src/views/Portfolio/v4/AssetDetailTab.vue` | 在 verdict 头与行业/方案区之间插「大类深辩历程（N 轮）」折叠块——照搬 `IndustryDetailTab.vue` 的 `idt-debate`/`extractText(side)` 多空对栏；可选追加「宏观/资金/政策三视角」小卡 |
+| 4 | `scripts/build_snapshot_v4.py` | 无需改逻辑（复用 `build_asset_detail`），仅**重新生成快照**让静态快照也带辩论。**不重跑分析** |
+
+因 `build_asset_detail` 被 `portfolio_v4` 路由与 `build_snapshot_v4` 共用，改这一个函数 → API 与静态快照同时生效（NFR4.1 同构）。
+
+#### 5.9.2 B — 结果闭环反思（Layer 1：跨版本自我反思注入）
+
+借鉴 TradingAgents 的洞察：**记忆的价值在「结果接地的反思」，而非单纯版本 diff**。完整对齐需「收益回填」基础设施，故分 3 层增量，本设计**只落 Layer 1**（轻量、无需收益 feed）：
+
+- **时序巧合可复用**：`write_unit` 是「先归档旧版、再写新版」，而 director 跑在 write **之前**——所以 director 运行时，落盘的 `data/v4/assets/<class>.json` **仍是上一版**。director 直接 `Read` 它即可拿到自己上次的 verdict，**无需新建历史文件**。
+- **director prompt 加「记忆/反思」节**：开辩前读上一版 verdict（若存在）+ 本轮 data-desk 新数据，在输出新增 `reflection` 字段：
+
+```json
+"reflection": {
+  "prev_stance": "上次结论（无历史则 null）",
+  "prev_date": "上次 generated_at",
+  "what_changed": "数据/判断哪里变了",
+  "why_changed": "为什么改判（引用本轮新数据/事件）",
+  "self_check": "上次判断现在回看对不对（无历史则 'first_run'）"
+}
+```
+
+- **schema/接口/前端**：`asset:<class>` payload 的 `verdict` 旁挂 `reflection`（可选）；`portfolioV4.ts` `AssetVerdict` 旁加 `reflection?` 类型；`AssetDetailTab.vue` verdict 区下方加「较上次 / 自检」小条（无历史则不显示）。
+- **价值**：直接服务「看结论差异、调模型」，复用现成 archive + data-desk，零新基建。首跑 `reflection.self_check="first_run"`，重跑后才出真实自省。
+
+**Layer 2/3（本设计不实现，仅登记演进方向）**：Layer 2 给每大类绑基准（权益=沪深300/固收=中债…），data-desk 每轮快照基准点位入信封，重跑算「上次→这次基准涨跌%」让反思引用真实结果（接近 TA alpha 接地）；Layer 3 个股级 alpha 跟踪，工程量大，暂不排期。
+
+#### 5.9.3 C — 反骑墙 + 源冲突接地（prompt 措辞）
+
+借鉴 TradingAgents 两条招牌措辞，改 director 与 data-desk/分析师 prompt：
+
+1. **反骑墙（director）**：现铁律 2「数据盲区→stance 趋向 neutral / trend 趋向 hold / confidence low」反而**诱导骑墙**。改为 TA 式果断条款——「**只有多空证据真正势均力敌才给 neutral/hold；否则必须站队，明确说明采信哪方、压低哪方**」。数据盲区表达为「**降低 confidence + 缩小建议幅度**」，而非默认中性。
+2. **源冲突接地（data-desk + 三专项分析师）**：加「**多源冲突时标记分歧（列出各源值 + 采用值 + 采用理由），不私自调和出一个数**」——把手工抓 cn10y `2.7% vs 1.71%` 冲突的经验固化成规则。这与 §5.8 data-desk 凭据契约一致、是其细化。
+
+#### 5.9.4 实施顺序与验证
+
+```
+A（展示管线，纯前端/查询，改完即可前端验证看到辩论）
+  → B-Layer1 + C（改 director/data-desk prompt + schema + 前端反思条；需重跑一次 asset:<class> 才出 reflection）
+```
+
+- A 验证：`build_asset_detail` 加字段后 `py_compile` 绿；重生成快照；前端点大类卡 → 大类详情页见多空 3 轮对栏。
+- B/C 验证：director prompt 加 `reflection` 节后，部署机（claude 鉴权）重跑 `asset:equity`，确认 v2 verdict 带 reflection 引用 v1 结论；`AssetDetailTab` 显示「较上次」条。沙箱仅静态验证（`py_compile` / `node --check` / Vue 由 `vue-tsc` 或构建）。
+
+---
+
 ## 六、分阶段落地建议（staged，对齐 requirements 边界声明）
 
 | 阶段 | 范围 | 交付可用点 |
@@ -481,19 +541,22 @@ scripts/
 ├── import_v4.py                     # 幂等 upsert 入 v4_units（新增）
 ├── build_snapshot_v4.py             # v4 同构静态快照（新增）
 ├── run_report_v4.py                 # 单元级运行报告（新增）
+├── archive_v4.py                    # 单元历史归档 + 跨轮结论 diff（§5.9.2 反思地基，新增）
 └── stage_cache.py                   # 复用（指纹算法）
 app/
 ├── routers/portfolio_v4.py          # v4 只读 + 导入路由（新增）
 └── services/v4/
     ├── asset_classes.py             # 7 大类常量 + TTL + 下钻深度（新增）
     ├── v4_classifier.py             # 7 大类穿透归类（扩展现有，新增）
+    ├── v4_query.py                  # 三层 Tab 组装；build_asset_detail 加 debate_rounds/analysts（§5.9.1，改动）
     ├── v4_state.py                  # 状态机纯函数 + upstream 比对（新增）
-    ├── v4_unit_store.py             # 单元读写/索引/锁（新增）
+    ├── v4_unit_store.py             # 单元读写/索引/锁 + 覆盖前自动留底 archive（新增）
     └── industry_candidates.py       # 内置候选行业（新增）
 frontend/src/views/Portfolio/
 ├── Overview.vue                     # 重构为三层 Tab（改动）
 └── v4/                              # AssetAllocationTab/AssetDetailTab/IndustryDetailTab
     ├── AssetCard.vue  IndustryTable.vue  StockTable.vue  PlanCard.vue
+    ├── AssetDetailTab.vue           # 加大类深辩折叠块 + 「较上次」反思条（§5.9.1/5.9.2，改动）
     ├── UnitStatusBadge.vue  EmptyUnitState.vue
     └── useV4Units.ts
 ```
@@ -509,3 +572,6 @@ frontend/src/views/Portfolio/
 | 约束链跨单元一致性 | upstream 指纹 + version 比对，stale 软提醒；不自动改数值（AC5.5） |
 | v3/v4 并存维护成本 | 独立集合/目录/路由/编排器，互不干扰，可灰度可回退 |
 | CLI 自然语言解析歧义 | 提供等价显式脚本命令兜底（§5.2），AI 解析失败回落脚本 |
+| 辩论数据已存却前端不可见（§5.9.1） | build_asset_detail 补吐 debate_rounds/analysts，前端照搬行业层折叠块；纯展示、零 LLM 重跑、API/快照同构 |
+| 反思无收益接地易流于主观（§5.9.2 Layer 1） | Layer 1 仅做「跨版本自省」（引用上一版 verdict + 本轮新数据），明确登记 Layer 2 基准收益回填为后续演进；首跑标 first_run 不强造反思 |
+| 反骑墙措辞矫枉过正（被迫站队）（§5.9.3） | 仅在「证据势均力敌」才允许 neutral；数据盲区表达为降 confidence + 缩幅度，而非强行站队造假 |
