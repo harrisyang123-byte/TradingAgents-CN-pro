@@ -1,0 +1,119 @@
+{
+  "unit_id": "alloc:equity_industries",
+  "unit_type": "alloc",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:人工智能算力",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:半导体",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:创新药",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:新能源车",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:电力公用事业",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:消费电子家电",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:互联网平台",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:有色资源",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "equity_quota": 45,
+    "allocations": [
+      {
+        "industry": "人工智能算力",
+        "target_weight": 6,
+        "direction": "go"
+      },
+      {
+        "industry": "半导体",
+        "target_weight": 5,
+        "direction": "go"
+      },
+      {
+        "industry": "创新药",
+        "target_weight": 3,
+        "direction": "go"
+      },
+      {
+        "industry": "新能源车",
+        "target_weight": 2,
+        "direction": "neutral"
+      },
+      {
+        "industry": "电力公用事业",
+        "target_weight": 2,
+        "direction": "go"
+      },
+      {
+        "industry": "消费电子家电",
+        "target_weight": 3,
+        "direction": "neutral"
+      },
+      {
+        "industry": "互联网平台",
+        "target_weight": 2,
+        "direction": "neutral"
+      },
+      {
+        "industry": "有色资源",
+        "target_weight": 2,
+        "direction": "neutral"
+      },
+      {
+        "industry": "被动底仓(沪深300/中证500/A500/创业板/红利)",
+        "target_weight": 16,
+        "direction": "core_passive",
+        "note": "宽基+红利做底仓压舱，risk-off中提供安全垫；含 270010/110020/010736/007029/022424/003765/009052"
+      },
+      {
+        "industry": "海外敞口(纳指/全球精选/海外互联网QDII)",
+        "target_weight": 4,
+        "direction": "reduce",
+        "note": "降海外β：美股高估值(标普7383)+地缘risk-off，由历史敞口下调至4%；含 270042/161130/270023"
+      }
+    ],
+    "sum_weight": 45,
+    "input_warnings": [],
+    "logic": "45%权益额度内：被动底仓16%压舱→主线AI算力6+半导体5领衔→创新药3/消费3→新能源车2/电力2/互联网2/有色2→海外敞口降至4%。攻守均衡、A股为主、降海外β。"
+  }
+}

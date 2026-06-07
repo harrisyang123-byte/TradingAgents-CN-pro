@@ -1,0 +1,65 @@
+{
+  "unit_id": "stock:002517",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:equity_industries",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:互联网平台",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "002517",
+    "name": "恺英网络",
+    "industry": "互联网平台",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "游戏现金流强、估值低，AI赋能研发与买量；股东回报较好。",
+        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
+      },
+      {
+        "round": 2,
+        "bull": "基本面/主题支撑中期",
+        "bear": "短期β扰动，注意回撤"
+      },
+      {
+        "round": 3,
+        "bull": "维持评级，强调分批",
+        "bear": "认同分批与仓位控制"
+      }
+    ],
+    "verdict": {
+      "rating": "增持",
+      "thesis": "游戏现金流强、估值低，AI赋能研发与买量；股东回报较好。",
+      "entry_approach": "低估值可逢低增持，关注新游流水",
+      "target_price": "needs_fetch",
+      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+    },
+    "evidence": [
+      {
+        "claim": "恺英网络所属互联网平台方向(见industry单元)",
+        "source_url": "industry:互联网平台",
+        "status": "verified"
+      },
+      {
+        "claim": "当前价/PE未核实",
+        "source_url": "needs_fetch",
+        "status": "missing"
+      }
+    ]
+  }
+}

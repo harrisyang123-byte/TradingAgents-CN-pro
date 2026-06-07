@@ -1,0 +1,65 @@
+{
+  "unit_id": "stock:002001",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:equity_industries",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:创新药",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "002001",
+    "name": "新和成",
+    "industry": "创新药",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "维生素+蛋氨酸+香精龙头，周期性强、价格驱动盈利波动；非纯创新药。",
+        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
+      },
+      {
+        "round": 2,
+        "bull": "基本面/主题支撑中期",
+        "bear": "短期β扰动，注意回撤"
+      },
+      {
+        "round": 3,
+        "bull": "维持评级，强调分批",
+        "bear": "认同分批与仓位控制"
+      }
+    ],
+    "verdict": {
+      "rating": "中性",
+      "thesis": "维生素+蛋氨酸+香精龙头，周期性强、价格驱动盈利波动；非纯创新药。",
+      "entry_approach": "周期底部布局、价格上行兑现，标配",
+      "target_price": "needs_fetch",
+      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+    },
+    "evidence": [
+      {
+        "claim": "新和成所属创新药方向(见industry单元)",
+        "source_url": "industry:创新药",
+        "status": "verified"
+      },
+      {
+        "claim": "当前价/PE未核实",
+        "source_url": "needs_fetch",
+        "status": "missing"
+      }
+    ]
+  }
+}

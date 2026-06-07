@@ -1,0 +1,61 @@
+{
+  "unit_id": "plan:real_estate",
+  "unit_type": "plan",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "asset:real_estate",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:39:49Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "real_estate",
+    "target_weight": 3,
+    "verdict": {
+      "stance": "neutral",
+      "summary": "仅精选经营性基础设施REITs，回避地产开发链与实物"
+    },
+    "instrument_mix": [
+      {
+        "bucket": "基础设施公募REITs(产业园/仓储物流/能源)",
+        "target_share": "约70%",
+        "tradable": true,
+        "rationale": "现金流稳定+政策支持，分派率约4-6%，类固收收益型",
+        "tools": "公募REITs二级/REITs指数"
+      },
+      {
+        "bucket": "保障房REITs",
+        "target_share": "约30%",
+        "tradable": true,
+        "rationale": "政策托底、现金流确定性高"
+      },
+      {
+        "bucket": "地产开发商股票",
+        "target_share": "0%",
+        "tradable": true,
+        "rationale": "结构性下行，回避"
+      },
+      {
+        "bucket": "实物房产",
+        "target_share": "记敞口(不新增)",
+        "tradable": false,
+        "rationale": "流动性差、仅作配置桶记录敞口，给宏观持有建议不荐标的"
+      }
+    ],
+    "note": "零持仓起步，3%目标聚焦现金流稳健的经营性基础设施REITs，作收益增强与分散。",
+    "risk_flags": [
+      "REITs流动性/定价效率有限",
+      "单一项目经营风险",
+      "利率上行压制估值",
+      "地产板块情绪传导"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "unit_id": "industry:电力公用事业",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "电力公用事业",
+    "direction": "go",
+    "vitality_level": "medium",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "『AI+能源』国策(国家能源局51个高价值场景)+绿电装机+红利防御属性，risk-off中攻守兼备。",
+        "bear": "电价市场化与来水/利用小时波动；成长性有限。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "go",
+      "vitality_level": "medium",
+      "allocation_advice": "防御+政策双重逻辑，标配偏多；绿电ETF表达。",
+      "suggested_weight_pct": 2
+    },
+    "related_holdings": [
+      "019058 绿色电力ETF联接"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}

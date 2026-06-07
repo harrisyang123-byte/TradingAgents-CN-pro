@@ -1,0 +1,66 @@
+{
+  "unit_id": "plan:fixed_income",
+  "unit_type": "plan",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "asset:fixed_income",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:39:49Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "fixed_income",
+    "target_weight": 25,
+    "verdict": {
+      "stance": "bullish",
+      "summary": "压舱石超配，中等久期+高等级，利率债打底信用债增厚"
+    },
+    "duration_view": "中等久期(约3-5年)。10Y 2.7%低位但宽松+地缘避险支撑，长端仍有空间但票息薄，避免极端拉久期博资本利得；若CPI持续上行则缩短。",
+    "instrument_mix": [
+      {
+        "bucket": "利率债/政金债",
+        "target_share": "35-40%",
+        "rationale": "无信用风险打底，避险首选；现持7-10国开债(003376)可作久期锚",
+        "current_holdings": [
+          "003376 广发中债7-10年国开债A"
+        ]
+      },
+      {
+        "bucket": "高等级信用债/投资级",
+        "target_share": "35-40%",
+        "rationale": "增厚票息，规避低评级；现持投资级信用债(000205)、增强回报债(110017)",
+        "current_holdings": [
+          "000205 易方达投资级信用债A",
+          "110017 易方达增强回报债A"
+        ]
+      },
+      {
+        "bucket": "二级债/含权(可转债小仓)",
+        "target_share": "15-20%",
+        "rationale": "现持双债添利(270044)、稳健收益债(110008)；含权部分提供权益向上弹性",
+        "current_holdings": [
+          "270044 广发双债添利A",
+          "110008 易方达稳健收益债B"
+        ]
+      },
+      {
+        "bucket": "低评级/城投下沉",
+        "target_share": "0%",
+        "rationale": "增长停滞下信用利差走阔风险，回避"
+      }
+    ],
+    "risk_flags": [
+      "CPI回升压制久期",
+      "信用利差走阔",
+      "地缘缓和致避险溢价回吐"
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "unit_id": "alloc:portfolio",
+  "unit_type": "alloc",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:fixed_income",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:cash",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:commodity",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:precious_metal",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:real_estate",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:alternative",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:38:28Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "assets": [
+      {
+        "asset_class": "equity",
+        "current_weight": 44.24,
+        "target_weight": 45,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 neutral_bullish：A股估值中低位+宽松+盈利触底，中期看多；维持核心引擎地位(45%≈当前)，但内部由高β海外成长转向A股红利价值+AI龙头以避地缘risk-off。"
+      },
+      {
+        "asset_class": "fixed_income",
+        "current_weight": 12.77,
+        "target_weight": 25,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 bullish：10Y2.7%+宽松持稳+地缘避险，作为压舱石超配；由12.8%增至25%，承接部分超额现金，中等久期+高等级。"
+      },
+      {
+        "asset_class": "cash",
+        "current_weight": 27.93,
+        "target_weight": 15,
+        "action": "reduce",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 neutral：27.9%过高拖累长期复利(货基~1.3%对CPI1.2%实际近零)；中期降至15%(近期risk-off暂留弹药)，按分批纪律投向便宜A股/债/黄金。"
+      },
+      {
+        "asset_class": "precious_metal",
+        "current_weight": 2.89,
+        "target_weight": 9,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 bullish：金价$4,460结构性牛市(央行购金+去美元化+地缘避险)，当前2.9%偏低，战略增至9%核心避险底仓，逢回调分批。"
+      },
+      {
+        "asset_class": "commodity",
+        "current_weight": 0.0,
+        "target_weight": 3,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 neutral：油价$90+地缘供给溢价但需求弱(PMI50)，小仓位(3%)机会性对冲通胀/地缘，非核心。"
+      },
+      {
+        "asset_class": "real_estate",
+        "current_weight": 0.0,
+        "target_weight": 3,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "Wave1 neutral：回避地产开发链，仅3%精选经营性基础设施REITs做类固收收益增强。"
+      },
+      {
+        "asset_class": "alternative",
+        "current_weight": 0.0,
+        "target_weight": 0,
+        "action": "hold",
+        "actively_zeroed": true,
+        "reasoning": "Wave1 bearish：加密FTX以来最差周(BTC-17%/ETH-22%)+地缘risk-off破位，主动归零(actively_zeroed)，不接下跌中的刀。"
+      }
+    ],
+    "equity_quota": 45,
+    "sum_check": 100,
+    "input_warnings": [
+      {
+        "asset_class": "unclassified",
+        "issue": "needs_passthrough",
+        "detail": "广发全球多元稳健投顾组合(¥144,884, 12.18%)为多资产组合，未穿透到单一大类。目标配比已按其大致底层(约40%权益/45%固收/10%黄金/5%现金)折算并入七大类目标；建议用户提供该组合实际底层占比以精确穿透，或考虑赎回后按本目标自主配置。"
+      },
+      {
+        "asset_class": "northbound_net/reverse_repo_7d",
+        "issue": "macro_missing",
+        "detail": "北向资金日度净流入(2024.8起停披露)与7天逆回购当前值未核实，不影响大类配比方向判断。"
+      }
+    ],
+    "allocation_logic": "总目标=最大化长期复利+不错失机会，当前处美伊地缘risk-off。降过高现金(28→15)、超配固收压舱石(13→25)、战略增黄金避险(3→9)，权益维持(44→45)但内部转向A股价值+AI龙头降海外β，小仓大宗/REITs对冲与增强，另类主动归零。",
+    "regime_note": "data_macro.json@2026-06-07: 地缘risk-off(美伊/霍尔木兹)+国内温和再通胀+货币宽松持稳。配置整体『攻守均衡偏防御』，待地缘明朗再将现金分批转入权益。"
+  }
+}

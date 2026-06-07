@@ -1,6 +1,32 @@
 # v4 全量分析计划 — MECE 单元台账与执行波次
 
 > 配套需求：`planning/v4/layered-deep-research_prd.md`（FR-001~FR-009）
+
+---
+
+## ✅ 逐单元执行进度（对话式：跑一个 → 讲结论 → 本地验前端 → 提交一个）
+
+> 执行约定（2026-06-07 与用户确认）：① 归档**按单元留版本**（`data/v4/_archive/<unit>/v<N>_<日期>.json`），重跑覆盖前自动留底，可 `diff` 对比两版结论以调模型；② 当前已提交的 v1（commit `aba64ad`）存为 **baseline**，逐单元重跑覆盖；③ Wave 3 权益深链由用户逐个点名触发（"跑几个跑几个"）。
+
+| # | 单元 / 步骤 | 状态 |
+|---|------------|------|
+| 1 | 归档机制 `scripts/archive_v4.py` + write 自动留版本 + baseline 快照 | ✅ baseline=40单元v1 |
+| 2 | Wave 0.5 — `data_macro.json` 全局宏观（联网核实十来个公共指标） | 🔄 待跑 |
+| 3 | Wave 1a — `asset:equity` 权益大类深研 | ⬜ |
+| 4 | Wave 1b — `asset:fixed_income` 固收大类深研 | ⬜ |
+| 5 | Wave 1c — `asset:cash` 现金大类深研 | ⬜ |
+| 6 | Wave 1d — `asset:commodity` 大宗大类深研 | ⬜ |
+| 7 | Wave 1e — `asset:precious_metal` 贵金属大类深研 | ⬜ |
+| 8 | Wave 1f — `asset:real_estate` 房地产大类深研 | ⬜ |
+| 9 | Wave 1g — `asset:alternative` 另类大类深研 | ⬜ |
+| 10 | Wave 2 — `alloc:portfolio` 资产配比委员会（出 Σ=100% 配比 + equity_quota） | ⬜ |
+| 11 | Wave 3 — 权益深链（行业 → 行业配比 → 个股 → 行业内配比，用户逐个点名） | ⬜ |
+| 12 | Wave 4 — 6 个非权益 `plan:*` 执行计划 | ⬜ |
+| 13 | 收尾 — 全量快照 + run_report 体检 + baseline↔本轮全量 diff | ⬜ |
+
+> 每完成一步：我讲结论 → 你 `git pull` 并设 `VITE_STATIC_SNAPSHOT=1` 验前端 → 认可后提交该步。状态栏随进度更新（⬜ 未开始 / 🔄 进行中 / ✅ 已提交）。
+
+---
 > 权威实现：`scripts/workflow-v4-advisor.js`（单元选择器）、`app/services/v4/*`、`agents/advisor/v4-*.md`
 > 执行模式：**本会话 Agent 直跑（模式 A）**——我读输入包 + 角色定义，做多轮辩论 + 总监拍板，缺数据用 web 联网补齐（不降级、不编造），经 `v4_unit_cli.py` 覆盖式写信封到 `data/v4/`，前端走静态快照解析。
 

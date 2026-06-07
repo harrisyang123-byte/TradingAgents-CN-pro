@@ -154,20 +154,69 @@ def read_unit(unit_id: str) -> Optional[Dict[str, Any]]:
         return None
 
 
-def write_unit(envelope: Dict[str, Any], *, bump_version: bool = True) -> Dict[str, Any]:
+# ── 历史归档（重跑覆盖前自动留版本，供跨轮结论对比/调模型） ──────────────
+def _archive_dir() -> Path:
+    return data_root() / "_archive"
+
+
+def archive_existing(unit_id: str, envelope: Optional[Dict[str, Any]] = None) -> Optional[Path]:
+    """把当前已落盘的单元信封另存为历史版本（重跑覆盖前调用）。
+
+    落点：data/v4/_archive/<unit路径目录>/<stem>/v<version>_<日期>.json
+    例：asset:equity → _archive/assets/equity/v1_2026-06-07.json
+    无现存文件返回 None；归档失败抛 OSError（调用方决定是否吞掉，不阻断主写入）。
+    """
+    if envelope is None:
+        envelope = read_unit(unit_id)
+    if envelope is None:
+        return None
+    rel = path_for(unit_id).relative_to(data_root())  # 如 assets/equity.json
+    stem_dir = _archive_dir() / rel.parent / rel.stem  # _archive/assets/equity
+    stem_dir.mkdir(parents=True, exist_ok=True)
+    ver = envelope.get("version", 0)
+    date = (envelope.get("generated_at") or utc_now_iso())[:10]
+    dest = stem_dir / f"v{ver}_{date}.json"
+    if dest.exists():  # 同日多次重跑同版本 → 追加序号，绝不覆盖历史
+        i = 2
+        while (stem_dir / f"v{ver}_{date}_{i}.json").exists():
+            i += 1
+        dest = stem_dir / f"v{ver}_{date}_{i}.json"
+    dest.write_text(json.dumps(envelope, ensure_ascii=False, indent=2), encoding="utf-8")
+    return dest
+
+
+def list_archive(unit_id: str) -> List[Path]:
+    """列出某单元的全部历史归档版本（按文件名排序）。"""
+    rel = path_for(unit_id).relative_to(data_root())
+    stem_dir = _archive_dir() / rel.parent / rel.stem
+    if not stem_dir.is_dir():
+        return []
+    return sorted(stem_dir.glob("v*.json"))
+
+
+def write_unit(envelope: Dict[str, Any], *, bump_version: bool = True,
+               archive: bool = True) -> Dict[str, Any]:
     """覆盖式写入单个单元文件（只动本单元，不触碰其它，AC9.4 / NFR4.2）。
 
     bump_version=True 时：在已有版本基础上 +1（每次重跑 +1，下游据此判 stale）。
+    archive=True 时：覆盖前把旧版本自动留底到 _archive/（供跨轮结论对比/调模型）。
     写完同步更新 _units.json 索引。
     """
     unit_id = envelope["unit_id"]
     p = path_for(unit_id)
     p.parent.mkdir(parents=True, exist_ok=True)
 
+    existing = read_unit(unit_id)
     if bump_version:
-        existing = read_unit(unit_id)
         base = existing["version"] if existing and isinstance(existing.get("version"), int) else 0
         envelope["version"] = base + 1
+
+    # 覆盖前留底：归档失败只告警、不阻断主写入
+    if archive and existing is not None:
+        try:
+            archive_existing(unit_id, existing)
+        except OSError:
+            pass
 
     envelope.setdefault("generated_at", utc_now_iso())
     # 原子写：先写临时文件再 rename

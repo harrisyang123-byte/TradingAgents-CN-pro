@@ -1,0 +1,60 @@
+{
+  "unit_id": "asset:alternative",
+  "unit_type": "asset",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:36:52Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "alternative",
+    "current_weight": 0.0,
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "加密刚经历FTX以来最差一周(BTC-17%至~$65K、ETH-22%至~$1,500)，部分人视为长期配置的折价入场点；区块链长期采用逻辑不变；当前零配置。",
+        "bear": "正在发生的是美伊冲突risk-off引发的崩盘式下跌+杠杆清算($390B蒸发)、ETF资金流出，ETH逼近关键支撑(跌破或回到2022熊市);极端波动+监管不确定，绝非稳健组合应在下跌中接的刀。"
+      },
+      {
+        "round": 2,
+        "bull": "即便长期看好，也应等趋势企稳而非下跌中抄底；若配置仅用极小投机仓位(≤1-2%)且能承受归零。",
+        "bear": "在地缘risk-off未明、技术面破位的背景下，任何抄底都是高风险投机；对以长期复利为目标、风险偏好稳健的本组合，近期应回避。"
+      },
+      {
+        "round": 3,
+        "bull": "结论倾向：近期看空/回避，不接下跌中的刀；如确有兴趣，仅以可承受归零的极小投机仓位(≤1-2%)参与，不纳入核心配置。",
+        "bear": "认同回避，强调高波动+监管+地缘三重风险下不适合稳健组合近期介入。"
+      }
+    ],
+    "verdict": {
+      "stance": "bearish",
+      "situation": "加密遭遇FTX以来最差一周(BTC~$65K-17%/wk，ETH~$1,500-22%/wk)，地缘risk-off+杠杆清算+ETF流出，ETH逼近关键支撑。",
+      "direction": "近期看空/回避，不在下跌破位中抄底；如配置仅限可承受归零的极小投机仓位(≤1-2%)。",
+      "risks": [
+        "崩盘式下跌+杠杆连环清算",
+        "地缘risk-off持续",
+        "监管不确定",
+        "极端波动不适配稳健长期组合"
+      ],
+      "trend_advice": "近期回避，等趋势企稳；至多极小投机仓位，绝不核心配置",
+      "confidence": "high"
+    },
+    "evidence": [
+      {
+        "claim": "BTC~$62-71K周跌17.3%、ETH~$1,500周跌22%(FTX以来最差周)",
+        "source_url": "https://www.coindesk.com/markets/2026/06/06/bitcoin-ether-eye-worst-weekly-rout-since-ftx-collapse-as-cryptos-shed-usd390-billion",
+        "status": "verified"
+      },
+      {
+        "claim": "6月初美伊交火引发加密risk-off",
+        "source_url": "https://www.coindesk.com/markets/2026/06/01/bitcoin-ether-start-june-in-the-red-while-futures-show-taste-for-risk-xlm-hype-gain",
+        "status": "verified"
+      }
+    ],
+    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+  }
+}
