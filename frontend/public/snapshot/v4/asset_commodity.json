@@ -1,0 +1,36 @@
+{
+  "asset_class": "commodity",
+  "label": "大宗商品",
+  "is_equity": false,
+  "max_drill_depth": "instrument",
+  "asset_unit": {
+    "unit_id": "asset:commodity",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 asset:commodity」，或运行：./scripts/run_v4.sh analyze asset:commodity",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "verdict": null,
+  "tradable": [],
+  "holding_only_exposure": 0,
+  "plan_unit": {
+    "unit_id": "plan:commodity",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 plan:commodity」，或运行：./scripts/run_v4.sh analyze plan:commodity",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "plan": null
+}

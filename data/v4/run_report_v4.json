@@ -1,0 +1,16 @@
+{
+  "total_units": 0,
+  "counts": {
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "gray": 0,
+    "blue": 0
+  },
+  "failed_units": [],
+  "empty_units": [],
+  "degraded_units": [],
+  "frontend_will_degrade": true,
+  "units": [],
+  "generated_at": "2026-06-07T02:46:21Z"
+}

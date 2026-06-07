@@ -1,0 +1,36 @@
+{
+  "asset_class": "cash",
+  "label": "现金及等价物",
+  "is_equity": false,
+  "max_drill_depth": "holding_structure",
+  "asset_unit": {
+    "unit_id": "asset:cash",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 asset:cash」，或运行：./scripts/run_v4.sh analyze asset:cash",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "verdict": null,
+  "tradable": [],
+  "holding_only_exposure": 0,
+  "plan_unit": {
+    "unit_id": "plan:cash",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 plan:cash」，或运行：./scripts/run_v4.sh analyze plan:cash",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "plan": null
+}
