@@ -1,8 +1,8 @@
 # v4 运行报告
 
-生成时间：2026-06-07T07:42:58Z
+生成时间：2026-06-07T09:11:45Z
 
-**单元总数**：40　🟢40 🟡0 🔴0 ⚪0 🔵0
+**单元总数**：40　🟢31 🟡9 🔴0 ⚪0 🔵0
 
 ## 空壳产物（9）—— 跑了但无有效结论
 - `stock:000063`
@@ -15,8 +15,9 @@
 - `stock:603236`
 - `stock:603663`
 
-## 数据降级（11）—— 含 estimated/missing 证据或缺失上游
+## 数据降级（12）—— 含 estimated/missing 证据或缺失上游
 - `alloc:portfolio`
+- `asset:equity`
 - `asset:real_estate`
 - `stock:000063`
 - `stock:002001`
@@ -38,22 +39,31 @@
 - 🟢新鲜 `alloc:industry:有色资源` v1
 - 🟢新鲜 `alloc:industry:消费电子家电` v1
 - 🟢新鲜 `alloc:industry:电力公用事业` v1
-- 🟢新鲜 `alloc:portfolio` v1 〔降级〕
+- 🟡待刷新 `alloc:portfolio` v1 〔降级〕
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
 - 🟢新鲜 `asset:alternative` v1
 - 🟢新鲜 `asset:cash` v1
 - 🟢新鲜 `asset:commodity` v1
-- 🟢新鲜 `asset:equity` v1
+- 🟢新鲜 `asset:equity` v2 〔降级〕
 - 🟢新鲜 `asset:fixed_income` v1
 - 🟢新鲜 `asset:precious_metal` v1
 - 🟢新鲜 `asset:real_estate` v1 〔降级〕
-- 🟢新鲜 `industry:互联网平台` v1
-- 🟢新鲜 `industry:人工智能算力` v1
-- 🟢新鲜 `industry:创新药` v1
-- 🟢新鲜 `industry:半导体` v1
-- 🟢新鲜 `industry:新能源车` v1
-- 🟢新鲜 `industry:有色资源` v1
-- 🟢新鲜 `industry:消费电子家电` v1
-- 🟢新鲜 `industry:电力公用事业` v1
+- 🟡待刷新 `industry:互联网平台` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:人工智能算力` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:创新药` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:半导体` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:新能源车` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:有色资源` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:消费电子家电` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
+- 🟡待刷新 `industry:电力公用事业` v1
+    - 上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时
 - 🟢新鲜 `plan:alternative` v1
 - 🟢新鲜 `plan:cash` v1
 - 🟢新鲜 `plan:commodity` v1

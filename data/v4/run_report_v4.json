@@ -1,8 +1,8 @@
 {
   "total_units": 40,
   "counts": {
-    "green": 40,
-    "yellow": 0,
+    "green": 31,
+    "yellow": 9,
     "red": 0,
     "gray": 0,
     "blue": 0
@@ -21,6 +21,7 @@
   ],
   "degraded_units": [
     "alloc:portfolio",
+    "asset:equity",
     "asset:real_estate",
     "stock:000063",
     "stock:002001",
@@ -135,11 +136,11 @@
     },
     {
       "unit_id": "alloc:portfolio",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:38:28Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": true,
       "error": null
@@ -181,11 +182,11 @@
       "unit_id": "asset:equity",
       "status": "green",
       "status_label": "新鲜",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-07T09:11:27Z",
       "stale_reason": null,
       "payload_empty": false,
-      "data_degraded": false,
+      "data_degraded": true,
       "error": null
     },
     {
@@ -223,88 +224,88 @@
     },
     {
       "unit_id": "industry:互联网平台",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:人工智能算力",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:创新药",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:半导体",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:新能源车",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:有色资源",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:消费电子家电",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
     },
     {
       "unit_id": "industry:电力公用事业",
-      "status": "green",
-      "status_label": "新鲜",
+      "status": "yellow",
+      "status_label": "待刷新",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
-      "stale_reason": null,
+      "stale_reason": "上游 asset:equity 已更新至 v2（本单元基于 v1），结论可能过时",
       "payload_empty": false,
       "data_degraded": false,
       "error": null
@@ -475,5 +476,5 @@
       "error": null
     }
   ],
-  "generated_at": "2026-06-07T07:42:58Z"
+  "generated_at": "2026-06-07T09:11:45Z"
 }
