@@ -29,7 +29,7 @@
 
 | 单元 | baseline 版本 | 重跑后版本 | 状态 | 结论(stance/trend) |
 |------|--------------|-----------|------|-------------------|
-| asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v3 (bullish/hold, cn10y 1.71%)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制）|
+| asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v4 (bullish/hold, akshare 19verified)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制、强制结构调整）|
 | asset:fixed_income | v1 | — | ⬜ 待跑 | — |
 | asset:cash | v1 | — | ⬜ 待跑 | — |
 | asset:commodity | v1 | — | ⬜ 待跑 | — |
@@ -60,3 +60,14 @@
   - **新分工**：国内利率/物价/景气硬数据 = collect_v4 程序化(akshare，可复现+带发布日期)；海外/实时/大宗 = 第2阶段 data-desk 联网(时效优势)。两条合流后 missing 从骨架的 22 降到约 9-11（视 web 补几个）。
   - **py_compile 绿、两路径(有/无 akshare)实测通过**。改动文件：`app/services/v4/macro_source.py`(新)、`scripts/collect_v4.py`(改)。**未提交**，等用户验。
   - ⚠️ **取数排序坑**：`macro_china_lpr`/`bond_zh_us_rate` 升序取 `iloc[-1]`(末行)；`macro_china_cpi/ppi/pmi/money_supply` 降序取 `iloc[0]`(头行)。月份解析 `_ym('2026年04月份')→'2026-04'`。
+
+- **2026-06-08 asset:equity 走新 akshare 路径重跑 → v4**（首次端到端验证改造，用户「选 a」）：
+  - **akshare 改造实测**（沙箱 `--break-system-packages` 装 akshare 实跑 `macro_source.build_macro_indicators()`）：**11 项程序化 verified、6.4s、全带 as_of+source_url**。实测接口列名全部匹配代码：`macro_china_lpr`(LPR1Y/LPR5Y=3.0/3.5@05-20)、`bond_zh_us_rate`(cn10y=1.7275@06-08、term_spread=0.4688、us10y=4.55@06-05)、`macro_china_cpi`(1.2@04)、`macro_china_ppi`(2.8@04)、`macro_china_pmi`(50.0/50.1@05)、`macro_china_money_supply`(M2 8.6@04)、`stock_margin_sse`(1.495万亿,仅上交所偏低,已标注)。**cn10y 1.73% 程序化取到、彻底终结手搜 2.7% 陈旧缓存坑**。`collect_v4 --selector asset:equity` 端到端跑通。
+  - **取数(我, data-desk)**：collect 后 data_macro.json=11verified骨架；联网补 11 个 web-only → **19 verified + 1 estimated(vix~20多源冲突) + 2 missing(reverse_repo_7d/copper)，availability=available**。补齐：tsf_yoy=7.8%(社融存量456.89万亿@04,人民银行)、fed_funds=3.50-3.75%(鹰派,权衡加息)、nasdaq=25709(-4.18%@06-05 risk-off)、标普7383、dxy=99.55、usdcny=6.78、brent=95、gold~4400(冲突$4348-4467)。
+  - **三分析师(subagent 并行)**：macro=favorable(复苏/折现率顺风)、policy=supportive/favorable、flow=unfavorable(拥挤high/risk-off外溢)。**2:1 偏多**（同 v3 格局）。
+  - **多空3轮(subagent 单 stage 逐轮捞，绕开终端-only坑)**：bull开场(hold偏increase,低折现率+PPI转正+ERP 90%+分位) → bear(reduce,三重压力:弱复苏证伪/外部冲击/杠杆拥挤) → bull反击(hold+结构再平衡,承认4条真风险:外围risk-off/拥挤/PMI走弱50.3→50.0/信用传导慢)。
+  - **director(我) verdict**：**stance=bullish（维持 v3 方向，反骑墙站队，未退中性）/ trend=hold（看多方向+仓位克制+强制结构调整:压QDII<10%、降AI高β、增红利+宽基+内需）/ confidence=medium**。
+  - **reflection（对比 v3）**：prev=bullish@2026-06-07T12:26:30Z；**方向未变**，本质变化=**数据机制升级**（手搜15/22→akshare程序化19verified）。新增 PPI+2.8%转正(v3时 missing→盈利拐点硬证据)、社融存量同比7.8%(替代 v3 手搜的「4月新增贷款转负-100亿」担忧、更权威、信用未失速)。self_check：v3 看多方向被更完整数据事后背书，信用失速未发生；持续盯外围 risk-off 对 AI/QDII 冲击 + PMI 边际走弱。
+  - **落盘**：write `asset:equity` → **v4 green**，v3 自动归档 `_archive/assets/equity/v3_2026-06-07.json`。`build_snapshot_v4` 重生成 17 文件，asset_equity.json 快照确认带 stance=bullish + reflection(prev_stance=bullish) + 3 辩论轮 + 3 分析师。临时 payload `data/v4/inputs/_equity_v4_payload.json`(gitignored)。**未提交**，等用户本地验证。
+  - **结论给用户**：akshare 改造成功——国内硬数据从「手搜易错常缺」变为「程序化 11 项 verified 带日期可复现」，本轮取数充分度 19/22(v3 为 15/22 且含陈旧)。仅 reverse_repo_7d/铜 2 项 missing(如实标)。
+  - **下一步**：用户本地验 v4(reflection 现在是 bullish→bullish 同向、what_changed 讲数据升级) → 提交 → 再跑下一单元(fixed_income 等)。
