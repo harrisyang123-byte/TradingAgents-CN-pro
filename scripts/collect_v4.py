@@ -79,27 +79,48 @@ def load_positions(portfolio_file: str, user_id: str) -> tuple:
 
 
 def build_macro_snapshot() -> dict:
-    """宏观快照。可得则填，缺失整体标 missing（AC2.1 降级）。"""
-    snapshot = {
-        "source": "needs_fetch",
-        "data_availability": "unavailable",
-        "note": "未取到实时宏观数据。Agent 直跑第 2 阶段时必须用联网（web 搜索/抓取）补齐 LPR/逆回购/CPI/PMI/北向等关键指标，evidence 标 verified+来源 URL；不得静默降级为 missing/estimated，也不得编造或套用示例数字。详见 docs/wiki/v4-ai-proxy-run.md。",
-        "indicators": {},
+    """宏观快照（档 A 22 指标）。
+
+    国内基本面/利率硬数据（LPR/国债收益率/CPI/PPI/PMI/M2/两融）由 AKShare 官方口径
+    接口程序化拉取——可复现、带发布日期、不撞搜索引擎陈旧缓存（修复 cn10y 被搜成
+    过时 2.7% 之类的坑）。海外/实时/大宗（US市场/汇率/原油黄金铜/风险情绪）AKShare
+    时效差或不覆盖，留 missing 骨架，由第 2 阶段 data-desk 联网补齐。
+
+    降级而非崩溃：akshare 未装/无网/接口变更时，对应指标保持 missing，不中断采集。
+    """
+    from datetime import datetime, timezone
+    from app.services.v4 import macro_source  # noqa: E402
+
+    indicators, filled, ak_err = macro_source.build_macro_indicators()
+    n_verified = sum(1 for v in indicators.values() if v.get("status") == "verified")
+
+    if n_verified == 0:
+        availability = "unavailable"
+    elif n_verified >= 15:
+        availability = "available"
+    else:
+        availability = "partial"
+
+    if ak_err:
+        note = (f"AKShare 不可用（{ak_err}）——全部指标待第 2 阶段联网补齐。"
+                "Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。")
+    else:
+        note = (f"国内硬数据已由 AKShare 程序化填充（{n_verified} 项 verified：{', '.join(filled)}）。"
+                "海外/实时/大宗及 reverse_repo_7d/tsf_yoy 等 missing 项，需第 2 阶段 data-desk 联网补齐"
+                "（evidence 标 verified+来源 URL，多源冲突标分歧不调和，不得编造）。")
+
+    return {
+        "tier": "global",
+        "action": "fetched" if filled else "skeleton",
+        "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+        "data_availability": availability,
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "ttl_hours": 12,
+        "akshare_filled": filled,
+        "note": note,
+        "indicators": indicators,
+        "evidence": [],
     }
-    try:
-        # market_signals 依赖 Mongo + async；best-effort，失败保持降级
-        import asyncio
-        from app.services.market_signals import get_market_temperature  # type: ignore
-        result = asyncio.run(get_market_temperature())
-        if result:
-            snapshot = {
-                "source": "market_signals",
-                "data_availability": "available",
-                "indicators": result if isinstance(result, dict) else {"raw": str(result)},
-            }
-    except Exception:
-        pass
-    return snapshot
 
 
 def main() -> int:
