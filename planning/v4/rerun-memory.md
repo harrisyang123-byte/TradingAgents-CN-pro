@@ -31,7 +31,7 @@
 |------|--------------|-----------|------|-------------------|
 | asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v4 (bullish/hold, akshare 19verified)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制、强制结构调整）|
 | asset:fixed_income | v1 (bullish, cn10y 2.7%, 仓位口径12.77%) | **v3 (neutral_hold, 12.77% correct, 维持不动)** | ✅ 已重跑×2 | neutral_hold / hold（12.77%合理，不增不减，缩久期）|
-| asset:cash | v1 | — | ⬜ 待跑 | — |
+| asset:cash | v1 (neutral, 占位) | **v2 (bearish/reduce, 27.93%→18-20%)** | ✅ 已重跑 | bearish / reduce（减现金、活期挪货基、优先投固收不加权益）|
 | asset:commodity | v1 | — | ⬜ 待跑 | — |
 | asset:precious_metal | v1 | — | ⬜ 待跑 | — |
 | asset:real_estate | v1 | — | ⬜ 待跑 | — |
@@ -96,3 +96,12 @@
   - `v4_query.build_overview` 追加 unclassified 卡片展示逻辑。
   - **落盘**：v1 green, 12.18%。快照 overview 含8卡片合计100.01%。
   - **下一步**：用户本地验 → 提交 → 再跑下一单元(cash/commodity/precious_metal等)。
+
+- **2026-06-09 asset:cash 重跑 → v2**（模式A）：
+  - **取数(我)**：collect 又重置 data_macro→骨架，重填同批22指标(2026-06-09)。现金专属补：货基7日年化1.4-1.62%(天天基金)、活期~0.15%。关键对比：活期0.15% vs 货基1.4% vs CPI1.2% → 活期实际收益-1.05%。
+  - **3分析师(subagent并行)**：罕见**全部 unfavorable**——macro(降息末段持现金最差,28%→12-15%)、flow(现金拥挤low,活期是'懒钱'非'弹药')、policy(降息系统性压制,地缘避险只是脉冲)。
+  - **多空3轮**：R1 bull=hold(活期挪货基)/bear=reduce到10-15% → R2 bull让步reduce(干火药16-18%底线)/bear追击(干火药何须零收益活期)→ 双方收敛 → R3 bull=19-21%/bear=18-20%。**重叠区18-20%**。共识：该减、活期必挪货基、减现金别同时加权益(已偏高44.24%)。
+  - **director verdict**：**stance=bearish/trend=reduce/confidence=high**。27.93%→18-20%。两步走：①立即活期挪T+0货基(零风险年增1.2-1.5%)②超出部分分批投固收(权益已高优先投债)。plan: 活期≤7-8%+货基为主+少量短债。
+  - **reflection**：prev=neutral(v1占位)。stance neutral→bearish(反骑墙站队)；目标从v1'10-15%'上调'18-20%'(纳入权益偏高+地缘尾部→现金缓冲不宜降太狠)。self_check：v1占位近骑墙，本轮果断站队；最该立即做的'活期挪货基'v1完全没提。
+  - **落盘**：v2 green，v1归档。合计仍100.01%。**未提交**，等用户验。
+  - **下一步**：用户验 cash v2 → 提交 → 跑 precious_metal/commodity/real_estate/alternative。

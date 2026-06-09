@@ -3,7 +3,7 @@
     "unit_id": "alloc:portfolio",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时；上游 asset:fixed_income 已更新至 v3（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时；上游 asset:fixed_income 已更新至 v3（本单元基于 v1），结论可能过时；上游 asset:cash 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
     "version": 1,
     "generated_at": "2026-06-07T07:38:28Z",
@@ -116,8 +116,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:cash」，或运行：./scripts/run_v4.sh analyze asset:cash",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-09T14:41:23Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -129,9 +129,9 @@
       "target_weight": 15,
       "action": "reduce",
       "actively_zeroed": false,
-      "stance": "neutral",
-      "direction": "中期下调现金目标至约10-15%，按分批纪律将超额现金投向便宜A股/中等久期债/黄金。",
-      "summary": "现金27.9%偏高；当前risk-off下作为弹药合理，但对长期复利构成拖累，实际收益近零。"
+      "stance": "bearish",
+      "direction": "中期（6-12月）将现金从 27.93% 降至约 18-20%。执行分两步：①立即把活期存款的绝大部分迁入 T+0 货币基金/短债 ETF——这步零风险、年增约1.2-1.5%，应优先做；②分批将超出 18-20% 的部分（约8-10个百分点）释放到固收（CN10Y 1.73% 仍优于现金）或择机权益回调时补仓，但因权益已偏高（44.24%），优先投向固收而非加权益。结构目标：纯活期/银行T+0 ≤7-8%（极端应急+生活备用），其余为货基/短债。",
+      "summary": "现金当前占比 27.93%，全部为活期存款（年化仅约0.15%）。这是组合第二大仓位，但存在双重低效：①绝对仓位过高——27.93% 远超防御所需的流动性缓冲（通常15-20%足够），多出部分是纯机会成本；②形态低效——活期 0.15% vs 货基 1.4-1.62% vs 短债 1.7%+，同为现金等价物却白白少赚约1.2-1.5%/年。在 CPI 1.2% 下活期实际收益约 -1.05%，27.93% 重仓现金每年确定性侵蚀购买力。3 位分析师罕见一致判 unfavorable。多空辩论最终在 18-20% 区间收敛——双方都认同现金应降、活期应挪货基/短债、且减现金不应同时加已偏高的权益（44.24%）。"
     },
     {
       "unit_id": "asset:commodity",

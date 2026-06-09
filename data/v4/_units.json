@@ -16,11 +16,11 @@
     "asset:cash": {
       "unit_id": "asset:cash",
       "unit_type": "asset",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "generated_at": "2026-06-09T14:41:23Z",
       "upstream": [],
       "error": null,
       "path": "assets/cash.json"
@@ -892,5 +892,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-09T14:13:51Z"
+  "updated_at": "2026-06-09T14:41:34Z"
 }
