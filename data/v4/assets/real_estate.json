@@ -2,54 +2,137 @@
   "unit_id": "asset:real_estate",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:36:52Z",
+  "generated_at": "2026-06-09T15:16:22Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "asset_class": "real_estate",
+    "label": "房地产",
     "current_weight": 0.0,
+    "holding_only_exposure": 0.0,
+    "tradable": [],
+    "zero_holding": true,
     "debate_rounds": [
       {
         "round": 1,
-        "bull": "国内公募REITs(产业园/仓储物流/保障房/能源)提供4-6%分派率，低利率(10Y2.7%)环境下相对吸引；政策持续扩容REITs；当前零配置可小幅纳入做收益增强+分散。",
-        "bear": "房地产板块结构性下行未完、地产开发商风险高、市场情绪低迷；实物房产流动性差、不在可投范围；REITs二级波动也受利率与基本面双重影响。"
-      },
-      {
-        "round": 2,
-        "bull": "区分对待——回避住宅开发商，聚焦经营性基础设施REITs(现金流稳定、政策支持)，作为类固收的收益型配置而非地产β。",
-        "bear": "REITs在中国仍是新兴品种、流动性与定价效率有限，单一项目经营风险集中；不宜高配。"
-      },
-      {
-        "round": 3,
-        "bull": "结论倾向：中性偏谨慎，仅选择性配置经营性基础设施REITs(小仓位、收益型)，明确回避地产开发链与实物房产。",
-        "bear": "认同选择性REITs且小仓位，强调挑现金流稳健的底层资产。"
+        "bull": "CN10Y 1.73%下REITs分红4-6%、利差250-430bp是固收替代最强时刻。REITs常态化扩容(水利/仓储/保障房/消费基建)，底层是已运营资产现金流、与传统地产开发模式脱钩，地产投资-11.1%反利好存量运营资产稀缺性。零持仓应建REITs底仓。suggested_tilt=increase 3-5%(仓储物流/保障房/消费/产业园分散)。",
+        "bear": "地产投资-11.1%行业未见底、人口负增长+天量库存长期压制；中国REITs市场小(不足1500亿)流动性差、大额赎回冲击价格；产业园空置率升/消费REITs受零售弱拖累现金流恶化；前期涨幅透支估值、分红率压至4%安全边际不足。suggested_tilt=avoid 0%(等地产降幅<-5%且分红率回5.5%+)。"
       }
     ],
-    "verdict": {
-      "stance": "neutral",
-      "situation": "地产开发链结构性承压，但低利率环境下经营性基础设施REITs具收益型配置价值。",
-      "direction": "选择性配置基础设施REITs(小仓位、类固收收益型)，回避地产开发商与实物房产β。",
-      "risks": [
-        "地产板块结构性下行",
-        "REITs流动性/定价效率有限",
-        "单一项目经营风险集中",
-        "利率上行压制REITs估值"
-      ],
-      "trend_advice": "仅小仓位精选经营性基础设施REITs做收益增强，回避开发链",
-      "confidence": "medium"
+    "analysts": {
+      "macro": {
+        "role": "macro",
+        "macro_regime": "宽松晚周期",
+        "rate_sensitivity": "positive",
+        "macro_tilt": "favorable",
+        "reasoning": "CN10Y 1.73%低位→REITs利差230-430bp配置吸引历史高位；政策底已现+REITs扩容；建2-4%偏基建/仓储，回避传统地产开发商",
+        "inflation_view": "低通胀+货币宽松延续，利率下行抬升REITs分红溢价"
+      },
+      "flow": {
+        "role": "flow",
+        "flow_direction": "inflow",
+        "crowding": "low",
+        "sentiment": "neutral",
+        "flow_tilt": "favorable",
+        "reasoning": "REITs温和流入低拥挤(固收替代逻辑+个人投资者准入放宽)，传统地产股持续流出；资金分化明显"
+      },
+      "policy": {
+        "role": "policy",
+        "policy_stance": "supportive",
+        "geopolitical_impact": "本类主看国内政策，地缘影响有限",
+        "policy_tilt": "favorable",
+        "reasoning": "2026稳楼市最强政策组合(1月三场发布会+保交楼+收购存量+限购放松)+REITs常态化扩容提供存量资产退出通道；地产投资-11.1%但降幅收窄6.1pct政策效果边际兑现"
+      }
     },
+    "verdict": {
+      "stance": "bullish",
+      "situation": "房地产当前零持仓。关键是区分两个完全不同的东西：①公募REITs（底层是已运营成熟资产的现金流，与传统地产开发脱钩）；②传统地产开发商/实物房产（仍深度调整）。3分析师全 favorable，但一致聚焦 REITs 偏基建/仓储类、明确回避传统地产。核心利好：CN10Y 1.73% 历史低位下，REITs 分红率 4-6%、利差 250-430bp 是固收替代最强时刻 + REITs 常态化扩容 + 政策最强托底。多空分歧：bull 建仓3-5%，bear 维持0%(地产未见底+REITs市场小流动性差+部分品种现金流恶化+估值透支)。bear 的核心风险其实多落在'传统地产'和'景气挂钩的产业园/消费REITs'，而非现金流稳定的仓储/保障房REITs——后者正是建仓标的。",
+      "direction": "小幅建仓 REITs，2-3%（介于v1'小仓位'与bull'3-5%'之间，偏谨慎）。品种严格限定现金流稳定的仓储物流REITs + 保障房REITs（政策确定性高、与宏观景气挂钩弱），回避：①一切传统地产开发商股/债；②景气强挂钩的产业园REITs（空置率风险）和消费基础设施REITs（零售弱拖累）。分批建仓、逢回调介入。本质是用 REITs 的类固收高分红特性补组合的不动产敞口缺口，而非赌地产周期反转。",
+      "risks": [
+        "中国REITs市场规模小(约千亿级)、流动性弱于股票ETF，大额买卖价差大、赎回冲击价格",
+        "部分品种(产业园/消费REITs)现金流与宏观景气挂钩，弱需求下出租率/营收承压",
+        "前期REITs涨幅可能透支部分估值，分红率从6%+压缩至4%附近，需精选高分红标的",
+        "传统地产仍深度调整(投资-11.1%)，需严格区分REITs与地产开发商、不碰后者",
+        "利率若反转上行会压制REITs估值(当前1.73%低位下行空间有限)"
+      ],
+      "trend": "increase — 反骑墙站队：3分析师全favorable + bull利差逻辑(250-430bp)证据强，压过bear(其核心风险多在传统地产与景气挂钩品种，可通过'限定仓储/保障房REITs'规避)，故站队小幅increase；反骑墙地约束为'限稳现金流REITs品种+回避传统地产+2-3%小仓+分批'。",
+      "confidence": "medium",
+      "reflection": {
+        "prev_stance": "neutral",
+        "prev_date": "2026-06-07T07:36:52Z",
+        "what_changed": "stance 从 neutral → bullish（明确站队小幅建仓REITs），但执行约束与v1一致(限基建/仓储REITs、回避传统地产)，目标仓位明确为2-3%。",
+        "why_changed": "本轮补齐了 v1 缺失的量化利差数据：CN10Y 1.73% vs REITs分红4-6% = 利差250-430bp处历史高位，这个'固收替代'逻辑足够强，叠加3分析师全favorable + 2026最强稳楼市政策+REITs常态化扩容，证据从'中性观望'升级为'小幅站队建仓'。同时明确了品种优先级(仓储/保障房>产业园/消费)。",
+        "self_check": "v1 的 neutral+'选择性配置基础设施REITs'方向正确，但停在观望、没站队。本轮按反骑墙铁律：利差证据强到该站队 increase(小幅)。关键认知：REITs与传统地产必须切割——bear 的地产空头逻辑大部分不适用于现金流稳定的仓储/保障房REITs。注：分析师提及的'居民储蓄4160万亿'有误，实际约160万亿人民币，已不采纳该数据点。"
+      }
+    },
+    "plan": {
+      "instrument_mix": [
+        {
+          "instrument": "仓储物流REITs",
+          "tradable": true,
+          "suggest_pct": 45,
+          "reasoning": "现金流最稳、电商/供应链需求支撑、与地产周期挂钩最弱，REITs内首选"
+        },
+        {
+          "instrument": "保障房REITs",
+          "tradable": true,
+          "suggest_pct": 30,
+          "reasoning": "政策确定性最高、租金稳定、政府背书，防御性强"
+        },
+        {
+          "instrument": "消费基础设施REITs",
+          "tradable": true,
+          "suggest_pct": 15,
+          "reasoning": "有成长性但受零售景气拖累，小比例"
+        },
+        {
+          "instrument": "产业园REITs",
+          "tradable": true,
+          "suggest_pct": 10,
+          "reasoning": "弹性品种但空置率风险，最小比例"
+        }
+      ],
+      "note": "零持仓大类，建仓非紧迫。suggest_pct是REITs类内品种结构(若建仓)，全组合REITs仓位建议2-3%。严格回避传统地产开发商股/债与实物房产β。",
+      "holding_only_note": "无实物房产持仓；若未来有实物房产仅记敞口、不在此下钻。",
+      "risk_flags": [
+        "REITs流动性弱",
+        "部分品种现金流景气挂钩",
+        "估值透支风险",
+        "严格切割传统地产"
+      ]
+    },
+    "data_quality": "充分。地产投资-11.1%(降幅收窄6.1pct)、CN10Y 1.73%、REITs常态化扩容+稳楼市政策均联网核实(2026-06-09)。REITs分红率4-6%为估算。已纠正分析师误引的'居民储蓄4160万亿'(实际约160万亿)。零持仓大类，分析聚焦是否建REITs仓。",
     "evidence": [
       {
-        "claim": "国内公募REITs分派率约4-6%，低利率环境相对吸引(行业一般水平，口径估算)",
-        "source_url": "llm_knowledge+10Y2.7%(data_macro.json)",
+        "claim": "real_estate 零持仓",
+        "source": "holdings.json/v4_classifier",
+        "status": "verified"
+      },
+      {
+        "claim": "中国房地产开发投资1-2月同比-11.1%，降幅收窄6.1pct",
+        "source": "stats.gov.cn 2026-03",
+        "status": "verified"
+      },
+      {
+        "claim": "2026年1月20日国务院三场稳楼市发布会+部委联合通知",
+        "source": "国新办/住建部",
+        "status": "verified"
+      },
+      {
+        "claim": "中国REITs常态化发行、扩容至水利/仓储/保障房/消费基建",
+        "source": "证监会/发改委 2025-2026",
+        "status": "verified"
+      },
+      {
+        "claim": "CN10Y 1.73%, REITs分红率4-6%, 利差250-430bp",
+        "source": "macromicro/Wind估算",
         "status": "estimated"
       }
-    ],
-    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+    ]
   }
 }

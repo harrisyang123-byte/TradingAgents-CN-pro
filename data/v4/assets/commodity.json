@@ -2,59 +2,130 @@
   "unit_id": "asset:commodity",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:36:52Z",
+  "generated_at": "2026-06-09T15:11:12Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "asset_class": "commodity",
+    "label": "大宗商品",
     "current_weight": 0.0,
+    "holding_only_exposure": 0.0,
+    "tradable": [],
+    "zero_holding": true,
     "debate_rounds": [
       {
         "round": 1,
-        "bull": "布伦特原油$90+(霍尔木兹布雷+美伊冲突的供给溢价)，大宗在地缘+滞胀情景顺风；当前零配置=纯机会，小仓位可作通胀/地缘对冲。",
-        "bear": "需求侧疲弱——中国PMI仅50、全球增长放缓，油价上涨主要是地缘供给溢价而非需求拉动，属事件驱动、易反转；大宗波动极高，A股投资者缺乏干净的工具敞口。"
-      },
-      {
-        "round": 2,
-        "bull": "正因供给端地缘风险未消，能源价格中枢上移的尾部风险值得用小仓位对冲；可经商品ETF/相关股票间接参与，不必直接期货。",
-        "bear": "事件驱动行情若地缘缓和将快速回吐(油价可急跌)，追高即接盘；工业金属受中国需求拖累，农产品逻辑独立、分散度低。"
-      },
-      {
-        "round": 3,
-        "bull": "结论倾向：中性，仅小仓位(≤3-5%)机会性配置能源/抗通胀品种作对冲，不作为核心；明确这是事件性而非趋势性。",
-        "bear": "认同小仓位且强调事件性属性，不宜把地缘溢价当长期趋势。"
+        "bull": "零持仓是结构性缺口——组合对通胀超预期/地缘黑天鹅完全裸露。铜供给刚性(矿capex连5年不足)+新能源需求结构增长；油价含地缘溢价但中枢难回$70s。建仓3-5%(铜为主3%+原油1-2%尾部对冲)，铜优于油(需求双引擎+与A股相关性低)。suggested_tilt=increase。",
+        "bear": "多重利空共振接飞刀：油价$91.77含$8-10地缘溢价(冲突缓和5日回落$82-85)、铜$13600历史高位但中国PMI50需求证伪、强美元DXY99.5+Fed高利率压制、大宗无票息+持有成本年化7-8%。suggested_tilt=avoid 0%(等油<$82或铜<$12000再评估)。"
       }
     ],
+    "analysts": {
+      "macro": {
+        "role": "macro",
+        "macro_regime": "滞胀风险",
+        "rate_sensitivity": "negative",
+        "macro_tilt": "neutral",
+        "reasoning": "内部严重分化不宜一刀切：能源地缘风险收益不对称、工业金属高位+弱需求压制；可小仓位2-3%能源ETF做通胀对冲，工业金属等PMI>50.5再介入",
+        "inflation_view": "能源驱动成本推升型通胀(PPI+2.8%主因油价)，非需求拉动"
+      },
+      "flow": {
+        "role": "flow",
+        "flow_direction": "inflow",
+        "crowding": "medium",
+        "sentiment": "neutral",
+        "flow_tilt": "neutral",
+        "reasoning": "能源地缘驱动inflow但波动大、工业金属受弱内需压制资金中性；强美元压制；零敞口边际配置有分散价值但追高风险大"
+      },
+      "policy": {
+        "role": "policy",
+        "policy_stance": "supportive",
+        "geopolitical_impact": "Israel-Iran冲突抬升原油风险溢价(霍尔木兹海峡风险)，若封锁可冲$110-120",
+        "policy_tilt": "favorable",
+        "reasoning": "地缘供给冲击+OPEC+减产+中国稳增长拉铜需求(新能源/电网)，供给侧驱动强于货币紧缩逆风"
+      }
+    },
     "verdict": {
       "stance": "neutral",
-      "situation": "油价$90+受美伊/霍尔木兹地缘供给溢价驱动，但需求端(PMI50)疲弱，属事件驱动。",
-      "direction": "中性，仅小仓位(≤3-5%)机会性配置能源/抗通胀工具作地缘+通胀对冲，非核心。",
+      "situation": "大宗商品当前零持仓。3分析师 1 favorable(policy:地缘+OPEC+中国稳增长拉铜) + 2 neutral(macro/flow:内部分化、高位+强美元逆风)。多空分歧明显：bull 主张建仓3-5%(零持仓对通胀/地缘尾部完全裸露是真实缺口)，bear 主张维持0%(油价含$8-10地缘溢价易回落、铜$13600历史高位需求未兑现、强美元+持有成本年化7-8%、高位接飞刀)。这是一个'配置价值真实存在但建仓时机不佳'的典型张力——两方证据都强。",
+      "direction": "维持零持仓为主，但认可小仓位配置价值。建议：择机、分批、小幅建仓 2-3%（不到 bull 的3-5%），品种以铜ETF为主（新能源需求结构性支撑+与A股相关性低），原油ETF极小比例(≤1%)作地缘尾部对冲。建仓时机等回调——油价回落至 $82-85 或铜跌破 $12500 再右侧介入，不在 $91.77/$13600 的高位追。当前可先0%或试探1%，不急于打满。",
       "risks": [
-        "地缘缓和致油价急速回吐",
-        "中国需求弱拖累工业金属",
-        "大宗高波动+工具可得性差",
-        "事件驱动行情追高接盘"
+        "油价地缘溢价脆弱：冲突缓和5日内可回落$82-85(-10%)",
+        "铜$13600历史高位，中国PMI50需求证伪则回撤空间大",
+        "强美元DXY99.5+Fed高利率压制大宗金融属性",
+        "大宗无票息+仓储/融资成本，持有年化成本7-8%(价格不跌也亏)",
+        "建仓时机错位风险：高位建仓易套"
       ],
-      "trend_advice": "小仓位机会性对冲为主，明确事件性属性，地缘缓和即减",
-      "confidence": "medium"
+      "trend": "hold — 不骑墙地说明：这不是'数据不足的中性'，而是'配置价值(对冲缺口)与建仓时机(高位逆风)势均力敌'的真中性。反骑墙地给出可执行方向——维持低仓/零仓，但明确建仓路径(回调到位则小幅建铜ETF 2-3%)，而非模糊的'看情况'。",
+      "confidence": "medium",
+      "reflection": {
+        "prev_stance": "neutral",
+        "prev_date": "2026-06-07T07:36:52Z",
+        "what_changed": "stance(neutral)与目标仓位(≤3-5%小仓位机会性配置)基本维持，但本轮把建仓品种从v1笼统的'能源/抗通胀工具'细化为'铜ETF为主(3%以内)+原油极小(≤1%)'，并加了明确的建仓时机门槛(油<$82或铜<$12500再右侧介入)。",
+        "why_changed": "本轮补齐了 v1 缺失的具体价格位置：油价$91.77含$8-10地缘溢价(脆弱)、铜$13600历史高位、美国实际利率/强美元逆风、持有成本年化7-8%。这些使'不在高位追、等回调'成为明确纪律。品种上铜优于油的判断来自'铜有新能源需求双引擎+与A股相关性更低'。",
+        "self_check": "v1 的 neutral+小仓位方向正确(大宗确实是组合对冲缺口)，但 v1 太笼统、没给建仓时机和品种优先级。本轮更可执行：明确铜优先、明确回调门槛、明确不超3%。中性是合理的——大宗当前高位+强美元逆风，但零持仓的对冲缺口也真实，两者势均力敌。"
+      }
     },
+    "plan": {
+      "instrument_mix": [
+        {
+          "instrument": "铜ETF/有色金属ETF",
+          "tradable": true,
+          "suggest_pct": 65,
+          "reasoning": "新能源(光伏/电车/电网)需求结构性增长+铜矿capex连5年不足供给刚性+与A股权益相关性低于原油，是大宗内首选；但等回调至$12500再建"
+        },
+        {
+          "instrument": "原油ETF/能源ETF",
+          "tradable": true,
+          "suggest_pct": 25,
+          "reasoning": "地缘尾部对冲(Israel-Iran/霍尔木兹)，但溢价脆弱、波动大，仅极小比例"
+        },
+        {
+          "instrument": "农产品/综合商品ETF",
+          "tradable": true,
+          "suggest_pct": 10,
+          "reasoning": "进一步分散，无重大供给冲击时中性"
+        }
+      ],
+      "note": "零持仓大类，建仓非紧迫。suggest_pct是大宗类内品种结构(若建仓)，全组合大宗仓位建议≤2-3%且择机回调建仓。",
+      "risk_flags": [
+        "高波动(地缘事件驱动)",
+        "无票息+持有成本年化7-8%",
+        "高位追涨风险",
+        "强美元压制"
+      ]
+    },
+    "data_quality": "充分。Brent$91.77、LME铜$13600、DXY99.5、中国PMI50/PPI+2.8%均联网核实(2026-06-09)。零持仓大类，分析聚焦是否值得择机建仓。",
     "evidence": [
       {
-        "claim": "布伦特原油$90以上(2026-06-01约$93，霍尔木兹地缘)",
-        "source_url": "https://www.cruxinvestor.com/posts/hormuz-minefields-keep-oil-above-90-what-it-means-for-energy-gold-portfolio-positioning",
+        "claim": "commodity 零持仓",
+        "source": "holdings.json/v4_classifier",
         "status": "verified"
       },
       {
-        "claim": "中国5月制造业PMI 50.0(需求临界)",
-        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526812/latest-news/AAFN",
+        "claim": "Brent原油$91.77 (Israel-Iran冲突溢价)",
+        "source": "oilprice.com 2026-06-09",
+        "status": "verified"
+      },
+      {
+        "claim": "LME铜$13600 历史高位",
+        "source": "LME/westmetall 2026-06",
+        "status": "verified"
+      },
+      {
+        "claim": "美元DXY 99.5偏强",
+        "source": "yahoo/seekingalpha 2026-06",
+        "status": "verified"
+      },
+      {
+        "claim": "中国PMI制造业50.0、PPI+2.8%",
+        "source": "NBS 2026-05",
         "status": "verified"
       }
-    ],
-    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+    ]
   }
 }

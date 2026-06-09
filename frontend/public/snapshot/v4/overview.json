@@ -3,7 +3,7 @@
     "unit_id": "alloc:portfolio",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时；上游 asset:fixed_income 已更新至 v3（本单元基于 v1），结论可能过时；上游 asset:cash 已更新至 v2（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时；上游 asset:fixed_income 已更新至 v3（本单元基于 v1），结论可能过时；上游 asset:cash 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:commodity 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:precious_metal 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:real_estate 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:alternative 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
     "version": 1,
     "generated_at": "2026-06-07T07:38:28Z",
@@ -139,8 +139,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:commodity」，或运行：./scripts/run_v4.sh analyze asset:commodity",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-09T15:11:12Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -153,8 +153,8 @@
       "action": "add",
       "actively_zeroed": false,
       "stance": "neutral",
-      "direction": "中性，仅小仓位(≤3-5%)机会性配置能源/抗通胀工具作地缘+通胀对冲，非核心。",
-      "summary": "油价$90+受美伊/霍尔木兹地缘供给溢价驱动，但需求端(PMI50)疲弱，属事件驱动。"
+      "direction": "维持零持仓为主，但认可小仓位配置价值。建议：择机、分批、小幅建仓 2-3%（不到 bull 的3-5%），品种以铜ETF为主（新能源需求结构性支撑+与A股相关性低），原油ETF极小比例(≤1%)作地缘尾部对冲。建仓时机等回调——油价回落至 $82-85 或铜跌破 $12500 再右侧介入，不在 $91.77/$13600 的高位追。当前可先0%或试探1%，不急于打满。",
+      "summary": "大宗商品当前零持仓。3分析师 1 favorable(policy:地缘+OPEC+中国稳增长拉铜) + 2 neutral(macro/flow:内部分化、高位+强美元逆风)。多空分歧明显：bull 主张建仓3-5%(零持仓对通胀/地缘尾部完全裸露是真实缺口)，bear 主张维持0%(油价含$8-10地缘溢价易回落、铜$13600历史高位需求未兑现、强美元+持有成本年化7-8%、高位接飞刀)。这是一个'配置价值真实存在但建仓时机不佳'的典型张力——两方证据都强。"
     },
     {
       "unit_id": "asset:precious_metal",
@@ -162,8 +162,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:precious_metal」，或运行：./scripts/run_v4.sh analyze asset:precious_metal",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-09T15:06:03Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -176,8 +176,8 @@
       "action": "add",
       "actively_zeroed": false,
       "stance": "bullish",
-      "direction": "战略看多，作为核心避险底仓；当前2.9%偏低，逢回调分批增配至5-8%战略权重。",
-      "summary": "金价$4,460历史高位的结构性牛市(央行购金+去美元化+地缘避险)，近期高位震荡。"
+      "direction": "战略看多，小幅增配。从 2.89% 分批增至约 4.0-4.5%（而非 v1 激进的 5-8%）。执行：分2-3批、逢回调低吸，不在 $4350 历史高位一次性追高；设成本-10% 为止损参考。黄金的核心价值是对冲已偏高的 44% 权益 + 地缘尾部风险——它是组合里唯一与股债同时负相关的大类，即便实际利率逆风也不宜低于当前仓位。",
+      "summary": "黄金当前占比 2.89%（两只黄金ETF联接）。金价 $4350、同比 +81% 处历史高位，存在核心张力：美国10年期实际利率 2.07%（远超历史均值0.99%）按传统框架是黄金大逆风，但金价仍创新高——因为央行购金（Q1 净244吨、连续17个月）+ 地缘避险（Israel-Iran）+ 去美元化这三股结构性力量已压过实际利率逻辑。3分析师 2 favorable（flow/policy）+ 1 neutral（macro），偏多。多空辩论最终在 4.0-4.5% 收敛——双方都认同：2.89% 对冲 44% 权益的尾部风险确实偏低，央行购金是真实结构性需求（非投机），但 +81% 后追高赔率差、应分批低吸而非一步到位。"
     },
     {
       "unit_id": "asset:real_estate",
@@ -185,8 +185,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:real_estate」，或运行：./scripts/run_v4.sh analyze asset:real_estate",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-09T15:16:22Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -198,9 +198,9 @@
       "target_weight": 3,
       "action": "add",
       "actively_zeroed": false,
-      "stance": "neutral",
-      "direction": "选择性配置基础设施REITs(小仓位、类固收收益型)，回避地产开发商与实物房产β。",
-      "summary": "地产开发链结构性承压，但低利率环境下经营性基础设施REITs具收益型配置价值。"
+      "stance": "bullish",
+      "direction": "小幅建仓 REITs，2-3%（介于v1'小仓位'与bull'3-5%'之间，偏谨慎）。品种严格限定现金流稳定的仓储物流REITs + 保障房REITs（政策确定性高、与宏观景气挂钩弱），回避：①一切传统地产开发商股/债；②景气强挂钩的产业园REITs（空置率风险）和消费基础设施REITs（零售弱拖累）。分批建仓、逢回调介入。本质是用 REITs 的类固收高分红特性补组合的不动产敞口缺口，而非赌地产周期反转。",
+      "summary": "房地产当前零持仓。关键是区分两个完全不同的东西：①公募REITs（底层是已运营成熟资产的现金流，与传统地产开发脱钩）；②传统地产开发商/实物房产（仍深度调整）。3分析师全 favorable，但一致聚焦 REITs 偏基建/仓储类、明确回避传统地产。核心利好：CN10Y 1.73% 历史低位下，REITs 分红率 4-6%、利差 250-430bp 是固收替代最强时刻 + REITs 常态化扩容 + 政策最强托底。多空分歧：bull 建仓3-5%，bear 维持0%(地产未见底+REITs市场小流动性差+部分品种现金流恶化+估值透支)。bear 的核心风险其实多落在'传统地产'和'景气挂钩的产业园/消费REITs'，而非现金流稳定的仓储/保障房REITs——后者正是建仓标的。"
     },
     {
       "unit_id": "asset:alternative",
@@ -208,8 +208,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:alternative」，或运行：./scripts/run_v4.sh analyze asset:alternative",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-09T15:20:05Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -222,8 +222,8 @@
       "action": "hold",
       "actively_zeroed": true,
       "stance": "bearish",
-      "direction": "近期看空/回避，不在下跌破位中抄底；如配置仅限可承受归零的极小投机仓位(≤1-2%)。",
-      "summary": "加密遭遇FTX以来最差一周(BTC~$65K-17%/wk，ETH~$1,500-22%/wk)，地缘risk-off+杠杆清算+ETF流出，ETH逼近关键支撑。"
+      "direction": "维持零配置（0%）。这个结论不是基于看空加密市场本身（市场层面 flow 甚至偏多），而是基于合规红线：对中国境内 A股投资者，加密资产没有合法可执行的配置通道，境内参与面临账户冻结、涉嫌非法经营/洗钱的司法风险。除非未来出现①境内合规松绑 或 ②用户具备合法的境外身份/账户与跨境通道，否则不配置。若用户确有合法境外渠道且能承受归零，也仅限极小投机仓位(≤1%)，不作为战略配置。",
+      "summary": "另类投资（加密货币 BTC/ETH 为主）当前零持仓。3分析师意见分裂但有决定性因素：flow favorable（BTC $63K企稳、ETH ETF机构流入）是从加密资产本身看；但 macro unfavorable（高利率压制+与纳指相关0.7的风险联动）+ policy restrictive 且 compliance_risk=HIGH 才是对'中国A股投资者'这个特定主体的真实约束。核心：你是境内投资者，2021年924十部委通知全面禁止境内加密交易、银行切断资金通道、外汇管制使港股/美股合规加密ETF也无合法申购路径——零合规渠道。这是 override 一切市场层面判断的硬约束。"
     },
     {
       "unit_id": "asset:unclassified",

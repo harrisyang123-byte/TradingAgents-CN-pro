@@ -32,10 +32,10 @@
 | asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v4 (bullish/hold, akshare 19verified)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制、强制结构调整）|
 | asset:fixed_income | v1 (bullish, cn10y 2.7%, 仓位口径12.77%) | **v3 (neutral_hold, 12.77% correct, 维持不动)** | ✅ 已重跑×2 | neutral_hold / hold（12.77%合理，不增不减，缩久期）|
 | asset:cash | v1 (neutral, 占位) | **v2 (bearish/reduce, 27.93%→18-20%)** | ✅ 已重跑 | bearish / reduce（减现金、活期挪货基、优先投固收不加权益）|
-| asset:commodity | v1 | — | ⬜ 待跑 | — |
-| asset:precious_metal | v1 | — | ⬜ 待跑 | — |
-| asset:real_estate | v1 | — | ⬜ 待跑 | — |
-| asset:alternative | v1 | — | ⬜ 待跑 | — |
+| asset:commodity | v1 | **v2 (neutral/hold, 零持仓)** | ✅ 已重跑 | neutral / hold（真中性:对冲缺口vs高位逆风,择机回调小幅建仓2-3%铜ETF）|
+| asset:precious_metal | v1 (bullish) | **v2 (bullish/increase, 2.89%→4-4.5%)** | ✅ 已重跑 | bullish / increase（小幅分批,下调v1的5-8%,实际利率逆风vs央行购金）|
+| asset:real_estate | v1 (neutral) | **v2 (bullish/increase, 0→2-3%REITs)** | ✅ 已重跑 | bullish / increase（小幅REITs限仓储/保障房,回避传统地产,利差250-430bp）|
+| asset:alternative | v1 (bearish) | **v2 (bearish/0%)** | ✅ 已重跑 | bearish / 0%（合规红线override:境内禁止加密、零合规渠道）|
 | alloc:portfolio | v1 | — | ⬜ 待跑 | — |
 | 权益深链(行业/个股/配比) | v1 | — | ⬜ 待跑 | 用户点几个跑几个 |
 
@@ -105,3 +105,13 @@
   - **reflection**：prev=neutral(v1占位)。stance neutral→bearish(反骑墙站队)；目标从v1'10-15%'上调'18-20%'(纳入权益偏高+地缘尾部→现金缓冲不宜降太狠)。self_check：v1占位近骑墙，本轮果断站队；最该立即做的'活期挪货基'v1完全没提。
   - **落盘**：v2 green，v1归档。合计仍100.01%。**未提交**，等用户验。
   - **下一步**：用户验 cash v2 → 提交 → 跑 precious_metal/commodity/real_estate/alternative。
+
+- **2026-06-09 批量跑完剩余4大类 → 全部 v2**（用户授权连续跑完+修复+统一汇报）：
+  - **取数(我)**：collect 4单元后 data_macro 又被重置，重填22指标+补5专属(US实际利率TIPS 2.07%、央行购金Q1 244t连续17月、金价$4350+81%、BTC$63K/ETH$1670、铜$13600、中国地产投资-11.1%降幅收窄、REITs常态化扩容)。
+  - **asset:precious_metal v2**：3分析师 2fav(flow/policy)+1neutral(macro)。多空收敛4.0-4.5%。**stance=bullish/increase**:2.89%→4-4.5%分批低吸(下调v1的5-8%)。核心张力:实际利率2.07%逆风vs央行购金17月结构性需求。reflection:方向不变但目标下调+分批纪律(纳入高实际利率+历史高位追高风险)。confidence medium。
+  - **asset:commodity v2**：3分析师 1fav(policy)+2neutral。多空 bull increase3-5% vs bear avoid0%。**stance=neutral/hold(真中性)**:对冲缺口真实vs高位+强美元逆风势均力敌。建仓路径:择机回调(油<$82或铜<$12500)小幅2-3%铜ETF为主+原油≤1%对冲。reflection:v1中性维持但细化品种(铜优先)+建仓门槛。confidence medium。
+  - **asset:real_estate v2**：3分析师全fav(利差250-430bp固收替代最强)。多空 bull3-5% vs bear avoid。**stance=bullish/increase**小幅2-3%REITs,限仓储物流/保障房(稳现金流),回避传统地产开发商+产业园/消费REITs(景气挂钩)。reflection:neutral→bullish(利差证据强到该站队)。已纠正flow误引"居民储蓄4160万亿"(实际约160万亿)。confidence medium。
+  - **asset:alternative v2**：3分析师 macro unfav/flow fav(加密本身)/policy restrictive **compliance_risk=high**。**stance=bearish/0%**维持零配置。核心:合规红线(中国境内2021禁令、零合规渠道、外汇管制无法申购港股加密ETF)override市场判断。reflection:回避理由从v1"市场看空"升级为"合规不可行"(更根本)。confidence high。
+  - **落盘**：4单元全 v2 green,各自v1归档。build_snapshot重生成17文件。**八大类合计100.01%**(equity44.24/cash27.93/fixed12.77/unclassified12.18/precious2.89/commodity0/real_estate0/alternative0)。
+  - **里程碑**：7大类研究单元(Wave1)全部重跑完成✅ + unclassified占位。下一步:Wave2 alloc:portfolio 资产配比委员会(读7个asset verdict出Σ=100%目标配比+equity_quota)。
+  - **未提交**(等本步统一提交)。
