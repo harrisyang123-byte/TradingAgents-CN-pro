@@ -4,7 +4,7 @@
       "unit_id": "alloc:equity_industries",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:人工智能算力 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
@@ -399,25 +399,14 @@
     },
     {
       "unit_id": "industry:人工智能算力",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-09T23:57:06Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
@@ -753,9 +742,9 @@
     },
     {
       "unit_id": "stock:002415",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 industry:人工智能算力 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

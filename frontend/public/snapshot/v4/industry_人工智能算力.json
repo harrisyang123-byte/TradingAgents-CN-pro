@@ -2,49 +2,43 @@
   "industry": "人工智能算力",
   "industry_unit": {
     "unit_id": "industry:人工智能算力",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-09T23:57:06Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "asset:equity",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "direction": "go",
-    "vitality_level": "high",
-    "allocation_advice": "景气高、政策最强主线，超配；以AI主题ETF打底+龙头(海康)做阿尔法，回调分批。",
-    "suggested_weight_pct": 6
+    "stance": "go",
+    "direction": "看多AI算力赛道(go/高景气),但反骑墙地强调'配赛道≠无脑追标的'——景气确定(capex+77%/光模块+57%),但①估值已price-in(中际旭创PE近5年分位>95%、近6月+120%)②bear的替代路径钳形攻势(CPO/玻璃基板/云厂自研ASIC去中间化)是真实中期威胁。结论:配置该赛道,但精选瓶颈环节+严控买点,不在高位追。equity_quota=44%下,建议AI算力作为权益核心赛道之一。",
+    "chokepoint_conclusion": "两个top瓶颈落地路径:①CoWoS——A股最纯正国产替代是盛合晶微(待IPO,催化明确),长电/通富收入占比尚低;台积电走QDII。②光模块——A股直接买中际旭创(全球龙头),但当前估值贵(买点<350元,当前420偏高,安全边际薄)、且面临CPO 2027+替代近忧,需边际跟踪CPO量产进度。HBM/EUV主要走QDII。",
+    "risks": [
+      "替代路径钳形攻势:CPO去中间化(光模块)/玻璃基板(CoWoS)/云厂自研ASIC,中期侵蚀瓶颈溢价",
+      "capex $725B高基数,2027增速放缓风险(科技capex周期3-4年见顶规律)",
+      "AI capex-to-revenue gap扩大,若变现证伪触发全链杀估值",
+      "中际旭创估值极端(PE分位>95%)+应收超营收+客户集中75%,边际恶化即戴维斯双杀",
+      "标的高位追高风险:多数AI算力标的近6月大涨,buy point需等回调"
+    ],
+    "trend": "go/高景气,建议在equity_quota内给AI算力较高权重,但执行上反骑墙:精选瓶颈环节(CoWoS国产替代+光模块龙头)、严控买点(等回调,不追高)、动态跟踪CPO替代进度作为减配触发。",
+    "confidence": "medium",
+    "reflection": {
+      "prev_stance": "go(v1, 仅vitality_level+suggested_weight,无产业链拆解)",
+      "prev_date": "2026-06-07",
+      "what_changed": "首次引入Chokepoint产业链瓶颈拆解+混合分队深挖,从v1笼统的'AI算力高景气'深化为'看好哪个环节(CoWoS/光模块)+买谁(盛合晶微/中际旭创)+什么价(中际旭创买点<350)'。新增chokepoint_map(5环节四维评分)+替代路径风险。",
+      "why_changed": "v1只判了行业景气方向,没回答'景气兑现时钱该流向产业链哪个咽喉环节'。本次用瓶颈分析师出骨架+CoWoS专项调研员深挖(挖出国产替代盛合晶微)+中际旭创个股分队(挖出估值贵/财务红旗),把行业判断落到可执行的环节+标的+买点。同时bear的替代路径钳形攻势(CPO/玻璃基板/云厂自研)是v1完全没覆盖的中期风险。",
+      "self_check": "v1的go方向正确(capex爆发验证),但v1停在'高景气'喊口号层面,没有可执行性。本次Chokepoint框架补上了'买哪个环节/哪个标的/什么价'——这才是Serenity式深度。注意:chokepoint_map多项estimated(盛合晶微数据/份额),需持续核实;且当前多数标的估值已高,框架更多用于'回调时知道买什么',而非当前追高。"
+    }
   },
   "debate_rounds": [
     {
       "round": 1,
-      "bull": "国家『AI+』顶层推进(能源/文旅/制造全面赋能)、算力国产化与大模型应用落地，景气与政策双驱动；海康等龙头安防AI+海外，AI ETF覆盖科创AI主题。",
-      "bear": "估值偏高、地缘risk-off下高β成长股折现率扰动放大波动；算力国产链业绩兑现仍需时间。"
-    },
-    {
-      "round": 2,
-      "bull": "(承上)景气与政策支撑中期方向",
-      "bear": "(承上)地缘与估值约束短期空间"
-    },
-    {
-      "round": 3,
-      "bull": "维持方向，强调分批与龙头",
-      "bear": "认同分批、控制单一暴露"
+      "bull": "capex $725B(+77%)加速、2027>$1T,人类最大单向资本开支浪潮;瓶颈卡位极集中(CoWoS TSMC90%/光模块中际旭创>40%)=寡头供给×爆发需求;1.6T升级ASP+60-80%拉毛利;国产替代盛合晶微打开增量。go高景气。",
+      "bear": "替代路径钳形攻势(致命):①CPO 2027+去中间化结构性替代可插拔光模块(侵蚀中际旭创主业)②玻璃基板绕CoWoS瓶颈削弱稀缺溢价③北美云厂自研ASIC+博通自研光引擎垂直整合挤出中间商利润;+capex $725B高基数2027增速必放缓(科技capex周期3-4年见顶规律);+中际旭创PE>95%分位/应收超营收/客户集中75%=周期顶部成长股幻觉。"
     }
   ],
   "intra_alloc_unit": {
@@ -87,9 +81,9 @@
   "stocks": [
     {
       "unit_id": "stock:002415",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 industry:人工智能算力 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

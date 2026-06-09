@@ -2,67 +2,216 @@
   "unit_id": "industry:人工智能算力",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:portfolio",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:equity",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-09T23:57:06Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "人工智能算力",
     "direction": "go",
-    "vitality_level": "high",
+    "vitality_level": "高",
+    "related_holdings": [
+      {
+        "code": "603236",
+        "name": "移远通信",
+        "note": "物联网模组,AI边缘算力间接"
+      },
+      {
+        "code": "000063",
+        "name": "中兴通讯",
+        "note": "通信设备/算力网络"
+      },
+      {
+        "code": "012733",
+        "name": "易方达中证人工智能主题ETF联接A",
+        "note": "AI主题ETF"
+      },
+      {
+        "code": "024245",
+        "name": "广发上证科创板人工智能ETF联接A",
+        "note": "科创AI ETF"
+      }
+    ],
+    "chokepoint_map": [
+      {
+        "layer": "器件-封装",
+        "node": "CoWoS先进封装",
+        "irreplaceability": "高",
+        "supply_concentration": "极高(TSMC~90%)",
+        "capacity_rigidity": "强(扩产18-24月)",
+        "value_capture": "高",
+        "substitution_risk": "玻璃基板2027样品/2030量产,三星I-Cube良率落后2代→2027前无实质替代",
+        "beneficiaries_a": [
+          "盛合晶微(国产替代最纯正,承接寒武纪/昇腾)",
+          "长电科技600584(XDFOI,收入占比<10%)",
+          "通富微电002156(2.5D研发中)"
+        ],
+        "beneficiaries_qdii": [
+          "台积电(台股/半导体QDII)"
+        ],
+        "is_top": true,
+        "evidence_status": "estimated"
+      },
+      {
+        "layer": "器件-存储",
+        "node": "HBM高带宽内存",
+        "irreplaceability": "高",
+        "supply_concentration": "极高(SK海力士/三星/美光三家)",
+        "capacity_rigidity": "强",
+        "value_capture": "高",
+        "substitution_risk": "HBM4 2026仅SK海力士领跑,无非HBM替代",
+        "beneficiaries_a": [
+          "兆易创新603986(间接)"
+        ],
+        "beneficiaries_qdii": [
+          "SK海力士(韩国ETF)",
+          "美光(纳指)"
+        ],
+        "is_top": false,
+        "evidence_status": "verified"
+      },
+      {
+        "layer": "部件-光互连",
+        "node": "800G/1.6T光模块",
+        "irreplaceability": "中",
+        "supply_concentration": "高(中际旭创800G>40%/1.6T 50-70%)",
+        "capacity_rigidity": "中",
+        "value_capture": "中",
+        "substitution_risk": "CPO共封装光学2027+对可插拔的结构性替代(近忧),博通自研光引擎+云厂垂直整合",
+        "beneficiaries_a": [
+          "中际旭创300308(全球龙头连续4年第一)",
+          "新易盛300502(追赶者)",
+          "天孚通信300394(上游器件)"
+        ],
+        "beneficiaries_qdii": [
+          "Coherent/Lumentum(纳指)"
+        ],
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "layer": "材料-封装基板",
+        "node": "ABF载板",
+        "irreplaceability": "高",
+        "supply_concentration": "高",
+        "capacity_rigidity": "强",
+        "value_capture": "中",
+        "substitution_risk": "玻璃基板2027试产,ABF仍是2026唯一量产方案",
+        "beneficiaries_a": [
+          "兴森科技002436",
+          "深南电路002916"
+        ],
+        "beneficiaries_qdii": [
+          "欣兴/揖斐电(台日ETF)"
+        ],
+        "is_top": false,
+        "evidence_status": "estimated"
+      },
+      {
+        "layer": "设备",
+        "node": "EUV光刻机(2-3nm)",
+        "irreplaceability": "高",
+        "supply_concentration": "极高(ASML独家)",
+        "capacity_rigidity": "强",
+        "value_capture": "高",
+        "substitution_risk": "ASML独家,中国受禁运无替代→A股只能买DUV级国产替代",
+        "beneficiaries_a": [
+          "北方华创002371",
+          "中微公司688012(刻蚀)"
+        ],
+        "beneficiaries_qdii": [
+          "ASML(荷兰/半导体ETF)"
+        ],
+        "is_top": false,
+        "evidence_status": "verified"
+      }
+    ],
+    "top_chokepoints": [
+      "CoWoS先进封装(最窄垄断,国产替代盛合晶微)",
+      "800G/1.6T光模块(A股直接可买中际旭创,但CPO 2027+替代近忧)"
+    ],
+    "analysts": {
+      "prosperity": {
+        "role": "景气研究员",
+        "go_nogo": "go",
+        "vitality_level": "高",
+        "reasoning": "北美4云厂2026 capex $725B(+77%)、2027>$1T,AI光模块市场+57%→$260亿;景气可持续2-3年但需监控capex-revenue变现gap(当前云厂AI收入增速>50%只是绝对值不匹配capex,非破裂信号)"
+      },
+      "chokepoint": {
+        "role": "产业链瓶颈分析师",
+        "reverse_path": "终端AI推理→GPU集群→先进封装(CoWoS)+HBM→光互连(CPO/光模块)→材料/设备(ABF/EUV)",
+        "top": "CoWoS(四维全满,TSMC~90%单一垄断)",
+        "note": "专项调研员深挖CoWoS挖出国产替代最纯正标的盛合晶微+光模块环节中际旭创个股分队(财务红旗+估值)"
+      }
+    },
     "debate_rounds": [
       {
         "round": 1,
-        "bull": "国家『AI+』顶层推进(能源/文旅/制造全面赋能)、算力国产化与大模型应用落地，景气与政策双驱动；海康等龙头安防AI+海外，AI ETF覆盖科创AI主题。",
-        "bear": "估值偏高、地缘risk-off下高β成长股折现率扰动放大波动；算力国产链业绩兑现仍需时间。"
-      },
-      {
-        "round": 2,
-        "bull": "(承上)景气与政策支撑中期方向",
-        "bear": "(承上)地缘与估值约束短期空间"
-      },
-      {
-        "round": 3,
-        "bull": "维持方向，强调分批与龙头",
-        "bear": "认同分批、控制单一暴露"
+        "bull": "capex $725B(+77%)加速、2027>$1T,人类最大单向资本开支浪潮;瓶颈卡位极集中(CoWoS TSMC90%/光模块中际旭创>40%)=寡头供给×爆发需求;1.6T升级ASP+60-80%拉毛利;国产替代盛合晶微打开增量。go高景气。",
+        "bear": "替代路径钳形攻势(致命):①CPO 2027+去中间化结构性替代可插拔光模块(侵蚀中际旭创主业)②玻璃基板绕CoWoS瓶颈削弱稀缺溢价③北美云厂自研ASIC+博通自研光引擎垂直整合挤出中间商利润;+capex $725B高基数2027增速必放缓(科技capex周期3-4年见顶规律);+中际旭创PE>95%分位/应收超营收/客户集中75%=周期顶部成长股幻觉。"
       }
     ],
     "verdict": {
-      "direction": "go",
-      "vitality_level": "high",
-      "allocation_advice": "景气高、政策最强主线，超配；以AI主题ETF打底+龙头(海康)做阿尔法，回调分批。",
-      "suggested_weight_pct": 6
+      "stance": "go",
+      "direction": "看多AI算力赛道(go/高景气),但反骑墙地强调'配赛道≠无脑追标的'——景气确定(capex+77%/光模块+57%),但①估值已price-in(中际旭创PE近5年分位>95%、近6月+120%)②bear的替代路径钳形攻势(CPO/玻璃基板/云厂自研ASIC去中间化)是真实中期威胁。结论:配置该赛道,但精选瓶颈环节+严控买点,不在高位追。equity_quota=44%下,建议AI算力作为权益核心赛道之一。",
+      "chokepoint_conclusion": "两个top瓶颈落地路径:①CoWoS——A股最纯正国产替代是盛合晶微(待IPO,催化明确),长电/通富收入占比尚低;台积电走QDII。②光模块——A股直接买中际旭创(全球龙头),但当前估值贵(买点<350元,当前420偏高,安全边际薄)、且面临CPO 2027+替代近忧,需边际跟踪CPO量产进度。HBM/EUV主要走QDII。",
+      "risks": [
+        "替代路径钳形攻势:CPO去中间化(光模块)/玻璃基板(CoWoS)/云厂自研ASIC,中期侵蚀瓶颈溢价",
+        "capex $725B高基数,2027增速放缓风险(科技capex周期3-4年见顶规律)",
+        "AI capex-to-revenue gap扩大,若变现证伪触发全链杀估值",
+        "中际旭创估值极端(PE分位>95%)+应收超营收+客户集中75%,边际恶化即戴维斯双杀",
+        "标的高位追高风险:多数AI算力标的近6月大涨,buy point需等回调"
+      ],
+      "trend": "go/高景气,建议在equity_quota内给AI算力较高权重,但执行上反骑墙:精选瓶颈环节(CoWoS国产替代+光模块龙头)、严控买点(等回调,不追高)、动态跟踪CPO替代进度作为减配触发。",
+      "confidence": "medium",
+      "reflection": {
+        "prev_stance": "go(v1, 仅vitality_level+suggested_weight,无产业链拆解)",
+        "prev_date": "2026-06-07",
+        "what_changed": "首次引入Chokepoint产业链瓶颈拆解+混合分队深挖,从v1笼统的'AI算力高景气'深化为'看好哪个环节(CoWoS/光模块)+买谁(盛合晶微/中际旭创)+什么价(中际旭创买点<350)'。新增chokepoint_map(5环节四维评分)+替代路径风险。",
+        "why_changed": "v1只判了行业景气方向,没回答'景气兑现时钱该流向产业链哪个咽喉环节'。本次用瓶颈分析师出骨架+CoWoS专项调研员深挖(挖出国产替代盛合晶微)+中际旭创个股分队(挖出估值贵/财务红旗),把行业判断落到可执行的环节+标的+买点。同时bear的替代路径钳形攻势(CPO/玻璃基板/云厂自研)是v1完全没覆盖的中期风险。",
+        "self_check": "v1的go方向正确(capex爆发验证),但v1停在'高景气'喊口号层面,没有可执行性。本次Chokepoint框架补上了'买哪个环节/哪个标的/什么价'——这才是Serenity式深度。注意:chokepoint_map多项estimated(盛合晶微数据/份额),需持续核实;且当前多数标的估值已高,框架更多用于'回调时知道买什么',而非当前追高。"
+      }
     },
-    "related_holdings": [
-      "012733/012734 人工智能ETF联接",
-      "024245 科创板AI ETF",
-      "002415 海康威视"
-    ],
+    "data_quality": "充分。景气面(capex $725B/光模块市场+57%/中际旭创份额)、瓶颈面(CoWoS/HBM/光模块/ABF/EUV)、标的(中际旭创财务/估值分队)均2026-06联网核实。chokepoint_map部分标的卡位为estimated(盛合晶微/份额),待持续核实。",
     "evidence": [
       {
-        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
-        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "claim": "北美4云厂2026 capex $725B(+77%YoY),2027>$1T",
+        "source": "Forbes/Tomshardware/CNBC 2026-04~06",
         "status": "verified"
       },
       {
-        "claim": "宏观risk-off/A股估值中低位",
-        "source_url": "data_macro.json@2026-06-07",
+        "claim": "全球AI光模块市场2026 $260亿(+57%)",
+        "source": "TrendForce/BigGo 2026",
         "status": "verified"
+      },
+      {
+        "claim": "中际旭创800G全球>40%,1.6T 50-70%,连续4年第一",
+        "source": "新华社/scio.gov.cn 2026-06-08",
+        "status": "verified"
+      },
+      {
+        "claim": "CoWoS TSMC占~90%,良率98%,产能sold out至2026",
+        "source": "winbuzzer/trendforce/TSMC 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "CPO 2027+量产对可插拔光模块替代",
+        "source": "cignal.ai/trendforce 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "中际旭创PE近5年分位>95%,买点<350元",
+        "source": "估值专项分析(stockanalysis数据)",
+        "status": "estimated"
+      },
+      {
+        "claim": "盛合晶微国产CoWoS-like最纯正标的,待IPO",
+        "source": "天风/韭研 2026",
+        "status": "estimated"
       }
     ]
   }

@@ -125,3 +125,30 @@
   - ⚠️小展示问题:overview的unclassified卡片target_weight显示None(build_overview的unclassified分支未映射alloc target=12),不影响数据正确性,待后续修。
   - **里程碑**：Wave2完成✅。第一份基于完整分析的可执行资产配置方案出炉。下一步:Wave3权益深链(行业→行业配比→个股→行业内配比,用户逐个点名,equity_quota=44%为行业层上限) 或 Wave4 6个非权益plan:*执行计划。
   - **未提交**,等用户验。
+
+- **2026-06-09 Chokepoint框架 + 单兵→分队架构审查（设计阶段，已提交33681cf）**：
+  - 借鉴 Serenity Chokepoint Theory，设计落 `planning/v4/chokepoint-framework.md`（四维判定/逆向工程/6维评分/混合分队深挖/市场分层/局限）。
+  - 两轮实测定架构：①A/B(融合vs专职)→需专职瓶颈分析师；②单兵vs分队(CoWoS)→top瓶颈需派专项调研员深挖(专人挖出单兵遗漏的盛合晶微+买点)。
+  - 全项目审查 `planning/v4/squad-vs-solo-audit.md`：发现个股层结构不对称(大类层有3分析师/个股层直接bull-bear无底座)；实测个股分队(财务/竞争/估值)胜出且纠正单兵乐观偏差(中际旭创:单兵给增持220-260,分队指出420已price-in/PE分位>95%/挖出应收存货客户集中红旗)。
+  - 定稿v4三处分队:大类(已有)/行业(瓶颈+专项调研员)/个股(财务/竞争/估值,待落地)。
+
+- **📌 下一步计划（Wave3首跑,B方案:先端到端验证再固化prompt）**：
+  - 目标:用新分队架构完整跑「人工智能算力」行业单元(industry:人工智能算力)端到端,产出真实chokepoint_map+verdict落盘,验证效果后再固化prompt(新建v4-industry-chokepoint.md + 个股3分析师角色 + 改Scout/bear)。
+  - 模式A执行流程(我编排):
+    1. data-desk(我联网):取AI算力行业景气数据(资本开支/需求/A股光通信链行情)+已有的瓶颈现状(CoWoS/HBM/CPO已取)
+    2. 景气研究员(subagent):判断行业go/nogo+等级
+    3. 瓶颈分析师(subagent):出全链chokepoint_map骨架+标top1-2瓶颈
+    4. 我对top瓶颈派专项调研员(subagent)深挖(CoWoS已验证,可复用;另挑1个如光模块/HBM)
+    5. 多空3轮(subagent,bear含替代路径攻击)
+    6. 我(director)核实estimated+综合verdict(含reflection+反骑墙)
+    7. v4_unit_cli write 'industry:人工智能算力' 落盘 → build_snapshot → 用户验
+  - ⚠️注意:industry单元payload schema可能没有chokepoint_map字段,先看现有schema,缺则本次先塞进payload(前端展示后续固化)。equity_quota=44%是行业层权重上限。
+  - 跑完讲结论等用户验,验好再固化prompt(.md)。
+
+- **2026-06-09 Wave3首跑完成: industry:人工智能算力 → v2(Chokepoint新架构端到端验证)**：
+  - 模式A编排:我取景气数据(capex $725B+77%/光模块市场+57%/中际旭创份额)+复用已取瓶颈数据 → 景气研究员(subagent,go/高)+多空(subagent,bear替代路径钳形攻击:CPO/玻璃基板/云厂自研ASIC去中间化) → 复用CoWoS专项深挖(盛合晶微)+中际旭创个股分队 → 我director综合落盘。
+  - **产出chokepoint_map 5环节四维评分**:CoWoS(top,TSMC90%,国产替代盛合晶微)/HBM/光模块(top,中际旭创,CPO替代近忧)/ABF/EUV,每个带substitution_risk+A股/QDII分层标的。
+  - **verdict**:stance=go/高景气,但反骑墙强调"配赛道≠追标的"——景气确定但估值已price-in(中际旭创PE分位>95%/近6月+120%)+替代路径中期威胁。结论:精选瓶颈环节(CoWoS国产替代+光模块龙头)+严控买点(中际旭创<350,当前420偏贵)+跟踪CPO替代进度作减配触发。confidence medium。
+  - reflection:从v1笼统"高景气"深化为"看好哪个环节+买谁+什么价",Chokepoint框架价值验证。
+  - 落盘v2 green,chokepoint_map塞进payload(前端展示待固化)。**端到端效果验证成功**:分队架构产出了v1没有的产业链瓶颈地图+可执行标的+买点。
+  - **下一步**:用户验效果 → 认可则固化prompt(新建v4-industry-chokepoint.md+个股3分析师+改Scout/bear+前端展示chokepoint_map)。
