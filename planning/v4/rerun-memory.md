@@ -30,7 +30,7 @@
 | 单元 | baseline 版本 | 重跑后版本 | 状态 | 结论(stance/trend) |
 |------|--------------|-----------|------|-------------------|
 | asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v4 (bullish/hold, akshare 19verified)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制、强制结构调整）|
-| asset:fixed_income | v1 (bullish, cn10y 2.7%, 仓位口径12.77%) | **v2 (bullish/increase 短久期, cn10y 1.73%)** | ✅ 已重跑 | bullish / increase（增配但限短久期高等级、不博长端）|
+| asset:fixed_income | v1 (bullish, cn10y 2.7%, 仓位口径12.77%) | **v3 (neutral_hold, 12.77% correct, 维持不动)** | ✅ 已重跑×2 | neutral_hold / hold（12.77%合理，不增不减，缩久期）|
 | asset:cash | v1 | — | ⬜ 待跑 | — |
 | asset:commodity | v1 | — | ⬜ 待跑 | — |
 | asset:precious_metal | v1 | — | ⬜ 待跑 | — |
@@ -81,3 +81,18 @@
   - **reflection（对比 v1）**：prev=bullish@2026-06-07T07:36:52Z；**方向(看多/增配)未变**，但①利率锚纠正 2.7%→1.73%、②仓位口径纠正 12.77%→2.86%、③新增 PPI+2.8% 转正再通胀信号 → 结论从 v1『中等久期增配』收敛为『**短久期防御型增配**』（1.73%下期限利差0.47%拉久期不被补偿）。confidence 从 v1 medium_high 下调 medium（看多依据从『利率下行博价差』切换为『纠正严重低配+对冲44%权益』的配置性理由）。self_check：v1 方向成立且被强化（真实低配更需修复），但 v1 的 2.7%/12.77% 两个底座偏高致其『中等久期』建议偏激进，本轮纠正为短久期更稳健。
   - **落盘**：write `asset:fixed_income` → **v2 green**，v1 自动归档 `_archive/assets/fixed_income/v1_2026-06-07_2.json`。`build_snapshot_v4` 重生成17文件，asset_fixed_income.json 快照确认带 stance=bullish + reflection(prev_stance=bullish) + 3辩论轮 + 3分析师。临时 payload `data/v4/inputs/_fixed_income_v2_payload.json`(gitignored)。**未提交**，等用户本地验。
   - **下一步**：用户本地验 v2（reflection 这次讲『方向不变但利率锚+仓位口径双纠正→中久期降为短久期』）→ 提交 → 再跑下一单元（cash/commodity/precious_metal 等）。
+
+- **2026-06-09 asset:fixed_income 修正重跑 → v3**（修复分类器 bug 导致的仓位口径错误 2.86%→12.77%）：
+  - **根因**：v4_classifier 旧版 FIXED_INCOME 关键词表缺 `收益债/回报债/国开债/中债/债a/债b` 变体 → 110008/110017/003376 三只债基(共9.91%)漏判。真实固收=12.77%。v2 verdict「严重低配→增配到10%」被错误输入带偏。
+  - **取数**：collect重生成(5只/12.77%)；data_macro.json 联网22指标(2026-06-09)。
+  - **3分析师**：macro=favorable, flow=neutral(拥挤high), policy=favorable。2:1偏多。
+  - **多空3轮**：bull最终=hold / bear最终=slight_reduce。共识：12.77%合理区间。
+  - **verdict**：stance=neutral_hold, direction=维持12.77%不动, confidence=medium。
+  - **reflection**：核心修正=v2基于错误2.86%得出增配结论被带偏；真实12.77%不需增配。根因是数据质量(分类器关键词缺失)。
+  - **落盘**：v3 green。v2 归档 `_archive/assets/fixed_income/v2_2026-06-08.json`。
+
+- **2026-06-09 asset:unclassified 首次建立 → v1**（修复 MECE 缺口）：
+  - 投顾组合「广发全球多元稳健」12.18% 无法穿透→ unclassified 占位单元。
+  - `v4_query.build_overview` 追加 unclassified 卡片展示逻辑。
+  - **落盘**：v1 green, 12.18%。快照 overview 含8卡片合计100.01%。
+  - **下一步**：用户本地验 → 提交 → 再跑下一单元(cash/commodity/precious_metal等)。

@@ -2,24 +2,39 @@
   "unit_id": "asset:fixed_income",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-08T14:07:24Z",
+  "generated_at": "2026-06-09T14:09:57Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "asset_class": "fixed_income",
     "label": "固定收益",
-    "current_weight": 2.86,
+    "current_weight": 12.77,
     "holding_only_exposure": 0.0,
     "tradable": [
+      {
+        "code": "110008",
+        "name": "易方达稳健收益债B",
+        "weight": 4.45
+      },
+      {
+        "code": "110017",
+        "name": "易方达增强回报债A",
+        "weight": 4.15
+      },
       {
         "code": "270044",
         "name": "广发双债添利债券A",
         "weight": 1.87
+      },
+      {
+        "code": "003376",
+        "name": "广发中债7-10年国开债指数A",
+        "weight": 1.31
       },
       {
         "code": "000205",
@@ -30,174 +45,119 @@
     "debate_rounds": [
       {
         "round": 1,
-        "bull": "增配逻辑明确：①组合固收仅2.86%、权益约44%，风险收益比失衡，再平衡是刚需；②cn10y=1.73%虽处历史低位，但实际利率=1.73%-CPI1.2%=+0.53%仍为正，持有不亏购买力；③LPR连续12+月不变+M2+8.6%+社融+7.8%，货币宽松持稳、债市无系统性利空；④外围risk-off（纳指-4.18%/标普-2.64%）驱动避险资金流入人民币高等级债；⑤PMI 50.0/50.1临界、无过热与紧缩动机，利率中枢短期难上行。suggested_tilt=increase。",
-        "bear": "逐条挑战（tilt=hold，但不主张砍掉现有2.86%）：①低配是果非因——cn10y=1.73%历史极低、票息保护薄，此时拉久期增配=泡沫顶加仓，期限利差仅0.47%不补偿久期风险；②PPI+2.8%转正启动工业再通胀，若CPI跟随上行至1.5-2%，实际利率归零甚至转负；③中美利差倒挂约282bp+DXY99.55+美联储鹰派，封死央行降息空间，利率向下空间锁死、向上风险敞开；④财政发力→国债/地方债净供给放量冲击5Y+长端；⑤做多债市已成拥挤交易，任何边际利空（通胀超预期/供给放量）可触发踩踏。"
+        "bull": "利率下行趋势确立(CN10Y 1.73%)+经济弱复苏+PBOC宽松→固收仍值得持有/增配。组合12.77%低于防御中枢20-25%。suggested_tilt=increase",
+        "bear": "赔率极度压缩(CN10Y历史低位,向下20-30bp空间)+PPI 2.8%/油价$91.77→CPI传导风险+债市拥挤度extreme(crowding=high/greedy)+中美利差282bp制约央行+供给加速。suggested_tilt=reduce"
       },
       {
         "round": 2,
-        "bull": "区分『增配仓位』与『拉长久期』——我从不主张追多长端资本利得：修复至8-12%用短久期高等级工具（1-3年AAA信用债、同业存单、货币增强），久期中枢≤1.5年，不承担长端利率风险，票息3.0-3.2%已优于活期；核心是用短久期票息资产为44%权益提供负相关缓冲垫，而非赌利率下行。空头对长端风险判断正确，但把『增配固收』等同『追多长债』是稻草人。",
-        "bear": "短久期防御逻辑成立，但仍提示：①即便短端，1.73%的绝对收益顶意味票息回报有限，机会成本需对比货币基金；②再通胀一旦加速，短端同样会被重定价（虽幅度小于长端）；③拥挤反转时短端流动性冲击虽小但非零。认同『不拉长久期、控单一久期暴露、保留再投资灵活性』。"
+        "bull": "让步:承认赔率压缩、拥挤度真实存在。回应:PPI→CPI内需弱时传导低效(2022前例)+汇率已从7.19升6.765缓解央行压力+MLF对冲供给。修正立场:从increase降为hold。",
+        "bear": "追击:油价若$100+将加速CPI传导、拥挤度释放是非线性的(2023Q4前例)、12.77%并非低配→持有=承担凸性下行风险。建议:slight_reduce到~10%。"
       },
       {
         "round": 3,
-        "bull": "最终立场 increase 但严格约束执行：目标仓位从2.86%修复至约10%（中位偏下、非激进），久期中枢≤1.5年，品种限定AAA短融/同业存单/1-3年高等级信用债，禁止5Y+利率债与超长端、禁止加杠杆；若CPI突破2%或央行释放收紧信号则暂停增配节奏。承认风险：长端在1.73%无安全边际、PPI转正的再通胀风险真实、中美利差封死降息空间、长端供给冲击、超长端拥挤反转。",
-        "bear": "认同上述短久期防御型修复方案与暂停触发条件（CPI>2%/央行收紧）。分歧收敛：双方都不主张砍掉固收，分歧仅在『加多少、加什么久期』——结论应为『增配仓位但只用短久期高等级，不博长端资本利得』。"
+        "bull": "最终hold。基本面弱(PMI 50/信贷缩量)=央行无收紧动机→利率短期无上行驱动力。但不追加仓位。止损:CPI连续2月超预期 或 资金利率中枢抬升50bp+。",
+        "bear": "最终slight_reduce。承认票息防御价值真实存在，让步为slight_reduce而非reduce。建议降至10%。翻转条件:CN10Y回升至2.0%+或PPI转负。"
       }
     ],
     "analysts": {
       "macro": {
         "role": "macro",
-        "macro_regime": "弱复苏临界",
-        "rate_sensitivity": "neutral",
-        "inflation_view": "温和再通胀初期：CPI+1.2%仍低但PPI+2.8%已转正，传导至CPI需时间；当前通胀对债市非威胁但边际方向向上，限制收益率进一步大幅下行空间。",
-        "cycle_position": "弱复苏临界：PMI 50.0/50.1仅在荣枯线，动能极弱但未衰退；M2+8.6%与社融+7.8%显示信用环境宽松未收紧，支撑短端但长端已price-in。",
-        "macro_tilt": "neutral",
-        "reasoning": "cn10y=1.73%处历史极低位，票息保护薄（持有收益约1.73%/年），资本利得空间有限除非经济二次探底。利多：PMI临界偏弱+LPR连续不变确认宽松持稳+增长乏力压制加息预期；利空：PPI+2.8%转正意味工业再通胀启动、中美利差倒挂约282bp(1.73% vs 4.55%)叠加DXY 99.55偏强严重制约央行进一步降息、社融+7.8%信用未失速说明无需紧急宽松。综合中性——不会大跌（经济弱+政策稳托底）但上涨空间极窄，适合防御底仓但不宜重仓博久期；当前2.86%偏低，短久期信用债配置合理但规模不足。",
-        "evidence": [
-          {
-            "claim": "cn10y=1.73%历史低位，票息保护薄",
-            "source": "data_macro.json(akshare)",
-            "status": "verified"
-          },
-          {
-            "claim": "CPI+1.2%、PPI+2.8%转正",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "中美利差倒挂约282bp：中1.73% vs 美4.55%",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "7天逆回购利率未证实",
-            "source": "data_macro.json",
-            "status": "missing"
-          }
-        ]
+        "asset_class": "fixed_income",
+        "macro_regime": "弱复苏/不确定",
+        "rate_sensitivity": "positive",
+        "macro_tilt": "favorable",
+        "reasoning": "利率下行趋势+PMI临界+信贷弱+M2充裕→资金淤积债市",
+        "inflation_view": "CPI 1.2%温和,PPI 2.8%为45月高(能源)但内需弱限传导",
+        "cycle_position": "弱复苏与滞胀边缘的模糊地带",
+        "evidence_count": 6
       },
       "flow": {
         "role": "flow",
+        "asset_class": "fixed_income",
         "flow_direction": "inflow",
         "crowding": "high",
-        "sentiment": "fearful",
-        "flow_tilt": "favorable",
-        "reasoning": "外围risk-off（纳指-4.18%、标普-2.64%）触发全球避险，资金倾向流入高等级债；cn10y降至1.73%历史低位反映前期避险+宽松预期资金已持续涌入债市，流向为inflow。拥挤度high——做多债券已成一致交易、对降息预期高度趋同，进一步下行空间受限，但短期外围恐慌仍支撑。情绪偏fearful（VIX≈20多源冲突不作硬锚、外围暴跌叙事主导）。组合位置：固收仅2.86% vs 权益44%，作为防御压舱石严重低配——从组合风险平衡角度，低配修复的边际收益大于拥挤风险的边际成本，flow_tilt=favorable；需警惕若社融/M2持续走强且LPR转向，拥挤交易可能反转。",
-        "evidence": [
-          {
-            "claim": "纳指06-05 -4.18%、标普-2.64%触发避险",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "组合固收占2.86%、权益约44%",
-            "source": "持仓数据",
-            "status": "verified"
-          },
-          {
-            "claim": "VIX≈20（多源冲突18.7~21.5）",
-            "source": "多源冲突",
-            "status": "estimated"
-          }
-        ]
+        "sentiment": "greedy",
+        "flow_tilt": "neutral",
+        "reasoning": "CN10Y持续走低=资金涌入,但一致预期极强/赔率压缩/拥挤度历史高位→边际增配性价比下降",
+        "evidence_count": 5
       },
       "policy": {
         "role": "policy",
+        "asset_class": "fixed_income",
         "policy_stance": "supportive",
-        "geopolitical_impact": "中东局势（布油$95）+外围risk-off推升避险需求，资金涌入国债等高等级利率债、短期压低收益率利好债市持仓；但油价若持续传导至输入性通胀，中长期或削弱宽松空间。",
+        "geopolitical_impact": "中东冲突油价推PPI为逆风,但避险回流形成短期支撑.净效果中性偏正",
         "policy_tilt": "favorable",
-        "reasoning": "货币政策维持宽松基调：LPR连续12+月未动但方向偏松，M2+8.6%/社融+7.8%信用平稳投放，CPI仅+1.2%给央行留足空间，cn10y已至1.73%反映市场对宽松延续的定价。核心约束在外部：美联储3.50-3.75%+美10Y 4.55%造成中美利差倒挂约282bp，USDCNY 6.78虽可控但压制降息节奏——预计『量松价稳』（量上呵护流动性、价上暂不降息）。财政端继续发力，特别国债/地方专项债供给对长端边际利空，但央行大概率配合买入对冲。资管新规过渡期已完成，理财净值化后波动加大但格局稳定。综合：政策对固收整体顺风，短端确定性高于长端。",
-        "evidence": [
-          {
-            "claim": "LPR 3.0/3.5连续12+月不变、宽松持稳",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "M2+8.6%、社融+7.8%信用平稳投放",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "中美利差倒挂约282bp压制降息空间",
-            "source": "data_macro.json",
-            "status": "verified"
-          },
-          {
-            "claim": "国债供给压力/央行配合为基调推断",
-            "source": "货币政策执行报告基调推断",
-            "status": "estimated"
-          }
-        ]
+        "reasoning": "PBOC宽松+降息预期+MLF对冲供给;制约来自利差倒挂和财政供给",
+        "evidence_count": 6
       }
     },
     "verdict": {
-      "stance": "bullish",
-      "situation": "固收在组合中仅 2.86%（两只债基），相对 44% 权益严重低配，缺乏防御压舱石。宏观弱复苏临界（PMI 50.0/50.1）+ 货币宽松持稳（LPR 12+月不变、M2+8.6%、社融+7.8%）+ 外围 risk-off 避险流入，对高等级债整体顺风（政策/资金 favorable、宏观 neutral，2:1 偏多）。但 cn10y 已 1.73% 历史低位、期限利差仅 0.47%、PPI+2.8% 转正启动再通胀、中美利差倒挂约 282bp 封死降息空间——长端无安全边际。",
-      "direction": "增配，但严格限定短久期高等级、不博长端资本利得。目标：将固收从 2.86% 修复至约 10%（中位偏下），久期中枢 ≤1.5 年，品种限定 AAA 短融/同业存单/1-3 年高等级信用债，禁止 5Y+ 利率债与超长端、禁止加杠杆。本质是用短久期票息资产为 44% 权益提供负相关缓冲垫，而非赌利率下行。",
+      "stance": "neutral_hold",
+      "situation": "固收在组合中实际占比 12.77%（5只债基，以信用债和利率债为主），组合结构为 equity 44.24% + cash 27.93% + fixed 12.77% + precious 2.89%。宏观环境对固收偏有利（弱复苏+宽货币+低CPI+降息预期），但三大逆风制约进一步增配：①CN10Y 1.73%处历史极低分位，赔率严重压缩（下行空间~20bp vs 上行空间~50bp）；②债市拥挤度极高（crowding=high, sentiment=greedy），非线性回调风险存在；③PPI 2.8%+Brent $91.77 构成中期CPI上行隐患。",
+      "direction": "维持当前12.77%仓位不动（hold），不追加也不减仓。核心逻辑：基本面弱(PMI 50.0/信贷缩量)使央行无收紧动机，利率短期无系统性上行驱动力，票息+防御价值仍在——但赔率压缩+拥挤度使增配无性价比。结构上建议久期中枢缩至3-5年（当前003376久期7-8年偏长，如有机会可逐步切换至1-3年品种降低凸性风险）。",
       "risks": [
-        "cn10y=1.73% 历史低位，长端无安全边际，拉久期博资本利得风险大",
-        "PPI+2.8% 转正启动再通胀，若 CPI 加速上行至 2%+ 将侵蚀实际利率、重定价短端",
-        "中美利差倒挂约 282bp + 美联储鹰派 + 美元强，封死央行降息空间、压人民币",
-        "财政发力致国债/地方债净供给放量，冲击 5Y+ 长端",
-        "做多债市拥挤度 high，边际利空可触发拥挤交易反转/流动性踩踏（主要在超长端与杠杆盘）"
+        "PPI→CPI传导风险：Brent若突破$100，CPI可能升至2%+，侵蚀实际收益并改变央行宽松立场",
+        "拥挤度非线性释放：2023Q4前例——债市调整来得突然且幅度超预期，003376长久期首当其冲",
+        "中美利差282bp倒挂虽已被汇率升值部分对冲(6.765)，但限制PBOC激进降息节奏",
+        "国债+地方债供给集中放量可能冲击长端",
+        "A股若持续走强(两融2.01T贪婪)，理财/债基赎回→抛压负反馈"
       ],
-      "trend": "increase — 看多方向且敢站队（非骑墙中性）：在『砍不砍』上多空一致不砍，分歧仅在『加多少、加什么久期』，证据天平偏向『增配仓位修复严重低配』，故站队 increase；但执行上反骑墙地约束为『只用短久期高等级、不追长端』。触发暂停增配的条件：CPI 突破 2% 或央行释放收紧信号。验证点：5-6 月 CPI 是否跟随 PPI 上行、国债供给节奏、外围 risk-off 是否延续。",
+      "trend": "hold — 站队持有而非骑墙中性：证据天平是'基本面弱支撑持有'(2:1 analysts favorable)压过'估值极端应减仓'(bear最终让步为slight_reduce)。不增不减，等拥挤度消化或出现2%+ CPI再重评。",
       "confidence": "medium",
       "reflection": {
-        "prev_stance": "bullish",
-        "prev_date": "2026-06-07T07:36:52Z",
-        "what_changed": "方向（看多固收/增配）维持不变，但两处关键底座被纠正、结论从『中等久期增配』收敛为『短久期防御型增配』：①利率锚纠正——v1 用的 cn10y=2.7%（与权益 v2 同源的陈旧缓存值），本轮 AKShare 程序化取到真实 1.73%，低近 100bp，意味 v1 假设的票息/资本利得空间被大幅压缩；②仓位口径纠正——v1 信封写当前固收 12.77%、判断为『偏低可增配至压舱石』，但当前持仓输入包显示实际仅 2.86%（两只债基），低配比 v1 认知更严重；③新增 PPI+2.8% 转正（v1 未充分计入）这一再通胀信号，对长端构成新的边际利空。",
-        "why_changed": "v1 在 2.7% 收益率假设下推荐『中等久期利率债+高等级信用债』，隐含对长端资本利得的期待；但真实收益率 1.73% 下，期限利差仅 0.47%，拉久期已不被补偿，故把品种建议从『中等久期』下调为『≤1.5 年短久期高等级』，剔除 5Y+ 长端。同时实际仓位 2.86%（而非 v1 以为的 12.77%）使『增配修复』的紧迫性反而更强——所以 stance 维持 bullish/increase 不变，变的是『怎么加』。confidence 从 v1 的 medium_high 下调为 medium：因 1.73% 低位下安全边际收窄，看多依据从『利率下行博价差』切换为『纠正严重低配 + 对冲 44% 权益』的配置性理由，确定性相应降低。",
-        "self_check": "v1『增配固收作防御压舱石』的方向判断仍成立且被强化（真实低配 2.86% 比 v1 认知更需修复）；但 v1 的两个数据底座都不准——2.7% 的利率锚偏高近 100bp、12.77% 的仓位口径偏高约 10pct，导致 v1 的『中等久期』建议在真实低收益环境下偏激进。本轮纠正为短久期防御后更稳健。持续需盯：PPI→CPI 的再通胀传导、国债供给对长端的冲击、拥挤交易反转。"
+        "prev_stance": "bullish (increase)",
+        "prev_date": "2026-06-08T14:07:24Z",
+        "what_changed": "最关键修正：v2基于错误的current_weight=2.86%(只认了2只债基)得出'严重低配→增配到10%'的结论。实际上分类器漏了3只(稳健收益债/增强回报债/国开债指数)，真实固收=12.77%——根本不存在'严重低配'，v2的增配结论被错误输入带偏了。用正确数据重评后：12.77%处于合理区间，不需要修复性增配。方向从increase→hold。",
+        "why_changed": "根因：v4_classifier.py旧版FIXED_INCOME关键词表缺'收益债/回报债/国开债/中债/债a/债b'变体，导致3只明显是债基的fund落入equity兜底→固收被低估9.91个百分点。修复关键词后分类正确。这是数据质量问题而非分析逻辑错误。",
+        "self_check": "v2 director在数据错误的前提下逻辑本身没问题——如果真的只有2.86%确实应该增配。问题出在上游输入，本次已从源头修正。教训：director应在verdict里显式记录'我看到的current_weight'值并与七大类合计交叉验证MECE——如果合计远不到100%就说明有遗漏。"
       }
     },
-    "data_quality": "充分，与权益 v4 同源（同一份 data_macro.json，2026-06-08）。固收相关国内硬数据由 AKShare 程序化取数、全 verified 带发布日期、可复现：cn10y 1.73%(06-08)、期限利差 0.47%、LPR 3.0/3.5、CPI 1.2%(4月)、PPI+2.8%(4月转正)、PMI 50.0/50.1(5月)、M2 8.6%(4月)、社融存量同比 7.8%(4月)。海外/实时由 data-desk 联网补：美10Y 4.55%、美联储 3.50-3.75%、纳指/标普 risk-off、DXY 99.55、USDCNY 6.78。缺口如实标注：reverse_repo_7d（7天逆回购政策利率）missing 不编造（市场认知约1.4%但未证实）。VIX≈20 多源冲突标 estimated 不作硬证据。",
+    "data_quality": "充分。22宏观指标全部web_search联网核实标源(2026-06-09)。持仓归类已修复(分类器关键词补全commit)，5只/12.77%全部正确归入。",
     "evidence": [
       {
-        "claim": "中国10年期国债 cn10y=1.73%(2026-06-08，AKShare bond_zh_us_rate 程序化)，纠正 v1 陈旧的 2.7%——长端票息保护薄、无安全边际，是『不拉久期』的核心依据",
-        "source": "akshare:bond_zh_us_rate",
+        "claim": "fixed_income current_weight = 12.77% (5只债基)",
+        "source": "v4_classifier re-run on holdings.json",
         "status": "verified"
       },
       {
-        "claim": "期限利差(10Y-2Y)=0.47%，曲线平坦——拉久期不被补偿",
-        "source": "akshare:bond_zh_us_rate",
+        "claim": "CN10Y = 1.73% 6个月低位",
+        "source": "macromicro.me 2026-06-09",
         "status": "verified"
       },
       {
-        "claim": "LPR 1Y/5Y=3.0/3.5%连续12+月不变，货币宽松持稳",
-        "source": "akshare:macro_china_lpr",
+        "claim": "LPR 3.00/3.50 连续12月不变",
+        "source": "Reuters/BOC 2026-05-20",
         "status": "verified"
       },
       {
-        "claim": "CPI+1.2%(4月)、PPI+2.8%(4月转正)——温和再通胀，实际利率仍正(+0.53%)但边际向上",
-        "source": "akshare:macro_china_cpi/ppi",
+        "claim": "PBOC逆回购 1.40%",
+        "source": "pbc.gov.cn OMO 2026-06-04",
         "status": "verified"
       },
       {
-        "claim": "M2+8.6%、社融存量同比+7.8%(4月，456.89万亿)——信用未失速、流动性充裕",
-        "source": "akshare:macro_china_money_supply + 人民银行",
+        "claim": "CPI 1.2% (Apr 2026)",
+        "source": "NBS/ycharts",
         "status": "verified"
       },
       {
-        "claim": "中美利差倒挂约282bp(中1.73% vs 美4.55%)+DXY 99.55+美联储3.50-3.75%鹰派——封死央行降息空间",
-        "source": "data_macro.json",
+        "claim": "PPI 2.8% (Apr 2026, 45-mo high)",
+        "source": "NBS/Reuters/CNBC",
         "status": "verified"
       },
       {
-        "claim": "外围 risk-off：纳指06-05 -4.18%、标普-2.64%——驱动避险资金流入高等级债",
-        "source": "data_macro.json",
+        "claim": "PMI mfg 50.0 (May 2026)",
+        "source": "stats.gov.cn/Reuters",
         "status": "verified"
       },
       {
-        "claim": "组合固收当前仅2.86%(两只债基)、权益约44%——严重低配，增配修复是结构性刚需",
-        "source": "持仓输入包",
+        "claim": "M2 8.6% (Apr 2026)",
+        "source": "PBOC/Reuters",
         "status": "verified"
       },
       {
-        "claim": "7天逆回购政策利率",
-        "source": "未取到干净时效源",
-        "status": "missing"
+        "claim": "US10Y 4.55% (Jun 8)",
+        "source": "Morningstar/CNBC",
+        "status": "verified"
       }
     ]
   }

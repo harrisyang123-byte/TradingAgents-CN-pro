@@ -107,6 +107,28 @@ def build_overview(units: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
             "summary": verdict.get("situation") or verdict.get("trend"),
         })
 
+    # unclassified 桶（AC1.1）：如果存在且有权重，追加到 cards 确保 MECE 可见
+    unc_env = units.get("asset:unclassified")
+    if unc_env:
+        unc_payload = (unc_env or {}).get("payload", {})
+        unc_verdict = unc_payload.get("verdict", {}) if unc_payload else {}
+        if not isinstance(unc_verdict, dict):
+            unc_verdict = {}
+        if unc_payload.get("current_weight", 0) > 0:
+            cards.append({
+                **decorate_unit("asset:unclassified", unc_env, units),
+                "asset_class": "unclassified",
+                "label": unc_payload.get("label", "待人工归类"),
+                "max_drill_depth": 0,
+                "current_weight": unc_payload.get("current_weight", 0),
+                "target_weight": None,
+                "action": None,
+                "actively_zeroed": False,
+                "stance": unc_verdict.get("stance"),
+                "direction": unc_verdict.get("direction"),
+                "summary": unc_verdict.get("situation") or unc_verdict.get("trend"),
+            })
+
     return {
         "allocation": {
             **decorate_unit("alloc:portfolio", alloc_env, units),

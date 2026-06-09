@@ -52,11 +52,11 @@
     "asset:fixed_income": {
       "unit_id": "asset:fixed_income",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-08T14:07:24Z",
+      "generated_at": "2026-06-09T14:09:57Z",
       "upstream": [],
       "error": null,
       "path": "assets/fixed_income.json"
@@ -84,6 +84,18 @@
       "upstream": [],
       "error": null,
       "path": "assets/real_estate.json"
+    },
+    "asset:unclassified": {
+      "unit_id": "asset:unclassified",
+      "unit_type": "asset",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 14,
+      "generated_at": "2026-06-09T14:12:46Z",
+      "upstream": [],
+      "error": null,
+      "path": "assets/unclassified.json"
     },
     "plan:alternative": {
       "unit_id": "plan:alternative",
@@ -880,5 +892,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-08T14:07:33Z"
+  "updated_at": "2026-06-09T14:13:51Z"
 }
