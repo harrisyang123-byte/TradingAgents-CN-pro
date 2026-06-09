@@ -139,13 +139,13 @@ defineEmits<{ (e: 'open-industry', name: string): void }>()
 
 const { detail, loading, load } = useAssetDetail()
 
-const STANCE_ZH: Record<string, string> = { bullish: '看多', bearish: '看空', neutral: '中性' }
+const STANCE_ZH: Record<string, string> = { bullish: '看多', bearish: '看空', neutral: '中性', neutral_hold: '中性', unclassified_hold: '待归类' }
 
 const stanceLabel = computed(
   () => STANCE_ZH[detail.value?.verdict?.stance || ''] || detail.value?.verdict?.stance,
 )
 const stanceType = computed(
-  () => ({ bullish: 'success', bearish: 'danger', neutral: 'info' }[detail.value?.verdict?.stance || ''] || 'info') as 'success' | 'danger' | 'info',
+  () => ({ bullish: 'success', bearish: 'danger', neutral: 'info', neutral_hold: 'info', unclassified_hold: 'info' }[detail.value?.verdict?.stance || ''] || 'info') as 'success' | 'danger' | 'info',
 )
 
 function stanceText(s?: string | null): string {

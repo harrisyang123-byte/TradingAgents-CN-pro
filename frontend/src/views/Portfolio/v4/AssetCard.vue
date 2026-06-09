@@ -75,11 +75,11 @@ const actionType = computed(() => {
 })
 
 const stanceLabel = computed(() => {
-  return { bullish: '看多', bearish: '看空', neutral: '中性' }[props.card.stance || ''] || props.card.stance
+  return { bullish: '看多', bearish: '看空', neutral: '中性', neutral_hold: '中性', unclassified_hold: '待归类' }[props.card.stance || ''] || props.card.stance
 })
 const stanceType = computed(() => {
   return (
-    { bullish: 'success', bearish: 'danger', neutral: 'info' }[props.card.stance || ''] || 'info'
+    { bullish: 'success', bearish: 'danger', neutral: 'info', neutral_hold: 'info', unclassified_hold: 'info' }[props.card.stance || ''] || 'info'
   ) as 'success' | 'danger' | 'info'
 })
 

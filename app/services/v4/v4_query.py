@@ -115,15 +115,16 @@ def build_overview(units: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         if not isinstance(unc_verdict, dict):
             unc_verdict = {}
         if unc_payload.get("current_weight", 0) > 0:
+            unc_target = alloc_targets.get("unclassified", {})
             cards.append({
                 **decorate_unit("asset:unclassified", unc_env, units),
                 "asset_class": "unclassified",
                 "label": unc_payload.get("label", "待人工归类"),
                 "max_drill_depth": 0,
-                "current_weight": unc_payload.get("current_weight", 0),
-                "target_weight": None,
-                "action": None,
-                "actively_zeroed": False,
+                "current_weight": unc_target.get("current_weight", unc_payload.get("current_weight", 0)),
+                "target_weight": unc_target.get("target_weight"),
+                "action": unc_target.get("action"),
+                "actively_zeroed": unc_target.get("actively_zeroed", False),
                 "stance": unc_verdict.get("stance"),
                 "direction": unc_verdict.get("direction"),
                 "summary": unc_verdict.get("situation") or unc_verdict.get("trend"),

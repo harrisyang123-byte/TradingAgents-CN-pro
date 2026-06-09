@@ -80,6 +80,12 @@ def main() -> int:
         _write(out_dir, f"asset_{klass}.json", v4_query.build_asset_detail(units, klass))
         n += 1
 
+    # asset_unclassified.json：若存在 unclassified 单元（投顾组合等待穿透敞口），
+    # 也生成详情快照，避免前端点击该卡片下钻时 404（与 build_overview 追加卡片对齐）。
+    if units.get("asset:unclassified"):
+        _write(out_dir, "asset_unclassified.json", v4_query.build_asset_detail(units, "unclassified"))
+        n += 1
+
     # industry_<name>.json（按已落盘 industry 单元，文件名 = 原始行业名，与前端 encodeURIComponent 对齐）
     for uid in units:
         if uid.startswith("industry:"):
