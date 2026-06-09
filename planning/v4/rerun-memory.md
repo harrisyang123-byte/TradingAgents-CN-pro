@@ -115,3 +115,13 @@
   - **落盘**：4单元全 v2 green,各自v1归档。build_snapshot重生成17文件。**八大类合计100.01%**(equity44.24/cash27.93/fixed12.77/unclassified12.18/precious2.89/commodity0/real_estate0/alternative0)。
   - **里程碑**：7大类研究单元(Wave1)全部重跑完成✅ + unclassified占位。下一步:Wave2 alloc:portfolio 资产配比委员会(读7个asset verdict出Σ=100%目标配比+equity_quota)。
   - **未提交**(等本步统一提交)。
+
+- **2026-06-09 Wave2 alloc:portfolio 配比委员会 → v2**（取代v1占位）：
+  - 我作配置总监综合8大类(含unclassified)verdict，硬约束Σ=100拍板。
+  - **目标配比**：equity 44.24→44(hold,看多但已偏高不加)、cash 27.93→19(reduce,最强减配,释放8.93pp)、fixed 12.77→15(add+2.23,防御替代承接现金)、unclassified 12.18→12(hold待穿透)、precious 2.89→4.5(add,对冲+央行购金)、real_estate 0→3(add REITs)、commodity 0→2.5(add择机)、alternative 0→0(actively_zeroed合规)。**equity_quota=44**下传行业层。
+  - **核心逻辑**：中性偏防御再平衡——砍过高现金(9pp)分流到固收/贵金属/REITs/大宗等防御对冲资产,权益维持不加,另类合规归零。
+  - **reflection**：v1占位(fixed25%/precious9%偏高、无依据)→本版严格锚定各单类verdict(fixed降到15、precious降到4.5)。
+  - **落盘**：v2 green,v1归档。build_snapshot重生成,overview目标配比已更新(取代占位)。
+  - ⚠️小展示问题:overview的unclassified卡片target_weight显示None(build_overview的unclassified分支未映射alloc target=12),不影响数据正确性,待后续修。
+  - **里程碑**：Wave2完成✅。第一份基于完整分析的可执行资产配置方案出炉。下一步:Wave3权益深链(行业→行业配比→个股→行业内配比,用户逐个点名,equity_quota=44%为行业层上限) 或 Wave4 6个非权益plan:*执行计划。
+  - **未提交**,等用户验。

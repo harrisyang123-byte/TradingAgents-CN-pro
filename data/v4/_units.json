@@ -846,51 +846,15 @@
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
       "unit_type": "alloc",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:38:28Z",
-      "upstream": [
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:fixed_income",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:cash",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:commodity",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:precious_metal",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:real_estate",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:alternative",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-09T22:51:01Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-09T15:20:26Z"
+  "updated_at": "2026-06-09T22:51:01Z"
 }

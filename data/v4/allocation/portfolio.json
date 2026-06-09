@@ -2,48 +2,12 @@
   "unit_id": "alloc:portfolio",
   "unit_type": "alloc",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "asset:equity",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:fixed_income",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:cash",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:commodity",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:precious_metal",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:real_estate",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:alternative",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:38:28Z",
+  "generated_at": "2026-06-09T22:51:01Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -51,75 +15,121 @@
       {
         "asset_class": "equity",
         "current_weight": 44.24,
-        "target_weight": 45,
-        "action": "add",
+        "target_weight": 44.0,
+        "action": "hold",
         "actively_zeroed": false,
-        "reasoning": "Wave1 neutral_bullish：A股估值中低位+宽松+盈利触底，中期看多；维持核心引擎地位(45%≈当前)，但内部由高β海外成长转向A股红利价值+AI龙头以避地缘risk-off。"
-      },
-      {
-        "asset_class": "fixed_income",
-        "current_weight": 12.77,
-        "target_weight": 25,
-        "action": "add",
-        "actively_zeroed": false,
-        "reasoning": "Wave1 bullish：10Y2.7%+宽松持稳+地缘避险，作为压舱石超配；由12.8%增至25%，承接部分超额现金，中等久期+高等级。"
+        "reasoning": "权益 verdict=bullish/hold：中期看多A股(cn10y 1.73%极低折现率+PPI转正盈利拐点+货币宽松)，但当前44.24%已偏高，verdict明确'看多方向但不主动加仓、做结构调整'。配比层尊重此判断：维持~44%，不因看多而加码(避免集中度风险)，权益内部的优化交给行业/个股深链。"
       },
       {
         "asset_class": "cash",
         "current_weight": 27.93,
-        "target_weight": 15,
+        "target_weight": 19.0,
         "action": "reduce",
         "actively_zeroed": false,
-        "reasoning": "Wave1 neutral：27.9%过高拖累长期复利(货基~1.3%对CPI1.2%实际近零)；中期降至15%(近期risk-off暂留弹药)，按分批纪律投向便宜A股/债/黄金。"
+        "reasoning": "现金 verdict=bearish/reduce(全组合最强减配信号，3分析师一致unfavorable)：活期实际收益-1.05%、降息周期收益续降、27.93%远超防御所需。砍至19%(verdict建议18-20%区间)，释放约8.93pp作为全组合再平衡的主要资金来源。注:剩余现金应优先从活期迁入T+0货基(零风险年增1.2-1.5%)。"
+      },
+      {
+        "asset_class": "fixed_income",
+        "current_weight": 12.77,
+        "target_weight": 15.0,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "固收 verdict=neutral_hold(单类层面不主动增减，12.77%已合理)。但配比层做组合再平衡决策：现金大幅减配9pp释放的资金，在权益已偏高、看多小类(贵金属/REITs/大宗)吸纳能力有限的情况下，固收作为与现金最接近、收益更高的防御替代承接约2.23pp是合理的——这是组合层资金再分配，非基于固收自身看多。执行上承接短久期高等级品种(呼应固收verdict的久期建议)。"
+      },
+      {
+        "asset_class": "unclassified",
+        "current_weight": 12.18,
+        "target_weight": 12.0,
+        "action": "hold",
+        "actively_zeroed": false,
+        "reasoning": "广发全球多元稳健投顾组合(多资产，待穿透)。verdict=hold：底层动态配置无法穿透到单一大类，本身即分散化策略。配比层维持~12%不动，待投顾平台披露底层明细后再按比例拆分归入各大类(穿透归类)。当前不作主动增减。"
       },
       {
         "asset_class": "precious_metal",
         "current_weight": 2.89,
-        "target_weight": 9,
+        "target_weight": 4.5,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "Wave1 bullish：金价$4,460结构性牛市(央行购金+去美元化+地缘避险)，当前2.9%偏低，战略增至9%核心避险底仓，逢回调分批。"
-      },
-      {
-        "asset_class": "commodity",
-        "current_weight": 0.0,
-        "target_weight": 3,
-        "action": "add",
-        "actively_zeroed": false,
-        "reasoning": "Wave1 neutral：油价$90+地缘供给溢价但需求弱(PMI50)，小仓位(3%)机会性对冲通胀/地缘，非核心。"
+        "reasoning": "贵金属 verdict=bullish/increase：央行购金17月连续(Q1 244t)+地缘避险压过高实际利率逆风，且黄金是组合唯一与股债同时负相关的大类、对冲已偏高的44%权益。从2.89%增至4.5%(verdict目标4-4.5%上沿)，承接部分现金。执行分批低吸、不在$4350历史高位一次性追。"
       },
       {
         "asset_class": "real_estate",
         "current_weight": 0.0,
-        "target_weight": 3,
+        "target_weight": 3.0,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "Wave1 neutral：回避地产开发链，仅3%精选经营性基础设施REITs做类固收收益增强。"
+        "reasoning": "房地产 verdict=bullish(小幅REITs)：3分析师全favorable，CN10Y 1.73%下REITs分红4-6%、利差250-430bp是固收替代最强时刻。从0建仓3%，严格限仓储物流/保障房REITs(稳现金流)，回避传统地产开发商+景气挂钩品种。承接部分现金，补组合不动产敞口缺口。"
+      },
+      {
+        "asset_class": "commodity",
+        "current_weight": 0.0,
+        "target_weight": 2.5,
+        "action": "add",
+        "actively_zeroed": false,
+        "reasoning": "大宗 verdict=neutral(择机小建)：对冲缺口真实(组合零大宗对通胀/地缘裸露)但当前高位+强美元逆风。从0小幅建2.5%(verdict 2-3%中位)，铜ETF为主+原油极小对冲，且建仓非紧迫——等回调(油<$82或铜<$12500)再右侧介入，目标仓位先占位。"
       },
       {
         "asset_class": "alternative",
         "current_weight": 0.0,
-        "target_weight": 0,
-        "action": "hold",
+        "target_weight": 0.0,
+        "action": "clear",
         "actively_zeroed": true,
-        "reasoning": "Wave1 bearish：加密FTX以来最差周(BTC-17%/ETH-22%)+地缘risk-off破位，主动归零(actively_zeroed)，不接下跌中的刀。"
+        "reasoning": "主动归零(confidence high)：另类 verdict=bearish/0%，核心是合规红线——中国境内2021禁令、零合规渠道、外汇管制使港股加密ETF也无合法申购路径。对境内A股投资者不可合法配置，无论市场涨跌都归零。这是确定性的合规决策，非数据缺失。"
       }
     ],
-    "equity_quota": 45,
+    "equity_quota": 44.0,
     "sum_check": 100,
-    "input_warnings": [
+    "input_warnings": [],
+    "summary": "中性偏防御的再平衡：核心动作是把过高的现金(27.93%→19%)分流到收益更高的防御/对冲资产——固收+2.23(防御替代)、贵金属+1.61(对冲44%权益+央行购金)、REITs+3(固收替代高分红)、大宗+2.5(通胀/地缘对冲,择机)。权益44%已偏高维持不加(看多但克制)，另类合规归零，投顾组合12%待穿透。整体降低无效现金拖累、提升组合的防御对冲质量，而非追逐进攻。",
+    "reflection": {
+      "prev_version": "v1 (baseline占位)",
+      "prev_date": "2026-06-07T07:38:28Z",
+      "what_changed": "首次基于完整7类verdict产出真实配比，取代v1占位默认值。主要差异：①v1 fixed_income=25%过高→本版15%(尊重固收neutral_hold,只做防御替代承接)；②v1 precious_metal=9%过高→本版4.5%(贵金属verdict明确4-4.5%,避免高位追);③v1 cash=15%过低→本版19%(现金verdict 18-20%,考虑权益偏高需保留缓冲);④equity v1=45→44(基本一致)。",
+      "why_changed": "v1是baseline批量初始化的占位(summary空、无依据)，本版每一项target都引用了对应大类的v2/v3/v4 verdict方向+真实current_weight。最关键修正是fixed从25%降到15%、precious从9%降到4.5%——v1这两个数字明显偏离各单类的实际研判结论。",
+      "self_check": "v1占位的25%固收/9%贵金属若执行会导致过度增配这两类(尤其贵金属在历史高位追到9%风险大)。本版严格锚定各单类verdict，更可信可执行。当前真中性偏防御的判断与'权益已偏高+现金过多+多数防御类小幅看多'的现实一致。"
+    },
+    "data_quality": "充分。8个大类(含unclassified)的current_weight来自v4_classifier真实穿透归类，target锚定各类已落盘的v2/v3/v4 verdict。Σtarget=100自检通过。",
+    "evidence": [
       {
-        "asset_class": "unclassified",
-        "issue": "needs_passthrough",
-        "detail": "广发全球多元稳健投顾组合(¥144,884, 12.18%)为多资产组合，未穿透到单一大类。目标配比已按其大致底层(约40%权益/45%固收/10%黄金/5%现金)折算并入七大类目标；建议用户提供该组合实际底层占比以精确穿透，或考虑赎回后按本目标自主配置。"
+        "claim": "equity 44.24% bullish/hold",
+        "source": "data/v4/assets/equity.json",
+        "status": "verified"
       },
       {
-        "asset_class": "northbound_net/reverse_repo_7d",
-        "issue": "macro_missing",
-        "detail": "北向资金日度净流入(2024.8起停披露)与7天逆回购当前值未核实，不影响大类配比方向判断。"
+        "claim": "cash 27.93% bearish/reduce到18-20%",
+        "source": "data/v4/assets/cash.json",
+        "status": "verified"
+      },
+      {
+        "claim": "fixed_income 12.77% neutral_hold",
+        "source": "data/v4/assets/fixed_income.json",
+        "status": "verified"
+      },
+      {
+        "claim": "precious_metal 2.89% bullish/increase到4-4.5%",
+        "source": "data/v4/assets/precious_metal.json",
+        "status": "verified"
+      },
+      {
+        "claim": "real_estate 0% bullish/小幅REITs 2-3%",
+        "source": "data/v4/assets/real_estate.json",
+        "status": "verified"
+      },
+      {
+        "claim": "commodity 0% neutral/择机2-3%",
+        "source": "data/v4/assets/commodity.json",
+        "status": "verified"
+      },
+      {
+        "claim": "alternative 0% bearish/合规归零",
+        "source": "data/v4/assets/alternative.json",
+        "status": "verified"
+      },
+      {
+        "claim": "unclassified 12.18% 投顾组合待穿透",
+        "source": "data/v4/assets/unclassified.json",
+        "status": "verified"
       }
-    ],
-    "allocation_logic": "总目标=最大化长期复利+不错失机会，当前处美伊地缘risk-off。降过高现金(28→15)、超配固收压舱石(13→25)、战略增黄金避险(3→9)，权益维持(44→45)但内部转向A股价值+AI龙头降海外β，小仓大宗/REITs对冲与增强，另类主动归零。",
-    "regime_note": "data_macro.json@2026-06-07: 地缘risk-off(美伊/霍尔木兹)+国内温和再通胀+货币宽松持稳。配置整体『攻守均衡偏防御』，待地缘明朗再将现金分批转入权益。"
+    ]
   }
 }
