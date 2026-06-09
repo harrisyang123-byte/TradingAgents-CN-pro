@@ -30,7 +30,7 @@
 | 单元 | baseline 版本 | 重跑后版本 | 状态 | 结论(stance/trend) |
 |------|--------------|-----------|------|-------------------|
 | asset:equity | v2 (neutral/hold, cn10y 2.7%) | **v4 (bullish/hold, akshare 19verified)** | ✅ 已重跑 | bullish / hold（看多方向、仓位克制、强制结构调整）|
-| asset:fixed_income | v1 | — | ⬜ 待跑 | — |
+| asset:fixed_income | v1 (bullish, cn10y 2.7%, 仓位口径12.77%) | **v2 (bullish/increase 短久期, cn10y 1.73%)** | ✅ 已重跑 | bullish / increase（增配但限短久期高等级、不博长端）|
 | asset:cash | v1 | — | ⬜ 待跑 | — |
 | asset:commodity | v1 | — | ⬜ 待跑 | — |
 | asset:precious_metal | v1 | — | ⬜ 待跑 | — |
@@ -71,3 +71,13 @@
   - **落盘**：write `asset:equity` → **v4 green**，v3 自动归档 `_archive/assets/equity/v3_2026-06-07.json`。`build_snapshot_v4` 重生成 17 文件，asset_equity.json 快照确认带 stance=bullish + reflection(prev_stance=bullish) + 3 辩论轮 + 3 分析师。临时 payload `data/v4/inputs/_equity_v4_payload.json`(gitignored)。**未提交**，等用户本地验证。
   - **结论给用户**：akshare 改造成功——国内硬数据从「手搜易错常缺」变为「程序化 11 项 verified 带日期可复现」，本轮取数充分度 19/22(v3 为 15/22 且含陈旧)。仅 reverse_repo_7d/铜 2 项 missing(如实标)。
   - **下一步**：用户本地验 v4(reflection 现在是 bullish→bullish 同向、what_changed 讲数据升级) → 提交 → 再跑下一单元(fixed_income 等)。
+
+- **2026-06-08 asset:fixed_income 重跑 → v2**（模式A精简分工：我取数+director，3分析师+多空交 subagent）：
+  - **取数(我, 复用同源)**：未重取——直接复用权益 v4 那轮的 `data_macro.json`（2026-06-08，19 verified+1 est+2 missing）。固收相关硬数据齐全：cn10y 1.73%、期限利差0.47%、LPR 3.0/3.5、CPI 1.2%、PPI+2.8%转正、PMI 50.0/50.1、M2 8.6%、社融存量7.8%、中美利差倒挂约282bp、外围 risk-off。
+  - **关键纠正（reflection 核心）**：v1 两处底座都不准——①cn10y 用陈旧 **2.7%**（本轮真实 **1.73%**，低近100bp）；②current_weight 写 **12.77%**，但当前持仓输入包实际仅 **2.86%**（两只债基：广发双债添利1.87%+易方达投资级信用债0.99%），低配比 v1 认知更严重。
+  - **3分析师(subagent ask-agent-v2 并行)**：macro=**neutral**（利率敏感、1.73%低收益顶、防御底仓不宜重仓博久期）、policy=**favorable**（宽松持稳『量松价稳』、外部中美利差约束）、flow=**favorable**（risk-off 避险流入但拥挤度 high；组合严重低配→低配修复边际收益>拥挤风险）。**2 favorable+1 neutral 偏多**。
+  - **多空3轮(subagent 单 stage 逐轮捞)**：bull开场=increase（严重低配+实际利率正+0.53%+宽松+risk-off流入）→ bear=**hold**（注意不主张砍掉2.86%，只反对在1.73%低位拉久期：票息薄/期限利差0.47%不补偿/PPI再通胀/中美利差封死降息/供给冲击长端/拥挤反转）→ bull反击=increase 但限短久期。**收敛点：双方都不砍，分歧仅『加多少/加什么久期』→ 增配仓位但只用短久期高等级、不博长端资本利得**。
+  - **director(我) verdict**：**stance=bullish / trend=increase（反骑墙站队：『砍不砍』多空一致不砍、证据偏向增配修复严重低配，故站队 increase；执行上反骑墙约束为只用短久期高等级）/ confidence=medium**。direction：固收 2.86%→约10%（中位偏下），久期中枢≤1.5年，限 AAA短融/同业存单/1-3年高等级信用债，禁5Y+长端与超长端、禁加杠杆；暂停触发=CPI>2% 或央行收紧。
+  - **reflection（对比 v1）**：prev=bullish@2026-06-07T07:36:52Z；**方向(看多/增配)未变**，但①利率锚纠正 2.7%→1.73%、②仓位口径纠正 12.77%→2.86%、③新增 PPI+2.8% 转正再通胀信号 → 结论从 v1『中等久期增配』收敛为『**短久期防御型增配**』（1.73%下期限利差0.47%拉久期不被补偿）。confidence 从 v1 medium_high 下调 medium（看多依据从『利率下行博价差』切换为『纠正严重低配+对冲44%权益』的配置性理由）。self_check：v1 方向成立且被强化（真实低配更需修复），但 v1 的 2.7%/12.77% 两个底座偏高致其『中等久期』建议偏激进，本轮纠正为短久期更稳健。
+  - **落盘**：write `asset:fixed_income` → **v2 green**，v1 自动归档 `_archive/assets/fixed_income/v1_2026-06-07_2.json`。`build_snapshot_v4` 重生成17文件，asset_fixed_income.json 快照确认带 stance=bullish + reflection(prev_stance=bullish) + 3辩论轮 + 3分析师。临时 payload `data/v4/inputs/_fixed_income_v2_payload.json`(gitignored)。**未提交**，等用户本地验。
+  - **下一步**：用户本地验 v2（reflection 这次讲『方向不变但利率锚+仓位口径双纠正→中久期降为短久期』）→ 提交 → 再跑下一单元（cash/commodity/precious_metal 等）。

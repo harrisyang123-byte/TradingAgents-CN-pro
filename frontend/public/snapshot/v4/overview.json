@@ -3,7 +3,7 @@
     "unit_id": "alloc:portfolio",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时；上游 asset:fixed_income 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
     "version": 1,
     "generated_at": "2026-06-07T07:38:28Z",
@@ -93,8 +93,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:fixed_income」，或运行：./scripts/run_v4.sh analyze asset:fixed_income",
-      "version": 1,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "version": 2,
+      "generated_at": "2026-06-08T14:07:24Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -107,8 +107,8 @@
       "action": "add",
       "actively_zeroed": false,
       "stance": "bullish",
-      "direction": "超配/增配，中等久期利率债+高等级信用债为主，回避低评级与极端久期。",
-      "summary": "10Y 2.7%低位、货币宽松持稳，地缘risk-off强化避险配置需求；固收是当前组合的关键压舱石。"
+      "direction": "增配，但严格限定短久期高等级、不博长端资本利得。目标：将固收从 2.86% 修复至约 10%（中位偏下），久期中枢 ≤1.5 年，品种限定 AAA 短融/同业存单/1-3 年高等级信用债，禁止 5Y+ 利率债与超长端、禁止加杠杆。本质是用短久期票息资产为 44% 权益提供负相关缓冲垫，而非赌利率下行。",
+      "summary": "固收在组合中仅 2.86%（两只债基），相对 44% 权益严重低配，缺乏防御压舱石。宏观弱复苏临界（PMI 50.0/50.1）+ 货币宽松持稳（LPR 12+月不变、M2+8.6%、社融+7.8%）+ 外围 risk-off 避险流入，对高等级债整体顺风（政策/资金 favorable、宏观 neutral，2:1 偏多）。但 cn10y 已 1.73% 历史低位、期限利差仅 0.47%、PPI+2.8% 转正启动再通胀、中美利差倒挂约 282bp 封死降息空间——长端无安全边际。"
     },
     {
       "unit_id": "asset:cash",

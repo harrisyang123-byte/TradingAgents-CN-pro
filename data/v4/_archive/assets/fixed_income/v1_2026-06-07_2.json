@@ -1,0 +1,60 @@
+{
+  "unit_id": "asset:fixed_income",
+  "unit_type": "asset",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:36:52Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "fixed_income",
+    "current_weight": 12.77,
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "10Y国债2.7%处6个月低位但下行趋势未改，宽松基调(LPR连续不变、降息预期在)支撑债市；地缘risk-off下避险资金涌入高等级债，债券是组合压舱石；当前12.8%固收偏低，可增配。",
+        "bear": "收益率已处低位、票息薄、资本利得空间有限；CPI回升至+1.2%若延续将压制久期；若财政发力或经济超预期，长端有调整风险；信用债在增长停滞下利差可能走阔。"
+      },
+      {
+        "round": 2,
+        "bull": "正因增长承压(PMI50)、地缘避险，央行宽松概率更高，长端仍有下行空间；以中等久期利率债+高等级信用债为主，规避低评级即可控制信用风险；债的负相关属性在股票/加密大跌时尤为珍贵。",
+        "bear": "拥挤交易风险——若risk-off逆转(地缘缓和)，避险溢价回吐；低收益环境下债的长期回报有限，不宜过度依赖久期博弈资本利得。"
+      },
+      {
+        "round": 3,
+        "bull": "结论倾向：固收作为防御压舱石超配，中等久期+高等级为主，利率债打底、信用债增厚，回避低评级与长久期博弈。",
+        "bear": "认同防御定位与久期适中，提示控制单一久期暴露、保留再投资灵活性。"
+      }
+    ],
+    "verdict": {
+      "stance": "bullish",
+      "situation": "10Y 2.7%低位、货币宽松持稳，地缘risk-off强化避险配置需求；固收是当前组合的关键压舱石。",
+      "direction": "超配/增配，中等久期利率债+高等级信用债为主，回避低评级与极端久期。",
+      "risks": [
+        "CPI持续回升压制久期",
+        "财政发力/经济超预期致长端调整",
+        "信用利差走阔(增长停滞)",
+        "地缘缓和致避险溢价回吐"
+      ],
+      "trend_advice": "作为防御压舱石适度增配，中等久期、高等级，利率债打底信用债增厚",
+      "confidence": "medium_high"
+    },
+    "evidence": [
+      {
+        "claim": "10Y国债收益率~2.7%(6个月低位)",
+        "source_url": "https://tradingeconomics.com/china/government-bond-yield",
+        "status": "verified"
+      },
+      {
+        "claim": "LPR连续12个月不变(1Y3.0/5Y3.5)宽松持稳",
+        "source_url": "https://www.reuters.com/business/finance/china-leaves-lending-benchmarks-unchanged-12th-month-may-2026-05-20/",
+        "status": "verified"
+      }
+    ],
+    "macro_ref": "data_macro.json@2026-06-07(verified: LPR3.0/3.5, 10Y2.7%, CPI+1.2%, PMI50.0, USDCNY6.77, 金$4460, 油$95, 美股急跌, 加密崩盘)"
+  }
+}

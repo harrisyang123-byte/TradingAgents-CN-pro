@@ -52,11 +52,11 @@
     "asset:fixed_income": {
       "unit_id": "asset:fixed_income",
       "unit_type": "asset",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:36:52Z",
+      "generated_at": "2026-06-08T14:07:24Z",
       "upstream": [],
       "error": null,
       "path": "assets/fixed_income.json"
@@ -880,5 +880,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-08T13:47:46Z"
+  "updated_at": "2026-06-08T14:07:33Z"
 }
