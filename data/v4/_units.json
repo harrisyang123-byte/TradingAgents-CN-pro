@@ -542,11 +542,11 @@
     "stock:300308": {
       "unit_id": "stock:300308",
       "unit_type": "stock",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 5,
-      "generated_at": "2026-06-10T01:52:33Z",
+      "generated_at": "2026-06-10T02:41:45Z",
       "upstream": [],
       "error": null,
       "path": "stocks/300308.json"
@@ -857,5 +857,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-10T01:52:33Z"
+  "updated_at": "2026-06-10T02:41:45Z"
 }

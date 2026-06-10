@@ -33,6 +33,7 @@
   <div class="mb-4">
     <div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
       <span class="crumb font-medium text-gray-700" onclick="go('overview')">组合总揽</span>
+      <span id="bc-eq" class="hidden">› <span class="crumb text-gray-700" onclick="go('equity')">权益·行业列表</span></span>
       <span id="bc-ind" class="hidden">› <span class="crumb text-gray-700" onclick="go('industry')">人工智能算力</span></span>
       <span id="bc-stk" class="hidden">› <span class="text-gray-700">中际旭创 300308</span></span>
     </div>
@@ -49,11 +50,11 @@
       </div>
       <div class="space-y-2 text-[13px]">
         <!-- 行：名 / 当前→目标 / 动作 / 一句研判 -->
-        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50 cursor-pointer hover:bg-gray-50 rounded" onclick="go('industry')">
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50 cursor-pointer hover:bg-gray-50 rounded" onclick="go('equity')">
           <div class="col-span-2 font-medium">权益 <span class="tag bg-green-50 text-green-600">看多</span></div>
           <div class="col-span-2 text-gray-500">44.24% → <b>44%</b></div>
           <div class="col-span-1"><span class="tag bg-amber-50 text-amber-600">维持</span></div>
-          <div class="col-span-7 text-gray-600 truncate">看多但已偏高不主动加,结构优化下钻行业/个股 ▸ <span class="text-indigo-500">点此进权益→行业</span></div>
+          <div class="col-span-7 text-gray-600 truncate">看多但已偏高不主动加,结构优化下钻行业/个股 ▸ <span class="text-indigo-500">点此进权益→行业列表</span></div>
         </div>
         <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50">
           <div class="col-span-2 font-medium">现金 <span class="tag bg-red-50 text-red-600">看空</span></div>
@@ -89,12 +90,37 @@
     </div>
   </section>
 
+  <!-- ============ LAYER 1.5 权益→行业列表 ============ -->
+  <section data-layer="equity">
+    <div class="card p-4 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold text-base">权益大类 → 行业列表 <span class="tag bg-green-50 text-green-600">equity_quota 44%</span></div>
+        <button class="text-[12px] text-gray-400 crumb" onclick="go('overview')">← 返回概览</button>
+      </div>
+      <p class="text-[13px] text-gray-500 mb-3">权益额度 44% 在以下行业间分配（行业间配比 alloc:equity_industries）。点景气 go 的行业进瓶颈深辩。<span class="text-amber-600">注：当前仅"人工智能算力"已跑完整深度分析，其余为待深辩。</span></p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-[12px]">
+        <div class="p-3 border border-green-200 rounded cursor-pointer hover:shadow bg-green-50/30" onclick="go('industry')">
+          <div class="font-semibold">人工智能算力 <span class="tag bg-green-500 text-white">go·高</span></div>
+          <div class="text-gray-500 mt-1">capex+77%/光模块+57%;含5环节瓶颈地图</div>
+          <div class="text-indigo-500 mt-1">✓ 已深辩 ▸ 点击进入</div>
+        </div>
+        <div class="p-3 border border-green-100 rounded bg-white"><div class="font-semibold">半导体 <span class="tag bg-green-50 text-green-600">go</span></div><div class="text-gray-400 mt-1">待深辩(v1 baseline)</div></div>
+        <div class="p-3 border border-green-100 rounded bg-white"><div class="font-semibold">创新药 <span class="tag bg-green-50 text-green-600">go</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+        <div class="p-3 border border-green-100 rounded bg-white"><div class="font-semibold">电力公用事业 <span class="tag bg-green-50 text-green-600">go</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+        <div class="p-3 border border-gray-100 rounded bg-white"><div class="font-semibold">互联网平台 <span class="tag bg-gray-100 text-gray-500">中性</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+        <div class="p-3 border border-gray-100 rounded bg-white"><div class="font-semibold">新能源车 <span class="tag bg-gray-100 text-gray-500">中性</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+        <div class="p-3 border border-gray-100 rounded bg-white"><div class="font-semibold">有色资源 <span class="tag bg-gray-100 text-gray-500">中性</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+        <div class="p-3 border border-gray-100 rounded bg-white"><div class="font-semibold">消费电子家电 <span class="tag bg-gray-100 text-gray-500">中性</span></div><div class="text-gray-400 mt-1">待深辩</div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ LAYER 2 行业：人工智能算力 ============ -->
   <section data-layer="industry">
     <div class="card p-4 mb-4">
       <div class="flex items-center justify-between mb-2">
         <div class="font-semibold text-base">人工智能算力 <span class="tag bg-green-50 text-green-600">景气 go · 高</span></div>
-        <button class="text-[12px] text-gray-400 crumb" onclick="go('overview')">← 返回概览</button>
+        <button class="text-[12px] text-gray-400 crumb" onclick="go('equity')">← 返回行业列表</button>
       </div>
       <p class="text-[13px] text-gray-600 mb-2"><b>景气：</b>北美4云厂2026 capex $725B(+77%)、光模块市场+57%→$260亿;可持续2-3年但需监控 capex-revenue 变现gap。</p>
       <p class="text-[13px] text-gray-600"><b>方向(预期差视角)：</b>看多赛道但"配赛道≠追标的"——龙头预期差已收敛,真alpha在产业链未被发现的环节。</p>
@@ -199,14 +225,43 @@
       </div>
     </div>
 
-    <!-- 多空辩论 -->
+    <!-- 多空辩论 3轮完整交锋 -->
     <div class="card p-4 mb-4">
-      <div class="font-semibold mb-2">个股多空辩论</div>
-      <div class="grid md:grid-cols-2 gap-3 text-[12px]">
-        <div class="p-3 bg-green-50/50 rounded"><div class="tag bg-green-100 text-green-700 mb-1.5 inline-block">多头</div>
-          <p class="text-gray-700">不靠便宜靠盈利上修+瓶颈溢价:1.6T爬坡非线性(若超预期2026E上修至380-400亿→股价+15-20%);定价权窗口到2026Q4;CPO 2027前不构成威胁。</p></div>
-        <div class="p-3 bg-red-50/50 rounded"><div class="tag bg-red-100 text-red-700 mb-1.5 inline-block">空头</div>
-          <p class="text-gray-700">CPO钳形攻势:博通CPO(2025流片→2028渗透15-25%)消灭可插拔形态+云厂自研ASIC绕标准接口。赔率2:1偏空(下行16-37% vs 上行10-15%)。拐点2027Q2。</p></div>
+      <div class="font-semibold mb-2">个股多空辩论（固定 3 轮交锋）</div>
+      <div class="space-y-3 text-[12px]">
+        <div>
+          <div class="text-gray-400 font-semibold mb-1">第 1 轮 · 开局</div>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div class="p-3 bg-green-50/50 rounded"><span class="tag bg-green-100 text-green-700">多头</span><p class="text-gray-700 mt-1.5">不靠便宜靠盈利上修+瓶颈溢价:1.6T爬坡非线性(占全球50-70%),若超预期2026E上修至380-400亿→股价+15-20%;CPO 2027前不构成威胁。</p></div>
+            <div class="p-3 bg-red-50/50 rounded"><span class="tag bg-red-100 text-red-700">空头</span><p class="text-gray-700 mt-1.5">CPO钳形攻势:博通CPO(2025流片→2028渗透15-25%)消灭可插拔形态+云厂自研ASIC绕标准接口。赔率2:1偏空(下行16-37% vs 上行10-15%)。</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-gray-400 font-semibold mb-1">第 2 轮 · 交锋（多头反击 / 空头追击）</div>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div class="p-3 bg-green-50/50 rounded"><span class="tag bg-green-100 text-green-700">多头反击</span><p class="text-gray-700 mt-1.5">①时间差:博通CPO样片≠量产,真正渗透15%要到2028H2,2025-27可插拔正爆发;②身份错判:旭创自身布局硅光CPO,是CPO供应商候选非被淘汰者;③ASIC仍需机架间光互连。<b class="text-gray-500">【让步】承认CPO是2027+真威胁,若良率突破+成本低30%则2028-29份额收缩,旭创必须CPO卡位成功。</b></p></div>
+            <div class="p-3 bg-red-50/50 rounded"><span class="tag bg-red-100 text-red-700">空头追击</span><p class="text-gray-700 mt-1.5">共存期恰是估值陷阱:旭创从可插拔模块厂(ASP5-8千/只,毛利30%+)退化为CPO光引擎供应商(价值量缩水60-70%,毛利回20%以下),forward PE35锚定的'1.6T龙头'叙事一旦CPO明确就要逻辑重估。<b class="text-gray-500">【让步】近2-3年可插拔确定性合理。</b></p></div>
+          </div>
+        </div>
+        <div>
+          <div class="text-gray-400 font-semibold mb-1">第 3 轮 · 终局</div>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div class="p-3 bg-green-50/50 rounded"><span class="tag bg-green-100 text-green-700">多头终局·增持</span><p class="text-gray-700 mt-1.5">2025-27可插拔爆发锁定3年高增;CPO 2028+旭创升级为光引擎平台商非降级。<b>翻转信号:</b>2026H2英伟达GB300自封装CPO批量出货且旭创未进其供应链+可插拔订单连续两季环比下滑→认输。</p></div>
+            <div class="p-3 bg-red-50/50 rounded"><span class="tag bg-red-100 text-red-700">空头终局·减持/不追</span><p class="text-gray-700 mt-1.5">承认近2-3年确定性,但CPO共存期价值量缩水+毛利塌+估值锚切换是中期硬伤,叠加客户集中>70%+拥挤,forward PE35已透支。<b>翻转信号:</b>CPO量产延至2029+且旭创进英伟达CPO主供应链+1.6T份额稳50%+→转看多。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- director 推导链:从辩论到中性(回答"为什么是这个结论") -->
+    <div class="card p-4 mb-4 border-2 border-indigo-200">
+      <div class="font-semibold mb-2 text-indigo-700">⚖️ 总监推导链：3轮辩论 → 为什么是"中性"</div>
+      <div class="space-y-2 text-[12px]">
+        <div class="flex gap-2"><span class="tag bg-green-100 text-green-700 shrink-0 h-fit">共识</span><p class="text-gray-700"><b>多空都同意</b>近2-3年(2025-2027)可插拔800G/1.6T业绩高确定性(bull"爆发窗口再造市值",bear"近期确定性合理")→ <b>这是不砍的理由</b>。</p></div>
+        <div class="flex gap-2"><span class="tag bg-amber-100 text-amber-700 shrink-0 h-fit">分歧</span><p class="text-gray-700">焦点在<b>2027+CPO共存期</b>:bull=旭创主动卡位光引擎平台维持定价权(转型成功);bear=被动降维零件商,价值量缩水60-70%+毛利塌+估值锚切换。</p></div>
+        <div class="flex gap-2"><span class="tag bg-gray-200 text-gray-700 shrink-0 h-fit">无法证伪</span><p class="text-gray-700">这分歧<b>当下无法判定</b>——取决于2026H2-2027 CPO量产进度+旭创能否进英伟达CPO供应链,双方翻转信号都还没出现。<b>证据真正势均力敌</b>。</p></div>
+        <div class="flex gap-2"><span class="tag bg-indigo-100 text-indigo-700 shrink-0 h-fit">∴中性</span><p class="text-gray-700"><b>按反骑墙铁律:证据势均力敌才给中性,此处正是。</b>①不给买入:预期差已收敛(forward PE35已price-in 1.6T龙头)+CPO中期威胁未证伪+一年11倍拥挤,追高赔率差;②不给减持:近2-3年业绩确定性强(共识)、龙头稳固,贸然看空错过爆发窗口。→<b>中性=持有不追,是真中性非骑墙偷懒</b>。</p></div>
+        <div class="flex gap-2"><span class="tag bg-blue-100 text-blue-700 shrink-0 h-fit">可执行</span><p class="text-gray-700">持有不追;买点等预期差重新打开(回调800-850或forward PE&lt;28);<b>把CPO进展作久期调节</b>——向上明朗(进英伟达CPO供应链)则加,向下明朗(CPO提前+份额流失)则减。监控:英伟达GB300 CPO出货/可插拔订单环比/Meta订单波动。</p></div>
       </div>
     </div>
 
@@ -224,7 +279,9 @@
 function go(layer){
   document.querySelectorAll('[data-layer]').forEach(s=>s.classList.remove('on'));
   document.querySelector('[data-layer="'+layer+'"]').classList.add('on');
-  document.getElementById('bc-ind').classList.toggle('hidden', layer==='overview');
+  // 面包屑：equity 在 equity/industry/stock 三层显示；industry 在 industry/stock 显示；stock 仅 stock
+  document.getElementById('bc-eq').classList.toggle('hidden', !(layer==='equity'||layer==='industry'||layer==='stock'));
+  document.getElementById('bc-ind').classList.toggle('hidden', !(layer==='industry'||layer==='stock'));
   document.getElementById('bc-stk').classList.toggle('hidden', layer!=='stock');
   window.scrollTo({top:0,behavior:'smooth'});
 }
