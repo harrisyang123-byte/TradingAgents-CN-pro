@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v4 分层深度投研 — 展示原型</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<!--
+  设计决策（ace-designer）：
+  ① 谁在用：投资者本人，坐着、有耐心要看懂分析逻辑 → 信息密度可高，但要分层渐进。
+  ② 信息层级：结论(stance/rating/预期差)最大最先看 → 论据(3分析师/瓶颈/辩论)折叠在后 → 证据等级(verified/estimated)弱化。
+  ③ 渐进展示：概览(八大类)→点击下钻行业(瓶颈地图)→点击下钻个股(3分析师+预期差+多空)。复杂度被管理,不一次暴露。
+  ④ 核心痛点修复：用户"看不到辩论/个股深度/预期差" → 本原型把这些全摆出来,且双栏对比辩论、三锚卡片化预期差。
+  ⑤ 语义色：看多/go=绿, 看空/bearish=红, 中性=灰, 瓶颈强度=红(强)橙(中), 数据verified=实/estimated=虚框。
+  数据：真实落盘(人工智能算力 v3 chokepoint_map + 中际旭创 300308 v1 完整分析),非编造。
+-->
+<style>
+  :root { --ink:#1f2937; --sub:#6b7280; --line:#e5e7eb; --bg:#f7f8fa; }
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,'PingFang SC',sans-serif;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;}
+  .est{border-style:dashed!important;opacity:.92;}
+  .tag{font-size:11px;padding:1px 8px;border-radius:999px;font-weight:600;}
+  .crumb{cursor:pointer;}
+  .crumb:hover{text-decoration:underline;}
+  [data-layer]{display:none;}
+  [data-layer].on{display:block;}
+</style>
+</head>
+<body class="text-[14px] leading-relaxed">
+<div class="max-w-5xl mx-auto px-4 py-6">
+
+  <!-- 顶部 banner + 面包屑 -->
+  <div class="mb-4">
+    <div class="flex items-center gap-2 text-sm text-gray-500 mb-1">
+      <span class="crumb font-medium text-gray-700" onclick="go('overview')">组合总揽</span>
+      <span id="bc-ind" class="hidden">› <span class="crumb text-gray-700" onclick="go('industry')">人工智能算力</span></span>
+      <span id="bc-stk" class="hidden">› <span class="text-gray-700">中际旭创 300308</span></span>
+    </div>
+    <h1 class="text-xl font-bold">v4 分层深度投研 <span class="tag bg-indigo-50 text-indigo-600 align-middle">原型 · 真实数据</span></h1>
+    <p class="text-gray-500 text-[13px] mt-1">七大类 → 行业(产业链瓶颈) → 个股(3分析师+预期差)。逐层独立分析、辩论驱动、数据可溯源。点卡片下钻。</p>
+  </div>
+
+  <!-- ============ LAYER 1 概览 ============ -->
+  <section data-layer="overview" class="on">
+    <div class="card p-4 mb-4">
+      <div class="flex items-baseline justify-between mb-3">
+        <div class="font-semibold">资产配比（当前 → 目标，Σ=100%）</div>
+        <div class="text-[13px] text-gray-500">equity_quota（权益额度）= <b class="text-gray-800">44%</b></div>
+      </div>
+      <div class="space-y-2 text-[13px]">
+        <!-- 行：名 / 当前→目标 / 动作 / 一句研判 -->
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50 cursor-pointer hover:bg-gray-50 rounded" onclick="go('industry')">
+          <div class="col-span-2 font-medium">权益 <span class="tag bg-green-50 text-green-600">看多</span></div>
+          <div class="col-span-2 text-gray-500">44.24% → <b>44%</b></div>
+          <div class="col-span-1"><span class="tag bg-amber-50 text-amber-600">维持</span></div>
+          <div class="col-span-7 text-gray-600 truncate">看多但已偏高不主动加,结构优化下钻行业/个股 ▸ <span class="text-indigo-500">点此进权益→行业</span></div>
+        </div>
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50">
+          <div class="col-span-2 font-medium">现金 <span class="tag bg-red-50 text-red-600">看空</span></div>
+          <div class="col-span-2 text-gray-500">27.93% → <b>19%</b></div>
+          <div class="col-span-1"><span class="tag bg-red-50 text-red-600">减配</span></div>
+          <div class="col-span-7 text-gray-600 truncate">活期实际收益-1.05%,降息周期最差选择;活期挪货基+分流防御资产</div>
+        </div>
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50">
+          <div class="col-span-2 font-medium">固收 <span class="tag bg-gray-100 text-gray-600">中性</span></div>
+          <div class="col-span-2 text-gray-500">12.77% → <b>15%</b></div>
+          <div class="col-span-1"><span class="tag bg-green-50 text-green-600">加配</span></div>
+          <div class="col-span-7 text-gray-600 truncate">12.77%合理,作现金的防御替代承接;短久期高等级</div>
+        </div>
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50">
+          <div class="col-span-2 font-medium">贵金属 <span class="tag bg-green-50 text-green-600">看多</span></div>
+          <div class="col-span-2 text-gray-500">2.89% → <b>4.5%</b></div>
+          <div class="col-span-1"><span class="tag bg-green-50 text-green-600">加配</span></div>
+          <div class="col-span-7 text-gray-600 truncate">央行购金17月+对冲44%权益;高位分批低吸不追高</div>
+        </div>
+        <div class="grid grid-cols-12 items-center gap-2 py-1.5 border-b border-gray-50">
+          <div class="col-span-2 font-medium">投顾组合 <span class="tag bg-gray-100 text-gray-500">待穿透</span></div>
+          <div class="col-span-2 text-gray-500">12.18% → <b>12%</b></div>
+          <div class="col-span-1"><span class="tag bg-gray-100 text-gray-500">维持</span></div>
+          <div class="col-span-7 text-gray-600 truncate">多资产投顾组合,待披露底层再穿透归类</div>
+        </div>
+        <div class="grid grid-cols-12 items-center gap-2 py-1 text-gray-400 text-[12px]">
+          <div class="col-span-12">大宗 0→2.5%(择机) · REITs 0→3%(限仓储/保障房) · 另类 0%(合规归零)</div>
+        </div>
+      </div>
+      <div class="mt-3 p-2.5 bg-blue-50 rounded text-[12px] text-gray-600">
+        <b>配比总结：</b>中性偏防御再平衡——砍过高现金(28%→19%)分流到固收/黄金/REITs等防御对冲资产,权益已偏高维持不加。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAYER 2 行业：人工智能算力 ============ -->
+  <section data-layer="industry">
+    <div class="card p-4 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold text-base">人工智能算力 <span class="tag bg-green-50 text-green-600">景气 go · 高</span></div>
+        <button class="text-[12px] text-gray-400 crumb" onclick="go('overview')">← 返回概览</button>
+      </div>
+      <p class="text-[13px] text-gray-600 mb-2"><b>景气：</b>北美4云厂2026 capex $725B(+77%)、光模块市场+57%→$260亿;可持续2-3年但需监控 capex-revenue 变现gap。</p>
+      <p class="text-[13px] text-gray-600"><b>方向(预期差视角)：</b>看多赛道但"配赛道≠追标的"——龙头预期差已收敛,真alpha在产业链未被发现的环节。</p>
+    </div>
+
+    <!-- 瓶颈地图 -->
+    <div class="card p-4 mb-4">
+      <div class="font-semibold mb-1">🔗 产业链瓶颈地图（Chokepoint）</div>
+      <div class="text-[12px] text-red-500 mb-3">最窄咽喉：CoWoS先进封装(单一垄断) · 800G/1.6T光模块(A股可买但CPO替代近忧)</div>
+      <div class="overflow-x-auto">
+      <table class="w-full text-[12px] border-collapse">
+        <thead><tr class="text-gray-400 border-b-2 border-gray-100 text-left">
+          <th class="py-2 pr-2">环节/层级</th><th>不可替代</th><th>供给集中</th><th>产能刚性</th><th>价值卡位</th><th class="w-1/4">替代路径风险</th><th class="w-1/4">可投标的</th>
+        </tr></thead>
+        <tbody class="align-top">
+          <tr class="border-b border-gray-50 bg-red-50/40">
+            <td class="py-2 pr-2"><b>CoWoS先进封装</b><br><span class="text-gray-400">器件-封装</span> <span class="tag bg-red-500 text-white">TOP</span></td>
+            <td class="text-red-500 font-semibold">高</td><td class="text-red-500 font-semibold">极高(TSMC~90%)</td><td class="text-red-500 font-semibold">强</td><td class="text-red-500 font-semibold">高</td>
+            <td class="text-gray-600">玻璃基板2027样品/2030量产→2027前无实质替代</td>
+            <td><span class="text-blue-600">A股:盛合晶微(最纯正国产替代)/长电600584/通富002156</span><br><span class="text-gray-400">QDII:台积电</span></td>
+          </tr>
+          <tr class="border-b border-gray-50 bg-red-50/40">
+            <td class="py-2 pr-2"><b>800G/1.6T光模块</b><br><span class="text-gray-400">部件-光互连</span> <span class="tag bg-red-500 text-white">TOP</span></td>
+            <td class="text-amber-500 font-semibold">中</td><td class="text-red-500 font-semibold">高(中际旭创800G&gt;40%)</td><td class="text-amber-500 font-semibold">中</td><td class="text-amber-500 font-semibold">中</td>
+            <td class="text-gray-600">CPO 2027+结构性替代可插拔(近忧)+云厂自研ASIC</td>
+            <td><span class="text-blue-600 cursor-pointer underline" onclick="go('stock')">A股:中际旭创300308 ▸</span> /新易盛/天孚</td>
+          </tr>
+          <tr class="border-b border-gray-50">
+            <td class="py-2 pr-2"><b>HBM高带宽内存</b><br><span class="text-gray-400">器件-存储</span></td>
+            <td class="text-red-500 font-semibold">高</td><td class="text-red-500 font-semibold">极高(三家)</td><td class="text-red-500 font-semibold">强</td><td class="text-red-500 font-semibold">高</td>
+            <td class="text-gray-600">HBM4 仅SK海力士领跑,无非HBM替代</td>
+            <td><span class="text-gray-400">QDII:SK海力士/美光</span></td>
+          </tr>
+          <tr class="border-b border-gray-50">
+            <td class="py-2 pr-2"><b>ABF载板</b><br><span class="text-gray-400">材料-基板</span></td>
+            <td class="text-red-500 font-semibold">高</td><td class="text-red-500 font-semibold">高</td><td class="text-red-500 font-semibold">强</td><td class="text-amber-500 font-semibold">中</td>
+            <td class="text-gray-600">玻璃基板2027试产,ABF仍2026唯一量产</td>
+            <td><span class="text-blue-600">A股:兴森002436/深南002916</span></td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-2"><b>EUV光刻机</b><br><span class="text-gray-400">设备(2-3nm)</span></td>
+            <td class="text-red-500 font-semibold">高</td><td class="text-red-500 font-semibold">极高(ASML独家)</td><td class="text-red-500 font-semibold">强</td><td class="text-red-500 font-semibold">高</td>
+            <td class="text-gray-600">ASML独家,中国禁运无替代</td>
+            <td><span class="text-blue-600">A股:北方华创/中微(DUV国产替代)</span><br><span class="text-gray-400">QDII:ASML</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="mt-3 p-2.5 bg-blue-50 rounded text-[12px] text-gray-600">
+        <b>瓶颈落地结论：</b>①CoWoS→A股最纯正是盛合晶微(待IPO催化);②光模块→中际旭创(龙头但估值贵+CPO替代,买点等回调)。HBM/EUV走QDII。
+      </div>
+    </div>
+
+    <!-- 行业多空辩论(折叠) -->
+    <div class="card p-4 mb-4">
+      <div class="font-semibold mb-2">行业深辩历程（1 轮）</div>
+      <div class="grid md:grid-cols-2 gap-3 text-[12px]">
+        <div class="p-3 bg-green-50/50 rounded"><div class="tag bg-green-100 text-green-700 mb-1.5 inline-block">多头</div>
+          <p class="text-gray-700">capex $725B(+77%)加速,2027&gt;$1T;瓶颈卡位极集中(CoWoS TSMC90%/光模块中际旭创&gt;40%)=寡头供给×爆发需求;1.6T升级ASP+60-80%拉毛利;国产替代盛合晶微打开增量。</p></div>
+        <div class="p-3 bg-red-50/50 rounded"><div class="tag bg-red-100 text-red-700 mb-1.5 inline-block">空头</div>
+          <p class="text-gray-700">替代路径钳形攻势:①CPO 2027+去中间化替代光模块②玻璃基板绕CoWoS③云厂自研ASIC垂直整合挤中间商利润;+capex高基数2027增速必放缓;+龙头PE分位&gt;95%拥挤。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAYER 3 个股：中际旭创 ============ -->
+  <section data-layer="stock">
+    <!-- 结论头条 -->
+    <div class="card p-4 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold text-base">中际旭创 <span class="text-gray-400 text-[13px]">300308 · 光模块</span> <span class="tag bg-gray-100 text-gray-600">评级 中性(持有不追)</span></div>
+        <button class="text-[12px] text-gray-400 crumb" onclick="go('industry')">← 返回行业</button>
+      </div>
+      <div class="grid sm:grid-cols-4 gap-2 text-[12px] mb-2">
+        <div class="p-2 bg-gray-50 rounded"><div class="text-gray-400">现价/PE</div><b>~1000元 / PE 77</b><span class="tag bg-green-100 text-green-700 ml-1">核实</span></div>
+        <div class="p-2 bg-gray-50 rounded"><div class="text-gray-400">买点区间</div><b class="text-indigo-600">800-850 等回调</b></div>
+        <div class="p-2 bg-gray-50 rounded"><div class="text-gray-400">发现度</div><b class="text-red-500">🔴已拥挤</b></div>
+        <div class="p-2 bg-gray-50 rounded"><div class="text-gray-400">预期差</div><b class="text-amber-600">收敛中偏中性</b></div>
+      </div>
+      <p class="text-[13px] text-gray-700 bg-amber-50 p-2.5 rounded">
+        <b>核心判断：</b>不是"涨了11倍所以不买"(那会让你88元也不敢买、错过11倍),而是<b>预期差已从88元的巨大正收敛至微正、CPO替代使赔率2:1偏空、发现度已充分</b>。买点等预期差重新打开。
+      </p>
+    </div>
+
+    <!-- 预期差三锚 -->
+    <div class="card p-4 mb-4">
+      <div class="font-semibold mb-2">📐 预期差三锚（看的是这个，不是涨幅/PE分位）</div>
+      <div class="grid sm:grid-cols-3 gap-3 text-[12px]">
+        <div class="p-3 border border-gray-100 rounded"><div class="font-semibold text-gray-700 mb-1">① 隐含增速缺口</div>forward PE 34.87 隐含2026E净利~333亿(+123%) vs 1.6T+capex可验证增速——<b class="text-amber-600">基本匹配,缺口已从巨大正收窄至微正</b></div>
+        <div class="p-3 border border-gray-100 rounded"><div class="font-semibold text-gray-700 mb-1">② 定价充分度</div>全市场覆盖、一年11倍、龙头共识——<b class="text-red-500">9/10 极高,预期差已被消化</b>。残余仅"1.6T爬坡超预期"</div>
+        <div class="p-3 border border-gray-100 rounded"><div class="font-semibold text-gray-700 mb-1">③ 催化剂</div>正:港股IPO(6月)/Q2季报破100亿/CPO延后<br>负:capex下修/CPO提前(非线性杀伤)</div>
+      </div>
+    </div>
+
+    <!-- 3分析师卡 -->
+    <div class="card p-4 mb-4">
+      <div class="font-semibold mb-2">个股 3 分析师分队</div>
+      <div class="grid md:grid-cols-3 gap-3 text-[12px]">
+        <div class="p-3 bg-gray-50 rounded"><div class="font-semibold mb-1">💰 财务</div>净利率~29%(核实),净利+160%&gt;营收+99%利润弹性强。<span class="text-red-500">红旗:客户集中&gt;70%/现金流可能&lt;1(est)/PE77容错窄</span></div>
+        <div class="p-3 bg-gray-50 rounded"><div class="font-semibold mb-1">🏰 竞争</div>800G&gt;40%/1.6T 50-70%全球第一,护城河<b>中</b>(规模+认证壁垒);<span class="text-red-500">CPO 2027-2028+云厂自研ASIC中期收窄</span></div>
+        <div class="p-3 bg-gray-50 rounded"><div class="font-semibold mb-1">📊 估值</div>PE-TTM 77/forward 35,vs海外溢价60-80%。情景:bull 1300/base 900-1100/bear 700-800</div>
+      </div>
+    </div>
+
+    <!-- 多空辩论 -->
+    <div class="card p-4 mb-4">
+      <div class="font-semibold mb-2">个股多空辩论</div>
+      <div class="grid md:grid-cols-2 gap-3 text-[12px]">
+        <div class="p-3 bg-green-50/50 rounded"><div class="tag bg-green-100 text-green-700 mb-1.5 inline-block">多头</div>
+          <p class="text-gray-700">不靠便宜靠盈利上修+瓶颈溢价:1.6T爬坡非线性(若超预期2026E上修至380-400亿→股价+15-20%);定价权窗口到2026Q4;CPO 2027前不构成威胁。</p></div>
+        <div class="p-3 bg-red-50/50 rounded"><div class="tag bg-red-100 text-red-700 mb-1.5 inline-block">空头</div>
+          <p class="text-gray-700">CPO钳形攻势:博通CPO(2025流片→2028渗透15-25%)消灭可插拔形态+云厂自研ASIC绕标准接口。赔率2:1偏空(下行16-37% vs 上行10-15%)。拐点2027Q2。</p></div>
+      </div>
+    </div>
+
+    <!-- reflection -->
+    <div class="card p-4 mb-4 border-l-4 border-l-blue-400">
+      <div class="font-semibold mb-1 text-blue-600">🔄 反思 / 自检</div>
+      <p class="text-[12px] text-gray-600"><b>首次分析(first_run)。</b>关键验证:全程用 data-desk 联网核实真实数据(~1000元/PE77,非编造的"420"事故);结论用预期差逻辑(收敛+赔率)而非"涨幅/PE分位",避免了估值分位法"88元也不敢买"的成长踏空陷阱。</p>
+    </div>
+  </section>
+
+  <div class="text-center text-[11px] text-gray-300 mt-6">v4 投研展示原型 · ace-designer · 数据=真实落盘(人工智能算力v3 + 中际旭创300308 v1)</div>
+</div>
+
+<script>
+function go(layer){
+  document.querySelectorAll('[data-layer]').forEach(s=>s.classList.remove('on'));
+  document.querySelector('[data-layer="'+layer+'"]').classList.add('on');
+  document.getElementById('bc-ind').classList.toggle('hidden', layer==='overview');
+  document.getElementById('bc-stk').classList.toggle('hidden', layer!=='stock');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

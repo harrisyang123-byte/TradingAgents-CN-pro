@@ -41,13 +41,15 @@
 - [~] **P1 配比层 reflection**：alloc:portfolio 手动加了 reflection，未固化到 v4-allocation-director.md。
 - [ ] **P2 个股层 director reflection**：未落地。
 
-## E. 前端展示
+## E. 前端展示（⚠️ P0 — 用户反馈"看不到分析内容很难评判",待 ace-designer 重构）
 
-- [x] **chokepoint_map 行业详情 UI**（commit a618a03）。
-- [x] **unclassified 大类卡片 + 详情**（commit 2c165be / ce09318）。
-- [ ] **P2 个股层预期差/Chokepoint评分展示**：个股详情页展示三锚+评分。
-- [ ] **P2 reflection 蓝条**在行业/个股层确认渲染（大类层已有）。
-- [ ] **P2 overview unclassified target** 已修；复查其它非标准 stance 兜底是否齐全。
+- [x] chokepoint_map 行业详情 UI（commit a618a03）。
+- [x] unclassified 大类卡片 + 详情（commit 2c165be / ce09318）。
+- [ ] **P0 个股详情页缺失（最痛）**：个股目前只在行业页表格里列个评级，**点不进去**——看不到3分析师(财务/竞争/估值)、预期差三锚、多空辩论、reflection。需新建 StockDetailTab + 路由。
+- [ ] **P0 v4 整体展示重构（ace-designer）**：当前 V4Overview 三层 Tab 信息展示不全/混乱，分析深度(辩论/预期差/瓶颈)藏在 json 里前端看不到。用 ace-designer 重新设计三层渐进展示，**先出 HTML 原型(真实数据填充)让用户评判，再据此重构 Vue**。
+- [ ] **P1 大类层辩论+reflection 展示**：确认 AssetDetailTab 渲染 debate_rounds/analysts/reflection（v4-debate-display change 做过，需复验)。
+- [ ] **P1 个股层预期差/chokepoint_score/discovery_level 展示**：三锚+发现度+买点。
+- [ ] **P2 reflection 蓝条**在行业/个股层确认渲染。
 
 ## F. 模式A临时产物正式化
 
