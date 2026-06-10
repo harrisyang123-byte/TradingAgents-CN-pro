@@ -243,23 +243,12 @@
     "industry:创新药": {
       "unit_id": "industry:创新药",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-10T10:51:23Z",
+      "upstream": [],
       "error": null,
       "path": "industries/创新药.json"
     },
@@ -857,5 +846,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-10T03:04:49Z"
+  "updated_at": "2026-06-10T10:51:23Z"
 }
