@@ -307,6 +307,23 @@ python scripts/run_report.py --data-dir data/advisor_runs/<ts>
 
 v4 是一条**与 v3 完全并存、零侵入**的新链路，把投研拆成常驻的「分析单元」：七大类资产（权益/固收/现金/大宗/贵金属/房地产/另类）→ 行业 → 个股 + 各层配比，每个单元有稳定 `unit_id`、独立产物 JSON、独立五色状态与 TTL，触发只跑命中单元。独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器/路由，v3 一行不动。完整规格见 `.kiro/specs/v4/`，Agent 指南见 [AGENTS.md](AGENTS.md) 第 11 节。
 
+### v4 Agent 阵容（分层分队，每层对立角色辩论）
+
+| 层 | 角色 | 职责 |
+|----|------|------|
+| 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/财务/涨幅) |
+| 大类 | `v4-asset-analyst-macro/flow/policy` + `v4-asset-bull/bear` + `v4-asset-director` | 3 视角分析师打底 → 多空 3 轮 → 总监拍板(reflection+反骑墙) |
+| 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
+| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
+| 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
+| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + `v4-stock-bull/bear` + `v4-stock-director` | **个股 3 分析师分队**(财务/竞争/估值)打底 → 多空 → 总监预期差拍板 |
+
+### 两套核心方法论（v4 增强，借鉴 Serenity + TradingAgents）
+
+- **Chokepoint 供应链瓶颈框架**（`planning/v4/chokepoint-framework.md`）：自下而上逆向工程产业链，四维判定（不可替代/供给集中/产能刚性/价值卡位）+ 替代路径 + **市场发现度**，在景气行业里定位"物理卡脖子且市场还没发现"的环节。混合分队：瓶颈分析师出骨架 → 主 agent 对 top 瓶颈派专项调研员深挖。
+- **预期差选股理论**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现的 − 价格已 price-in 的），不看涨幅/PE 分位**。三锚：隐含增速缺口 / 定价充分度 / 催化。A/B 验证胜过"估值分位法"——后者会让你 88 元不敢买中际旭创、错过 11 倍。
+- **数据铁律**：分析 Agent 严禁自产价格/PE/市值数字，唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）。
+
 ### 触发（CLI 与 Web 分离）
 
 ```bash

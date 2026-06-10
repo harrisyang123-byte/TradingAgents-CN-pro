@@ -299,6 +299,22 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 - **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`，不得编造或套示例数字。
 - 改 v4 同样守第 0 节铁律：改链路/入口/格式 → 同 commit 更新本节 + `README.md` + `.kiro/specs/v4/`。
 
+### 11.5b v4 Agent 阵容 + 两套核心方法论（change `v4-chokepoint-expectation-gap`）
+
+**分层角色**（每层对立角色辩论 + 总监 reflection/反骑墙；全部 `tools:[Read]`，只消费 data-desk 输入包）：
+- 通用：`v4-data-desk`（唯一联网）——宏观 `macro_source.py`(AKShare 22 指标)、**A股个股 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅)**。
+- 大类：`v4-asset-analyst-macro/flow/policy`(3 视角) + `v4-asset-bull/bear`(多空3轮) + `v4-asset-director` + `v4-allocation-director`(配比)。
+- 行业：`v4-industry-bull/bear` + **`v4-industry-chokepoint`(产业链瓶颈分析师)** + `v4-industry-director`(整合 chokepoint_map) + `v4-industry-allocator`。
+- 个股：**`v4-stock-analyst-financial/competitive/valuation`(3 分析师分队)** + `v4-stock-bull/bear` + `v4-stock-director`(预期差拍板)。
+
+**方法论 1 — Chokepoint 供应链瓶颈**（`planning/v4/chokepoint-framework.md`）：自下而上逆向工程产业链，四维判定（不可替代/供给集中/产能刚性/价值卡位）+ 替代路径 + **市场发现度**，定位"物理卡脖子且市场没发现"的环节。混合分队：瓶颈分析师出骨架→主 agent 对 top 瓶颈派专项调研员深挖→director 核实。
+
+**方法论 2 — 预期差选股**（`planning/v4/stock-selection-theory.md`）：**买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**（A/B 验证：分位法会让你 88 元不敢买中际旭创、错过 11 倍）。三锚：隐含增速缺口/定价充分度/催化。
+
+**数据铁律（强制，10 个分析角色全已写入）**：分析 Agent **严禁自产价格/PE/市值/目标价数字**——唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）；无则标 missing，绝不编造（中际旭创"420 vs 真实1000"事故根治）。director 落盘前须剔除/核实 subagent 产出的数字。
+
+payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`/`top_chokepoints`/`expectation_gap`/`chokepoint_score`/`discovery_level`，向后兼容可选）。
+
 ### 11.6 改 v4 后的验证
 
 - 改 Python：`python -m py_compile app/services/v4/*.py scripts/*v4*.py` + `python scripts/test/test_v4_unit_store.py`。
