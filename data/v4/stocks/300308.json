@@ -1,0 +1,105 @@
+{
+  "unit_id": "stock:300308",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-10T01:52:33Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "300308",
+    "name": "中际旭创",
+    "industry": "人工智能算力",
+    "rating": "中性",
+    "target_price": null,
+    "entry_price_range": [
+      800,
+      850
+    ],
+    "expectation_gap": "收敛中偏中性。半年前(88元)是巨大正预期差(传统光模块估值 vs AI光互联结构性增量)，一路兑现到~1000元后，forward PE 34.87 隐含 2026E 净利~333亿(+123%)，与可验证增速(1.6T放量+capex+77%)基本匹配——预期差已大幅消化。残余正预期差仅剩'1.6T爬坡非线性超预期+瓶颈定价权溢价'(bull)，但被'CPO钳形攻势使中期赔率转向2:1偏空'(bear)抵消。",
+    "chokepoint_score": "光模块是AI算力top瓶颈之一，中际旭创卡位强(800G>40%/1.6T 50-70%全球第一)。四维：不可替代性中(CPO中期可替代形态)、供给集中度高、产能刚性中、价值卡位中高。但 discovery_level=🔴已充分发现——全市场覆盖、一年11倍、龙头共识，瓶颈溢价已被price-in，不是'未被发现的卡脖子'。",
+    "discovery_level": "🔴已拥挤(全市场覆盖/一年11倍/PE-TTM 77/龙头共识)",
+    "thesis": "按预期差框架(非涨幅/PE分位)拍板：中际旭创是确定性极高的光模块全球龙头，但**预期差已从88元时的巨大正收敛至当前~1000元的微正偏中性**。采信估值分析师+bull：1.6T放量+capex爆发支撑基本面继续兑现，龙头地位稳固；但同等采信bear的核心论点——CPO共封装光学(博通2027-2028)+云厂自研ASIC的'钳形攻势'使中期赔率转向不对称(下行16-37% vs 上行10-15%，约2:1偏空)，叠加客户集中>70%和拥挤交易。**结论：持有不追、无仓不建**——这不是'涨太多所以不买'(那是错误的估值分位法，会让你88元也不敢买、错过11倍)，而是'预期差收敛+赔率不对称+发现度已充分'。买点等预期差重新打开：①回调至800-850(bear情景砸出但基本面未变)形成安全边际；②forward PE回到<28(隐含增速<可验证增速)；③1.6T爬坡盈利大超预期上修。",
+    "risks": [
+      "CPO钳形攻势(博通CPO 2027-2028规模化 + 云厂自研ASIC绕标准接口)中期压缩可插拔光模块TAM 20-30%",
+      "客户集中>70%北美云厂，Meta订单已见波动，单客户砍单=断崖",
+      "PE-TTM 77+一年11倍，拥挤交易极端，预期差翻负时多头踩踏放大跌幅",
+      "港股IPO后大股东减持预期压制",
+      "1.6T良率/产能爬坡或北美capex指引下修"
+    ],
+    "confidence": "medium",
+    "reflection": {
+      "prev_rating": null,
+      "prev_date": null,
+      "what_changed": "首次对中际旭创做实质个股深链分析(此前仅 baseline 空壳)。",
+      "why_changed": "",
+      "self_check": "first_run。关键验证：本次全程用 data-desk 联网核实的真实数据(~1000元/PE77/forward35)，未重蹈'420'编造事故；结论用预期差逻辑(收敛+赔率)而非'涨幅/PE分位'，避免了估值分位法'88元也不敢买'的成长踏空陷阱。"
+    },
+    "data_quality": "个股硬数据由主agent充当data-desk联网核实(stockanalysis.com/google finance 2026-06，stock_source沙箱无外网)。价格/PE/财务verified；毛利率/现金流/应收周转/客户集中度未取到精确值，3分析师已标estimated。",
+    "analysts": {
+      "financial": {
+        "net_margin": "TTM~29%(verified)",
+        "profit_elasticity": "净利+160%>营收+99%利润弹性强",
+        "red_flags": [
+          "客户集中>70%",
+          "现金流/净利可能<1(est)",
+          "汇率",
+          "PE77容错窄"
+        ]
+      },
+      "competitive": {
+        "market_share": "800G>40%/1.6T 50-70%全球第一",
+        "moat_rating": "中(CPO中期收窄)",
+        "substitution_threat": "CPO 2027-2028+云厂自研ASIC"
+      },
+      "valuation": {
+        "expectation_gap": "收敛中偏中性",
+        "forward_pe": 34.87,
+        "scenarios": "bull1300/base900-1100/bear700-800"
+      }
+    },
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "不靠便宜靠盈利上修+瓶颈溢价:1.6T爬坡非线性(占全球50-70%份额)+定价权窗口到2026Q4+CPO 2027前不构成威胁。预期差残余在'盈利上修'(2026E从333亿上修至380-400亿则股价+15-20%)。诚实承认估值层预期差已收敛。",
+        "bear": "CPO钳形攻势:左钳博通CPO(2025Q4流片→2027H1小批→2028规模化渗透15-25%)消灭可插拔形态,右钳云厂自研ASIC(谷歌TPU/亚马逊Trainium/Meta MTIA)绕标准接口瓦解客户粘性。预期差赔率2:1偏空(下行16-37% vs 上行10-15%)。拐点:2027Q2 CPO良率>80%+ASIC占训练算力>30%。"
+      }
+    ],
+    "evidence": [
+      {
+        "claim": "中际旭创股价~1000元/PE-TTM 77/forward PE 34.87/市值1.16万亿",
+        "source": "stockanalysis.com 2026-06(data-desk核实)",
+        "status": "verified"
+      },
+      {
+        "claim": "TTM净利149.5亿(+160.2%),2025净利108亿(+109%)",
+        "source": "stockanalysis 2026-06",
+        "status": "verified"
+      },
+      {
+        "claim": "800G全球>40%,1.6T 50-70%连续4年第一",
+        "source": "新华社/LightCounting 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "北美云厂2026 capex $725B(+77%)",
+        "source": "Forbes/CNBC 2026",
+        "status": "verified"
+      },
+      {
+        "claim": "CPO 2027-2028规模化威胁可插拔光模块",
+        "source": "博通/英伟达路线图+行业共识",
+        "status": "estimated"
+      },
+      {
+        "claim": "客户集中>70%北美云厂",
+        "source": "公司年报地区拆分",
+        "status": "estimated"
+      }
+    ]
+  }
+}

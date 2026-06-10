@@ -178,3 +178,11 @@
   - **验证**:4新角色frontmatter正确/10角色数据铁律全覆盖/py_compile OK/占位符一致。
   - backlog勾选9项,tasks.md全勾。
   - **下一步**:用户测权益深链(行业→个股)。模式A下我按新角色prompt驱动:行业层(景气研究员+瓶颈分析师+多空+director整合chokepoint)→个股层(3分析师+多空+director预期差拍板)。个股数据走stock_source.py(需生产环境联网akshare)。
+
+- **2026-06-10 权益深链首个个股 stock:300308(中际旭创) 新架构端到端跑通**：
+  - 验证新Chokepoint+预期差架构在"已发现龙头"上不重蹈"420"事故。
+  - 流程:collect个股输入包(stock_source沙箱无外网available=False)→主agent充当data-desk联网核实硬数据写入(~1000元/PE77/forward35/TTM净利149.5亿+160%,全程verified,未核实项标estimated)→3分析师分队(财务:利润弹性强+4红旗/竞争:龙头但moat中CPO收窄/估值:预期差收敛中偏中性)→多空(bull盈利上修+瓶颈溢价/bear CPO钳形攻势+赔率2:1偏空)→director预期差三锚拍板。
+  - **verdict:rating=中性(持有不追),expectation_gap=收敛中偏中性,discovery_level=🔴已拥挤,entry_range[800,850],confidence=medium**。
+  - **关键验证成功**:①全程真实数据(~1000非编造420),数据铁律生效②结论用预期差逻辑(收敛+赔率2:1偏空+发现度充分)而非"涨幅/PE分位",明确写"不是涨太多所以不买(那会让你88元也不敢买错过11倍),而是预期差收敛+赔率不对称"——完美避开成长踏空陷阱③买点等预期差重新打开(回调800-850或forward PE<28或盈利大超预期)。
+  - 落盘stock:300308 v1 green,build_snapshot重生成。
+  - **个股3分析师分队+预期差+CPO替代攻击 端到端验证通过**。下一步:用户验,或继续跑未发现标的/行业内配比alloc:industry。
