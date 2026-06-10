@@ -213,3 +213,9 @@
   - 目的:个股结论第一遍就达专业水准(段永平10年生意质量+交易vs投资定性/芒格逆向最坏/达里奥风险优先量化赔率+周期/可执行硬止损/不确定性诚实),不靠事后多轮评审补救。
   - v4-investor-critic.md 加「核心用途」说明:评审根本目的是优化agent(improvements反哺被审agent prompt),非只修单次结论。
   - 待办:同法推广到 industry-director/asset-director(四维闸门按层适配);bull/bear/3分析师可内化对应视角(bear逆向最坏/分析师标missing)。
+
+- **2026-06-10 四维质量闸门推广到 industry/asset-director(用户选A,A/B验证后)**：
+  - 验证充分(三组证据:中际旭创独立盲评62→82/茅台88分正确识别长期投资非机械套标签/字段随场景变化),用户拍板推广。
+  - **行业层(v4-industry-director)**四维适配:①段永平→track_quality(好赛道?10年长青?会否被技术/政策颠覆)②芒格→worst_case(景气崩塌/被颠覆触发)③达里奥→cycle_position(景气周期定位:启动/加速/见顶/衰退)④可执行→downgrade_trigger(go→watch→avoid触发)⑤不确定性诚实。
+  - **大类层(v4-asset-director)**四维适配(打满达里奥):①段永平→return_source(长期回报本质:股权溢价/票息/避险/抗通胀)②芒格→tail_scenario(宏观尾部巨亏情景+最大回撤)③达里奥→cycle_and_correlation(宏观周期+与其它大类相关性/分散价值,大类配置核心是相关性管理)④可执行→rebalance_trigger⑤不确定性用分散/对冲/分批。
+  - 三层director(stock/industry/asset)均已内化四维闸门+铁律,schema各加4-5字段。下一步:继续跑权益深链剩余单元。
