@@ -20,24 +20,24 @@
 
 ## B. Chokepoint + 预期差 选股理论落地（设计已验证，prompt/schema 未固化）
 
-- [ ] **P1 新建 `agents/advisor/v4-industry-chokepoint.md`**：产业链瓶颈分析师角色(四维判定+逆向工程+替代路径)。已 A/B 验证专职角色胜出。
+- [x] **P1 新建 `v4-industry-chokepoint.md`** 产业链瓶颈分析师（change v4-chokepoint-expectation-gap）。
 - [ ] **P1 瓶颈专项调研员机制**：主agent对 top1-2 瓶颈派 subagent 深挖，固化到编排流程(chokepoint-framework §3)。
-- [ ] **P1 个股层3分析师**(财务/竞争/估值)：v4 个股层现在直接 bull/bear 无分析师底座(结构不对称)。已实测分队胜出且纠正乐观偏差。需新建角色 prompt。
-- [ ] **P1 预期差三锚落到个股 prompt**：隐含增速缺口/定价充分度/催化。理论已定稿 stock-selection-theory.md，未落到角色 prompt。
-- [ ] **P1 改 `v4-stock-bear.md`**：加替代路径专项攻击。
-- [ ] **P2 改 `v4-stock-bull.md`**：加瓶颈溢价逻辑。
-- [ ] **P2 改 `v4-industry-bear.md`**：加替代路径挑战。
+- [x] **P1 个股层3分析师**(财务/竞争/估值) 新建完成（修复结构不对称）。
+- [x] **P1 预期差三锚落到个股 prompt**（估值分析师+stock-director 承载）。
+- [x] **P1 改 `v4-stock-bear.md`** 替代路径专项攻击+预期差赔率。
+- [x] **P2 改 `v4-stock-bull.md`** 瓶颈溢价+预期差+消费3分析师。
+- [x] **P2 改 `v4-industry-bear.md`** 替代路径挑战。
 - [ ] **P1 个股 Scout 加 Chokepoint 6维评分**：注意 v4 当前无独立 scout.md，需确认 Scout 落点。
-- [ ] **P1 payload schema 正式定义** `chokepoint_map` / `top_chokepoints` / `expectation_gap` / `discovery_level` 字段：当前是模式A手动塞进 payload，未进 schema 文档。
+- [x] **P1 payload schema 定义**（chokepoint-framework §9 + design.md 角色表引用）。
 
 ## C. 数据可信铁律固化（这次中际旭创"420"教训）
 
-- [~] **P0 数据铁律已写入** stock-selection-theory.md §6(价格/财务必须 data-desk 核实，分析 subagent 禁编数字)。**未固化到各 subagent 的 prompt**——应在每个分析角色 prompt 里硬性写明"不得自行产出价格/PE/市值数字"。
+- [x] **P0 数据铁律固化到各 subagent prompt**（10个角色全加'禁编价格/PE/市值,用data-desk核实值'）。
 - [ ] **P1 director 落盘前数字核对清单**：编排流程加一步"verdict 内每个价格/PE/目标价是否来自 data-desk 核实值"。
 
 ## D. reflection / 反骑墙 推广（设计说全局通用，仅大类层落地）
 
-- [~] **P1 行业层 director reflection/反骑墙**：本轮手动加了(industry v3)，未固化到 v4-industry-director.md prompt。
+- [x] **P1 行业层 director reflection/反骑墙** 已固化到 v4-industry-director.md。
 - [~] **P1 配比层 reflection**：alloc:portfolio 手动加了 reflection，未固化到 v4-allocation-director.md。
 - [ ] **P2 个股层 director reflection**：未落地。
 

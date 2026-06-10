@@ -311,6 +311,12 @@ data/v4/                              # 已在 .gitignore（含敏感财务，�
 | `v4-stock-bull.md` | 个股多头 | 行业内研究 | 标的看多 + 目标价 |
 | `v4-stock-bear.md` | 个股空头 | 行业内研究 | 标的风险 |
 | `v4-stock-director.md` | 行业内研究总监 | 行业内研究 | 个股评级/目标价 + 行业内配比 |
+| `v4-industry-chokepoint.md` | 产业链瓶颈分析师 | 行业研究 | chokepoint_map（四维判定+逆向工程+替代路径+发现度）|
+| `v4-stock-analyst-financial.md` | 个股财务分析师 | 行业内研究 | 财务健康/盈余质量/红旗 |
+| `v4-stock-analyst-competitive.md` | 个股竞争格局分析师 | 行业内研究 | 护城河/瓶颈卡位/替代威胁 |
+| `v4-stock-analyst-valuation.md` | 个股估值分析师 | 行业内研究 | 预期差三锚（隐含增速缺口/定价充分度/催化）|
+
+> **Chokepoint + 预期差选股增强（OpenSpec change `v4-chokepoint-expectation-gap`）**：新增产业链瓶颈分析师 + 个股3分析师分队（修复个股层无分析师底座的结构不对称，对齐大类层 macro/flow/policy 范式）。行业/个股 payload 新增 `chokepoint_map`/`top_chokepoints`/`expectation_gap`/`chokepoint_score`/`discovery_level` 可选字段（向后兼容）+ reflection 推广到行业/个股 director。**字段权威定义见 `planning/v4/chokepoint-framework.md §9` + 选股理论 `planning/v4/stock-selection-theory.md`**。数据铁律：分析角色严禁自产价格/PE/市值数字，唯一来源 = data-desk 核实值（个股数据由 `app/services/v4/stock_source.py` AKShare 取）。
 
 > 辩论轮次：大类/行业固定 3 轮（AC2.2），编排器循环 append `debate_rounds[]`，总监最后拍板。角色 prompt 沿用 v3 GROUNDING 凭据契约（evidence + verified/estimated/missing）。
 >

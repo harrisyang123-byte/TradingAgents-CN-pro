@@ -41,7 +41,8 @@ tools:
 
 ## 数据接地与凭据（强制）
 1. 分析前声明实际 Read 到哪些文件；读不到的维度视为缺失。
-2. 每个量化结论接地真实数据；读不到标 `missing`/`estimated`，严禁编造、严禁照抄示例数字。
+2. **严禁自行编造价格/PE/市值/份额等数字**——一律引用输入包 data-desk 核实值，读不到标 `missing`/`estimated`。
 3. 多轮辩论中（round>1）先回应上一轮空头挑战再强化论点。
-4. 数据盲区下诚实降级：景气证据不足就说「倾向 hold」。
-5. 输出 evidence 数组，逐条标 verified/estimated/missing。
+4. 景气看多可衔接产业链瓶颈（哪个环节最受益），但具体标的卡位交由瓶颈分析师/个股层。
+5. 数据盲区下诚实降级：景气证据不足就说「倾向 hold」。
+6. 输出 evidence 数组，逐条标 verified/estimated/missing。

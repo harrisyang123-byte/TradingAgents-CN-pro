@@ -198,3 +198,50 @@
 - [ ] 行业单元 payload schema：加 `chokepoint_map` / `top_chokepoint` 字段
 - [ ] 前端行业详情 Tab：展示 chokepoint_map（产业链瓶颈地图）
 - [ ] 跑首个完整行业（人工智能算力）端到端验证
+
+---
+
+## 9. Payload Schema 字段定义（权威，对接 .kiro/specs/v4/design.md §4）
+
+本框架新增的 payload 可选字段（向后兼容，旧单元无此字段不报错）：
+
+### 行业单元 `industry:<name>` payload 新增
+```jsonc
+{
+  "chokepoint_map": [          // 产业链瓶颈地图（瓶颈分析师产出，director 整合透传）
+    {
+      "layer": "产业链层级",
+      "node": "瓶颈环节名",
+      "irreplaceability": "高|中|低",
+      "supply_concentration": "极高|高|中",
+      "capacity_rigidity": "强|中|弱",
+      "value_capture": "高|中|低",
+      "substitution_risk": "替代路径+时间表+威胁等级（强制）",
+      "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",
+      "beneficiaries_a": ["A股标的(只名称,价格由data-desk核实)"],
+      "beneficiaries_qdii": ["港股/海外走QDII"],
+      "is_top": true,
+      "evidence_status": "verified|estimated|missing"
+    }
+  ],
+  "top_chokepoints": ["最强1-2个瓶颈环节及理由"],
+  "verdict": { "chokepoint_conclusion": "瓶颈落地结论(钱流向哪个环节+标的+替代风险+发现度)", "reflection": {...} }
+}
+```
+
+### 个股单元 `stock:<code>` payload 新增（director 产出）
+```jsonc
+{
+  "expectation_gap": "正|负|收敛中 + 三锚综合理由",   // 预期差（核心）
+  "chokepoint_score": "瓶颈卡位6维评分与定性(无则null)",
+  "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",
+  "reflection": { "prev_rating": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..." }
+}
+```
+
+### 字段语义铁律
+- `discovery_level`：**不是涨幅**，是"该兑现逻辑被市场认知/定价的充分程度"（预期差锚2）。
+- `expectation_gap`：判断买卖的核心，**禁止用"涨幅/PE分位"代替**。
+- 所有标的的价格/PE/市值/目标价：**必须 data-desk 核实值**，分析 subagent 不得自产（中际旭创"420"事故铁律）。
+
+> 数据来源：个股财务/估值由 `app/services/v4/stock_source.py`（AKShare）程序化取，collect_v4 写入 stock 输入包。

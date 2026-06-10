@@ -168,3 +168,13 @@
   - **验证**:降级行为通过(无akshare available=False不崩/非A股识别);akshare可装(1.18.64),估值接口已修(旧stock_a_indicator_lg已废→兼容stock_value_em);⚠️沙箱无外网(ConnectionError)无法实测取数,生产环境(有外网)需验证。临时akshare已卸载清理,无残留。
   - **意义**:这是中际旭创"420"事故的治本——个股数据从"靠Mongo(空)/subagent编"变为"AKShare程序化取+降级标注"。配合数据铁律(subagent禁编价格),个股数据可信度问题从根上解决。
   - **下一步**:生产环境装akshare+联网实测中际旭创真实数据;然后落地B类(个股3分析师/预期差prompt固化)。
+
+- **2026-06-10 OpenSpec change v4-chokepoint-expectation-gap 全部改造完成（权益层prompt固化）**：
+  - 用户拍板:不分批,走change变更全部改完再汇报,然后测权益类。
+  - **新建4角色**:v4-industry-chokepoint(瓶颈分析师:四维判定/逆向工程/替代路径强制/发现度discovery_level)、v4-stock-analyst-financial/competitive/valuation(个股3分析师分队,修复个股层无分析师底座的结构不对称,对齐大类层macro/flow/policy范式;valuation承载预期差三锚)。
+  - **改造6角色**:stock-bull(瓶颈溢价+预期差+消费3分析师)、stock-bear(替代路径专项攻击+预期差赔率非涨多了)、stock-director(预期差三锚拍板+chokepoint_score+discovery_level+reflection+反骑墙)、industry-bear(替代路径攻击)、industry-director(chokepoint_map整合+chokepoint_conclusion+reflection+反骑墙)、industry-bull(瓶颈衔接轻改)。
+  - **数据铁律**:10个角色全部硬写"严禁自产价格/PE/市值/目标价,一律用data-desk核实值,无则missing"(中际旭创420事故根治)。director额外"剔除subagent编的数字"。
+  - **schema**:chokepoint-framework §9权威定义(chokepoint_map/top_chokepoints/expectation_gap/chokepoint_score/discovery_level)+design.md角色表引用。
+  - **验证**:4新角色frontmatter正确/10角色数据铁律全覆盖/py_compile OK/占位符一致。
+  - backlog勾选9项,tasks.md全勾。
+  - **下一步**:用户测权益深链(行业→个股)。模式A下我按新角色prompt驱动:行业层(景气研究员+瓶颈分析师+多空+director整合chokepoint)→个股层(3分析师+多空+director预期差拍板)。个股数据走stock_source.py(需生产环境联网akshare)。
