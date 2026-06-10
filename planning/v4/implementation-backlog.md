@@ -65,3 +65,11 @@
 - 个股层"单兵vs分队"实测(中际旭创) → 个股3分析师方向确立
 - 选股理论从"估值分位"重构为"预期差驱动" + A/B 验证
 - Wave3 首跑 industry:人工智能算力(chokepoint_map 5环节) + 前端可视
+
+
+## G. 专业投资者评审 agent（自迭代质量闸门，本轮新增）
+
+- [x] **新建 **：四视角(芒格逆向/多元/能力圈 + 段永平买公司/护城河/不懂不投 + Serenity瓶颈/预期差/对抗验证 + 达里奥风险优先/不确定性/周期)评审,输出 ACCEPT|NEEDS_CHANGES+改进意见。score≥85且无fatal_flaw才ACCEPT。
+- [x] **自迭代 loop 机制**：reviser⇄critic(subagent loop_to+trigger),NEEDS_CHANGES则迭代,直到ACCEPT。中际旭创实测72→87分。
+- [ ] **P1 评审 agent 接入编排流程**：当前模式A手动跑;固化为每个verdict落盘前必过critic质量闸门(可设score门槛)。
+- [ ] **P2 critic_review 字段前端展示**：原型已展示,待Vue落地。

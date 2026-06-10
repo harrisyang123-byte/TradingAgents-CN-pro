@@ -194,3 +194,10 @@
   - **Q1原型**:加 equity 行业列表层(权益→8行业卡片,人工智能算力可点其余待深辩)。
   - 原型 v4-research-display_prototype.html 更新:4层渐进(概览→行业列表→行业瓶颈→个股),个股辩论展3轮完整交锋+总监推导链区块。
   - **核心**:辩论从1轮补到3轮真实交锋,结论推导链透明化(为什么中性=势均力敌反骑墙),回应了用户"看不出怎么得出结论不信服"。
+
+- **2026-06-10 专业投资者评审agent + 自迭代loop(用户要求:自进化直到认可)**：
+  - 建 `agents/advisor/v4-investor-critic.md`:四视角评审委员会(芒格逆向/多元/能力圈;段永平买公司10年/护城河/不懂不投;Serenity瓶颈/预期差/对抗验证;达里奥风险优先/不确定性诚实/周期)。输出ACCEPT|NEEDS_CHANGES+fatal_flaws+improvements+score。铁律:苛刻优先/数据真实性一票否决/score≥85且无硬伤才ACCEPT。
+  - **自迭代loop实测(中际旭创)**:subagent loop(reviser⇄critic,loop_to+trigger NEEDS_CHANGES,max3轮)。**第1轮72分NEEDS_CHANGES**(致命伤:段永平视角-10年视角缺失,'中性持有'是不愿承认不懂)→reviser迭代(补10年维度+显式承认是窗口期交易非长期投资+AI capex独立周期风险+硬止损三条件替代模糊'不追')→**第2轮87分ACCEPT**(四视角全pass)。
+  - **关键进化**:从'中性持有不追'(骑墙嫌疑)→'承认是窗口期交易+10年光模块非好生意+硬止损三条件(CPO出货>15%减仓/capex转负减仓/破800清仓)'(诚实可执行)。
+  - 落回 stock:300308 v3(rating改'中性·窗口期交易+硬止损',加critic_review评审记录+sell_discipline+decision_logic十年视角+双独立风险)。原型加'专业投资者评审委员会'区块(72→87四视角)。
+  - **验证用户设想成功**:评审agent作质量闸门,自迭代逼出专业水准结论。评审agent是**全局可复用质量闸门**,后续每个verdict落盘前可过critic。
