@@ -1,0 +1,69 @@
+{
+  "unit_id": "industry:半导体",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "半导体",
+    "direction": "go",
+    "vitality_level": "high",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "国产替代/自主可控国策延续，设备材料+模组+通信链受益；移远(物联网模组)、中兴(通信+算力)基本面稳、估值合理。",
+        "bear": "周期与外部出口管制扰动，部分环节产能过剩；估值修复后弹性收敛。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "go",
+      "vitality_level": "high",
+      "allocation_advice": "国产替代主线景气高，超配；芯片ETF+移远/中兴龙头组合。",
+      "suggested_weight_pct": 5
+    },
+    "related_holdings": [
+      "012629 半导体芯片ETF联接",
+      "603236 移远通信",
+      "000063 中兴通讯"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}
