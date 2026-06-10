@@ -161,3 +161,10 @@
   - **修正industry v3**:①中际旭创420(错)→真实~1000/PE77/forwardPE35(stockanalysis核实)②选股转预期差视角(龙头预期差收敛偏负=持有不追,非"贵")③reflection记录两个错误修正。
   - **重挖未发现标的(诚实克制)**:预期差框架给方向(往龙头上下游拆一层:光器件/CoWoS封测设备/材料/晶振),但⚠️A股小盘实时股价/市值/覆盖度web工具核实不足,无法严谨判定预期差,本轮不拍脑袋给具体标的结论——守数据铁律,需接Tushare/Wind等可靠A股数据源后再挖。已确认天孚通信300394也已大涨(Q1净利+45.8%/曾345元)。
   - **下一步**:接可靠A股数据源后,用预期差三锚系统筛"未发现"标的;或先固化prompt。
+
+- **2026-06-10 补齐 data-desk 个股数据能力 + 应改造未改造清单**：
+  - **应改造未改造清单**写入 `planning/v4/implementation-backlog.md`(6大类A-F,每项P0-P2优先级):A data-desk数据/B Chokepoint+预期差prompt固化/C数据铁律固化到subagent/D reflection推广行业个股层/E前端/F模式A临时产物正式化。
+  - **补齐个股数据(P0,呼应"所有数据走data-desk")**:新建 `app/services/v4/stock_source.py`——AKShare取A股个股 股价/总市值/PE-TTM/PB/PE历史分位/财务(营收净利ROE)/近1年涨幅+高低点。服务预期差三锚(锚1兑现基数/锚2定价充分度PE分位+涨幅/Chokepoint市值卡位)。每接口独立try/except降级不崩,取不到老实标unavailable禁编。collect_v4._build_stock_pack集成:AKShare优先→Mongo兜底→降级。
+  - **验证**:降级行为通过(无akshare available=False不崩/非A股识别);akshare可装(1.18.64),估值接口已修(旧stock_a_indicator_lg已废→兼容stock_value_em);⚠️沙箱无外网(ConnectionError)无法实测取数,生产环境(有外网)需验证。临时akshare已卸载清理,无残留。
+  - **意义**:这是中际旭创"420"事故的治本——个股数据从"靠Mongo(空)/subagent编"变为"AKShare程序化取+降级标注"。配合数据铁律(subagent禁编价格),个股数据可信度问题从根上解决。
+  - **下一步**:生产环境装akshare+联网实测中际旭创真实数据;然后落地B类(个股3分析师/预期差prompt固化)。

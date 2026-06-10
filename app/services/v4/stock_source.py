@@ -1,0 +1,191 @@
+"""v4 A股个股硬数据源 — AKShare 程序化取数。
+
+呼应最初规划「所有数据都走 data-desk」：个股层的股价/市值/PE/PB/财务/涨幅
+由本模块程序化拉取（可复现、带 as_of），**杜绝分析 subagent 凭空编数字**
+（中际旭创"420元 vs 真实~1000元"事故的根因就是无可靠个股数据源 + subagent 编数）。
+
+服务的上层需求：
+- 预期差锚1（隐含增速缺口）：需要真实 PE / forward 基数 + 净利增速 → fundamentals。
+- 预期差锚2（定价充分度）：需要 PE 历史分位 + 近1年涨幅 → valuation_percentile / change_1y。
+- Chokepoint 标的卡位：需要真实市值（区分龙头 vs 小盘）。
+
+设计铁律（对齐 macro_source「降级而非崩溃」）：
+- 每个接口独立 try/except；akshare 未装 / 无网 / 接口变更 / 代码不存在 → 对应字段
+  留 None + 标 note，绝不抛异常中断采集。
+- 只取数、标 verified + 接口 + as_of，不做任何投资研判。
+- 取不到就老实标 unavailable，严禁编造。
+
+A股代码规范：6位数字（如 '300308' / '600519'）。港股/美股不在本模块（走联网）。
+"""
+
+from __future__ import annotations
+
+import datetime
+from typing import Any
+
+
+def _is_a_share(code: str) -> bool:
+    c = (code or "").strip()
+    return c.isdigit() and len(c) == 6
+
+
+def _safe_float(v) -> float | None:
+    try:
+        import math
+        f = float(v)
+        return None if math.isnan(f) else f
+    except Exception:
+        return None
+
+
+def _today() -> str:
+    return datetime.date.today().strftime("%Y-%m-%d")
+
+
+def _fetch_spot(ak, code: str, out: dict) -> None:
+    """实时快照：现价 / 涨跌幅 / 市值 / PE-TTM / PB（东财个股信息口径）。"""
+    try:
+        df = ak.stock_individual_info_em(symbol=code)  # 两列: item / value
+        kv = dict(zip(df["item"], df["value"]))
+        out["name"] = kv.get("股票简称") or out.get("name")
+        out["industry_em"] = kv.get("行业")
+        out["price"] = _safe_float(kv.get("最新"))
+        out["total_mv"] = _safe_float(kv.get("总市值"))        # 元
+        out["circ_mv"] = _safe_float(kv.get("流通市值"))
+        out["listing_date"] = kv.get("上市时间")
+        out["_spot_ok"] = True
+    except Exception as e:
+        out.setdefault("_errors", []).append(f"spot:{type(e).__name__}")
+
+
+def _fetch_valuation(ak, code: str, out: dict) -> None:
+    """估值 + 历史分位（服务预期差锚2 定价充分度）：PE-TTM / PB / 股息率 + PE 近年分位。
+
+    接口名随 akshare 版本变化，按可用性探测（stock_a_indicator_lg 旧版 / stock_value_em 新版）。
+    """
+    # 接口A：stock_a_indicator_lg（旧版，含历史序列，可算分位）
+    if hasattr(ak, "stock_a_indicator_lg"):
+        try:
+            df = ak.stock_a_indicator_lg(symbol=code)
+            if df is not None and not df.empty and "pe_ttm" in df.columns:
+                df = df.dropna(subset=["pe_ttm"])
+                last = df.iloc[-1]
+                out["pe_ttm"] = _safe_float(last.get("pe_ttm"))
+                out["pb"] = _safe_float(last.get("pb"))
+                out["dividend_yield"] = _safe_float(last.get("dv_ratio"))
+                out["valuation_as_of"] = str(last.get("trade_date"))[:10]
+                ser = df["pe_ttm"].dropna()
+                window = ser.tail(750) if len(ser) >= 750 else ser
+                cur = out["pe_ttm"]
+                if cur is not None and len(window) > 30:
+                    pct = (window < cur).sum() / len(window) * 100
+                    out["pe_percentile_3y"] = round(float(pct), 1)
+                    out["pe_percentile_note"] = f"PE-TTM 近{len(window)}交易日分位（越高=越贵/定价越充分）"
+                return
+        except Exception as e:
+            out.setdefault("_errors", []).append(f"valuation_lg:{type(e).__name__}")
+    # 接口B：stock_value_em（新版东财估值快照，PE/PB 模糊列匹配；分位可能无历史，留 missing）
+    if hasattr(ak, "stock_value_em"):
+        try:
+            df = ak.stock_value_em(symbol=code)
+            if df is not None and not df.empty:
+                row = df.iloc[-1]  # 最新一行
+                cols = {str(c): c for c in df.columns}
+                def _col(*keys):
+                    for name, c in cols.items():
+                        if any(k in name for k in keys):
+                            return _safe_float(row[c])
+                    return None
+                out["pe_ttm"] = _col("PE(TTM)", "市盈率(TTM)", "PE-TTM")
+                out["pb"] = _col("市净率", "PB")
+                out["valuation_as_of"] = str(row.get(cols.get("数据日期", ""), "")) or None
+                out["valuation_note"] = "stock_value_em 快照；PE 历史分位需历史序列接口，本接口未提供则留空"
+                return
+        except Exception as e:
+            out.setdefault("_errors", []).append(f"valuation_em:{type(e).__name__}")
+    out.setdefault("_errors", []).append("valuation:no_available_interface")
+
+
+def _fetch_financials(ak, code: str, out: dict) -> None:
+    """财务摘要：最新营收/净利 + 同比增速（服务预期差锚1 兑现能力基数）。"""
+    try:
+        df = ak.stock_financial_abstract(symbol=code)
+        if df is None or df.empty:
+            return
+        # stock_financial_abstract 为宽表：行=指标，列=各报告期。取最近列。
+        idx_col = df.columns[0]
+        period_cols = [c for c in df.columns if c != idx_col]
+        if not period_cols:
+            return
+        latest = period_cols[0]  # 通常最新在前
+        rows = dict(zip(df[idx_col], df[latest]))
+        out["report_period"] = str(latest)
+        # 关键科目（名称随接口版本可能不同，best-effort 模糊匹配）
+        def _pick(*keys):
+            for k in rows:
+                if any(kk in str(k) for kk in keys):
+                    return _safe_float(rows[k])
+            return None
+        out["revenue"] = _pick("营业总收入", "营业收入")
+        out["net_profit"] = _pick("归母净利润", "净利润")
+        out["roe"] = _pick("净资产收益率", "ROE")
+        out["_fin_ok"] = True
+    except Exception as e:
+        out.setdefault("_errors", []).append(f"fin:{type(e).__name__}")
+
+
+def _fetch_change(ak, code: str, out: dict) -> None:
+    """近1年涨幅（服务预期差锚2：涨幅本身不决定买卖，但定价充分度的参考）。"""
+    try:
+        ed = datetime.date.today()
+        sd = ed - datetime.timedelta(days=400)
+        # 东财历史行情（前复权）
+        prefix = "sh" if code.startswith(("6", "9")) else "sz"
+        df = ak.stock_zh_a_hist(symbol=code, period="daily",
+                                start_date=sd.strftime("%Y%m%d"),
+                                end_date=ed.strftime("%Y%m%d"), adjust="qfq")
+        if df is None or df.empty or "收盘" not in df.columns:
+            return
+        closes = df["收盘"].dropna()
+        if len(closes) < 2:
+            return
+        first, last = float(closes.iloc[0]), float(closes.iloc[-1])
+        if first > 0:
+            out["change_1y_pct"] = round((last / first - 1) * 100, 1)
+        out["high_1y"] = round(float(df["收盘"].max()), 2)
+        out["low_1y"] = round(float(df["收盘"].min()), 2)
+    except Exception as e:
+        out.setdefault("_errors", []).append(f"change:{type(e).__name__}")
+
+
+def build_stock_fundamentals(code: str) -> dict[str, Any]:
+    """取 A股个股硬数据。返回 {available, data{...}, note, source}。
+
+    失败/非A股/akshare不可用 → available=False + note，绝不抛异常。
+    """
+    if not _is_a_share(code):
+        return {"available": False, "note": f"非A股代码（{code}），个股硬数据走联网/QDII，不在 stock_source"}
+
+    try:
+        import akshare as ak  # type: ignore
+    except Exception as e:  # noqa: BLE001
+        return {"available": False, "note": f"akshare 未安装/不可用: {type(e).__name__}；个股数据降级，需联网核实"}
+
+    data: dict[str, Any] = {"code": code, "as_of": _today(), "source": "akshare"}
+    _fetch_spot(ak, code, data)
+    _fetch_valuation(ak, code, data)
+    _fetch_financials(ak, code, data)
+    _fetch_change(ak, code, data)
+
+    # 判定可用性：至少拿到价格或估值或财务之一
+    ok = any(data.get(k) is not None for k in ("price", "pe_ttm", "net_profit"))
+    errors = data.pop("_errors", [])
+    data.pop("_spot_ok", None)
+    data.pop("_fin_ok", None)
+    return {
+        "available": ok,
+        "data": data if ok else {},
+        "note": ("个股硬数据程序化取得（AKShare），价格/PE/财务以此为准，禁止 subagent 另编"
+                 if ok else f"AKShare 个股取数未拿到关键字段，降级；errors={errors}"),
+        "errors": errors,
+    }

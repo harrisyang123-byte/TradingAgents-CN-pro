@@ -253,20 +253,34 @@ def _build_stock_pack(inputs: Path, code: str, classified: dict, macro: dict, us
             name = h.get("name") or code
             break
 
-    # best-effort 取个股基本面（缺库/缺网降级）
+    # best-effort 取个股基本面：① AKShare 程序化(优先,可复现) ② Mongo 兜底 ③ 都无则降级
     fundamentals = {"available": False, "note": "未取到个股基本面，分析降级为 LLM 知识 + 可得行情"}
+    # ① AKShare 个股硬数据（股价/市值/PE/PB分位/财务/涨幅）—— data-desk 的个股取数能力
     try:
-        from app.core.database import get_mongo_db_sync
-        db = get_mongo_db_sync()
-        doc = db["stock_basic_info"].find_one({"code": code}) or db["stocks"].find_one({"code": code})
-        if doc:
-            doc.pop("_id", None)
-            industry = doc.get("industry") or industry
-            fundamentals = {"available": True, "data": {k: v for k, v in doc.items()
-                            if k in ("name", "industry", "pe", "pb", "total_mv", "roe")}}
-            name = doc.get("name") or name
+        from app.services.v4 import stock_source
+        ak_res = stock_source.build_stock_fundamentals(code)
+        if ak_res.get("available"):
+            fundamentals = ak_res
+            d = ak_res.get("data", {})
+            industry = d.get("industry_em") or industry
+            name = d.get("name") or name
     except Exception as e:
-        fundamentals["error"] = str(e)
+        fundamentals.setdefault("note", "")
+        fundamentals["akshare_error"] = str(e)
+    # ② Mongo 兜底（仅当 AKShare 未取到时）
+    if not fundamentals.get("available"):
+        try:
+            from app.core.database import get_mongo_db_sync
+            db = get_mongo_db_sync()
+            doc = db["stock_basic_info"].find_one({"code": code}) or db["stocks"].find_one({"code": code})
+            if doc:
+                doc.pop("_id", None)
+                industry = doc.get("industry") or industry
+                fundamentals = {"available": True, "source": "mongo", "data": {k: v for k, v in doc.items()
+                                if k in ("name", "industry", "pe", "pb", "total_mv", "roe")}}
+                name = doc.get("name") or name
+        except Exception as e:
+            fundamentals.setdefault("mongo_error", str(e))
 
     pack = {
         "code": code,
