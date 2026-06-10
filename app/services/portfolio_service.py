@@ -249,6 +249,52 @@ class PortfolioService:
 
         return None
 
+    async def _compute_realized_pnl_map(self, user_id: str) -> Dict[str, float]:
+        """从 paper_trades 滚动计算每个 code 的累计已实现盈亏 (CNY)
+
+        算法：按时间序遍历用户全部交易，维持每个 code 的滚动加权平均成本与持仓数量；
+        - 遇 buy：加权平均更新 avg_cost 和 qty
+        - 遇 sell：realized += (sell_price - current_avg_cost) × sell_qty × 当时汇率(简化用当前汇率，标 estimated)
+        清仓后再买的 code 也能正确累计。
+        """
+        cursor = self.db["paper_trades"].find({"user_id": user_id}).sort("timestamp", 1)
+        state: Dict[str, Dict[str, float]] = {}     # {code: {"qty":..., "avg_cost":...}}
+        realized: Dict[str, float] = {}
+        rate_cache: Dict[str, float] = {"CNY": 1.0}
+        async for t in cursor:
+            code = t.get("code")
+            if not code:
+                continue
+            side = t.get("side")
+            qty = int(t.get("quantity", 0))
+            if qty <= 0:
+                continue
+            price = float(t.get("price", 0.0))
+            currency = t.get("currency", "CNY") or "CNY"
+            rate = rate_cache.get(currency)
+            if rate is None:
+                try:
+                    rate = await self._get_exchange_rate(currency)
+                except Exception:
+                    rate = 1.0
+                rate_cache[currency] = rate
+            st = state.setdefault(code, {"qty": 0.0, "avg_cost": 0.0})
+            if side == "buy":
+                new_qty = st["qty"] + qty
+                if new_qty > 0:
+                    st["avg_cost"] = (st["avg_cost"] * st["qty"] + price * qty) / new_qty
+                st["qty"] = new_qty
+            elif side == "sell":
+                sell_qty = min(qty, st["qty"])      # 防御性：不算超出持仓的 sell
+                if sell_qty > 0:
+                    realized[code] = round(
+                        realized.get(code, 0.0) + (price - st["avg_cost"]) * sell_qty * rate,
+                        2,
+                    )
+                st["qty"] = max(0.0, st["qty"] - qty)
+                # 加权平均成本基础下，sell 不改 avg_cost
+        return realized
+
     async def _fetch_position_detail(self, p: dict) -> dict:
         """并行安全：获取单个持仓的价格、名称、汇率（带超时）"""
         code = p.get("code")
@@ -404,15 +450,28 @@ class PortfolioService:
             await self._refresh_cn_market_quotes(cn_codes)
 
         # 并行获取价格+名称+汇率，35个持仓从串行 ~100s 降至 ~8s
-        position_details: List[Dict[str, Any]] = await asyncio.gather(
-            *[self._fetch_position_detail(p) for p in positions]
+        # 同时启动 realized_pnl 计算（一次扫描全部交易），与 position 并行
+        position_details, realized_map = await asyncio.gather(
+            asyncio.gather(*[self._fetch_position_detail(p) for p in positions]),
+            self._compute_realized_pnl_map(user_id),
         )
+        position_details = list(position_details)
+
+        # 注入 realized_pnl + total_pnl（每个持仓）
+        # 汇总：total_realized_pnl 覆盖全部 code（含已清仓不在持仓表的）
+        for pos in position_details:
+            r = float(realized_map.get(pos["code"], 0.0))
+            pos["realized_pnl"] = round(r, 2)
+            pos["total_pnl"] = round((pos.get("pnl_cny") or 0.0) + r, 2) if pos.get("pnl_cny") is not None else None
 
         total_market_value_cny = sum(p["market_value_cny"] for p in position_details)
 
         total_assets = round(total_market_value_cny + available_cash, 2)
-        total_pnl = round(sum(p["pnl_cny"] for p in position_details if p.get("pnl_cny") is not None), 2)
+        total_unrealized_pnl = round(sum(p["pnl_cny"] for p in position_details if p.get("pnl_cny") is not None), 2)
+        total_realized_pnl = round(sum(realized_map.values()), 2)      # 全部 code（含已清仓）
+        total_pnl = round(total_unrealized_pnl + total_realized_pnl, 2)
         total_pnl_pct = round(total_pnl / total_invested * 100, 2) if total_invested > 0 else 0.0
+        total_unrealized_pnl_pct = round(total_unrealized_pnl / total_invested * 100, 2) if total_invested > 0 else 0.0
 
         for pos in position_details:
             if total_assets > 0:
@@ -423,8 +482,11 @@ class PortfolioService:
             "available_cash": round(available_cash, 2),
             "total_assets": total_assets,
             "total_market_value_cny": round(total_market_value_cny, 2),
-            "total_pnl": total_pnl,
+            "total_pnl": total_pnl,                                 # 含已实现（修正：原口径仅浮动）
             "total_pnl_pct": total_pnl_pct,
+            "total_unrealized_pnl": total_unrealized_pnl,           # 浮动盈亏（持仓部分）
+            "total_unrealized_pnl_pct": total_unrealized_pnl_pct,
+            "total_realized_pnl": total_realized_pnl,               # 已实现盈亏（卖出累计）
             "positions": position_details,
         }
 
@@ -440,7 +502,7 @@ class PortfolioService:
             f"总投入: ¥{summary['total_invested']:,.2f}",
             f"可用现金: ¥{summary['available_cash']:,.2f}",
             f"总资产: ¥{summary['total_assets']:,.2f}",
-            f"总盈亏: ¥{summary['total_pnl']:,.2f} ({summary['total_pnl_pct']:+.2f}%)",
+            f"总盈亏: ¥{summary['total_pnl']:,.2f} ({summary['total_pnl_pct']:+.2f}%)  其中浮动 ¥{summary.get('total_unrealized_pnl', summary['total_pnl']):,.2f} / 已实现 ¥{summary.get('total_realized_pnl', 0):,.2f}",
             "",
             "持仓明细:",
         ]

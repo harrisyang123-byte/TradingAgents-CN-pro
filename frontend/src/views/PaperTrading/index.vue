@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="stat-grid">
-          <div v-for="(lbl, i) in ['总投入','可用现金','总资产（人民币）','总盈亏']" :key="i" class="stat-card" style="opacity:0.5">
+          <div v-for="(lbl, i) in ['总投入','可用现金','总资产（人民币）','浮动盈亏']" :key="i" class="stat-card" style="opacity:0.5">
             <div class="label">{{ lbl }}</div>
             <div class="value">{{ i < 3 ? '¥0.00' : '--' }}</div>
           </div>
@@ -121,13 +121,16 @@
             <div class="sub">持仓市值 {{ fmtMoney(summary?.total_market_value_cny) }}</div>
           </div>
           <div class="stat-card">
-            <div class="label">总盈亏</div>
-            <div class="value" :style="{ color: pnlColor(summary?.total_pnl) }">{{ fmtSignedMoney(summary?.total_pnl) }}</div>
+            <div class="label">浮动盈亏</div>
+            <div class="value" :style="{ color: pnlColor(summary?.total_unrealized_pnl ?? summary?.total_pnl) }">{{ fmtSignedMoney(summary?.total_unrealized_pnl ?? summary?.total_pnl) }}</div>
             <div class="sub">
-              <span :style="{ color: pnlColor(summary?.total_pnl), fontWeight: 600 }">
-                {{ summary?.total_pnl_pct != null ? (summary!.total_pnl_pct >= 0 ? '+' : '') + summary!.total_pnl_pct.toFixed(2) + '%' : '--' }}
+              <span :style="{ color: pnlColor(summary?.total_unrealized_pnl ?? summary?.total_pnl), fontWeight: 600 }">
+                {{ summary?.total_unrealized_pnl_pct != null ? (summary!.total_unrealized_pnl_pct >= 0 ? '+' : '') + summary!.total_unrealized_pnl_pct.toFixed(2) + '%' : (summary?.total_pnl_pct != null ? (summary!.total_pnl_pct >= 0 ? '+' : '') + summary!.total_pnl_pct.toFixed(2) + '%' : '--') }}
               </span>
-              <span style="color:var(--text-secondary);margin-left:4px">较投入</span>
+              <span style="color:var(--text-secondary);margin-left:6px">
+                总盈亏 <span :style="{ color: pnlColor(summary?.total_pnl), fontWeight: 600 }">{{ fmtSignedMoney(summary?.total_pnl) }}</span>
+                <span v-if="summary?.total_realized_pnl != null && summary.total_realized_pnl !== 0">（含已实现 {{ fmtSignedMoney(summary?.total_realized_pnl) }}）</span>
+              </span>
             </div>
           </div>
         </div>
@@ -208,7 +211,7 @@
                   <th style="text-align:right">最新价</th>
                   <th style="text-align:right">市值 (CNY)</th>
                   <th style="text-align:right">仓位占比</th>
-                  <th style="text-align:right">盈亏</th>
+                  <th style="text-align:right">盈亏<br><span style="font-size:11px;color:var(--text-secondary);font-weight:400">浮动 / 总（含已实现）</span></th>
                   <th style="text-align:right">盈亏率</th>
                   <th>操作</th>
                 </tr>
@@ -237,8 +240,14 @@
                       <span>{{ (pos.weight || 0).toFixed(1) }}%</span>
                     </div>
                   </td>
-                  <td style="text-align:right" :style="{ color: pnlColor(pos.pnl_cny), fontWeight: 500 }">
-                    {{ fmtSignedMoney(pos.pnl_cny) }}
+                  <td style="text-align:right">
+                    <div :style="{ color: pnlColor(pos.pnl_cny), fontWeight: 600, fontSize: '14px', lineHeight: 1.2 }">
+                      {{ fmtSignedMoney(pos.pnl_cny) }}
+                    </div>
+                    <div v-if="pos.realized_pnl !== undefined && pos.realized_pnl !== null" style="font-size:11px;color:var(--text-secondary);margin-top:2px;line-height:1.2">
+                      <span v-if="(pos.realized_pnl || 0) !== 0" style="margin-right:4px">已实现 {{ fmtSignedMoney(pos.realized_pnl) }}</span>
+                      <span :style="{ color: pnlColor(pos.total_pnl) }">总 {{ fmtSignedMoney(pos.total_pnl) }}</span>
+                    </div>
                   </td>
                   <td style="text-align:right" :style="{ color: pnlColor(pos.pnl_cny), fontWeight: 500 }">
                     <template v-if="pos.pnl_pct != null">{{ pos.pnl_pct >= 0 ? '+' : '' }}{{ pos.pnl_pct.toFixed(2) }}%</template>

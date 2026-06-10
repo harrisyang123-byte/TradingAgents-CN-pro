@@ -49,8 +49,11 @@ export interface PortfolioSummary {
   available_cash: number
   total_assets: number
   total_market_value_cny: number
-  total_pnl: number
+  total_pnl: number                       // 总盈亏（含已实现）
   total_pnl_pct: number
+  total_unrealized_pnl?: number           // 浮动盈亏（持仓部分）
+  total_unrealized_pnl_pct?: number
+  total_realized_pnl?: number             // 已实现盈亏（卖出累计）
   positions: PortfolioSummaryPosition[]
 }
 
@@ -64,8 +67,10 @@ export interface PortfolioSummaryPosition {
   last_price?: number | null
   exchange_rate: number
   market_value_cny: number
-  pnl_cny?: number | null
-  pnl_pct?: number | null
+  pnl_cny?: number | null                 // 浮动盈亏（CNY）
+  pnl_pct?: number | null                 // 浮动盈亏率
+  realized_pnl?: number                   // 已实现盈亏（CNY，本 code 累计卖出已实现）
+  total_pnl?: number | null               // 浮动 + 已实现
   weight: number
   buy_date?: string | null
   notes?: string | null
