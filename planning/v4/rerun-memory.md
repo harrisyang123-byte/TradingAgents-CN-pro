@@ -207,3 +207,9 @@
   - 修复(两层):①数据层-重跑加强版R1辩论,bull/bear各输出5个详尽论点(每点带逻辑+数据+置信度/severity)+bull_key_assumption+bear_kill_trigger(4信号);②展示层-原型R1全量展示5+5论点(不二次精简),R2/R3交锋保留。
   - 落盘 stock:300308 v4(debate_rounds[0]升级为结构化bull_points[5]/bear_points[5])。
   - 待办:辩论"全量化"应推广(R2/R3也升级为多论点结构化+前端Vue渲染points数组);可考虑放宽个股辩论subagent输出上限到500字满额。
+
+- **2026-06-10 评审委员会标准内化进agent(用户点醒:自迭代是优化agent非多轮对话)**：
+  - 把 v4-investor-critic 四视角拷问标准**前置内化**进 v4-stock-director.md:加「专业投资者四维质量闸门」(拍板前必答)+输出schema加5字段(business_quality/position_nature/worst_case/downside/sell_discipline)+铁律7「质量内化」。
+  - 目的:个股结论第一遍就达专业水准(段永平10年生意质量+交易vs投资定性/芒格逆向最坏/达里奥风险优先量化赔率+周期/可执行硬止损/不确定性诚实),不靠事后多轮评审补救。
+  - v4-investor-critic.md 加「核心用途」说明:评审根本目的是优化agent(improvements反哺被审agent prompt),非只修单次结论。
+  - 待办:同法推广到 industry-director/asset-director(四维闸门按层适配);bull/bear/3分析师可内化对应视角(bear逆向最坏/分析师标missing)。
