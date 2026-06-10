@@ -108,6 +108,8 @@ export interface AssetVerdict {
   risks?: string[]
   trend?: string
   confidence?: string
+  // Chokepoint 框架：行业 director 的瓶颈落地结论
+  chokepoint_conclusion?: string
   // §5.9 B：结果闭环反思（Layer 1，跨版本自省），首跑 self_check='first_run'
   reflection?: ReflectionData | null
 }
@@ -181,9 +183,27 @@ export interface IndustryDetail {
   industry_unit: UnitMeta
   verdict: AssetVerdict | null
   debate_rounds: DebateRound[]
+  // Chokepoint 产业链瓶颈地图（行业层增强）
+  chokepoint_map?: ChokepointNode[]
+  top_chokepoints?: string[]
+  analysts?: Record<string, any>
   intra_alloc_unit: UnitMeta
   stock_weights: StockWeightRow[]
   stocks: StockUnit[]
+}
+
+export interface ChokepointNode {
+  layer?: string
+  node?: string
+  irreplaceability?: string
+  supply_concentration?: string
+  capacity_rigidity?: string
+  value_capture?: string
+  substitution_risk?: string
+  beneficiaries_a?: string[]
+  beneficiaries_qdii?: string[]
+  is_top?: boolean
+  evidence_status?: string
 }
 
 // ── 全单元状态 ────────────────────────────────────────────────────────

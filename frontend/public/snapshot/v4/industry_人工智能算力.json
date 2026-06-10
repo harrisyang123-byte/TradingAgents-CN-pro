@@ -41,6 +41,118 @@
       "bear": "替代路径钳形攻势(致命):①CPO 2027+去中间化结构性替代可插拔光模块(侵蚀中际旭创主业)②玻璃基板绕CoWoS瓶颈削弱稀缺溢价③北美云厂自研ASIC+博通自研光引擎垂直整合挤出中间商利润;+capex $725B高基数2027增速必放缓(科技capex周期3-4年见顶规律);+中际旭创PE>95%分位/应收超营收/客户集中75%=周期顶部成长股幻觉。"
     }
   ],
+  "chokepoint_map": [
+    {
+      "layer": "器件-封装",
+      "node": "CoWoS先进封装",
+      "irreplaceability": "高",
+      "supply_concentration": "极高(TSMC~90%)",
+      "capacity_rigidity": "强(扩产18-24月)",
+      "value_capture": "高",
+      "substitution_risk": "玻璃基板2027样品/2030量产,三星I-Cube良率落后2代→2027前无实质替代",
+      "beneficiaries_a": [
+        "盛合晶微(国产替代最纯正,承接寒武纪/昇腾)",
+        "长电科技600584(XDFOI,收入占比<10%)",
+        "通富微电002156(2.5D研发中)"
+      ],
+      "beneficiaries_qdii": [
+        "台积电(台股/半导体QDII)"
+      ],
+      "is_top": true,
+      "evidence_status": "estimated"
+    },
+    {
+      "layer": "器件-存储",
+      "node": "HBM高带宽内存",
+      "irreplaceability": "高",
+      "supply_concentration": "极高(SK海力士/三星/美光三家)",
+      "capacity_rigidity": "强",
+      "value_capture": "高",
+      "substitution_risk": "HBM4 2026仅SK海力士领跑,无非HBM替代",
+      "beneficiaries_a": [
+        "兆易创新603986(间接)"
+      ],
+      "beneficiaries_qdii": [
+        "SK海力士(韩国ETF)",
+        "美光(纳指)"
+      ],
+      "is_top": false,
+      "evidence_status": "verified"
+    },
+    {
+      "layer": "部件-光互连",
+      "node": "800G/1.6T光模块",
+      "irreplaceability": "中",
+      "supply_concentration": "高(中际旭创800G>40%/1.6T 50-70%)",
+      "capacity_rigidity": "中",
+      "value_capture": "中",
+      "substitution_risk": "CPO共封装光学2027+对可插拔的结构性替代(近忧),博通自研光引擎+云厂垂直整合",
+      "beneficiaries_a": [
+        "中际旭创300308(全球龙头连续4年第一)",
+        "新易盛300502(追赶者)",
+        "天孚通信300394(上游器件)"
+      ],
+      "beneficiaries_qdii": [
+        "Coherent/Lumentum(纳指)"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
+    },
+    {
+      "layer": "材料-封装基板",
+      "node": "ABF载板",
+      "irreplaceability": "高",
+      "supply_concentration": "高",
+      "capacity_rigidity": "强",
+      "value_capture": "中",
+      "substitution_risk": "玻璃基板2027试产,ABF仍是2026唯一量产方案",
+      "beneficiaries_a": [
+        "兴森科技002436",
+        "深南电路002916"
+      ],
+      "beneficiaries_qdii": [
+        "欣兴/揖斐电(台日ETF)"
+      ],
+      "is_top": false,
+      "evidence_status": "estimated"
+    },
+    {
+      "layer": "设备",
+      "node": "EUV光刻机(2-3nm)",
+      "irreplaceability": "高",
+      "supply_concentration": "极高(ASML独家)",
+      "capacity_rigidity": "强",
+      "value_capture": "高",
+      "substitution_risk": "ASML独家,中国受禁运无替代→A股只能买DUV级国产替代",
+      "beneficiaries_a": [
+        "北方华创002371",
+        "中微公司688012(刻蚀)"
+      ],
+      "beneficiaries_qdii": [
+        "ASML(荷兰/半导体ETF)"
+      ],
+      "is_top": false,
+      "evidence_status": "verified"
+    }
+  ],
+  "top_chokepoints": [
+    "CoWoS先进封装(最窄垄断,国产替代盛合晶微)",
+    "800G/1.6T光模块(A股直接可买中际旭创,但CPO 2027+替代近忧)"
+  ],
+  "analysts": {
+    "prosperity": {
+      "role": "景气研究员",
+      "go_nogo": "go",
+      "vitality_level": "高",
+      "reasoning": "北美4云厂2026 capex $725B(+77%)、2027>$1T,AI光模块市场+57%→$260亿;景气可持续2-3年但需监控capex-revenue变现gap(当前云厂AI收入增速>50%只是绝对值不匹配capex,非破裂信号)"
+    },
+    "chokepoint": {
+      "role": "产业链瓶颈分析师",
+      "reverse_path": "终端AI推理→GPU集群→先进封装(CoWoS)+HBM→光互连(CPO/光模块)→材料/设备(ABF/EUV)",
+      "top": "CoWoS(四维全满,TSMC~90%单一垄断)",
+      "note": "专项调研员深挖CoWoS挖出国产替代最纯正标的盛合晶微+光模块环节中际旭创个股分队(财务红旗+估值)"
+    }
+  },
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:人工智能算力",
     "status": "green",

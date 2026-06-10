@@ -47,6 +47,9 @@
       "bear": "认同分批、控制单一暴露"
     }
   ],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "analysts": {},
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:有色资源",
     "status": "green",

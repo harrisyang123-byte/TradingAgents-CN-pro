@@ -195,6 +195,10 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         "industry_unit": decorate_unit(f"industry:{name}", ind_env, units),
         "verdict": ind_payload.get("verdict"),
         "debate_rounds": ind_payload.get("debate_rounds", []),
+        # Chokepoint 产业链瓶颈地图（行业层增强，透传给前端展示；无则空，不影响旧行业单元）
+        "chokepoint_map": ind_payload.get("chokepoint_map", []),
+        "top_chokepoints": ind_payload.get("top_chokepoints", []),
+        "analysts": ind_payload.get("analysts", {}),
         "intra_alloc_unit": decorate_unit(f"alloc:industry:{name}", alloc_env, units),
         "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],
     }
