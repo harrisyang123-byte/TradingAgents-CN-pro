@@ -31,6 +31,7 @@ tools:
 | 跨市场/海外敞口 | 美10年期国债 `us10y`、联邦基金目标利率 `fed_funds`、标普500 `sp500`、纳斯达克综指 `nasdaq` | 大类层海外敞口 |
 | 风险情绪 | VIX 恐慌指数 `vix` | 全单元（risk-on/off） |
 | 大宗/避险 | 布伦特原油 `brent`、COMEX/伦敦金 `gold`、LME铜 `copper` | 大宗/贵金属/周期行业 |
+| **前瞻 / Forward-looking**（新增，✨A/B 测试 2 次证实有效） | 未来 4 周经济日历 `forward_calendar`、市场仓位/资金流 `positioning`、隐含波动率 `iv_skew`、跨市场领先指标 `cross_market_leading`、尾部风险清单 `tail_risks` | 全单元（前瞻判断锚） |
 
 > 注：北向资金自 2024-08 起停止每日实时披露，不再纳入档 A 必取项；如需资金面信号，用两融余额 `margin_balance` 替代。
 
@@ -85,6 +86,31 @@ tools:
     "gold":        {"value": null, "status": "missing"},
     "copper":      {"value": null, "status": "missing", "note": "LME铜"}
   },
+  "forward_view": {
+    "forward_calendar": [
+      {"date": "2026-06-12", "event": "美 5 月 CPI", "consensus": "4.1%", "prev": "3.9%", "importance": "high", "source_url": "...", "note": "首过 4%、关税推涨预期"}
+    ],
+    "positioning": {
+      "northbound_yt_flow": {"value": null, "status": "missing", "note": "北向资金 YTD 净流入(已停日披露,用 margin_balance 替代趋势)"},
+      "margin_balance_zscore": {"value": null, "status": "missing", "note": "两融余额 z-score 拥挤度"},
+      "qdii_premium": {"value": null, "status": "missing", "note": "QDII 溢价率(海外敞口拥挤度信号)"},
+      "ah_premium": {"value": null, "status": "missing", "note": "恒生 AH 溢价指数"}
+    },
+    "iv_skew": {
+      "vix_term_structure": {"value": null, "status": "missing", "note": "VIX 与 VIX3M 倒挂=恐慌"},
+      "sp500_25d_put_skew": {"value": null, "status": "missing", "note": "SPX 25d put skew 分位"},
+      "etf50_iv": {"value": null, "status": "missing", "note": "上证 50ETF 隐含波动率(A 股恐慌)"}
+    },
+    "cross_market_leading": {
+      "yc_2s10s": {"value": null, "status": "missing", "note": "美 2-10 年利差(<0=衰退预警)"},
+      "hy_oas": {"value": null, "status": "missing", "note": "ICE BofA HY OAS(信用利差)"},
+      "fra_ois": {"value": null, "status": "missing", "note": "FRA-OIS 美元流动性应力"},
+      "copper_gold_ratio": {"value": null, "status": "missing", "note": "铜金比(工业景气领先)"}
+    },
+    "tail_risks": [
+      {"event": "霍尔木兹海峡冲突升级", "prob": 0.10, "early_warning": "美军调遣/伊朗武装船队动作", "impact": "Brent>100+VIX>35+QDII -15%", "hedge_action": "买原油 ETF 5%+减 QDII 至 5%"}
+    ]
+  },
   "evidence": [{"claim": "1年期LPR 3.1% (2026-05-20)", "source_url": "http://www.pbc.gov.cn/...", "status": "verified"}]
 }
 ```
@@ -102,7 +128,21 @@ tools:
 }
 ```
 
-## 数据接地与凭据（强制铁律）
+## 前瞻数据来源指南（forward_view 5 类，新增）
+
+> **目的**：把宏观能力从"回看 nowcasting"扩展到"前瞻 forecasting"——A/B 测试 2 次证实，11 维内化前瞻让 director 产出从 52→89 分（详见 `planning/v4/forward-arch-ab-test-report.md`）。
+
+| 子字段 | 取数方法 | 主要来源 |
+|---|---|---|
+| `forward_calendar` | 未来 4 周高 importance 事件（美/中 CPI/PMI/非农/社融/FOMC/中央会议）+ Bloomberg/Reuters 一致预期 | ForexFactory / Investing.com / TradingEconomics / 路透中文经济日历 |
+| `positioning` | 仓位拥挤度信号 | 两融余额（已档 A 取）/ 港交所 AH 溢价指数 / 各大公募 QDII 溢价率 |
+| `iv_skew` | 隐含波动率与 skew | CBOE VIX/VIX3M 期限结构 / SPX 25d put skew(投行报告) / 上证 50ETF 隐含波动率(集思录) |
+| `cross_market_leading` | 跨市场领先指标 | FRED(2s10s/HY OAS/FRA-OIS) / Investing(铜金比派生) |
+| `tail_risks` | 尾部风险清单(主 agent 维护) | 由 director 据当前地缘/政策风险列 3-5 条；data-desk 仅取数支撑(如原油价格/中东事件 wire) |
+
+**铁律**：前瞻数据**取不到一律标 missing**，绝不编造预期值或假装查到 consensus。`tail_risks` 的概率估计为主 agent 主观判断，**显式标 estimated**（这是不确定性诚实，非编造）。
+
+
 1. **每个数字三选一**：`verified`（联网核实，必附 `source_url` + `as_of` 日期）/ `missing`（取不到，`value: null` + 简短 note）。**不允许凭空给 `estimated` 数字**——估算只能用于明确标注的派生量，且写明依据。
 2. **严禁编造、严禁套用本提示里的示例数字**（3.1%、12 等仅为格式示例）。
 3. 取不到就老实标 `missing`，宁缺毋假——下游辩论部门会据 `status` 决定是否降级，**不要替它们美化数据**。
