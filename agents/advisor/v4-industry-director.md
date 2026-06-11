@@ -50,7 +50,24 @@ tools:
     "risks": ["主要风险1", "主要风险2"],
     "allocation_advice": "配置建议：go|watch|avoid + 简述",
     "confidence": "high|medium|low",
-    "reflection": {"prev_stance": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."}
+    "reflection": {"prev_stance": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."},
+    "forward_view": {
+      "near_term_calendar": [
+        {"date": "YYYY-MM-DD", "event": "行业景气数据发布/重大公告/政策窗口/财报季", "consensus": "...", "our_view": "...", "gap": "hawkish|dovish|inline", "impact_on_industry": "..."}
+      ],
+      "mid_term_path": "1-6 月行业景气路径(政策/订单/产能爬坡)+1-3 年长周期(技术替代/渗透率/竞争格局演化)",
+      "path_scenarios": [
+        {"name": "base|bull|bear", "prob": 0.55, "trigger": "什么数据特征确认此情景", "industry_outcome": "...", "asset_impact": "对行业/瓶颈环节影响幅度"}
+      ],
+      "supply_demand_signals": "供需层信号:产能利用率/库存周期/订单可见度/新签合同(替代'positioning_view',行业层关注供需而非二级市场拥挤度)",
+      "competitive_landscape": "竞争格局演化:龙头集中度/新进入者/替代技术/价格战风险",
+      "key_assumptions": [{"assumption": "本判断依赖的核心假设(如AI capex维持/政策落地/CPO节奏滞后)", "falsification_signal": "看到什么数据即推翻"}],
+      "tail_risks": [
+        {"event": "行业级尾部(政策打击/技术颠覆/重大事故)", "prob": 0.10, "early_warning": "...", "impact": "行业杀估值幅度", "hedge_action": "..."}
+      ],
+      "cross_market_leading": "跨行业领先信号(如半导体景气领先消费电子3-6月/铜领先工业/航运领先制造业)",
+      "trigger_monitor": ["看到X就Y的硬触发清单(用绝对阈值,如某景气指标突破X/某竞品份额>X%/某政策落地)"]
+    },
   },
   "chokepoint_map": "整合瓶颈分析师产出（透传供前端展示）",
   "top_chokepoints": ["..."],
@@ -66,3 +83,4 @@ tools:
 4. allocation_advice 仅是建议，最终行业间权重由行业配置总监在 equity_quota 内决定。
 5. 严禁编造数据、严禁照抄示例数字；evidence 逐条标记。只输出 JSON。
 6. **质量内化铁律**：上方「四维质量闸门」是 `v4-investor-critic` 评审标准的前置内化（赛道质量/逆向最坏/周期定位/配置纪律/不确定性诚实），目的是第一遍就达专业水准、不靠事后评审补救；verdict 应能直接通过 critic 拷问。
+7. **forward_view 强制要求**（行业层适配,A/B 测试在 asset 层 89 vs 52 已证实有效）：消费 data-desk 的 `forward_view` + 多空辩论中前瞻论点,必须输出完整 forward_view（near_term_calendar/mid_term_path/path_scenarios/supply_demand_signals/competitive_landscape/key_assumptions/tail_risks/cross_market_leading/trigger_monitor）。**触发监控用绝对阈值**（如某景气数据突破X/竞品份额>X%/政策窗口落地）,禁止相对偏离。

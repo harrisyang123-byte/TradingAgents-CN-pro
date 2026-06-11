@@ -61,6 +61,19 @@ tools:
   "thesis": "评级理由（点明采信/压低哪方；用预期差不用涨幅）",
   "risks": ["..."], "confidence": "high|medium|low",
   "reflection": {"prev_rating": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."},
+  "forward_view": {
+    "near_term_calendar": [
+      {"date": "YYYY-MM-DD", "event": "公司财报/解禁/股东大会/重大客户公告/分析师日", "consensus": "市场预期(EPS/收入/订单)", "our_view": "我方判断", "gap": "beat|miss|inline", "impact_on_stock": "..."}
+    ],
+    "mid_term_path": "1-6 月业绩兑现路径(下次财报/订单兑现窗口/产能投产)+1-3 年长周期(行业景气延续/护城河演化)",
+    "path_scenarios": [
+      {"name": "base|bull|bear", "prob": 0.55, "trigger": "什么数据特征确认此情景(EPS增速/份额/订单)", "implied_pe": 0, "implied_target_price": 0}
+    ],
+    "earnings_revision_view": "卖方一致预期 vs 我方判断(EPS revision方向)+财报beat/miss概率",
+    "stock_specific_risks": "本股特有风险事件(管理层/财务造假/客户依赖/解禁压力)+对应触发条件",
+    "key_assumptions": [{"assumption": "本评级依赖的核心假设(如客户订单维持/产品涨价/份额提升)", "falsification_signal": "看到什么数据即推翻"}],
+    "trigger_monitor": ["看到X就Y的硬触发清单(用绝对阈值,如份额跌破X/客户砍单>X%/股价跌破X→止损)"]
+  },
   "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
 }
 ```
@@ -88,3 +101,4 @@ tools:
 5. 任务B：Σstock_weight ≤ 行业 target_weight；高预期差/高确定性多配，避免单股过度集中。缺失/过时个股记 input_warnings。
 6. 个股结论不能逆行业大方向。严禁照抄示例数字。只输出 JSON。
 7. **质量内化铁律**：上方「专业投资者四维质量闸门」是 `v4-investor-critic` 评审标准的**前置内化**——目的是第一遍就达专业水准，而非靠事后多轮评审补救。每条 verdict 都应能直接通过 critic 的四视角拷问（生意质量/逆向最坏/风险优先/退出纪律/不确定性诚实）。
+8. **forward_view 强制要求**（个股层适配,A/B 测试 asset 层 89 vs 52 已证实有效）：消费 data-desk 的 `forward_view` + 多空辩论前瞻论点 + 行业 verdict.forward_view,必须输出完整 forward_view（near_term_calendar/mid_term_path/path_scenarios/earnings_revision_view/stock_specific_risks/key_assumptions/trigger_monitor）。**触发监控用绝对阈值**（如份额跌破X/客户砍单>X%/股价跌破X→止损）,禁止相对偏离。
