@@ -175,17 +175,17 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>代码</th>
-                  <th>名称</th>
+                  <th class="sortable" @click="toggleSort('code')">代码{{ sortArrow('code') }}</th>
+                  <th class="sortable" @click="toggleSort('name')">名称{{ sortArrow('name') }}</th>
                   <th>市场</th>
                   <th>分类</th>
-                  <th style="text-align:right">数量</th>
-                  <th style="text-align:right">均价</th>
-                  <th style="text-align:right">最新价</th>
-                  <th style="text-align:right">市值 (CNY)</th>
-                  <th style="text-align:right">仓位占比</th>
-                  <th style="text-align:right">盈亏<br><span style="font-size:11px;color:var(--text-secondary);font-weight:400">浮动 / 总（含已实现）</span></th>
-                  <th style="text-align:right">盈亏率</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('quantity')">数量{{ sortArrow('quantity') }}</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('avg_cost')">均价{{ sortArrow('avg_cost') }}</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('last_price')">最新价{{ sortArrow('last_price') }}</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('market_value_cny')">市值 (CNY){{ sortArrow('market_value_cny') }}</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('weight')">仓位占比{{ sortArrow('weight') }}</th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('pnl_cny')">盈亏{{ sortArrow('pnl_cny') }}<br><span style="font-size:11px;color:var(--text-secondary);font-weight:400">浮动 / 总（含已实现）</span></th>
+                  <th class="sortable" style="text-align:right" @click="toggleSort('pnl_pct')">盈亏率{{ sortArrow('pnl_pct') }}</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -468,6 +468,8 @@ const accountForm = ref({ total_invested: 0, available_cash: 0 })
 
 const marketFilter = ref('all')
 const historyOpen = ref(false)
+const sortKey = ref('market_value_cny')
+const sortDir = ref<'asc' | 'desc'>('desc')
 
 const adviceDrawer = ref(false)
 const adviceGenerating = ref(false)
@@ -496,10 +498,32 @@ const marketFilters = computed(() => {
 
 const filteredPositions = computed(() => {
   const all = summary.value?.positions || []
-  if (marketFilter.value === 'all') return all
-  if (marketFilter.value === 'fund') return all.filter(p => p.instrument_type === 'fund')
-  return all.filter(p => p.market === marketFilter.value)
+  let result: any[]
+  if (marketFilter.value === 'all') result = [...all]
+  else if (marketFilter.value === 'fund') result = all.filter(p => p.instrument_type === 'fund')
+  else result = all.filter(p => p.market === marketFilter.value)
+  const dir = sortDir.value === 'desc' ? -1 : 1
+  result.sort((a: any, b: any) => {
+    const va = a[sortKey.value] ?? 0, vb = b[sortKey.value] ?? 0
+    if (typeof va === 'string') return dir * va.localeCompare(vb)
+    return dir * (Number(va) - Number(vb))
+  })
+  return result
 })
+
+function toggleSort(key: string) {
+  if (sortKey.value === key) {
+    sortDir.value = sortDir.value === 'desc' ? 'asc' : 'desc'
+  } else {
+    sortKey.value = key
+    sortDir.value = 'desc'
+  }
+}
+
+function sortArrow(key: string) {
+  if (sortKey.value !== key) return ''
+  return sortDir.value === 'desc' ? ' ↓' : ' ↑'
+}
 
 // ---- helpers ----
 function fmtMoney(n: number | null | undefined) {
@@ -921,6 +945,8 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 /* ===== Table ===== */
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table th { background: #fafafa; color: #909399; font-weight: 600; text-align: left; padding: 10px 12px; border-bottom: 1px solid #ebeef5; font-size: 12px; white-space: nowrap; }
+.data-table th.sortable { cursor: pointer; user-select: none; }
+.data-table th.sortable:hover { color: var(--primary); background: #f0f2f5; }
 .data-table td { padding: 10px 12px; border-bottom: 1px solid #ebeef5; color: #303133; vertical-align: middle; }
 .data-table tbody tr:hover { background: #f5f7fa; }
 .data-table tbody tr:last-child td { border-bottom: none; }
