@@ -23,12 +23,24 @@ export interface FundSector {
 
 export const fundApi = {
   async getBasicInfo(code: string) {
-    return ApiClient.get<FundBasicInfo>('/api/fund/basic-info', { code })
+    return ApiClient.get<FundBasicInfo>(
+      '/api/fund/basic-info',
+      { code },
+      { skipErrorHandler: true }
+    )
   },
   async getTopHoldings(code: string) {
-    return ApiClient.get<FundHolding[]>('/api/fund/top-holdings', { code })
+    return ApiClient.get<FundHolding[]>(
+      '/api/fund/top-holdings',
+      { code },
+      { skipErrorHandler: true }
+    )
   },
   async getSectorDistribution(code: string) {
-    return ApiClient.get<FundSector[]>('/api/fund/sector-distribution', { code })
+    return ApiClient.get<FundSector[]>(
+      '/api/fund/sector-distribution',
+      { code },
+      { skipErrorHandler: true }
+    )
   }
 }

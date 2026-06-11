@@ -144,7 +144,7 @@ class FundService:
 
         try:
             import akshare as ak
-            df = await asyncio.to_thread(ak.fund_portfolio_industry_allocate_em, code)
+            df = await asyncio.to_thread(ak.fund_portfolio_industry_allocation_em, code)
             if df is None or df.empty:
                 return []
 

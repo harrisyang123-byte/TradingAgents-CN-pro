@@ -21,11 +21,8 @@
             <div class="skeleton" style="width:80px;height:12px" />
           </div>
         </div>
-        <!-- 骨架图表 -->
-        <div class="chart-grid">
-          <div class="card"><div class="card-header"><div class="skeleton" style="width:80px;height:16px" /></div><div class="card-body" style="display:flex;justify-content:center;min-height:200px"><div class="skeleton" style="width:160px;height:160px;border-radius:50%" /></div></div>
-          <div class="card"><div class="card-header"><div class="skeleton" style="width:80px;height:16px" /></div><div class="card-body" style="min-height:200px"><div style="display:flex;flex-direction:column;gap:16px"><div class="skeleton" style="width:100%;height:20px" v-for="i in 5" :key="i" /></div></div></div>
-        </div>
+        <!-- 骨架盈亏贡献 -->
+        <div class="card"><div class="card-header"><div class="skeleton" style="width:80px;height:16px" /></div><div class="card-body" style="min-height:200px"><div style="display:flex;flex-direction:column;gap:16px"><div class="skeleton" style="width:100%;height:20px" v-for="i in 5" :key="i" /></div></div></div>
         <!-- 骨架表格 -->
         <div class="card"><div class="card-header"><div class="skeleton" style="width:100px;height:16px" /></div><div class="card-body" style="padding:0"><div style="padding:16px 20px 0"><div class="skeleton" style="width:200px;height:28px" /></div><div style="padding:16px 20px"><div class="skeleton" style="width:100%;height:28px;margin-bottom:12px" v-for="i in 4" :key="i" /></div></div></div>
       </div>
@@ -135,38 +132,14 @@
           </div>
         </div>
 
-        <!-- 组合总览：仓位分布 + 盈亏贡献 -->
-        <div class="chart-grid" v-if="summary?.positions?.length">
-          <!-- 仓位分布 -->
-          <div class="card">
-            <div class="card-header">
-              仓位分布
-              <span style="font-size:12px;color:var(--text-secondary);font-weight:400">按市值占比</span>
-            </div>
-            <div class="card-body" style="display:flex;align-items:flex-start;gap:32px">
-              <div class="pie-chart-css" :style="{ background: pieGradient }" />
-              <div class="pie-legend" style="flex:1">
-                <div v-for="item in topPositions" :key="item.code" class="pie-legend-item">
-                  <div class="pie-legend-dot" :style="{ background: pieColors[item.code] }" />
-                  <span class="pie-legend-label">{{ item.name || item.code }}</span>
-                  <span class="pie-legend-value">{{ item.weight.toFixed(1) }}%</span>
-                </div>
-                <div v-if="otherCount > 0" class="pie-legend-item">
-                  <div class="pie-legend-dot" style="background:var(--text-secondary)" />
-                  <span class="pie-legend-label">其他 ({{ otherCount }}只)</span>
-                  <span class="pie-legend-value">{{ otherWeight.toFixed(1) }}%</span>
-                </div>
-              </div>
-            </div>
+        <!-- 盈亏贡献 -->
+        <div class="card mb-5" v-if="summary?.positions?.length">
+          <div class="card-header">
+            盈亏贡献
+            <span style="font-size:12px;color:var(--text-secondary);font-weight:400">各持仓对总盈亏的贡献</span>
           </div>
-
-          <!-- 盈亏贡献 -->
-          <div class="card">
-            <div class="card-header">
-              盈亏贡献
-              <span style="font-size:12px;color:var(--text-secondary);font-weight:400">各持仓对总盈亏的贡献</span>
-            </div>
-            <div class="card-body">
+          <div class="card-body">
+            <div class="contrib-grid">
               <div v-for="pos in sortedByPnl" :key="pos.code" class="contrib-bar">
                 <div class="name">{{ pos.name || pos.code }}</div>
                 <div class="bar-wrap">
@@ -504,49 +477,7 @@ const adviceHistory = ref<PortfolioAdvice[]>([])
 const selectedAdviceId = ref('')
 let advicePollTimer: ReturnType<typeof setInterval> | null = null
 
-// ---- colors ----
-const PIE_COLORS = ['#409eff', '#67c23a', '#e6a23c', '#f56c6c', '#909399', '#b37feb', '#36cfc9', '#ffc53d']
-
 // ---- computed ----
-const topPositions = computed(() => {
-  if (!summary.value?.positions) return []
-  return summary.value.positions.slice(0, 5)
-})
-
-const otherCount = computed(() => {
-  if (!summary.value?.positions) return 0
-  return Math.max(0, summary.value.positions.length - 5)
-})
-
-const otherWeight = computed(() => {
-  if (!summary.value?.positions) return 0
-  return summary.value.positions.slice(5).reduce((s, p) => s + (p.weight || 0), 0)
-})
-
-const pieColors = computed(() => {
-  const map: Record<string, string> = {}
-  topPositions.value.forEach((p, i) => { map[p.code] = PIE_COLORS[i % PIE_COLORS.length] })
-  return map
-})
-
-const pieGradient = computed(() => {
-  const all = summary.value?.positions || []
-  if (!all.length) return 'none'
-  // Normalize to sum → 360deg regardless of whether weights include cash
-  const totalWeight = all.reduce((s, p) => s + (p.weight || 0), 0)
-  if (totalWeight <= 0) return 'none'
-  let accum = 0
-  const segments: string[] = []
-  all.forEach((p, i) => {
-    const deg = ((p.weight || 0) / totalWeight) * 360
-    const start = accum
-    const end = i === all.length - 1 ? 360 : accum + deg
-    segments.push(`${PIE_COLORS[i % PIE_COLORS.length]} ${start.toFixed(2)}deg ${end.toFixed(2)}deg`)
-    accum = end
-  })
-  return `conic-gradient(${segments.join(',')})`
-})
-
 const sortedByPnl = computed(() => {
   if (!summary.value?.positions) return []
   return [...summary.value.positions].sort((a, b) => Math.abs(b.pnl_cny || 0) - Math.abs(a.pnl_cny || 0))
@@ -971,19 +902,15 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 
 /* ===== Charts ===== */
 .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.pie-chart-css { width: 200px; height: 200px; border-radius: 50%; flex-shrink: 0; }
-.pie-legend-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
-.pie-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-.pie-legend-label { flex: 1; color: #606266; font-size: 13px; }
-.pie-legend-value { font-weight: 600; color: #303133; font-size: 13px; }
 
-.contrib-bar { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
-.contrib-bar .name { width: 80px; font-size: 13px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.contrib-bar .bar-wrap { flex: 1; height: 20px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; }
+.contrib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+.contrib-bar { display: flex; align-items: center; gap: 8px; padding: 7px 0; }
+.contrib-bar .name { width: 72px; font-size: 12px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contrib-bar .bar-wrap { flex: 1; height: 16px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; }
 .contrib-bar .bar-fill { height: 100%; border-radius: 2px; position: absolute; top: 0; }
 .contrib-bar .bar-fill.positive { background: #f56c6c; left: 50%; }
 .contrib-bar .bar-fill.negative { background: #67c23a; right: 50%; }
-.contrib-bar .pnl-value { width: 90px; font-size: 13px; font-weight: 500; text-align: right; flex-shrink: 0; }
+.contrib-bar .pnl-value { width: 78px; font-size: 12px; font-weight: 500; text-align: right; flex-shrink: 0; }
 
 /* ===== Filter Tabs ===== */
 .filter-tabs { display: flex; gap: 8px; }

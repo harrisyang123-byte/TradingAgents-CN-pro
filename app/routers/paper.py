@@ -173,11 +173,33 @@ async def _get_last_price(code: str, market: str, instrument_type: str = "stock"
 
 
 async def _create_transaction(user_id: str, code: str, market: str, side: str,
-                              quantity: int, price: float, notes: str = None):
-    """创建交易记录"""
+                              quantity: int, price: float, notes: str = None,
+                              pos_avg_cost: float = None):
+    """创建交易记录。卖出时若缺失买入记录则自动从持仓成本补录。"""
     db = get_mongo_db()
     currency = CURRENCY_MAP.get(market, "CNY")
     now_iso = datetime.utcnow().isoformat()
+
+    # 卖出前确保 paper_trades 有对应的 buy 记录（初始导入的持仓可能缺失）
+    if side == "sell" and pos_avg_cost is not None and pos_avg_cost > 0:
+        existing_buy = await db["paper_trades"].find_one(
+            {"user_id": user_id, "code": code, "side": "buy"}
+        )
+        if not existing_buy:
+            buy_doc = {
+                "user_id": user_id,
+                "code": code,
+                "market": market,
+                "currency": currency,
+                "side": "buy",
+                "quantity": quantity,
+                "price": pos_avg_cost,
+                "amount": round(pos_avg_cost * quantity, 2),
+                "timestamp": now_iso,
+                "notes": "自动补录：卖出时从持仓成本同步",
+            }
+            await db["paper_trades"].insert_one(buy_doc)
+
     trade_doc = {
         "user_id": user_id,
         "code": code,
@@ -542,6 +564,7 @@ async def place_order(payload: PlaceOrderRequest, current_user: dict = Depends(g
             )
 
         old_qty = int(pos["quantity"])
+        pos_avg_cost = float(pos.get("avg_cost", 0.0))
         new_qty = old_qty - qty
 
         available_cash = float(acc.get("available_cash", 0.0))
@@ -579,6 +602,7 @@ async def place_order(payload: PlaceOrderRequest, current_user: dict = Depends(g
 
     await _create_transaction(
         current_user["id"], normalized_code, market, side, qty, price,
+        pos_avg_cost=pos_avg_cost if side == "sell" else None,
     )
 
     return ok({"order": {k: v for k, v in order_doc.items() if k != "_id"}})
