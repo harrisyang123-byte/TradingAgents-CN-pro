@@ -2,12 +2,12 @@
   "unit_id": "alloc:portfolio",
   "unit_type": "alloc",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-11T01:12:32Z",
+  "generated_at": "2026-06-09T22:51:01Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -18,7 +18,7 @@
         "target_weight": 44.0,
         "action": "hold",
         "actively_zeroed": false,
-        "reasoning": "权益 verdict=bullish/hold：中期看多A股(cn10y 1.73%极低折现率+PPI转正盈利拐点+货币宽松)，但当前44.24%已偏高，verdict明确'看多方向但不主动加仓、做结构调整'。配比层尊重此判断：维持~44%，不因看多而加码(避免集中度风险)，权益内部的优化交给行业/个股深链。 [v3补]forward_view 9条触发监控让'仓位克制'变成可执行硬纪律(CPI>4.5%降38/北向>300亿降QDII等)。"
+        "reasoning": "权益 verdict=bullish/hold：中期看多A股(cn10y 1.73%极低折现率+PPI转正盈利拐点+货币宽松)，但当前44.24%已偏高，verdict明确'看多方向但不主动加仓、做结构调整'。配比层尊重此判断：维持~44%，不因看多而加码(避免集中度风险)，权益内部的优化交给行业/个股深链。"
       },
       {
         "asset_class": "cash",
@@ -26,7 +26,7 @@
         "target_weight": 19.0,
         "action": "reduce",
         "actively_zeroed": false,
-        "reasoning": "现金 verdict=bearish/reduce(全组合最强减配信号，3分析师一致unfavorable)：活期实际收益-1.05%、降息周期收益续降、27.93%远超防御所需。砍至19%(verdict建议18-20%区间)，释放约8.93pp作为全组合再平衡的主要资金来源。注:剩余现金应优先从活期迁入T+0货基(零风险年增1.2-1.5%)。 [v3补]forward_view 显示Fed 9月降息概率45%,cash收益续降是确定性方向,reduce触发条件:VIX>28时暂停以保留缓冲。"
+        "reasoning": "现金 verdict=bearish/reduce(全组合最强减配信号，3分析师一致unfavorable)：活期实际收益-1.05%、降息周期收益续降、27.93%远超防御所需。砍至19%(verdict建议18-20%区间)，释放约8.93pp作为全组合再平衡的主要资金来源。注:剩余现金应优先从活期迁入T+0货基(零风险年增1.2-1.5%)。"
       },
       {
         "asset_class": "fixed_income",
@@ -34,7 +34,7 @@
         "target_weight": 15.0,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "固收 verdict=neutral_hold(单类层面不主动增减，12.77%已合理)。但配比层做组合再平衡决策：现金大幅减配9pp释放的资金，在权益已偏高、看多小类(贵金属/REITs/大宗)吸纳能力有限的情况下，固收作为与现金最接近、收益更高的防御替代承接约2.23pp是合理的——这是组合层资金再分配，非基于固收自身看多。执行上承接短久期高等级品种(呼应固收verdict的久期建议)。 [v3补]forward_view: cn10y突破1.95%→减仓; PMI连续2月<49.5→加仓延久期。"
+        "reasoning": "固收 verdict=neutral_hold(单类层面不主动增减，12.77%已合理)。但配比层做组合再平衡决策：现金大幅减配9pp释放的资金，在权益已偏高、看多小类(贵金属/REITs/大宗)吸纳能力有限的情况下，固收作为与现金最接近、收益更高的防御替代承接约2.23pp是合理的——这是组合层资金再分配，非基于固收自身看多。执行上承接短久期高等级品种(呼应固收verdict的久期建议)。"
       },
       {
         "asset_class": "unclassified",
@@ -50,7 +50,7 @@
         "target_weight": 4.5,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "贵金属 verdict=bullish/increase：央行购金17月连续(Q1 244t)+地缘避险压过高实际利率逆风，且黄金是组合唯一与股债同时负相关的大类、对冲已偏高的44%权益。从2.89%增至4.5%(verdict目标4-4.5%上沿)，承接部分现金。执行分批低吸、不在$4350历史高位一次性追。 [v3补]forward_view: 金价跌破3800分批补仓至4.5%; 美10Y突破4.8%暂停;tail_risk 美元体系信任危机加至8%。"
+        "reasoning": "贵金属 verdict=bullish/increase：央行购金17月连续(Q1 244t)+地缘避险压过高实际利率逆风，且黄金是组合唯一与股债同时负相关的大类、对冲已偏高的44%权益。从2.89%增至4.5%(verdict目标4-4.5%上沿)，承接部分现金。执行分批低吸、不在$4350历史高位一次性追。"
       },
       {
         "asset_class": "real_estate",
@@ -58,7 +58,7 @@
         "target_weight": 3.0,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "房地产 verdict=bullish(小幅REITs)：3分析师全favorable，CN10Y 1.73%下REITs分红4-6%、利差250-430bp是固收替代最强时刻。从0建仓3%，严格限仓储物流/保障房REITs(稳现金流)，回避传统地产开发商+景气挂钩品种。承接部分现金，补组合不动产敞口缺口。 [v3补]forward_view: cn10y破2.0%REITs减半; REITs利差<200bp暂停加仓。"
+        "reasoning": "房地产 verdict=bullish(小幅REITs)：3分析师全favorable，CN10Y 1.73%下REITs分红4-6%、利差250-430bp是固收替代最强时刻。从0建仓3%，严格限仓储物流/保障房REITs(稳现金流)，回避传统地产开发商+景气挂钩品种。承接部分现金，补组合不动产敞口缺口。"
       },
       {
         "asset_class": "commodity",
@@ -66,7 +66,7 @@
         "target_weight": 2.5,
         "action": "add",
         "actively_zeroed": false,
-        "reasoning": "大宗 verdict=neutral(择机小建)：对冲缺口真实(组合零大宗对通胀/地缘裸露)但当前高位+强美元逆风。从0小幅建2.5%(verdict 2-3%中位)，铜ETF为主+原油极小对冲，且建仓非紧迫——等回调(油<$82或铜<$12500)再右侧介入，目标仓位先占位。 [v3补]forward_view: Brent突破85加原油ETF 3-5% (霍尔木兹尾部对冲);铜金比走弱→暂停加仓。"
+        "reasoning": "大宗 verdict=neutral(择机小建)：对冲缺口真实(组合零大宗对通胀/地缘裸露)但当前高位+强美元逆风。从0小幅建2.5%(verdict 2-3%中位)，铜ETF为主+原油极小对冲，且建仓非紧迫——等回调(油<$82或铜<$12500)再右侧介入，目标仓位先占位。"
       },
       {
         "asset_class": "alternative",
@@ -130,49 +130,6 @@
         "source": "data/v4/assets/unclassified.json",
         "status": "verified"
       }
-    ],
-    "portfolio_forward_view": {
-      "equity_quota_dynamic_view": "权益维持44%但带'看多+仓位克制+硬触发'纪律,触发CPI>4.5%/北向>300亿净流出/Meta-MS-Goog任一capex下修>10%即降至38-40%",
-      "cross_asset_correlation": "权益与贵金属负相关上升(避险+利率)、与固收负相关(降息预期)、与REITs正相关(利差)。组合多元化主要靠贵金属(2%→4.5%)+REITs(0%→2-3%)+固收(13→15%)对冲权益尾部",
-      "rebalance_trigger_global": [
-        "VIX>28 → 全组合 risk-off:权益降5pp/贵金属+1pp/现金+4pp",
-        "Fed 9月降息确认 → cash加速reduce/固收加久期/贵金属加配",
-        "CPI破4.5% → 权益+QDII降配/现金保留/黄金继续",
-        "中国社融<7% → 权益降配/固收加配/防御提升",
-        "霍尔木兹冲突升级 → 减QDII至5%/加原油ETF 5%/黄金加至6%"
-      ],
-      "tail_risks_at_portfolio": [
-        {
-          "event": "中美关税2.0(6-9月窗口)",
-          "prob": 0.2,
-          "impact": "出口链-10~-15%/海外科技+5%(避险至美股)",
-          "portfolio_action": "压缩出口主题/加红利+内需/QDII减半"
-        },
-        {
-          "event": "霍尔木兹海峡冲突升级",
-          "prob": 0.1,
-          "portfolio_action": "原油ETF 5%+黄金至6%+现金保留"
-        },
-        {
-          "event": "美联储沟通失误(政策意外)",
-          "prob": 0.1,
-          "portfolio_action": "立即降权益至38%+加现金至25%+加贵金属"
-        }
-      ],
-      "key_assumptions": [
-        {
-          "assumption": "中国社融维持7.5%+",
-          "falsification": "6/13<7.0% → 权益降至42%"
-        },
-        {
-          "assumption": "美CPI不破4.5%",
-          "falsification": "6/12≥4.5% → 全组合risk-off"
-        },
-        {
-          "assumption": "AI capex维持",
-          "falsification": "Meta/MS/Goog任一capex下修>10% → AI仓位降50%"
-        }
-      ]
-    }
+    ]
   }
 }

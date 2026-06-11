@@ -2,12 +2,12 @@
   "unit_id": "asset:alternative",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T01:11:54Z",
+  "generated_at": "2026-06-09T15:20:05Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -65,90 +65,10 @@
       "confidence": "high",
       "reflection": {
         "prev_stance": "bearish",
-        "prev_date": "2026-06-09T15:20:05Z",
-        "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-        "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-        "self_check": "level_2_cascade_upgrade"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2%",
-            "our_view": "4.2-4.4% inline_but_hawkish_path",
-            "gap": "inline_but_hawkish_path"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持 3.50-3.75%",
-            "our_view": "维持但点阵图 hawkish drift",
-            "gap": "hawkish_drift"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline"
-          }
-        ],
-        "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13公布<7.0%即推翻"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%触发风险资产降配"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.95,
-            "trigger": "中国境内合规无变",
-            "macro_outcome": "持续禁止",
-            "asset_impact": "维持0%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.03,
-            "trigger": "政策出现QDII加密通道",
-            "macro_outcome": "合规变化",
-            "asset_impact": "研究但不立即配置"
-          },
-          {
-            "name": "bear",
-            "prob": 0.02,
-            "trigger": "市场崩盘但无影响",
-            "macro_outcome": "已0%无敞口",
-            "asset_impact": "无变化"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "无",
-            "prob": 0.0,
-            "hedge_action": "已0%无需对冲"
-          }
-        ],
-        "trigger_monitor": [
-          "监管政策变化(暂无)→持续监控",
-          "保持0%不动"
-        ],
-        "positioning_view": "(本大类自身周期+组合内位置)",
-        "iv_skew_view": "(参考全市场VIX~20正常)"
+        "prev_date": "2026-06-07T07:36:52Z",
+        "what_changed": "stance(bearish/回避)维持不变，但把'回避'的核心理由从 v1 的'市场看空/下跌破位不抄底'更新为'合规红线不可配置'——这是更根本、更确定的约束。",
+        "why_changed": "本轮 policy 分析师明确量化了合规约束:2021年924通知+银行资金通道切断+外汇管制使境内投资者零合规渠道，compliance_risk=high。这比 v1 的'市场看空'是更高优先级的硬约束——即便 flow 分析师从加密资产本身看是 favorable(BTC企稳/ETH ETF流入)，对中国A股投资者也不可执行。",
+        "self_check": "v1 的 bearish/回避方向正确，但 v1 把它当成'市场择时'问题(下跌不抄底)，本轮认清这首先是'合规可行性'问题——对境内投资者根本没有合法配置通道，无论市场涨跌都不该碰。这个认知更稳健:不是赌方向，而是守红线。"
       }
     },
     "plan": {

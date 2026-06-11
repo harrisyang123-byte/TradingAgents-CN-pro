@@ -4,11 +4,11 @@
     "asset:alternative": {
       "unit_id": "asset:alternative",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T15:20:05Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/alternative.json"
@@ -16,11 +16,11 @@
     "asset:cash": {
       "unit_id": "asset:cash",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T14:41:23Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/cash.json"
@@ -28,11 +28,11 @@
     "asset:commodity": {
       "unit_id": "asset:commodity",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T15:11:12Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/commodity.json"
@@ -52,11 +52,11 @@
     "asset:fixed_income": {
       "unit_id": "asset:fixed_income",
       "unit_type": "asset",
-      "version": 3,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T14:09:57Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/fixed_income.json"
@@ -64,11 +64,11 @@
     "asset:precious_metal": {
       "unit_id": "asset:precious_metal",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T15:06:03Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/precious_metal.json"
@@ -76,11 +76,11 @@
     "asset:real_estate": {
       "unit_id": "asset:real_estate",
       "unit_type": "asset",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T15:16:22Z",
+      "generated_at": "2026-06-11T01:11:54Z",
       "upstream": [],
       "error": null,
       "path": "assets/real_estate.json"
@@ -825,15 +825,15 @@
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
       "unit_type": "alloc",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-09T22:51:01Z",
+      "generated_at": "2026-06-11T01:12:32Z",
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-11T00:49:34Z"
+  "updated_at": "2026-06-11T01:12:32Z"
 }
