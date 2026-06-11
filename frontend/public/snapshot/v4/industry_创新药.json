@@ -2,54 +2,117 @@
   "industry": "创新药",
   "industry_unit": {
     "unit_id": "industry:创新药",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:创新药」，或运行：./scripts/run_v4.sh analyze industry:创新药",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-10T10:51:23Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "asset:equity",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "direction": "go",
-    "vitality_level": "medium_high",
-    "allocation_advice": "景气回升的结构性机会，标配偏多；以医疗ETF分散，新和成偏化工/维生素另计。",
-    "suggested_weight_pct": 3
+    "stance": "bullish",
+    "situation": "创新药2026景气进入加速早中期:政策端'十年最重磅政策'确立全链条支持拐点,供给端1类新药获批逐年递增(22→40→50+)进入兑现期,需求端老龄化刚需长青。核心矛盾是国内降价(PD-1腰斩/医保谈判/集采)压制传统销售逻辑,但出海BD(license-out首付款+里程碑+分成)打开海外天花板,成第二增长引擎。采信多头:政策是10年级别拐点+出海是真现金流而非叙事;压低空头的'估值透支'——板块虽涨但有出海兑现的龙头仍有空间,降价主要伤me-too不伤first-in-class+出海管线。",
+    "direction": "看多,景气加速早中期,时间窗2-3年(政策红利+出海放量),非末段行情。",
+    "track_quality": "好赛道(段永平视角):老龄化刚需+创新永续,10年维度需求高度确定;但'赛道长青≠个体长青'——单品种有专利悬崖+被替代风险,必须精选有持续研发平台与全球变现力的龙头,而非买板块beta。",
+    "worst_case": "逆向最坏(芒格):医保降价超预期(>30%)+出海BD遇阻(中美地缘/生物安全法案/FDA收紧)+重磅license-out被退货,三重叠加则第二曲线断裂+国内逻辑被压,板块杀估值30-40%。",
+    "cycle_position": "景气周期'启动→加速'早中期(达里奥):2026政策拐点确立+出海首付款开始兑现,处周期早中段而非见顶;但板块情绪已先行,beta部分已反应。",
+    "downgrade_trigger": "配置降级触发:①出海BD交易额连续两季下滑或重磅license-out被退货;②生物安全法案落地/FDA对中国数据收紧;③医保降价幅度超30%。任一出现 go→watch。",
+    "chokepoint_conclusion": "景气兑现时钱流向'有全球权益变现能力'的龙头(百济神州/恒瑞/科伦博泰ADC/信达),而非纯国内仿创或无管线的尾部;CXO(药明/凯莱英)是受益卖水人但议价权稀释+地缘扰动,定位配角。标的只列名,价格/估值须data-desk核实。",
+    "risks": [
+      "国内医保降价/集采持续压制传统销售",
+      "出海依赖中美地缘+FDA,生物安全法案悬顶",
+      "研发高失败率,单个三期失败重创个股",
+      "板块已大涨,个股alpha分化,买错标的照亏",
+      "尾部无管线公司融资难,加速出清"
+    ],
+    "trend": "increase(go)",
+    "confidence": "medium-high",
+    "reflection": {
+      "prev_stance": null,
+      "prev_date": null,
+      "what_changed": "从v1骨架升级为完整景气多空辩论+chokepoint瓶颈地图+四维闸门研判;明确出海BD为核心瓶颈与第二曲线。",
+      "why_changed": "新架构首次实跑(v1为baseline骨架),据2026政策拐点+出海BD井喷的核实信息建立景气加速判断。",
+      "self_check": "first_run_new_arch"
+    }
   },
   "debate_rounds": [
     {
       "round": 1,
-      "bull": "创新药出海/license-out兑现、集采影响出清，医保支持创新；估值修复中。",
-      "bear": "研发不确定+融资环境、医保控费长期压制；个股分化大。"
+      "bull": "看多不靠便宜靠景气拐点+出海第二曲线:①政策2026确立十年最强支持(全链条);②出海BD井喷,国内降价的天花板被海外权益打开(首付款+里程碑+分成,百济标杆);③1类新药获批22→40→50+逐年递增,进入兑现期。催化:重磅license-out交易+医保新政落地。",
+      "bear": "看空三点:①国内PD-1价格腰斩+医保谈判持续降价+集采,国内销售逻辑被压制;②创新药研发高失败率+长周期,管线兑现不确定;③港股创新药已大涨,部分龙头透支政策+出海预期,估值不便宜。kill信号:重磅license-out被退货/FDA出海受阻/医保降价超30%。"
     },
     {
       "round": 2,
-      "bull": "(承上)景气与政策支撑中期方向",
-      "bear": "(承上)地缘与估值约束短期空间"
-    },
-    {
-      "round": 3,
-      "bull": "维持方向，强调分批与龙头",
-      "bear": "认同分批、控制单一暴露"
+      "bull": "反击:①出海是真现金流不是叙事——首付款已到账,license-out结构含里程碑+分成,赔率非对称;②降价主要压制me-too,first-in-class/best-in-class+出海管线不受国内集采影响;③政策拐点是10年级别,不是一波行情。让步:尾部无管线公司确会出清,需精选有全球权益变现能力的龙头。",
+      "bear": "追击:①出海BD依赖地缘+FDA,中美关系/生物安全法案是悬顶之剑,一旦受阻第二曲线断裂;②全球多中心临床烧钱,失败一个三期就重创;③板块beta已大涨,个股alpha分化,买错标的照样亏。让步:有出海兑现的头部确定性强。"
     }
   ],
-  "chokepoint_map": [],
-  "top_chokepoints": [],
-  "analysts": {},
+  "chokepoint_map": [
+    {
+      "link": "出海BD变现能力(全球权益)",
+      "bottleneck_score": "高",
+      "why": "国内降价背景下唯一能打开天花板的咽喉;能拿下海外大药企首付款+里程碑+分成的极少,需全球认可的临床数据+商务能力",
+      "beneficiaries": [
+        "百济神州",
+        "恒瑞医药",
+        "科伦博泰",
+        "信达生物"
+      ],
+      "discovery": "🟡半发现"
+    },
+    {
+      "link": "first-in-class/best-in-class靶点能力",
+      "bottleneck_score": "高",
+      "why": "避开me-too内卷与集采的唯一路径,需深厚研发平台+靶点发现能力,管线厚度决定护城河",
+      "beneficiaries": [
+        "恒瑞医药",
+        "百济神州",
+        "信达生物"
+      ],
+      "discovery": "🟡半发现"
+    },
+    {
+      "link": "全球多中心临床(MRCT)执行能力",
+      "bottleneck_score": "中",
+      "why": "出海前提,能独立做全球三期的中国药企屈指可数,烧钱且周期长",
+      "beneficiaries": [
+        "百济神州",
+        "恒瑞医药"
+      ],
+      "discovery": "🟡半发现"
+    },
+    {
+      "link": "CXO研发外包产能",
+      "bottleneck_score": "中",
+      "why": "承接全球研发外包,景气受益但属卖水人,议价权随产能扩张稀释,且受地缘扰动",
+      "beneficiaries": [
+        "药明康德",
+        "凯莱英"
+      ],
+      "discovery": "🔴已拥挤"
+    }
+  ],
+  "top_chokepoints": [
+    "出海BD变现能力——国内降价压制下,只有能把管线变成海外真金白银(首付款+里程碑+分成)的龙头,才配享受估值溢价;这是创新药的真瓶颈,不是产能而是'全球权益变现'。"
+  ],
+  "analysts": [
+    {
+      "view": "景气/政策",
+      "summary": "2026年4月'创新药十年最重磅政策'全链条支持(审评/支付/融资);1类新药获批逐年递增(2022:21→2023:40→2024:50+),供给端进入收获期。"
+    },
+    {
+      "view": "出海/BD",
+      "summary": "PD-1国内价格腰斩倒逼国际化,license-out交易井喷(首付款+里程碑+销售分成),百济泽布替尼出海标杆。BD成第二增长引擎,打开国内降价压制的天花板。"
+    },
+    {
+      "view": "资金/估值",
+      "summary": "港股创新药2026逆势大涨(百济/石药/科伦博泰/信达/三生),板块情绪修复;但部分龙头已price-in政策与出海预期,尾部公司融资仍难,分化加剧。"
+    }
+  ],
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:创新药",
     "status": "green",
@@ -89,9 +152,9 @@
   "stocks": [
     {
       "unit_id": "stock:002001",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 industry:创新药 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
