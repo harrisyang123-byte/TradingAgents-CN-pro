@@ -2,12 +2,12 @@
   "unit_id": "asset:fixed_income",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 4,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T01:11:54Z",
+  "generated_at": "2026-06-09T14:09:57Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -105,92 +105,11 @@
       "trend": "hold — 站队持有而非骑墙中性：证据天平是'基本面弱支撑持有'(2:1 analysts favorable)压过'估值极端应减仓'(bear最终让步为slight_reduce)。不增不减，等拥挤度消化或出现2%+ CPI再重评。",
       "confidence": "medium",
       "reflection": {
-        "prev_stance": "neutral_hold",
-        "prev_date": "2026-06-09T14:09:57Z",
-        "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-        "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-        "self_check": "level_2_cascade_upgrade"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2%",
-            "our_view": "4.2-4.4% inline_but_hawkish_path",
-            "gap": "inline_but_hawkish_path"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持 3.50-3.75%",
-            "our_view": "维持但点阵图 hawkish drift",
-            "gap": "hawkish_drift"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline"
-          }
-        ],
-        "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13公布<7.0%即推翻"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%触发风险资产降配"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "基本面弱+央行无收紧动机",
-            "macro_outcome": "cn10y震荡1.65-1.85%",
-            "asset_impact": "持有不动,票息+小幅资本利得"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "PMI跌破50+宽松升级",
-            "macro_outcome": "cn10y下破1.6%",
-            "asset_impact": "加仓+延久期至15-18%"
-          },
-          {
-            "name": "bear",
-            "prob": 0.2,
-            "trigger": "PPI重新走强+通胀预期升温",
-            "macro_outcome": "cn10y突破2.0%",
-            "asset_impact": "减仓至10%+缩久期"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "政府债务集中发行+流动性冲击",
-            "prob": 0.15,
-            "hedge_action": "短端避险,长端减仓50%"
-          }
-        ],
-        "trigger_monitor": [
-          "cn10y突破1.95%→减仓至10",
-          "PMI连续2月<49.5→加仓至15+延久期",
-          "HY OAS突破3.8%→信用债减半"
-        ],
-        "positioning_view": "(本大类自身周期+组合内位置)",
-        "iv_skew_view": "(参考全市场VIX~20正常)"
+        "prev_stance": "bullish (increase)",
+        "prev_date": "2026-06-08T14:07:24Z",
+        "what_changed": "最关键修正：v2基于错误的current_weight=2.86%(只认了2只债基)得出'严重低配→增配到10%'的结论。实际上分类器漏了3只(稳健收益债/增强回报债/国开债指数)，真实固收=12.77%——根本不存在'严重低配'，v2的增配结论被错误输入带偏了。用正确数据重评后：12.77%处于合理区间，不需要修复性增配。方向从increase→hold。",
+        "why_changed": "根因：v4_classifier.py旧版FIXED_INCOME关键词表缺'收益债/回报债/国开债/中债/债a/债b'变体，导致3只明显是债基的fund落入equity兜底→固收被低估9.91个百分点。修复关键词后分类正确。这是数据质量问题而非分析逻辑错误。",
+        "self_check": "v2 director在数据错误的前提下逻辑本身没问题——如果真的只有2.86%确实应该增配。问题出在上游输入，本次已从源头修正。教训：director应在verdict里显式记录'我看到的current_weight'值并与七大类合计交叉验证MECE——如果合计远不到100%就说明有遗漏。"
       }
     },
     "data_quality": "充分。22宏观指标全部web_search联网核实标源(2026-06-09)。持仓归类已修复(分类器关键词补全commit)，5只/12.77%全部正确归入。",

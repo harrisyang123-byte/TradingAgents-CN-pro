@@ -2,12 +2,12 @@
   "unit_id": "asset:real_estate",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T01:11:54Z",
+  "generated_at": "2026-06-09T15:16:22Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -63,92 +63,11 @@
       "trend": "increase — 反骑墙站队：3分析师全favorable + bull利差逻辑(250-430bp)证据强，压过bear(其核心风险多在传统地产与景气挂钩品种，可通过'限定仓储/保障房REITs'规避)，故站队小幅increase；反骑墙地约束为'限稳现金流REITs品种+回避传统地产+2-3%小仓+分批'。",
       "confidence": "medium",
       "reflection": {
-        "prev_stance": "bullish",
-        "prev_date": "2026-06-09T15:16:22Z",
-        "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-        "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-        "self_check": "level_2_cascade_upgrade"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2%",
-            "our_view": "4.2-4.4% inline_but_hawkish_path",
-            "gap": "inline_but_hawkish_path"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持 3.50-3.75%",
-            "our_view": "维持但点阵图 hawkish drift",
-            "gap": "hawkish_drift"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline"
-          }
-        ],
-        "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13公布<7.0%即推翻"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%触发风险资产降配"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "利率维持低位+REITs利差250-430bp",
-            "macro_outcome": "现金流REITs受益",
-            "asset_impact": "持有2-3%REITs"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "PBoC降准+REITs利差扩大",
-            "macro_outcome": "REITs +10-15%",
-            "asset_impact": "加至4%"
-          },
-          {
-            "name": "bear",
-            "prob": 0.2,
-            "trigger": "长端利率反弹+地产二次下行",
-            "macro_outcome": "REITs -10%",
-            "asset_impact": "减半至1.5%"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "地产政策大幅收紧或开发商连环爆雷",
-            "prob": 0.1,
-            "hedge_action": "清空REITs(虽然REITs不直接持开发商但情绪传导)"
-          }
-        ],
-        "trigger_monitor": [
-          "cn10y破2.0%→REITs减半",
-          "REITs利差<200bp→暂停加仓",
-          "保障房REITs派息率<4.5%→警惕"
-        ],
-        "positioning_view": "(本大类自身周期+组合内位置)",
-        "iv_skew_view": "(参考全市场VIX~20正常)"
+        "prev_stance": "neutral",
+        "prev_date": "2026-06-07T07:36:52Z",
+        "what_changed": "stance 从 neutral → bullish（明确站队小幅建仓REITs），但执行约束与v1一致(限基建/仓储REITs、回避传统地产)，目标仓位明确为2-3%。",
+        "why_changed": "本轮补齐了 v1 缺失的量化利差数据：CN10Y 1.73% vs REITs分红4-6% = 利差250-430bp处历史高位，这个'固收替代'逻辑足够强，叠加3分析师全favorable + 2026最强稳楼市政策+REITs常态化扩容，证据从'中性观望'升级为'小幅站队建仓'。同时明确了品种优先级(仓储/保障房>产业园/消费)。",
+        "self_check": "v1 的 neutral+'选择性配置基础设施REITs'方向正确，但停在观望、没站队。本轮按反骑墙铁律：利差证据强到该站队 increase(小幅)。关键认知：REITs与传统地产必须切割——bear 的地产空头逻辑大部分不适用于现金流稳定的仓储/保障房REITs。注：分析师提及的'居民储蓄4160万亿'有误，实际约160万亿人民币，已不采纳该数据点。"
       }
     },
     "plan": {

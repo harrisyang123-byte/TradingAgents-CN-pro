@@ -2,12 +2,12 @@
   "unit_id": "asset:commodity",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T01:11:54Z",
+  "generated_at": "2026-06-09T15:11:12Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -64,91 +64,10 @@
       "confidence": "medium",
       "reflection": {
         "prev_stance": "neutral",
-        "prev_date": "2026-06-09T15:11:12Z",
-        "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-        "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-        "self_check": "level_2_cascade_upgrade"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2%",
-            "our_view": "4.2-4.4% inline_but_hawkish_path",
-            "gap": "inline_but_hawkish_path"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持 3.50-3.75%",
-            "our_view": "维持但点阵图 hawkish drift",
-            "gap": "hawkish_drift"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline"
-          }
-        ],
-        "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13公布<7.0%即推翻"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%触发风险资产降配"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.5,
-            "trigger": "中美需求错位+铜金比走弱",
-            "macro_outcome": "工业景气趋缓",
-            "asset_impact": "维持小仓2-3%铜ETF逢低吸"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "中国需求脉冲+全球补库",
-            "macro_outcome": "铜+15-20%",
-            "asset_impact": "加仓至5%"
-          },
-          {
-            "name": "bear",
-            "prob": 0.25,
-            "trigger": "全球衰退+capex回落",
-            "macro_outcome": "铜-15%",
-            "asset_impact": "清零或保持0%"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "霍尔木兹冲突→油价飙升",
-            "prob": 0.1,
-            "hedge_action": "买原油ETF 5%(独立于铜配置)"
-          }
-        ],
-        "trigger_monitor": [
-          "铜金比连续2月-3%以上→暂停加仓",
-          "Brent突破85→加原油ETF 3-5%",
-          "2s10s重新倒挂→工业品减仓"
-        ],
-        "positioning_view": "(本大类自身周期+组合内位置)",
-        "iv_skew_view": "(参考全市场VIX~20正常)"
+        "prev_date": "2026-06-07T07:36:52Z",
+        "what_changed": "stance(neutral)与目标仓位(≤3-5%小仓位机会性配置)基本维持，但本轮把建仓品种从v1笼统的'能源/抗通胀工具'细化为'铜ETF为主(3%以内)+原油极小(≤1%)'，并加了明确的建仓时机门槛(油<$82或铜<$12500再右侧介入)。",
+        "why_changed": "本轮补齐了 v1 缺失的具体价格位置：油价$91.77含$8-10地缘溢价(脆弱)、铜$13600历史高位、美国实际利率/强美元逆风、持有成本年化7-8%。这些使'不在高位追、等回调'成为明确纪律。品种上铜优于油的判断来自'铜有新能源需求双引擎+与A股相关性更低'。",
+        "self_check": "v1 的 neutral+小仓位方向正确(大宗确实是组合对冲缺口)，但 v1 太笼统、没给建仓时机和品种优先级。本轮更可执行：明确铜优先、明确回调门槛、明确不超3%。中性是合理的——大宗当前高位+强美元逆风，但零持仓的对冲缺口也真实，两者势均力敌。"
       }
     },
     "plan": {
