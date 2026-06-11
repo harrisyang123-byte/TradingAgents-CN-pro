@@ -208,34 +208,23 @@
     "industry:互联网平台": {
       "unit_id": "industry:互联网平台",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:18:13Z",
+      "upstream": [],
       "error": null,
       "path": "industries/互联网平台.json"
     },
     "industry:人工智能算力": {
       "unit_id": "industry:人工智能算力",
       "unit_type": "industry",
-      "version": 3,
+      "version": 6,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-10T00:28:27Z",
+      "generated_at": "2026-06-11T01:16:24Z",
       "upstream": [],
       "error": null,
       "path": "industries/人工智能算力.json"
@@ -243,11 +232,11 @@
     "industry:创新药": {
       "unit_id": "industry:创新药",
       "unit_type": "industry",
-      "version": 2,
+      "version": 5,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-10T10:51:23Z",
+      "generated_at": "2026-06-11T01:16:24Z",
       "upstream": [],
       "error": null,
       "path": "industries/创新药.json"
@@ -255,11 +244,11 @@
     "industry:半导体": {
       "unit_id": "industry:半导体",
       "unit_type": "industry",
-      "version": 2,
+      "version": 5,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-10T23:46:00Z",
+      "generated_at": "2026-06-11T01:16:24Z",
       "upstream": [],
       "error": null,
       "path": "industries/半导体.json"
@@ -267,92 +256,48 @@
     "industry:新能源车": {
       "unit_id": "industry:新能源车",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:18:13Z",
+      "upstream": [],
       "error": null,
       "path": "industries/新能源车.json"
     },
     "industry:有色资源": {
       "unit_id": "industry:有色资源",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:18:13Z",
+      "upstream": [],
       "error": null,
       "path": "industries/有色资源.json"
     },
     "industry:消费电子家电": {
       "unit_id": "industry:消费电子家电",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:18:13Z",
+      "upstream": [],
       "error": null,
       "path": "industries/消费电子家电.json"
     },
     "industry:电力公用事业": {
       "unit_id": "industry:电力公用事业",
       "unit_type": "industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "asset:equity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:18:13Z",
+      "upstream": [],
       "error": null,
       "path": "industries/电力公用事业.json"
     },
@@ -578,58 +523,12 @@
     "alloc:equity_industries": {
       "unit_id": "alloc:equity_industries",
       "unit_type": "alloc",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:portfolio",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:人工智能算力",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:半导体",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:创新药",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:新能源车",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:电力公用事业",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:消费电子家电",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:互联网平台",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:有色资源",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-11T01:19:00Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/equity_industries.json"
     },
@@ -835,5 +734,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-11T01:12:32Z"
+  "updated_at": "2026-06-11T01:19:14Z"
 }

@@ -1,0 +1,14 @@
+{
+  "unit_id": "industry:人工智能算力",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 5,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-11T01:15:24Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {}
+}

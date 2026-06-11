@@ -2,59 +2,165 @@
   "industry": "互联网平台",
   "industry_unit": {
     "unit_id": "industry:互联网平台",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v5（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:互联网平台」，或运行：./scripts/run_v4.sh analyze industry:互联网平台",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-11T01:18:13Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "asset:equity",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "direction": "neutral",
-    "vitality_level": "medium",
-    "allocation_advice": "中性标配，估值修复型；恺英(低估值游戏+AI)做阿尔法，海外互联网ETF控敞口。",
-    "suggested_weight_pct": 2
+    "stance": "bullish",
+    "situation": "互联网2026政策友好(反垄断阶段性结束+鼓励平台经济)+AI变现初现+港股估值仍偏低,腾讯/阿里/美团/京东/拼多多/小米2026Q1业绩兑现回暖。",
+    "direction": "看多(政策友好+AI变现+港股估值修复)",
+    "vitality_level": "medium-high",
+    "track_quality": "好生意(零售/广告/支付/云,10年护城河强,但被国内消费弱影响中期增长)",
+    "worst_case": "政策再次反垄断收紧+消费复苏失速+AI变现不及预期→板块杀30-40%",
+    "cycle_position": "政策周期底→上行段(反垄断结束+鼓励发展);估值底部+业绩拐点共振",
+    "downgrade_trigger": "消费数据连续2月负增长/政策不利变化/AI变现里程碑延后6月+ → go→watch",
+    "chokepoint_conclusion": "景气兑现时钱流向: AI 应用入口/分发, 算力(GPU+云), 广告主回流(消费复苏)",
+    "risks": [],
+    "allocation_advice": "go",
+    "trend": "increase",
+    "confidence": "medium-high",
+    "reflection": {
+      "prev_stance": null,
+      "prev_date": null,
+      "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
+      "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
+      "self_check": "first_run_new_arch_full"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-13",
+          "event": "中5月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7%",
+          "gap": "slight_dovish",
+          "impact_on_industry": "宏观信用面"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中5月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline",
+          "impact_on_industry": "利润底回升"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持3.50-3.75%",
+          "our_view": "hawkish drift",
+          "gap": "hawkish",
+          "impact_on_industry": "成长性承压"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13<7.0%→行业景气下修"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%→风险资产承压"
+        }
+      ],
+      "mid_term_path": "2026 政策友好+AI 变现初现;2027-28 AI规模化变现兑现;2030+ 平台型公司转型为 AI Tier1 玩家",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "消费温和复苏+政策友好",
+          "industry_outcome": "+15-20%",
+          "asset_impact": "龙头+25-35%"
+        },
+        {
+          "name": "bull",
+          "prob": 0.3,
+          "trigger": "消费强复苏+AI规模变现",
+          "industry_outcome": "+30%",
+          "asset_impact": "+50%+"
+        },
+        {
+          "name": "bear",
+          "prob": 0.15,
+          "trigger": "消费走弱+AI不及预期",
+          "industry_outcome": "-15%",
+          "asset_impact": "-25%"
+        }
+      ],
+      "supply_demand_signals": "广告/电商/支付/云全面回暖;Q1业绩端温和复苏",
+      "competitive_landscape": "腾讯/阿里/美团稳;拼多多增速领先;字节跳动IPO悬而未决",
+      "tail_risks": [
+        {
+          "event": "反垄断重启",
+          "prob": 0.1,
+          "hedge_action": "减龙头/换次龙头"
+        },
+        {
+          "event": "消费失速",
+          "prob": 0.2,
+          "hedge_action": "减消费场景重的标的"
+        }
+      ],
+      "trigger_monitor": [
+        "腾讯/阿里季度广告增速<5%→减仓",
+        "平台公司EPS下修>10%→止盈",
+        "政策不利公告→单日清仓50%"
+      ]
+    }
   },
-  "debate_rounds": [
+  "debate_rounds": [],
+  "chokepoint_map": [
     {
-      "round": 1,
-      "bull": "估值低位修复+AI应用赋能+游戏(恺英)现金流好；海外中国互联网ETF分散。",
-      "bear": "地缘risk-off压制海外中概、监管与竞争；增长中枢下移。"
+      "link": "AI 应用入口/分发",
+      "bottleneck_score": "中",
+      "why": "用户量+数据是 AI 落地的护城河",
+      "beneficiaries": [
+        "腾讯",
+        "阿里",
+        "百度"
+      ],
+      "discovery": "🟡半发现"
     },
     {
-      "round": 2,
-      "bull": "(承上)景气与政策支撑中期方向",
-      "bear": "(承上)地缘与估值约束短期空间"
+      "link": "算力(GPU+云)",
+      "bottleneck_score": "高",
+      "why": "GPU供给仍然紧张",
+      "beneficiaries": [
+        "阿里云",
+        "腾讯云"
+      ],
+      "discovery": "🟡半发现"
     },
     {
-      "round": 3,
-      "bull": "维持方向，强调分批与龙头",
-      "bear": "认同分批、控制单一暴露"
+      "link": "广告主回流(消费复苏)",
+      "bottleneck_score": "低",
+      "why": "宏观面驱动,等待传导",
+      "beneficiaries": [
+        "腾讯",
+        "快手"
+      ],
+      "discovery": "🟢未发现"
     }
   ],
-  "chokepoint_map": [],
-  "top_chokepoints": [],
+  "top_chokepoints": [
+    "AI 应用入口/分发",
+    "算力(GPU+云)"
+  ],
   "analysts": {},
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:互联网平台",
-    "status": "green",
-    "status_label": "新鲜",
-    "stale_reason": null,
+    "status": "yellow",
+    "status_label": "待刷新",
+    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:互联网平台」，或运行：./scripts/run_v4.sh analyze alloc:industry:互联网平台",
     "version": 1,
     "generated_at": "2026-06-07T07:42:50Z",
@@ -89,9 +195,9 @@
   "stocks": [
     {
       "unit_id": "stock:002517",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:互联网平台 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002517」，或运行：./scripts/run_v4.sh analyze stock:002517",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

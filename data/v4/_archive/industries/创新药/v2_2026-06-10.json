@@ -2,12 +2,12 @@
   "unit_id": "industry:创新药",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 5,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-11T01:16:24Z",
+  "generated_at": "2026-06-10T10:51:23Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -108,93 +108,11 @@
       "trend": "increase(go)",
       "confidence": "medium-high",
       "reflection": {
-        "prev_stance": "bullish",
-        "prev_date": "2026-06-10T10:51:23Z",
-        "what_changed": "恢复 archive + 新增完整 forward_view 9字段(级联升级)",
-        "why_changed": "asset层 A/B 测试89 vs 52,级联推到行业层",
-        "self_check": "level_2_industry_cascade_recovered"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-13",
-            "event": "中5月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7%",
-            "gap": "slight_dovish",
-            "impact_on_industry": "宏观信用面影响中性"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中5月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline",
-            "impact_on_industry": "利润底回升对景气类受益"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持3.50-3.75%",
-            "our_view": "hawkish drift",
-            "gap": "hawkish",
-            "impact_on_industry": "成长性行业承压"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱(工业景气趋缓)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13<7.0%→行业景气下修"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%→风险资产承压"
-          }
-        ],
-        "mid_term_path": "2026政策十年最强落地年; 出海BD井喷; 2027-28商业化兑现; 2030+部分龙头进国际Tier1",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "政策落地+BD维持",
-            "industry_outcome": "+15-20%",
-            "asset_impact": "龙头+25-35%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "重磅BD连续兑现+FDA放行",
-            "industry_outcome": "+30-40%",
-            "asset_impact": "+50%+"
-          },
-          {
-            "name": "bear",
-            "prob": 0.2,
-            "trigger": "FDA对中国数据收紧+生物安全法",
-            "industry_outcome": "-20%",
-            "asset_impact": "出海依赖型-30%"
-          }
-        ],
-        "supply_demand_signals": "管线丰富但研发投入大;海外大药企寻新管线需求强;CXO订单回流",
-        "competitive_landscape": "百济/恒瑞/科伦博泰/信达4大龙头梯队明确;尾部加速出清",
-        "tail_risks": [
-          {
-            "event": "生物安全法案落地",
-            "prob": 0.15,
-            "hedge_action": "减出海依赖型"
-          },
-          {
-            "event": "重磅license-out被退货",
-            "prob": 0.1,
-            "hedge_action": "分散持股"
-          }
-        ],
-        "trigger_monitor": [
-          "生物安全法案进入二读→出海标的减半",
-          "重磅license-out金额<10亿美元→趋势转弱",
-          "医保降价>30%→重新评估"
-        ]
+        "prev_stance": null,
+        "prev_date": null,
+        "what_changed": "从v1骨架升级为完整景气多空辩论+chokepoint瓶颈地图+四维闸门研判;明确出海BD为核心瓶颈与第二曲线。",
+        "why_changed": "新架构首次实跑(v1为baseline骨架),据2026政策拐点+出海BD井喷的核实信息建立景气加速判断。",
+        "self_check": "first_run_new_arch"
       }
     },
     "data_quality": "景气/政策/出海BD趋势已联网核实(定性充分);个股具体估值/PE未在本行业层取(下钻个股时由data-desk核实);BD交易具体金额为趋势性描述未逐笔核实,标estimated。",

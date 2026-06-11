@@ -1,0 +1,67 @@
+{
+  "unit_id": "industry:有色资源",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:portfolio",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "asset:equity",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "industry": "有色资源",
+    "direction": "neutral",
+    "vitality_level": "medium",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "金价$4,460利好黄金资源、铜受益电气化/AI数据中心需求；三祥新材锆系+新能源材料。",
+        "bear": "地缘缓和致金属回调、需求受中国增长拖累；小盘波动大。"
+      },
+      {
+        "round": 2,
+        "bull": "(承上)景气与政策支撑中期方向",
+        "bear": "(承上)地缘与估值约束短期空间"
+      },
+      {
+        "round": 3,
+        "bull": "维持方向，强调分批与龙头",
+        "bear": "认同分批、控制单一暴露"
+      }
+    ],
+    "verdict": {
+      "direction": "neutral",
+      "vitality_level": "medium",
+      "allocation_advice": "中性偏多(受益贵金属与电气化)，标配；三祥新材小盘高弹性单列个股研究。",
+      "suggested_weight_pct": 2
+    },
+    "related_holdings": [
+      "603663 三祥新材"
+    ],
+    "evidence": [
+      {
+        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
+        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
+        "status": "verified"
+      },
+      {
+        "claim": "宏观risk-off/A股估值中低位",
+        "source_url": "data_macro.json@2026-06-07",
+        "status": "verified"
+      }
+    ]
+  }
+}

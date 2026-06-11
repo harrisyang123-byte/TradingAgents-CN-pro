@@ -1,0 +1,14 @@
+{
+  "unit_id": "industry:半导体",
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 3,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 7,
+  "generated_at": "2026-06-11T01:13:55Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {}
+}

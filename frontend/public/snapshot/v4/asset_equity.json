@@ -336,115 +336,73 @@
   },
   "equity_industries_unit": {
     "unit_id": "alloc:equity_industries",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:人工智能算力 已更新至 v3（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:创新药 已更新至 v2（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-11T01:19:00Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:人工智能算力",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:半导体",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:创新药",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:新能源车",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:电力公用事业",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:消费电子家电",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:互联网平台",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "industry:有色资源",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "industries": [
     {
       "industry": "人工智能算力",
-      "target_weight": 6,
-      "direction": "go"
+      "target_weight": 8,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "首选(AI算力 stance=bullish):capex 725B+77%硬约束+瓶颈层(光模块/HBM/CoWoS)极度紧张+1.6T爆发期(2026H2-27);forward触发监控9条覆盖capex/CPO/HBM三大风险.建议8%(实际持有中际旭创已偏高,留空间结构调整)."
     },
     {
       "industry": "半导体",
-      "target_weight": 5,
-      "direction": "go"
+      "target_weight": 7,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "双引擎(全球AI memory 超级周期+国产替代深水区):HBM售罄/Micron $200B capex+大基金三期+涨价信号.精选材料(电子特气/CMP/光刻胶)+设备(刻蚀/CVD/CMP)+EDA;避免硅片(已拥挤+全球过剩)."
     },
     {
       "industry": "创新药",
-      "target_weight": 3,
-      "direction": "go"
+      "target_weight": 5,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "政策十年最强拐点+出海BD井喷打开海外天花板+1类新药获批22→40→50+逐年递增.精选'有全球权益变现能力'龙头(百济神州/恒瑞/科伦博泰),避开纯me-too和无管线尾部."
     },
     {
-      "industry": "新能源车",
-      "target_weight": 2,
-      "direction": "neutral"
+      "industry": "有色资源",
+      "target_weight": 5,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "铜电力化(AI数据中心耗电+EV)+金避险(央行购金17月连续)+稀土战略(对美脱钩);商品周期'加速段早中期'.龙头紫金矿业/北方稀土具备战略价值."
     },
     {
       "industry": "电力公用事业",
-      "target_weight": 2,
-      "direction": "go"
+      "target_weight": 4,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "电力化提速(AI+EV)+大水电稀缺+核电核准加速+红利稳定派息.适合作为防御+成长双重作用.长江电力作为底仓.利率下行环境下进一步受益."
+    },
+    {
+      "industry": "互联网平台",
+      "target_weight": 4,
+      "direction": "go",
+      "stance": "bullish",
+      "reasoning": "政策周期底→上行(反垄断结束+鼓励发展)+AI变现初现+港股估值修复.腾讯/阿里/美团基本面回暖.受益消费温和复苏."
     },
     {
       "industry": "消费电子家电",
       "target_weight": 3,
-      "direction": "neutral"
+      "direction": "watch",
+      "stance": "neutral",
+      "reasoning": "AI硬件革新+苹果链复苏+家电出海(美的海尔)三重正面;但中性偏积极,等待AI手机渗透率确认.苹果Q3指引为关键观察点."
     },
     {
-      "industry": "互联网平台",
+      "industry": "新能源车",
       "target_weight": 2,
-      "direction": "neutral"
-    },
-    {
-      "industry": "有色资源",
-      "target_weight": 2,
-      "direction": "neutral"
-    },
-    {
-      "industry": "被动底仓(沪深300/中证500/A500/创业板/红利)",
-      "target_weight": 16,
-      "direction": "core_passive",
-      "note": "宽基+红利做底仓压舱，risk-off中提供安全垫；含 270010/110020/010736/007029/022424/003765/009052"
-    },
-    {
-      "industry": "海外敞口(纳指/全球精选/海外互联网QDII)",
-      "target_weight": 4,
-      "direction": "reduce",
-      "note": "降海外β：美股高估值(标普7383)+地缘risk-off，由历史敞口下调至4%；含 270042/161130/270023"
+      "direction": "watch",
+      "stance": "neutral_to_cautious",
+      "reasoning": "渗透率突破50%+价格战延续+海外双反风险.行业从增量转存量竞争.限定2%作为观察仓,精选智能化标的(华为/小鹏)."
     }
   ]
 }

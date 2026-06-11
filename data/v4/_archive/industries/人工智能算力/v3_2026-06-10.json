@@ -2,12 +2,12 @@
   "unit_id": "industry:人工智能算力",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 6,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-11T01:16:24Z",
+  "generated_at": "2026-06-10T00:28:27Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -170,93 +170,11 @@
       "trend": "go/高景气,建议在equity_quota内给AI算力较高权重,但执行上反骑墙:精选瓶颈环节(CoWoS国产替代+光模块龙头)、严控买点(等回调,不追高)、动态跟踪CPO替代进度作为减配触发。",
       "confidence": "medium",
       "reflection": {
-        "prev_stance": "go",
-        "prev_date": "2026-06-10T00:28:27Z",
-        "what_changed": "恢复 archive + 新增完整 forward_view 9字段(级联升级)",
-        "why_changed": "asset层 A/B 测试89 vs 52,级联推到行业层",
-        "self_check": "level_2_industry_cascade_recovered"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-13",
-            "event": "中5月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7%",
-            "gap": "slight_dovish",
-            "impact_on_industry": "宏观信用面影响中性"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中5月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline",
-            "impact_on_industry": "利润底回升对景气类受益"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持3.50-3.75%",
-            "our_view": "hawkish drift",
-            "gap": "hawkish",
-            "impact_on_industry": "成长性行业承压"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱(工业景气趋缓)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13<7.0%→行业景气下修"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%→风险资产承压"
-          }
-        ],
-        "mid_term_path": "2026-2027 AI算力 capex维持$725B+77%,1.6T光模块爆发期2026H2-2027;2027+ CPO试点扩大",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "capex维持+CPO 2027前未规模化",
-            "industry_outcome": "高增延续",
-            "asset_impact": "光模块龙头+30~+50%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "capex超预期+1.6T加速",
-            "industry_outcome": "+50%",
-            "asset_impact": "+50~+80%"
-          },
-          {
-            "name": "bear",
-            "prob": 0.2,
-            "trigger": "capex指引下修>10%或CPO加速",
-            "industry_outcome": "-30%",
-            "asset_impact": "龙头-40~-50%"
-          }
-        ],
-        "supply_demand_signals": "HBM全球售罄至2026/CoWoS满产/光模块订单延至2027Q2",
-        "competitive_landscape": "中国光模块占800G>40%/1.6T 50-70%;CPO时代主导权或转海力士/博通/英伟达",
-        "tail_risks": [
-          {
-            "event": "Meta/MS/Goog任一capex指引下修>10%",
-            "prob": 0.2,
-            "hedge_action": "AI仓位降50%"
-          },
-          {
-            "event": "CPO加速渗透>20%",
-            "prob": 0.1,
-            "hedge_action": "清仓中际"
-          }
-        ],
-        "trigger_monitor": [
-          "北美4云厂任一capex指引下修>10%→行业仓位降50%",
-          "CPO出货占比>15%→可插拔减半",
-          "HBM价格连降两季→风险预警"
-        ]
+        "prev_stance": "go(v2,但含两个错误:①中际旭创数据420元是subagent编造②选股用'估值分位/涨幅'判断会误判)",
+        "prev_date": "2026-06-09",
+        "what_changed": "①数据修正:中际旭创420元(错)→真实~1000元/PE77(联网核实)。②选股理论根本转向:从'涨幅/估值分位'(后视镜,会让你88元不敢买错过11倍)改为'预期差驱动'(价格隐含预期vs兑现能力)。③对龙头的判断逻辑变了:不是'涨多了贵'而是'预期差收敛/赔率不够'。",
+        "why_changed": "用户点破'中际旭创200元也曾是最高点,现在1000'——证明用涨幅/分位判断会系统性错过大牛股(成长踏空陷阱)。A/B测试验证:方案B(预期差)在88元能算出正预期差70pct该重仓,方案A(估值分位)在88元也判不买。理论已定稿planning/v4/stock-selection-theory.md。数据错误根因:估值subagent无联网编了420,我落盘没核实——已立数据铁律(价格必须data-desk核实,subagent禁编)。",
+        "self_check": "两个错误都已修:数据(中际旭创真实价)+方法论(预期差替代估值分位)。但'重挖未发现标的'因A股小盘实时数据核实不足,本轮只给方向不给具体标的结论——这是守数据铁律的诚实克制(宁可不给,不编)。下一步需可靠A股数据源支持。"
       }
     },
     "data_quality": "中际旭创价格/PE经stockanalysis联网核实(2026-06,~1000元/PE77)。景气面(capex/光模块市场)verified。⚠️'未发现候选'标的(光器件/封测设备/材料)的A股实时股价/市值/覆盖度核实不足,标注待data-desk补充,本轮不给具体结论。",

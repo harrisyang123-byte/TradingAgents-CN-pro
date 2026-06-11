@@ -2,59 +2,166 @@
   "industry": "消费电子家电",
   "industry_unit": {
     "unit_id": "industry:消费电子家电",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v5（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze industry:消费电子家电",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-11T01:18:13Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "asset:equity",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "direction": "neutral",
+    "stance": "neutral",
+    "situation": "消费电子2026 AI硬件革新(AI手机/AI PC)初现+苹果创新周期(iPhone 17/Vision Pro 2),家电出海(美的/海尔)受益人民币贬值+全球需求复苏。",
+    "direction": "中性偏积极(AI硬件革新+苹果链复苏+家电出海)",
     "vitality_level": "medium",
-    "allocation_advice": "标配，结构分化——潮玩/小米高景气标的偏多，家电ETF做底仓。",
-    "suggested_weight_pct": 3
+    "track_quality": "消费电子是中期赛道(AI硬件革新窗口期);家电是稳健赛道",
+    "worst_case": "消费失速+AI硬件革新失败+人民币大幅升值打击家电出海 → -25%",
+    "cycle_position": "周期早中段(AI硬件革新+苹果创新+家电出海三重共振)",
+    "downgrade_trigger": "苹果Q3指引下修>10%/消费数据连2月负/AI硬件出货不达预期 → 降配",
+    "chokepoint_conclusion": "景气兑现时钱流向: AI硬件芯片+模组, 折叠屏/创新形态, 家电出海+品牌化",
+    "risks": [],
+    "allocation_advice": "watch",
+    "trend": "hold",
+    "confidence": "medium",
+    "reflection": {
+      "prev_stance": null,
+      "prev_date": null,
+      "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
+      "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
+      "self_check": "first_run_new_arch_full"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-13",
+          "event": "中5月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7%",
+          "gap": "slight_dovish",
+          "impact_on_industry": "宏观信用面"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中5月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline",
+          "impact_on_industry": "利润底回升"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持3.50-3.75%",
+          "our_view": "hawkish drift",
+          "gap": "hawkish",
+          "impact_on_industry": "成长性承压"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13<7.0%→行业景气下修"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%→风险资产承压"
+        }
+      ],
+      "mid_term_path": "2026 AI硬件初验证+苹果创新周期;2027 AI硬件规模化兑现;2028+ AI PC/手机渗透率突破30%",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "AI硬件温和兑现+苹果链复苏",
+          "industry_outcome": "+15-20%",
+          "asset_impact": "龙头+25-35%"
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "AI手机出货量爆发+苹果Vision Pro 2大卖",
+          "industry_outcome": "+30%",
+          "asset_impact": "+45%"
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "消费失速+AI硬件失败",
+          "industry_outcome": "-15%",
+          "asset_impact": "-25%"
+        }
+      ],
+      "supply_demand_signals": "苹果iPhone 17供应链回暖;华为/小米AI手机出货上升;AI PC仍处早期",
+      "competitive_landscape": "立讯/蓝思/歌尔苹果链龙头;美的/海尔/格力家电三巨头;华为生态崛起",
+      "tail_risks": [
+        {
+          "event": "苹果iPhone 17销量大幅低于预期",
+          "prob": 0.2,
+          "hedge_action": "苹果链减半"
+        },
+        {
+          "event": "AI硬件革新失败",
+          "prob": 0.15,
+          "hedge_action": "减AI硬件标的"
+        }
+      ],
+      "trigger_monitor": [
+        "苹果Q3指引下修>10%→苹果链减仓50%",
+        "AI手机渗透率<10%→减AI硬件",
+        "美的/海尔出口同比<10%→减家电"
+      ]
+    }
   },
-  "debate_rounds": [
+  "debate_rounds": [],
+  "chokepoint_map": [
     {
-      "round": 1,
-      "bull": "以旧换新+出海+AIoT；泡泡玛特潮玩出海高景气、小米手机+汽车+AIoT放量。",
-      "bear": "内需复苏弱(PMI50)、可选消费承压；泡泡玛特估值高。"
+      "link": "AI硬件芯片+模组",
+      "bottleneck_score": "高",
+      "why": "AI手机/AI PC的核心",
+      "beneficiaries": [
+        "立讯精密",
+        "歌尔股份",
+        "蓝思科技"
+      ],
+      "discovery": "🟡半发现"
     },
     {
-      "round": 2,
-      "bull": "(承上)景气与政策支撑中期方向",
-      "bear": "(承上)地缘与估值约束短期空间"
+      "link": "折叠屏/创新形态",
+      "bottleneck_score": "中",
+      "why": "差异化卖点",
+      "beneficiaries": [
+        "信维通信",
+        "欧菲光"
+      ],
+      "discovery": "🟡半发现"
     },
     {
-      "round": 3,
-      "bull": "维持方向，强调分批与龙头",
-      "bear": "认同分批、控制单一暴露"
+      "link": "家电出海+品牌化",
+      "bottleneck_score": "中",
+      "why": "中高端家电份额持续提升",
+      "beneficiaries": [
+        "美的集团",
+        "海尔智家",
+        "格力电器"
+      ],
+      "discovery": "🔴已拥挤"
     }
   ],
-  "chokepoint_map": [],
-  "top_chokepoints": [],
+  "top_chokepoints": [
+    "AI硬件芯片+模组",
+    "折叠屏/创新形态"
+  ],
   "analysts": {},
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:消费电子家电",
-    "status": "green",
-    "status_label": "新鲜",
-    "stale_reason": null,
+    "status": "yellow",
+    "status_label": "待刷新",
+    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze alloc:industry:消费电子家电",
     "version": 1,
     "generated_at": "2026-06-07T07:42:50Z",
@@ -99,9 +206,9 @@
   "stocks": [
     {
       "unit_id": "stock:01810",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
@@ -127,9 +234,9 @@
     },
     {
       "unit_id": "stock:09992",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

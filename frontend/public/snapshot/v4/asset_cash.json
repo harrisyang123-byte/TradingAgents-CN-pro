@@ -9,8 +9,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:cash」，或运行：./scripts/run_v4.sh analyze asset:cash",
-    "version": 2,
-    "generated_at": "2026-06-09T14:41:23Z",
+    "version": 3,
+    "generated_at": "2026-06-11T01:11:54Z",
     "ttl_days": 14,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -29,11 +29,92 @@
     "trend": "reduce — 反骑墙站队：3分析师一致unfavorable + 多空在'该减'上无分歧（仅争论减到18还是20），证据压倒性偏向减配。从 v1 的'降到10-15%'上调为'18-20%'，因为权益已偏高、地缘尾部风险未消，现金作为缓冲不宜降太狠。",
     "confidence": "high",
     "reflection": {
-      "prev_stance": "neutral",
-      "prev_date": "2026-06-07T07:36Z",
-      "what_changed": "stance 从 neutral → bearish（明确站队减配），目标区间从 v1 的'10-15%'上调为'18-20%'。v1 是 baseline 占位（neutral + 简短 direction，无辩论无分析师），本轮是首次完整辩论。",
-      "why_changed": "本轮补齐了关键数据：活期0.15% vs 货基1.4-1.62% vs CPI1.2%，量化出实际收益-1.05% + 活期/货基白丢1.2%/年，证据强到3分析师一致unfavorable，故 stance 从骑墙的 neutral 改为果断 bearish。目标上调到18-20%（而非v1的10-15%）是因为本轮纳入了'权益已偏高44.24%+地缘尾部风险'——现金缓冲不宜降太狠。",
-      "self_check": "v1 的 neutral 是 baseline 占位、近骑墙，本轮按反骑墙铁律果断站队 bearish。v1 的'10-15%'目标偏激进（没考虑权益偏高时现金的对冲价值），本轮18-20%更稳健。最该立即做的是'活期挪货基'——零风险且v1完全没提这个结构优化点。"
+      "prev_stance": "bearish",
+      "prev_date": "2026-06-09T14:41:23Z",
+      "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
+      "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
+      "self_check": "level_2_cascade_upgrade"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-12",
+          "event": "美 5 月 CPI",
+          "consensus": "4.2%",
+          "our_view": "4.2-4.4% inline_but_hawkish_path",
+          "gap": "inline_but_hawkish_path"
+        },
+        {
+          "date": "2026-06-13",
+          "event": "中国 5 月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7% 边际走弱",
+          "gap": "slight_dovish"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持 3.50-3.75%",
+          "our_view": "维持但点阵图 hawkish drift",
+          "gap": "hawkish_drift"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中 5 月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline"
+        }
+      ],
+      "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13公布<7.0%即推翻"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%触发风险资产降配"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "Fed维持鹰派+CPI 4-4.3%",
+          "macro_outcome": "美元强势,人民币偏弱",
+          "asset_impact": "现金保持适度,T+0货基年化2.0-2.3%(2025降至1.5%下行趋势)"
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "Fed转鸽+9月降息",
+          "macro_outcome": "全球流动性宽松",
+          "asset_impact": "现金加速降配至15%以下(收益压制)"
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "地缘+CPI破4.5%+risk-off",
+          "macro_outcome": "避险需求",
+          "asset_impact": "现金短期吸引力上升,作为缓冲"
+        }
+      ],
+      "tail_risks": [
+        {
+          "event": "霍尔木兹冲突",
+          "prob": 0.1,
+          "hedge_action": "现金不变(短期避险),不主动加仓但延后reduce"
+        }
+      ],
+      "trigger_monitor": [
+        "VIX>28→暂停reduce保持现金缓冲",
+        "PBoC正式宣布降准/降息→加速reduce至18",
+        "Fed9月降息确认→reduce至15%"
+      ],
+      "positioning_view": "(本大类自身周期+组合内位置)",
+      "iv_skew_view": "(参考全市场VIX~20正常)"
     }
   },
   "tradable": [],
@@ -84,7 +165,7 @@
     "unit_id": "plan:cash",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:cash 已更新至 v2（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:cash 已更新至 v3（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 plan:cash」，或运行：./scripts/run_v4.sh analyze plan:cash",
     "version": 1,
     "generated_at": "2026-06-07T07:39:49Z",

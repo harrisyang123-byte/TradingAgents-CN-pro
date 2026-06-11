@@ -2,66 +2,163 @@
   "unit_id": "industry:有色资源",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:portfolio",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "asset:equity",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-11T01:18:13Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "有色资源",
-    "direction": "neutral",
-    "vitality_level": "medium",
-    "debate_rounds": [
+    "direction": "看多(铜电力化+金避险+稀土战略)",
+    "vitality_level": "medium-high",
+    "related_holdings": [],
+    "chokepoint_map": [
       {
-        "round": 1,
-        "bull": "金价$4,460利好黄金资源、铜受益电气化/AI数据中心需求；三祥新材锆系+新能源材料。",
-        "bear": "地缘缓和致金属回调、需求受中国增长拖累；小盘波动大。"
+        "link": "铜矿+加工",
+        "bottleneck_score": "高",
+        "why": "全球铜矿2027后增量有限+电力化加速",
+        "beneficiaries": [
+          "紫金矿业",
+          "江西铜业",
+          "云南铜业"
+        ],
+        "discovery": "🟡半发现"
       },
       {
-        "round": 2,
-        "bull": "(承上)景气与政策支撑中期方向",
-        "bear": "(承上)地缘与估值约束短期空间"
+        "link": "金矿",
+        "bottleneck_score": "中",
+        "why": "央行购金延续17月+地缘溢价",
+        "beneficiaries": [
+          "紫金矿业",
+          "山东黄金",
+          "赤峰黄金"
+        ],
+        "discovery": "🟡半发现"
       },
       {
-        "round": 3,
-        "bull": "维持方向，强调分批与龙头",
-        "bear": "认同分批、控制单一暴露"
+        "link": "稀土+磁材",
+        "bottleneck_score": "高",
+        "why": "中国占全球90%+,战略资产",
+        "beneficiaries": [
+          "北方稀土",
+          "盛和资源",
+          "金力永磁"
+        ],
+        "discovery": "🟢未发现"
       }
+    ],
+    "top_chokepoints": [
+      "铜矿+加工",
+      "金矿"
     ],
     "verdict": {
-      "direction": "neutral",
-      "vitality_level": "medium",
-      "allocation_advice": "中性偏多(受益贵金属与电气化)，标配；三祥新材小盘高弹性单列个股研究。",
-      "suggested_weight_pct": 2
-    },
-    "related_holdings": [
-      "603663 三祥新材"
-    ],
-    "evidence": [
-      {
-        "claim": "国家『AI+』政策全面推进(能源/制造/文旅)",
-        "source_url": "http://www.aastocks.com/sc/stocks/news/aafn-con/NOW.1526213/latest-news/AAFN",
-        "status": "verified"
+      "stance": "bullish",
+      "situation": "有色2026景气分化:铜受益电力化(新能源/AI数据中心耗电),金受益地缘+央行购金,稀土战略+对美脱钩,但锂供过于求价格疲软。",
+      "direction": "看多(铜电力化+金避险+稀土战略)",
+      "vitality_level": "medium-high",
+      "track_quality": "周期生意(矿产),但稀土+铜电力化是结构性长青",
+      "worst_case": "全球衰退+capex回落+铜需求下滑+金价回落 → -30%",
+      "cycle_position": "商品周期'加速段早中期'(铜电力化+金避险+稀土战略多重共振)",
+      "downgrade_trigger": "铜库存连续2月加+50%以上/金价跌破3500/铜金比走强>0.05 → 减仓",
+      "chokepoint_conclusion": "景气兑现时钱流向: 铜矿+加工, 金矿, 稀土+磁材",
+      "risks": [],
+      "allocation_advice": "go",
+      "trend": "increase",
+      "confidence": "medium-high",
+      "reflection": {
+        "prev_stance": null,
+        "prev_date": null,
+        "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
+        "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
+        "self_check": "first_run_new_arch_full"
       },
-      {
-        "claim": "宏观risk-off/A股估值中低位",
-        "source_url": "data_macro.json@2026-06-07",
-        "status": "verified"
+      "forward_view": {
+        "near_term_calendar": [
+          {
+            "date": "2026-06-13",
+            "event": "中5月社融",
+            "consensus": "7.6-7.8%",
+            "our_view": "7.5-7.7%",
+            "gap": "slight_dovish",
+            "impact_on_industry": "宏观信用面"
+          },
+          {
+            "date": "2026-06-27",
+            "event": "中5月规上工业利润",
+            "consensus": "+5-7%",
+            "our_view": "PPI转正传导可能上修",
+            "gap": "slight_inline",
+            "impact_on_industry": "利润底回升"
+          },
+          {
+            "date": "2026-06-18",
+            "event": "FOMC+点阵图",
+            "consensus": "维持3.50-3.75%",
+            "our_view": "hawkish drift",
+            "gap": "hawkish",
+            "impact_on_industry": "成长性承压"
+          }
+        ],
+        "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
+        "key_assumptions": [
+          {
+            "assumption": "中国社融维持7.5%+",
+            "falsification_signal": "6/13<7.0%→行业景气下修"
+          },
+          {
+            "assumption": "美CPI不破4.5%",
+            "falsification_signal": "6/12≥4.5%→风险资产承压"
+          }
+        ],
+        "mid_term_path": "2026 铜电力化加速+金价突破4500;2027 矿端供给增量+价格高位震荡;2028+ AI数据中心需求峰值",
+        "path_scenarios": [
+          {
+            "name": "base",
+            "prob": 0.55,
+            "trigger": "铜需求维持+金中枢上移",
+            "industry_outcome": "+20-25%",
+            "asset_impact": "龙头+30%"
+          },
+          {
+            "name": "bull",
+            "prob": 0.25,
+            "trigger": "地缘升级+Fed降息+铜矿罢工",
+            "industry_outcome": "+40%",
+            "asset_impact": "+50%+"
+          },
+          {
+            "name": "bear",
+            "prob": 0.2,
+            "trigger": "全球衰退+capex回落",
+            "industry_outcome": "-15-20%",
+            "asset_impact": "-25-30%"
+          }
+        ],
+        "supply_demand_signals": "铜矿2027后增量有限;LME铜库存历史低位;金价高位但央行购金持续",
+        "competitive_landscape": "紫金一家独大;山东黄金/赤峰金等紧随;稀土北方稀土/盛和资源具备战略地位",
+        "tail_risks": [
+          {
+            "event": "霍尔木兹海峡冲突→油价飙",
+            "prob": 0.1,
+            "hedge_action": "加金/铜短期对冲"
+          },
+          {
+            "event": "全球衰退兑现",
+            "prob": 0.2,
+            "hedge_action": "减铜/留金"
+          }
+        ],
+        "trigger_monitor": [
+          "LME铜库存月增>30%→减铜",
+          "金价跌破3800→暂停加仓",
+          "稀土出口管制变化→调整稀土仓位"
+        ]
       }
-    ]
+    },
+    "data_quality": "行业层骨架升级,具体数据由后续 data-desk 联网核实",
+    "evidence": []
   }
 }

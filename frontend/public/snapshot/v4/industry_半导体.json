@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:半导体」，或运行：./scripts/run_v4.sh analyze industry:半导体",
-    "version": 2,
-    "generated_at": "2026-06-10T23:46:00Z",
+    "version": 5,
+    "generated_at": "2026-06-11T01:16:24Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -32,11 +32,93 @@
     "trend": "increase(go)",
     "confidence": "medium-high",
     "reflection": {
-      "prev_stance": null,
-      "prev_date": null,
-      "what_changed": "从v1骨架升级为完整景气多空辩论+chokepoint瓶颈地图(6环节)+四维闸门研判;明确'卡脖子+订单兑现+订单可见度'三标准筛选受益环节,避开纯先进制程画饼。",
-      "why_changed": "新架构首次实跑(v1为baseline骨架),据2026 AI memory超级周期+国产替代深水区的核实信息建立景气加速判断。",
-      "self_check": "first_run_new_arch"
+      "prev_stance": "bullish",
+      "prev_date": "2026-06-10T23:46:00Z",
+      "what_changed": "恢复 archive + 新增完整 forward_view 9字段(级联升级)",
+      "why_changed": "asset层 A/B 测试89 vs 52,级联推到行业层",
+      "self_check": "level_2_industry_cascade_recovered"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-13",
+          "event": "中5月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7%",
+          "gap": "slight_dovish",
+          "impact_on_industry": "宏观信用面影响中性"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中5月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline",
+          "impact_on_industry": "利润底回升对景气类受益"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持3.50-3.75%",
+          "our_view": "hawkish drift",
+          "gap": "hawkish",
+          "impact_on_industry": "成长性行业承压"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱(工业景气趋缓)",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13<7.0%→行业景气下修"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%→风险资产承压"
+        }
+      ],
+      "mid_term_path": "2026 AI memory超级周期+国产替代加速;2027 HBM周期可能见顶;2028+ CPO/Chiplet重构封装",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.5,
+          "trigger": "capex维持+大基金三期落地+涨价持续",
+          "industry_outcome": "+20-30%",
+          "asset_impact": "材料/设备龙头+30-50%"
+        },
+        {
+          "name": "bull",
+          "prob": 0.3,
+          "trigger": "全球景气延续+先进制程突破",
+          "industry_outcome": "+40%",
+          "asset_impact": "+50-80%"
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "HBM周期见顶+管制升级+大基金延后",
+          "industry_outcome": "-15-20%",
+          "asset_impact": "-25-30%"
+        }
+      ],
+      "supply_demand_signals": "HBM售罄/12寸晶圆产能持续释放/2026Q1全面涨价信号确认",
+      "competitive_landscape": "全球三家垄断HBM;中国材料/设备国产替代率10-30%空间最大",
+      "tail_risks": [
+        {
+          "event": "美进一步升级出口管制",
+          "prob": 0.3,
+          "hedge_action": "非先进制程标的为主"
+        },
+        {
+          "event": "HBM周期2027见顶",
+          "prob": 0.3,
+          "hedge_action": "轻资产+材料类减半"
+        }
+      ],
+      "trigger_monitor": [
+        "板块PE中位数突破90x→止盈",
+        "大基金三期延后6月+→延后买入",
+        "HBM价格连降两季→减仓"
+      ]
     }
   },
   "debate_rounds": [
@@ -143,9 +225,9 @@
   ],
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:半导体",
-    "status": "green",
-    "status_label": "新鲜",
-    "stale_reason": null,
+    "status": "yellow",
+    "status_label": "待刷新",
+    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:半导体」，或运行：./scripts/run_v4.sh analyze alloc:industry:半导体",
     "version": 1,
     "generated_at": "2026-06-07T07:42:50Z",
@@ -192,7 +274,7 @@
       "unit_id": "stock:000063",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 industry:半导体 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v5（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:000063」，或运行：./scripts/run_v4.sh analyze stock:000063",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
@@ -220,7 +302,7 @@
       "unit_id": "stock:603236",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 industry:半导体 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v5（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:603236」，或运行：./scripts/run_v4.sh analyze stock:603236",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

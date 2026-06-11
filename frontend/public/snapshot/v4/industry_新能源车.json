@@ -2,59 +2,165 @@
   "industry": "新能源车",
   "industry_unit": {
     "unit_id": "industry:新能源车",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v5（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:新能源车」，或运行：./scripts/run_v4.sh analyze industry:新能源车",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-11T01:18:13Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:portfolio",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "asset:equity",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "direction": "neutral",
+    "stance": "neutral_to_cautious",
+    "situation": "新能源车渗透率2026上半年达50%+(相比2024年35%),价格战持续(比亚迪10万级别车型),海外出口受关税/补贴政策影响,行业从'增量'进入'存量竞争'阶段。",
+    "direction": "中性偏谨慎(渗透率高+价格战+海外受阻)",
     "vitality_level": "medium",
-    "allocation_advice": "中性，标配；聚焦智能化/机器人外溢的结构机会(三花)，整车链谨慎。",
-    "suggested_weight_pct": 2
+    "track_quality": "中性(电动车赛道长青但价格战使利润空间受压;智能化是新增长极)",
+    "worst_case": "价格战极端化+海外双反双向收紧+欧美补贴退坡 → 板块杀30-40%",
+    "cycle_position": "行业周期'加速→见顶'切换段(渗透率破50%+价格战);智能化子板块仍在加速",
+    "downgrade_trigger": "季度毛利率连续2季下行>2pct/海外销量下滑>20%/补贴政策收紧 → 主线降配",
+    "chokepoint_conclusion": "景气兑现时钱流向: 高镍三元/磷酸铁锂电池, 碳化硅(SiC)半导体, 智能驾驶(L2.5+)",
+    "risks": [],
+    "allocation_advice": "watch",
+    "trend": "hold",
+    "confidence": "medium",
+    "reflection": {
+      "prev_stance": null,
+      "prev_date": null,
+      "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
+      "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
+      "self_check": "first_run_new_arch_full"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-13",
+          "event": "中5月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7%",
+          "gap": "slight_dovish",
+          "impact_on_industry": "宏观信用面"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中5月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline",
+          "impact_on_industry": "利润底回升"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持3.50-3.75%",
+          "our_view": "hawkish drift",
+          "gap": "hawkish",
+          "impact_on_industry": "成长性承压"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13<7.0%→行业景气下修"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%→风险资产承压"
+        }
+      ],
+      "mid_term_path": "2026-2027 国内渗透率55-60%顶部;价格战延续到2027上半年;2028+ 智能化竞争主导;2030+ L4 量产临界点",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "渗透率维持+价格战温和",
+          "industry_outcome": "营收+10%但毛利下行",
+          "asset_impact": "龙头0~+10%"
+        },
+        {
+          "name": "bull",
+          "prob": 0.2,
+          "trigger": "出海突破+智能化加速",
+          "industry_outcome": "+25%",
+          "asset_impact": "+30-40%"
+        },
+        {
+          "name": "bear",
+          "prob": 0.25,
+          "trigger": "双反+欧美补贴退+价格战极端",
+          "industry_outcome": "-20%",
+          "asset_impact": "-30%"
+        }
+      ],
+      "supply_demand_signals": "国内产能过剩(2026年140%);需求拐点;智能驾驶订单已落地",
+      "competitive_landscape": "比亚迪龙头地位+特斯拉份额承压+小米/华为系崛起+小鹏/理想分化",
+      "tail_risks": [
+        {
+          "event": "欧美对华双反全面收紧",
+          "prob": 0.3,
+          "hedge_action": "减出海依赖型/留智能化标的"
+        },
+        {
+          "event": "L4级安全事故",
+          "prob": 0.1,
+          "hedge_action": "智能驾驶板块短期减半"
+        }
+      ],
+      "trigger_monitor": [
+        "毛利率连续2季下行>2pct→减仓",
+        "海外月销下滑>20%→减出海标的",
+        "碳化硅订单连降→减SiC"
+      ]
+    }
   },
-  "debate_rounds": [
+  "debate_rounds": [],
+  "chokepoint_map": [
     {
-      "round": 1,
-      "bull": "智能驾驶渗透+出海+人形机器人执行器外溢(三花)；电池技术迭代。",
-      "bear": "价格战+产能过剩压制盈利、行业内卷；β整体承压。"
+      "link": "高镍三元/磷酸铁锂电池",
+      "bottleneck_score": "中",
+      "why": "产能充足但品质分化",
+      "beneficiaries": [
+        "宁德时代",
+        "比亚迪"
+      ],
+      "discovery": "🔴已拥挤"
     },
     {
-      "round": 2,
-      "bull": "(承上)景气与政策支撑中期方向",
-      "bear": "(承上)地缘与估值约束短期空间"
+      "link": "碳化硅(SiC)半导体",
+      "bottleneck_score": "高",
+      "why": "800V 平台必备,产能仍紧",
+      "beneficiaries": [
+        "天岳先进",
+        "三安光电"
+      ],
+      "discovery": "🟡半发现"
     },
     {
-      "round": 3,
-      "bull": "维持方向，强调分批与龙头",
-      "bear": "认同分批、控制单一暴露"
+      "link": "智能驾驶(L2.5+)",
+      "bottleneck_score": "高",
+      "why": "软件定义汽车的核心,芯片+算法卡脖",
+      "beneficiaries": [
+        "华为",
+        "小鹏",
+        "地平线"
+      ],
+      "discovery": "🟢未发现"
     }
   ],
-  "chokepoint_map": [],
-  "top_chokepoints": [],
+  "top_chokepoints": [
+    "高镍三元/磷酸铁锂电池",
+    "碳化硅(SiC)半导体"
+  ],
   "analysts": {},
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:新能源车",
-    "status": "green",
-    "status_label": "新鲜",
-    "stale_reason": null,
+    "status": "yellow",
+    "status_label": "待刷新",
+    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:新能源车」，或运行：./scripts/run_v4.sh analyze alloc:industry:新能源车",
     "version": 1,
     "generated_at": "2026-06-07T07:42:50Z",
@@ -89,9 +195,9 @@
   "stocks": [
     {
       "unit_id": "stock:002050",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
+      "status": "yellow",
+      "status_label": "待刷新",
+      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:新能源车 已更新至 v2（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002050」，或运行：./scripts/run_v4.sh analyze stock:002050",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

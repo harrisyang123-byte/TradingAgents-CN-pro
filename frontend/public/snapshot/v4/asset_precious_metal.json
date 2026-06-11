@@ -9,8 +9,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:precious_metal」，或运行：./scripts/run_v4.sh analyze asset:precious_metal",
-    "version": 2,
-    "generated_at": "2026-06-09T15:06:03Z",
+    "version": 3,
+    "generated_at": "2026-06-11T01:11:54Z",
     "ttl_days": 14,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -31,10 +31,91 @@
     "confidence": "medium",
     "reflection": {
       "prev_stance": "bullish",
-      "prev_date": "2026-06-07T07:36:52Z",
-      "what_changed": "方向（战略看多/增配）维持不变，但目标仓位从 v1 的'5-8%'下调为'4-4.5%'，且强调分批低吸+止损纪律。",
-      "why_changed": "本轮纳入了 v1 缺失的关键逆风数据：美国10Y实际利率2.07%(远超均值0.99%)处十年高位 + 金价已+81%处历史极端高位 + 西方ETF已现流出。这些使'追高赔率差'成为硬约束——方向仍看多(央行购金17月+地缘支撑未变)，但幅度应收敛、执行应分批，而非v1的5-8%大幅增配。",
-      "self_check": "v1 看多方向正确（央行购金趋势延续验证了战略价值），但 v1 的'5-8%'目标偏激进、没有充分计入'金价已在历史高位+实际利率逆风'的追高风险。本轮下调到4-4.5%+分批纪律更稳健。核心认知升级：黄金定价锚已从'实际利率'部分迁移到'央行储备需求'，但这不意味着可以无视高位追高。"
+      "prev_date": "2026-06-09T15:06:03Z",
+      "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
+      "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
+      "self_check": "level_2_cascade_upgrade"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-06-12",
+          "event": "美 5 月 CPI",
+          "consensus": "4.2%",
+          "our_view": "4.2-4.4% inline_but_hawkish_path",
+          "gap": "inline_but_hawkish_path"
+        },
+        {
+          "date": "2026-06-13",
+          "event": "中国 5 月社融",
+          "consensus": "7.6-7.8%",
+          "our_view": "7.5-7.7% 边际走弱",
+          "gap": "slight_dovish"
+        },
+        {
+          "date": "2026-06-18",
+          "event": "FOMC+点阵图",
+          "consensus": "维持 3.50-3.75%",
+          "our_view": "维持但点阵图 hawkish drift",
+          "gap": "hawkish_drift"
+        },
+        {
+          "date": "2026-06-27",
+          "event": "中 5 月规上工业利润",
+          "consensus": "+5-7%",
+          "our_view": "PPI转正传导可能上修",
+          "gap": "slight_inline"
+        }
+      ],
+      "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
+      "key_assumptions": [
+        {
+          "assumption": "中国社融维持7.5%+",
+          "falsification_signal": "6/13公布<7.0%即推翻"
+        },
+        {
+          "assumption": "美CPI不破4.5%",
+          "falsification_signal": "6/12≥4.5%触发风险资产降配"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "央行购金延续+地缘溢价",
+          "macro_outcome": "金价4000-4500震荡",
+          "asset_impact": "维持4-4.5%分批加"
+        },
+        {
+          "name": "bull",
+          "prob": 0.3,
+          "trigger": "Fed降息+实际利率下行+地缘升级",
+          "macro_outcome": "金价突破4800",
+          "asset_impact": "加至5-6%"
+        },
+        {
+          "name": "bear",
+          "prob": 0.15,
+          "trigger": "实际利率飙升+美元强势",
+          "macro_outcome": "金价回落至3600",
+          "asset_impact": "分批补仓至4.5%(逆向加仓)"
+        }
+      ],
+      "tail_risks": [
+        {
+          "event": "美元体系信任危机",
+          "prob": 0.05,
+          "hedge_action": "加仓黄金至8%(战略对冲)"
+        }
+      ],
+      "trigger_monitor": [
+        "金价跌破3800→分批补仓至4.5%",
+        "美10Y突破4.8%→暂停加仓",
+        "央行购金月度<150t→减速节奏"
+      ],
+      "positioning_view": "(本大类自身周期+组合内位置)",
+      "iv_skew_view": "(参考全市场VIX~20正常)"
     }
   },
   "tradable": [
@@ -91,7 +172,7 @@
     "unit_id": "plan:precious_metal",
     "status": "yellow",
     "status_label": "待刷新",
-    "stale_reason": "上游 asset:precious_metal 已更新至 v2（本单元基于 v1），结论可能过时",
+    "stale_reason": "上游 asset:precious_metal 已更新至 v3（本单元基于 v1），结论可能过时",
     "cli_hint": "在 CLI 对话说「分析 plan:precious_metal」，或运行：./scripts/run_v4.sh analyze plan:precious_metal",
     "version": 1,
     "generated_at": "2026-06-07T07:39:49Z",
