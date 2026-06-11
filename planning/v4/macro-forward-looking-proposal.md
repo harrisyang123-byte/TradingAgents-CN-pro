@@ -2,6 +2,19 @@
 
 > **用户批评（2026-06-10）**：宏观现在只有已知数据，未来情况没有预测。例如美国刚公布的 CPI 4.x，公布前就有很大风声会决定后续市场走势——v4 宏观没体现这层。
 
+## 架构决策：不新增 agent，按维度内化前瞻能力（MECE 优先）
+
+考虑过三个方案：①复用现有 macro 分析师 ②新增 v4-asset-analyst-forward ③只在 director 整合。
+
+**结论：1+3 组合，不新增 agent。**
+
+理由：当前三分析师按**维度** MECE 划分（macro/flow/policy），不是按时间。如果按时间新增 forward agent，必然要在 forward 里再分宏观/资金/政策——**两条划分轴重叠 = 破坏 MECE**。前瞻不是新维度，是同一维度的时间延伸，应内化进现有分析师而非另起一行。
+
+落地：
+- **data-desk** → 增加 `forward_calendar` + `consensus` 取数（取数职责天然属于 desk）
+- **3 分析师** → 各自维度内增"现状 + 前瞻"任务（职责单一在维度，时间是次维度）
+- **director** → verdict 加 `forward_view` 整合路径情景+触发监控（拍板天然职责，不增 analyst）
+
 ## 诊断（确实欠缺什么）
 
 当前宏观体系是**回看 nowcasting + 反思**两层，缺**前瞻 forecasting + 预期差**：
