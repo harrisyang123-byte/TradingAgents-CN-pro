@@ -55,6 +55,96 @@
         />
       </div>
 
+      <!-- 前瞻视野 forward_view（A/B 测试落地：11 维内化前瞻能力） -->
+      <div v-if="detail.verdict?.forward_view" class="card adt-forward">
+        <el-collapse>
+          <el-collapse-item name="forward">
+            <template #title>
+              <span class="adt-forward-title">🔭 前瞻视野（未来 4 周日历 + 三情景 + 触发监控）</span>
+            </template>
+
+            <!-- 触发监控 (置顶,最可执行) -->
+            <div v-if="fv.trigger_monitor?.length" class="fv-section fv-trigger">
+              <div class="fv-section-title">⚡ 触发监控（看到 X 就 Y · 绝对阈值）</div>
+              <ol class="fv-list">
+                <li v-for="(t, i) in fv.trigger_monitor" :key="i">{{ t }}</li>
+              </ol>
+            </div>
+
+            <!-- 近期日历 -->
+            <div v-if="fv.near_term_calendar?.length" class="fv-section">
+              <div class="fv-section-title">📅 未来 4 周事件日历（共识 vs 我方 + gap）</div>
+              <table class="fv-table">
+                <thead>
+                  <tr><th>日期</th><th>事件</th><th>共识</th><th>我方</th><th>gap</th><th>对本类影响</th></tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(e, i) in fv.near_term_calendar" :key="i">
+                    <td>{{ e.date }}</td><td>{{ e.event }}</td><td>{{ e.consensus }}</td>
+                    <td>{{ e.our_view }}</td>
+                    <td><el-tag size="small" :type="gapType(e.gap)" effect="plain">{{ e.gap }}</el-tag></td>
+                    <td>{{ e.impact_on_class }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 三情景 -->
+            <div v-if="fv.path_scenarios?.length" class="fv-section">
+              <div class="fv-section-title">🎯 三情景路径（base/bull/bear · 概率+触发+影响）</div>
+              <div class="fv-scenarios">
+                <div v-for="(s, i) in fv.path_scenarios" :key="i" class="fv-scenario" :class="`fv-scn-${s.name}`">
+                  <div class="fv-scn-head">
+                    <span class="fv-scn-name">{{ scenarioLabel(s.name) }}</span>
+                    <span class="fv-scn-prob">{{ Math.round((s.prob || 0) * 100) }}%</span>
+                  </div>
+                  <p><b>触发条件：</b>{{ s.trigger }}</p>
+                  <p v-if="s.macro_outcome"><b>宏观结果：</b>{{ s.macro_outcome }}</p>
+                  <p><b>对本类影响：</b>{{ s.asset_impact }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 中长期路径 -->
+            <p v-if="fv.mid_term_path" class="fv-line"><b>📈 中长期路径：</b>{{ fv.mid_term_path }}</p>
+
+            <!-- 仓位拥挤度 + IV/skew -->
+            <div class="fv-grid">
+              <p v-if="fv.positioning_view"><b>🪙 仓位拥挤：</b>{{ fv.positioning_view }}</p>
+              <p v-if="fv.iv_skew_view"><b>📊 期权恐慌：</b>{{ fv.iv_skew_view }}</p>
+              <p v-if="fv.cross_market_leading" class="fv-cross"><b>🌐 跨市场领先：</b>{{ fv.cross_market_leading }}</p>
+            </div>
+
+            <!-- 核心假设 + 证伪 -->
+            <div v-if="fv.key_assumptions?.length" class="fv-section">
+              <div class="fv-section-title">🧬 核心假设 + 证伪信号</div>
+              <ul class="fv-list">
+                <li v-for="(a, i) in fv.key_assumptions" :key="i">
+                  <b>{{ a.assumption }}</b> → <span class="fv-falsify">{{ a.falsification_signal }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- 尾部风险 -->
+            <div v-if="fv.tail_risks?.length" class="fv-section fv-tail">
+              <div class="fv-section-title">⚠️ 尾部风险（已知未知 + 早期预警 + 对冲动作）</div>
+              <table class="fv-table">
+                <thead><tr><th>事件</th><th>概率</th><th>早期预警</th><th>影响</th><th>对冲</th></tr></thead>
+                <tbody>
+                  <tr v-for="(r, i) in fv.tail_risks" :key="i">
+                    <td>{{ r.event }}</td>
+                    <td>{{ Math.round((r.prob || 0) * 100) }}%</td>
+                    <td>{{ r.early_warning }}</td>
+                    <td>{{ r.impact }}</td>
+                    <td class="fv-hedge">{{ r.hedge_action }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+
       <!-- §5.9 A：大类深辩历程（折叠）+ 三专项分析师 -->
       <div v-if="detail.debate_rounds?.length" class="card adt-debate">
         <el-collapse>
@@ -171,6 +261,20 @@ const analystList = computed(() => {
   }))
 })
 
+// 前瞻 forward_view 展示
+const fv = computed(() => detail.value?.verdict?.forward_view || {})
+function gapType(g?: string): 'success' | 'danger' | 'warning' | 'info' {
+  if (!g) return 'info'
+  if (g.includes('hawkish')) return 'danger'
+  if (g.includes('dovish')) return 'success'
+  if (g.includes('inline')) return 'warning'
+  return 'info'
+}
+function scenarioLabel(name?: string): string {
+  if (!name) return ''
+  return ({ base: '基准', bull: '乐观', bear: '悲观' } as Record<string, string>)[name] || name
+}
+
 watch(() => props.assetClass, (c) => { if (c) load(c) }, { immediate: true })
 </script>
 
@@ -275,4 +379,30 @@ watch(() => props.assetClass, (c) => { if (c) load(c) }, { immediate: true })
   font-size: 13px;
   color: #909399;
 }
+/* 前瞻视野 forward_view */
+.adt-forward { padding: 0 16px; margin-bottom: 16px; border: 1px solid #ebeef5; border-radius: 8px; background: #fff; }
+.adt-forward-title { font-weight: 600; color: #2f4f8f; }
+.fv-section { margin-bottom: 14px; }
+.fv-section-title { font-weight: 600; color: #303133; margin-bottom: 6px; font-size: 13px; }
+.fv-trigger { background: #fef3e6; padding: 10px; border-radius: 6px; border-left: 3px solid #e6a23c; }
+.fv-trigger .fv-section-title { color: #c95f1c; }
+.fv-list { padding-left: 22px; margin: 0; line-height: 1.8; font-size: 13px; }
+.fv-list li { margin: 2px 0; }
+.fv-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.fv-table th, .fv-table td { border: 1px solid #ebeef5; padding: 6px 8px; text-align: left; }
+.fv-table th { background: #f5f7fa; font-weight: 600; }
+.fv-scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.fv-scenario { padding: 10px; border-radius: 6px; border: 1px solid #ebeef5; font-size: 12px; }
+.fv-scn-base { background: #f5f7fa; border-left: 3px solid #909399; }
+.fv-scn-bull { background: #e8f5e9; border-left: 3px solid #67c23a; }
+.fv-scn-bear { background: #fef0f0; border-left: 3px solid #f56c6c; }
+.fv-scn-head { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px; }
+.fv-scn-prob { color: #2f4f8f; }
+.fv-line { font-size: 13px; line-height: 1.6; margin: 8px 0; }
+.fv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; line-height: 1.6; margin: 8px 0; }
+.fv-cross { grid-column: span 2; }
+.fv-falsify { color: #c95f1c; font-style: italic; }
+.fv-tail .fv-table { background: #fef0f0; }
+.fv-hedge { color: #67c23a; font-weight: 500; }
+
 </style>

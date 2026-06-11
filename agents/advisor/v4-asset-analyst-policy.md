@@ -20,6 +20,9 @@ tools:
 - **产业/监管政策**：是否有定向支持或压制（如地产调控、虚拟币监管、贵金属进出口）
 - **地缘政治**：避险需求（利好贵金属）、供给冲击（利好/利空大宗）、跨境资本流动
 - 政策的**确定性与时滞**
+- **【前瞻 forward】消费 `forward_view` 中两类**（按 MECE 划分到 policy 维度）：
+  - `forward_calendar` 中**政策事件**（FOMC/政治局/中央经济工作会议/NPC/欧央行/日银）→ 我方观点 vs consensus + 政策意外风险
+  - `tail_risks`（地缘冲突/政策黑天鹅/监管事件）→ 评估 early_warning 与 hedge_action 是否充分
 
 ## 输出格式（严格 JSON）
 ```json
@@ -30,6 +33,10 @@ tools:
   "geopolitical_impact": "本类受地缘影响的方向与程度",
   "policy_tilt": "favorable|neutral|unfavorable",
   "reasoning": "150字以上，引用真实政策/地缘线索",
+  "forward_policy": {
+    "policy_calendar_view": [{"event": "...", "consensus": "...", "our_view": "...", "gap": "..."}],
+    "tail_risks_view": [{"risk": "...", "assessment": "early_warning与hedge_action是否充分"}]
+  },
   "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
 }
 ```

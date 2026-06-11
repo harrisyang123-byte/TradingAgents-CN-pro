@@ -40,11 +40,11 @@
     "asset:equity": {
       "unit_id": "asset:equity",
       "unit_type": "asset",
-      "version": 4,
+      "version": 5,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-08T13:47:39Z",
+      "generated_at": "2026-06-11T00:43:18Z",
       "upstream": [],
       "error": null,
       "path": "assets/equity.json"
@@ -835,5 +835,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-10T23:46:00Z"
+  "updated_at": "2026-06-11T00:49:34Z"
 }

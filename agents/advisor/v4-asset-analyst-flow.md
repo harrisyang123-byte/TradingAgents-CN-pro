@@ -21,6 +21,9 @@ tools:
 - **拥挤度**：是否存在一致预期、交易拥挤
 - **情绪**：贪婪/恐惧、舆论热度是顺风还是反向信号
 - **组合内位置**：本类在用户组合中是超配还是低配（来自归类敞口）
+- **【前瞻 forward】消费 `forward_view` 中两类**（按 MECE 划分到 flow 维度）：
+  - `positioning`（margin_balance z-score / QDII 溢价 / AH 溢价 / 北向趋势）→ 仓位拥挤度信号
+  - `iv_skew`（VIX 期限结构 / SPX 25d put skew / 50ETF 隐波）→ 期权市场恐慌/防守度
 
 ## 输出格式（严格 JSON）
 ```json
@@ -32,6 +35,10 @@ tools:
   "sentiment": "greedy|neutral|fearful",
   "flow_tilt": "favorable|neutral|unfavorable",
   "reasoning": "150字以上，引用真实资金/情绪数据点",
+  "forward_flow": {
+    "positioning_signals": "margin/QDII/AH 等拥挤度读数 + 是否触发反向减配",
+    "iv_skew_signals": "VIX/skew/50ETF 隐波读数 + 恐慌/防守判断"
+  },
   "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
 }
 ```
