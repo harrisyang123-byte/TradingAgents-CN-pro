@@ -321,7 +321,7 @@ async def list_positions(current_user: dict = Depends(get_current_user)):
 
 @router.post("/positions", response_model=dict)
 async def add_position(payload: AddPositionRequest, current_user: dict = Depends(get_current_user)):
-    """创建/追加持仓"""
+    """创建/追加持仓（创建新持仓时从现金扣款，追加时也扣款）"""
     db = get_mongo_db()
 
     if payload.market:
@@ -332,6 +332,23 @@ async def add_position(payload: AddPositionRequest, current_user: dict = Depends
 
     currency = CURRENCY_MAP.get(market, "CNY")
     now_iso = datetime.utcnow().isoformat()
+    notional = round(payload.avg_cost * payload.quantity, 2)
+
+    # 扣现金
+    acc = await _get_or_create_account(current_user["id"])
+    available_cash = float(acc.get("available_cash", 0.0))
+    if available_cash < notional:
+        raise HTTPException(
+            status_code=400,
+            detail=f"可用现金不足：需要 {notional:.2f}，可用 {available_cash:.2f}",
+        )
+    await db["paper_accounts"].update_one(
+        {"user_id": current_user["id"]},
+        {"$set": {
+            "available_cash": round(available_cash - notional, 2),
+            "updated_at": now_iso,
+        }},
+    )
 
     pos = await db["paper_positions"].find_one(
         {"user_id": current_user["id"], "code": normalized_code}
