@@ -77,17 +77,6 @@
       <el-icon><InfoFilled /></el-icon>
       <template #title>关于</template>
     </el-menu-item>
-
-    <!-- ====== 废弃 ====== -->
-    <el-menu-item index="/dashboard">
-      <el-icon><Odometer /></el-icon>
-      <template #title>仪表板（废弃）</template>
-    </el-menu-item>
-
-    <el-menu-item index="/learning">
-      <el-icon><Reading /></el-icon>
-      <template #title>学习中心（废弃）</template>
-    </el-menu-item>
   </el-menu>
 </template>
 
@@ -96,8 +85,6 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import {
-  Odometer,
-  Reading,
   TrendCharts,
   Search,
   Star,

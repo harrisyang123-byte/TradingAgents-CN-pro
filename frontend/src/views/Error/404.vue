@@ -31,9 +31,9 @@
       <div class="suggestions">
         <h3>您可能想要访问：</h3>
         <div class="suggestion-links">
-          <el-link type="primary" @click="$router.push('/dashboard')">
+          <el-link type="primary" @click="$router.push('/portfolio/holdings')">
             <el-icon><House /></el-icon>
-            仪表板
+            持仓明细
           </el-link>
           <el-link type="primary" @click="$router.push('/analysis/single')">
             <el-icon><TrendCharts /></el-icon>
