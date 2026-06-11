@@ -112,6 +112,46 @@ export interface AssetVerdict {
   chokepoint_conclusion?: string
   // §5.9 B：结果闭环反思（Layer 1，跨版本自省），首跑 self_check='first_run'
   reflection?: ReflectionData | null
+  // 前瞻视野（11 维内化前瞻能力，A/B 测试落地）
+  forward_view?: ForwardView | null
+}
+
+export interface ForwardCalendarEvent {
+  date?: string
+  event?: string
+  consensus?: string
+  our_view?: string
+  gap?: string
+  impact_on_class?: string
+}
+export interface PathScenario {
+  name?: string  // base|bull|bear
+  prob?: number
+  trigger?: string
+  macro_outcome?: string
+  asset_impact?: string
+}
+export interface KeyAssumption {
+  assumption?: string
+  falsification_signal?: string
+}
+export interface TailRisk {
+  event?: string
+  prob?: number
+  early_warning?: string
+  impact?: string
+  hedge_action?: string
+}
+export interface ForwardView {
+  near_term_calendar?: ForwardCalendarEvent[]
+  mid_term_path?: string
+  path_scenarios?: PathScenario[]
+  positioning_view?: string
+  iv_skew_view?: string
+  key_assumptions?: KeyAssumption[]
+  tail_risks?: TailRisk[]
+  cross_market_leading?: string
+  trigger_monitor?: string[]
 }
 
 export interface PlanInstrument {

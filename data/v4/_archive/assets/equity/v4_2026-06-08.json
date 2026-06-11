@@ -2,12 +2,12 @@
   "unit_id": "asset:equity",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 5,
+  "version": 4,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T00:43:18Z",
+  "generated_at": "2026-06-08T13:47:39Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -211,125 +211,10 @@
       "confidence": "medium",
       "reflection": {
         "prev_stance": "bullish",
-        "prev_date": "2026-06-08T13:47:39Z",
-        "what_changed": "新增完整11维 forward_view(A/B测试落地首跑):事件日历+中期路径+三情景+仓位+IV+假设证伪+尾部+跨市场+触发监控。stance/trend/总仓维持(看多+44%克制),forward_view 把'看多方向、仓位克制'升级为可执行的'9条触发监控+if-then纪律'。",
-        "why_changed": "用户指出v4宏观只回看不前瞻(CPI 4.x风声决定走势),A/B测试2次证实(91/89 vs 84/82)单agent内化前瞻最优,落地为完整11维 forward_view。本次首跑用2026-06-09视角的真实日历+共识+positioning+IV+跨市场领先指标。",
-        "self_check": "v4'看多方向克制'判断在前瞻视角下被验证更细——加了硬触发(CPI>4.3%降权益至40/VIX>28减AI/OAS>3.8%加现金/北向>300亿减QDII/2s10s>0.5%加风险),把'结构调整紧迫度'量化为9个if-then动作。"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2% (CNBC/Wall St)",
-            "our_view": "4.2-4.4% 略偏鹰,首过4%心理关口",
-            "gap": "inline_but_hawkish_path",
-            "impact_on_class": "即使inline,'首过4%'触发美10Y上行至4.7%+美元走强→AI/QDII敞口承压5-10%"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8% YoY",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish",
-            "impact_on_class": "略低预期但仍稳健,A股影响中性偏正(宽松预期延续)"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC 会议+点阵图",
-            "consensus": "维持 3.50-3.75%, 25bp 加息概率 22%",
-            "our_view": "维持但点阵图 hawkish drift(2026 EOY 中位 3.50→3.75%)",
-            "gap": "hawkish_drift",
-            "impact_on_class": "美10Y突破4.7+QDII -5~10%, A股估值层面承压但内需对冲"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7% YoY",
-            "our_view": "PPI转正传导,可能上修至+6-8%",
-            "gap": "slight_inline",
-            "impact_on_class": "利好A股盈利底回升叙事"
-          }
-        ],
-        "mid_term_path": "1-6月:Fed 9月降息25bp概率45%(consensus 60%),11月维持,2027Q1再25bp;PBoC 7月政治局会议+9月降准窗口,2026Q3财报季+8月Jackson Hole+10月美大选预备期。1-3年:中美债务周期错位(中政府加杠杆/美企业去杠杆),AI/CPO技术替代浪潮持续利好科技but估值已透支。",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "CPI 4.0-4.3%且非农15-25万,FOMC点阵图微鹰",
-            "macro_outcome": "美10Y在4.5-4.7%,Fed保持鹰派但不加息",
-            "asset_impact": "A股+5%~+10%,QDII横盘,贵金属+5%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.25,
-            "trigger": "CPI跌破4.0%+非农<15万+点阵图维持",
-            "macro_outcome": "9月降息预期升至70%,美10Y回落至4.3%",
-            "asset_impact": "A股+10~+15%,QDII +8~+12%(主动加仓信号)"
-          },
-          {
-            "name": "bear",
-            "prob": 0.2,
-            "trigger": "CPI≥4.5%或非农>30万+点阵图hawkish drift",
-            "macro_outcome": "加息重启风险,美10Y突破4.8%,纳指-10%",
-            "asset_impact": "A股-10~-15%(权益降至38%),QDII -15~-20%(立即清仓至5%)"
-          }
-        ],
-        "positioning_view": "margin余额近1月走平(无明显加杠杆),QDII溢价2-3%(温和拥挤),AH溢价117(从年初123降至117,A股相对H股折价收窄),北向2026YTD放缓(港股通连续多日净流出20-110亿港元波动)→拥挤度中等偏高,主要在AI/科技QDII;红利+内需消费拥挤度低=结构调整方向明确。",
-        "iv_skew_view": "VIX ~20(正常)+VIX期限结构正向+CBOE报告'spot-up VIX-up'(投资者创新高时买保护=结构性防守增加);上证50ETF隐波估14-16%中位偏上;SPX 25d put skew约85分位(防守增强)→市场已开始price-in风险,不利于追高,但也未到极度恐慌(VIX>28)的反向信号区。",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持 7.5%+",
-            "falsification_signal": "6/13公布<7.0% 即推翻多头信用脉冲假设"
-          },
-          {
-            "assumption": "PPI持续转正",
-            "falsification_signal": "下次同比再转负即推翻'盈利底回升'假设"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12公布≥4.5% 即触发降权益至38%"
-          },
-          {
-            "assumption": "AI capex维持高位",
-            "falsification_signal": "Meta/微软/谷歌任一2026Q3 capex指引下修>10% 即降AI仓位"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "霍尔木兹海峡冲突升级",
-            "prob": 0.1,
-            "early_warning": "美军调遣/伊朗武装船队动作",
-            "impact": "Brent突破100+VIX>35+QDII -15%",
-            "hedge_action": "买入原油ETF 5%+减QDII至5%"
-          },
-          {
-            "event": "中美关税2.0(6-9月窗口)",
-            "prob": 0.2,
-            "early_warning": "特朗普推文/USTR调查启动",
-            "impact": "出口链-10~-15%,海外科技+5%(避险至美股)",
-            "hedge_action": "压缩出口主题,加红利+内需消费"
-          },
-          {
-            "event": "美联储沟通失误(政策意外加息)",
-            "prob": 0.1,
-            "early_warning": "FOMC前主席公开讲话偏鹰超预期",
-            "impact": "美10Y突破4.9+全球risk-off+A股-8%",
-            "hedge_action": "立即降权益至38%+加现金至25%"
-          }
-        ],
-        "cross_market_leading": "2s10s 已正常化(+47bp,2024Q4结束700+交易日倒挂)——历史经验:倒挂结束后6-12月衰退概率上升,需提前防御;HY OAS 6月估3.0-3.3%(从年初2.65%扩50bp,温和走阔但未到3.8%警戒线);铜金比2026走弱(工业景气趋缓);FRA-OIS估8bp(美元流动性正常)。综合:衰退尾部风险上升但未到立即兑现期,维持'看多方向+防守纪律'。",
-        "trigger_monitor": [
-          "美 CPI 6/12 公布 >4.5% → 立即降权益至 38% + QDII至5%",
-          "FOMC 6/18 点阵图上移 ≥1次 → 减贵金属/加现金至30%",
-          "中国社融 6/13 公布 <7.0% → 降权益至42%/加固收至15%",
-          "VIX 突破 28 → 触发 risk-off,减AI/QDII各30%",
-          "HY OAS 突破 3.8% → 全面 risk-off,降权益至40%以下",
-          "北向连续2周净流出>300亿(港股通口径) → 减QDII至5%",
-          "Meta/微软/谷歌任一2026Q3 capex指引下修>10% → 降AI仓位50%",
-          "2s10s 重新倒挂(<0) → 提前布局衰退交易,加固收/贵金属",
-          "纳指 跌破 24500(-5%自当前) → 重新评估QDII敞口"
-        ]
+        "prev_date": "2026-06-07T12:26:30Z",
+        "what_changed": "stance 维持 bullish、trend 维持 hold(看多方向+仓位克制)，方向判断未变；本质变化在证据基础——宏观取数从『纯手工联网搜、15/22 verified、CPI/PPI/期限利差缺失、社融仅有「新增贷款转负」片段』升级为『AKShare 程序化 19 verified+1 est、国内11项硬数据全带发布日期』。新增确认项：PPI同比+2.8%转正、CPI 1.2%、期限利差0.47%、社融存量同比7.8%。confidence 维持 medium（外围 risk-off 仍是真实不确定性），但数据可信度实质提升。",
+        "why_changed": "上一版 v3 把『4月新增贷款罕见转负-100亿』列为关键风险与验证点，那是手搜到的增量片段；本轮 akshare 取到社融存量同比+7.8%(456.89万亿)这一更权威口径，显示信用总量未失速，缓解了 v3 的信用脉冲担忧。同时 PPI 从 v3 的 missing 变为 verified 的+2.8%转正，为『盈利底部回升』提供了 v3 当时缺失的直接硬证据，进一步支撑多头方向。cn10y 1.73% 与 v3 的 1.71% 一致，确认折现率锚正确、未反复。",
+        "self_check": "v3『看多方向、仓位克制+结构调整』的判断在更完整数据下被验证为正确——PPI 转正与社融存量稳健是 v3 方向的事后背书；v3 担忧的信用失速未发生。唯一持续需盯的仍是外围 risk-off 对高 AI/QDII 敞口的冲击（v3 已识别、本轮加强），以及 PMI 边际走弱(50.3→50.0)是否演成趋势。结论：方向无需改判，纪律性结构再平衡的紧迫度因纳指-4.18%而上升。"
       }
     },
     "data_quality": "充分且较 v3 实质提升。宏观国内硬数据首次由 AKShare 程序化取数（11项全 verified 带发布日期、可复现、脱离搜索引擎陈旧缓存）：cn10y 1.73%(06-08)、LPR 3.0/3.5、期限利差0.47%、CPI 1.2%(4月)、PPI+2.8%(4月,转正)、PMI 50.0/50.1(5月)、M2 8.6%(4月)、两融1.495万亿(仅上交所口径偏低,实际沪深约2万亿)。海外/实时/大宗由 data-desk 联网补：美10Y 4.55%、美联储3.50-3.75%、纳指25709(-4.18%)/标普7383、DXY 99.55、USDCNY 6.78、布油$95、社融存量同比7.8%。合计 19 verified + 1 estimated(VIX~20,多源冲突不调和) + 2 missing(reverse_repo_7d、LME铜)。三分析师与多空3轮辩论由 subagent 在独立上下文产出、director 综合。缺口不影响权益大类方向判断。",

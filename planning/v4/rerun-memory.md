@@ -219,3 +219,11 @@
   - **行业层(v4-industry-director)**四维适配:①段永平→track_quality(好赛道?10年长青?会否被技术/政策颠覆)②芒格→worst_case(景气崩塌/被颠覆触发)③达里奥→cycle_position(景气周期定位:启动/加速/见顶/衰退)④可执行→downgrade_trigger(go→watch→avoid触发)⑤不确定性诚实。
   - **大类层(v4-asset-director)**四维适配(打满达里奥):①段永平→return_source(长期回报本质:股权溢价/票息/避险/抗通胀)②芒格→tail_scenario(宏观尾部巨亏情景+最大回撤)③达里奥→cycle_and_correlation(宏观周期+与其它大类相关性/分散价值,大类配置核心是相关性管理)④可执行→rebalance_trigger⑤不确定性用分散/对冲/分批。
   - 三层director(stock/industry/asset)均已内化四维闸门+铁律,schema各加4-5字段。下一步:继续跑权益深链剩余单元。
+
+- **2026-06-11 宏观前瞻能力 A/B 测试落地完成(用户接管自跑5步,无审核)**：
+  - 第1步:v4-data-desk.md 加 forward_view 5 类前瞻取数(forward_calendar/positioning/iv_skew/cross_market_leading/tail_risks) + 来源指南。
+  - 第2步:3 分析师按 MECE 分配前瞻消费——macro 接 calendar+cross_market+中长期路径;flow 接 positioning+iv_skew;policy 接 政策事件+tail_risks。
+  - 第3步:asset-director schema 加完整 forward_view(11字段) + 铁律 7"forward_view 强制+绝对阈值"(测试 89 vs 82 的关键差距)。
+  - 第4步:asset:equity v5 落盘(reflection 时序正确,首次完整 forward_view 9条触发监控+3情景+3尾部风险)。
+  - 第5步:前端 AssetDetailTab 加"前瞻视野"折叠面板(触发监控置顶+日历表+三情景卡片+中长期+仓位/IV/跨市场+假设证伪+尾部风险表)+样式;TS 类型 ForwardView 等加进 portfolioV4.ts;TS 检查通过。
+  - 后续:推广到 industry/stock 三层 director schema(目前仅 asset 层落地);需要时新增日历/positioning/IV 自动取数(目前主 agent 手填)。

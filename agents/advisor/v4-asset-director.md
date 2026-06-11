@@ -51,6 +51,23 @@ tools:
     "risks": ["主要风险1", "主要风险2"],
     "trend": "建议趋势：increase|reduce|hold + 简述",
     "confidence": "high|medium|low",
+    "forward_view": {
+      "near_term_calendar": [
+        {"date": "YYYY-MM-DD", "event": "...", "consensus": "...", "our_view": "...", "gap": "hawkish|dovish|inline|inline_but_hawkish_path", "impact_on_class": "..."}
+      ],
+      "mid_term_path": "1-6月路径(Fed/PBoC政策窗口/季节性) + 1-3年长周期(债务/技术替代)",
+      "path_scenarios": [
+        {"name": "base|bull|bear", "prob": 0.55, "trigger": "什么数据特征确认此情景", "macro_outcome": "...", "asset_impact": "对本大类的影响幅度"}
+      ],
+      "positioning_view": "仓位拥挤度判断(margin/QDII/AH等读数+是否触发反向减配)",
+      "iv_skew_view": "期权市场恐慌/防守度判断(VIX/skew)",
+      "key_assumptions": [{"assumption": "本判断依赖的核心假设", "falsification_signal": "看到什么数据即推翻"}],
+      "tail_risks": [
+        {"event": "...", "prob": 0.10, "early_warning": "...", "impact": "...", "hedge_action": "..."}
+      ],
+      "cross_market_leading": "2s10s/HY OAS/铜金比当前状态 + 领先信号判断",
+      "trigger_monitor": ["看到X就Y的硬触发清单(用绝对阈值,非相对偏离)"]
+    },
     "reflection": {
       "prev_stance": "上一版 verdict.stance（首跑填 null）",
       "prev_date": "上一版 generated_at（首跑填 null）",
@@ -86,3 +103,4 @@ tools:
 4. plan 模式的 suggest_pct 是**类内结构占比**（之和≈100%），不是全组合权重（全组合配比由配置委员会定）。
 5. 严禁编造数据、严禁照抄本文件示例数字；evidence 逐条标 verified/estimated/missing。只输出 JSON。
 6. **质量内化铁律**：上方「四维质量闸门」是 `v4-investor-critic` 评审标准的前置内化（回报本质/尾部情景/周期与相关性/再平衡纪律/不确定性诚实），大类层尤其打满达里奥视角；verdict 应能直接通过 critic 拷问，不靠事后补救。
+7. **forward_view 强制要求**（A/B 测试 2 次证实有效, 89 vs 52）：消费 data-desk 的 `forward_view` + 3 分析师的 forward_* 子字段，必须输出完整 11 维 forward_view（near_term_calendar/mid_term_path/path_scenarios/positioning_view/iv_skew_view/key_assumptions/tail_risks/cross_market_leading/trigger_monitor）。**触发监控用绝对阈值**（如 CPI>4.3% / VIX>28 / OAS>3.8% / 北向>300亿）直接映射行动，**禁止相对偏离**（如±0.3%）需二次计算的形式——这是测试中 89 vs 82 的关键差距。

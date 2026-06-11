@@ -20,6 +20,10 @@ tools:
 - 当前**通胀**环境对本类的影响（贵金属/大宗抗通胀，现金被通胀侵蚀）
 - 所处**经济周期**位置（复苏/过热/滞胀/衰退）下本类的相对优势
 - **流动性**松紧对本类估值的传导
+- **【前瞻 forward】消费 `forward_view` 中三类**（按 MECE 划分到 macro 维度）：
+  - `forward_calendar` 中**经济数据/央行事件**（CPI/PMI/非农/社融/FOMC）→ 标我方观点 vs consensus + gap 标签（hawkish/dovish/inline_but_hawkish_path）
+  - `cross_market_leading`（2s10s/HY OAS/FRA-OIS/铜金比）→ 是否给出衰退/景气见顶领先信号
+  - **中长期路径**（1-6 月：Fed 利率路径/PBoC 政策窗口/季节性；1-3 年：债务/技术替代周期）
 
 ## 输出格式（严格 JSON）
 ```json
@@ -32,6 +36,11 @@ tools:
   "cycle_position": "周期定位与本类相对优势",
   "macro_tilt": "favorable|neutral|unfavorable",
   "reasoning": "150字以上，引用真实宏观数据点",
+  "forward_macro": {
+    "calendar_view": [{"event": "...", "consensus": "...", "our_view": "...", "gap": "hawkish|dovish|inline", "impact_on_class": "..."}],
+    "cross_market_signals": "2s10s/HY OAS/铜金比当前读数 + 领先信号判断",
+    "mid_term_path": "1-6 月路径 + 1-3 年长周期变量"
+  },
   "evidence": [{"claim": "...", "source": "data_macro.json 或 llm_knowledge", "status": "verified|estimated|missing"}]
 }
 ```
