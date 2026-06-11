@@ -14,6 +14,7 @@
       </template>
       <el-menu-item index="/portfolio/holdings">持仓明细</el-menu-item>
       <el-menu-item index="/portfolio/overview">组合总揽</el-menu-item>
+      <el-menu-item index="/portfolio/v4-overview">组合总揽 v4</el-menu-item>
     </el-sub-menu>
 
     <!-- ====== 分析 ====== -->
