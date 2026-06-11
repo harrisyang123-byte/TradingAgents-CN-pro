@@ -135,28 +135,82 @@ class FundService:
             return None
 
     async def get_sector_distribution(self, code: str) -> Optional[List[Dict[str, Any]]]:
-        """获取基金行业分布"""
-        cache_key = f"fund_sector_distribution:{code}"
+        """获取基金行业分布
 
+        绕过 akshare (版本 1.18.60 列数硬编码已不兼容东方财富新字段数)，
+        直接调天天基金 API，从最近可查年份中取最新季度的行业配置。
+        """
+        cache_key = f"fund_sector_distribution:{code}"
         cached = await self._get_from_cache(cache_key)
-        if cached:
+        if cached is not None:
             return cached
 
         try:
-            import akshare as ak
-            df = await asyncio.to_thread(ak.fund_portfolio_industry_allocation_em, code)
-            if df is None or df.empty:
-                return []
+            import requests as _requests
+        except Exception:
+            return []
 
-            sectors = []
-            for _, row in df.iterrows():
-                sectors.append({
-                    "sector_name": str(row.get("行业名称", "")),
-                    "ratio": float(row.get("行业占比", 0)) if row.get("行业占比") else 0,
-                })
+        url = "https://api.fund.eastmoney.com/f10/HYPZ/"
+        headers = {
+            "Referer": "https://fundf10.eastmoney.com/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        }
 
-            await self._set_cache(cache_key, sectors)
-            return sectors
-        except Exception as e:
-            logger.warning(f"获取基金行业分布失败 {code}: {e}")
-            return None
+        # 先取 ListYears，按最近年份尝试
+        try:
+            r = await asyncio.to_thread(
+                _requests.get, url,
+                params={"fundCode": code, "year": "2025"},
+                headers=headers,
+                timeout=15,
+            )
+            data = r.json()
+            years = sorted(
+                [int(y) for y in (data.get("Data", {}) or {}).get("ListYears", [])],
+                reverse=True,
+            )
+        except Exception:
+            years = []
+        if not years:
+            years = list(range(2024, 2012, -1))
+
+        sectors_raw = []
+        chosen_year = None
+        for y in years[:6]:  # 最多试6年
+            try:
+                params = {"fundCode": code, "year": str(y)}
+                r = await asyncio.to_thread(_requests.get, url, params=params, headers=headers, timeout=15)
+                d = r.json()
+                quarters = (d.get("Data", {}) or {}).get("QuarterInfos", []) or []
+                # 取最新一个季度（API 已按 Quarter 降序）
+                for q in quarters:
+                    items = q.get("HYPZInfo", []) or []
+                    if items:
+                        sectors_raw = items
+                        chosen_year = y
+                        break
+                if sectors_raw:
+                    break
+            except Exception:
+                continue
+
+        if not sectors_raw:
+            await self._set_cache(cache_key, [])
+            return []
+
+        sectors = []
+        for item in sectors_raw:
+            name = str(item.get("HYMC", ""))
+            ratio_str = item.get("ZJZBL")
+            try:
+                ratio = float(ratio_str) if ratio_str else 0.0
+            except (ValueError, TypeError):
+                ratio = 0.0
+            if name and ratio > 0:
+                sectors.append({"sector_name": name, "ratio": ratio})
+
+        logger.info(
+            f"基金行业分布 {code} (数据年份={chosen_year}): {len(sectors)} 个行业"
+        )
+        await self._set_cache(cache_key, sectors)
+        return sectors

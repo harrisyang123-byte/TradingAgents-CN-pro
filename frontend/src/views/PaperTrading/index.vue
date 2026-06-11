@@ -905,12 +905,12 @@ onUnmounted(() => { if (advicePollTimer) clearInterval(advicePollTimer) })
 
 .contrib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
 .contrib-bar { display: flex; align-items: center; gap: 8px; padding: 7px 0; }
-.contrib-bar .name { width: 72px; font-size: 12px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.contrib-bar .bar-wrap { flex: 1; height: 16px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; }
+.contrib-bar .name { width: 110px; font-size: 12px; color: #606266; text-align: right; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contrib-bar .bar-wrap { flex: 1; height: 16px; background: #f5f7fa; border-radius: 4px; position: relative; overflow: hidden; min-width: 40px; }
 .contrib-bar .bar-fill { height: 100%; border-radius: 2px; position: absolute; top: 0; }
 .contrib-bar .bar-fill.positive { background: #f56c6c; left: 50%; }
 .contrib-bar .bar-fill.negative { background: #67c23a; right: 50%; }
-.contrib-bar .pnl-value { width: 78px; font-size: 12px; font-weight: 500; text-align: right; flex-shrink: 0; }
+.contrib-bar .pnl-value { width: 68px; font-size: 12px; font-weight: 500; text-align: right; flex-shrink: 0; }
 
 /* ===== Filter Tabs ===== */
 .filter-tabs { display: flex; gap: 8px; }

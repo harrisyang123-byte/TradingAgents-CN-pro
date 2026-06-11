@@ -18,12 +18,12 @@ export interface ApiResponse<T = any> {
 // 请求配置接口
 export interface RequestConfig extends AxiosRequestConfig {
   skipAuth?: boolean
-  skipAuthError?: boolean  // 跳过 401 错误的自动处理（用于登录等接口）
+  skipAuthError?: boolean // 跳过 401 错误的自动处理（用于登录等接口）
   skipErrorHandler?: boolean
   showLoading?: boolean
   loadingText?: string
-  retryCount?: number  // 重试次数
-  retryDelay?: number  // 重试延迟（毫秒）
+  retryCount?: number // 重试次数
+  retryDelay?: number // 重试延迟（毫秒）
 }
 
 // 消息去重：记录最近显示的错误消息
@@ -87,8 +87,8 @@ const createAxiosInstance = (): AxiosInstance => {
     timeout: 60000, // 增加超时时间到60秒（数据同步等长时间操作）
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',  // 禁用客户端缓存
-      'Pragma': 'no-cache'
+      'Cache-Control': 'no-cache', // 禁用客户端缓存
+      Pragma: 'no-cache'
     }
   })
 
@@ -136,7 +136,9 @@ const createAxiosInstance = (): AxiosInstance => {
         const rawUrl = String(config.url || '')
         const pathOnly = rawUrl.split('?')[0].replace(/\/+$|^\s+|\s+$/g, '')
         if (pathOnly === '/api/stocks/quote' || pathOnly === '/api/stocks/quote/') {
-          const code = (config.params && (config.params.code || (config as any).params?.stock_code)) ?? undefined
+          const code =
+            (config.params && (config.params.code || (config as any).params?.stock_code)) ??
+            undefined
           if (code) {
             const codeStr = String(code)
             config.url = `/api/stocks/${codeStr}/quote`
@@ -146,8 +148,13 @@ const createAxiosInstance = (): AxiosInstance => {
             }
             console.warn('🔧 已自动重写遗留端点为 /api/stocks/{code}/quote', { code: codeStr })
           } else {
-            console.error('❌ 误用端点: /api/stocks/quote 缺少 code。请改用 /api/stocks/{code}/quote', { stack: new Error().stack })
-            return Promise.reject(new Error('前端误用端点：缺少 code，请改用 /api/stocks/{code}/quote'))
+            console.error(
+              '❌ 误用端点: /api/stocks/quote 缺少 code。请改用 /api/stocks/{code}/quote',
+              { stack: new Error().stack }
+            )
+            return Promise.reject(
+              new Error('前端误用端点：缺少 code，请改用 /api/stocks/{code}/quote')
+            )
           }
         }
       } catch (e) {
@@ -165,7 +172,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
       return config
     },
-    (error) => {
+    error => {
       console.error('❌ 请求拦截器错误:', error)
       return Promise.reject(error)
     }
@@ -211,7 +218,7 @@ const createAxiosInstance = (): AxiosInstance => {
       // 返回 response.data 而不是 response，这样调用方可以直接访问 ApiResponse
       return response.data
     },
-    async (error) => {
+    async error => {
       const appStore = useAppStore()
       const authStore = useAuthStore()
       const config = error.config as RequestConfig
@@ -272,7 +279,9 @@ const createAxiosInstance = (): AxiosInstance => {
             break
 
           case 403:
-            showErrorMessage('权限不足，无法访问该资源')
+            if (!config?.skipErrorHandler) {
+              showErrorMessage('权限不足，无法访问该资源')
+            }
             break
 
           case 400:
@@ -284,21 +293,29 @@ const createAxiosInstance = (): AxiosInstance => {
             break
 
           case 404:
-            showErrorMessage('请求的资源不存在')
+            if (!config?.skipErrorHandler) {
+              showErrorMessage('请求的资源不存在')
+            }
             break
 
           case 429:
-            showErrorMessage('请求过于频繁，请稍后重试')
+            if (!config?.skipErrorHandler) {
+              showErrorMessage('请求过于频繁，请稍后重试')
+            }
             break
 
           case 500:
-            showErrorMessage('服务器内部错误，请稍后重试')
+            if (!config?.skipErrorHandler) {
+              showErrorMessage('服务器内部错误，请稍后重试')
+            }
             break
 
           case 502:
           case 503:
           case 504:
-            showErrorMessage('服务暂时不可用，请稍后重试')
+            if (!config?.skipErrorHandler) {
+              showErrorMessage('服务暂时不可用，请稍后重试')
+            }
             break
 
           default:
@@ -373,9 +390,9 @@ const handleBusinessError = (data: ApiResponse) => {
 
   switch (code) {
     case 401:
-    case 40101:  // 未授权
-    case 40102:  // Token 无效
-    case 40103:  // Token 过期
+    case 40101: // 未授权
+    case 40102: // Token 无效
+    case 40103: // Token 过期
       console.log('🔒 业务错误：认证失败')
       handle401Error(authStore, message || '登录已过期，请重新登录')
       break
@@ -444,7 +461,7 @@ const retryRequest = async (instance: AxiosInstance, config: RequestConfig): Pro
   }
 
   // 增加重试计数
-  (config as any).__retryCount = currentRetry + 1
+  ;(config as any).__retryCount = currentRetry + 1
 
   console.log(`🔄 第 ${currentRetry + 1} 次重试请求: ${config.url}`)
 
@@ -521,10 +538,7 @@ export class ApiClient {
   }
 
   // DELETE请求
-  static async delete<T = any>(
-    url: string,
-    config?: RequestConfig
-  ): Promise<ApiResponse<T>> {
+  static async delete<T = any>(url: string, config?: RequestConfig): Promise<ApiResponse<T>> {
     // 响应拦截器已经返回 response.data，所以这里直接返回
     return await request.delete(url, config)
   }
@@ -554,7 +568,7 @@ export class ApiClient {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
-      onUploadProgress: (progressEvent) => {
+      onUploadProgress: progressEvent => {
         if (onProgress && progressEvent.total) {
           const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
           onProgress(progress)
@@ -565,11 +579,7 @@ export class ApiClient {
   }
 
   // 下载文件
-  static async download(
-    url: string,
-    filename?: string,
-    config?: RequestConfig
-  ): Promise<void> {
+  static async download(url: string, filename?: string, config?: RequestConfig): Promise<void> {
     // 对于 blob 响应，响应拦截器返回的就是 blob 数据
     const blobData = await request.get(url, {
       responseType: 'blob',
