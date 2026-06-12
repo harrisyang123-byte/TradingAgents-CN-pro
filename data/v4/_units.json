@@ -816,7 +816,67 @@
       "upstream": [],
       "error": null,
       "path": "stocks/688268.json"
+    },
+    "stock:06160": {
+      "unit_id": "stock:06160",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:10:02Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/06160.json"
+    },
+    "stock:600276": {
+      "unit_id": "stock:600276",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:10:41Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/600276.json"
+    },
+    "stock:06990": {
+      "unit_id": "stock:06990",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:11:21Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/06990.json"
+    },
+    "stock:601899": {
+      "unit_id": "stock:601899",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:12:01Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/601899.json"
+    },
+    "stock:600111": {
+      "unit_id": "stock:600111",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:12:46Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/600111.json"
     }
   },
-  "updated_at": "2026-06-12T15:04:29Z"
+  "updated_at": "2026-06-12T15:12:46Z"
 }

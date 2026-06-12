@@ -1,0 +1,141 @@
+{
+  "unit_id": "stock:06160",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-12T15:10:02Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "06160",
+    "name": "百济神州",
+    "industry": "创新药",
+    "market": "HK",
+    "instrument_type": "stock",
+    "rating": "增持(出海BD标杆+扭亏拐点+全年指引上调)",
+    "target_price": 460,
+    "entry_price_range": [
+      300,
+      360
+    ],
+    "expectation_gap": "正(中等):2026Q1扭亏为盈+净利同比178倍+上调全年收入指引,出海BD变现能力是创新药行业最强的,但股价已部分反映",
+    "chokepoint_score": "高(出海BD变现能力+first-in-class靶点能力双重瓶颈卡位,行业最强出海标的)",
+    "discovery_level": "🟡半发现",
+    "business_quality": "好生意(创新药+出海+泽布替尼全球放量+管线丰富),10年护城河强",
+    "position_nature": "长期投资(出海BD+管线兑现长坡)",
+    "worst_case": "生物安全法案落地+FDA审评收紧+泽布替尼竞品超预期 → -35%(港股~250元)",
+    "downside": "下行-30%(280元) vs 上行+25%(460元) → 赔率约0.85",
+    "sell_discipline": [
+      "生物安全法案进入二读 → 减仓50%",
+      "泽布替尼Q3全球销售环比下行 → 减仓30%",
+      "FDA对中国数据收紧/拒批 → 减仓",
+      "破280港元 → 清仓"
+    ],
+    "thesis": "创新药出海首选+扭亏拐点+管线丰富+大行齐升目标价(瑞银465美元/花旗453美元);Q1净利178倍增长是结构性而非季节性",
+    "risks": [
+      "生物安全法案风险",
+      "FDA审评趋紧",
+      "泽布替尼专利2032到期",
+      "中美地缘"
+    ],
+    "confidence": "medium-high",
+    "evidence": [
+      {
+        "claim": "2026Q1营收105.44亿(+31%),净利16.08亿(扭亏为盈)",
+        "source": "AASTOCKS 公告",
+        "status": "verified"
+      },
+      {
+        "claim": "美元口径Q1净利2.27亿+178倍 vs 上年130万美元",
+        "source": "AASTOCKS",
+        "status": "verified"
+      },
+      {
+        "claim": "上调全年收入指引;瑞银目标价465美元/花旗453美元",
+        "source": "AASTOCKS 大行",
+        "status": "verified"
+      }
+    ],
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-08",
+          "event": "Q2财报",
+          "consensus": "收入+25-30%",
+          "our_view": "+30-35%",
+          "gap": "slight_beat",
+          "impact_on_stock": "指引上调延续=+10%"
+        },
+        {
+          "date": "2026-Q3",
+          "event": "ASCO/ESMO数据更新",
+          "consensus": "管线进展",
+          "our_view": "积极",
+          "gap": "slight_beat",
+          "impact_on_stock": "管线数据催化"
+        },
+        {
+          "date": "2026-Q4",
+          "event": "生物安全法案进展",
+          "consensus": "概率35-50%",
+          "our_view": "50%",
+          "gap": "hawkish",
+          "impact_on_stock": "风险窗口"
+        }
+      ],
+      "mid_term_path": "2026-2027 出海加速+Q4扭亏全年净利转正;2028+ 管线兑现+二代产品商业化",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "扭亏延续+出海BD稳定",
+          "implied_pe": 40,
+          "implied_target_price": 460
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "重磅BD连续兑现+管线超预期",
+          "implied_pe": 50,
+          "implied_target_price": 600
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "生物安全法案+FDA趋紧",
+          "implied_pe": 25,
+          "implied_target_price": 280
+        }
+      ],
+      "earnings_revision_view": "卖方一致2026E 收入+25%,我方判断接近+30%上限",
+      "stock_specific_risks": "出海依赖中美地缘;泽布替尼是当前主要营收支柱(占60%+)",
+      "key_assumptions": [
+        {
+          "assumption": "生物安全法案2026年内不落地",
+          "falsification_signal": "国会进入二读 → 减仓50%"
+        },
+        {
+          "assumption": "泽布替尼全球销售延续",
+          "falsification_signal": "竞品Calquence超预期或销售环比下行 → 减仓"
+        }
+      ],
+      "trigger_monitor": [
+        "生物安全法案进入二读 → 减仓50%",
+        "泽布替尼Q3全球销售环比下行 → 减仓30%",
+        "FDA对中国数据收紧/拒批 → 减仓",
+        "破280港元 → 清仓"
+      ]
+    },
+    "reflection": {
+      "prev_rating": null,
+      "prev_date": null,
+      "what_changed": "首次v4完整新架构(B1.6)",
+      "why_changed": "创新药行业首选龙头",
+      "self_check": "first_run_new_arch"
+    }
+  }
+}
