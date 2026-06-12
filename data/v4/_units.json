@@ -419,23 +419,12 @@
     "stock:01810": {
       "unit_id": "stock:01810",
       "unit_type": "stock",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 5,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:消费电子家电",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:19:51Z",
+      "upstream": [],
       "error": null,
       "path": "stocks/01810.json"
     },
@@ -876,7 +865,55 @@
       "upstream": [],
       "error": null,
       "path": "stocks/600111.json"
+    },
+    "stock:600900": {
+      "unit_id": "stock:600900",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:13:38Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/600900.json"
+    },
+    "stock:601985": {
+      "unit_id": "stock:601985",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:17:35Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/601985.json"
+    },
+    "stock:00700": {
+      "unit_id": "stock:00700",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:18:16Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/00700.json"
+    },
+    "stock:09988": {
+      "unit_id": "stock:09988",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:18:55Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/09988.json"
     }
   },
-  "updated_at": "2026-06-12T15:12:46Z"
+  "updated_at": "2026-06-12T15:19:51Z"
 }
