@@ -1,0 +1,14 @@
+{
+  "unit_id": "stock:300433",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-12T14:14:31Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {}
+}

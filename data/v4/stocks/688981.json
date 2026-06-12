@@ -1,0 +1,162 @@
+{
+  "unit_id": "stock:688981",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 2,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-12T14:18:57Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "688981",
+    "name": "中芯国际",
+    "industry": "半导体",
+    "market": "CN",
+    "instrument_type": "stock",
+    "rating": "增持(成熟制程涨价兑现+价值修复)",
+    "target_price": 140,
+    "entry_price_range": [
+      105,
+      115
+    ],
+    "expectation_gap": "正(收敛中):2026Q1 营收 176.17 亿+8.1%、净利 13.61 亿+0.4%(略低预期),Q2 指引上修+毛利率 20.1% 持续修复;先进制程突破 5nm 长期看涨叙事+大基金三期+涨价信号;forward 估值仍偏低估;空头侧重短期管制压制+ Q1 利润 miss",
+    "chokepoint_score": "中-高。处半导体行业'设备+先进封装'交叉点,中国唯一掌握 12 寸成熟+先进制程的代工厂=战略稀缺;成熟制程涨价兑现+先进制程突破窗口最大获益者",
+    "discovery_level": "🟡半发现",
+    "business_quality": "周期生意(代工本质重资本+利润周期波动);中国唯一掌握 12 寸成熟+先进制程的代工厂=战略稀缺;10 年后大概率仍在",
+    "position_nature": "长期投资(战略稀缺资产+国产替代长坡)+ 中期窗口期交易(成熟制程涨价兑现+先进制程催化)双重属性",
+    "worst_case": "美国进一步升级管制(EDA源代码/材料工具卡更狠+ SDN列入升级) → 先进制程节奏受重创,股价杀30-40%(回到75-85元/A股)",
+    "downside": "下行 -30%(75-85元/A股) vs 上行 +20-30%(140-150元) → 赔率约0.7,中性偏多",
+    "sell_discipline": [
+      "美国升级管制(EDA/材料卡更狠) → 减仓50%",
+      "Q3指引下修(2Q上修后2Q连续下修) → 减仓30%",
+      "成熟制程价格连续两季下行 → 减仓30%",
+      "破 100 元/A 股 → 清仓"
+    ],
+    "thesis": "采信多头:Q2 指引上修+毛利率持续修复+成熟制程涨价兑现+大基金三期落地+先进制程突破故事;压低空头的短期净利 miss(主因运营费用上升=战略capex,非景气下行);估值PB 6x(A股)/3x(港股)合理偏高估,但战略稀缺+涨价兑现赔率合理",
+    "risks": [
+      "美国进一步升级管制(EDA源代码/材料工具卡更狠)",
+      "成熟制程全球过剩担忧2027上行",
+      "先进制程突破缓慢,长期落后 TSMC 2-3 代",
+      "港股A股估值不便宜(PB 3-6x),容错率有限",
+      "客户集中度+地缘风险"
+    ],
+    "confidence": "medium",
+    "evidence": [
+      {
+        "claim": "中芯国际 2026Q1 营收 176.17 亿元(+8.1% YoY),净利 13.61 亿元(+0.4% YoY)",
+        "source": "AASTOCKS/Reuters 2026-05-14",
+        "status": "verified"
+      },
+      {
+        "claim": "毛利率 20.1%,环比+0.9pct,但同比-2.4pct",
+        "source": "TrendForce 2026-05-15",
+        "status": "verified"
+      },
+      {
+        "claim": "2026Q2 收入指引向上,全年运营情况乐观",
+        "source": "Futunn 2026-05",
+        "status": "verified"
+      },
+      {
+        "claim": "中芯/华虹2026 涨价(代工厂涨价是 80%半导体公司 Q1 成本上升主因)",
+        "source": "TrendForce 2026-05-22",
+        "status": "verified"
+      },
+      {
+        "claim": "光大证券:中芯国际 1Q 业绩和 2Q 指引超预期,维持港股A股买入,目标价基于 2026-2027 PB 港股3x/A股6x",
+        "source": "AASTOCKS 研报",
+        "status": "verified"
+      },
+      {
+        "claim": "中芯国际港股 2026-06 股价约 75 港币(70-90 波动),A 股约 117-122 元",
+        "source": "AASTOCKS 行情",
+        "status": "verified"
+      }
+    ],
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-08-14",
+          "event": "中芯国际2026Q2 财报",
+          "consensus": "营收 +12% YoY",
+          "our_view": "+12-14%(指引上修兑现)",
+          "gap": "slight_beat",
+          "impact_on_stock": "指引 inline=维持; beat>15% → 上修一波"
+        },
+        {
+          "date": "2026-Q3",
+          "event": "大基金三期招标进入关键期",
+          "consensus": "约 3000 亿",
+          "our_view": "按计划",
+          "gap": "inline",
+          "impact_on_stock": "大基金三期落地+采购订单兑现"
+        },
+        {
+          "date": "2026-Q4",
+          "event": "美对华出口管制升级风险",
+          "consensus": "概率 40%",
+          "our_view": "50%",
+          "gap": "hawkish",
+          "impact_on_stock": "短期阵痛+长期国产替代加速"
+        }
+      ],
+      "mid_term_path": "2026-27 成熟制程涨价兑现+毛利率修复+先进制程突破故事;2027+ HBM 周期可能见顶+全球半导体降温;2028+ CPO/Chiplet 重构封装",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "Q2-Q3 指引兑现+大基金三期按计划+管制不进一步升级",
+          "implied_pe": 80,
+          "implied_target_price": 140
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "先进制程突破+涨价幅度超预期+全球景气延续",
+          "implied_pe": 100,
+          "implied_target_price": 175
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "美升级管制(EDA源码/材料卡更狠)+大基金延后+ HBM 周期见顶",
+          "implied_pe": 50,
+          "implied_target_price": 85
+        }
+      ],
+      "earnings_revision_view": "卖方一致 2026E 净利 +25%,2027E +20%; 我方判断 2026E 上修空间至 +30%(Q2 指引上修信号);2027E 受全球景气节奏不确定",
+      "stock_specific_risks": "美管制升级是首要风险(SDN 实体清单升级即重创);代工厂资本开支大+利润率波动;先进制程突破速度慢于预期+ TSMC 仍领先 2-3 代",
+      "key_assumptions": [
+        {
+          "assumption": "美对华出口管制不进一步升级",
+          "falsification_signal": "商务部公告新增材料/EDA 源代码限制 → 立即减仓"
+        },
+        {
+          "assumption": "大基金三期 2026Q3 按计划落地",
+          "falsification_signal": "招标延后超 6 月 → 暂停加仓+减半"
+        },
+        {
+          "assumption": "成熟制程涨价持续",
+          "falsification_signal": "代工厂连续两季毛利率环比下行>2pct → 减仓"
+        }
+      ],
+      "trigger_monitor": [
+        "美升级管制(SDN/EDA源码) → 立即减仓 50%",
+        "大基金三期延后超 6 月 → 减仓 30%",
+        "Q3 指引下修(2Q上修后) → 减仓 30%",
+        "毛利率连续两季环比下行>2pct → 减仓",
+        "破 100 元/A 股(forward PE<60 即盈利下修信号) → 清仓"
+      ]
+    },
+    "reflection": {
+      "prev_rating": null,
+      "prev_date": null,
+      "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
+      "why_changed": "用户要求中芯国际深度分析",
+      "self_check": "first_run_new_arch"
+    }
+  }
+}

@@ -465,14 +465,26 @@
     "stock:300308": {
       "unit_id": "stock:300308",
       "unit_type": "stock",
-      "version": 4,
+      "version": 6,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 5,
-      "generated_at": "2026-06-10T03:04:49Z",
+      "generated_at": "2026-06-12T14:18:57Z",
       "upstream": [],
       "error": null,
       "path": "stocks/300308.json"
+    },
+    "stock:300433": {
+      "unit_id": "stock:300433",
+      "unit_type": "stock",
+      "version": 2,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T14:18:57Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300433.json"
     },
     "stock:603236": {
       "unit_id": "stock:603236",
@@ -519,6 +531,18 @@
       ],
       "error": null,
       "path": "stocks/603663.json"
+    },
+    "stock:688981": {
+      "unit_id": "stock:688981",
+      "unit_type": "stock",
+      "version": 2,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T14:18:57Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688981.json"
     },
     "alloc:equity_industries": {
       "unit_id": "alloc:equity_industries",
@@ -734,5 +758,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-12T09:37:26Z"
+  "updated_at": "2026-06-12T14:19:14Z"
 }

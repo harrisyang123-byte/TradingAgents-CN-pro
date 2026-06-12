@@ -2,12 +2,12 @@
   "unit_id": "stock:300308",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 6,
+  "version": 4,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T14:18:57Z",
+  "generated_at": "2026-06-10T03:04:49Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -33,11 +33,11 @@
     ],
     "confidence": "medium-low(50%,经评审下调:承认看不懂3年后)",
     "reflection": {
-      "prev_rating": "中性（窗口期交易持有 + 硬止损纪律）",
-      "prev_date": "2026-06-10T03:04:49Z",
-      "what_changed": "v6 补 forward_view 7字段(级联升级)",
-      "why_changed": "forward_view 推到 stock 层级联升级,与asset/industry层一致",
-      "self_check": "level_2_stock_cascade_recovered"
+      "prev_rating": null,
+      "prev_date": null,
+      "what_changed": "首次对中际旭创做实质个股深链分析(此前仅 baseline 空壳)。",
+      "why_changed": "",
+      "self_check": "first_run。关键验证：本次全程用 data-desk 联网核实的真实数据(~1000元/PE77/forward35)，未重蹈'420'编造事故；结论用预期差逻辑(收敛+赔率)而非'涨幅/PE分位'，避免了估值分位法'88元也不敢买'的成长踏空陷阱。"
     },
     "data_quality": "个股硬数据由主agent充当data-desk联网核实(stockanalysis.com/google finance 2026-06，stock_source沙箱无外网)。价格/PE/财务verified；毛利率/现金流/应收周转/客户集中度未取到精确值，3分析师已标estimated。",
     "analysts": {
@@ -194,88 +194,6 @@
         "four_views": "芒格pass(逆向最坏诚实+多元思维+能力圈边界)/段永平pass(10年视角已答+显式承认非好生意)/Serenity pass(预期差精准+定位已发现龙头窗口交易)/达里奥pass(风险优先+止损纪律+capex周期)"
       },
       "key_evolution": "从'中性持有不追'(骑墙嫌疑)→'承认是窗口期交易+10年非好生意+硬止损三条件'(诚实可执行)"
-    },
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-07-15-08-15",
-          "event": "科技巨头2026Q2财报+capex指引",
-          "consensus": "维持高位",
-          "our_view": "+30~+50%",
-          "gap": "inline",
-          "impact_on_stock": "capex 指引连降为最大风险信号"
-        },
-        {
-          "date": "2026-08",
-          "event": "中际旭创2026H1业绩",
-          "consensus": "营收+50%/净利+80%",
-          "our_view": "+50%/+90%(超预期上限)",
-          "gap": "slight_beat",
-          "impact_on_stock": "业绩 inline 不足以再涨,需超预期+10pp 才有空间"
-        },
-        {
-          "date": "2026-Q3",
-          "event": "英伟达GB300量产+CPO试点扩大",
-          "consensus": "按计划",
-          "our_view": "按计划但 CPO 试点扩大",
-          "gap": "inline",
-          "impact_on_stock": "CPO 进展是最大利空触发器"
-        },
-        {
-          "date": "2026-09",
-          "event": "港股IPO 50亿美元",
-          "consensus": "H1 完成",
-          "our_view": "H2 推迟可能",
-          "gap": "inline_with_delay",
-          "impact_on_stock": "IPO 顺利+股东持股摊薄但融资到位;延迟则负面"
-        }
-      ],
-      "mid_term_path": "2026-2027 1.6T 爆发期+capex 维持; 2027+ CPO 试点扩大,长期(3-5年)CPO 替代不可避免",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "capex 维持+CPO 2027 前未规模化",
-          "implied_pe": 35,
-          "implied_target_price": 1100
-        },
-        {
-          "name": "bull",
-          "prob": 0.2,
-          "trigger": "capex 超预期+1.6T 加速+ CPO 推迟",
-          "implied_pe": 40,
-          "implied_target_price": 1300
-        },
-        {
-          "name": "bear",
-          "prob": 0.25,
-          "trigger": "capex 指引下修>10% 或 CPO 加速",
-          "implied_pe": 20,
-          "implied_target_price": 500
-        }
-      ],
-      "earnings_revision_view": "卖方一致预期 2026E +50% 净利,2027E +30%; 我方判断 2026E 接近上限+10pp,2027E 需 CPO 进展观察",
-      "stock_specific_risks": "客户集中>70%(Meta订单已现波动),港股IPO 50亿美元摊薄 5-8%,CPO 转型成功概率为盲区",
-      "key_assumptions": [
-        {
-          "assumption": "AI capex 2026-27 维持高位",
-          "falsification_signal": "Meta/MS/Goog 任一2026Q3 capex 指引下修>10% 即推翻"
-        },
-        {
-          "assumption": "CPO 2027前未规模化",
-          "falsification_signal": "博通/英伟达官宣2026H2 CPO 接口占比>30% 或英伟达 GB300 自封装 CPO 批量出货"
-        },
-        {
-          "assumption": "客户份额维持",
-          "falsification_signal": "Meta 订单连续2季环比下滑或Q3指引下修>5%"
-        }
-      ],
-      "trigger_monitor": [
-        "Meta/MS/Goog/Amazon 任一2026Q3 capex 指引下修>10% → 立即减仓 50%",
-        "博通/英伟达官宣 CPO 接口规模化 → 清仓",
-        "毛利率连续两季下行>3pct → 减仓",
-        "股价跌破800元(forward PE<28即盈利下修信号) → 清仓"
-      ]
     }
   }
 }
