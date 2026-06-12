@@ -756,7 +756,67 @@
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
+    },
+    "stock:300502": {
+      "unit_id": "stock:300502",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300502.json"
+    },
+    "stock:300394": {
+      "unit_id": "stock:300394",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300394.json"
+    },
+    "stock:002371": {
+      "unit_id": "stock:002371",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/002371.json"
+    },
+    "stock:688012": {
+      "unit_id": "stock:688012",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688012.json"
+    },
+    "stock:688268": {
+      "unit_id": "stock:688268",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": "",
+      "status": "green",
+      "ttl_days": 5,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688268.json"
     }
   },
-  "updated_at": "2026-06-12T14:19:14Z"
+  "updated_at": "2026-06-12T15:04:29Z"
 }

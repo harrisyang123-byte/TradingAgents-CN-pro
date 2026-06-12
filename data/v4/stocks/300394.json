@@ -1,0 +1,145 @@
+{
+  "unit_id": "stock:300394",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-12T15:04:29Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "300394",
+    "name": "天孚通信",
+    "industry": "人工智能算力",
+    "market": "CN",
+    "instrument_type": "stock",
+    "rating": "增持(光器件高增+海外布局先行)",
+    "target_price": 420,
+    "entry_price_range": [
+      300,
+      330
+    ],
+    "expectation_gap": "正(收敛中):Q1 +45% 业绩兑现,但增速低于新易盛(+106%)和中际旭创(+160%);海外布局是差异化优势",
+    "chokepoint_score": "中(光器件供应商,处光模块上游,议价权弱于光模块整机)",
+    "discovery_level": "🟡半发现",
+    "business_quality": "中性(光器件相对光模块议价权弱,但天孚是少数能做高端隔离器/连接器的);海外布局给长期上行空间",
+    "position_nature": "中期窗口期交易(2026-2027)+短期股价波动大需谨慎",
+    "worst_case": "光模块整体景气见顶+下游议价压低 → 股价回到 200-220 元(-35%)",
+    "downside": "下行 -35%(210-230 元) vs 上行 +30%(420 元) → 赔率约 0.85",
+    "sell_discipline": [
+      "Q2 业绩同比增速<30% → 减仓",
+      "AI capex 整体见顶信号 → 减仓50%",
+      "破 280 元 → 清仓"
+    ],
+    "thesis": "Q1 业绩高增+海外布局先发优势,值得作为光模块产业链分散仓位;但增速逊于龙头,目标价位 420 元(forward PE 28-30x)",
+    "risks": [
+      "增速低于光模块龙头",
+      "下游光模块景气见顶传导",
+      "海外子公司业绩不确定",
+      "光器件议价权偏弱"
+    ],
+    "confidence": "medium",
+    "evidence": [
+      {
+        "claim": "2026Q1 营收 13.30 亿元(+40.82%),净利 4.92 亿元(+45.79%)",
+        "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+        "status": "verified"
+      },
+      {
+        "claim": "市值 2413.8 亿元,股价波动大(345 → 325 → 反弹)",
+        "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+        "status": "verified"
+      },
+      {
+        "claim": "AIDC/数据中心光器件供应商",
+        "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+        "status": "verified"
+      },
+      {
+        "claim": "新加坡子公司 TFC TECHNOLOGY (SG) 拓展全球客户",
+        "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+        "status": "verified"
+      }
+    ],
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-07-15-08-15",
+          "event": "科技巨头2026Q2财报+capex指引",
+          "consensus": "维持",
+          "our_view": "+30~+50%",
+          "gap": "inline",
+          "impact_on_stock": "capex 下修>10% 是最大利空"
+        },
+        {
+          "date": "2026-08",
+          "event": "H1 业绩+Q2 业绩",
+          "consensus": "营收+50-100%",
+          "our_view": "+50-80%",
+          "gap": "slight_beat",
+          "impact_on_stock": "业绩兑现强度决定后续走势"
+        },
+        {
+          "date": "2026-Q3",
+          "event": "英伟达 GB300 量产+CPO 试点",
+          "consensus": "按计划",
+          "our_view": "按计划",
+          "gap": "inline",
+          "impact_on_stock": "CPO 进展是利空触发"
+        }
+      ],
+      "cross_market_leading": "2s10s+47bp 已正常化(衰退后置 6-12 月);AI capex 高位但 2027 见顶风险",
+      "mid_term_path": "2026-2027 行业景气持续;2027+ 看CPO 替代风险",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "业绩兑现+宏观稳定",
+          "implied_pe": 28,
+          "implied_target_price": 420
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "业绩超预期+催化加速",
+          "implied_pe": 35,
+          "implied_target_price": 520
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "管制升级或景气见顶",
+          "implied_pe": 18,
+          "implied_target_price": 230
+        }
+      ],
+      "earnings_revision_view": "卖方一致预期 2026E 高增,我方判断接近上限",
+      "stock_specific_risks": "光模块整体景气见顶+下游议价压低 → 股价回到 200-220 元(-35%)",
+      "key_assumptions": [
+        {
+          "assumption": "宏观环境不大幅恶化",
+          "falsification_signal": "美 CPI 破 4.5% 或 FOMC 鹰派加息"
+        },
+        {
+          "assumption": "行业景气延续 2026-27",
+          "falsification_signal": "下游订单连续两季下滑"
+        }
+      ],
+      "trigger_monitor": [
+        "Q2 业绩同比增速<30% → 减仓",
+        "AI capex 整体见顶信号 → 减仓50%",
+        "破 280 元 → 清仓"
+      ]
+    },
+    "reflection": {
+      "prev_rating": null,
+      "prev_date": null,
+      "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业人工智能算力龙头)",
+      "why_changed": "B 阶段个股下钻补全",
+      "self_check": "first_run_new_arch"
+    }
+  }
+}
