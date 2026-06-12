@@ -15,198 +15,105 @@
     },
     {
       "unit_id": "alloc:industry:互联网平台",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:互联网平台」，或运行：./scripts/run_v4.sh analyze alloc:industry:互联网平台",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002517",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:人工智能算力",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze alloc:industry:人工智能算力",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002415",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:创新药",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:创新药」，或运行：./scripts/run_v4.sh analyze alloc:industry:创新药",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002001",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:半导体",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:半导体」，或运行：./scripts/run_v4.sh analyze alloc:industry:半导体",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:603236",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:000063",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:新能源车",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:新能源车」，或运行：./scripts/run_v4.sh analyze alloc:industry:新能源车",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002050",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:有色资源",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:有色资源」，或运行：./scripts/run_v4.sh analyze alloc:industry:有色资源",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:603663",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:消费电子家电",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze alloc:industry:消费电子家电",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:09992",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:01810",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "alloc:industry:电力公用事业",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze alloc:industry:电力公用事业",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:21:35Z",
       "ttl_days": 7,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
@@ -216,8 +123,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
-      "version": 3,
-      "generated_at": "2026-06-11T01:12:32Z",
+      "version": 4,
+      "generated_at": "2026-06-12T15:22:43Z",
       "ttl_days": 7,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -320,8 +227,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 asset:unclassified」，或运行：./scripts/run_v4.sh analyze asset:unclassified",
-      "version": 1,
-      "generated_at": "2026-06-09T14:12:46Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:22:43Z",
       "ttl_days": 14,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -346,8 +253,8 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-      "version": 6,
-      "generated_at": "2026-06-11T01:16:24Z",
+      "version": 7,
+      "generated_at": "2026-06-12T15:22:43Z",
       "ttl_days": 7,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -547,169 +454,157 @@
     },
     {
       "unit_id": "stock:000063",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:000063」，或运行：./scripts/run_v4.sh analyze stock:000063",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:半导体",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:002001",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:创新药 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:创新药",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:002050",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:新能源车 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002050」，或运行：./scripts/run_v4.sh analyze stock:002050",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:新能源车",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:002371",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002371」，或运行：./scripts/run_v4.sh analyze stock:002371",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:002415",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:人工智能算力 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:人工智能算力",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:002517",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:互联网平台 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002517」，或运行：./scripts/run_v4.sh analyze stock:002517",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:互联网平台",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:00700",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:00700」，或运行：./scripts/run_v4.sh analyze stock:00700",
+      "version": 1,
+      "generated_at": "2026-06-12T15:18:16Z",
+      "ttl_days": 5,
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:01810",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:19:51Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:消费电子家电",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:06160",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:06160」，或运行：./scripts/run_v4.sh analyze stock:06160",
+      "version": 1,
+      "generated_at": "2026-06-12T15:10:02Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:06990",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:06990」，或运行：./scripts/run_v4.sh analyze stock:06990",
+      "version": 1,
+      "generated_at": "2026-06-12T15:11:21Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:09988",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:09988」，或运行：./scripts/run_v4.sh analyze stock:09988",
+      "version": 1,
+      "generated_at": "2026-06-12T15:18:55Z",
+      "ttl_days": 5,
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:09992",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:消费电子家电",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
@@ -721,6 +616,19 @@
       "cli_hint": "在 CLI 对话说「分析 stock:300308」，或运行：./scripts/run_v4.sh analyze stock:300308",
       "version": 6,
       "generated_at": "2026-06-12T14:18:57Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:300394",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:300394」，或运行：./scripts/run_v4.sh analyze stock:300394",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
       "ttl_days": 5,
       "upstream": [],
       "run_mode": "ai_proxy",
@@ -740,50 +648,132 @@
       "exists": true
     },
     {
-      "unit_id": "stock:603236",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v6（本单元基于 v1），结论可能过时",
-      "cli_hint": "在 CLI 对话说「分析 stock:603236」，或运行：./scripts/run_v4.sh analyze stock:603236",
+      "unit_id": "stock:300502",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:300502」，或运行：./scripts/run_v4.sh analyze stock:300502",
       "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "generated_at": "2026-06-12T15:04:29Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:半导体",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:600111",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:600111」，或运行：./scripts/run_v4.sh analyze stock:600111",
+      "version": 1,
+      "generated_at": "2026-06-12T15:12:46Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:600276",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:600276」，或运行：./scripts/run_v4.sh analyze stock:600276",
+      "version": 1,
+      "generated_at": "2026-06-12T15:10:41Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:600900",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:600900」，或运行：./scripts/run_v4.sh analyze stock:600900",
+      "version": 1,
+      "generated_at": "2026-06-12T15:13:38Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:601899",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:601899」，或运行：./scripts/run_v4.sh analyze stock:601899",
+      "version": 1,
+      "generated_at": "2026-06-12T15:12:01Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:601985",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:601985」，或运行：./scripts/run_v4.sh analyze stock:601985",
+      "version": 1,
+      "generated_at": "2026-06-12T15:17:35Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:603236",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:603236」，或运行：./scripts/run_v4.sh analyze stock:603236",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
+      "ttl_days": 5,
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },
     {
       "unit_id": "stock:603663",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:有色资源 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:603663」，或运行：./scripts/run_v4.sh analyze stock:603663",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:有色资源",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:688012",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:688012」，或运行：./scripts/run_v4.sh analyze stock:688012",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true
+    },
+    {
+      "unit_id": "stock:688268",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:688268」，或运行：./scripts/run_v4.sh analyze stock:688268",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true
     },

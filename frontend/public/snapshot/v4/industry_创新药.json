@@ -230,68 +230,105 @@
   ],
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:创新药",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:创新药」，或运行：./scripts/run_v4.sh analyze alloc:industry:创新药",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-12T15:21:35Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:equity_industries",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "stock:002001",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "stock_weights": [
     {
-      "name": "医疗ETF009881",
-      "w": 2.2,
-      "type": "etf"
+      "code": "06160",
+      "name": "百济神州",
+      "target_weight": 2.0,
+      "reasoning": "创新药出海首选+扭亏拐点+管线丰富"
     },
     {
-      "name": "新和成002001",
-      "w": 0.8,
-      "type": "stock"
+      "code": "600276",
+      "name": "恒瑞医药",
+      "target_weight": 1.8,
+      "reasoning": "国内龙头+BMS 9.5亿美元BD标杆+9款获批催化"
+    },
+    {
+      "code": "06990",
+      "name": "科伦博泰",
+      "target_weight": 1.2,
+      "reasoning": "ADC出海标杆+ASCO催化;弹性大但波动大"
     }
   ],
   "stocks": [
     {
       "unit_id": "stock:002001",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:创新药 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:创新药",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "002001",
       "name": "新和成",
-      "rating": null,
-      "target_price": null
+      "rating": "中性(VE/VA维生素+蛋氨酸周期股)",
+      "target_price": 25
+    },
+    {
+      "unit_id": "stock:06160",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:06160」，或运行：./scripts/run_v4.sh analyze stock:06160",
+      "version": 1,
+      "generated_at": "2026-06-12T15:10:02Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "06160",
+      "name": "百济神州",
+      "rating": "增持(出海BD标杆+扭亏拐点+全年指引上调)",
+      "target_price": 460
+    },
+    {
+      "unit_id": "stock:06990",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:06990」，或运行：./scripts/run_v4.sh analyze stock:06990",
+      "version": 1,
+      "generated_at": "2026-06-12T15:11:21Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "06990",
+      "name": "科伦博泰生物",
+      "rating": "增持(ADC出海标杆+商业化启航+ASCO催化)",
+      "target_price": 520
+    },
+    {
+      "unit_id": "stock:600276",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:600276」，或运行：./scripts/run_v4.sh analyze stock:600276",
+      "version": 1,
+      "generated_at": "2026-06-12T15:10:41Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "600276",
+      "name": "恒瑞医药",
+      "rating": "增持(BMS战略合作+创新药营收高增+9款获批催化)",
+      "target_price": 75
     }
   ]
 }

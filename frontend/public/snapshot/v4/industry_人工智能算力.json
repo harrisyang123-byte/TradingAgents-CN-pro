@@ -6,15 +6,15 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-    "version": 6,
-    "generated_at": "2026-06-11T01:16:24Z",
+    "version": 7,
+    "generated_at": "2026-06-12T15:22:43Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "verdict": {
-    "stance": "go",
+    "stance": "bullish",
     "direction": "看多AI算力赛道(go/高景气)。但选股理论已从'估值分位'纠正为'预期差驱动'(看的是价格隐含预期vs兑现能力的缺口,不是涨幅/PE高低)。据此:①龙头(中际旭创~1000元/PE77)预期差已收敛偏负——不是'贵'而是'88→1000一路兑现已被充分price-in、剩余预期差耗尽、赔率不够',故持有不追、无仓不建;②真正的alpha在产业链上'预期差未释放'的环节(下游卖铲子/上游材料设备)——但这些标的的定价充分度需data-desk核实A股实时数据后才能定,当前未完成。",
     "chokepoint_conclusion": "【预期差视角修正】①光模块龙头中际旭创:真实~1000元/PE77/forwardPE35/一年11倍(此前落盘的'420元/买点<350'是subagent编造的错误数据,已纠正)。预期差收敛偏负——参照A/B:88元时正预期差>70pct该重仓,现已耗尽,持有不追。②CoWoS:盛合晶微(待IPO)国产替代逻辑仍在,但需核实其定价充分度。③重挖未发现标的:理论方向是往龙头上下游再拆一层(光器件/CoWoS封测设备/特种材料/晶振等),但⚠️这些A股小盘标的的实时股价/市值/覆盖度,当前web工具核实不足,无法严谨判定其预期差/定价充分度——需接入可靠A股数据源(Tushare/Wind)后由data-desk核实再定,本轮不拍脑袋给结论。",
     "risks": [
@@ -238,69 +238,54 @@
   },
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:人工智能算力",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze alloc:industry:人工智能算力",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-12T15:21:35Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:equity_industries",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "stock:002415",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "stock_weights": [
     {
-      "name": "AI主题ETF(012733/012734/024245)",
-      "w": 4.0,
-      "type": "etf"
+      "code": "300308",
+      "name": "中际旭创",
+      "target_weight": 3.5,
+      "reasoning": "光模块全球龙头(800G>40%/1.6T 50-70%);窗口期交易+硬止损纪律;权重略低控制风险"
     },
     {
-      "name": "海康威视002415",
-      "w": 2.0,
-      "type": "stock",
-      "entry": "低估值分批"
+      "code": "300502",
+      "name": "新易盛",
+      "target_weight": 2.5,
+      "reasoning": "1.6T第二梯队+Q1+106%业绩超强+估值更便宜"
+    },
+    {
+      "code": "300394",
+      "name": "天孚通信",
+      "target_weight": 1.5,
+      "reasoning": "光器件+海外布局先行;增速逊于龙头但分散风险"
     }
   ],
   "stocks": [
     {
       "unit_id": "stock:002415",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:人工智能算力 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:人工智能算力",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "002415",
       "name": "海康威视",
-      "rating": null,
-      "target_price": null
+      "rating": "中性偏多(AI赋能安防+海外业务)",
+      "target_price": 40
     },
     {
       "unit_id": "stock:300308",
@@ -318,6 +303,40 @@
       "name": "中际旭创",
       "rating": "中性（窗口期交易持有 + 硬止损纪律）",
       "target_price": null
+    },
+    {
+      "unit_id": "stock:300394",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:300394」，或运行：./scripts/run_v4.sh analyze stock:300394",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "300394",
+      "name": "天孚通信",
+      "rating": "增持(光器件高增+海外布局先行)",
+      "target_price": 420
+    },
+    {
+      "unit_id": "stock:300502",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:300502」，或运行：./scripts/run_v4.sh analyze stock:300502",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "300502",
+      "name": "新易盛",
+      "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
+      "target_price": 700
     }
   ]
 }

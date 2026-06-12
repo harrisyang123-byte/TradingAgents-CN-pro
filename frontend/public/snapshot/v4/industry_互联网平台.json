@@ -180,68 +180,105 @@
   "analysts": {},
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:互联网平台",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:互联网平台」，或运行：./scripts/run_v4.sh analyze alloc:industry:互联网平台",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-12T15:21:35Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:equity_industries",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "stock:002517",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "stock_weights": [
     {
-      "name": "海外互联网ETF006327",
-      "w": 1.0,
-      "type": "etf"
+      "code": "00700",
+      "name": "腾讯控股",
+      "target_weight": 2.0,
+      "reasoning": "AI+游戏+广告+微信AI Agent 6月备案最大催化"
     },
     {
-      "name": "恺英网络002517",
-      "w": 1.0,
-      "type": "stock"
+      "code": "09988",
+      "name": "阿里巴巴",
+      "target_weight": 1.5,
+      "reasoning": "中国AI首选+阿里云外部+40%+千问生态"
+    },
+    {
+      "code": "01810",
+      "name": "小米集团",
+      "target_weight": 0.5,
+      "reasoning": "汽车放量+AI硬件;但跨行业属性混合,小仓配置"
     }
   ],
   "stocks": [
     {
       "unit_id": "stock:002517",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:互联网平台 已更新至 v3（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002517」，或运行：./scripts/run_v4.sh analyze stock:002517",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:互联网平台",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "002517",
       "name": "恺英网络",
-      "rating": null,
-      "target_price": null
+      "rating": "中性(传奇IP+小游戏现金流)",
+      "target_price": 18
+    },
+    {
+      "unit_id": "stock:00700",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:00700」，或运行：./scripts/run_v4.sh analyze stock:00700",
+      "version": 1,
+      "generated_at": "2026-06-12T15:18:16Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "00700",
+      "name": "腾讯控股",
+      "rating": "增持(AI+游戏+广告+微信AI Agent催化)",
+      "target_price": 680
+    },
+    {
+      "unit_id": "stock:01810",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
+      "version": 2,
+      "generated_at": "2026-06-12T15:19:51Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "01810",
+      "name": "小米集团",
+      "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
+      "target_price": 62
+    },
+    {
+      "unit_id": "stock:09988",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:09988」，或运行：./scripts/run_v4.sh analyze stock:09988",
+      "version": 1,
+      "generated_at": "2026-06-12T15:18:55Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "09988",
+      "name": "阿里巴巴",
+      "rating": "增持(中国AI首选+云增速40%+全栈AI能力)",
+      "target_price": 200
     }
   ]
 }

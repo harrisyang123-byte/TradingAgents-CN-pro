@@ -279,106 +279,128 @@
   ],
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:半导体",
-    "status": "yellow",
-    "status_label": "待刷新",
-    "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:半导体」，或运行：./scripts/run_v4.sh analyze alloc:industry:半导体",
-    "version": 1,
-    "generated_at": "2026-06-07T07:42:50Z",
+    "version": 2,
+    "generated_at": "2026-06-12T15:21:35Z",
     "ttl_days": 7,
-    "upstream": [
-      {
-        "unit_id": "alloc:equity_industries",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "stock:603236",
-        "version": 1,
-        "fingerprint": ""
-      },
-      {
-        "unit_id": "stock:000063",
-        "version": 1,
-        "fingerprint": ""
-      }
-    ],
+    "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "stock_weights": [
     {
-      "name": "芯片ETF012629",
-      "w": 2.0,
-      "type": "etf"
+      "code": "688981",
+      "name": "中芯国际",
+      "target_weight": 2.5,
+      "reasoning": "中国唯一12寸成熟+先进制程代工厂战略稀缺"
     },
     {
-      "name": "移远通信603236",
-      "w": 1.5,
-      "type": "stock"
+      "code": "002371",
+      "name": "北方华创",
+      "target_weight": 2.0,
+      "reasoning": "半导体设备龙头+大基金三期最大获益"
     },
     {
-      "name": "中兴通讯000063",
-      "w": 1.5,
-      "type": "stock"
+      "code": "688012",
+      "name": "中微公司",
+      "target_weight": 1.5,
+      "reasoning": "刻蚀机龙头+国产替代核心;估值偏高小仓"
+    },
+    {
+      "code": "688268",
+      "name": "华特气体",
+      "target_weight": 1.0,
+      "reasoning": "电子特气国产替代;估值溢价高小仓试探"
     }
   ],
   "stocks": [
     {
       "unit_id": "stock:000063",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:000063」，或运行：./scripts/run_v4.sh analyze stock:000063",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:半导体",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "000063",
       "name": "中兴通讯",
-      "rating": null,
-      "target_price": null
+      "rating": "中性偏多(5G+AI算力外延+电信运营商资本开支)",
+      "target_price": 40
+    },
+    {
+      "unit_id": "stock:002371",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002371」，或运行：./scripts/run_v4.sh analyze stock:002371",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "002371",
+      "name": "北方华创",
+      "rating": "增持(国产替代核心受益者+大基金三期最大获益)",
+      "target_price": 850
     },
     {
       "unit_id": "stock:603236",
-      "status": "yellow",
-      "status_label": "待刷新",
-      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:半导体 已更新至 v6（本单元基于 v1），结论可能过时",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:603236」，或运行：./scripts/run_v4.sh analyze stock:603236",
-      "version": 1,
-      "generated_at": "2026-06-07T07:42:50Z",
+      "version": 2,
+      "generated_at": "2026-06-12T15:23:43Z",
       "ttl_days": 5,
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "industry:半导体",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "603236",
       "name": "移远通信",
-      "rating": null,
-      "target_price": null
+      "rating": "中性偏多(IoT+车载模组)",
+      "target_price": 85
+    },
+    {
+      "unit_id": "stock:688012",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:688012」，或运行：./scripts/run_v4.sh analyze stock:688012",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "688012",
+      "name": "中微公司",
+      "rating": "增持(刻蚀龙头+高估值高成长)",
+      "target_price": 260
+    },
+    {
+      "unit_id": "stock:688268",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:688268」，或运行：./scripts/run_v4.sh analyze stock:688268",
+      "version": 1,
+      "generated_at": "2026-06-12T15:04:29Z",
+      "ttl_days": 5,
+      "upstream": [],
+      "run_mode": "ai_proxy",
+      "exists": true,
+      "code": "688268",
+      "name": "华特气体",
+      "rating": "增持(电子特气国产替代加速)",
+      "target_price": 75
     },
     {
       "unit_id": "stock:688981",

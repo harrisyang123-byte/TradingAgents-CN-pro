@@ -227,3 +227,19 @@
   - 第4步:asset:equity v5 落盘(reflection 时序正确,首次完整 forward_view 9条触发监控+3情景+3尾部风险)。
   - 第5步:前端 AssetDetailTab 加"前瞻视野"折叠面板(触发监控置顶+日历表+三情景卡片+中长期+仓位/IV/跨市场+假设证伪+尾部风险表)+样式;TS 类型 ForwardView 等加进 portfolioV4.ts;TS 检查通过。
   - 后续:推广到 industry/stock 三层 director schema(目前仅 asset 层落地);需要时新增日历/positioning/IV 自动取数(目前主 agent 手填)。
+
+- **2026-06-12 B 阶段完整工程推进 (OpenSpec change v4-completion-validation-five-forces)**：
+  - **B1 个股下钻补全**: 14 个推荐行业核心龙头新增/升级,stock 新架构覆盖 17 个全部含 forward_view
+    - AI算力: 中际旭创v6/新易盛/天孚通信
+    - 半导体: 中芯国际v2/北方华创/中微公司/华特气体
+    - 创新药: 百济神州/恒瑞医药/科伦博泰
+    - 有色: 紫金矿业/北方稀土
+    - 电力: 长江电力/中国核电
+    - 互联网: 腾讯/阿里巴巴/小米升级
+    - 消费电子: 蓝思科技v2(观察行业代表)
+  - **B2 alloc:industry v2**: 8 个行业内股票配比落盘(AI 7.5/8 / 半导体7.0/7.0 / 创新药5.0/5.0 / 有色5.0/5.0 / 电力4.0/4.0 / 互联网4.0/4.0 / 消费电子1.5/3 / EV 2.0/2.0)
+  - **B3 关键 bug 修复**: alloc:portfolio v4 verdict 顶层补全 / AI算力 v7 stance go→bullish / unclassified v2 加 forward_view / 中际旭创 chokepoint_score 已统一
+  - **B4 旧股升级**: 8 个旧 v1 stock 升级到 v2 含 forward_view 框架(简化版,标 confidence=low 下次重跑深度)
+  - **B5 静态快照**: build_snapshot_v4 重生成 18 个文件,前端 TS 通过
+  - **覆盖度**: 26/26 stock 全部有 forward_view + 8/8 alloc:industry v2 + 8/8 industry 新架构 + 7/7 大类(unclassified)forward_view
+  - 工作量: ~3-4h
