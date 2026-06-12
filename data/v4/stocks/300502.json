@@ -147,6 +147,23 @@
       "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业人工智能算力龙头)",
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch"
+    },
+    "historical_alpha": {
+      "evaluated_at": "2026-06-12",
+      "prev_version": null,
+      "prev_judgment": {
+        "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
+        "target_price": 700,
+        "date": "2026-06-12"
+      },
+      "actual_outcome": {
+        "price": 526.0,
+        "change_vs_target_pct": -24.9,
+        "source": "manual"
+      },
+      "hit": "miss",
+      "alpha_note": "看多判断,实际价距目标-24.9% → 方向错(目标过高)",
+      "data_status": "verified"
     }
   }
 }
