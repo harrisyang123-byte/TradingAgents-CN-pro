@@ -174,13 +174,84 @@ def to_markdown(result):
     return "\n".join(lines)
 
 
+def backfill_alpha(unit_id, manual_price=None, to_date=None):
+    """计算 historical_alpha 并写回当前单元(C2)。
+
+    historical_alpha 结构:
+      {evaluated_at, prev_version, prev_judgment, actual_outcome, hit, alpha_note, data_status}
+    沙箱无外网时 manual_price 必传，否则 data_status=missing 只记结构不算 alpha。
+    """
+    versions = collect_versions(unit_id)
+    if len(versions) < 1:
+        return {"error": "no versions"}
+    cur = versions[-1]
+    cur_j = extract_judgment(cur)
+    # 选取有效的"上一版"判断: 跳过空 payload(rating 和 target 都空的脏版本)
+    prev_j = None
+    for env in reversed(versions[:-1]):
+        j = extract_judgment(env)
+        if j.get("rating") or j.get("target_price"):
+            prev_j = j
+            break
+
+    actual = {"price": None, "source": "n/a", "status": "missing"}
+    if unit_id.startswith("stock:"):
+        code = unit_id.split(":", 1)[1]
+        market = cur.get("payload", {}).get("market", "CN")
+        actual = get_actual_price(code, market, to_date, manual_price)
+
+    ap = actual.get("price")
+    # 判断命中: 用 prev(或 cur) 的 target/rating 对比实际
+    base_j = prev_j or cur_j
+    tp = base_j.get("target_price")
+    hit, alpha_note = "unknown", "价格不可得，仅记录判断方向待后续回填"
+    change_pct = None
+    if ap and tp:
+        change_pct = round((ap - tp) / tp * 100, 1)
+        rating = str(base_j.get("rating") or "")
+        is_bull = any(k in rating for k in ["买入", "增持", "看多", "bullish", "go"])
+        is_bear = any(k in rating for k in ["减持", "卖出", "看空", "bearish", "avoid"])
+        # 命中: 看多且实际接近/超目标(change>=-10%) 或 看空且实际低于目标
+        if is_bull:
+            hit = "hit" if change_pct >= -10 else "miss"
+            alpha_note = f"看多判断,实际价距目标{change_pct}% → {'方向对' if hit=='hit' else '方向错(目标过高)'}"
+        elif is_bear:
+            hit = "hit" if change_pct <= 10 else "miss"
+            alpha_note = f"看空判断,实际价距目标{change_pct}% → {'方向对' if hit=='hit' else '方向错'}"
+        else:
+            hit = "neutral"
+            alpha_note = f"中性判断,实际价距目标{change_pct}%"
+
+    ha = {
+        "evaluated_at": to_date or datetime.utcnow().isoformat()[:10],
+        "prev_version": prev_j.get("version") if prev_j else None,
+        "prev_judgment": {"rating": base_j.get("rating"), "target_price": tp, "date": base_j.get("date")},
+        "actual_outcome": {"price": ap, "change_vs_target_pct": change_pct, "source": actual.get("source")},
+        "hit": hit,
+        "alpha_note": alpha_note,
+        "data_status": actual.get("status"),
+    }
+    # 写回当前单元 payload.historical_alpha
+    cur_file = _unit_file(unit_id)
+    env = json.load(open(cur_file))
+    env.setdefault("payload", {})["historical_alpha"] = ha
+    json.dump(env, open(cur_file, "w"), ensure_ascii=False, indent=2)
+    return ha
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--unit", required=True, help="unit_id 如 stock:300308")
     ap.add_argument("--to-date", default=None)
     ap.add_argument("--price", type=float, default=None, help="手动传实际价格(沙箱无外网时)")
     ap.add_argument("--md", action="store_true", help="输出 markdown")
+    ap.add_argument("--backfill", action="store_true", help="计算并写回 historical_alpha")
     args = ap.parse_args()
+
+    if args.backfill:
+        ha = backfill_alpha(args.unit, args.price, args.to_date)
+        print(json.dumps(ha, ensure_ascii=False, indent=2))
+        return 0
 
     result = replay(args.unit, args.to_date, args.price)
     if args.md:

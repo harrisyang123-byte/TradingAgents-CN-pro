@@ -157,6 +157,23 @@
       "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
       "why_changed": "用户要求中芯国际深度分析",
       "self_check": "first_run_new_arch"
+    },
+    "historical_alpha": {
+      "evaluated_at": "2026-06-12",
+      "prev_version": 1,
+      "prev_judgment": {
+        "rating": null,
+        "target_price": null,
+        "date": "2026-06-12"
+      },
+      "actual_outcome": {
+        "price": 120.0,
+        "change_vs_target_pct": null,
+        "source": "manual"
+      },
+      "hit": "unknown",
+      "alpha_note": "价格不可得，仅记录判断方向待后续回填",
+      "data_status": "verified"
     }
   }
 }
