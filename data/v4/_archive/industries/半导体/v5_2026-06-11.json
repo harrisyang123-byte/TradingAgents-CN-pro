@@ -2,12 +2,12 @@
   "unit_id": "industry:半导体",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 6,
+  "version": 5,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-12T09:37:14Z",
+  "generated_at": "2026-06-11T01:16:24Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -43,133 +43,79 @@
     ],
     "chokepoint_map": [
       {
-        "layer": "设备-光刻",
-        "node": "光刻机(ArF/EUV)",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高(ASML EUV独家+尼康佳能DUV)",
-        "capacity_rigidity": "强(产能定制,5-10年研发)",
-        "value_capture": "极高",
-        "substitution_risk": "中国上海微电子28nm未突破/90nm量产中,5-10年级别突破极难",
-        "beneficiaries_a": [
-          "茂莱光学688502",
-          "福晶科技002222"
+        "link": "光刻机(ArF/EUV)",
+        "bottleneck_score": "极高",
+        "why": "半导体制造皇冠,全球仅ASML(EUV独家)+尼康佳能(DUV);中国上海微电子28nm仍未突破,90nm量产中。物理瓶颈最深,5-10年看是真卡脖子,但短期突破极难。",
+        "beneficiaries": [
+          "上海微电子(未上市)",
+          "茂莱光学",
+          "福晶科技"
         ],
-        "beneficiaries_qdii": [
-          "ASML(纳指)",
-          "Nikon(日本ETF)"
-        ],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       },
       {
-        "layer": "设备-工艺",
-        "node": "半导体设备(刻蚀/PVD/CVD/CMP)",
-        "irreplaceability": "高",
-        "supply_concentration": "中(国产化25-35%)",
-        "capacity_rigidity": "强",
-        "value_capture": "高",
-        "substitution_risk": "国产替代加速但先进制程仍依赖海外",
-        "beneficiaries_a": [
-          "北方华创002371",
-          "中微公司688012",
-          "拓荆科技688072",
-          "盛美上海688082",
-          "华海清科688120"
+        "link": "半导体设备(刻蚀/PVD/CVD/CMP)",
+        "bottleneck_score": "高",
+        "why": "国产化率从2020的<10%提升至2025的25-35%,北方华创+中微公司+拓荆+盛美+华海清科已能覆盖12寸主流工艺,大基金三期重点支持环节。订单可见度高。",
+        "beneficiaries": [
+          "北方华创",
+          "中微公司",
+          "拓荆科技",
+          "盛美上海",
+          "华海清科"
         ],
-        "beneficiaries_qdii": [
-          "AMAT/LRCX/KLAC(纳指)"
-        ],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       },
       {
-        "layer": "材料",
-        "node": "电子特气/光刻胶/CMP抛光液",
-        "irreplaceability": "高",
-        "supply_concentration": "高(进口依赖)",
-        "capacity_rigidity": "中",
-        "value_capture": "中",
-        "substitution_risk": "国产化10-30%空间最大;光刻胶ArF以上仍依赖日本",
-        "beneficiaries_a": [
-          "华特气体688268",
-          "金宏气体688106",
-          "南大光电300346",
-          "彤程新材603650",
-          "安集科技688019",
-          "鼎龙股份300054"
+        "link": "电子特气/光刻胶/CMP抛光液",
+        "bottleneck_score": "高",
+        "why": "半导体材料卡脖子核心,国产化率10-30%间,提升空间最大。光刻胶ArF以上仍依赖日本JSR/信越/TOK,KrF/g-line国产化加速。",
+        "beneficiaries": [
+          "华特气体",
+          "金宏气体",
+          "南大光电",
+          "彤程新材",
+          "安集科技",
+          "鼎龙股份"
         ],
-        "beneficiaries_qdii": [
-          "JSR(日本)",
-          "信越化学(日本)"
-        ],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       },
       {
-        "layer": "软件-EDA",
-        "node": "EDA软件",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高(Cadence/Synopsys/Siemens占90%+)",
-        "capacity_rigidity": "强(平台级)",
-        "value_capture": "极高",
-        "substitution_risk": "中国华大九天等仅在专项工具,全流程突破需3-5年",
-        "beneficiaries_a": [
-          "华大九天301269",
-          "概伦电子688206",
-          "广立微301095"
+        "link": "EDA软件",
+        "bottleneck_score": "极高",
+        "why": "全球三巨头(Cadence/Synopsys/Siemens)垄断>90%份额,中国华大九天/概伦电子/广立微仅在专项工具(模拟/PCB)有突破,数字全流程未通。被列入实体清单后突破紧迫,但壁垒最高。",
+        "beneficiaries": [
+          "华大九天",
+          "概伦电子",
+          "广立微"
         ],
-        "beneficiaries_qdii": [
-          "Cadence CDNS",
-          "Synopsys SNPS"
-        ],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🟢未发现(早期)"
       },
       {
-        "layer": "材料-硅片",
-        "node": "硅片(12寸大硅片)",
-        "irreplaceability": "中",
-        "supply_concentration": "中",
-        "capacity_rigidity": "中",
-        "value_capture": "低",
-        "substitution_risk": "国产化25-35%通过下游验证;2027全球过剩担忧",
-        "beneficiaries_a": [
-          "沪硅产业688126",
-          "立昂微605358",
-          "TCL中环002129"
+        "link": "硅片(12寸大硅片)",
+        "bottleneck_score": "中",
+        "why": "国产化率提升至25-35%,沪硅产业/立昂微/中环/TCL中环已通过下游验证,大基金支持。但全球过剩担忧2027上行。",
+        "beneficiaries": [
+          "沪硅产业",
+          "立昂微",
+          "TCL中环"
         ],
-        "beneficiaries_qdii": [
-          "信越化学/胜高(日本)"
-        ],
-        "is_top": false,
-        "evidence_status": "verified"
+        "discovery": "🔴已拥挤"
       },
       {
-        "layer": "封装",
-        "node": "先进封装(CoWoS/HBM/Chiplet)",
-        "irreplaceability": "高",
-        "supply_concentration": "极高(TSMC ~90% CoWoS)",
-        "capacity_rigidity": "强(扩产18-24月)",
-        "value_capture": "高",
-        "substitution_risk": "玻璃基板2027试产/2030量产,差距仍大",
-        "beneficiaries_a": [
-          "通富微电002156",
-          "长电科技600584",
-          "甬矽电子688362"
+        "link": "先进封装(CoWoS/HBM/Chiplet)",
+        "bottleneck_score": "高",
+        "why": "AI算力时代瓶颈从制造转向封装,CoWoS产能2026扩3倍仍紧;中国通富微电/长电科技切入HBM/Chiplet,但与台积电SoIC/CoWoS差距仍大。",
+        "beneficiaries": [
+          "通富微电",
+          "长电科技",
+          "甬矽电子"
         ],
-        "beneficiaries_qdii": [
-          "TSMC TSM",
-          "Amkor AMKR"
-        ],
-        "is_top": false,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       }
     ],
     "top_chokepoints": [
-      "光刻机(ArF/EUV)",
-      "半导体设备(刻蚀/PVD/CVD/CMP)",
-      "电子特气/光刻胶/CMP抛光液",
-      "EDA软件"
+      "①电子特气/光刻胶/CMP材料——国产化率10-30%空间最大、订单已落地、PE合理;②半导体设备(刻蚀/CVD/CMP)——大基金三期重点+订单兑现可见度高;③EDA软件——壁垒最高+发现度最低,长坡厚雪但需3-5年耐心。"
     ],
     "verdict": {
       "stance": "bullish",
@@ -191,10 +137,10 @@
       "confidence": "medium-high",
       "reflection": {
         "prev_stance": "bullish",
-        "prev_date": "2026-06-11T01:16:24Z",
-        "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
-        "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
-        "self_check": "chokepoint_schema_normalize"
+        "prev_date": "2026-06-10T23:46:00Z",
+        "what_changed": "恢复 archive + 新增完整 forward_view 9字段(级联升级)",
+        "why_changed": "asset层 A/B 测试89 vs 52,级联推到行业层",
+        "self_check": "level_2_industry_cascade_recovered"
       },
       "forward_view": {
         "near_term_calendar": [

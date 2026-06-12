@@ -208,11 +208,11 @@
     "industry:互联网平台": {
       "unit_id": "industry:互联网平台",
       "unit_type": "industry",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:18:13Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/互联网平台.json"
@@ -232,11 +232,11 @@
     "industry:创新药": {
       "unit_id": "industry:创新药",
       "unit_type": "industry",
-      "version": 5,
+      "version": 6,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:16:24Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/创新药.json"
@@ -244,11 +244,11 @@
     "industry:半导体": {
       "unit_id": "industry:半导体",
       "unit_type": "industry",
-      "version": 5,
+      "version": 6,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:16:24Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/半导体.json"
@@ -256,11 +256,11 @@
     "industry:新能源车": {
       "unit_id": "industry:新能源车",
       "unit_type": "industry",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:18:13Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/新能源车.json"
@@ -268,11 +268,11 @@
     "industry:有色资源": {
       "unit_id": "industry:有色资源",
       "unit_type": "industry",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:18:13Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/有色资源.json"
@@ -280,11 +280,11 @@
     "industry:消费电子家电": {
       "unit_id": "industry:消费电子家电",
       "unit_type": "industry",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:18:13Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/消费电子家电.json"
@@ -292,11 +292,11 @@
     "industry:电力公用事业": {
       "unit_id": "industry:电力公用事业",
       "unit_type": "industry",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:18:13Z",
+      "generated_at": "2026-06-12T09:37:14Z",
       "upstream": [],
       "error": null,
       "path": "industries/电力公用事业.json"
@@ -734,5 +734,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-11T01:19:14Z"
+  "updated_at": "2026-06-12T09:37:26Z"
 }

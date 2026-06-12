@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:创新药」，或运行：./scripts/run_v4.sh analyze industry:创新药",
-    "version": 5,
-    "generated_at": "2026-06-11T01:16:24Z",
+    "version": 6,
+    "generated_at": "2026-06-12T09:37:14Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -33,10 +33,10 @@
     "confidence": "medium-high",
     "reflection": {
       "prev_stance": "bullish",
-      "prev_date": "2026-06-10T10:51:23Z",
-      "what_changed": "恢复 archive + 新增完整 forward_view 9字段(级联升级)",
-      "why_changed": "asset层 A/B 测试89 vs 52,级联推到行业层",
-      "self_check": "level_2_industry_cascade_recovered"
+      "prev_date": "2026-06-11T01:16:24Z",
+      "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
+      "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
+      "self_check": "chokepoint_schema_normalize"
     },
     "forward_view": {
       "near_term_calendar": [
@@ -135,51 +135,84 @@
   ],
   "chokepoint_map": [
     {
-      "link": "出海BD变现能力(全球权益)",
-      "bottleneck_score": "高",
-      "why": "国内降价背景下唯一能打开天花板的咽喉;能拿下海外大药企首付款+里程碑+分成的极少,需全球认可的临床数据+商务能力",
-      "beneficiaries": [
-        "百济神州",
-        "恒瑞医药",
-        "科伦博泰",
-        "信达生物"
+      "layer": "商业化-海外",
+      "node": "出海BD变现能力(全球权益)",
+      "irreplaceability": "高",
+      "supply_concentration": "高(头部4家百济/恒瑞/科伦博泰/信达)",
+      "capacity_rigidity": "强(全球多中心临床周期5-7年)",
+      "value_capture": "高",
+      "substitution_risk": "生物安全法案2026Q4-2027Q1风险窗口;FDA审评放宽则提速",
+      "beneficiaries_a": [
+        "恒瑞医药600276",
+        "信达生物01801(港)"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "百济神州BGNE/06160",
+        "科伦博泰06990"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
     },
     {
-      "link": "first-in-class/best-in-class靶点能力",
-      "bottleneck_score": "高",
-      "why": "避开me-too内卷与集采的唯一路径,需深厚研发平台+靶点发现能力,管线厚度决定护城河",
-      "beneficiaries": [
-        "恒瑞医药",
-        "百济神州",
-        "信达生物"
+      "layer": "研发-管线",
+      "node": "first-in-class/best-in-class靶点能力",
+      "irreplaceability": "高",
+      "supply_concentration": "高",
+      "capacity_rigidity": "强(平台级研发投入)",
+      "value_capture": "高",
+      "substitution_risk": "靶点突破不可替代,被me-too模仿要3-5年",
+      "beneficiaries_a": [
+        "恒瑞医药600276",
+        "信达生物01801"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "百济神州BGNE/06160"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
     },
     {
-      "link": "全球多中心临床(MRCT)执行能力",
-      "bottleneck_score": "中",
-      "why": "出海前提,能独立做全球三期的中国药企屈指可数,烧钱且周期长",
-      "beneficiaries": [
-        "百济神州",
-        "恒瑞医药"
+      "layer": "研发-临床",
+      "node": "全球多中心临床(MRCT)执行能力",
+      "irreplaceability": "中",
+      "supply_concentration": "高(可独立做MRCT中国药企<5家)",
+      "capacity_rigidity": "强",
+      "value_capture": "中",
+      "substitution_risk": "CXO提供能力,但战略性差;FDA对中国数据要求趋紧",
+      "beneficiaries_a": [
+        "药明康德603259"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "百济神州BGNE",
+        "药明康德02359(港)"
+      ],
+      "is_top": false,
+      "evidence_status": "verified"
     },
     {
-      "link": "CXO研发外包产能",
-      "bottleneck_score": "中",
-      "why": "承接全球研发外包,景气受益但属卖水人,议价权随产能扩张稀释,且受地缘扰动",
-      "beneficiaries": [
-        "药明康德",
-        "凯莱英"
+      "layer": "配套-CXO",
+      "node": "CXO研发外包产能",
+      "irreplaceability": "低",
+      "supply_concentration": "中",
+      "capacity_rigidity": "中",
+      "value_capture": "低",
+      "substitution_risk": "印度/越南CXO崛起+地缘扰动",
+      "beneficiaries_a": [
+        "药明康德603259",
+        "凯莱英002821",
+        "泰格医药300347"
       ],
-      "discovery": "🔴已拥挤"
+      "beneficiaries_qdii": [
+        "药明生物02269",
+        "药明康德02359"
+      ],
+      "is_top": false,
+      "evidence_status": "verified"
     }
   ],
   "top_chokepoints": [
-    "出海BD变现能力——国内降价压制下,只有能把管线变成海外真金白银(首付款+里程碑+分成)的龙头,才配享受估值溢价;这是创新药的真瓶颈,不是产能而是'全球权益变现'。"
+    "出海BD变现能力(全球权益)",
+    "first-in-class/best-in-class靶点能力"
   ],
   "analysts": [
     {
@@ -236,7 +269,7 @@
       "unit_id": "stock:002001",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:创新药 已更新至 v5（本单元基于 v1），结论可能过时",
+      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:创新药 已更新至 v6（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

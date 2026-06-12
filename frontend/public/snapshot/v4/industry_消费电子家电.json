@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:消费电子家电」，或运行：./scripts/run_v4.sh analyze industry:消费电子家电",
-    "version": 2,
-    "generated_at": "2026-06-11T01:18:13Z",
+    "version": 3,
+    "generated_at": "2026-06-12T09:37:14Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -28,11 +28,11 @@
     "trend": "hold",
     "confidence": "medium",
     "reflection": {
-      "prev_stance": null,
-      "prev_date": null,
-      "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
-      "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
-      "self_check": "first_run_new_arch_full"
+      "prev_stance": "neutral",
+      "prev_date": "2026-06-11T01:18:13Z",
+      "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
+      "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
+      "self_check": "chokepoint_schema_normalize"
     },
     "forward_view": {
       "near_term_calendar": [
@@ -120,41 +120,61 @@
   "debate_rounds": [],
   "chokepoint_map": [
     {
-      "link": "AI硬件芯片+模组",
-      "bottleneck_score": "高",
-      "why": "AI手机/AI PC的核心",
-      "beneficiaries": [
-        "立讯精密",
-        "歌尔股份",
-        "蓝思科技"
+      "layer": "AI硬件-供应链",
+      "node": "AI硬件芯片+模组",
+      "irreplaceability": "高",
+      "supply_concentration": "高(立讯/蓝思/歌尔苹果链)",
+      "capacity_rigidity": "强(认证周期长)",
+      "value_capture": "中",
+      "substitution_risk": "印度/越南转移压力;AI硬件+苹果创新周期共振",
+      "beneficiaries_a": [
+        "立讯精密002475",
+        "歌尔股份002241",
+        "蓝思科技300433"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "苹果AAPL",
+        "小米01810(港)"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
     },
     {
-      "link": "折叠屏/创新形态",
-      "bottleneck_score": "中",
-      "why": "差异化卖点",
-      "beneficiaries": [
-        "信维通信",
-        "欧菲光"
+      "layer": "差异化-硬件",
+      "node": "折叠屏/创新形态",
+      "irreplaceability": "中",
+      "supply_concentration": "中",
+      "capacity_rigidity": "中",
+      "value_capture": "中",
+      "substitution_risk": "折叠屏2026-2027市场分化,降价后渗透提升",
+      "beneficiaries_a": [
+        "信维通信300136",
+        "欧菲光002456"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [],
+      "is_top": false,
+      "evidence_status": "estimated"
     },
     {
-      "link": "家电出海+品牌化",
-      "bottleneck_score": "中",
-      "why": "中高端家电份额持续提升",
-      "beneficiaries": [
-        "美的集团",
-        "海尔智家",
-        "格力电器"
+      "layer": "出海-品牌",
+      "node": "家电出海+品牌化",
+      "irreplaceability": "低",
+      "supply_concentration": "高(美的/海尔/格力三巨头)",
+      "capacity_rigidity": "强(品牌+渠道护城河)",
+      "value_capture": "中",
+      "substitution_risk": "中高端家电份额持续提升,日韩品牌承压",
+      "beneficiaries_a": [
+        "美的集团000333",
+        "海尔智家600690",
+        "格力电器000651"
       ],
-      "discovery": "🔴已拥挤"
+      "beneficiaries_qdii": [],
+      "is_top": false,
+      "evidence_status": "verified"
     }
   ],
   "top_chokepoints": [
-    "AI硬件芯片+模组",
-    "折叠屏/创新形态"
+    "AI硬件芯片+模组"
   ],
   "analysts": {},
   "intra_alloc_unit": {
@@ -208,7 +228,7 @@
       "unit_id": "stock:01810",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v3（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
@@ -236,7 +256,7 @@
       "unit_id": "stock:09992",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:消费电子家电 已更新至 v3（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",

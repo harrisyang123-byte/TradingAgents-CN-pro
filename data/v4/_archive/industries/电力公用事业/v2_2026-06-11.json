@@ -2,12 +2,12 @@
   "unit_id": "industry:电力公用事业",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-12T09:37:14Z",
+  "generated_at": "2026-06-11T01:18:13Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -17,54 +17,36 @@
     "related_holdings": [],
     "chokepoint_map": [
       {
-        "layer": "水电-稀缺",
-        "node": "大水电(长电/华能水电)",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高",
-        "capacity_rigidity": "强(资源稀缺)",
-        "value_capture": "极高",
-        "substitution_risk": "无替代,资源稀缺+长期现金流",
-        "beneficiaries_a": [
-          "长江电力600900",
-          "华能水电600025",
-          "川投能源600674"
+        "link": "大水电(长电/华能水电)",
+        "bottleneck_score": "高",
+        "why": "稀缺资源+长期现金流",
+        "beneficiaries": [
+          "长江电力",
+          "华能水电",
+          "川投能源"
         ],
-        "beneficiaries_qdii": [],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🔴已拥挤"
       },
       {
-        "layer": "核电-基荷",
-        "node": "核电",
-        "irreplaceability": "高",
-        "supply_concentration": "高(中核+中广核两家)",
-        "capacity_rigidity": "强(投产5-7年)",
-        "value_capture": "高",
-        "substitution_risk": "低碳基荷不可替代,2025-26核准加速",
-        "beneficiaries_a": [
-          "中国核电601985",
-          "中国广核003816"
+        "link": "核电",
+        "bottleneck_score": "高",
+        "why": "低碳基荷,2025-26核准加速",
+        "beneficiaries": [
+          "中国核电",
+          "中国广核"
         ],
-        "beneficiaries_qdii": [],
-        "is_top": true,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       },
       {
-        "layer": "电网-基础设施",
-        "node": "特高压/电网升级",
-        "irreplaceability": "高",
-        "supply_concentration": "高(国电南瑞主导)",
-        "capacity_rigidity": "中",
-        "value_capture": "中",
-        "substitution_risk": "电力化基础设施,投资周期2026-2030加速",
-        "beneficiaries_a": [
-          "国电南瑞600406",
-          "平高电气600312",
-          "许继电气000400"
+        "link": "特高压/电网升级",
+        "bottleneck_score": "中",
+        "why": "电力化基础设施",
+        "beneficiaries": [
+          "国电南瑞",
+          "平高电气",
+          "许继电气"
         ],
-        "beneficiaries_qdii": [],
-        "is_top": false,
-        "evidence_status": "verified"
+        "discovery": "🟡半发现"
       }
     ],
     "top_chokepoints": [
@@ -86,11 +68,11 @@
       "trend": "increase",
       "confidence": "medium-high",
       "reflection": {
-        "prev_stance": "bullish",
-        "prev_date": "2026-06-11T01:18:13Z",
-        "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
-        "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
-        "self_check": "chokepoint_schema_normalize"
+        "prev_stance": null,
+        "prev_date": null,
+        "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
+        "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
+        "self_check": "first_run_new_arch_full"
       },
       "forward_view": {
         "near_term_calendar": [

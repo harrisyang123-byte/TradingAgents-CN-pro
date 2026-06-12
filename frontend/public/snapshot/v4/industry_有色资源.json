@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:有色资源」，或运行：./scripts/run_v4.sh analyze industry:有色资源",
-    "version": 2,
-    "generated_at": "2026-06-11T01:18:13Z",
+    "version": 3,
+    "generated_at": "2026-06-12T09:37:14Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -28,11 +28,11 @@
     "trend": "increase",
     "confidence": "medium-high",
     "reflection": {
-      "prev_stance": null,
-      "prev_date": null,
-      "what_changed": "v1 baseline 升级到完整新架构(chokepoint+四维+forward_view)",
-      "why_changed": "asset层 forward_view A/B 测试通过,推到行业层全量升级",
-      "self_check": "first_run_new_arch_full"
+      "prev_stance": "bullish",
+      "prev_date": "2026-06-11T01:18:13Z",
+      "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
+      "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
+      "self_check": "chokepoint_schema_normalize"
     },
     "forward_view": {
       "near_term_calendar": [
@@ -120,42 +120,68 @@
   "debate_rounds": [],
   "chokepoint_map": [
     {
-      "link": "铜矿+加工",
-      "bottleneck_score": "高",
-      "why": "全球铜矿2027后增量有限+电力化加速",
-      "beneficiaries": [
-        "紫金矿业",
-        "江西铜业",
-        "云南铜业"
+      "layer": "工业金属",
+      "node": "铜矿+加工",
+      "irreplaceability": "高",
+      "supply_concentration": "中(全球前10矿山占60%)",
+      "capacity_rigidity": "强(矿山开发周期8-10年)",
+      "value_capture": "高",
+      "substitution_risk": "无替代,电力化驱动持续",
+      "beneficiaries_a": [
+        "紫金矿业601899",
+        "江西铜业600362",
+        "云南铜业000878"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "BHP",
+        "FCX"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
     },
     {
-      "link": "金矿",
-      "bottleneck_score": "中",
-      "why": "央行购金延续17月+地缘溢价",
-      "beneficiaries": [
-        "紫金矿业",
-        "山东黄金",
-        "赤峰黄金"
+      "layer": "贵金属",
+      "node": "金矿",
+      "irreplaceability": "高",
+      "supply_concentration": "低",
+      "capacity_rigidity": "强",
+      "value_capture": "高",
+      "substitution_risk": "避险/通胀对冲不可替代",
+      "beneficiaries_a": [
+        "紫金矿业601899",
+        "山东黄金600547",
+        "赤峰黄金600988"
       ],
-      "discovery": "🟡半发现"
+      "beneficiaries_qdii": [
+        "Newmont NEM",
+        "Barrick GOLD"
+      ],
+      "is_top": false,
+      "evidence_status": "verified"
     },
     {
-      "link": "稀土+磁材",
-      "bottleneck_score": "高",
-      "why": "中国占全球90%+,战略资产",
-      "beneficiaries": [
-        "北方稀土",
-        "盛和资源",
-        "金力永磁"
+      "layer": "战略金属",
+      "node": "稀土+磁材",
+      "irreplaceability": "极高",
+      "supply_concentration": "极高(中国占全球90%)",
+      "capacity_rigidity": "强",
+      "value_capture": "高",
+      "substitution_risk": "中国战略资产,出口管制工具",
+      "beneficiaries_a": [
+        "北方稀土600111",
+        "盛和资源600392",
+        "金力永磁300748"
       ],
-      "discovery": "🟢未发现"
+      "beneficiaries_qdii": [
+        "MP Materials MP"
+      ],
+      "is_top": true,
+      "evidence_status": "verified"
     }
   ],
   "top_chokepoints": [
     "铜矿+加工",
-    "金矿"
+    "稀土+磁材"
   ],
   "analysts": {},
   "intra_alloc_unit": {
@@ -195,7 +221,7 @@
       "unit_id": "stock:603663",
       "status": "yellow",
       "status_label": "待刷新",
-      "stale_reason": "上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:有色资源 已更新至 v2（本单元基于 v1），结论可能过时",
+      "stale_reason": "已生成 5 天，超过 TTL 5 天，建议刷新；上游 alloc:equity_industries 已更新至 v2（本单元基于 v1），结论可能过时；上游 industry:有色资源 已更新至 v3（本单元基于 v1），结论可能过时",
       "cli_hint": "在 CLI 对话说「分析 stock:603663」，或运行：./scripts/run_v4.sh analyze stock:603663",
       "version": 1,
       "generated_at": "2026-06-07T07:42:50Z",
