@@ -201,26 +201,28 @@ def backfill_alpha(unit_id, manual_price=None, to_date=None):
         actual = get_actual_price(code, market, to_date, manual_price)
 
     ap = actual.get("price")
-    # 判断命中: 用 prev(或 cur) 的 target/rating 对比实际
+    # 诚实: 算真 alpha 需"判断发出时价格",当前 payload 未存 → 不武断判 hit/miss,只记"实际 vs 目标/买点"位置
     base_j = prev_j or cur_j
     tp = base_j.get("target_price")
-    hit, alpha_note = "unknown", "价格不可得，仅记录判断方向待后续回填"
+    er = base_j.get("entry_range")
+    hit, alpha_note = "tracking", ""
     change_pct = None
     if ap and tp:
-        change_pct = round((ap - tp) / tp * 100, 1)
+        change_pct = round((ap - tp) / tp * 100, 1)   # 实际价距目标价(负=还没涨到目标)
         rating = str(base_j.get("rating") or "")
         is_bull = any(k in rating for k in ["买入", "增持", "看多", "bullish", "go"])
-        is_bear = any(k in rating for k in ["减持", "卖出", "看空", "bearish", "avoid"])
-        # 命中: 看多且实际接近/超目标(change>=-10%) 或 看空且实际低于目标
-        if is_bull:
-            hit = "hit" if change_pct >= -10 else "miss"
-            alpha_note = f"看多判断,实际价距目标{change_pct}% → {'方向对' if hit=='hit' else '方向错(目标过高)'}"
-        elif is_bear:
-            hit = "hit" if change_pct <= 10 else "miss"
-            alpha_note = f"看空判断,实际价距目标{change_pct}% → {'方向对' if hit=='hit' else '方向错'}"
-        else:
-            hit = "neutral"
-            alpha_note = f"中性判断,实际价距目标{change_pct}%"
+        pos = ""
+        if er and isinstance(er, list) and len(er) == 2 and er[0]:
+            if ap <= er[1]:
+                pos = f";实际价在买点区间 {er} 内(可建仓)"
+            else:
+                pos = f";实际价已高于买点上限 {er[1]}(涨过买点)"
+        alpha_note = (f"{'看多' if is_bull else '判断'}目标 {tp},实际 {ap}(距目标 {change_pct}%){pos}。"
+                      f"[局限] 真 hit/miss 需记录判断发出时价格+联网历史价,当前仅位置追踪")
+    elif ap:
+        alpha_note = f"实际价 {ap},该版本用区间法无单一目标价,仅记录位置。[局限] 同上"
+    else:
+        alpha_note = "价格不可得(沙箱无外网),仅记录判断结构待生产环境回填"
 
     ha = {
         "evaluated_at": to_date or datetime.utcnow().isoformat()[:10],

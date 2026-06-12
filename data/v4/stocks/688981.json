@@ -160,19 +160,19 @@
     },
     "historical_alpha": {
       "evaluated_at": "2026-06-12",
-      "prev_version": 1,
+      "prev_version": null,
       "prev_judgment": {
-        "rating": null,
-        "target_price": null,
+        "rating": "增持(成熟制程涨价兑现+价值修复)",
+        "target_price": 140,
         "date": "2026-06-12"
       },
       "actual_outcome": {
         "price": 120.0,
-        "change_vs_target_pct": null,
+        "change_vs_target_pct": -14.3,
         "source": "manual"
       },
-      "hit": "unknown",
-      "alpha_note": "价格不可得，仅记录判断方向待后续回填",
+      "hit": "tracking",
+      "alpha_note": "看多目标 140,实际 120.0(距目标 -14.3%);实际价已高于买点上限 115(涨过买点)。[局限] 真 hit/miss 需记录判断发出时价格+联网历史价,当前仅位置追踪",
       "data_status": "verified"
     }
   }
