@@ -2,52 +2,51 @@
   "unit_id": "alloc:industry:消费电子家电",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:09992",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:01810",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "消费电子家电",
-    "industry_target_weight": 3,
+    "industry_target_weight": 3.0,
     "stock_weights": [
       {
-        "name": "家电ETF005063",
-        "w": 1.0,
-        "type": "etf"
+        "code": "300433",
+        "name": "蓝思科技",
+        "target_weight": 1.5,
+        "reasoning": "中性偏谨慎(等Q2扭亏验证);仅作行业代表观察仓"
       },
       {
-        "name": "泡泡玛特09992",
-        "w": 1.0,
-        "type": "stock"
+        "code": "002475",
+        "name": "立讯精密(参考)",
+        "target_weight": 0.0,
+        "reasoning": "未跑v4分析,占位等后续补"
       },
       {
-        "name": "小米01810",
-        "w": 1.0,
-        "type": "stock"
+        "code": "002241",
+        "name": "歌尔股份(参考)",
+        "target_weight": 0.0,
+        "reasoning": "未跑v4分析,占位等后续补"
       }
     ],
-    "sum_weight": 3.0,
-    "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "sum_weight": 1.5,
+    "input_warnings": [
+      {
+        "code": "002475",
+        "issue": "missing",
+        "detail": "未跑v4个股分析(占位)"
+      },
+      {
+        "code": "002241",
+        "issue": "missing",
+        "detail": "未跑v4个股分析(占位)"
+      }
+    ],
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。消费电子家电 target 3.0% / 实际分配 1.5%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

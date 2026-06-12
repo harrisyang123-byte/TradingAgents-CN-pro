@@ -548,189 +548,96 @@
     "alloc:industry:互联网平台": {
       "unit_id": "alloc:industry:互联网平台",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002517",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_互联网平台.json"
     },
     "alloc:industry:人工智能算力": {
       "unit_id": "alloc:industry:人工智能算力",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002415",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_人工智能算力.json"
     },
     "alloc:industry:创新药": {
       "unit_id": "alloc:industry:创新药",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002001",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_创新药.json"
     },
     "alloc:industry:半导体": {
       "unit_id": "alloc:industry:半导体",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:603236",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:000063",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_半导体.json"
     },
     "alloc:industry:新能源车": {
       "unit_id": "alloc:industry:新能源车",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:002050",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_新能源车.json"
     },
     "alloc:industry:有色资源": {
       "unit_id": "alloc:industry:有色资源",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:603663",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_有色资源.json"
     },
     "alloc:industry:消费电子家电": {
       "unit_id": "alloc:industry:消费电子家电",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:09992",
-          "version": 1,
-          "fingerprint": ""
-        },
-        {
-          "unit_id": "stock:01810",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_消费电子家电.json"
     },
     "alloc:industry:电力公用事业": {
       "unit_id": "alloc:industry:电力公用事业",
       "unit_type": "alloc_industry",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-07T07:42:50Z",
-      "upstream": [
-        {
-          "unit_id": "alloc:equity_industries",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-12T15:21:35Z",
+      "upstream": [],
       "error": null,
       "path": "allocation/industry_电力公用事业.json"
     },
@@ -915,5 +822,5 @@
       "path": "stocks/09988.json"
     }
   },
-  "updated_at": "2026-06-12T15:19:51Z"
+  "updated_at": "2026-06-12T15:21:35Z"
 }

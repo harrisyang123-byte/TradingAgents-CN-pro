@@ -2,38 +2,34 @@
   "unit_id": "alloc:industry:有色资源",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:603663",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "有色资源",
-    "industry_target_weight": 2,
+    "industry_target_weight": 5.0,
     "stock_weights": [
       {
-        "name": "三祥新材603663",
-        "w": 2.0,
-        "type": "stock",
-        "entry": "小盘控仓分批"
+        "code": "601899",
+        "name": "紫金矿业",
+        "target_weight": 3.0,
+        "reasoning": "铜+金双轮驱动+Q1净利+97.5%+员工持股托底"
+      },
+      {
+        "code": "600111",
+        "name": "北方稀土",
+        "target_weight": 2.0,
+        "reasoning": "稀土战略资产+张建平34.5亿入股+永磁需求长期向好"
       }
     ],
-    "sum_weight": 2.0,
+    "sum_weight": 5.0,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。有色资源 target 5.0% / 实际分配 5.0%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

@@ -2,32 +2,34 @@
   "unit_id": "alloc:industry:电力公用事业",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "电力公用事业",
-    "industry_target_weight": 2,
+    "industry_target_weight": 4.0,
     "stock_weights": [
       {
-        "name": "绿电ETF019058",
-        "w": 2.0,
-        "type": "etf"
+        "code": "600900",
+        "name": "长江电力",
+        "target_weight": 2.5,
+        "reasoning": "红利底仓+大水电稀缺+电力化受益+Beta 0.12防御"
+      },
+      {
+        "code": "601985",
+        "name": "中国核电",
+        "target_weight": 1.5,
+        "reasoning": "核电核准加速+低碳基荷+成长性"
       }
     ],
-    "sum_weight": 2.0,
+    "sum_weight": 4.0,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。电力公用事业 target 4.0% / 实际分配 4.0%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

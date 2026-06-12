@@ -2,52 +2,46 @@
   "unit_id": "alloc:industry:半导体",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:603236",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:000063",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "半导体",
-    "industry_target_weight": 5,
+    "industry_target_weight": 7.0,
     "stock_weights": [
       {
-        "name": "芯片ETF012629",
-        "w": 2.0,
-        "type": "etf"
+        "code": "688981",
+        "name": "中芯国际",
+        "target_weight": 2.5,
+        "reasoning": "中国唯一12寸成熟+先进制程代工厂战略稀缺"
       },
       {
-        "name": "移远通信603236",
-        "w": 1.5,
-        "type": "stock"
+        "code": "002371",
+        "name": "北方华创",
+        "target_weight": 2.0,
+        "reasoning": "半导体设备龙头+大基金三期最大获益"
       },
       {
-        "name": "中兴通讯000063",
-        "w": 1.5,
-        "type": "stock"
+        "code": "688012",
+        "name": "中微公司",
+        "target_weight": 1.5,
+        "reasoning": "刻蚀机龙头+国产替代核心;估值偏高小仓"
+      },
+      {
+        "code": "688268",
+        "name": "华特气体",
+        "target_weight": 1.0,
+        "reasoning": "电子特气国产替代;估值溢价高小仓试探"
       }
     ],
-    "sum_weight": 5.0,
+    "sum_weight": 7.0,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。半导体 target 7.0% / 实际分配 7.0%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

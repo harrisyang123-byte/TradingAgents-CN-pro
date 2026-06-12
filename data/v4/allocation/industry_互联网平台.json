@@ -2,42 +2,40 @@
   "unit_id": "alloc:industry:互联网平台",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:002517",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "互联网平台",
-    "industry_target_weight": 2,
+    "industry_target_weight": 4.0,
     "stock_weights": [
       {
-        "name": "海外互联网ETF006327",
-        "w": 1.0,
-        "type": "etf"
+        "code": "00700",
+        "name": "腾讯控股",
+        "target_weight": 2.0,
+        "reasoning": "AI+游戏+广告+微信AI Agent 6月备案最大催化"
       },
       {
-        "name": "恺英网络002517",
-        "w": 1.0,
-        "type": "stock"
+        "code": "09988",
+        "name": "阿里巴巴",
+        "target_weight": 1.5,
+        "reasoning": "中国AI首选+阿里云外部+40%+千问生态"
+      },
+      {
+        "code": "01810",
+        "name": "小米集团",
+        "target_weight": 0.5,
+        "reasoning": "汽车放量+AI硬件;但跨行业属性混合,小仓配置"
       }
     ],
-    "sum_weight": 2.0,
+    "sum_weight": 4.0,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。互联网平台 target 4.0% / 实际分配 4.0%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

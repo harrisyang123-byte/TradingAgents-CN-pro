@@ -2,42 +2,34 @@
   "unit_id": "alloc:industry:新能源车",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:002050",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "新能源车",
-    "industry_target_weight": 2,
+    "industry_target_weight": 2.0,
     "stock_weights": [
       {
-        "name": "电池ETF013180",
-        "w": 1.0,
-        "type": "etf"
+        "code": "300750",
+        "name": "宁德时代(参考)",
+        "target_weight": 1.0,
+        "reasoning": "动力电池龙头;watch 行业仅占小仓位"
       },
       {
-        "name": "三花智控002050",
-        "w": 1.0,
-        "type": "stock"
+        "code": "002594",
+        "name": "比亚迪(参考)",
+        "target_weight": 1.0,
+        "reasoning": "EV龙头;watch 行业仅占小仓位"
       }
     ],
     "sum_weight": 2.0,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。新能源车 target 2.0% / 实际分配 2.0%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }

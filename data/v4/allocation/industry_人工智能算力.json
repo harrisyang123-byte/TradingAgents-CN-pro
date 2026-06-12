@@ -2,43 +2,40 @@
   "unit_id": "alloc:industry:人工智能算力",
   "unit_type": "alloc_industry",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "stock:002415",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:21:35Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "industry": "人工智能算力",
-    "industry_target_weight": 6,
+    "industry_target_weight": 8.0,
     "stock_weights": [
       {
-        "name": "AI主题ETF(012733/012734/024245)",
-        "w": 4.0,
-        "type": "etf"
+        "code": "300308",
+        "name": "中际旭创",
+        "target_weight": 3.5,
+        "reasoning": "光模块全球龙头(800G>40%/1.6T 50-70%);窗口期交易+硬止损纪律;权重略低控制风险"
       },
       {
-        "name": "海康威视002415",
-        "w": 2.0,
-        "type": "stock",
-        "entry": "低估值分批"
+        "code": "300502",
+        "name": "新易盛",
+        "target_weight": 2.5,
+        "reasoning": "1.6T第二梯队+Q1+106%业绩超强+估值更便宜"
+      },
+      {
+        "code": "300394",
+        "name": "天孚通信",
+        "target_weight": 1.5,
+        "reasoning": "光器件+海外布局先行;增速逊于龙头但分散风险"
       }
     ],
-    "sum_weight": 6.0,
+    "sum_weight": 7.5,
     "input_warnings": [],
-    "note": "权重为占总组合%；ETF底仓+个股阿尔法，买入区间需联网核实当前价后细化。"
+    "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。人工智能算力 target 8.0% / 实际分配 7.5%; 未跑分析的标的占位 0% 等后续补全。",
+    "evidence": []
   }
 }
