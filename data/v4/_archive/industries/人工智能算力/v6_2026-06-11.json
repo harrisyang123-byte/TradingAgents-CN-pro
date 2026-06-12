@@ -2,12 +2,12 @@
   "unit_id": "industry:人工智能算力",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 7,
+  "version": 6,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-12T15:22:43Z",
+  "generated_at": "2026-06-11T01:16:24Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -157,7 +157,7 @@
       }
     ],
     "verdict": {
-      "stance": "bullish",
+      "stance": "go",
       "direction": "看多AI算力赛道(go/高景气)。但选股理论已从'估值分位'纠正为'预期差驱动'(看的是价格隐含预期vs兑现能力的缺口,不是涨幅/PE高低)。据此:①龙头(中际旭创~1000元/PE77)预期差已收敛偏负——不是'贵'而是'88→1000一路兑现已被充分price-in、剩余预期差耗尽、赔率不够',故持有不追、无仓不建;②真正的alpha在产业链上'预期差未释放'的环节(下游卖铲子/上游材料设备)——但这些标的的定价充分度需data-desk核实A股实时数据后才能定,当前未完成。",
       "chokepoint_conclusion": "【预期差视角修正】①光模块龙头中际旭创:真实~1000元/PE77/forwardPE35/一年11倍(此前落盘的'420元/买点<350'是subagent编造的错误数据,已纠正)。预期差收敛偏负——参照A/B:88元时正预期差>70pct该重仓,现已耗尽,持有不追。②CoWoS:盛合晶微(待IPO)国产替代逻辑仍在,但需核实其定价充分度。③重挖未发现标的:理论方向是往龙头上下游再拆一层(光器件/CoWoS封测设备/特种材料/晶振等),但⚠️这些A股小盘标的的实时股价/市值/覆盖度,当前web工具核实不足,无法严谨判定其预期差/定价充分度——需接入可靠A股数据源(Tushare/Wind)后由data-desk核实再定,本轮不拍脑袋给结论。",
       "risks": [

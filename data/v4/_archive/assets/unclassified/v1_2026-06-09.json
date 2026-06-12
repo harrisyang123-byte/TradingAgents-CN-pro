@@ -2,12 +2,12 @@
   "unit_id": "asset:unclassified",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 1,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-12T15:22:43Z",
+  "generated_at": "2026-06-09T14:12:46Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -36,57 +36,11 @@
       "trend": "hold — 待穿透",
       "confidence": "low",
       "reflection": {
-        "prev_stance": "unclassified_hold",
-        "what_changed": "v2加 forward_view(B3.3 bug 修复)",
-        "why_changed": "补全数据一致性",
-        "self_check": "bug_fix"
-      },
-      "forward_view": {
-        "near_term_calendar": [],
-        "mid_term_path": "待穿透归类后,各底层组件按对应大类的 forward_view 处理",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.8,
-            "trigger": "投顾平台维持现有动态配置",
-            "macro_outcome": "分散风险",
-            "asset_impact": "维持持有"
-          },
-          {
-            "name": "bull",
-            "prob": 0.15,
-            "trigger": "投顾披露底层利好(权益高占比)",
-            "macro_outcome": "等同权益",
-            "asset_impact": "偏多"
-          },
-          {
-            "name": "bear",
-            "prob": 0.05,
-            "trigger": "投顾平台破产/暂停",
-            "macro_outcome": "系统性风险",
-            "asset_impact": "赎回"
-          }
-        ],
-        "positioning_view": "待穿透归类",
-        "iv_skew_view": "不适用",
-        "key_assumptions": [
-          {
-            "assumption": "投顾平台稳定运营",
-            "falsification_signal": "平台暂停/异常→立即赎回"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "投顾平台合规问题",
-            "prob": 0.05,
-            "hedge_action": "赎回切换到自管"
-          }
-        ],
-        "cross_market_leading": "不适用(底层未穿透)",
-        "trigger_monitor": [
-          "平台公告异常→立即赎回",
-          "底层穿透披露后按对应大类规则"
-        ]
+        "prev_stance": "none",
+        "prev_date": "N/A",
+        "what_changed": "首次为unclassified桶建立可见单元。此前该12.18%完全不在任何落盘单元中，导致七大类合计仅77.92%，违反MECE原则。",
+        "why_changed": "为修复MECE缺口：equity 44.24 + fixed 12.77 + cash 27.93 + precious 2.89 + unclassified 12.18 = 100.01%。",
+        "self_check": "这不是一个分析verdict而是归类占位。后续应联系投顾平台获取底层资产明细进行穿透。"
       }
     },
     "data_quality": "占位单元，无深度分析。仅标记持仓敞口确保MECE。",

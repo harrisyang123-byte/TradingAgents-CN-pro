@@ -2,12 +2,12 @@
   "unit_id": "alloc:portfolio",
   "unit_type": "alloc",
   "schema_version": "v4.0",
-  "version": 4,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-12T15:22:43Z",
+  "generated_at": "2026-06-11T01:12:32Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -173,19 +173,6 @@
           "falsification": "Meta/MS/Goog任一capex下修>10% → AI仓位降50%"
         }
       ]
-    },
-    "verdict": {
-      "stance": "balanced_with_growth_tilt",
-      "situation": "国内偏多(cn10y 1.73极低/PPI转正/M2 8.6%/社融7.8%)+海外偏紧(美10Y 4.55/纳指调整);权益已偏高44%维持但配硬纪律,现金降至19释放约8%给固收/REITs/贵金属;7大类Σ100% MECE",
-      "direction": "看多A股中期(6-12月)+短期波动加大;减现金/加防御(贵金属+REITs)+权益做结构调整(降AI/QDII拥挤+加红利+内需)",
-      "trend": "rebalance_active",
-      "confidence": "medium-high",
-      "reflection": {
-        "prev_stance": "balanced",
-        "what_changed": "补 verdict 顶层结构(B3.1 bug 修复)",
-        "why_changed": "v2 verdict 字段空导致前端展示不全",
-        "self_check": "bug_fix"
-      }
     }
   }
 }

@@ -88,11 +88,11 @@
     "asset:unclassified": {
       "unit_id": "asset:unclassified",
       "unit_type": "asset",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 14,
-      "generated_at": "2026-06-09T14:12:46Z",
+      "generated_at": "2026-06-12T15:22:43Z",
       "upstream": [],
       "error": null,
       "path": "assets/unclassified.json"
@@ -220,11 +220,11 @@
     "industry:人工智能算力": {
       "unit_id": "industry:人工智能算力",
       "unit_type": "industry",
-      "version": 6,
+      "version": 7,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:16:24Z",
+      "generated_at": "2026-06-12T15:22:43Z",
       "upstream": [],
       "error": null,
       "path": "industries/人工智能算力.json"
@@ -644,11 +644,11 @@
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
       "unit_type": "alloc",
-      "version": 3,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-11T01:12:32Z",
+      "generated_at": "2026-06-12T15:22:43Z",
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
@@ -822,5 +822,5 @@
       "path": "stocks/09988.json"
     }
   },
-  "updated_at": "2026-06-12T15:21:35Z"
+  "updated_at": "2026-06-12T15:22:43Z"
 }
