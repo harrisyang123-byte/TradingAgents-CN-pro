@@ -2,23 +2,12 @@
   "unit_id": "stock:002517",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "alloc:equity_industries",
-      "version": 1,
-      "fingerprint": ""
-    },
-    {
-      "unit_id": "industry:互联网平台",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
+  "upstream": [],
   "status": "green",
   "ttl_days": 5,
-  "generated_at": "2026-06-07T07:42:50Z",
+  "generated_at": "2026-06-12T15:23:43Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -60,6 +49,86 @@
         "source_url": "needs_fetch",
         "status": "missing"
       }
-    ]
+    ],
+    "rating": "中性(传奇IP+小游戏现金流)",
+    "target_price": 18,
+    "entry_price_range": [
+      12,
+      14
+    ],
+    "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
+    "chokepoint_score": "待行业重新分类后评估",
+    "discovery_level": "🟡半发现",
+    "business_quality": "待深度分析(游戏行业属性,需联网核实)",
+    "position_nature": "中期窗口期(等深度分析后定性)",
+    "worst_case": "行业景气下行+公司基本面恶化 → 跌破8元(-30%)",
+    "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
+    "sell_discipline": [
+      "破8元 → 清仓",
+      "Q3业绩同比转负>10% → 减仓",
+      "行业景气信号转弱 → 减仓"
+    ],
+    "thesis": "中性(传奇IP+小游戏现金流); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
+    "risks": [
+      "数据未充分核实",
+      "下次重跑替换"
+    ],
+    "confidence": "low(B4 简化升级)",
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-08",
+          "event": "Q2财报",
+          "consensus": "温和",
+          "our_view": "待数据",
+          "gap": "inline",
+          "impact_on_stock": "业绩兑现"
+        }
+      ],
+      "mid_term_path": "游戏行业景气延续",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "行业景气稳定",
+          "implied_pe": 25,
+          "implied_target_price": 18
+        },
+        {
+          "name": "bull",
+          "prob": 0.2,
+          "trigger": "行业催化超预期",
+          "implied_pe": 35,
+          "implied_target_price": 23
+        },
+        {
+          "name": "bear",
+          "prob": 0.25,
+          "trigger": "行业景气下行",
+          "implied_pe": 15,
+          "implied_target_price": 8
+        }
+      ],
+      "earnings_revision_view": "待深度分析",
+      "stock_specific_risks": "数据待核实",
+      "key_assumptions": [
+        {
+          "assumption": "行业景气稳定",
+          "falsification_signal": "行业景气拐点信号"
+        }
+      ],
+      "trigger_monitor": [
+        "破8元 → 清仓",
+        "Q3业绩同比转负>10% → 减仓",
+        "行业景气信号转弱 → 减仓"
+      ]
+    },
+    "reflection": {
+      "prev_rating": "中性(传奇IP+小游戏现金流)",
+      "prev_date": "2026-06-07T07:42:50Z",
+      "what_changed": "B4 简化升级 forward_view 框架",
+      "why_changed": "B 阶段 数据一致性",
+      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+    }
   }
 }

@@ -1,0 +1,65 @@
+{
+  "unit_id": "stock:603663",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "alloc:equity_industries",
+      "version": 1,
+      "fingerprint": ""
+    },
+    {
+      "unit_id": "industry:有色资源",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-07T07:42:50Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "603663",
+    "name": "三祥新材",
+    "industry": "有色资源",
+    "debate_rounds": [
+      {
+        "round": 1,
+        "bull": "锆系材料龙头+新能源材料(镁铝合金/固态电池材料)布局，小盘高弹性；受益资源涨价与新材料放量。",
+        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
+      },
+      {
+        "round": 2,
+        "bull": "基本面/主题支撑中期",
+        "bear": "短期β扰动，注意回撤"
+      },
+      {
+        "round": 3,
+        "bull": "维持评级，强调分批",
+        "bear": "认同分批与仓位控制"
+      }
+    ],
+    "verdict": {
+      "rating": "增持",
+      "thesis": "锆系材料龙头+新能源材料(镁铝合金/固态电池材料)布局，小盘高弹性；受益资源涨价与新材料放量。",
+      "entry_approach": "小盘波动大，回调分批、控制单一仓位",
+      "target_price": "needs_fetch(当前价未核实)",
+      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+    },
+    "evidence": [
+      {
+        "claim": "三祥新材所属有色资源方向(见industry单元)",
+        "source_url": "industry:有色资源",
+        "status": "verified"
+      },
+      {
+        "claim": "当前价/PE未核实",
+        "source_url": "needs_fetch",
+        "status": "missing"
+      }
+    ]
+  }
+}
