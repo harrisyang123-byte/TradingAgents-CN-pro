@@ -151,6 +151,7 @@
       "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
       "why_changed": "用户要求蓝思科技深度分析",
       "self_check": "first_run_new_arch"
-    }
+    },
+    "price_at_judgment": 30.0
   }
 }

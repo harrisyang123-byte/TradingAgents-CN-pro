@@ -136,6 +136,7 @@
       "what_changed": "v2升级:加完整四维质量闸门+forward_view 7字段+硬止损纪律",
       "why_changed": "B1.15 旧 v1 baseline 升级到新架构",
       "self_check": "v1_to_new_arch_upgrade"
-    }
+    },
+    "price_at_judgment": 48.0
   }
 }

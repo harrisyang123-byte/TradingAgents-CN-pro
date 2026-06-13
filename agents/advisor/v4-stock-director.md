@@ -50,6 +50,7 @@ tools:
   "code": "{stock_code}", "name": "{stock_name}", "industry": "{industry}",
   "rating": "买入|增持|中性|减持|卖出",
   "target_price": 数字或null, "entry_price_range": [下限, 上限],
+  "price_at_judgment": 数字,  // ★判断发出时的现价(data-desk核实)——回测算真alpha的锚,无则null但应尽力填
   "expectation_gap": "正|负|收敛中 + 三锚综合理由",
   "chokepoint_score": "瓶颈卡位评分与定性（无则 null）",
   "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",

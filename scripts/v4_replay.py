@@ -201,26 +201,37 @@ def backfill_alpha(unit_id, manual_price=None, to_date=None):
         actual = get_actual_price(code, market, to_date, manual_price)
 
     ap = actual.get("price")
-    # 诚实: 算真 alpha 需"判断发出时价格",当前 payload 未存 → 不武断判 hit/miss,只记"实际 vs 目标/买点"位置
     base_j = prev_j or cur_j
     tp = base_j.get("target_price")
     er = base_j.get("entry_range")
+    # 判断发出时现价(C2 设计洞修复后,payload 已存 price_at_judgment)
+    base_env = None
+    for env in versions:
+        if env.get("version") == base_j.get("version"):
+            base_env = env; break
+    p0 = (base_env or {}).get("payload", {}).get("price_at_judgment") if base_env else None
     hit, alpha_note = "tracking", ""
     change_pct = None
-    if ap and tp:
-        change_pct = round((ap - tp) / tp * 100, 1)   # 实际价距目标价(负=还没涨到目标)
+    if ap and p0:
+        # ★真 alpha: 判断发出价 → 实际价的涨跌
+        actual_ret = round((ap - p0) / p0 * 100, 1)
         rating = str(base_j.get("rating") or "")
         is_bull = any(k in rating for k in ["买入", "增持", "看多", "bullish", "go"])
-        pos = ""
-        if er and isinstance(er, list) and len(er) == 2 and er[0]:
-            if ap <= er[1]:
-                pos = f";实际价在买点区间 {er} 内(可建仓)"
-            else:
-                pos = f";实际价已高于买点上限 {er[1]}(涨过买点)"
-        alpha_note = (f"{'看多' if is_bull else '判断'}目标 {tp},实际 {ap}(距目标 {change_pct}%){pos}。"
-                      f"[局限] 真 hit/miss 需记录判断发出时价格+联网历史价,当前仅位置追踪")
+        is_bear = any(k in rating for k in ["减持", "卖出", "看空", "bearish", "avoid"])
+        change_pct = actual_ret
+        if is_bull:
+            hit = "hit" if actual_ret > 0 else ("miss" if actual_ret < -10 else "flat")
+        elif is_bear:
+            hit = "hit" if actual_ret < 0 else ("miss" if actual_ret > 10 else "flat")
+        else:
+            hit = "neutral_ok" if abs(actual_ret) < 15 else "neutral_missed_move"
+        alpha_note = (f"判断时价 {p0} → 实际 {ap}(涨跌 {actual_ret}%),评级'{rating[:10]}' → {hit};"
+                      f"{'目标 '+str(tp) if tp else '区间法'}")
+    elif ap and tp:
+        change_pct = round((ap - tp) / tp * 100, 1)
+        alpha_note = f"目标 {tp},实际 {ap}(距目标 {change_pct}%);[局限] 缺判断时价无法算真涨跌"
     elif ap:
-        alpha_note = f"实际价 {ap},该版本用区间法无单一目标价,仅记录位置。[局限] 同上"
+        alpha_note = f"实际价 {ap},区间法无目标价;[局限] 缺判断时价"
     else:
         alpha_note = "价格不可得(沙箱无外网),仅记录判断结构待生产环境回填"
 

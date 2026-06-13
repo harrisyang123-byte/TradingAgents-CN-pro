@@ -146,6 +146,7 @@
       "what_changed": "首次v4完整新架构(B1.13)",
       "why_changed": "互联网龙头+AI应用入口",
       "self_check": "first_run_new_arch"
-    }
+    },
+    "price_at_judgment": 500.0
   }
 }

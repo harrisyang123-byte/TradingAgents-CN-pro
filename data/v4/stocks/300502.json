@@ -164,6 +164,7 @@
       "hit": "miss",
       "alpha_note": "看多判断,实际价距目标-24.9% → 方向错(目标过高)",
       "data_status": "verified"
-    }
+    },
+    "price_at_judgment": 526.0
   }
 }
