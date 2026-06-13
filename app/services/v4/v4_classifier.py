@@ -124,6 +124,9 @@ def classify_position(pos: Dict[str, Any]) -> Dict[str, Any]:
         "weight": float(pos.get("weight", 0) or 0),
         "market_value": float(pos.get("market_value", 0) or 0),
         "instrument_type": itype or "unknown",
+        # D0-6 基金穿透字段(2026-06-13 加, 向后兼容): 透传 holdings.json 里的 _fund_passthrough
+        # 让 v4_aggregator.py 可消费做行业聚合, 个股+基金共同算总暴露
+        "fund_passthrough": pos.get("_fund_passthrough"),
     }
 
 

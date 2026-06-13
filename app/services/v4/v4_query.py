@@ -237,6 +237,26 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
                                "code": pl.get("code"), "name": pl.get("name"),
                                "rating": pl.get("rating"), "target_price": pl.get("target_price")})
     resp["stocks"] = stocks
+
+    # D0-6 (2026-06-13) 基金穿透 — 间接持仓: 从 _funds/<code>.json 缓存反查贡献给本行业的基金
+    # 数据流: holdings.json _fund_passthrough → v4_classifier 透传 → v4_aggregator 聚合
+    # 读 inputs/portfolio_aggregated.json (collect_v4 跑后产出)
+    try:
+        from pathlib import Path
+        agg_path = Path("data/v4/inputs/portfolio_aggregated.json")
+        if agg_path.exists():
+            agg = json.loads(agg_path.read_text(encoding="utf-8"))
+            ind_data = (agg.get("industries") or {}).get(name) or {}
+            resp["indirect_holdings"] = {
+                "direct_yi": ind_data.get("direct_yi", 0),
+                "indirect_yi": ind_data.get("indirect_yi", 0),
+                "total_yi": ind_data.get("total_yi", 0),
+                "contributing_funds": ind_data.get("contributing_funds", []),
+                "summary": agg.get("summary", {}),
+            }
+    except Exception:
+        pass
+
     return resp
 
 

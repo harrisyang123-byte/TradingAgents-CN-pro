@@ -311,6 +311,33 @@ export interface IndustryDetail {
   intra_alloc_unit: UnitMeta
   stock_weights: StockWeightRow[]
   stocks: StockUnit[]
+  // D0-6 (2026-06-13) 基金穿透 — 间接持仓
+  indirect_holdings?: IndirectHoldings | null
+}
+
+export interface IndirectHoldings {
+  direct_yi: number       // 直接持股(本行业)总市值(元)
+  indirect_yi: number     // 基金间接贡献本行业总市值(元)
+  total_yi: number
+  contributing_funds: ContributingFund[]
+  summary?: {
+    total_market_value: number
+    direct_market_value: number
+    indirect_market_value: number
+    industries_count: number
+    funds_with_passthrough: number
+    funds_without_passthrough: number
+    passthrough_coverage_pct: number
+  }
+}
+
+export interface ContributingFund {
+  code: string
+  name: string
+  market_value: number             // 该基金总持仓市值
+  industry_weight_pct: number       // 该基金中本行业占比
+  indirect_yi: number               // 间接贡献金额 = market_value × industry_weight_pct
+  data_status?: 'verified' | 'estimated' | 'partial' | string
 }
 
 export interface InvestmentMapRow {
