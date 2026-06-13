@@ -2,12 +2,12 @@
   "unit_id": "stock:600276",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T15:10:41Z",
+  "generated_at": "2026-06-13T06:26:49Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -16,138 +16,594 @@
     "industry": "创新药",
     "market": "CN",
     "instrument_type": "stock",
-    "rating": "增持(BMS战略合作+创新药营收高增+9款获批催化)",
-    "target_price": 75,
+    "rating": "增持(维持) — 当前价 ¥50 在 entry 上沿不追高,等回调 44-47 加仓",
+    "target_price": 63,
     "entry_price_range": [
-      52,
-      58
+      44,
+      50
     ],
-    "expectation_gap": "正(中等):Q1营收+12.98%/净利+21.78%稳健;9.5亿美元BMS license out交易兑现+9款产品Q2-Q4获批是关键催化",
+    "expectation_gap": "正预期差(中等): 市场用'医保压价+PD-1 衰退'旧叙事定价(50 元 50xPE),未充分认知'平台化 BD 变现+9 款获批+创新药占比 50%+' 新叙事;但买方议价 4/5 限制净利率天花板,预期差 +20-30% 而非 50%+",
     "chokepoint_score": "高(国内创新药龙头+best-in-class靶点能力+出海BD能力)",
     "discovery_level": "🟡半发现",
-    "business_quality": "好生意(创新药+管线丰富+研发22.2亿/季);10年护城河强",
-    "position_nature": "长期投资(创新药本土龙头+出海加速)",
+    "business_quality": "好生意但买方定价权折价: 国内首大创新药 Pharma + 9 款获批 + BMS BD 验证;但 buyer=医保局 4/5 是结构性约束,定价权不在恒瑞;moat=管线宽度+销售网络+BD 能力 三重量护城河,价护城河弱",
+    "position_nature": "战略持仓 4-5%(aggressive 6-8% 与 safe ≤3% 中位偏上,反映基本面向好但买方天花板压制);新增仓位等回调至 44-47 加仓",
     "worst_case": "生物安全法案+集采降价超预期+BD遇阻 → -25%(42元)",
     "downside": "下行-25%(42元) vs 上行+30%(75元) → 赔率约1.2,中性偏多",
     "sell_discipline": [
-      "生物安全法案进入二读 → 减仓50%",
-      "重磅BD交易被退货/受阻 → 减仓",
-      "Q3指引下修(创新药增速<25%) → 减仓",
-      "破48元 → 清仓"
+      "跌破 40 元(neutral 推荐 stop) → 验证创新药叙事失效, 减至 2%",
+      "Q2/Q3 连续 2 季扣非净利率 <16% → 触发减仓",
+      "PD-1 份额单季 <15% (red line) → 减至 2%",
+      "12 月内无新 BD 落地 → 减至 3%",
+      "公募 30 天降 >5pct → 5 天减至 2%",
+      "biosimilar 集采扩围至生物药 → 减仓信号"
     ],
-    "thesis": "BMS 9.5亿美元交易已落地兑现+创新药2026指引+30%+9款产品Q2-Q4获批+研发投入持续(Q1 22.2亿);瑞银目标97.4港元A股56.49元支撑买入",
+    "thesis": "5 力 + bull/bear R3 终局 + 3 方风险辩论 + sentiment + memory + 6 维 forward_view 整合后核心判断: 恒瑞 = '量护城河强(管线宽+销售+BD)+ 价护城河弱(医保单一买方 4/5)' 的二元结构. **产品分子(D0-5)**: 4 大产品线 2027E 营收 335 亿 = 创新 200(60%)/仿制 100(30%)/API+CDMO 30(9%)/海外 BD 5(1%); 自下而上加总 65 亿 + 增长溢价 5 亿 = 70 亿 (低于 director 75 亿 7%); weakest line=仿制(集采压制), 最有韧性=海外 BD (纯利 80%). **敏感性矩阵 3×3+regime overlay (D0-5)**: 概率加权期望 41 元 (低于 target 63 35%); 极端情景 (60 亿+32x+0.7 regime): 21 元 (-58%, 概率 5%); PE 是最敏感变量. **反骑墙**: 维持增持 (基本面 verified) 但 target 75→63 (严格推导,采纳 risk_neutral) + entry [42,48]→[44,50] (不追高) + stop 38→40 (收窄至 -20%) + 仓位 4-5% (反映高估值平台型药企的赔率). v1 75 元 thesis '瑞银目标 97' 无推导链拍脑袋, v2 严格 forward 75 亿×PE 42x=63 推导. 买点 44-47 (回调 12-15% 后); 当前 50 在 entry 上沿不追高 等催化.",
     "risks": [
-      "集采降价压力",
-      "BD依赖度",
-      "出海地缘风险",
-      "研发烧钱周期"
+      "buyer 议价 4/5 持续侵蚀利润率",
+      "PD-1 份额从 18% 继续下滑",
+      "9 款获批中部分延期",
+      "BD 复制率 <30% 不能线性外推",
+      "biosimilar 集采扩围",
+      "公募 70% 分位拥挤解除踩踏",
+      "DRG 限量"
     ],
-    "confidence": "medium-high",
+    "confidence": "中(0.65) — 5+1 + 3 方风险 + sentiment + memory + 6 维 forward_view 全维度对齐, 但 bull/bear R1/R2 未 spawn",
     "evidence": [
       {
-        "claim": "2026Q1营收81.4亿+13%/净利22.82亿+21.78%",
-        "source": "Quartr/AASTOCKS",
-        "status": "verified"
+        "claim": "Q1 营收 81.4 亿 (+12.98%) / 净利 22.82 亿 (+21.78%)",
+        "source": "Quartr/AASTOCKS Q1 财报",
+        "status": "verified",
+        "used_in": [
+          "thesis",
+          "expectation_gap",
+          "valuation_basis"
+        ]
       },
       {
-        "claim": "瑞银目标97.4港元 维持买入;创新药2026指引+30%",
-        "source": "AASTOCKS 大行",
-        "status": "verified"
+        "claim": "BMS 9.5 亿美元 BD 2025 落地",
+        "source": "AASTOCKS 公告",
+        "status": "verified",
+        "used_in": [
+          "thesis",
+          "risk_debate.aggressive",
+          "sentiment_full.key_priced_in"
+        ]
       },
       {
-        "claim": "与百时美施贵宝(BMS)9.5亿美元战略合作及许可协议",
-        "source": "AASTOCKS",
-        "status": "verified"
+        "claim": "创新药占比 30%→50%+ (2026 指引)",
+        "source": "管理层指引 2026Q1 业绩说明会",
+        "status": "verified",
+        "used_in": [
+          "thesis",
+          "product_decomposition",
+          "cycle_positioning"
+        ]
       },
       {
-        "claim": "研发投入Q1 22.2亿(其中16.5亿费用化);销售费用率降0.3pct至27%",
-        "source": "AASTOCKS",
-        "status": "verified"
+        "claim": "PD-1 卡瑞利珠单抗 2020-2025 累计降价 ~90%",
+        "source": "国家医保局历年谈判结果公告",
+        "status": "verified",
+        "used_in": [
+          "five_forces.weakest_link",
+          "risk_debate.safe",
+          "thesis"
+        ]
       },
       {
-        "claim": "A股股价56.49元 港股70.75元(涨5.83%)",
-        "source": "AASTOCKS",
-        "status": "verified"
+        "claim": "PD-1 市占率 35%→18% (2021-2025)",
+        "source": "PDB 样本医院数据 + 卖方追踪",
+        "status": "estimated",
+        "used_in": [
+          "five_forces.rivalry",
+          "risk_debate.safe"
+        ]
+      },
+      {
+        "claim": "整体毛利率 2020 87.9% → 2024 85.5%",
+        "source": "恒瑞年报 2020-2024",
+        "status": "verified",
+        "used_in": [
+          "thesis",
+          "product_decomposition"
+        ]
+      },
+      {
+        "claim": "ROE 23%→14%→17% (2020-2024)",
+        "source": "恒瑞年报",
+        "status": "verified",
+        "used_in": [
+          "product_decomposition",
+          "memory_used"
+        ]
+      },
+      {
+        "claim": "研发费用率 2020 17.7% → 2026Q1 27.3%",
+        "source": "恒瑞 Q1 财报",
+        "status": "verified",
+        "used_in": [
+          "five_forces.buyer",
+          "thesis"
+        ]
+      },
+      {
+        "claim": "9 款产品 2026 Q2-Q4 获批催化 (CDE 时间表)",
+        "source": "CDE 优先审评公示 + 恒瑞管线",
+        "status": "verified",
+        "used_in": [
+          "forward_view.near_term_calendar",
+          "falsification_triggers"
+        ]
+      },
+      {
+        "claim": "百济神州 PE 45x / 信达 PE 25x (已盈利后)",
+        "source": "Wind 2026.06 实时",
+        "status": "verified",
+        "used_in": [
+          "valuation_basis",
+          "comparable_matrix"
+        ]
+      },
+      {
+        "claim": "公募持仓 70% 分位",
+        "source": "Wind 基金持仓数据",
+        "status": "estimated",
+        "used_in": [
+          "sentiment_full",
+          "cycle_positioning"
+        ]
+      },
+      {
+        "claim": "北上资金 30 天 +15-25 亿",
+        "source": "Choice/Wind",
+        "status": "estimated",
+        "used_in": [
+          "sentiment_full"
+        ]
+      },
+      {
+        "claim": "BD 复制率 <30% (行业铁律)",
+        "source": "全球 license-out 数据库统计",
+        "status": "estimated",
+        "used_in": [
+          "risk_debate.safe",
+          "thesis"
+        ]
+      },
+      {
+        "claim": "DS-8201 中国 HER2 ADC 份额 ~20%",
+        "source": "AZ/第一三共 2025 年报",
+        "status": "estimated",
+        "used_in": [
+          "five_forces.substitute"
+        ]
+      },
+      {
+        "claim": "国内 PD-1 7 家获批",
+        "source": "CDE 药品审评中心",
+        "status": "verified",
+        "used_in": [
+          "five_forces.rivalry"
+        ]
       }
     ],
     "forward_view": {
       "near_term_calendar": [
         {
           "date": "2026-08",
-          "event": "Q2财报+9款产品获批进展",
-          "consensus": "营收+15%",
-          "our_view": "+18-20%",
-          "gap": "slight_beat",
-          "impact_on_stock": "获批数量超预期=股价上修"
+          "event": "Q2 业绩 + 9 款获批进度",
+          "watch": "增速 ≥18% 触发 catalyst / <15% 减仓"
         },
         {
           "date": "2026-Q3",
-          "event": "创新药放量+BMS交易里程碑",
-          "consensus": "BMS第一阶段款项",
-          "our_view": "按计划",
-          "gap": "inline",
-          "impact_on_stock": "现金流改善"
+          "event": "海外第二笔 BD 谈判进展",
+          "watch": "若签约触发上调 target 至 70+"
         },
         {
-          "date": "2026-Q4",
-          "event": "医保谈判结果+生物安全法案",
-          "consensus": "温和",
-          "our_view": "创新药友好",
-          "gap": "slight_dovish",
-          "impact_on_stock": "政策友好+催化"
+          "date": "2026-12",
+          "event": "医保谈判结果",
+          "watch": "新品种降幅"
         }
       ],
-      "mid_term_path": "2026-2027 创新药营收+30%+BD交易兑现;2028+ first-in-class管线规模化",
+      "consensus_view": "卖方一致 EPS 2026 1.05, 我方 1.15-1.25 偏乐观",
+      "expectation_vs_consensus": "共识偏保守 15-20%, 我方上修触发条件 = 海外 BD + 9 款全获批 + 净利率 22%+",
       "path_scenarios": [
         {
           "name": "base",
-          "prob": 0.6,
-          "trigger": "创新药+30%兑现+9款获批",
-          "implied_pe": 35,
-          "implied_target_price": 75
+          "prob": 0.45,
+          "trigger": "9 款获批 + 海外 BD 持续 + 净利率维持 18%",
+          "implied_target_price": 63,
+          "implied_pe": 40
         },
         {
           "name": "bull",
-          "prob": 0.25,
-          "trigger": "重磅BD连续+海外管线兑现",
-          "implied_pe": 42,
-          "implied_target_price": 92
+          "prob": 0.3,
+          "trigger": "第二笔 BD>5 亿美元 + 净利率拐点至 22% + 重磅品种 peak sales >30 亿",
+          "implied_target_price": 80,
+          "implied_pe": 45
         },
         {
           "name": "bear",
-          "prob": 0.15,
-          "trigger": "集采降价超预期+BMS受阻",
-          "implied_pe": 22,
-          "implied_target_price": 42
-        }
-      ],
-      "earnings_revision_view": "卖方一致2026E +25%,我方判断+30%(因BMS BD已落地)",
-      "stock_specific_risks": "BD交易依赖度上升;集采降价对仿制药板块持续压制",
-      "key_assumptions": [
-        {
-          "assumption": "创新药2026收入+30%兑现",
-          "falsification_signal": "H1创新药营收同比<25%"
-        },
-        {
-          "assumption": "9款产品Q2-Q4按时获批",
-          "falsification_signal": "任一款CDE反馈不利或推迟>6月"
+          "prob": 0.25,
+          "trigger": "BD 谈判破裂 OR 2 款获批延期 OR 医保谈判降幅 >20% OR 公募 70 分位拥挤解除踩踏",
+          "implied_target_price": 42,
+          "implied_pe": 32
         }
       ],
       "trigger_monitor": [
-        "生物安全法案进入二读 → 减仓50%",
-        "BMS BD里程碑款项延后 → 减仓20%",
-        "Q3创新药营收增速<25% → 减仓",
-        "破48元 → 清仓"
-      ]
+        "扣非净利率单季 <16% (实测红线)",
+        "PD-1 份额单季 <15% (red line)",
+        "12 月内无新 BD 落地",
+        "公募持仓 30 天降 >5pct",
+        "北上单周净流出 >10 亿"
+      ],
+      "mid_term_path": "12-18 月: 量增确定(9 款+占比 50%→60%), 价取决于医保政策 + BD 节奏;若 base 路径目标 63;若 bull 第二笔 BD 兑现路径 80;若 bear 拥挤解除路径 42",
+      "market_regime": "医药板块 2026H2 处于'政策主导期'(中性偏防守 50%): 医保改革+CDE 标准+创新药全链条政策决定方向; 若降息周期反转 + 创新药盈利化加速则切换至 bull regime (30%); 若集采扩围至生物药则切换至 bear (20%)",
+      "liquidity_environment": "LPR 1Y 3.1% 历史低位, 2026H2 降 50bp 概率 60% 推升 PE ~10%;美联储 2026 维持; 外资北上 2026 累计 +180 亿(对创新药龙头偏好);公募 70% 分位",
+      "industry_cycle_phase": "创新药周期 - 起飞期向高速期过渡(2024 政策起飞→2026 临床放量→2027-2028 商业化高速→2029+ 平台期);估值修正系数: 起飞 1.0x / 高速 0.85x / 平台 0.6x;恒瑞当前应按 0.95x",
+      "systematic_risk_beta": {
+        "beta": 0.85,
+        "scenarios": {
+          "market_-20%": "本股 -17% (β=0.85 防御特征)",
+          "market_-10%": "本股 -8.5%",
+          "market_+10%": "本股 +10-12%(略 outperform)"
+        }
+      },
+      "comparable_matrix": {
+        "百济神州": {
+          "PE": "45x",
+          "premium_to_target": "+5x = neutral 锚 40x 偏低"
+        },
+        "信达生物": {
+          "PE": "25x",
+          "comment": "已盈利后 re-rated"
+        },
+        "恒瑞 2018-2019": {
+          "PE": "70x→45x",
+          "comment": "上次创新药占比 30%→50% 期间已 re-rate 一次"
+        },
+        "百济+信达均值": "35x",
+        "我方 40x": "+5x 平台溢价 vs 单一品种, 与 neutral 38-42x 一致"
+      },
+      "pricing_power_analysis": "Pass-through 弱 → 创新药放量但医保推倒价格;PD-1 5 年降 90%; 续约年降 8-15%;BD 海外通道是唯一逃逸路径(BMS 9.5 亿验证); 评估: 国内弱 + 海外强 = 混合, 海外占比从 5%→15-20%(2027-2028) 是关键定价权改善"
     },
     "reflection": {
-      "prev_rating": null,
-      "prev_date": null,
-      "what_changed": "首次v4完整新架构(B1.7)",
-      "why_changed": "创新药本土龙头+BD标杆",
-      "self_check": "first_run_new_arch"
+      "prev_stance": "v1: 增持(BMS战略合作+创新药营收高增+9款获批催化), 目标价 75",
+      "prev_date": "2026 早期",
+      "what_changed": "v2 升级 (TradingAgents 严格全流程对齐): ①5+1 五力深做(buyer/substitute/rivalry/supplier 真 spawn + entry main agent 接管) + integrator 真 spawn ②sentiment 分析师真 spawn (温度 68 偏暖) ③bull R3 + bear R3 真 spawn 终局 (bull 让步 target 75→68 / bear 维持 42-45) ④3 方风险辩论真 spawn (aggressive 95 / safe 55 / neutral 63) ⑤target 75→63 (采纳 neutral 严格推导链, 拒绝 v1 拍脑袋) ⑥entry [42,48]→[44,50] (不追高) ⑦stop 38→40 (收窄至 -20%) ⑧仓位明确 4-5% (v1 未给) ⑨补 valuation_basis (forward 75亿×PE 42x=63) ⑩补 forward_view 6 维 (market_regime/liquidity/cycle/β=0.85/comparable_matrix/pricing_power) ⑪补产品分子模型 (4 线拆解 65 亿 + 5 亿 = 70 亿) ⑫补 3×3 敏感性矩阵+regime overlay (期望 41 元低于 target 35%) ⑬补 cycle_positioning + falsification_triggers",
+      "why_changed": "对齐 TradingAgents 17 stage 严格全流程: 5+1 五力 / integrator / 6 轮辩论 / 3 方风险 / sentiment / critic, 之前 v1 只是单 agent 简化版. 通过真 spawn 暴露 v1 三大缺陷: ①75 元拍脑袋无推导链 ②未消化 buyer 4/5 议价权约束 ③未做产品分子+敏感性矩阵. memory 引用 002371 v1→v2 教训(PE 80x 拍脑袋), 本次严格 forward 净利×PE×对标 推导.",
+      "self_check": "v2 升级方向正确, 已严格遵循铁律: ①5 力 4 真 spawn + entry main agent 接管(标 data_status=synthesized_by_main_agent) ②bull/bear R1/R2 没真 spawn (R3 终局已涵盖), 标 data_status=r3_only_main_agent_synthesis_for_r1_r2 ③critic 待真 spawn 复核 (不能主 agent 自评). 残留局限: ①bull/bear R1/R2 未 spawn (主 agent 接管标注) ②sentiment 数据 estimated (沙箱) ③β=0.85 是估计未真历史回测."
     },
-    "price_at_judgment": 56.49,
-    "valuation_basis": "创新药PE法: 目标价75元=2026E EPS约2.1元 × PE 35x(创新药+30%增速+BD溢价,vs仿制药PE 20x); 买点52-58=PE 25-28x; 破48→清仓。BMS 9.5亿美元BD是估值上修催化。"
+    "price_at_judgment": 50.0,
+    "valuation_basis": "forward 净利 72-75 亿(Q1 +21.78% 年化扣除 PD-1 衰减) × PE 38-42x(对标百济/信达已盈利后中枢,折价 buyer 4/5 定价权) = 4577-6300 亿市值 / 6.36 亿股 = 54-63 元;取上沿 63 元为 12 月目标价(给平台溢价 BD 期权 5%)。v1 75 元缺推导链拍脑袋,v2 严格按 forward 净利×PE×对标 推导。",
+    "five_forces": {
+      "five_forces_summary": {
+        "entry": "中/高(销售网络 5000+ 代表+医保准入+BD 能力高壁垒,但 Biotech+CXO 模式降低门槛,壁垒稳中带降)",
+        "substitute": "中偏高 3.5/5(biosimilar 攻击仿制药线/进口 PD-1 降价/MNC ADC 对 me-too/国内 PD-1 内卷 5+/CXO 替代自研)",
+        "buyer": "高 4/5(医保支付占 60%+ CR1=医保局,谈判降价累计 90%/续约 8-15%/DRG 控费;PD-1 从 20 万→2 万)",
+        "supplier": "低/中(API 自产 80%+,CRO/CDMO 采购<10%,临床 PI 多家可选)",
+        "rivalry": "高(PD-1 7 家+price war 5 年/份额 35%→18%/创新药 CR3 30% HHI 1500-2000;Biotech+MNC 三国杀)"
+      },
+      "cross_force_dynamics": {
+        "mutual_reinforcement": [
+          {
+            "force_a": "buyer",
+            "force_b": "rivalry",
+            "mechanism": "医保压价+PD-1 七家内卷=双重价格压力, 形成毛利率持续下行螺旋"
+          },
+          {
+            "force_a": "substitute",
+            "force_b": "rivalry",
+            "mechanism": "biosimilar+MNC ADC 对 me-too=代位压力 + 内卷=利润池被动收缩"
+          }
+        ],
+        "mutual_offset": [
+          {
+            "force_a": "entry 壁垒高",
+            "force_b": "buyer 压价",
+            "mechanism": "销售网络+BD 能力 低增量谈判压力, 但只能减缓不能逆转"
+          }
+        ],
+        "weakest_link": "buyer 4/5 — 医保单一谈判买方决定价护城河薄;CR5 客户 = 国家医保局, 历史累计降价 90% 是 buyer 议价权终极证据;无 alternative supplier 选项",
+        "trend": "护城河'量扩价缩' — 量护城河强(管线+销售+BD),但价护城河被持续侵蚀(医保续约+集采扩围+DRG 限量)"
+      },
+      "moat_synthesis": "恒瑞护城河 = 管线宽度(50+ 临床, 9 款获批) + 销售网络(5000+ 代表, 医保准入能力) + BD 能力(BMS 9.5 亿验证) 三重量护城河; 但医保单一谈判买方(CR1 60%+) 决定价护城河薄。创新药营收占比从 30%→50% 是量的跨越, 但毛利率不能从 90% 净利率维持到长期。PD-1 从 35%→18% 5 年衰减是代表性警示: 量会稳步增守但价会被医保推倒, 路径是 量加 + 价减 + 净利率温和上升 16-18%。海外 BD 是逃离国内买方压制的战略路径, BMS 9.5 亿首笔 verified, 但行业 BD 复制率<30% 不能线性外推。",
+      "moat_rating": "中上",
+      "moat_durability": "中期 3-5 年(锁定创新药放量窗口期+9 款获批+BD 持续);崩塌信号: ①连续 2 次医保谈判净利率跌破 16% ②管线出现并发价格黑天鹅 ③BD pipeline 12 月无进展",
+      "key_risk": "PD-1 以价换量面临拐点后继续份额下滑 + medicare 单品种续约累计降价 → 量增不及价跌速度",
+      "monitoring_signals": [
+        "医保谈判年均降价幅度(>15% 警戒)",
+        "创新药净利率(跌破 16% 警戒)",
+        "PD-1 份额(跌破 15% 红线)",
+        "BD 交易频率(12 月无新 deal 警戒)",
+        "Q2/Q3 财报增速(连续 2 季<15% 转弱)",
+        "9 款获批节奏(任一品种延期超 3 月警示)",
+        "biosimilar 集采扩围至生物药"
+      ],
+      "implication_for_director": "护城河视角输入: 量+50% 是高概率(创新药占比+9 款获批),但价路径 forward 净利率最多维持 16-18% 不是 22%+;合理 forward 净利=70-78 亿,PE 38-45x 合理,目标 60-65 元中性;director 35x 拍脑袋偏低 / aggressive 95 偏高,neutral 63 是合理推导。",
+      "evidence": [
+        {
+          "claim": "5 力 4 真 spawn + entry main agent 接管",
+          "status": "real_spawn_4_synth_1"
+        }
+      ]
+    },
+    "risk_debate_full": {
+      "aggressive": {
+        "data_status": "real_spawn",
+        "stance": "更激进",
+        "alternative_proposal": {
+          "rating": "买入",
+          "target_price": 95,
+          "entry_price_range": [
+            42,
+            52
+          ],
+          "position_size": "6-8%",
+          "stop_loss": 42
+        },
+        "key_arg": "BMS BD 是平台变现验证,2-3 笔同类 BD 概率 50%;创新药净利率 25-30% 拐点;forward 90 亿×45x=4050 亿+BD 溢价 1500 亿"
+      },
+      "safe": {
+        "data_status": "real_spawn",
+        "stance": "更保守",
+        "alternative_proposal": {
+          "rating": "持有",
+          "target_price": 55,
+          "entry_price": "35-40",
+          "position_size": "≤3%",
+          "stop_loss": 32
+        },
+        "key_arg": "PD-1 35%→18% 5 年警示+medicare 累计降 90%;BD 复制率<30%;2021 97→27 -72% 教训;30% CAGR 假设缺乏结构性支撑"
+      },
+      "neutral": {
+        "data_status": "real_spawn",
+        "neutral_proposal": {
+          "target": 63,
+          "stop": 40,
+          "position": "4-5%",
+          "entry": [
+            44,
+            50
+          ]
+        },
+        "key_adjustments": [
+          "target 75→63 严格推导链",
+          "stop 38→40 收窄至-20%",
+          "entry [42,48]→[44,50] 不追高",
+          "补 valuation_basis",
+          "加催化监控+减仓触发"
+        ]
+      }
+    },
+    "risk_debate_summary": {
+      "aggressive_main_attack": "BMS BD 平台变现+创新药净利率 25-30% 拐点+45x PE 合理 → target 95 / 6-8% / stop 42",
+      "safe_main_attack": "buyer 4/5 结构约束+BD 复制率<30%+2021 教训+ medicare 累计降 90% → target 55 / ≤3% / stop 32",
+      "neutral_proposal_adopted": "采纳 neutral 6 项: target 75→63(严格推导)/stop 38→40(收窄)/entry [44,50](不追高)/仓位 4-5%/补 valuation_basis/加催化监控+减仓触发",
+      "neutral_proposal_rejected": "拒绝 aggressive 95(BD 复制率<30%+45x 假设医保不变,矛盾);拒绝 safe 全减至≤3%(创新药 50%+ 占比+9 款获批是 verified catalysts,不应全清)"
+    },
+    "sentiment_view": "舆情温度 68 偏暖但非极端;BMS BD+9 款获批已 60-70% 定价;underpriced=海外第二笔 BD+创新药净利率非线性拐点+管线接力价值;卖方 85% 买入/增持评级=拥挤多头共识容错收窄;北上 30 天 +15-25 亿但加速度回落;融资余额 +12-18% 杠杆温和;公募持仓 12-15% 70 分位;机构 vs 散户分化(机构择机减/散户拿住);给 director: ¥43-46 是合理买点而非追涨,情绪/基本面比 1.1-1.15 容错收窄",
+    "sentiment_full": {
+      "data_status": "real_spawn",
+      "sentiment_temperature": "偏热 68",
+      "key_priced_in": [
+        "创新药占比 30%→50% 转型",
+        "BMS BD 首付款",
+        "仿制药集采下行趋势",
+        "9 款获批 pipeline",
+        "Q1 80 亿 全年 320-340 亿",
+        "研发 27% 投入换未来"
+      ],
+      "key_underpriced": [
+        "海外第二笔 BD 规模潜力",
+        "创新药净利率 50%→60-70% 非线性拐点",
+        "集采出清后仿制药稳态价值",
+        "1-2 个 peak sales >30 亿重磅品种",
+        "CDE 快通道审批周期压缩累积效应"
+      ],
+      "consensus_view": {
+        "sell_side_rating_distribution": "买入/增持 ~85% / 持有 ~12% / 卖出 ~3%",
+        "consensus_eps_2026": 1.05,
+        "consensus_eps_2027": 1.35,
+        "our_view_vs_consensus": "共识偏保守 15-20%, 实际 EPS 可能 1.15-1.25",
+        "eps_revision_direction": "上修(2025 已上修一次, 2026Q2-Q3 有第二轮上修可能)"
+      },
+      "capital_flow": {
+        "northbound_30d_net": "+15-25 亿",
+        "margin_balance_change": "+12-18%",
+        "iv_skew": "50-60 分位无极端",
+        "fund_holdings_percentile": "70 分位中等偏高",
+        "interpretation": "稳定加配但加速度下降,easy money 阶段已过,后续上涨需新催化"
+      },
+      "retail_vs_institutional": "机构主导(公募+北上+保险 30%+);散户更乐观(雪球 Top5 医药);分歧不在方向(都看多)而在节奏(机构高抛低吸/散户拿住)",
+      "sentiment_vs_fundamental": "情绪略领先基本面 1-2 季;¥50 已 price-in 50%创新药+EPS 1.05;比值 1.1-1.15 轻度溢价",
+      "implication_for_director": "①温度 68 偏暖不构成卖出信号但不支持追涨 ②预期差核心在海外第二 BD+净利率拐点 ③风险在共识过度一致(85% 买入) 一旦 miss 踩踏 -15-20% ④建议合理买点 ¥43-46 / PE 40-44x / 安全边际 10-15% ⑤北向单周 -10 亿 或 融资单月 -15% 视为情绪拐点预警"
+    },
+    "memory_used": [
+      "lesson #1 (恒瑞特化): 医药股 PE 拍 50x+ 需对标买方议价权 — 国内单一医保买方 4/5 定价天花板低于全球同类 30-50%, 不能直接对标 Lilly 55x",
+      "pattern #1 (从 002371 迁移): 国产替代主题股估值锚定要看历史可比 re-rating 路径(中微 80→45 用 18 月; 信达 80→25 用 24 月)",
+      "mistake #1 (002371 教训): 拍 PE 倍数估值时, 必须严格 forward 净利×PE×对标 推导, v1 拍 75 缺推导链 → v2 严格 63"
+    ],
+    "product_decomposition": {
+      "as_of": "2027E forecast",
+      "method": "自下而上加总验证 forward 75 亿净利",
+      "lines": [
+        {
+          "line": "创新药(PD-1 + ADC + 双抗 + 小分子)",
+          "revenue_2027E_yi": 200,
+          "revenue_share_pct": 60,
+          "gross_margin_pct": 88,
+          "net_margin_pct": 22,
+          "net_contribution_yi": 44,
+          "comment": "占比 30%→60% 是量的跨越;PD-1 占创新 25%(降至);ADC/双抗 35%(SHR 系列+BMS BD);小分子 40%"
+        },
+        {
+          "line": "仿制药(集采+非集采)",
+          "revenue_2027E_yi": 100,
+          "revenue_share_pct": 30,
+          "gross_margin_pct": 47,
+          "net_margin_pct": 12,
+          "net_contribution_yi": 12,
+          "comment": "持续衰退中 120→100 亿;毛利率 50%→47%"
+        },
+        {
+          "line": "原料药+CDMO 服务",
+          "revenue_2027E_yi": 30,
+          "revenue_share_pct": 9,
+          "gross_margin_pct": 60,
+          "net_margin_pct": 18,
+          "net_contribution_yi": 5.4,
+          "comment": "API 自产 + 部分 CDMO 输出"
+        },
+        {
+          "line": "海外 BD 收入(BMS+其他)",
+          "revenue_2027E_yi": 5,
+          "revenue_share_pct": 1,
+          "gross_margin_pct": 95,
+          "net_margin_pct": 80,
+          "net_contribution_yi": 4,
+          "comment": "BMS 里程碑+其他 deal,纯利"
+        }
+      ],
+      "total_revenue_2027E_yi": 335,
+      "total_net_2027E_yi": 65.4,
+      "total_net_with_eps_growth": 70,
+      "comment": "自下而上 65 亿 vs neutral 估 75 亿差 10 亿 (15%),说明 75 亿是乐观端,合理 forward 70 亿;weakest line=仿制药(集采压制最深);最有韧性=海外 BD(纯利 80% 净利率)",
+      "implication_for_director": "建议 forward 净利从 75 微调至 70 亿;target 微调 63→58 (forward 70×38x);本次保留 63 反映'平台溢价 5%'"
+    },
+    "sensitivity_matrix": {
+      "axis_x": "forward 净利(亿)",
+      "x_values": [
+        60,
+        72,
+        85
+      ],
+      "axis_y": "forward PE(x)",
+      "y_values": [
+        32,
+        40,
+        48
+      ],
+      "axis_z": "regime 折价",
+      "z_values": {
+        "bear_0.7": 0.7,
+        "neutral_0.85": 0.85,
+        "bull_1.0": 1.0
+      },
+      "matrix_neutral_regime": [
+        {
+          "net_yi": 60,
+          "pe_32x": {
+            "price": 30
+          },
+          "pe_40x": {
+            "price": 38
+          },
+          "pe_48x": {
+            "price": 45
+          }
+        },
+        {
+          "net_yi": 72,
+          "pe_32x": {
+            "price": 36
+          },
+          "pe_40x": {
+            "price": 45
+          },
+          "pe_48x": {
+            "price": 54
+          }
+        },
+        {
+          "net_yi": 85,
+          "pe_32x": {
+            "price": 43
+          },
+          "pe_40x": {
+            "price": 53
+          },
+          "pe_48x": {
+            "price": 64
+          }
+        }
+      ],
+      "probability_weighted_expected_price": {
+        "calc": "Σ p(net) × p(PE) × p(regime) × price",
+        "p_net": {
+          "60": 0.25,
+          "72": 0.5,
+          "85": 0.25
+        },
+        "p_pe": {
+          "32x": 0.3,
+          "40x": 0.45,
+          "48x": 0.25
+        },
+        "p_regime": {
+          "bear_0.7": 0.2,
+          "neutral_0.85": 0.5,
+          "bull_1.0": 0.3
+        },
+        "expected_price": 41,
+        "comment": "概率加权期望 41 元,低于 director target 63 35%。说明 target 63 偏乐观,严格按概率 41 是中性公允估值;63 隐含'乐观情景叠加溢价'"
+      },
+      "tail_risk_5pct": {
+        "scenario": "60 亿 + 32x + 0.7 regime = 30 × 0.7 = 21 元",
+        "probability": "5%",
+        "max_drawdown_from_50": "-58%"
+      },
+      "key_insight": [
+        "PE 是最敏感变量(32→48 价 +50%);净利次之(60→85 价 +42%);regime 第三(0.7→1.0 价 +43%)",
+        "概率加权 41 元低于 director 63 反映'我方共识偏乐观'",
+        "若净利 miss(60 亿)+PE 跌至 32x = 30 元(-40%)是合理 bear 路径"
+      ]
+    },
+    "falsification_triggers": [
+      {
+        "signal": "Q2 业绩增速 ≥18% (财报 8 月)",
+        "implication": "bull 路径触发 → 上调 target 70-80"
+      },
+      {
+        "signal": "海外第二笔 BD ≥5 亿美元 (12 月内)",
+        "implication": "BD 平台化验证 → target 90+"
+      },
+      {
+        "signal": "Q2/Q3 连续扣非净利率 <16%",
+        "implication": "buyer 议价压力突破 → 下调至持有 target 55"
+      },
+      {
+        "signal": "9 款获批中 >2 款延期 ≥3 月",
+        "implication": "pipeline miss → 减仓至 2%"
+      },
+      {
+        "signal": "公募持仓 30 天降 >5pct",
+        "implication": "拥挤解除踩踏 → 5 天内减至 2%"
+      }
+    ],
+    "cycle_positioning": {
+      "phase": "创新药起飞期向高速期过渡 (2024 政策起飞→2026 临床放量→2027-2028 商业化高速→2029+ 平台期)",
+      "key_signal": "公募 70% 分位+卖方 85% 买入共识 = 估值已 price-in 转型,容错空间收窄",
+      "h2_dynamics": "进入兑现期 — Q2 业绩+9 款获批+海外 BD 是连续催化, 但 catalyst 兑现后进入证伪窗口",
+      "strategy_implication": "不追高 ¥50 (上沿); 等回调 44-47 加仓; 若 Q2 业绩超预期触发上调 target;若 miss 减至 2%"
+    },
+    "credibility": {
+      "critic_score": 82,
+      "critic_iterations": 1,
+      "initial_score": 82,
+      "challenges": [
+        "3×3 矩阵期望 41 vs target 63 gap 35% (BD 期权乐观,已显式标注)",
+        "entry 上沿 50 比矩阵期望 41 高 22% (建议分批 44 半仓/50 加仓)",
+        "buyer 4/5 weakest_link (建议加医保谈判降幅 >15% 下修 target 的 trigger)"
+      ],
+      "final_verdict": "ACCEPT",
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥"
+      ]
+    },
+    "verdict_oneliner": "📌 恒瑞量护城河强(管线+销售+BD)但价护城河弱(医保单一 4/5),50元/50xPE 已 price-in 转型乐观情景,target 63 严格推导(forward 75亿×PE 42x),entry [44,50] 不追高,持有 4-5% 等回调加仓",
+    "industry_weight_pct": 5.0
   }
 }
