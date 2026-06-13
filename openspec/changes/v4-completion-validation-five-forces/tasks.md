@@ -94,6 +94,31 @@
 
 ---
 
+## 阶段 D0：决策链打通（信任感修复，CIO 投委会判定为「必做·最高优先」，插在 D 前）
+
+> 用户反馈+CIO 体检: 系统看起来全但决策链断层(产业链→个股→买点→回测前端各自为政),不可信。这是雪中送炭,优先于五力。
+
+### D0-1 估值推导链（解决"买点怎么来的,很草率"）
+- [ ] D0-1.1 stock schema 加 `valuation_basis` 字段(显式: 目标价=forward EPS × 目标PE(对标谁) / 或 PB锚 / 或 DCF; 买点=目标价×安全边际)
+- [ ] D0-1.2 给 17 个新架构 stock 补 valuation_basis 推导链(联网核实 EPS/PE/PB 锚)
+- [ ] D0-1.3 v4-stock-director.md prompt 加"买点/目标价必须给推导链,禁止拍脑袋"铁律
+
+### D0-2 产业链→个股连接（解决"不知道买什么"）
+- [ ] D0-2.1 chokepoint_map 每个 top 环节加 `recommended_stock`(首选标的+卡位排序+是否已深析+unit_id链接)
+- [ ] D0-2.2 行业 verdict 加 `investment_map`(瓶颈环节→推荐个股→为什么是它的明确推导链)
+- [ ] D0-2.3 v4-industry-director.md prompt 加"chokepoint 必须落到可买个股+排序"铁律
+- [ ] D0-2.4 给 6 个推荐行业补 investment_map
+
+### D0-3 前端展示补全（解决"C 阶段看不到 + 个股无详情页"）
+- [ ] D0-3.1 新建 StockDetailTab.vue(个股详情: 四维+forward_view+估值推导+止损+historical_alpha)
+- [ ] D0-3.2 IndustryDetailTab chokepoint 地图加"推荐标的"列 + 点击跳个股
+- [ ] D0-3.3 历史回测/historical_alpha 前端展示(StockDetailTab 内"判断准确率"区块)
+- [ ] D0-3.4 v4_query.py build_stock_detail 新增(透传 stock 全字段给前端)
+- [ ] D0-3.5 portfolio_v4.py 路由加 /stock/{code} + 前端路由跳转
+
+### D0 验收
+- [ ] D0 验收: 用户能从"产业链瓶颈地图"点击→看到推荐个股→点进个股详情→看到估值推导+买点依据+止损+历史准确率,全链条不断层
+
 ## 阶段 D：竞争五力补全 + A/B 测试（C 后做）
 
 ### D1 prompt 改造（先用旧版+新版双版本备用）
