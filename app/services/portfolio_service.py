@@ -79,10 +79,11 @@ class PortfolioService:
             try:
                 cached_time = datetime.fromisoformat(cached["cached_at"])
                 now_utc = datetime.utcnow()
-                # 北京时间 21:00 = UTC 13:00
+                # 北京时间 21:00 = UTC 13:00；允许最多 5 个自然日的缓存（覆盖周末和节假日）
                 cutoff_utc = now_utc.replace(hour=13, minute=0, second=0, microsecond=0)
                 if now_utc.hour < 13:
                     cutoff_utc -= timedelta(days=1)
+                cutoff_utc -= timedelta(days=4)  # 5 日内缓存直接复用，不触发 akshare
                 if cached_time >= cutoff_utc:
                     return float(cached["nav"])
             except Exception:
@@ -92,7 +93,7 @@ class PortfolioService:
             import akshare as ak
             df = await asyncio.wait_for(
                 asyncio.to_thread(ak.fund_open_fund_info_em, symbol=code),
-                timeout=10.0,
+                timeout=5.0,
             )
             if df is None or df.empty:
                 return None

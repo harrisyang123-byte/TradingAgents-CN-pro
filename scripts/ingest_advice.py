@@ -611,7 +611,7 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
         "allocations": sorted(allocations, key=lambda a: a["target_amount"], reverse=True),
     }
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(timezone.utc)
 
     # —— 4.5 大类资产配置（现状穿透聚合 + 大类裁判目标）——
     asset_allocation = _build_asset_allocation(data_dir, total_assets, available_cash, portfolio)
@@ -628,14 +628,13 @@ def build_doc(data_dir: Path, user_id: str) -> Dict[str, Any]:
         covered = sum(1 for r in matrix_out
                       if r["industry"] != CASH_INDUSTRY and r["go_nogo"] in ("GO", "NOGO"))
         data_score = round(covered / len(selected_industries), 2)
-
     doc = {
         "advice_id": str(uuid.uuid4()),
         "user_id": user_id,
         "status": "COMPLETED",
         "source": "v3-workflow",
         "created_at": now,
-        "completed_at": now,
+        "completed_at": now.isoformat(),
         "elapsed_seconds": 0,
         "cio_verdict": "v3 子 Agent 流水线（Step0-7）",
         "industry_matrix": matrix_out,

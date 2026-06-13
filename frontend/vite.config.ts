@@ -11,12 +11,7 @@ export default defineConfig({
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      imports: [
-        'vue',
-        'vue-router',
-        'pinia',
-        '@vueuse/core'
-      ],
+      imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
       dts: true,
       eslintrc: {
         enabled: true
@@ -41,7 +36,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 13721,
     hmr: {
       overlay: false
     },
@@ -54,12 +49,12 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
-        ws: true  // 🔥 启用 WebSocket 代理支持
+        ws: true // 🔥 启用 WebSocket 代理支持
       }
     }
   },
   build: {
-    target: 'es2020',  // 支持 nullish coalescing operator (??) 和 optional chaining (?.)
+    target: 'es2020', // 支持 nullish coalescing operator (??) 和 optional chaining (?.)
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,

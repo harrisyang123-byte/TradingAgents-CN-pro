@@ -12,7 +12,7 @@ services:
     image: tradingagents-backend:v1.0.0-preview
     container_name: tradingagents-backend
     ports:
-      - "8000:8000"
+      - "19721:8000"
     volumes:
       # 日志目录映射
       - ./logs:/app/logs
@@ -40,7 +40,7 @@ services:
       API_HOST: "0.0.0.0"
       API_PORT: "8000"
       # CORS配置
-      CORS_ORIGINS: "http://localhost:3000,http://localhost:8080,http://localhost:5173"
+      CORS_ORIGINS: "http://localhost:13721,http://localhost:8080,http://localhost:5173"
     depends_on:
       mongodb:
         condition: service_healthy
@@ -69,11 +69,11 @@ services:
     image: tradingagents-frontend:v1.0.0-preview
     container_name: tradingagents-frontend
     ports:
-      - "3000:80"
+      - "13721:80"
     environment:
       TZ: "Asia/Shanghai"
       # 后端API地址
-      VITE_API_BASE_URL: "http://localhost:8000"
+      VITE_API_BASE_URL: "http://localhost:19721"
     depends_on:
       backend:
         condition: service_healthy
@@ -98,7 +98,7 @@ services:
     container_name: tradingagents-mongodb
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - "27717:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: tradingagents123
@@ -127,7 +127,7 @@ services:
     container_name: tradingagents-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "16379:6379"
     environment:
       TZ: "Asia/Shanghai"
     command: redis-server --appendonly yes --requirepass tradingagents123
@@ -153,7 +153,7 @@ services:
     container_name: tradingagents-redis-commander
     restart: unless-stopped
     ports:
-      - "8081:8081"
+      - "18081:8081"
     environment:
       - REDIS_HOSTS=local:redis:6379:0:tradingagents123
     networks:
@@ -162,7 +162,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8081"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:18081"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -176,7 +176,7 @@ services:
     container_name: tradingagents-mongo-express
     restart: unless-stopped
     ports:
-      - "8082:8081"
+      - "18082:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: tradingagents123
