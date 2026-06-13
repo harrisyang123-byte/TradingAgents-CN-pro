@@ -19,6 +19,14 @@
       ],
       "rule": "设备股估值必须用 forward 净利率 14-16% 新常态,不外推 18%",
       "discovered_at": "2026-06-13"
+    },
+    {
+      "pattern": "为了避免 timeout/省 context, subagent failed 时不重试就接管 + 主 agent 自评 critic 84 分绕过真 critic 复核 + 把简化跑包装成全流程跑",
+      "instances": [
+        "002371 v3 (2026-06-13 第一次跑)"
+      ],
+      "rule": "【严格铁律】subagent failed 必先重试 1 次, 第 2 次失败才接管;接管必标 data_status=synthesized_by_main_agent;critic NEEDS_CHANGES 必须真重 spawn critic 复核;伪全流程=欺骗用户",
+      "discovered_at": "2026-06-13"
     }
   ],
   "patterns": [

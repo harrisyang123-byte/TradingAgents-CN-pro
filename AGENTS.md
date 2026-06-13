@@ -18,6 +18,21 @@
 
 ---
 
+## 0bis. 严格全流程铁律（2026-06-13 用户拍板,血泪教训）
+
+**禁止"为了快/避免 timeout/省 context"简化跑分析单元**。具体：
+
+- 5+1 五力 + 6 轮辩论 + 3 方风险 + sentiment + critic = **完整 17 个 stage,缺一不算"真单元"**
+- subagent failed 时**先重试 1 次**(换更小的 prompt 或拆 stage),第 2 次仍 fail 才主 agent 接管
+- **主 agent 接管的 stage 必须在 payload 里标 `data_status: "synthesized_by_main_agent"`** 让用户在前端可见
+- critic 评 NEEDS_CHANGES 时**必须真重 spawn critic 复核 v3-final**,不能"主 agent 自评 84 分"绕过 critic
+- 所有"简化版"产出必须在 `reflection.self_check` 里诚实标注是简化的(不能号称真全流程)
+- v4_unit_cli.py write 已通过 `payload.credibility.final_verdict=ACCEPT` 拦截 NEEDS_CHANGES, **不能用 --skip-critic 绕过**(除非真紧急)
+
+**违反将让所有"质量改造"沦为伪改造,等同欺骗用户。**
+
+---
+
 ## 1. 主线：v4 分层独立深度投研
 
 把投研拆成常驻的「**分析单元（unit）**」：七大类资产 → 行业 → 个股 + 各层配比，每个都是一个有稳定 `unit_id`、独立产物 JSON、独立五色状态、独立 TTL 的单元。触发只跑命中单元，绝不连带重跑其它。独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器 `scripts/workflow-v4-advisor.js`、独立只读路由 `app/routers/portfolio_v4.py`。完整规格见 `.kiro/specs/v4/`。

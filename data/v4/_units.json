@@ -340,11 +340,11 @@
     "stock:002371": {
       "unit_id": "stock:002371",
       "unit_type": "stock",
-      "version": 2,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 5,
-      "generated_at": "2026-06-13T03:05:21Z",
+      "generated_at": "2026-06-13T05:47:15Z",
       "upstream": [],
       "error": null,
       "path": "stocks/002371.json"
@@ -734,5 +734,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T04:11:56Z"
+  "updated_at": "2026-06-13T05:47:37Z"
 }

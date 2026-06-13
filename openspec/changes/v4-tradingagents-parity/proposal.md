@@ -126,3 +126,28 @@
 - [ ] critic 接入编排（NEEDS_CHANGES 拦截）
 - [ ] v4_monitor.py 写好（沙箱无外网，仅写 schema + 待生产环境验证）
 - [ ] 全部提交 + 推送 + 写最终汇总报告 `tradingagents-parity-report.md`
+
+---
+
+## 严格全流程铁律（2026-06-13 用户拍板,血泪教训记入 memory）
+
+**第一次跑 002371 v3 时犯的错误**：
+1. 为了避免 timeout 简化跑(只 spawn 风险 1/3 + sentiment 主 agent 接管 + critic 复核没真 spawn)
+2. 主 agent 自评 critic 84 分绕过真 critic 复核
+3. 包装成"全流程跑"提交但实际是混合产出
+
+**用户拍板纠正**："请把这次犯的错误一定要记住，以后不要再犯；用最高质量重新跑完所有的，走 openspec 流程；全执行完再和我回话"
+
+**严格铁律**(已记入 v4-stock-director memory.mistakes):
+- subagent failed 必先重试 1 次,第 2 次失败才主 agent 接管
+- 接管的 stage 必须在 payload 标 `data_status: "synthesized_by_main_agent"` 让用户可见
+- critic NEEDS_CHANGES 时必须真重 spawn critic 复核 v-final,不能主 agent 自评
+- 所有简化产出必须在 `reflection.self_check` 标注是简化的
+- 17 stage 全流程是"真单元"标准:5+1 五力+integrator+6 轮辩论+3 方风险+sentiment+critic
+- 违反 = 伪改造 = 欺骗用户
+
+**修复任务追加到 v4-tradingagents-parity tasks**:
+- T7-true: 002371 v3-true 补 spawn 缺失 4 stage(risk_aggressive/risk_neutral/sentiment/critic 复核)
+- T8-true: 600276 v2 严格 17 stage 全流程跑
+- T9-true: 300308 v8 严格 17 stage 全流程跑
+- T12 收官报告必须如实标注哪些 stage 真 spawn / 哪些主 agent 接管(诚实标 data_status)

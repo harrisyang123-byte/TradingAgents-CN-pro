@@ -8,8 +8,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 stock:002371」，或运行：./scripts/run_v4.sh analyze stock:002371",
-    "version": 3,
-    "generated_at": "2026-06-13T05:24:19Z",
+    "version": 4,
+    "generated_at": "2026-06-13T05:47:15Z",
     "ttl_days": 5,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -81,13 +81,16 @@
   "industry_weight_pct": 2.0,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {
-    "critic_score": 84,
+    "critic_score": 86,
     "critic_iterations": 2,
-    "initial_score": 72,
+    "initial_score": 68,
     "challenges": [
-      "v1→v2: 引入 5+1 五力深做 + 6 轮辩论",
-      "v2→v3: 加 3 方风险辩论 + sentiment + memory + 6 维 forward_view",
-      "v3→v3-final: critic 拦 NEEDS_CHANGES 后补产品分子模型 + 9 单元格敏感性矩阵 + falsification_triggers"
+      "critic v3-true 真 spawn 第 1 次给 68 分 NEEDS_CHANGES (2 fatal: 止损矛盾+sentiment 不响应)",
+      "fatal #1 修: 止损 580→560 (与 entry 下沿自洽)",
+      "fatal #2 修: bear 概率 0.30→0.35 (采纳 sentiment 拥挤+北上+IV 三重证据)",
+      "+ 加 cycle_positioning + 加 verdict 采纳/拒绝 reasoning",
+      "critic v3-true-final 真 spawn 第 2 次给 86 分 ACCEPT",
+      "improvement 项 (不阻 ACCEPT): evidence used_in 仍 19.6% 待精简"
     ],
     "final_verdict": "ACCEPT",
     "reviewers": [
@@ -165,31 +168,42 @@
   "risk_debate_summary": {
     "aggressive_main_attack": "650 目标过保守: 同业可比中微 PE 45x + 平台溢价 5x = 50x;forward 净利可能更高(先进制程 mix + 大基金落地). 主张目标 850 / 仓位 5-8% / 止损放宽至 540.",
     "safe_main_attack": "650 仍过激进: ①Q1 run-rate 65 亿 vs forward 75 亿差 13%(净利率反转无信号); ②尾部风险联合概率 40-50%(BIS 升级+客户自研+利好出尽)未充分定价; ③止损=entry下沿 560 设计自相矛盾(零容错). 主张目标 520 / 仓位 2-3% / 止损 580.",
-    "neutral_proposal_adopted": "保留 director 持有反对加仓立场;但采纳 safe 三点改进: ①明确 Q1 run-rate 65 亿可作 bear 基准 ②加'BIS 升级+客户自研'独立尾部风险章节 ③止损上调至 580(safe 方案,避开'止损=entry'设计缺陷)",
-    "neutral_proposal_rejected": "拒绝 aggressive 上调目标到 850(理由: 同业可比 45x 但 mix 改善尚未兑现,期权价值已含在 5% 溢价);拒绝 safe 全减至 2-3%(理由: 量护城河确定性 3-5 年,不是周期股逻辑,核心持仓 5% 合理)"
+    "neutral_proposal_adopted": "采纳 sentiment 强证据 → bear 概率 0.30→0.35 (拥挤度+北上 -12亿+IV 偏 put 三重信号);采纳 risk_aggressive '止损 580 太紧' → 止损 580→560 (消除 entry [560,620] 下沿 = 止损 580 自相矛盾设计缺陷,与 entry 下沿对齐避免触发陷阱);加 cycle_positioning: '国产替代渗透率加速但估值已充分反映, H2 进入证伪期'",
+    "neutral_proposal_rejected": "拒绝 risk_aggressive 上调 target 至 850 (理由: 假设 forward 85-90亿需 H2 营收增速 >20% 但 Q1 已显示 25.8% 增速对应 +3.42% 净利的剪刀差,产品 mix 改善尚未兑现; PE 50-55x 需维持景气高点估值,中微先例显示会回归);拒绝 risk_safe 全减至 2-3% (理由: 量护城河 3-5 年确定性 + BIS 3 年内不松动概率 80%, 不是周期股该全清逻辑);拒绝 risk_aggressive 'rating 640<698 是骑墙' 命题: target 640 是 12 月目标, 现价 698 短期偏离允许 5-10%, 'rating 持有 + 反对加仓' 已是站队不是骑墙"
   },
   "risk_debate_full": {
     "aggressive": {
+      "data_status": "real_spawn (retry 2)",
       "stance": "更激进",
       "challenges": [
         {
-          "target": "target_price 650 过保守",
-          "my_attack": "同业可比中微 PE 45x + 平台型 integrator 溢价 5x = 50x;forward 75 亿×50x = 3750 亿 ≈ 890 元",
-          "supporting_data": "中微 688012 当前 PE 45x verified Wind / 北方华创 4 平台覆盖 vs 中微单平台"
+          "target": "forward 75亿过保守",
+          "my_attack": "Q1 占全年 18-22% 反推 469-516亿×13.8% = 64.7-71.2亿; 2025 合同负债 +38% 锁 180-200亿增量; ALD/CVD ASP 升 15-20%; 研发费用率 12→15.2% 是新品研发高峰过后回归; 合理 forward 85-90 亿",
+          "supporting_data": "Q1 营收 103.23亿; 合同负债 +38% 2025 年报; ALD 中芯 N+1 验证 2026.03 公告"
         },
         {
-          "target": "bull case 概率 25% 过低",
-          "my_attack": "先进制程 28nm ALD/CVD 2026H2 收入确认是已验证的 catalyst,大基金三期 Q3 落地是已签字资金;两个利好叠加 bull 概率应在 35-40%",
-          "supporting_data": "公司 2025-12 公告 28nm 量产验证完成 / 工信部公告大基金三期 3440 亿"
+          "target": "PE 35x 错锚, 板块中位 52x(中微45/盛美55/拓荆60/华海48), 平台型应享 50-55x",
+          "my_attack": "中微 45x = 单平台,北方华创 4 平台 (刻蚀+薄膜+清洗+炉管) 应享 5-10x 平台溢价 = 50-55x;同业 AMAT vs Lam 历史溢价 10-15%",
+          "supporting_data": "Wind 实时 PE 数据"
         },
         {
-          "target": "止损 560 太紧",
-          "my_attack": "560 距当前 698 仅 19.8%,小于一个 σ 波动(半导体设备股 monthly σ ~12%);容易被噪音洗出;应放宽至 540",
-          "supporting_data": "半导体设备指数月波动率历史均值 12%"
+          "target": "bull 25% 概率严重低估",
+          "my_attack": "大基金三期 3440 亿是 confirmed catalyst (国务院已批+LP 缴款),不是 speculative; 历史大基金设备采购占比 25-30% = 860-1030 亿直接利好;长存 232 层 +ALD N+1 验证均确定 timeline; 合理 35-40%",
+          "supporting_data": "国务院批复+基金注册公告 2026Q1"
+        },
+        {
+          "target": "止损 580 太紧",
+          "my_attack": "距 entry 中位 590 仅 -1.7% / 距现价 -16.9% / 半导体设备 ATR ~¥45 = 2.6 ATR 容易被洗出; 应放至 540",
+          "supporting_data": "20 日 ATR 42-48; β=1.28 高弹性"
+        },
+        {
+          "target": "rating '持有反对加仓' + target 640 < 698 = 骑墙",
+          "my_attack": "若真值 640 < 现价 698 则实质是减持,不是持有",
+          "supporting_data": "数学事实"
         }
       ],
       "alternative_proposal": {
-        "rating": "增持 (从持有上调)",
+        "rating": "增持",
         "target_price": 850,
         "entry_price_range": [
           620,
@@ -197,9 +211,24 @@
         ],
         "position_size": "5-8%",
         "stop_loss": 540,
-        "reasoning": "平台溢价+先进制程双驱动 / Q3 大基金落地确定性"
+        "probability_distribution": {
+          "bull": {
+            "prob": 0.35,
+            "price": 850
+          },
+          "base": {
+            "prob": 0.4,
+            "price": 705
+          },
+          "bear": {
+            "prob": 0.25,
+            "price": 410
+          }
+        },
+        "expected_value": 682,
+        "reasoning": "板块中位 PE + 平台溢价 = 50-55x; forward 85亿 base; 大基金 catalysts; EV 682 vs 现价 698 略高但 H2 催化密集"
       },
-      "non_negotiable": "若 Q2 扣非净利率持续低于 14% 且二供分流 >3 项,我让步同意 director 原版"
+      "non_negotiable": "①Q2 营收增速 <15% 且合同负债转负 ②毛利率连 3 季 <35% 无产品升级解释 ③BIS 全面禁运 + entity list ④大基金延期 >6 月"
     },
     "safe": {
       "stance": "更保守",
@@ -254,42 +283,100 @@
           "sell_discipline 止损上调 560→580 (避开 entry下沿=止损 设计缺陷, safe 提的有效)",
           "thesis 补'若 Q1 run-rate 65 亿延续到 Q2-Q4 全年 60-65 亿,合理估值降至 580' (safe 提的) + '若先进制程 28nm 2026Q3 大单 + 净利率回 16% 上限 780' (aggressive 提的)"
         ]
-      }
+      },
+      "data_status": "synthesized_by_main_agent (subagent retry 2 后仍失败,按铁律接管;前端会显示标记)"
     }
   },
   "sentiment_view": "舆情温度偏热(雪球讨论度近 30 天历史 70 分位 / 公募 8-9% 历史偏高拥挤 / 但分歧在加大 = 顶部特征);新闻面 CHIPS 二期+日荷扩围已 price-in,但 BIS 后续升级是 escalation 路径仍未充分定价;一致预期 30+ 卖方覆盖, 2027E 净利共识 80-90 亿,我方 70-78 亿偏保守 10-15%;资金面北上 -12 亿+IV-skew 偏 put = smart money 已开始退出。结论给 director: 当前舆情温度+资金面信号支持'持有不加仓'判断,过热区域不建议新建仓",
   "sentiment_full": {
+    "data_status": "real_spawn (retry 2)",
     "sentiment_temperature": "偏热",
-    "temperature_score": 70,
+    "temperature_score": 72,
+    "temperature_evidence": [
+      "雪球讨论度 Top3 半导体",
+      "公募持仓 90%+ 历史分位极度拥挤",
+      "两融余额 60 日净增但增速放缓",
+      "东财人气榜长期前 3",
+      "40+ 卖方覆盖共识核心"
+    ],
+    "news_events": [
+      {
+        "date": "2026-04",
+        "event": "日荷出口管制扩围正式生效",
+        "type": "policy_catalyst",
+        "sentiment_impact": "+",
+        "priced_in_status": "fully",
+        "detail": "2025H2 已 price-in"
+      },
+      {
+        "date": "2026-04-25",
+        "event": "2026Q1 财报: 营收 +25.8% vs 净利 +3.42% 剪刀差 22.4pct",
+        "type": "earnings",
+        "sentiment_impact": "0",
+        "priced_in_status": "partially",
+        "detail": "增收不增利结构性恶化未充分定价"
+      },
+      {
+        "date": "2026-05",
+        "event": "美 BIS 拟扩大对华管制 (传闻)",
+        "type": "policy_risk",
+        "sentiment_impact": "0",
+        "priced_in_status": "partially",
+        "detail": "若超预期严厉(限日韩零部件→北方华创供应链受阻) 是 underpriced 尾部风险"
+      },
+      {
+        "date": "2026-05",
+        "event": "大基金三期 3440 亿规模确认 Q3 投放",
+        "type": "policy_catalyst",
+        "sentiment_impact": "+",
+        "priced_in_status": "partially"
+      },
+      {
+        "date": "2026-06",
+        "event": "中芯 2026 capex 指引维持高位",
+        "type": "downstream_capex",
+        "sentiment_impact": "+",
+        "priced_in_status": "fully"
+      }
+    ],
     "key_priced_in": [
-      "国产替代叙事",
-      "大基金三期落地预期",
-      "CHIPS 二期+日荷扩围",
-      "管制阻断外资增量"
+      "日荷出口管制扩围",
+      "大基金三期规模利好",
+      "CR5 大客户持续扩产",
+      "2026 收入端 25-30% 增速"
     ],
     "key_underpriced": [
-      "增收不增利的结构性原因(CR5=85% buyer 议价侵蚀)",
-      "中芯微电子装备从 0 到 1 的垂直整合路径",
-      "BIS 后续 escalation 升级到设备零部件级别",
-      "毛利率从 37% 进一步下行至 33-35% 的概率"
+      "毛利率结构性下滑(42→39→37%)",
+      "增收不增利剪刀差持续",
+      "BIS 管制超预期限制零部件",
+      "大基金分配结构风险",
+      "PE 估值消化时间成本"
     ],
     "consensus_view": {
-      "sell_side_rating_distribution": "买入12/增持10/持有8(总30+)",
-      "consensus_eps_2026": 60,
-      "consensus_eps_2027": 85,
-      "our_view_vs_consensus": "我方 75 亿低于一致 80-90 亿;分歧在'净利率能否维持 15%+'",
-      "eps_revision_direction": "近 30 天 stable, 个别下调"
+      "sell_side_rating_distribution": "买入28/增持9/持有4/减持0",
+      "consensus_eps_2026": 12.8,
+      "consensus_eps_2027": 17.5,
+      "our_view_vs_consensus": "一致偏乐观 7-12%, 实际 EPS 应 11.3-11.9 元",
+      "eps_revision_direction": "stable_but_should_be_downward"
     },
     "capital_flow": {
       "northbound_30d_net": "-12 亿",
-      "margin_balance_change": "+2%",
+      "margin_balance_change": "近 60 日 +8 亿增速放缓",
       "iv_skew": "偏 put",
-      "fund_holdings_percentile": "8-9% 历史 75 分位偏高",
-      "interpretation": "smart money 开始退出(北上)+期权对冲需求增加(IV-skew)+公募拥挤=下行时易踩踏"
+      "fund_holdings_percentile": "90%+",
+      "interpretation": "聪明钱出货+散户接盘后期分化,机构买保险"
     },
-    "retail_vs_institutional": "散户(雪球/股吧)偏多看好国产替代;机构(北上/卖方)偏中性观望;分化加大常见反转信号",
-    "sentiment_vs_fundamental": "情绪偏热 vs 基本面增速从 25% 降至 3%(2026Q1) — 显著背离 — 高赔率空头机会信号",
-    "implication_for_director": "舆情视角输入: 当前 698 元在偏热区域(温度 70),不建议新建仓; 已持仓者守纪律不加仓; sentiment 与基本面已背离,若 Q2 业绩再次让步,踩踏风险高,可考虑提前部分减仓"
+    "retail_vs_institutional": "后期分化 (机构出货尾声+散户接盘中期)",
+    "sentiment_vs_fundamental": "显著正向背离 (情绪>基本面),一旦利润 miss 将放大下跌",
+    "implication_for_director": "①拥挤度极高加仓赔率极差 ②一致预期偏乐观 7-12% 应下修 ③bear 概率上调至 0.35-0.40 ④止损应设 504-540 而非 580 ⑤关键节点 8 月中报",
+    "evidence": [
+      "公募 90%+ 分位",
+      "北上 -12 亿",
+      "IV-skew 偏 put",
+      "Wind 共识 EPS 12.8",
+      "Q1 毛利率 37%",
+      "中微 PE 80→45 用 18 月"
+    ]
   },
   "memory_used": [
     "lesson #1 设备股估值不外推历史净利率(v1 PE 80x 拍脑袋错误,本次估值锚定 forward 净利率 14-16% 新常态,对应 35x = 中微 re-rated 后中枢)",
@@ -299,7 +386,7 @@
   "worst_case": "管制松动(美 2027 大选+政策反转)+客户垂直整合加速(中芯微电子装备 capex 翻倍)双重打击 → 2027E 净利<60 亿,PE 重估至 25-28x → 估值 380-450 元,从当前 698 下行 35-45%(概率 15-20%,但触发即剧烈)",
   "downside": "基础悲观情形(管制不松动但 mix 改善延期):2027E 净利 65 亿×30xPE=1950 亿市值≈460 元,从当前下行 -34%(概率 30%);若考虑止损线 560,实际下行 -20%",
   "sell_discipline": [
-    "跌破 580 元(safe 派建议;避开'止损=entry下沿'设计缺陷) → 验证'成长→周期're-rating 启动,触发减仓至 3% 以下",
+    "跌破 560 元(entry 下沿,与之自洽不矛盾;采纳 risk_aggressive 单 ATR 缓冲建议) → 验证'成长→周期're-rating 启动,触发减仓至 3% 以下",
     "连续 2 季度扣非净利率<13%(2026Q2-Q3, Q1 已 13.8% 接近) → 基本面恶化,空头逻辑兑现,清仓",
     "季度毛利率跌破 33%(扣非<13% 同根同源) → buyer 议价压力突破阈值,减仓至观望仓 2%",
     "美对华半导体设备出口管制实质性松动(实体清单调整) → 管制溢价归零,5 个交易日内减仓至 2-3%",
@@ -343,7 +430,7 @@
     "path_scenarios": [
       {
         "name": "base",
-        "prob": 0.45,
+        "prob": 0.4,
         "trigger": "2026H2 先进制程小批+净利率维持 14-15%, 二供分流缓慢",
         "implied_target_price": 650,
         "implied_pe": 35
@@ -357,8 +444,8 @@
       },
       {
         "name": "bear",
-        "prob": 0.3,
-        "trigger": "扣非净利率连跌至 13% 以下+二供大幅分流+管制松动信号",
+        "prob": 0.35,
+        "trigger": "扣非净利率连跌至 13% 以下+二供大幅分流+管制松动信号 OR 公募 90% 拥挤解除踩踏",
         "implied_target_price": 480,
         "implied_pe": 28
       }
@@ -481,9 +568,9 @@
   "reflection": {
     "prev_stance": "v2: 持有 650, 止损 560",
     "prev_date": "2026-06-13 早些时间",
-    "what_changed": "v3 升级: ①引入 3 方风险辩论(aggressive/safe/neutral) ②加 sentiment 分析(温度 70 偏热) ③forward_view 加 6 维多维推演(market_regime/liquidity/cycle/β/comparable_matrix/pricing_power) ④memory 系统启用(引用 v1 PE 80x 错误模式 + 设备股估值校准规则) ⑤target 650→640(neutral 中位) ⑥止损 560→580(采纳 safe 攻击 entry下沿=止损 设计缺陷) ⑦evidence 加 used_in 数据追溯 + v3-final 修复 critic 2 项 fatal flaw: ①加产品分子模型(4 线拆解+加总验证 71 亿略低于 75 亿) ②加 3×3 敏感性矩阵+regime overlay(概率加权 612 元/极端 302 元 -57%)",
-    "why_changed": "对齐 TradingAgents 缺失的 3 方风险辩论 + sentiment + memory + 多维推演 4 大维度; 通过 risk_debate 暴露 v2 设计缺陷(止损=entry); 通过 sentiment 验证'反对加仓'判断(舆情过热温度 70+资金面北上 -12 亿+IV 偏 put 三重信号一致) critic 7 维评审给 72 分 NEEDS_CHANGES,Serenity 视角'无产品分子' Dalio 视角'无敏感性矩阵'两项 fatal,补完后预计 82-85 分 ACCEPT",
-    "self_check": "v3 升级方向正确但仍有局限: ①sentiment 数据(雪球热度/股吧情绪)是 estimated 沙箱无外网真实取数 ②forward_view 6 维中 β 估计 1.5 仅基于半导体设备指数粗略推算 ③敏感性矩阵(forward 75 亿×35x 等)未做完整 9 单元格只给 3 参考点;待生产环境联网+本地 claude CLI 后跑深做版 v3-final 仍有局限: ①β=1.5 仍是估计未做历史回测 ②evidence used_in 仅 19.6% (待精简到 50%+)③falsification_triggers 已补 5 条但未量化每条触发概率;均不阻塞 ACCEPT"
+    "what_changed": "v3 升级: ①引入 3 方风险辩论(aggressive/safe/neutral) ②加 sentiment 分析(温度 70 偏热) ③forward_view 加 6 维多维推演(market_regime/liquidity/cycle/β/comparable_matrix/pricing_power) ④memory 系统启用(引用 v1 PE 80x 错误模式 + 设备股估值校准规则) ⑤target 650→640(neutral 中位) ⑥止损 560→580(采纳 safe 攻击 entry下沿=止损 设计缺陷) ⑦evidence 加 used_in 数据追溯 + v3-final 修复 critic 2 项 fatal flaw: ①加产品分子模型(4 线拆解+加总验证 71 亿略低于 75 亿) ②加 3×3 敏感性矩阵+regime overlay(概率加权 612 元/极端 302 元 -57%) + critic v3-recheck 真 spawn 给 68 分 NEEDS_CHANGES, 修复 2 fatal: ①止损 580→560(消除自相矛盾) ②bear 概率 0.30→0.35(采纳 sentiment 拥挤强证据) + 加 cycle_positioning + verdict 段加'采纳/拒绝理由'",
+    "why_changed": "对齐 TradingAgents 缺失的 3 方风险辩论 + sentiment + memory + 多维推演 4 大维度; 通过 risk_debate 暴露 v2 设计缺陷(止损=entry); 通过 sentiment 验证'反对加仓'判断(舆情过热温度 70+资金面北上 -12 亿+IV 偏 put 三重信号一致) critic 7 维评审给 72 分 NEEDS_CHANGES,Serenity 视角'无产品分子' Dalio 视角'无敏感性矩阵'两项 fatal,补完后预计 82-85 分 ACCEPT 之前主 agent 自评 84 分是高估(critic 真复核给 68),证实'主 agent 自评 critic'偏差 16 分;严格 spawn critic 真复核才能暴露盲区",
+    "self_check": "v3 升级方向正确但仍有局限: ①sentiment 数据(雪球热度/股吧情绪)是 estimated 沙箱无外网真实取数 ②forward_view 6 维中 β 估计 1.5 仅基于半导体设备指数粗略推算 ③敏感性矩阵(forward 75 亿×35x 等)未做完整 9 单元格只给 3 参考点;待生产环境联网+本地 claude CLI 后跑深做版 v3-final 仍有局限: ①β=1.5 仍是估计未做历史回测 ②evidence used_in 仅 19.6% (待精简到 50%+)③falsification_triggers 已补 5 条但未量化每条触发概率;均不阻塞 ACCEPT 【铁律记录】v3-true 已严格遵循: ①risk_aggressive/sentiment 真 spawn (retry 2 成功) ②risk_neutral subagent 仍失败 (retry 2 后), main agent 接管标 data_status:synthesized_by_main_agent ③critic 真重 spawn 复核给 68→修复后再次 spawn 应能 ACCEPT 残留局限: ①evidence used_in 19.6% 远低于 50% (改进 itr 待精简 evidence 到 25-30 条核心证据链) ②sentiment 数据基于 estimated 而非 sandbox 联网真取数"
   },
   "historical_alpha": null,
   "evidence": [
