@@ -100,7 +100,7 @@
       <!-- ===== ③ 支撑分析（按编排器流程顺序展开,看完整推理链） ===== -->
       <div class="card sdt-support">
         <div class="sdt-section-title">🔬 ③ 支撑分析 — 完整推理链（点击每步展开）</div>
-        <p class="sdt-support-desc">展示系统从「数据采集 → 3 分析师 → 多空辩论 → director 拍板 → critic 评审」的完整推理过程，让你看到结论是怎么来的</p>
+        <p class="sdt-support-desc">展示系统按编排器实际流程的完整推理链：「数据采集 → 4 分析师并列 → 多空辩论 → 3 方风险辩论 → director 综合 → critic 评审」。Step 1-4 是 director 的 4 类输入信号，Step 5 是 director 综合产出，Step 6 是质量闸门。</p>
         <el-collapse>
 
           <!-- Step 1 数据采集 -->
@@ -139,7 +139,7 @@
           <el-collapse-item name="step2">
             <template #title>
               <span class="sdt-step-title">
-                👔 Step 2 · 三分析师并列分析
+                👔 Step 2 · 4 分析师并列分析 (财务/竞争+5力/估值/舆情)
                 <el-tag v-if="ff.moat_rating" :type="moatType(ff.moat_rating)" size="small" class="sdt-step-tag">护城河 {{ ff.moat_rating }}</el-tag>
                 <el-tag v-if="cfd?.weakest_link" type="danger" size="small" effect="plain" class="sdt-step-tag">weakest = {{ extractWeakestForce(cfd.weakest_link) }}</el-tag>
               </span>
@@ -205,6 +205,21 @@
               <p v-if="detail.analysts?.valuation">{{ detail.analysts.valuation }}</p>
               <p v-if="!detail.valuation_basis && !detail.analysts?.valuation" class="sdt-empty">（valuation_basis 未提供）</p>
             </details>
+            <!-- 2d 舆情分析师 (sentiment) — 与财务/竞争/估值并列的第 4 个分析师 -->
+            <details class="sdt-substep" v-if="detail.sentiment_view || detail.sentiment_full">
+              <summary>📰 d · 舆情分析师（sentiment — 5 维:温度/新闻/一致预期/资金面/情绪vs基本面）</summary>
+              <p v-if="detail.sentiment_view" class="sdt-thesis-text">{{ detail.sentiment_view }}</p>
+              <div v-if="detail.sentiment_full" class="sdt-sentiment-detail">
+                <p v-if="detail.sentiment_full.sentiment_temperature"><b>🌡️ 温度：</b>{{ detail.sentiment_full.sentiment_temperature }} ({{ detail.sentiment_full.temperature_score }}分)</p>
+                <p v-if="detail.sentiment_full.consensus_view?.our_view_vs_consensus"><b>📊 vs 一致预期：</b>{{ detail.sentiment_full.consensus_view.our_view_vs_consensus }}</p>
+                <p v-if="detail.sentiment_full.capital_flow?.interpretation"><b>💰 资金面：</b>{{ detail.sentiment_full.capital_flow.interpretation }}</p>
+                <p v-if="detail.sentiment_full.sentiment_vs_fundamental"><b>⚖️ 情绪vs基本面：</b>{{ detail.sentiment_full.sentiment_vs_fundamental }}</p>
+                <details v-if="detail.sentiment_full.key_underpriced?.length" class="sdt-sentiment-sub">
+                  <summary>未充分定价的利空/利好 ({{ detail.sentiment_full.key_underpriced.length }} 项)</summary>
+                  <ul><li v-for="(k, i) in detail.sentiment_full.key_underpriced" :key="i">{{ k }}</li></ul>
+                </details>
+              </div>
+            </details>
           </el-collapse-item>
 
           <!-- Step 3 多空辩论 -->
@@ -231,10 +246,44 @@
             </div>
           </el-collapse-item>
 
-          <!-- Step 4 director 拍板 -->
-          <el-collapse-item name="step4">
-            <template #title><span class="sdt-step-title">🎩 Step 4 · director 拍板（综合所有产出）</span></template>
-            <p class="sdt-step-desc">director 消费 3 分析师 + 多空辩论 + chokepoint, 给反骑墙立场 + reflection + forward_view 三情景</p>
+          <!-- Step 4 3 方风险辩论 (TradingAgents 风格独立步骤, 是 director 的输入之一) -->
+          <el-collapse-item v-if="detail.risk_debate_summary || detail.risk_debate_full" name="step4">
+            <template #title>
+              <span class="sdt-step-title">
+                ⚖️ Step 4 · 3 方风险辩论 (aggressive / safe / neutral)
+                <el-tag size="small" type="info" class="sdt-step-tag">TradingAgents 风格 · director 输入之一</el-tag>
+              </span>
+            </template>
+            <p class="sdt-step-desc">基于多空辩论结论, 3 方对仓位/止损/tail risk 等执行参数辩论。aggressive 攻保守 / safe 攻激进 / neutral 协调给 director 修正建议。这与 Step 3 多空辩论维度不同(方向 vs 执行)。</p>
+            <div v-if="detail.risk_debate_summary" class="sdt-risk-summary">
+              <p v-if="detail.risk_debate_summary.aggressive_main_attack"><b>🔥 激进派核心攻击：</b>{{ detail.risk_debate_summary.aggressive_main_attack }}</p>
+              <p v-if="detail.risk_debate_summary.safe_main_attack"><b>🛡️ 保守派核心攻击：</b>{{ detail.risk_debate_summary.safe_main_attack }}</p>
+              <p v-if="detail.risk_debate_summary.neutral_proposal_adopted" class="sdt-risk-adopted"><b>✅ 中立派建议（director 已采纳）：</b>{{ detail.risk_debate_summary.neutral_proposal_adopted }}</p>
+              <p v-if="detail.risk_debate_summary.neutral_proposal_rejected" class="sdt-risk-rejected"><b>❌ 中立派建议（director 拒绝）：</b>{{ detail.risk_debate_summary.neutral_proposal_rejected }}</p>
+            </div>
+            <details v-if="detail.risk_debate_full?.aggressive" class="sdt-substep">
+              <summary>🔥 aggressive 完整产出（含 alternative_proposal + non_negotiable）</summary>
+              <p v-if="detail.risk_debate_full.aggressive.stance"><b>立场：</b>{{ detail.risk_debate_full.aggressive.stance }}</p>
+              <p v-if="detail.risk_debate_full.aggressive.alternative_proposal"><b>alternative：</b>{{ JSON.stringify(detail.risk_debate_full.aggressive.alternative_proposal) }}</p>
+              <p v-if="detail.risk_debate_full.aggressive.data_status" class="sdt-data-status">data_status: {{ detail.risk_debate_full.aggressive.data_status }}</p>
+            </details>
+            <details v-if="detail.risk_debate_full?.safe" class="sdt-substep">
+              <summary>🛡️ safe 完整产出</summary>
+              <p v-if="detail.risk_debate_full.safe.stance"><b>立场：</b>{{ detail.risk_debate_full.safe.stance }}</p>
+              <p v-if="detail.risk_debate_full.safe.alternative_proposal"><b>alternative：</b>{{ JSON.stringify(detail.risk_debate_full.safe.alternative_proposal) }}</p>
+              <p v-if="detail.risk_debate_full.safe.data_status" class="sdt-data-status">data_status: {{ detail.risk_debate_full.safe.data_status }}</p>
+            </details>
+            <details v-if="detail.risk_debate_full?.neutral" class="sdt-substep">
+              <summary>⚖️ neutral 完整产出</summary>
+              <p v-if="detail.risk_debate_full.neutral.neutral_proposal"><b>neutral_proposal：</b>{{ JSON.stringify(detail.risk_debate_full.neutral.neutral_proposal) }}</p>
+              <p v-if="detail.risk_debate_full.neutral.data_status" class="sdt-data-status">data_status: {{ detail.risk_debate_full.neutral.data_status }}</p>
+            </details>
+          </el-collapse-item>
+
+          <!-- Step 5 director 综合拍板 (消费 Step 1-4 全部) -->
+          <el-collapse-item name="step5">
+            <template #title><span class="sdt-step-title">🎩 Step 5 · director 综合拍板（消费 Step 1-4 全部产出）</span></template>
+            <p class="sdt-step-desc">director 综合 data-desk + 4 分析师 + 多空辩论 + 3 方风险辩论 + memory, 给反骑墙立场 + reflection + forward_view 6 维 + valuation_basis 推导链</p>
             <p v-if="detail.thesis" class="sdt-thesis-text"><b>核心论述：</b>{{ detail.thesis }}</p>
             <div class="sdt-thesis-grid">
               <p v-if="detail.business_quality"><b>🏢 生意质量：</b>{{ detail.business_quality }}</p>
@@ -245,7 +294,7 @@
             </div>
             <!-- forward_view -->
             <details class="sdt-substep" v-if="detail.forward_view">
-              <summary>🔭 forward_view · 三情景 + 触发监控</summary>
+              <summary>🔭 forward_view · 三情景 + 触发监控 + 6 维多维推演</summary>
               <div v-if="fv.path_scenarios?.length" class="sdt-fv-scn">
                 <b>🎯 三情景：</b>
                 <div v-for="(s, i) in fv.path_scenarios" :key="i" class="sdt-scn">
@@ -259,7 +308,6 @@
               </div>
               <p v-if="fv.mid_term_path"><b>📈 中长期路径：</b>{{ fv.mid_term_path }}</p>
               <p v-if="fv.expectation_vs_consensus"><b>📊 vs 一致预期：</b>{{ fv.expectation_vs_consensus }}</p>
-              <!-- D0-5 forward_view 6 维多维推演 -->
               <div v-if="fv.market_regime || fv.liquidity_environment || fv.industry_cycle_phase || fv.systematic_risk_beta || fv.comparable_matrix || fv.pricing_power_analysis" class="sdt-fv-6d">
                 <div class="sdt-fv-6d-title">🌐 多维推演（不只 PE）</div>
                 <div v-if="fv.market_regime" class="sdt-fv-6d-row"><b>📈 市场风格：</b>{{ fv.market_regime }}</div>
@@ -278,31 +326,18 @@
               <p v-if="detail.reflection.why_changed"><b>为何改：</b>{{ detail.reflection.why_changed }}</p>
               <p v-if="detail.reflection.self_check"><b>自检：</b>{{ detail.reflection.self_check }}</p>
             </details>
-            <!-- D0-5 3 方风险辩论 -->
-            <details class="sdt-substep" v-if="detail.risk_debate_summary">
-              <summary>⚖️ 3 方风险辩论（aggressive / safe / neutral）— TradingAgents 对齐</summary>
-              <p v-if="detail.risk_debate_summary.aggressive_main_attack"><b>🔥 激进派核心攻击：</b>{{ detail.risk_debate_summary.aggressive_main_attack }}</p>
-              <p v-if="detail.risk_debate_summary.safe_main_attack"><b>🛡️ 保守派核心攻击：</b>{{ detail.risk_debate_summary.safe_main_attack }}</p>
-              <p v-if="detail.risk_debate_summary.neutral_proposal_adopted" class="sdt-risk-adopted"><b>✅ 中立派建议（director 已采纳）：</b>{{ detail.risk_debate_summary.neutral_proposal_adopted }}</p>
-              <p v-if="detail.risk_debate_summary.neutral_proposal_rejected" class="sdt-risk-rejected"><b>❌ 中立派建议（director 拒绝）：</b>{{ detail.risk_debate_summary.neutral_proposal_rejected }}</p>
-            </details>
-            <!-- D0-5 sentiment -->
-            <details class="sdt-substep" v-if="detail.sentiment_view">
-              <summary>📰 sentiment 舆情分析（director 整合）</summary>
-              <p>{{ detail.sentiment_view }}</p>
-            </details>
-            <!-- D0-5 memory_used -->
+            <!-- memory_used -->
             <details class="sdt-substep" v-if="detail.memory_used?.length">
               <summary>🧠 memory 已引用过往经验（{{ detail.memory_used.length }} 条）</summary>
               <ul><li v-for="(m, i) in detail.memory_used" :key="i">{{ m }}</li></ul>
             </details>
           </el-collapse-item>
 
-          <!-- Step 5 critic 评审 -->
-          <el-collapse-item v-if="detail.credibility" name="step5">
+          <!-- Step 6 critic 评审 -->
+          <el-collapse-item v-if="detail.credibility" name="step6">
             <template #title>
               <span class="sdt-step-title">
-                🎓 Step 5 · critic 评审（4 视角质量闸门）
+                🎓 Step 6 · critic 评审（4 视角质量闸门）
                 <el-tag size="small" type="success" class="sdt-step-tag">{{ detail.credibility.final_verdict || 'ACCEPT' }} {{ detail.credibility.critic_score }} 分</el-tag>
               </span>
             </template>
@@ -327,11 +362,11 @@
             </div>
           </el-collapse-item>
 
-          <!-- Step 6 历史准确率 完整 -->
-          <el-collapse-item v-if="detail.historical_alpha" name="step6">
+          <!-- Step 7 历史准确率 完整 -->
+          <el-collapse-item v-if="detail.historical_alpha" name="step7">
             <template #title>
               <span class="sdt-step-title">
-                📈 Step 6 · 历史判断准确率（结果闭环）
+                📈 Step 7 · 历史判断准确率（结果闭环）
                 <el-tag size="small" :type="hitType" class="sdt-step-tag">{{ hitLabel }}</el-tag>
               </span>
             </template>
@@ -339,11 +374,11 @@
             <p class="sdt-alpha-meta">数据状态: {{ detail.historical_alpha.data_status }} | 评估日: {{ detail.historical_alpha.evaluated_at }}</p>
           </el-collapse-item>
 
-          <!-- Step 7 风险 + 止损全集 -->
-          <el-collapse-item name="step7">
+          <!-- Step 8 风险 + 止损全集 -->
+          <el-collapse-item name="step8">
             <template #title>
               <span class="sdt-step-title">
-                ⚠️ Step 7 · 风险清单 + 止损纪律全集
+                ⚠️ Step 8 · 风险清单 + 止损纪律全集
                 <el-tag v-if="detail.risks?.length" size="small" type="danger" class="sdt-step-tag">{{ detail.risks.length }} 项风险</el-tag>
               </span>
             </template>
@@ -614,8 +649,14 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-fv-6d-row { font-size: 13px; line-height: 1.7; margin: 4px 0; color: #4e5969; }
 
 /* 3 方风险辩论展示 */
+.sdt-risk-summary { padding: 8px 12px; background: #fafafa; border-radius: 6px; margin-bottom: 8px; }
+.sdt-risk-summary p { font-size: 13px; line-height: 1.7; margin: 4px 0; }
 .sdt-risk-adopted { background: #f6ffed; padding: 6px 8px; border-radius: 4px; border-left: 2px solid #67c23a; margin: 6px 0; }
 .sdt-risk-rejected { background: #fff1f0; padding: 6px 8px; border-radius: 4px; border-left: 2px solid #cf1322; margin: 6px 0; }
+.sdt-data-status { color: #909399; font-size: 11.5px; font-style: italic; margin-top: 4px; }
+.sdt-sentiment-detail { background: #f5f7fa; padding: 8px 10px; border-radius: 4px; font-size: 13px; line-height: 1.7; }
+.sdt-sentiment-detail p { margin: 3px 0; }
+.sdt-sentiment-sub { margin-top: 6px; }
 
 /* Step 1 evidence 分组展示 */
 .sdt-evi-group { margin: 12px 0; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }
