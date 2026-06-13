@@ -209,7 +209,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 26,
+      "industries_count": 27,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
@@ -1696,17 +1696,28 @@
         }
       ],
       [
-        "半导体",
+        "游戏",
         {
-          "direct_yi": 30080.0,
-          "indirect_yi": 4610.1,
-          "total_yi": 34690.1,
+          "direct_yi": 29460.0,
+          "indirect_yi": 0.0,
+          "total_yi": 29460.0,
           "direct_holdings": [
             {
-              "code": "603236",
-              "name": "移远通信",
-              "market_value": 15540.0
-            },
+              "code": "002517",
+              "name": "恺英网络",
+              "market_value": 29460.0
+            }
+          ],
+          "contributing_funds": []
+        }
+      ],
+      [
+        "半导体",
+        {
+          "direct_yi": 14540.0,
+          "indirect_yi": 4610.1,
+          "total_yi": 19150.1,
+          "direct_holdings": [
             {
               "code": "000063",
               "name": "中兴通讯",
@@ -1733,22 +1744,6 @@
               "via": "top_holdings_v4_industry_lookup"
             }
           ]
-        }
-      ],
-      [
-        "游戏",
-        {
-          "direct_yi": 29460.0,
-          "indirect_yi": 0.0,
-          "total_yi": 29460.0,
-          "direct_holdings": [
-            {
-              "code": "002517",
-              "name": "恺英网络",
-              "market_value": 29460.0
-            }
-          ],
-          "contributing_funds": []
         }
       ],
       [
@@ -1840,6 +1835,22 @@
         }
       ],
       [
+        "半导体/物联网模组",
+        {
+          "direct_yi": 15540.0,
+          "indirect_yi": 0.0,
+          "total_yi": 15540.0,
+          "direct_holdings": [
+            {
+              "code": "603236",
+              "name": "移远通信",
+              "market_value": 15540.0
+            }
+          ],
+          "contributing_funds": []
+        }
+      ],
+      [
         "新能源车",
         {
           "direct_yi": 4481.0,
@@ -1881,22 +1892,6 @@
               "via": "top_holdings_v4_industry_lookup"
             }
           ]
-        }
-      ],
-      [
-        "创新药",
-        {
-          "direct_yi": 6018.0,
-          "indirect_yi": 0.0,
-          "total_yi": 6018.0,
-          "direct_holdings": [
-            {
-              "code": "002001",
-              "name": "新和成",
-              "market_value": 6018.0
-            }
-          ],
-          "contributing_funds": []
         }
       ]
     ],

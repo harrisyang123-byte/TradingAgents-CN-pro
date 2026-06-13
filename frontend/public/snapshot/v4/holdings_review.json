@@ -2,10 +2,10 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 3,
+    "analyzed_count": 4,
     "total_stocks": 9,
     "total_funds": 26,
-    "pending_actions": 6,
+    "pending_actions": 7,
     "style_region": {
       "A股": 450172.88999999996,
       "美国": 19415.815,
@@ -73,42 +73,6 @@
           "indirect": []
         },
         {
-          "name": "半导体",
-          "direct_value": 30080.0,
-          "indirect_value": 4610.0,
-          "total_value": 34690.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "603236",
-              "name": "移远通信",
-              "market_value": 15540.0,
-              "weight": 1.48,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            },
-            {
-              "code": "000063",
-              "name": "中兴通讯",
-              "market_value": 14540.0,
-              "weight": 1.38,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            }
-          ],
-          "indirect": []
-        },
-        {
           "name": "游戏",
           "direct_value": 29460.0,
           "indirect_value": 0,
@@ -128,6 +92,29 @@
               "summary": "PE 10x 隐含 CAGR -3%~+1% vs Q1+50.65% 强正预期差; 但 critic 警示: 4 项核心数据(毛利率/经营现金流/分部营收/一致预期)缺失, 当前估值标 preliminary。维持 3% 仓位等 Q2 财报(2026-08) + 数据补齐。",
               "stop_loss": "¥13(-29%, 跌破=bear case 兑现); 极端三重叠合 ¥3-4(组合最大冲击 3%×85%=2.5%)",
               "direction": "中性偏多 — 逆向预期差线索强但需 Q2 验证 + 4 项数据缺口补齐"
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "半导体",
+          "direct_value": 14540.0,
+          "indirect_value": 4610.0,
+          "total_value": 19150.0,
+          "has_industry_analysis": true,
+          "holdings": [
+            {
+              "code": "000063",
+              "name": "中兴通讯",
+              "market_value": 14540.0,
+              "weight": 1.38,
+              "instrument_type": "stock",
+              "analyzed": false,
+              "stance": null,
+              "action": null,
+              "confidence": null,
+              "summary": null,
+              "stop_loss": null
             }
           ],
           "indirect": []
@@ -174,6 +161,30 @@
               "confidence": null,
               "summary": null,
               "stop_loss": null
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "半导体/物联网模组",
+          "direct_value": 15540.0,
+          "indirect_value": 0,
+          "total_value": 15540.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "603236",
+              "name": "移远通信",
+              "market_value": 15540.0,
+              "weight": 1.48,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "加仓(分批至 2.5-3%)",
+              "action": "加仓 0.5-1.0% 至 2.0-2.5% (现价 ¥55.50 进入价值派买点+共识 33.9% upside)",
+              "confidence": 0.72,
+              "summary": "全球 IoT 模组绝对龙头(34%市占), 现价 ¥55.50 (verified 2026-06-12) 接近 52 周低点 ¥50.75. 反向 DCF: PE 27.2x 隐含 5 年 CAGR ~13% vs 实际 2025+30%/+42% 形成正预期差. 共识目标 ¥74.33 (Buy +33.9%) + 敏感性矩阵加权 ¥68.4 (+23%) 双重独立锚定. 反骑墙铁律: 证据明确向上必须站队, 用户现仓 1.48% 低配, 加至 2.5-3% (¥27000-32400). Q2 财报(2026-08-11)三信号确认后加至 4%.",
+              "stop_loss": "¥40 (-28%, bear 极端兑现)",
+              "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定"
             }
           ],
           "indirect": []
@@ -621,6 +632,10 @@
       },
       {
         "desc": "Pop Mart International Group Limited 持有观望(不主动加仓, 仅深跌逆向小注)",
+        "amount": null
+      },
+      {
+        "desc": "移远通信 加仓(分批至 2.5-3%)",
         "amount": null
       }
     ]

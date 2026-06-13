@@ -427,23 +427,6 @@
       "target_price": 640
     },
     {
-      "unit_id": "stock:603236",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:603236」，或运行：./scripts/run_v4.sh analyze stock:603236",
-      "version": 2,
-      "generated_at": "2026-06-12T15:23:43Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "603236",
-      "name": "移远通信",
-      "rating": "中性偏多(IoT+车载模组)",
-      "target_price": 85
-    },
-    {
       "unit_id": "stock:688012",
       "status": "green",
       "status_label": "新鲜",
@@ -496,9 +479,9 @@
     }
   ],
   "indirect_holdings": {
-    "direct_yi": 30080.0,
+    "direct_yi": 14540.0,
     "indirect_yi": 4610.1,
-    "total_yi": 34690.1,
+    "total_yi": 19150.1,
     "contributing_funds": [
       {
         "code": "270042",
@@ -523,7 +506,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 26,
+      "industries_count": 27,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
