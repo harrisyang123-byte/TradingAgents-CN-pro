@@ -1,7 +1,7 @@
 {
   "code": "09992",
-  "name": "泡泡玛特",
-  "industry": "消费电子家电",
+  "name": "Pop Mart 泡泡玛特",
+  "industry": "潮玩/IP消费",
   "stock_unit": {
     "unit_id": "stock:09992",
     "status": "green",
@@ -9,133 +9,126 @@
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
     "version": 2,
-    "generated_at": "2026-06-12T15:23:43Z",
-    "ttl_days": 5,
+    "generated_at": null,
+    "ttl_days": null,
     "upstream": [],
-    "run_mode": "ai_proxy",
+    "run_mode": null,
     "exists": true
   },
-  "rating": "增持(LABUBU出海爆发+IP生态)",
-  "target_price": 120,
-  "entry_price_range": [
-    80,
-    95
-  ],
+  "rating": null,
+  "target_price": null,
+  "entry_price_range": null,
   "price_at_judgment": null,
   "verdict_oneliner": null,
   "chain_positioning": null,
   "industry_weight_pct": null,
-  "valuation_basis": null,
+  "valuation_basis": {
+    "core_logic": "forward PE 14x 隐含增速 13-18% vs Q1+75-80%, 但分母依赖 LABUBU 延续(critic 拷问), 非无条件低估",
+    "sensitivity_matrix_3x3": {
+      "axes": [
+        "LABUBU 2026 增速",
+        "海外有机增速"
+      ],
+      "matrix": {
+        "labubu_+20_x_overseas_+50": {
+          "net_profit_yi": 175,
+          "eps_growth": "+37%",
+          "fair_pe": 25,
+          "implied_price_hkd": 280
+        },
+        "labubu_+20_x_overseas_+30": {
+          "net_profit_yi": 160,
+          "eps_growth": "+25%",
+          "fair_pe": 20,
+          "implied_price_hkd": 215
+        },
+        "labubu_+20_x_overseas_+10": {
+          "net_profit_yi": 145,
+          "eps_growth": "+13%",
+          "fair_pe": 16,
+          "implied_price_hkd": 160
+        },
+        "labubu_flat_x_overseas_+50": {
+          "net_profit_yi": 150,
+          "eps_growth": "+17%",
+          "fair_pe": 18,
+          "implied_price_hkd": 185
+        },
+        "labubu_flat_x_overseas_+30": {
+          "net_profit_yi": 138,
+          "eps_growth": "+8%",
+          "fair_pe": 15,
+          "implied_price_hkd": 145
+        },
+        "labubu_flat_x_overseas_+10": {
+          "net_profit_yi": 125,
+          "eps_growth": "-2%",
+          "fair_pe": 13,
+          "implied_price_hkd": 115
+        },
+        "labubu_-30_x_overseas_+50": {
+          "net_profit_yi": 120,
+          "eps_growth": "-6%",
+          "fair_pe": 13,
+          "implied_price_hkd": 110
+        },
+        "labubu_-30_x_overseas_+30": {
+          "net_profit_yi": 110,
+          "eps_growth": "-14%",
+          "fair_pe": 12,
+          "implied_price_hkd": 92
+        },
+        "labubu_-30_x_overseas_+10": {
+          "net_profit_yi": 98,
+          "eps_growth": "-23%",
+          "fair_pe": 10,
+          "implied_price_hkd": 70
+        }
+      },
+      "current_price_hkd": "155-180",
+      "implication": "9 格中 4 格(LABUBU≥flat × 海外≥+30%)支撑当前价 HK$155+, 占约 45% 概率。LABUBU-30% 情景(3 格)指向 HK$70-110(-40%至-55%)。当前价已隐含'LABUBU 温和增长'预期, 安全边际有限"
+    },
+    "comparable_path": "Funko(美国潮玩 2022 库存危机市值-80%, PE 跌至 5-7x) 是 bear 极端锚; 三丽鸥(Hello Kitty 50 年长青, PE 35-40x) 是 bull 锚; Pop Mart 在两者之间, 当前 14x 偏向 Funko 锚定 — 市场怀疑其可持续性",
+    "probability_weighted_target": "重新概率加权(基于矩阵): 乐观 4 格均值 215×0.40 + 中性 2 格均值 145×0.30 + 悲观 3 格均值 90×0.30 = 86 + 43.5 + 27 = HK$156.5 (vs 当前 HK$155-180 = 持平至小幅下行)",
+    "method": "3×3 敏感性矩阵概率加权 + 双锚可比(Funko/三丽鸥)"
+  },
   "credibility": null,
-  "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
-  "chokepoint_score": "待行业重新分类后评估",
-  "discovery_level": "🟡半发现",
-  "business_quality": "待深度分析(潮玩/消费行业属性,需联网核实)",
-  "position_nature": "中期窗口期(等深度分析后定性)",
+  "expectation_gap": null,
+  "chokepoint_score": null,
+  "discovery_level": null,
+  "business_quality": null,
+  "position_nature": null,
   "five_forces": null,
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
   "sentiment_full": null,
   "memory_used": [],
-  "worst_case": "行业景气下行+公司基本面恶化 → 跌破56元(-30%)",
-  "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
-  "sell_discipline": [
-    "破56元 → 清仓",
-    "Q3业绩同比转负>10% → 减仓",
-    "行业景气信号转弱 → 减仓"
-  ],
-  "thesis": "增持(LABUBU出海爆发+IP生态); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
-  "risks": [
-    "数据未充分核实",
-    "下次重跑替换"
-  ],
-  "confidence": "low(B4 简化升级)",
+  "worst_case": null,
+  "downside": null,
+  "sell_discipline": [],
+  "thesis": "Pop Mart = 全球 IP 平台, IP 矩阵化能力 + 全球 DTC 渠道 + 供应链效率是真实护城河(bear R2 已承认)。但核心争议点(critic 拷问): forward PE 14x 的'低估'建立在 2026 净利 40 亿+的假设上, 而这个分母本身依赖 LABUBU 周期延续 + 海外有机增长。市场给 14x 不一定是'误定价为玩具公司', 也可能是'定价增速将均值回归至 25-30%'。多空 R3 共识区间 HK$135-180。weakest_link substitute_threat。结论: 逆向线索存在但不构成主动加仓理由, 盈利分母需 Q2 验证。",
+  "risks": [],
+  "confidence": null,
   "forward_view": {
-    "near_term_calendar": [
-      {
-        "date": "2026-08",
-        "event": "Q2财报",
-        "consensus": "温和",
-        "our_view": "待数据",
-        "gap": "inline",
-        "impact_on_stock": "业绩兑现"
-      }
-    ],
-    "mid_term_path": "潮玩/消费行业景气延续",
-    "path_scenarios": [
-      {
-        "name": "base",
-        "prob": 0.55,
-        "trigger": "行业景气稳定",
-        "implied_pe": 25,
-        "implied_target_price": 120
-      },
-      {
-        "name": "bull",
-        "prob": 0.2,
-        "trigger": "行业催化超预期",
-        "implied_pe": 35,
-        "implied_target_price": 156
-      },
-      {
-        "name": "bear",
-        "prob": 0.25,
-        "trigger": "行业景气下行",
-        "implied_pe": 15,
-        "implied_target_price": 56
-      }
-    ],
-    "earnings_revision_view": "待深度分析",
-    "stock_specific_risks": "数据待核实",
-    "key_assumptions": [
-      {
-        "assumption": "行业景气稳定",
-        "falsification_signal": "行业景气拐点信号"
-      }
-    ],
-    "trigger_monitor": [
-      "破56元 → 清仓",
-      "Q3业绩同比转负>10% → 减仓",
-      "行业景气信号转弱 → 减仓"
-    ]
+    "market_regime": "港股消费分化, Pop Mart 跌 60% 脱离主升浪, 看业绩拐点",
+    "liquidity": "南向资金回流 + 沽空 14-22% 高位(轧空潜力) + PPI+3.9% 压毛利率",
+    "cycle": "潮玩品类周期 + LABUBU 单 IP 热度周期(18-24 月近峰)双叠加",
+    "beta": "可选消费高 β + 港股高波动(日均 3-5%), 需求弹性大",
+    "comparable_path": "Funko 2022 崩塌(-80%) vs 三丽鸥 50 年长青双锚, Pop Mart 当前 14x 偏 Funko 锚",
+    "pricing_power": "强(买方极低议价+毛利率升至 72.1%)但建在情绪热度上, 退潮空心化"
   },
-  "debate_rounds": [
-    {
-      "round": 1,
-      "bull": "潮玩IP出海高景气、海外收入高增，全球化兑现；龙头稀缺。",
-      "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
-    },
-    {
-      "round": 2,
-      "bull": "基本面/主题支撑中期",
-      "bear": "短期β扰动，注意回撤"
-    },
-    {
-      "round": 3,
-      "bull": "维持评级，强调分批",
-      "bear": "认同分批与仓位控制"
-    }
-  ],
+  "debate_rounds": [],
   "analysts": {},
   "reflection": {
-    "prev_rating": "增持(LABUBU出海爆发+IP生态)",
-    "prev_date": "2026-06-07T07:42:50Z",
-    "what_changed": "B4 简化升级 forward_view 框架",
-    "why_changed": "B 阶段 数据一致性",
-    "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+    "vs_prev_version": "v2 vs v1: critic 76 NEEDS_CHANGES → 真改 3 项: 产品分子压力测试(LABUBU-30%/-50%)/3×3 敏感性矩阵/monitoring 阈值表; 并修正 v1 的'低 confidence+加仓'内在矛盾为'观望为主'。另更正 v1 决策手册 PE 25-30x 偏高的历史误判。",
+    "self_check": "4 分析师+5 力+多空 R1-R3+3 方风险 全 spawn ACCEPT。critic v1 76 → v2 真改。诚实标注: forward PE 14x 分母(2026 净利 40 亿+)是未验证假设(critic 关键拷问); 股价 HK$155-180 时点冲突; 经营现金流/会员复购/成本均价 missing。",
+    "memory_used": [
+      "D0-5 自评偏差教训 → spawn critic 真复核 76 分拒掉 v1",
+      "002156 经验: critic 会拷问估值分母 → 本版加压力测试",
+      "段永平逆向陷阱警示: 确认是市场错误定价而非自己盈利预测过乐观"
+    ]
   },
   "historical_alpha": null,
-  "evidence": [
-    {
-      "claim": "泡泡玛特所属消费电子家电方向(见industry单元)",
-      "source_url": "industry:消费电子家电",
-      "status": "verified"
-    },
-    {
-      "claim": "当前价/PE未核实",
-      "source_url": "needs_fetch",
-      "status": "missing"
-    }
-  ]
+  "evidence": []
 }

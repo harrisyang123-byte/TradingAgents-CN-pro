@@ -213,23 +213,6 @@
   ],
   "stocks": [
     {
-      "unit_id": "stock:09992",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:09992」，或运行：./scripts/run_v4.sh analyze stock:09992",
-      "version": 2,
-      "generated_at": "2026-06-12T15:23:43Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "09992",
-      "name": "泡泡玛特",
-      "rating": "增持(LABUBU出海爆发+IP生态)",
-      "target_price": 120
-    },
-    {
       "unit_id": "stock:300433",
       "status": "green",
       "status_label": "新鲜",
@@ -248,9 +231,9 @@
     }
   ],
   "indirect_holdings": {
-    "direct_yi": 36600.0,
-    "indirect_yi": 0.0,
-    "total_yi": 36600.0,
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
     "contributing_funds": [],
     "summary": {
       "total_market_value": 714265.59,
