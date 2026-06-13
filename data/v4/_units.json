@@ -304,11 +304,11 @@
     "stock:000063": {
       "unit_id": "stock:000063",
       "unit_type": "stock",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T15:23:43Z",
+      "generated_at": "2026-06-13T17:50:47Z",
       "upstream": [],
       "error": null,
       "path": "stocks/000063.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T17:36:39Z"
+  "updated_at": "2026-06-13T17:50:47Z"
 }

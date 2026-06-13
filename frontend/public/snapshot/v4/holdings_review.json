@@ -2,7 +2,7 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 4,
+    "analyzed_count": 5,
     "total_stocks": 9,
     "total_funds": 26,
     "pending_actions": 7,
@@ -97,29 +97,6 @@
           "indirect": []
         },
         {
-          "name": "半导体",
-          "direct_value": 14540.0,
-          "indirect_value": 4610.0,
-          "total_value": 19150.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "000063",
-              "name": "中兴通讯",
-              "market_value": 14540.0,
-              "weight": 1.38,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            }
-          ],
-          "indirect": []
-        },
-        {
           "name": "人工智能算力",
           "direct_value": 12096.0,
           "indirect_value": 5077.0,
@@ -185,6 +162,30 @@
               "summary": "全球 IoT 模组绝对龙头(34%市占), 现价 ¥55.50 (verified 2026-06-12) 接近 52 周低点 ¥50.75. 反向 DCF: PE 27.2x 隐含 5 年 CAGR ~13% vs 实际 2025+30%/+42% 形成正预期差. 共识目标 ¥74.33 (Buy +33.9%) + 敏感性矩阵加权 ¥68.4 (+23%) 双重独立锚定. 反骑墙铁律: 证据明确向上必须站队, 用户现仓 1.48% 低配, 加至 2.5-3% (¥27000-32400). Q2 财报(2026-08-11)三信号确认后加至 4%.",
               "stop_loss": "¥40 (-28%, bear 极端兑现)",
               "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定"
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "通信设备/5G/AI 算力",
+          "direct_value": 14540.0,
+          "indirect_value": 0,
+          "total_value": 14540.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "000063",
+              "name": "中兴通讯",
+              "market_value": 14540.0,
+              "weight": 1.38,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有偏防御 (现价无安全边际+利润严重下滑)",
+              "action": "维持现仓 1.38%(¥14540) 不动, 等 Q2 财报 + 价格回踩",
+              "confidence": 0.65,
+              "summary": "中兴 2025 营收 +10.4% 但归母 -33.3% / 2026Q1 -46.58% 利润严重塌方, 净利率 4.2%→3.7% 持续压缩. 现价 ¥36.72 PE 30.89x (forward 23.32x) 在 R3 共识区 ¥32-38 中位无安全边际. 大摩调降目标至 ¥31.5(-14%). 用户现仓 1.38%(¥14540), 维持不动等 Q2 利润企稳信号 + 价格回踩 ¥28-32 价值派买点. 反骑墙: 证据偏空(利润+估值)但 AI 算力期权+回购托底, 站队'持有偏防御'非'减仓'.",
+              "stop_loss": "¥28 (-24%, R3 共识下沿+大摩目标价)",
+              "direction": "中性偏空 — 短期利润 -47% 加速下滑, 中长期 AI 算力布局有期权但未兑现"
             }
           ],
           "indirect": []
