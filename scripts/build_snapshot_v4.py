@@ -53,12 +53,14 @@ def _write(out_dir: Path, name: str, data) -> None:
 
 
 def build_holdings_review(repo: Path, units: dict):
-    """持仓体检 — 用户视角的「持仓 × 处理动作」统一视图（D0-7 2026-06-13）。
+    """投资决策全景树（D0-8 2026-06-13 重构）。
 
-    回答用户三问:
-      1. 我的持仓分析在哪 → stocks[] 逐项含 analyzed/stance/action + 可点进个股详情
-      2. 基金穿透怎么用 → fund_groups[] 同主题分组 + 合并动作(保留谁/卖谁/释放多少)
-      3. 穿透完怎么处理 → 每项都有 action; indirect_holdings 提示"已间接持有勿重复买"
+    用户核心洞察修复:
+      1. 持仓归属大类/行业 — 不再与配置割裂, 持仓挂在它所属的大类→行业下
+      2. 配比是同一笔钱的全局分配 — 顶层大类配比(当前 vs 目标) + capital_flow 资金流向
+      3. 第一页可展开树 — 大类→行业→个股/基金, 就地钻取分析
+
+    输出 asset_tree[] (大类树) + capital_flow (这笔钱怎么动) + recommendations。
     """
     holdings_path = repo / "data/v4/_inputs/holdings.json"
     if not holdings_path.exists():
@@ -69,58 +71,30 @@ def build_holdings_review(repo: Path, units: dict):
     if total <= 0:
         return None
 
-    stocks, funds, cash, others = [], [], [], []
-    for p in positions:
-        it = p.get("instrument_type", "")
-        if it == "stock":
-            stocks.append(p)
-        elif it in ("fund", "etf"):
-            funds.append(p)
-        elif it == "cash":
-            cash.append(p)
-        else:
-            others.append(p)
-
-    stock_val = sum(p.get("market_value", 0) or 0 for p in stocks)
-    fund_val = sum(p.get("market_value", 0) or 0 for p in funds)
-    cash_val = sum(p.get("market_value", 0) or 0 for p in cash)
-
-    # 已分析股票 verdict 提取（读 data/v4/stocks/<code>.json）
-    stock_rows = []
-    analyzed_count = 0
-    for p in sorted(stocks, key=lambda x: -(x.get("market_value", 0) or 0)):
-        code = p.get("code", "")
-        row = {
-            "code": code, "name": p.get("name", ""),
-            "market_value": round(p.get("market_value", 0) or 0, 0),
-            "weight": p.get("weight", 0),
-            "analyzed": False, "stance": None, "direction": None,
-            "confidence": None, "summary": None, "action": None,
-            "stop_loss": None, "target_weight": None,
-        }
+    # 已分析个股 verdict 提取
+    def _stock_verdict(code: str):
         sp = repo / f"data/v4/stocks/{code}.json"
-        if sp.exists():
-            try:
-                d = json.loads(sp.read_text(encoding="utf-8"))
-                pl = d.get("payload", {}) or {}
-                v = pl.get("verdict", {}) or {}
-                if isinstance(v, dict) and v.get("stance"):
-                    row["analyzed"] = True
-                    analyzed_count += 1
-                    row["stance"] = v.get("stance")
-                    row["direction"] = v.get("direction")
-                    row["confidence"] = v.get("confidence")
-                    row["summary"] = v.get("summary")
-                    ap = pl.get("action_plan", {}) or {}
-                    row["action"] = ap.get("immediate_action")
-                    sl = ap.get("stop_loss", {})
-                    row["stop_loss"] = sl.get("hard") if isinstance(sl, dict) else sl
-            except Exception:
-                pass
-        stock_rows.append(row)
+        if not sp.exists():
+            return None
+        try:
+            d = json.loads(sp.read_text(encoding="utf-8"))
+            pl = d.get("payload", {}) or {}
+            v = pl.get("verdict", {}) or {}
+            if isinstance(v, dict) and v.get("stance"):
+                ap = pl.get("action_plan", {}) or {}
+                sl = ap.get("stop_loss", {})
+                return {
+                    "stance": v.get("stance"), "direction": v.get("direction"),
+                    "confidence": v.get("confidence"), "summary": v.get("summary"),
+                    "action": ap.get("immediate_action"),
+                    "stop_loss": sl.get("hard") if isinstance(sl, dict) else sl,
+                }
+        except Exception:
+            return None
+        return None
 
-    # 基金穿透聚合（行业 + 风格 + 重叠）
     classified = classify_holdings(positions)
+    by_class = classified.get("by_class", {}) or {}
     stock_inds = {}
     for uid, env in units.items():
         if uid.startswith("stock:"):
@@ -129,10 +103,24 @@ def build_holdings_review(repo: Path, units: dict):
             if c and ind:
                 stock_inds[c] = ind
     agg = aggregate_full(classified, stock_inds)
+    industries = agg.get("industries", {}) or {}
     overlap = agg.get("overlap_analysis", {}) or {}
     style = agg.get("style_factors", {}) or {}
 
-    # 基金分组 + 合并动作（保留 mv 最大 1-2 只，其余建议卖出）
+    # 大类目标配比（从 overview asset_cards 取 target/action）
+    try:
+        ov = v4_query.build_overview(units)
+        card_map = {c.get("asset_class"): c for c in ov.get("asset_cards", []) or []}
+    except Exception:
+        card_map = {}
+
+    CLASS_LABELS = {
+        "equity": "权益", "fixed_income": "固定收益", "cash": "现金及等价物",
+        "commodity": "大宗商品", "precious_metal": "贵金属",
+        "real_estate": "房地产", "alternative": "另类投资", "unclassified": "待穿透",
+    }
+
+    # 基金主题合并组（复用 detect_overlap）
     fund_groups = []
     grouped_codes = set()
     for t in overlap.get("theme_overlaps", []) or []:
@@ -142,58 +130,147 @@ def build_holdings_review(repo: Path, units: dict):
         for f in fs:
             grouped_codes.add(f.get("code"))
         release = round(sum(f.get("mv", 0) or 0 for f in sell), 0)
-        if sell:
-            action = (f"保留 {'、'.join(f.get('name','')[:14] for f in keep)}"
-                      f"；可合并卖出其余 {len(sell)} 只释放 ¥{release:.0f}（降重复暴露+省管理费）")
-        else:
-            action = "已是单只，无需合并"
         fund_groups.append({
-            "theme": t.get("theme"), "fund_count": t.get("fund_count"),
-            "total_mv": t.get("total_mv"),
-            "funds": fs,
+            "theme": t.get("theme"), "fund_count": t.get("fund_count"), "total_mv": t.get("total_mv"),
             "keep": [{"code": f.get("code"), "name": f.get("name"), "mv": f.get("mv")} for f in keep],
             "sell": [{"code": f.get("code"), "name": f.get("name"), "mv": f.get("mv")} for f in sell],
-            "release_mv": release, "action": action,
+            "release_mv": release,
+            "action": (f"保留 {'、'.join(f.get('name','')[:14] for f in keep)}；卖出其余 {len(sell)} 只释放 ¥{release:.0f}"
+                       if sell else "已是单只，无需合并"),
         })
     fund_groups.sort(key=lambda x: -(x.get("total_mv", 0) or 0))
 
-    ungrouped = [
-        {"code": f.get("code"), "name": f.get("name"),
-         "market_value": round(f.get("market_value", 0) or 0, 0)}
-        for f in funds if f.get("code") not in grouped_codes
-    ]
-    ungrouped.sort(key=lambda x: -(x.get("market_value", 0) or 0))
+    analyzed_count = 0
+
+    def _holding_row(p):
+        nonlocal analyzed_count
+        code = p.get("code", "")
+        row = {
+            "code": code, "name": p.get("name", ""),
+            "market_value": round(p.get("market_value", 0) or 0, 0),
+            "weight": p.get("weight", 0),
+            "instrument_type": p.get("instrument_type", ""),
+            "analyzed": False, "stance": None, "action": None,
+            "confidence": None, "summary": None, "stop_loss": None,
+        }
+        v = _stock_verdict(code) if p.get("instrument_type") == "stock" else None
+        if v:
+            analyzed_count += 1
+            row.update({"analyzed": True, **v})
+        return row
+
+    # ── 构建大类树 ──────────────────────────────────────────
+    asset_tree = []
+    for key, label in CLASS_LABELS.items():
+        group = by_class.get(key) if key != "unclassified" else None
+        hs = (group or {}).get("holdings", []) or []
+        if key == "unclassified":
+            unc = classified.get("unclassified", []) or []
+            hs = unc
+        cls_val = sum(x.get("market_value", 0) or 0 for x in hs)
+        card = card_map.get(key, {})
+        current_pct = round(cls_val / total * 100, 1)
+        target = card.get("target_weight")
+        action = card.get("action")
+        gap_value = round((target / 100 * total - cls_val), 0) if target is not None else None
+
+        node = {
+            "key": key, "label": label,
+            "current_value": round(cls_val, 0), "current_pct": current_pct,
+            "target_pct": target, "action": action, "gap_value": gap_value,
+            "has_class_analysis": units.get(f"asset:{key}") is not None,
+            "industries": [], "direct_holdings": [], "fund_themes": [],
+        }
+        if not hs and gap_value is None:
+            continue
+
+        if key == "equity":
+            # 权益: 直接股票按行业分组 + 权益基金按主题
+            stock_codes = {x.get("code") for x in hs if x.get("instrument_type") == "stock"}
+            ind_nodes = []
+            for ind_name, ind_data in industries.items():
+                directs = [d for d in (ind_data.get("direct_holdings") or []) if d.get("code") in stock_codes]
+                if not directs:
+                    continue
+                ind_nodes.append({
+                    "name": ind_name,
+                    "direct_value": round(ind_data.get("direct_yi", 0) or 0, 0),
+                    "indirect_value": round(ind_data.get("indirect_yi", 0) or 0, 0),
+                    "total_value": round(ind_data.get("total_yi", 0) or 0, 0),
+                    "has_industry_analysis": units.get(f"industry:{ind_name}") is not None,
+                    "holdings": [_holding_row(next(p for p in positions if p.get("code") == d.get("code")))
+                                 for d in directs if any(p.get("code") == d.get("code") for p in positions)],
+                    "indirect": [{"code": s.get("code"), "name": s.get("name"),
+                                  "indirect_value": s.get("contribution_yi") or s.get("indirect_value")}
+                                 for s in (ind_data.get("indirect_top") or [])][:3],
+                })
+            ind_nodes.sort(key=lambda x: -(x.get("total_value", 0) or 0))
+            node["industries"] = ind_nodes
+            # 权益基金主题
+            node["fund_themes"] = [g for g in fund_groups
+                                   if g["theme"] not in ("国债/信用债",) and g["theme"] not in ("黄金",)]
+        else:
+            # 非权益大类: 直接列持仓
+            node["direct_holdings"] = [_holding_row(p) for p in sorted(hs, key=lambda x: -(x.get("market_value", 0) or 0))]
+            if key == "fixed_income":
+                node["fund_themes"] = [g for g in fund_groups if g["theme"] == "国债/信用债"]
+            elif key == "precious_metal":
+                node["fund_themes"] = [g for g in fund_groups if g["theme"] == "黄金"]
+        asset_tree.append(node)
+
+    # ── 资金流向（这笔钱怎么动）────────────────────────────
+    sources, uses = [], []
+    for node in asset_tree:
+        gv = node.get("gap_value")
+        if gv is None:
+            continue
+        if gv < -1000:  # 超配 → 资金来源
+            sources.append({"desc": f"{node['label']} 当前 {node['current_pct']}% 高于目标 {node['target_pct']}%",
+                            "amount": round(-gv, 0)})
+        elif gv > 1000:  # 低配 → 资金去向
+            uses.append({"desc": f"{node['label']} 当前 {node['current_pct']}% 低于目标 {node['target_pct']}%，需加仓",
+                         "amount": round(gv, 0)})
+    # 个股减仓也是来源 / 加仓是去向
+    for node in asset_tree:
+        for ind in node.get("industries", []):
+            for hh in ind.get("holdings", []):
+                if hh.get("stance") and "减" in hh["stance"]:
+                    uses_note = hh.get("action") or ""
+                    sources.append({"desc": f"{hh['name']} {hh['stance']}（{hh['weight']}%）", "amount": None, "note": uses_note})
+                elif hh.get("stance") and "加" in hh["stance"]:
+                    uses.append({"desc": f"{hh['name']} {hh['stance']}", "amount": None})
+    # 基金合并释放
+    total_fund_release = sum(g["release_mv"] for g in fund_groups)
+    if total_fund_release > 0:
+        sources.append({"desc": f"基金同主题合并（{sum(1 for g in fund_groups if g['sell'])} 组重复）",
+                        "amount": round(total_fund_release, 0)})
+
+    pending = (sum(1 for n in asset_tree for ind in n.get("industries", [])
+                   for hh in ind.get("holdings", []) if hh.get("stance") and "持有" not in (hh.get("stance") or ""))
+               + sum(1 for g in fund_groups if g.get("sell")))
 
     indirect = []
     for s in (overlap.get("summary", {}) or {}).get("indirect_concentration_top10", []) or []:
         indirect.append({
             "code": s.get("code"), "name": s.get("name"),
-            "indirect_value": s.get("total_indirect_value"),
-            "fund_count": s.get("fund_count"),
-            "note": (f"已通过 {s.get('fund_count')} 只基金间接持有 ¥{s.get('total_indirect_value'):.0f}，"
-                     f"直接加仓前先算总暴露，避免双重重仓"),
+            "indirect_value": s.get("total_indirect_value"), "fund_count": s.get("fund_count"),
+            "note": f"已通过 {s.get('fund_count')} 只基金间接持有 ¥{s.get('total_indirect_value'):.0f}，直接加仓前先算总暴露",
         })
-
-    pending = (sum(1 for r in stock_rows if r.get("stance") and "持有" not in (r.get("stance") or ""))
-               + sum(1 for g in fund_groups if g.get("sell")))
 
     return {
         "as_of": h.get("as_of") or None,
         "summary": {
             "total_value": round(total, 0),
-            "stock_value": round(stock_val, 0), "stock_pct": round(stock_val / total * 100, 1),
-            "fund_value": round(fund_val, 0), "fund_pct": round(fund_val / total * 100, 1),
-            "cash_value": round(cash_val, 0), "cash_pct": round(cash_val / total * 100, 1),
-            "analyzed_count": analyzed_count, "total_stocks": len(stocks),
-            "total_funds": len(funds), "pending_actions": pending,
+            "analyzed_count": analyzed_count,
+            "total_stocks": sum(1 for p in positions if p.get("instrument_type") == "stock"),
+            "total_funds": sum(1 for p in positions if p.get("instrument_type") in ("fund", "etf")),
+            "pending_actions": pending,
             "style_region": style.get("region", {}),
-            "style_fund_type": style.get("fund_type", {}),
+            "config_note": "当前配比为实时计算（基于持仓市值）；目标配比来自 alloc:portfolio 单元。两者口径若有差异以实时为准。",
         },
-        "stocks": stock_rows,
+        "asset_tree": asset_tree,
+        "capital_flow": {"sources": sources, "uses": uses},
         "fund_groups": fund_groups,
-        "ungrouped_funds": ungrouped,
-        "cash": [{"name": p.get("name"), "market_value": round(p.get("market_value", 0) or 0, 0),
-                  "weight": p.get("weight", 0)} for p in cash],
         "indirect_holdings": indirect,
     }
 

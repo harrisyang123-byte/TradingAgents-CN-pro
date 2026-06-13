@@ -12,7 +12,7 @@
     <el-tabs v-model="activeTab" class="v4-tabs" type="border-card">
       <!-- Tab0 我的持仓（首页，D0-7）-->
       <el-tab-pane label="我的持仓" name="holdings">
-        <HoldingsReviewTab @open-stock="openStock" />
+        <HoldingsReviewTab @open-stock="openStock" @open-asset="openAsset" @open-industry="openIndustry" />
       </el-tab-pane>
 
       <!-- Tab1 资产配置 -->

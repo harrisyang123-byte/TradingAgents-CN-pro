@@ -1,138 +1,130 @@
 <template>
-  <div class="hr-wrap">
-    <div v-if="!review" class="hr-hint">
-      暂无持仓体检数据。请先跑 <code>build_snapshot_v4.py</code> 生成 holdings_review.json。
-    </div>
+  <div class="dt-wrap">
+    <div v-if="!review" class="dt-hint">暂无数据，请先跑 build_snapshot_v4.py</div>
 
     <template v-else>
-      <!-- 组合体检摘要 -->
-      <div class="hr-summary">
-        <div class="hr-sum-item">
-          <div class="hr-sum-label">组合总值</div>
-          <div class="hr-sum-val">¥{{ fmt(review.summary.total_value) }}</div>
-        </div>
-        <div class="hr-sum-item">
-          <div class="hr-sum-label">股票 / 基金 / 现金</div>
-          <div class="hr-sum-val sm">
-            {{ review.summary.stock_pct }}% / {{ review.summary.fund_pct }}% / {{ review.summary.cash_pct }}%
-          </div>
-        </div>
-        <div class="hr-sum-item">
-          <div class="hr-sum-label">已深度分析</div>
-          <div class="hr-sum-val sm">{{ review.summary.analyzed_count }} / {{ review.summary.total_stocks }} 只股票</div>
-        </div>
-        <div class="hr-sum-item alert">
-          <div class="hr-sum-label">待处理动作</div>
-          <div class="hr-sum-val">{{ review.summary.pending_actions }} 项</div>
-        </div>
+      <!-- 顶部摘要 -->
+      <div class="dt-summary">
+        <div class="dt-sum"><span>组合总值</span><b>¥{{ fmt(review.summary.total_value) }}</b></div>
+        <div class="dt-sum"><span>已深度分析</span><b>{{ review.summary.analyzed_count }}/{{ review.summary.total_stocks }} 股</b></div>
+        <div class="dt-sum alert"><span>待处理动作</span><b>{{ review.summary.pending_actions }} 项</b></div>
       </div>
 
-      <!-- 直接持股 -->
-      <div class="hr-section-title">📈 直接持股（{{ review.stocks.length }} 只） — 点「查看分析」进入个股深度报告</div>
-      <table class="hr-table">
-        <thead>
-          <tr>
-            <th>代码</th><th>名称</th><th>市值</th><th>占比</th>
-            <th>分析状态</th><th>结论</th><th>处理动作</th><th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="s in review.stocks" :key="s.code">
-            <td class="mono">{{ s.code }}</td>
-            <td>{{ shortName(s.name) }}</td>
-            <td>¥{{ fmt(s.market_value) }}</td>
-            <td>{{ s.weight }}%</td>
-            <td>
-              <span v-if="s.analyzed" class="tag green">已分析 ✓</span>
-              <span v-else class="tag gray">待分析</span>
-            </td>
-            <td>
-              <span v-if="s.analyzed" class="stance" :class="stanceCls(s.stance)">{{ s.stance }}</span>
-              <span v-else class="muted">—</span>
-            </td>
-            <td class="action-cell">
-              <span v-if="s.action">{{ s.action }}</span>
-              <span v-else class="muted">尚未生成处理建议（待 8 step 深度分析）</span>
-            </td>
-            <td>
-              <a v-if="s.analyzed" class="link" @click="$emit('open-stock', s.code)">查看分析 →</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- 基金穿透处理（同主题合并） -->
-      <div class="hr-section-title">
-        🪙 基金穿透处理（{{ review.summary.total_funds }} 只基金 ¥{{ fmt(review.summary.fund_value) }}）
-        — 同主题重复 = 拖累费率，下方给合并动作
-      </div>
-      <div class="hr-fund-groups">
-        <div v-for="(g, i) in review.fund_groups" :key="i" class="hr-fund-group">
-          <div class="hr-fg-head">
-            <b>{{ g.theme }}</b>
-            <span class="hr-fg-meta">{{ g.fund_count }} 只 · ¥{{ fmt(g.total_mv) }}</span>
-            <span v-if="g.release_mv > 0" class="hr-fg-release">可释放 ¥{{ fmt(g.release_mv) }}</span>
+      <!-- 资金流向：同一笔钱怎么动 -->
+      <div class="dt-flow">
+        <div class="dt-flow-title">💰 这笔钱怎么动（配比是全局的，超配/减仓腾出 → 补到低配处）</div>
+        <div class="dt-flow-cols">
+          <div class="dt-flow-col">
+            <div class="dt-flow-h src">资金来源（卖出/超配/合并释放）</div>
+            <div v-for="(s, i) in review.capital_flow.sources" :key="i" class="dt-flow-item">
+              <span class="dt-flow-desc">{{ s.desc }}</span>
+              <span v-if="s.amount" class="dt-flow-amt src">¥{{ fmt(s.amount) }}</span>
+              <span v-else-if="s.note" class="dt-flow-note">{{ s.note }}</span>
+            </div>
           </div>
-          <div class="hr-fg-action">💡 {{ g.action }}</div>
-          <div class="hr-fg-funds">
-            <span v-for="f in g.keep" :key="f.code" class="fund-pill keep">保留 {{ shortName(f.name) }}</span>
-            <span v-for="f in g.sell" :key="f.code" class="fund-pill sell">卖 {{ shortName(f.name) }} ¥{{ fmt(f.mv) }}</span>
+          <div class="dt-flow-col">
+            <div class="dt-flow-h use">资金去向（加仓/低配补齐）</div>
+            <div v-for="(u, i) in review.capital_flow.uses" :key="i" class="dt-flow-item">
+              <span class="dt-flow-desc">{{ u.desc }}</span>
+              <span v-if="u.amount" class="dt-flow-amt use">¥{{ fmt(u.amount) }}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 未重叠基金 -->
-      <div v-if="review.ungrouped_funds.length" class="hr-ungrouped">
-        <span class="hr-ug-label">无重复（保持）：</span>
-        <span v-for="f in review.ungrouped_funds" :key="f.code" class="fund-pill plain">
-          {{ shortName(f.name) }} ¥{{ fmt(f.market_value) }}
-        </span>
+      <!-- 大类决策树 -->
+      <div class="dt-tree-title">📊 大类 → 行业 → 持仓（点行名展开；右侧可看各层分析）</div>
+      <div class="dt-tree">
+        <div v-for="node in review.asset_tree" :key="node.key" class="dt-class">
+          <!-- 大类行 -->
+          <div class="dt-class-row" @click="toggle(node.key)">
+            <span class="dt-caret">{{ open[node.key] ? '▼' : '▶' }}</span>
+            <span class="dt-class-label">{{ node.label }}</span>
+            <span class="dt-pct">当前 <b>{{ node.current_pct }}%</b></span>
+            <span class="dt-pct" v-if="node.target_pct != null">目标 {{ node.target_pct }}%</span>
+            <span v-if="node.action" class="dt-action-tag" :class="actCls(node.action)">{{ actLabel(node.action) }}</span>
+            <span v-if="node.gap_value != null && Math.abs(node.gap_value) > 1000"
+                  class="dt-gap" :class="node.gap_value > 0 ? 'add' : 'reduce'">
+              {{ node.gap_value > 0 ? '需加 ¥' + fmt(node.gap_value) : '超配 ¥' + fmt(-node.gap_value) }}
+            </span>
+            <a v-if="node.has_class_analysis" class="dt-link" @click.stop="$emit('open-asset', node.key)">大类分析→</a>
+          </div>
+
+          <!-- 展开内容 -->
+          <div v-show="open[node.key]" class="dt-class-body">
+            <!-- 行业（权益） -->
+            <div v-for="ind in node.industries" :key="ind.name" class="dt-ind">
+              <div class="dt-ind-row">
+                <span class="dt-ind-name">🏭 {{ ind.name }}</span>
+                <span class="dt-ind-val">直 ¥{{ fmt(ind.direct_value) }}<template v-if="ind.indirect_value > 0"> + 间 ¥{{ fmt(ind.indirect_value) }}</template></span>
+                <a v-if="ind.has_industry_analysis" class="dt-link" @click="$emit('open-industry', ind.name)">行业分析→</a>
+              </div>
+              <div v-for="hh in ind.holdings" :key="hh.code" class="dt-hold">
+                <span class="dt-h-code">{{ hh.code }}</span>
+                <span class="dt-h-name">{{ shortName(hh.name) }}</span>
+                <span class="dt-h-wt">{{ hh.weight }}%</span>
+                <span v-if="hh.analyzed" class="dt-stance" :class="stanceCls(hh.stance)">{{ hh.stance }}</span>
+                <span v-else class="dt-pending">待分析</span>
+                <a v-if="hh.analyzed" class="dt-link sm" @click="$emit('open-stock', hh.code)">分析→</a>
+                <span v-if="hh.action" class="dt-h-action">{{ hh.action }}</span>
+              </div>
+              <div v-if="ind.indirect.length" class="dt-indirect">
+                🔗 间接持有：<span v-for="s in ind.indirect" :key="s.code">{{ s.name }} </span>（经基金，加仓前算总暴露）
+              </div>
+            </div>
+
+            <!-- 基金主题（合并动作） -->
+            <div v-for="(ft, i) in node.fund_themes" :key="'ft'+i" class="dt-fund">
+              <div class="dt-fund-head">
+                🪙 {{ ft.theme }} · {{ ft.fund_count }}只 ¥{{ fmt(ft.total_mv) }}
+                <span v-if="ft.release_mv > 0" class="dt-release">可释放 ¥{{ fmt(ft.release_mv) }}</span>
+              </div>
+              <div class="dt-fund-action">💡 {{ ft.action }}</div>
+              <div class="dt-fund-pills">
+                <span v-for="f in ft.keep" :key="f.code" class="pill keep">留 {{ shortName(f.name) }}</span>
+                <span v-for="f in ft.sell" :key="f.code" class="pill sell">卖 {{ shortName(f.name) }}</span>
+              </div>
+            </div>
+
+            <!-- 非权益直接持仓 -->
+            <div v-for="dh in node.direct_holdings" :key="dh.code || dh.name" class="dt-hold plain">
+              <span class="dt-h-name">{{ shortName(dh.name) }}</span>
+              <span class="dt-h-wt">¥{{ fmt(dh.market_value) }}</span>
+              <span class="dt-h-wt">{{ dh.weight }}%</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- 间接持仓提示 -->
-      <div v-if="review.indirect_holdings.length" class="hr-section-title">
-        📊 间接持仓提示 — 你已通过基金间接持有这些股票，直接加仓前先算总暴露
-      </div>
-      <table v-if="review.indirect_holdings.length" class="hr-table compact">
-        <tbody>
-          <tr v-for="ih in review.indirect_holdings" :key="ih.code">
-            <td class="mono">{{ ih.code }}</td>
-            <td>{{ ih.name }}</td>
-            <td>间接 ¥{{ fmt(ih.indirect_value) }}</td>
-            <td>经 {{ ih.fund_count }} 只基金</td>
-            <td class="action-cell">{{ ih.note }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- 风格暴露 -->
-      <div class="hr-section-title">📐 组合风格暴露</div>
-      <div class="hr-style">
-        <div><b>地区：</b>{{ dist(review.summary.style_region) }}</div>
-        <div><b>基金类型：</b>{{ dist(review.summary.style_fund_type) }}</div>
-      </div>
+      <p class="dt-note">{{ review.summary.config_note }}</p>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { portfolioV4Api, type HoldingsReview } from '@/api/portfolioV4'
 
-defineEmits<{ (e: 'open-stock', code: string): void }>()
+defineEmits<{
+  (e: 'open-stock', code: string): void
+  (e: 'open-asset', key: string): void
+  (e: 'open-industry', name: string): void
+}>()
 
 const review = ref<HoldingsReview | null>(null)
+const open = reactive<Record<string, boolean>>({})
 
 async function load() {
   try {
     const resp = await portfolioV4Api.getHoldingsReview()
     review.value = (resp as any)?.data ?? (resp as any) ?? null
-  } catch {
-    review.value = null
-  }
+    // 默认展开权益
+    if (review.value) for (const n of review.value.asset_tree) open[n.key] = n.key === 'equity'
+  } catch { review.value = null }
 }
 load()
 
+function toggle(k: string) { open[k] = !open[k] }
 function fmt(v?: number): string {
   if (v == null) return '0'
   if (Math.abs(v) >= 10000) return (v / 10000).toFixed(2) + '万'
@@ -140,80 +132,89 @@ function fmt(v?: number): string {
 }
 function shortName(n?: string): string {
   if (!n) return ''
-  return n.length > 16 ? n.slice(0, 16) + '…' : n
+  return n.length > 14 ? n.slice(0, 14) + '…' : n
 }
-function stanceCls(stance?: string | null): string {
-  if (!stance) return ''
-  if (stance.includes('减') || stance.includes('卖')) return 'reduce'
-  if (stance.includes('加') || stance.includes('买')) return 'add'
+function stanceCls(s?: string | null): string {
+  if (!s) return ''
+  if (s.includes('减') || s.includes('卖')) return 'reduce'
+  if (s.includes('加') || s.includes('买')) return 'add'
   return 'hold'
 }
-function dist(d?: Record<string, number>): string {
-  if (!d) return '-'
-  const total = Object.values(d).reduce((a, b) => a + b, 0)
-  if (total <= 0) return '-'
-  return Object.entries(d)
-    .sort((a, b) => b[1] - a[1])
-    .map(([k, v]) => `${k} ${(v / total * 100).toFixed(0)}%`)
-    .join(' / ')
+function actCls(a?: string | null): string {
+  if (a === 'reduce' || a === 'clear') return 'reduce'
+  if (a === 'add') return 'add'
+  return 'hold'
+}
+function actLabel(a?: string | null): string {
+  return { add: '加配', reduce: '减配', hold: '维持', clear: '清空' }[a || ''] || a || ''
 }
 </script>
 
 <style scoped>
-.hr-wrap { padding: 4px; }
-.hr-hint { text-align: center; padding: 40px; color: #909399; }
-.hr-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.hr-sum-item {
-  background: #f7f9fc;
-  border-radius: 8px;
-  padding: 12px 16px;
-  border-left: 3px solid #409eff;
-}
-.hr-sum-item.alert { border-left-color: #faad14; background: #fffbe6; }
-.hr-sum-label { font-size: 12px; color: #909399; }
-.hr-sum-val { font-size: 20px; font-weight: 700; color: #303133; margin-top: 4px; }
-.hr-sum-val.sm { font-size: 15px; }
-.hr-section-title {
-  font-size: 14px; font-weight: 600; color: #303133;
-  margin: 22px 0 10px; padding-left: 8px; border-left: 3px solid #409eff;
-}
-.hr-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.hr-table th {
-  text-align: left; padding: 8px 10px; color: #909399;
-  font-weight: 500; border-bottom: 2px solid #ebeef5; font-size: 12px;
-}
-.hr-table td { padding: 9px 10px; border-bottom: 1px solid #f0f2f5; color: #4e5969; vertical-align: top; }
-.hr-table.compact td { padding: 6px 10px; }
-.mono { font-family: monospace; color: #303133; }
-.action-cell { font-size: 12px; line-height: 1.5; max-width: 360px; }
-.muted { color: #c0c4cc; font-size: 12px; }
-.tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-.tag.green { background: #f0f9eb; color: #67c23a; }
-.tag.gray { background: #f4f4f5; color: #909399; }
-.stance { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
-.stance.reduce { background: #fef0f0; color: #f56c6c; }
-.stance.add { background: #f0f9eb; color: #67c23a; }
-.stance.hold { background: #fdf6ec; color: #e6a23c; }
-.link { color: #409eff; cursor: pointer; font-size: 12px; white-space: nowrap; }
-.link:hover { text-decoration: underline; }
-.hr-fund-groups { display: flex; flex-direction: column; gap: 10px; }
-.hr-fund-group { background: #fafafa; border-radius: 8px; padding: 12px 14px; border-left: 3px solid #faad14; }
-.hr-fg-head { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #303133; }
-.hr-fg-meta { font-size: 12px; color: #909399; }
-.hr-fg-release { font-size: 12px; color: #d46b08; background: #fff7e6; padding: 1px 8px; border-radius: 10px; font-weight: 600; }
-.hr-fg-action { font-size: 12.5px; color: #c45656; margin: 6px 0 8px; line-height: 1.5; }
-.hr-fg-funds { display: flex; flex-wrap: wrap; gap: 6px; }
-.fund-pill { font-size: 11.5px; padding: 2px 8px; border-radius: 4px; }
-.fund-pill.keep { background: #f0f9eb; color: #67c23a; }
-.fund-pill.sell { background: #fef0f0; color: #f56c6c; }
-.fund-pill.plain { background: #f4f4f5; color: #606266; }
-.hr-ungrouped { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.hr-ug-label { font-size: 12px; color: #909399; }
-.hr-style { font-size: 13px; color: #4e5969; line-height: 1.9; }
-.hr-style b { color: #303133; }
+.dt-wrap { padding: 4px; }
+.dt-hint { text-align: center; padding: 40px; color: #909399; }
+.dt-summary { display: flex; gap: 24px; margin-bottom: 16px; }
+.dt-sum { background: #f7f9fc; border-radius: 8px; padding: 10px 18px; border-left: 3px solid #409eff; }
+.dt-sum.alert { border-left-color: #faad14; background: #fffbe6; }
+.dt-sum span { font-size: 12px; color: #909399; display: block; }
+.dt-sum b { font-size: 18px; color: #303133; }
+
+.dt-flow { background: #f9fbff; border: 1px solid #e4ecfb; border-radius: 8px; padding: 14px; margin-bottom: 18px; }
+.dt-flow-title { font-size: 13.5px; font-weight: 600; color: #303133; margin-bottom: 10px; }
+.dt-flow-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.dt-flow-h { font-size: 12.5px; font-weight: 600; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px dashed #dcdfe6; }
+.dt-flow-h.src { color: #f56c6c; }
+.dt-flow-h.use { color: #67c23a; }
+.dt-flow-item { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: #4e5969; padding: 3px 0; }
+.dt-flow-amt { font-weight: 700; white-space: nowrap; }
+.dt-flow-amt.src { color: #f56c6c; }
+.dt-flow-amt.use { color: #67c23a; }
+.dt-flow-note { font-size: 11px; color: #909399; max-width: 50%; text-align: right; }
+
+.dt-tree-title { font-size: 14px; font-weight: 600; color: #303133; margin: 8px 0 10px; }
+.dt-tree { border: 1px solid #ebeef5; border-radius: 8px; overflow: hidden; }
+.dt-class { border-bottom: 1px solid #f0f2f5; }
+.dt-class-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; cursor: pointer; background: #fafbfc; }
+.dt-class-row:hover { background: #f5f7fa; }
+.dt-caret { color: #909399; font-size: 11px; width: 12px; }
+.dt-class-label { font-weight: 700; color: #303133; font-size: 14px; min-width: 80px; }
+.dt-pct { font-size: 12.5px; color: #606266; }
+.dt-pct b { color: #303133; }
+.dt-action-tag { font-size: 11px; padding: 1px 8px; border-radius: 10px; font-weight: 600; }
+.dt-action-tag.add { background: #f0f9eb; color: #67c23a; }
+.dt-action-tag.reduce { background: #fef0f0; color: #f56c6c; }
+.dt-action-tag.hold { background: #fdf6ec; color: #e6a23c; }
+.dt-gap { font-size: 11.5px; font-weight: 600; }
+.dt-gap.add { color: #67c23a; }
+.dt-gap.reduce { color: #f56c6c; }
+.dt-link { color: #409eff; cursor: pointer; font-size: 12px; margin-left: auto; white-space: nowrap; }
+.dt-link.sm { margin-left: 0; font-size: 11px; }
+.dt-link:hover { text-decoration: underline; }
+
+.dt-class-body { padding: 4px 14px 12px 30px; background: #fff; }
+.dt-ind { margin: 8px 0; }
+.dt-ind-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; border-bottom: 1px dashed #f0f2f5; }
+.dt-ind-name { font-weight: 600; color: #4e5969; font-size: 13px; }
+.dt-ind-val { font-size: 12px; color: #909399; }
+.dt-hold { display: flex; align-items: center; gap: 10px; padding: 5px 0 5px 16px; font-size: 12.5px; color: #4e5969; flex-wrap: wrap; }
+.dt-hold.plain { padding-left: 0; }
+.dt-h-code { font-family: monospace; color: #303133; }
+.dt-h-name { color: #303133; min-width: 110px; }
+.dt-h-wt { color: #909399; font-size: 12px; }
+.dt-stance { font-size: 11.5px; font-weight: 700; padding: 1px 7px; border-radius: 4px; }
+.dt-stance.reduce { background: #fef0f0; color: #f56c6c; }
+.dt-stance.add { background: #f0f9eb; color: #67c23a; }
+.dt-stance.hold { background: #fdf6ec; color: #e6a23c; }
+.dt-pending { font-size: 11px; color: #c0c4cc; }
+.dt-h-action { font-size: 11.5px; color: #909399; flex-basis: 100%; padding-left: 16px; line-height: 1.4; }
+.dt-indirect { font-size: 11.5px; color: #909399; padding: 4px 0 4px 16px; }
+.dt-fund { background: #fafafa; border-radius: 6px; padding: 8px 10px; margin: 8px 0; border-left: 3px solid #faad14; }
+.dt-fund-head { font-size: 12.5px; font-weight: 600; color: #303133; }
+.dt-release { font-size: 11px; color: #d46b08; background: #fff7e6; padding: 1px 7px; border-radius: 10px; margin-left: 6px; }
+.dt-fund-action { font-size: 12px; color: #c45656; margin: 4px 0 6px; }
+.dt-fund-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 4px; }
+.pill.keep { background: #f0f9eb; color: #67c23a; }
+.pill.sell { background: #fef0f0; color: #f56c6c; }
+.dt-note { font-size: 11px; color: #c0c4cc; margin-top: 12px; }
 </style>

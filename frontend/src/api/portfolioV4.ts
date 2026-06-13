@@ -522,46 +522,46 @@ export const portfolioV4Api = {
   },
 }
 
-// ── D0-7 持仓体检（持仓 × 处理动作）─────────────────────────────────────
-export interface HoldingsReviewStock {
-  code: string
-  name: string
-  market_value: number
-  weight: number
-  analyzed: boolean
-  stance: string | null
-  direction: string | null
-  confidence: number | null
-  summary: string | null
-  action: string | null
-  stop_loss: string | null
-  target_weight: number | null
+// ── D0-8 投资决策全景树（持仓挂大类/行业 + 全局配比 + 资金流向）──────
+export interface HoldingRow {
+  code: string; name: string; market_value: number; weight: number
+  instrument_type: string
+  analyzed: boolean; stance: string | null; action: string | null
+  confidence: number | null; summary: string | null; stop_loss: string | null
 }
-export interface HoldingsReviewFundGroup {
-  theme: string
-  fund_count: number
-  total_mv: number
-  funds: Array<{ code: string; name: string; mv: number }>
+export interface FundTheme {
+  theme: string; fund_count: number; total_mv: number
   keep: Array<{ code: string; name: string; mv: number }>
   sell: Array<{ code: string; name: string; mv: number }>
-  release_mv: number
-  action: string
+  release_mv: number; action: string
 }
+export interface IndustryNode {
+  name: string; direct_value: number; indirect_value: number; total_value: number
+  has_industry_analysis: boolean
+  holdings: HoldingRow[]
+  indirect: Array<{ code: string; name: string; indirect_value: number | null }>
+}
+export interface AssetNode {
+  key: string; label: string
+  current_value: number; current_pct: number
+  target_pct: number | null; action: string | null; gap_value: number | null
+  has_class_analysis: boolean
+  industries: IndustryNode[]
+  direct_holdings: HoldingRow[]
+  fund_themes: FundTheme[]
+}
+export interface FlowItem { desc: string; amount: number | null; note?: string }
 export interface HoldingsReview {
   as_of: string | null
   summary: {
     total_value: number
-    stock_value: number; stock_pct: number
-    fund_value: number; fund_pct: number
-    cash_value: number; cash_pct: number
-    analyzed_count: number; total_stocks: number
-    total_funds: number; pending_actions: number
+    analyzed_count: number; total_stocks: number; total_funds: number
+    pending_actions: number
     style_region: Record<string, number>
-    style_fund_type: Record<string, number>
+    config_note: string
   }
-  stocks: HoldingsReviewStock[]
-  fund_groups: HoldingsReviewFundGroup[]
-  ungrouped_funds: Array<{ code: string; name: string; market_value: number }>
-  cash: Array<{ name: string; market_value: number; weight: number }>
+  asset_tree: AssetNode[]
+  capital_flow: { sources: FlowItem[]; uses: FlowItem[] }
+  fund_groups: FundTheme[]
   indirect_holdings: Array<{ code: string; name: string; indirect_value: number; fund_count: number; note: string }>
 }
