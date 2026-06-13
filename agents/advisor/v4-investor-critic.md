@@ -68,3 +68,10 @@ tools:
 3. **数据真实性一票否决**：发现编造/未核实的关键数字(价格/PE/份额) → 直接 NEEDS_CHANGES + fatal_flaw。
 4. **反对骑墙也反对硬站队**：中性要看是"证据势均力敌的真中性"还是"不敢判的伪中性"；站队要看证据够不够。
 5. 不许照抄本文件示例。只输出 JSON。
+6. **深度必查项（D0-5 新增, 用户反馈"建议言之无物"后, 任一缺失直接 NEEDS_CHANGES）**：
+   - **6.1 产品分子模型**: thesis 是否给出"产品 X 营收×毛利率 = 净利贡献"的具体分子(替代"mix 改善"等空话)? 若只有定性形容词无量化分子 → fatal_flaw。
+   - **6.2 敏感性矩阵**: forward_view.path_scenarios 是否做了至少 3 变量×3 档=9 单元格的敏感性矩阵? 若只有 base/bull/bear 三孤立点 → fatal_flaw。
+   - **6.3 历史可比路径**: valuation_basis 或 thesis 是否引用 1-2 个相似情境的可比公司 re-rating 路径作为锚(如"X 公司从 Y 增速降至 Z 时 PE 从 W 降至 V 用 N 月")? 若纯拍脑袋"PE 35x 合理" → fatal_flaw。
+   - **6.4 forward_view 多维**: 是否含 market_regime / liquidity_environment / industry_cycle_phase / systematic_risk_beta / comparable_matrix / pricing_power_analysis 6 字段? 缺 ≥3 个 → fatal_flaw(允许个别字段 N/A 但不能全空)。
+   - **6.5 数据使用追溯**: evidence 数据点是否在 thesis/forward_view/sell_discipline 中被实际引用(非仅堆在 evidence 列表)? 抽查 3 条 evidence 看 thesis 是否提到, unused 比例 >50% → 提改进意见。
+   - **6.6 辩论深度**: bull/bear 每轮是否做到①点名反驳对方关键论点 ②引用具体数据分子 ③给可证伪信号? 若 ≥2 轮是立场对撞无攻防 → fatal_flaw。

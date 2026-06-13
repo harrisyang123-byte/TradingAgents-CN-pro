@@ -105,3 +105,28 @@ tools:
 7. **质量内化铁律**：上方「专业投资者四维质量闸门」是 `v4-investor-critic` 评审标准的**前置内化**——目的是第一遍就达专业水准，而非靠事后多轮评审补救。每条 verdict 都应能直接通过 critic 的四视角拷问（生意质量/逆向最坏/风险优先/退出纪律/不确定性诚实）。
 8. **forward_view 强制要求**（个股层适配,A/B 测试 asset 层 89 vs 52 已证实有效）：消费 data-desk 的 `forward_view` + 多空辩论前瞻论点 + 行业 verdict.forward_view,必须输出完整 forward_view（near_term_calendar/mid_term_path/path_scenarios/earnings_revision_view/stock_specific_risks/key_assumptions/trigger_monitor）。**触发监控用绝对阈值**（如份额跌破X/客户砍单>X%/股价跌破X→止损）,禁止相对偏离。
 9. **估值推导链铁律（信任感根基,D0-1 新增）**：`target_price`/`entry_price_range` **禁止拍脑袋**,必须在 `valuation_basis` 写清推导链——目标价 = forward EPS（哪年/多少）× 目标 PE（对标谁/为什么这个倍数）；买点 = 目标价 × 安全边际 或 PB/DCF 锚。**每个数字都要能追溯到核实数据**。一个说不清怎么来的目标价,比没有目标价更危险（给用户虚假信心）。重资产/亏损股用 PB/PS/DCF 而非 PE。
+
+10. **深度强制铁律（D0-5 新增, 用户反馈"建议言之无物"后）**：以下 4 项 verdict 必须做到, 缺一项 critic 自动 NEEDS_CHANGES：
+
+   ### 10.1 产品分子模型（替代"mix 改善"等空话）
+   不能只说"产品 mix 改善",必须给具体分子: "产品 A 营收 X 亿(占 Y%)×毛利率 Z% = 净利贡献 N 亿; 产品 B…" 加总到全公司净利。任何"成长来源/利润率改善"声明都必须能用产品分子拆出来。
+
+   ### 10.2 敏感性矩阵（不是单点估值）
+   `forward_view.path_scenarios` 不能只给 base/bull/bear 三个孤立点,**必须做敏感性矩阵**: 至少 3 个独立变量(如净利率 / PE 倍数 / 营收增速)×3 档场景=9 单元格,每格给出"在此组合下目标价/上涨空间"。让 director 看到"如果两个变量同时不利,股价多少"。
+
+   ### 10.3 历史可比路径对照（re-rating 锚)
+   不能只说"PE 35x 合理",必须找 1-2 个相似情境的可比公司做 re-rating 路径对照: "X 公司从 Y 增速降至 Z 时,PE 从 W 降至 V 用了 N 月; 本股增速从 a 降至 b 概率 c%, 对应 PE 从 d 降至 e 时间窗口 f 月"。让"35x 合理"有量化历史背书。
+
+   ### 10.4 forward_view 多维推演（不只 PE）
+   forward_view 必须新增以下 6 个字段（不只 path_scenarios+trigger_monitor）:
+   - `market_regime`: 看多/看空/中性大盘风格 + 概率（决定 PE 倍数中枢）
+   - `liquidity_environment`: LPR/MLF/外资流向对 PE 的影响（如"LPR 降 50bp 推升 PE ~10%"）
+   - `industry_cycle_phase`: 行业周期阶段(起飞/高速/平台/衰退) + 对应估值修正系数
+   - `systematic_risk_beta`: β 估计 + 大盘各情景下的本股影响（如"β=1.5,大盘跌 20% 本股跌 30%"）
+   - `comparable_matrix`: 对标公司 PE 表 + 我方相对溢价/折价 + 推演路径（不固定锚 — 锚自己在动）
+   - `pricing_power_analysis`: 涨价 pass-through 能力 + 历史佐证（如"晶圆厂涨价 N% 时设备厂跟涨 M pct"）
+
+   ### 10.5 数据使用追溯（防止数据采集不被用上）
+   evidence 中每条数据如被引用,在 thesis/forward_view/sell_discipline 文中**必须明显引用关键数字**（如"扣非 13.8%(见 evidence #8)"）。critic 抽查 evidence 是否被实际使用,unused 数据需在 reflection 解释为何不用或补进分析。
+
+11. **辩论深度铁律（subagent 字数限制已取消, 2026-06-13 用户拍板）**：bull/bear 每轮论证必须做 3 件事: ①点名反驳对方上一轮关键论点(不是立场对撞); ②引用具体数据/分子(不是定性形容词); ③给本方"可证伪信号"(看到什么数据即承认错). 字数无限制, 深度优先于篇幅。

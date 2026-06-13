@@ -153,7 +153,8 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 ## 8. AI 代跑落地步骤（本会话 agent 直跑，模式 A）
 
 把持仓交给 AI、AI 直接跑完整分析 → 存档 `data/v4/` → 用户 `git pull` 后前端解析。**可执行步骤、各单元 payload schema、联网取数与存档/快照细节统一见 `docs/wiki/v4-ai-proxy-run.md`**。要点：
-- 第 2 阶段执行体 = 当前对话的 AI（可 spawn subagent ≤3 并发、不嵌套、≤500字摘要），**不需要 `claude` CLI 鉴权**；`run_v4.sh` 无 claude 退出码 2 不是阻塞，改走 agent 直跑。
+- 第 2 阶段执行体 = 当前对话的 AI（可 spawn subagent ≤3 并发、不嵌套；**字数限制取消 2026-06-13——深度优先于篇幅**），**不需要 `claude` CLI 鉴权**；`run_v4.sh` 无 claude 退出码 2 不是阻塞，改走 agent 直跑。
+  - 历史：subagent 之前默认 ≤500 字摘要,实测 TradingAgents 单轮辩论 1500-3000 字才能深做,故取消字数约束(2026-06-13)。timeout 仍是平台级硬约束(估 5-10 分钟),失败时主 agent 接管自跑。
 - **模式 A 角色分工**：主 agent 只做①联网取数（扮演 data-desk）②编排+最终拍板（director，含 reflection+反骑墙）；3 分析师 + 多空辩论交给 subagent（喂角色 prompt + 已核实数据让其扮演）。subagent 无 web 工具，凡需联网的一律主 agent 取后喂给它。
 - 缺数据源**联网补齐**而非降级；存档为 `data/v4/**/*.json` 单元信封，前端走**静态快照**即可，**MongoDB 可选**。
 
