@@ -1,0 +1,555 @@
+{
+  "as_of": null,
+  "summary": {
+    "total_value": 1052785.0,
+    "stock_value": 243655.0,
+    "stock_pct": 23.1,
+    "fund_value": 470611.0,
+    "fund_pct": 44.7,
+    "cash_value": 338519.0,
+    "cash_pct": 32.2,
+    "analyzed_count": 2,
+    "total_stocks": 9,
+    "total_funds": 26,
+    "pending_actions": 6,
+    "style_region": {
+      "A股": 450172.88999999996,
+      "美国": 19415.815,
+      "其他": 1021.885
+    },
+    "style_fund_type": {
+      "ETF联接·权益": 221269.19999999998,
+      "债券型·混合一级": 101954.03,
+      "ETF联接·商品": 43227.75,
+      "债券型·纯债": 32993.65,
+      "ETF联接·QDII·权益": 28936.440000000002,
+      "债券型·指数": 14998.29,
+      "QDII·主动权益": 14297.59,
+      "指数增强·权益": 8054.35,
+      "ETF联接·QDII": 4879.29
+    }
+  },
+  "stocks": [
+    {
+      "code": "002156",
+      "name": "通富微电",
+      "market_value": 114440.0,
+      "weight": 10.87,
+      "analyzed": true,
+      "stance": "适度减仓",
+      "direction": "中性偏空(短期)+ 中长期持有偏正(2-3年)",
+      "confidence": 0.55,
+      "summary": "PE 60x 偏热 + 高位脆弱 + 大基金减持 + 扣非2.27%结构性 → 短期站空方;但 AMD 排他绑定 + advanced packaging 18-24 月产能紧张 + Q2-Q3 业绩催化 = 中长期支撑。建议从 10.87% 减至 7%,释放 ¥45k 流动性。¥58 上方继续减,¥42-45 加仓,硬止损 ¥38.5。",
+      "action": "本周(6/13-6/17): 减 2% (¥21k 市值, 当前价 ¥62 高位减), 仓位降至 8.8%",
+      "stop_loss": "¥38.5 — 但极端联合情境下不可执行(联合 1-2% 概率指向 ¥19-31, 实际清仓价可能在 ¥20-25)",
+      "target_weight": null
+    },
+    {
+      "code": "09992",
+      "name": "Pop Mart International Group Limited",
+      "market_value": 36600.0,
+      "weight": 3.48,
+      "analyzed": true,
+      "stance": "持有观望(不主动加仓, 仅深跌逆向小注)",
+      "direction": "中性 — 逆向价值线索存在但盈利分母未验证, 需 Q2 校准",
+      "confidence": 0.58,
+      "summary": "Pop Mart forward PE 14x 看似低估, 但 critic 关键拷问成立: 14x 的分母(2026 净利 40 亿+)本身是未验证假设, 若 LABUBU 退潮则分母塌缩 PE 反弹至 25-30x。产品分子压力测试显示: LABUBU-30% 时非 LABUBU(占 62%)需+40% 才能持平, 可能性中等。鉴于 confidence 0.62 偏低 + LABUBU 周期拐点不可预测, 修正为维持 3.48% 观望, 仅在 HK$130 以下深跌时逆向小注至 4%(不超), 等 Q2 财报校准盈利分母后再决策。",
+      "action": "维持当前 3.48% 观望 — 不在当前价 HK$155-180 主动加仓(confidence 0.58 偏低)",
+      "stop_loss": "HK$115 — 跌破对应 LABUBU-30%×海外+10% 悲观情景, 全清",
+      "target_weight": null
+    },
+    {
+      "code": "002517",
+      "name": "恺英网络",
+      "market_value": 29460.0,
+      "weight": 2.8,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "603236",
+      "name": "移远通信",
+      "market_value": 15540.0,
+      "weight": 1.48,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "000063",
+      "name": "中兴通讯",
+      "market_value": 14540.0,
+      "weight": 1.38,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "002415",
+      "name": "海康威视",
+      "market_value": 12096.0,
+      "weight": 1.15,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "01810",
+      "name": "Xiaomi Corporation",
+      "market_value": 10480.0,
+      "weight": 1.0,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "002001",
+      "name": "新和成",
+      "market_value": 6018.0,
+      "weight": 0.57,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    },
+    {
+      "code": "002050",
+      "name": "三花智控",
+      "market_value": 4481.0,
+      "weight": 0.43,
+      "analyzed": false,
+      "stance": null,
+      "direction": null,
+      "confidence": null,
+      "summary": null,
+      "action": null,
+      "stop_loss": null,
+      "target_weight": null
+    }
+  ],
+  "fund_groups": [
+    {
+      "theme": "国债/信用债",
+      "fund_count": 5,
+      "total_mv": 149945.97,
+      "funds": [
+        {
+          "code": "110008",
+          "name": "易方达稳健收益债B",
+          "mv": 53003.19
+        },
+        {
+          "code": "110017",
+          "name": "易方达增强回报债A",
+          "mv": 48950.84
+        },
+        {
+          "code": "270044",
+          "name": "广发双债添利债券A",
+          "mv": 21370.56
+        },
+        {
+          "code": "003376",
+          "name": "广发中债7-10年国开债指数A",
+          "mv": 14998.29
+        },
+        {
+          "code": "000205",
+          "name": "易方达投资级信用债A",
+          "mv": 11623.09
+        }
+      ],
+      "keep": [
+        {
+          "code": "110008",
+          "name": "易方达稳健收益债B",
+          "mv": 53003.19
+        },
+        {
+          "code": "110017",
+          "name": "易方达增强回报债A",
+          "mv": 48950.84
+        }
+      ],
+      "sell": [
+        {
+          "code": "270044",
+          "name": "广发双债添利债券A",
+          "mv": 21370.56
+        },
+        {
+          "code": "003376",
+          "name": "广发中债7-10年国开债指数A",
+          "mv": 14998.29
+        },
+        {
+          "code": "000205",
+          "name": "易方达投资级信用债A",
+          "mv": 11623.09
+        }
+      ],
+      "release_mv": 47992.0,
+      "action": "保留 易方达稳健收益债B、易方达增强回报债A；可合并卖出其余 3 只释放 ¥47992（降重复暴露+省管理费）"
+    },
+    {
+      "theme": "大盘宽基",
+      "fund_count": 5,
+      "total_mv": 87809.92,
+      "funds": [
+        {
+          "code": "007029",
+          "name": "易方达中证500ETF联接C",
+          "mv": 26104.18
+        },
+        {
+          "code": "022424",
+          "name": "广发中证A500ETF联接A",
+          "mv": 20607.77
+        },
+        {
+          "code": "270010",
+          "name": "广发沪深300ETF联接A",
+          "mv": 19604.39
+        },
+        {
+          "code": "110020",
+          "name": "易方达沪深300ETF联接A",
+          "mv": 13439.23
+        },
+        {
+          "code": "010736",
+          "name": "易方达沪深300精选增强A",
+          "mv": 8054.35
+        }
+      ],
+      "keep": [
+        {
+          "code": "007029",
+          "name": "易方达中证500ETF联接C",
+          "mv": 26104.18
+        },
+        {
+          "code": "022424",
+          "name": "广发中证A500ETF联接A",
+          "mv": 20607.77
+        }
+      ],
+      "sell": [
+        {
+          "code": "270010",
+          "name": "广发沪深300ETF联接A",
+          "mv": 19604.39
+        },
+        {
+          "code": "110020",
+          "name": "易方达沪深300ETF联接A",
+          "mv": 13439.23
+        },
+        {
+          "code": "010736",
+          "name": "易方达沪深300精选增强A",
+          "mv": 8054.35
+        }
+      ],
+      "release_mv": 41098.0,
+      "action": "保留 易方达中证500ETF联接C、广发中证A500ETF联接A；可合并卖出其余 3 只释放 ¥41098（降重复暴露+省管理费）"
+    },
+    {
+      "theme": "AI/人工智能",
+      "fund_count": 4,
+      "total_mv": 61032.83,
+      "funds": [
+        {
+          "code": "024245",
+          "name": "广发上证科创板人工智能ETF发起式联接A",
+          "mv": 22048.02
+        },
+        {
+          "code": "012733",
+          "name": "易方达中证人工智能主题ETF联接A",
+          "mv": 14951.84
+        },
+        {
+          "code": "012734",
+          "name": "易方达中证人工智能主题ETF联接C",
+          "mv": 14033.19
+        },
+        {
+          "code": "012629",
+          "name": "广发国证半导体芯片ETF联接A",
+          "mv": 9999.78
+        }
+      ],
+      "keep": [
+        {
+          "code": "024245",
+          "name": "广发上证科创板人工智能ETF发起式联接A",
+          "mv": 22048.02
+        },
+        {
+          "code": "012733",
+          "name": "易方达中证人工智能主题ETF联接A",
+          "mv": 14951.84
+        }
+      ],
+      "sell": [
+        {
+          "code": "012734",
+          "name": "易方达中证人工智能主题ETF联接C",
+          "mv": 14033.19
+        },
+        {
+          "code": "012629",
+          "name": "广发国证半导体芯片ETF联接A",
+          "mv": 9999.78
+        }
+      ],
+      "release_mv": 24033.0,
+      "action": "保留 广发上证科创板人工智能ETF、易方达中证人工智能主题ETF；可合并卖出其余 2 只释放 ¥24033（降重复暴露+省管理费）"
+    },
+    {
+      "theme": "黄金",
+      "fund_count": 2,
+      "total_mv": 43227.75,
+      "funds": [
+        {
+          "code": "008986",
+          "name": "广发上海金ETF联接A",
+          "mv": 29983.1
+        },
+        {
+          "code": "000307",
+          "name": "易方达黄金ETF联接A",
+          "mv": 13244.65
+        }
+      ],
+      "keep": [
+        {
+          "code": "008986",
+          "name": "广发上海金ETF联接A",
+          "mv": 29983.1
+        }
+      ],
+      "sell": [
+        {
+          "code": "000307",
+          "name": "易方达黄金ETF联接A",
+          "mv": 13244.65
+        }
+      ],
+      "release_mv": 13245.0,
+      "action": "保留 广发上海金ETF联接A；可合并卖出其余 1 只释放 ¥13245（降重复暴露+省管理费）"
+    },
+    {
+      "theme": "创业板/科创板",
+      "fund_count": 2,
+      "total_mv": 40729.96,
+      "funds": [
+        {
+          "code": "024245",
+          "name": "广发上证科创板人工智能ETF发起式联接A",
+          "mv": 22048.02
+        },
+        {
+          "code": "003765",
+          "name": "广发创业板ETF联接A",
+          "mv": 18681.94
+        }
+      ],
+      "keep": [
+        {
+          "code": "024245",
+          "name": "广发上证科创板人工智能ETF发起式联接A",
+          "mv": 22048.02
+        }
+      ],
+      "sell": [
+        {
+          "code": "003765",
+          "name": "广发创业板ETF联接A",
+          "mv": 18681.94
+        }
+      ],
+      "release_mv": 18682.0,
+      "action": "保留 广发上证科创板人工智能ETF；可合并卖出其余 1 只释放 ¥18682（降重复暴露+省管理费）"
+    },
+    {
+      "theme": "纳指/QDII美股",
+      "fund_count": 2,
+      "total_mv": 25316.99,
+      "funds": [
+        {
+          "code": "270042",
+          "name": "广发纳指100ETF联接（QDII）人民币A",
+          "mv": 20437.7
+        },
+        {
+          "code": "161130",
+          "name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+          "mv": 4879.29
+        }
+      ],
+      "keep": [
+        {
+          "code": "270042",
+          "name": "广发纳指100ETF联接（QDII）人民币A",
+          "mv": 20437.7
+        },
+        {
+          "code": "161130",
+          "name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+          "mv": 4879.29
+        }
+      ],
+      "sell": [],
+      "release_mv": 0,
+      "action": "已是单只，无需合并"
+    }
+  ],
+  "ungrouped_funds": [
+    {
+      "code": "019058",
+      "name": "易方达中证绿色电力ETF联接发起式A",
+      "market_value": 21698.0
+    },
+    {
+      "code": "009052",
+      "name": "易方达中证红利ETF联接C",
+      "market_value": 15301.0
+    },
+    {
+      "code": "270023",
+      "name": "广发全球精选股票(QDII)人民币A",
+      "market_value": 14298.0
+    },
+    {
+      "code": "005063",
+      "name": "广发中证全指家用电器ETF联接A",
+      "market_value": 8500.0
+    },
+    {
+      "code": "006327",
+      "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+      "market_value": 8499.0
+    },
+    {
+      "code": "013180",
+      "name": "广发国证新能源车电池ETF发起联接C",
+      "market_value": 8150.0
+    },
+    {
+      "code": "009881",
+      "name": "广发中证医疗ETF联接C",
+      "market_value": 8150.0
+    }
+  ],
+  "cash": [
+    {
+      "name": "活期存款",
+      "market_value": 338519.0,
+      "weight": 32.15
+    }
+  ],
+  "indirect_holdings": [
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "indirect_value": 6553.99,
+      "fund_count": 5,
+      "note": "已通过 5 只基金间接持有 ¥6554，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "688256",
+      "name": "寒武纪",
+      "indirect_value": 4846.19,
+      "fund_count": 4,
+      "note": "已通过 4 只基金间接持有 ¥4846，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "688008",
+      "name": "澜起科技",
+      "indirect_value": 4254.49,
+      "fund_count": 4,
+      "note": "已通过 4 只基金间接持有 ¥4254，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "00700",
+      "name": "腾讯控股",
+      "indirect_value": 3712.82,
+      "fund_count": 3,
+      "note": "已通过 3 只基金间接持有 ¥3713，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "600900",
+      "name": "长江电力",
+      "indirect_value": 3144.54,
+      "fund_count": 4,
+      "note": "已通过 4 只基金间接持有 ¥3145，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "indirect_value": 3067.2,
+      "fund_count": 4,
+      "note": "已通过 4 只基金间接持有 ¥3067，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "688111",
+      "name": "金山办公",
+      "indirect_value": 3036.11,
+      "fund_count": 3,
+      "note": "已通过 3 只基金间接持有 ¥3036，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "AAPL",
+      "name": "苹果",
+      "indirect_value": 2907.25,
+      "fund_count": 3,
+      "note": "已通过 3 只基金间接持有 ¥2907，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "MSFT",
+      "name": "微软",
+      "indirect_value": 2564.21,
+      "fund_count": 3,
+      "note": "已通过 3 只基金间接持有 ¥2564，直接加仓前先算总暴露，避免双重重仓"
+    },
+    {
+      "code": "NVDA",
+      "name": "英伟达",
+      "indirect_value": 2547.88,
+      "fund_count": 3,
+      "note": "已通过 3 只基金间接持有 ¥2548，直接加仓前先算总暴露，避免双重重仓"
+    }
+  ]
+}

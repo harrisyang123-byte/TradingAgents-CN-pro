@@ -515,4 +515,53 @@ export const portfolioV4Api = {
     if (STATIC_SNAPSHOT) return loadSnapshot<StockDetail>(`stock_${code}.json`)
     return ApiClient.get<StockDetail>(`/api/portfolio/v4/stock/${encodeURIComponent(code)}`)
   },
+
+  async getHoldingsReview() {
+    if (STATIC_SNAPSHOT) return loadSnapshot<HoldingsReview>('holdings_review.json')
+    return ApiClient.get<HoldingsReview>('/api/portfolio/v4/holdings-review')
+  },
+}
+
+// ── D0-7 持仓体检（持仓 × 处理动作）─────────────────────────────────────
+export interface HoldingsReviewStock {
+  code: string
+  name: string
+  market_value: number
+  weight: number
+  analyzed: boolean
+  stance: string | null
+  direction: string | null
+  confidence: number | null
+  summary: string | null
+  action: string | null
+  stop_loss: string | null
+  target_weight: number | null
+}
+export interface HoldingsReviewFundGroup {
+  theme: string
+  fund_count: number
+  total_mv: number
+  funds: Array<{ code: string; name: string; mv: number }>
+  keep: Array<{ code: string; name: string; mv: number }>
+  sell: Array<{ code: string; name: string; mv: number }>
+  release_mv: number
+  action: string
+}
+export interface HoldingsReview {
+  as_of: string | null
+  summary: {
+    total_value: number
+    stock_value: number; stock_pct: number
+    fund_value: number; fund_pct: number
+    cash_value: number; cash_pct: number
+    analyzed_count: number; total_stocks: number
+    total_funds: number; pending_actions: number
+    style_region: Record<string, number>
+    style_fund_type: Record<string, number>
+  }
+  stocks: HoldingsReviewStock[]
+  fund_groups: HoldingsReviewFundGroup[]
+  ungrouped_funds: Array<{ code: string; name: string; market_value: number }>
+  cash: Array<{ name: string; market_value: number; weight: number }>
+  indirect_holdings: Array<{ code: string; name: string; indirect_value: number; fund_count: number; note: string }>
 }
