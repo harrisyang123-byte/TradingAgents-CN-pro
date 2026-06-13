@@ -735,16 +735,16 @@
     },
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
-      "unit_type": "alloc",
-      "version": 4,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-12T15:22:43Z",
+      "unit_type": null,
+      "version": 5,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T11:58:08Z"
+  "updated_at": "2026-06-13T12:19:34Z"
 }
