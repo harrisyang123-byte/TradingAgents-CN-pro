@@ -97,6 +97,16 @@
         </div>
       </div>
 
+      <!-- ===== ②bis 锚定效应自查（防止"等回调买"= 价格锚定而非投资思维） ===== -->
+      <div v-if="detail.anchoring_check" class="card sdt-anchor">
+        <div class="sdt-section-title sdt-anchor-title">🧭 ②bis 锚定自查 — 买卖理由是「预期差/基本面」还是「价格锚定」？</div>
+        <p class="sdt-anchor-q">❓ {{ detail.anchoring_check.user_challenge }}</p>
+        <p class="sdt-anchor-honest"><b>诚实回答：</b>{{ detail.anchoring_check.honest_answer }}</p>
+        <p v-if="detail.anchoring_check.but_distinction" class="sdt-anchor-dist"><b>区分：</b>{{ detail.anchoring_check.but_distinction }}</p>
+        <p v-if="detail.anchoring_check.the_real_risk" class="sdt-anchor-risk"><b>⚠️ 真锚定风险：</b>{{ detail.anchoring_check.the_real_risk }}</p>
+        <p class="sdt-anchor-fix"><b>✅ 修正(盯信号不盯价格)：</b>{{ detail.anchoring_check.corrected_framing }}</p>
+      </div>
+
       <!-- ===== ③ 支撑分析（按编排器流程顺序展开,看完整推理链） ===== -->
       <div class="card sdt-support">
         <div class="sdt-section-title">🔬 ③ 支撑分析 — 完整推理链（点击每步展开）</div>
@@ -759,4 +769,12 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-risk-block, .sdt-sell-block { margin: 10px 0; }
 .sdt-risk { margin: 3px; }
 .sdt-sell-block ol { padding-left: 22px; line-height: 1.9; font-size: 13px; }
+
+.sdt-anchor { border-left: 4px solid #722ed1; }
+.sdt-anchor-title { color: #722ed1; }
+.sdt-anchor-q { font-size: 13px; color: #606266; font-style: italic; margin: 6px 0; }
+.sdt-anchor-honest { font-size: 13px; color: #303133; margin: 6px 0; line-height: 1.6; }
+.sdt-anchor-dist { font-size: 12.5px; color: #4e5969; margin: 6px 0; line-height: 1.6; }
+.sdt-anchor-risk { font-size: 12.5px; color: #c45656; margin: 6px 0; line-height: 1.6; }
+.sdt-anchor-fix { font-size: 13px; color: #67c23a; margin: 6px 0; line-height: 1.6; background:#f6ffed; padding:8px; border-radius:6px; }
 </style>

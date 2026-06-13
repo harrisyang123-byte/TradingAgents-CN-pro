@@ -410,6 +410,14 @@ export interface InvestmentMapRow {
 }
 
 export interface StockDetail {
+  anchoring_check?: {
+    user_challenge?: string
+    honest_answer?: string
+    but_distinction?: string
+    the_real_risk?: string
+    corrected_framing?: string
+    critic_miss?: string
+  }
   code: string
   name?: string
   industry?: string
