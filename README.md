@@ -57,16 +57,20 @@
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
 | 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + `v4-stock-bull/bear` + `v4-stock-director` | **个股 3 分析师分队**(财务/竞争/估值)打底 → 多空 → 总监预期差拍板 |
+| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES；标准已前置内化进各层 director（A/B 测试验证 62→82） |
+| 元指导 | **`v4-chief-investment-officer`** | **首席投资官+投委会**视角，以"用户持久盈利"为锚审视整个系统方向(五维:可信/能用/连得上/会学/值得)，识别"假专业"与过度工程，给开发明确优先级 |
 
 > 全部分析角色 `tools:[Read]`、**只消费 data-desk 产出的输入包、绝不自己联网取数**；唯一带 `web_search`/`web_fetch` 的是 `v4-data-desk`。
 
 ---
 
-## 三套核心方法论
+## 核心方法论
 
-- **Chokepoint 供应链瓶颈框架**（`planning/v4/chokepoint-framework.md`，借鉴 Serenity）：自下而上逆向工程产业链，四维判定（不可替代/供给集中/产能刚性/价值卡位）+ 替代路径 + **市场发现度**，在景气行业里定位"物理卡脖子且市场还没发现"的环节。混合分队：瓶颈分析师出骨架 → 主 agent 对 top 瓶颈派专项调研员深挖 → 总监核实。
-- **预期差选股理论**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现的 − 价格已 price-in 的），不看涨幅/PE 分位**。三锚：隐含增速缺口 / 定价充分度 / 催化。A/B 验证胜过"估值分位法"——后者会让你 88 元不敢买中际旭创、错过 11 倍。
-- **结果闭环反思 + 反骑墙**（借鉴 TradingAgents）：总监开辩前读上一版 verdict → 输出 reflection（变了什么/为何改判/自检）；证据势均力敌才中性，否则必须站队，数据盲区降 confidence 而非默认骑墙。
+- **Chokepoint 供应链瓶颈框架 + 波特五力**（`planning/v4/chokepoint-framework.md`，借鉴 Serenity）：自下而上逆向工程产业链，**四维判定**（不可替代/供给集中/产能刚性/价值卡位）定位"卡不卡脖子"，**波特五力**（进入者/替代品/买方/供方/同业竞争）判定"利润能否留住"，加 **市场发现度**。A/B 测试验证加五力 85 vs 78。混合分队：瓶颈分析师出骨架 → director 整合 chokepoint_map → **investment_map（瓶颈环节→推荐个股→卡位排序→为什么是它）** 落到"买什么"。
+- **预期差选股理论 + 估值推导链**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**。三锚：隐含增速缺口/定价充分度/催化。**买点/目标价必须有 `valuation_basis` 推导链**（目标价=forward指标×目标倍数(对标谁)，买点=安全边际/PB/DCF），禁止拍脑袋。
+- **forward_view 前瞻视野**（A/B 测试 2 次验证 89/82 vs 52）：宏观从"回看"升级到"前瞻"——11 维（事件日历+一致预期+预期差+三情景+仓位/IV+假设证伪+尾部风险+跨市场领先+触发监控），触发监控用**绝对阈值**。三层 director 全部内化（不增 agent，A/B 测试证明）。
+- **结果闭环反思 + 回测验证**（借鉴 TradingAgents）：director 开辩前读上一版 verdict → 输出 reflection；**`v4_replay.py` 回测器 + `historical_alpha`（判断价→实际涨跌算 hit/miss）+ `v4_quarterly_review.py` 季度复盘**，让系统对自己判断负责。critic 铁律0：上次判断 miss 必须回答"这次为何对"。
+- **四维质量闸门 + 反骑墙**：每层 director 内化芒格/段永平/Serenity/达里奥四视角（生意质量10年/逆向最坏/赔率周期/可执行止损/不确定性诚实）；证据势均力敌才中性，否则必须站队。
 
 **数据铁律**：分析 Agent 严禁自产价格/PE/市值/目标价数字，唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）；无则标 missing，绝不编造。
 
@@ -112,7 +116,9 @@ tradingagents-cn/
 │   ├── run_v4.sh                    # v4 入口（analyze/refresh/status/scan）
 │   ├── collect_v4.py                # v4 输入包采集（穿透归类 + 宏观/个股取数）
 │   ├── v4_unit_cli.py               # 单元信封读写（write 自动归档+version+1）
-│   ├── build_snapshot_v4.py         # v4 单元 → 前端静态快照
+│   ├── build_snapshot_v4.py         # v4 单元 → 前端静态快照(大类/行业/个股)
+│   ├── v4_replay.py                 # 历史判断回放器(回测算 historical_alpha)
+│   ├── v4_quarterly_review.py       # 季度复盘(命中率/胜负case/系统性偏差)
 │   ├── import_v4.py / run_report_v4.py / archive_v4.py
 │   └── run.sh / collect_data.py …   # 上一代 v3 链路脚本（退役中）
 ├── app/services/v4/
@@ -211,7 +217,8 @@ v4 的 git 传输载体 = `data/v4/**/*.json` **单元粒度结构化文件**（
 |------|------|
 | `GET /api/portfolio/v4/overview` | 三层概览：七大类卡片 + 资产配比 + equity_quota |
 | `GET /api/portfolio/v4/asset/{class}` | 大类详情（多空辩论 + reflection + 方案/行业列表）|
-| `GET /api/portfolio/v4/industry/{name}` | 行业详情（深辩 + **chokepoint_map 瓶颈地图** + 个股表）|
+| `GET /api/portfolio/v4/industry/{name}` | 行业详情（深辩 + **chokepoint_map 瓶颈地图(四维+五力)** + **investment_map 投资地图** + 个股表）|
+| `GET /api/portfolio/v4/stock/{code}` | **个股详情**（四维质量闸门 + forward_view + **valuation_basis 估值推导** + 止损纪律 + **historical_alpha 回测准确率**）|
 | `GET /api/portfolio/v4/units/status` | 全单元五色状态 |
 
 完整 API 文档：`http://localhost:8000/docs`

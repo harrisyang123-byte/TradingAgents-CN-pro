@@ -112,14 +112,18 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 | 大类 | `v4-asset-analyst-macro/flow/policy`(3视角) + `v4-asset-bull/bear`(多空3轮) + `v4-asset-director` + `v4-allocation-director`(配比) |
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`(产业链瓶颈分析师)** + `v4-industry-director`(整合 chokepoint_map) + `v4-industry-allocator` |
 | 个股 | **`v4-stock-analyst-financial/competitive/valuation`(3分析师分队)** + `v4-stock-bull/bear` + `v4-stock-director`(预期差拍板) |
+| 质量闸门 | **`v4-investor-critic`**(芒格/段永平/Serenity/达里奥四视角评审,ACCEPT\|NEEDS_CHANGES;标准已内化进各层 director) |
+| 元指导 | **`v4-chief-investment-officer`**(首席投资官+投委会,以"用户持久盈利"审视系统方向:可信/能用/连得上/会学/值得,识别假专业与过度工程) |
 
-**方法论 1 — Chokepoint 供应链瓶颈**（`planning/v4/chokepoint-framework.md`）：自下而上逆向工程产业链，四维判定（不可替代/供给集中/产能刚性/价值卡位）+ 替代路径 + **市场发现度**，定位"物理卡脖子且市场没发现"的环节。混合分队：瓶颈分析师出骨架→主 agent 对 top 瓶颈派专项调研员深挖→director 核实。
+**方法论 1 — Chokepoint 瓶颈 + 波特五力**（`planning/v4/chokepoint-framework.md`）：四维判定（不可替代/供给集中/产能刚性/价值卡位）定"卡不卡脖子" + **波特五力**（进入者/替代品/买方/供方/同业竞争）定"利润能否留住"(A/B验证加五力85 vs 78) + **市场发现度**。瓶颈→`investment_map`(推荐个股+卡位排序+为什么是它)落到"买什么"。
 
-**方法论 2 — 预期差选股**（`planning/v4/stock-selection-theory.md`）：**买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**（A/B 验证：分位法会让你 88 元不敢买中际旭创、错过 11 倍）。三锚：隐含增速缺口/定价充分度/催化。
+**方法论 2 — 预期差选股 + 估值推导链**（`planning/v4/stock-selection-theory.md`）：**买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**（A/B验证：分位法会让你88元不敢买中际旭创错过11倍）。三锚：隐含增速缺口/定价充分度/催化。**买点/目标价必须有 `valuation_basis` 推导链**（目标价=forward指标×目标倍数(对标谁)，买点=安全边际/PB/DCF），禁拍脑袋。
 
-**方法论 3 — 结果闭环反思 + 反骑墙**：总监开辩前读上一版 verdict → 输出 reflection；证据势均力敌才中性，否则站队，数据盲区降 confidence 而非骑墙。
+**方法论 3 — forward_view 前瞻视野**（A/B 测试2次 89/82 vs 52）：宏观从回看升级到前瞻,11维(日历+共识+预期差+三情景+仓位/IV+假设证伪+尾部+跨市场+触发监控),触发用绝对阈值;三层 director 全内化(不增 agent)。
 
-payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`/`top_chokepoints`/`expectation_gap`/`chokepoint_score`/`discovery_level`，向后兼容可选）。
+**方法论 4 — 结果闭环 + 回测验证 + 反骑墙**：director 读上一版 verdict 输出 reflection;**`v4_replay.py` 回测 + `historical_alpha`(判断价→实际涨跌算 hit/miss) + `v4_quarterly_review.py` 季度复盘**,critic 铁律0:上次 miss 必须答"这次为何对";证据势均力敌才中性否则站队,数据盲区降 confidence。
+
+payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(含 five_forces)/`top_chokepoints`/`investment_map`/`expectation_gap`/`chokepoint_score`/`discovery_level`/`valuation_basis`/`forward_view`/`price_at_judgment`/`historical_alpha`，向后兼容可选）。
 
 ---
 
