@@ -56,7 +56,8 @@
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
-| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + `v4-stock-bull/bear` + `v4-stock-director` | **个股 3 分析师分队**(财务/竞争/估值)打底 → 多空 → 总监预期差拍板 |
+| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + `v4-stock-bull/bear` + `v4-stock-director` | **个股 3 分析师分队**(财务/竞争/估值)打底 → 多空 → 总监预期差拍板。**competitive 升级为五力整合者**,消费下方 5 力专项 agent 产出 |
+| 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
 | 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES；标准已前置内化进各层 director（A/B 测试验证 62→82） |
 | 元指导 | **`v4-chief-investment-officer`** | **首席投资官+投委会**视角，以"用户持久盈利"为锚审视整个系统方向(五维:可信/能用/连得上/会学/值得)，识别"假专业"与过度工程，给开发明确优先级 |
 
