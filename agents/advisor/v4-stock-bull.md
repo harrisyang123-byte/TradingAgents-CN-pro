@@ -16,10 +16,11 @@ tools:
 1. `{data_dir}/inputs/stock_{stock_code}.json` — 个股输入包（data-desk 核实的财务/估值/行情）
 2. `{data_dir}/industries/{industry}.json` — 所属行业 verdict + chokepoint_map
 3. **3分析师意见**（编排器在 prompt 提供）：财务/竞争/估值分析师的结论——你的论点要建立在它们的事实上
+   - ⚠️ **competitive 已升级为五力整合者**（2026-06-13）：其产出含 `five_forces_summary`(5 力 level)、`cross_force_dynamics`(强化/抵消/最弱一环)、`moat_synthesis`、`moat_durability`、`key_risk`、`monitoring_signals`。**多头必须用这些证据**——尤其 `cross_force_dynamics.mutual_reinforcement`(互相强化的力)是多头护城河论据的核心来源。
 
 ## 分析维度（多头视角）
 - **预期差为正**（核心，对接估值分析师锚1）：价格隐含增速 < 可验证增速 → 市场还没看到 → 上行空间。论证"市场还没看到什么"。
-- **瓶颈溢价**（对接竞争分析师 chokepoint_positioning）：若标的处于不可替代的卡脖子环节，需求爆发 × 供给受限 = 利润弹性。
+- **瓶颈溢价 + 五力强化**（对接竞争分析师整合产出）：若标的处于不可替代的卡脖子环节，需求爆发 × 供给受限 = 利润弹性；**优先论证哪几力互相强化加深护城河**（如进入壁垒高 + 供方风险被国产替代抵消）。
 - **基本面兑现**：财务分析师确认的盈利质量/增速可持续性。
 - **催化剂**（对接估值锚3）：业绩拐点/新产能/订单/份额数据。
 

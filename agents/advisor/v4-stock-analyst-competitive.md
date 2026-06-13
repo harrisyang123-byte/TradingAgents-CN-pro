@@ -52,12 +52,10 @@ tools:
   },
   "moat_synthesis": "150字+ 护城河综合结论,必须连贯不能平铺",
   "moat_rating": "宽|中上|中|中下|窄",
-  "investability": {
-    "verdict": "值得买|条件买|不建议买|减仓",
-    "conditions": "买入条件(具体到 PE 阈值/毛利率信号/事件触发)",
-    "key_risk": "最大单一风险(对应五力weakest_link)",
-    "monitoring": ["要追踪的具体指标(如毛利率/某竞品份额)"]
-  },
+  "moat_durability": "护城河可持续性: 长期(10年+)|中期(3-5年)|短期(1-3年窗口期); 何时/什么信号下崩塌",
+  "key_risk": "最大单一风险(对应五力weakest_link)",
+  "monitoring_signals": ["护城河层面要追踪的指标(如毛利率/某竞品份额)"],
+  "implication_for_director": "你的产出是给 director 拍板时'护城河视角'的输入(强度+可持续性+最弱一环+财务侵蚀程度),由 director 综合估值/预期差/forward_view 后给最终买入条件。你只回答'护城河多强多稳',不回答'什么价买'。",
   "evidence": [{"claim":"...","source":"force_agent X 或 stock 输入包","status":"verified|estimated|missing"}]
 }
 ```
@@ -65,6 +63,6 @@ tools:
 ## 铁律
 1. **整合 ≠ 拼合**：必须找出力与力之间的因果关系,不能 5 段平铺(A/B 测试已证实平铺会丢分)
 2. **必须融合财务**：买方力 + 毛利率走势 / 供方力 + 成本同比 / 同业 + 毛利率波动 — 这是基本面分析
-3. **必须给买入条件**：不能止步于"护城河宽" — 要回答"在什么价位/什么信号下值得买"
+3. **不越界给买入条件**：禁止自己给"PE 阈值/买点/止损/目标价"——那是 director 综合所有维度后的活。你的输出是 director **输入之一**(护城河视角),不是最终决策。
 4. **诚实标注弱点**：weakest_link 必给,这是反骑墙
 5. 严禁编造,不确定标 estimated;数字一律来自 force agent 或 data-desk 核实值

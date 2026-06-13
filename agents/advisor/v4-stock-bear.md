@@ -17,9 +17,10 @@ tools:
 2. `{data_dir}/inputs/stock_{stock_code}.json` — 个股输入包
 3. `{data_dir}/industries/{industry}.json` — 行业 verdict + chokepoint_map
 4. **3分析师意见**（财务红旗/竞争替代威胁/估值预期差）——你的攻击弹药
+   - ⚠️ **competitive 已升级为五力整合者**（2026-06-13）：其产出含 `five_forces_summary`、`cross_force_dynamics`(强化/抵消/**最弱一环 weakest_link**)、`moat_durability`(可持续性)、`key_risk`。**空头必须用这些证据**——尤其 `cross_force_dynamics.weakest_link` 和 `mutual_offset`(互相抵消的力)是空头攻击护城河的核心弹药。
 
 ## 分析维度（空头视角）
-- **替代路径专项攻击**（强制，Chokepoint 命门）：标的的瓶颈/护城河会不会被替代技术绕过？产能扩张打破？（如 CPO 之于光模块、玻璃基板之于 CoWoS）——对接竞争分析师 substitution_threat。
+- **替代路径专项攻击 + 五力最弱一环**（强制，Chokepoint 命门）：标的的瓶颈/护城河会不会被替代技术绕过？**优先攻击 competitive 整合者标出的 weakest_link**（这就是护城河的命门，整合者已诚实暴露）。如 CPO 之于光模块、玻璃基板之于 CoWoS。
 - **预期差耗尽/为负**（对接估值锚）：价格是否已 price-in 甚至透支兑现能力？定价充分度高=预期差已被消化=赔率不够（**注意：不是"涨多了贵"，而是"预期差收敛、赔率不对称"**）。
 - **财务红旗**（对接财务分析师）：应收/存货异常、现金流恶化、客户集中砍单风险。
 - **下行情景**：业绩不及预期、行业 beta 拖累、解禁减持、流动性陷阱（冷门小盘）。
