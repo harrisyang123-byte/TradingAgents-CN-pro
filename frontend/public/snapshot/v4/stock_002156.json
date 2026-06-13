@@ -1,0 +1,100 @@
+{
+  "code": "002156",
+  "name": "通富微电",
+  "industry": "半导体封测/advanced packaging",
+  "stock_unit": {
+    "unit_id": "stock:002156",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:002156」，或运行：./scripts/run_v4.sh analyze stock:002156",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "rating": null,
+  "target_price": null,
+  "entry_price_range": null,
+  "price_at_judgment": null,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": {
+    "core_logic": "PE 60x 隐含长期增速 50%+, 实际从 +299% 减速至 +64%, 长期可持续性差",
+    "forward_eps_scenarios_with_confidence": {
+      "bear": {
+        "eps_2027": "¥0.6-0.8 (净利率 2.27%)",
+        "fair_pe": 35,
+        "fair_price": "¥21-28",
+        "confidence": "medium-low (基于 estimated forward EPS)"
+      },
+      "base": {
+        "eps_2027": "¥1.0 (净利率 4%)",
+        "fair_pe": 45,
+        "fair_price": "¥45",
+        "confidence": "medium-low"
+      },
+      "bull": {
+        "eps_2027": "¥1.3-1.5 (净利率 5%+ + AMD MI400 放量)",
+        "fair_pe": "41-48",
+        "fair_price": "¥78-90",
+        "confidence": "medium-low"
+      }
+    },
+    "comparable_path_revised": {
+      "primary_anchor_ase_2016_2018": {
+        "context": "日月光 ASE 2016-2018 也面临大客户(Apple)绑定 + 估值偏热 + ROE 跨越路径",
+        "path": "2016 ROE 7.5% PE 18x → 2017 ROE 9.2% PE 22x → 2018 ROE 10.8% PE 15x (估值压缩快于 EPS 增长)",
+        "implication": "封测公司 ROE 从 4% → 10% 跨越期间, PE 通常先扩(预期定价)后压(均值回归), 净结果是 EPS 增长 80%/年期间股价仅+20%/年"
+      },
+      "secondary_anchor_jcet_2020_2022": {
+        "context": "长电科技 2020-2022 也是 advanced packaging + AI 主题驱动",
+        "path": "2020 ROE 4.5% PE 80x → 2021 ROE 9% PE 35x → 2022 ROE 11% PE 28x (戴维斯双杀逆向, EPS 增长 + PE 压缩)",
+        "implication": "通富 2026-2028 路径可能复制: 即使 EPS 翻倍, PE 压缩至 25-35x, 股价上行空间 0-30% 而非翻倍"
+      },
+      "rejected_anchor_mediatek": "联发科 IC 设计(轻资产高毛利)与通富封测代工(重资产低毛利) ROE 跨越路径完全不同, 不适合作为可比"
+    },
+    "method": "forward EPS × 目标 PE × 同业可比交叉验证 + 三情景 + 双锚可比路径"
+  },
+  "credibility": null,
+  "expectation_gap": null,
+  "chokepoint_score": null,
+  "discovery_level": null,
+  "business_quality": null,
+  "position_nature": null,
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": null,
+  "downside": null,
+  "sell_discipline": [],
+  "thesis": "002156 = AI 算力周期受益的封测龙头, 核心 alpha 来自 AMD 排他绑定 + advanced packaging 产能紧张 + 国产替代政策。但当前股价已 price-in 大部分多方逻辑(PE-TTM 60x vs 同业 25-40x), R3 共识区 ¥42-58。weakest link buyer_power(AMD CR1 60%+) 决定净利率天花板, 扣非 2.27% 是定价权不在通富的硬证据。中长期(2027-2028) TSMC CoWoS 产能释放可能蚕食 AMD 高端订单, 护城河 3-5 年期限。用户 10.87% 单一最大持仓必须降至 7-8%。",
+  "risks": [],
+  "confidence": null,
+  "forward_view": {
+    "market_regime": "2026 H1 半导体板块 AI 主题持续高热, advanced packaging 是确定性赛道, 板块 PE 分化(龙头 60x+ vs 二线 25-30x), 看业绩兑现",
+    "liquidity": "PPI+3.9% 连续 3 月上行 + LPR 维持稳定 + 美元-人民币汇率稳定 → 半导体板块流动性中性偏正",
+    "cycle": "AI 算力 capex 周期 2024-2027 上行期(NVIDIA H200/B200 + AMD MI300/MI325X 持续放量), 2028+ 进入消化期",
+    "beta": "通富 vs 半导体板块 β ~1.3-1.5, 高 β 标的, 大盘下行风险大",
+    "comparable_path": "类比双锚: 日月光 ASE 2016-2018(大客户绑定+ROE跨越) + 长电 2020-2022(AI主题+戴维斯双杀逆向) → 通富 2026-2028 可能复制 EPS 增长但 PE 压缩, 股价空间被压缩",
+    "pricing_power": "弱 — buyer_power AMD CR1 60%+ 是定价权决定者, 通富代工方仅在产能紧张窗口期获临时议价权(12-18 月)"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "vs_prev_version": "v2 vs v1: critic NEEDS_CHANGES 78 分 → 真改 5 项: 产品分子拆分 / 尾部三叠合建模 / 可比路径换日月光+长电 / missing 致 confidence 降档至 0.55 / Q2 扣非<3% 触发硬规则",
+    "self_check": "v2 修复 critic 5 项关键缺失。诚实标注: PE-TTM 60x / market cap 940 亿 全部 estimated。2026 卖方一致 EPS missing。北上资金/雪球/经营现金流/应收存货周转/真实毛利率 全部 missing → confidence 显式降至 0.55。",
+    "memory_used": [
+      "D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版 critic v1 真复核 78 分(NEEDS_CHANGES) → v2 真改 → 必须 critic 复核 v2",
+      "信息全量铁律 → 多空辩论 + 5 力 + 风险 全部塞入完整 JSON"
+    ]
+  },
+  "historical_alpha": null,
+  "evidence": []
+}
