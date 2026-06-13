@@ -2,7 +2,7 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 2,
+    "analyzed_count": 3,
     "total_stocks": 9,
     "total_funds": 26,
     "pending_actions": 6,
@@ -44,42 +44,6 @@
               "summary": "PE 60x 偏热 + 高位脆弱 + 大基金减持 + 扣非2.27%结构性 → 短期站空方;但 AMD 排他绑定 + advanced packaging 18-24 月产能紧张 + Q2-Q3 业绩催化 = 中长期支撑。建议从 10.87% 减至 7%,释放 ¥45k 流动性。¥58 上方继续减,¥42-45 加仓,硬止损 ¥38.5。",
               "stop_loss": "¥30-35 区间 (= bear case ¥21-34 上沿 + 安全边际下行边界), 跌破即承认 bear 论证成立 — 不是单点 ¥38.5",
               "direction": "中性偏空(短期)+ 中长期持有偏正(2-3年)"
-            }
-          ],
-          "indirect": []
-        },
-        {
-          "name": "互联网平台",
-          "direct_value": 39940.0,
-          "indirect_value": 6390.0,
-          "total_value": 46330.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "002517",
-              "name": "恺英网络",
-              "market_value": 29460.0,
-              "weight": 2.8,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            },
-            {
-              "code": "01810",
-              "name": "Xiaomi Corporation",
-              "market_value": 10480.0,
-              "weight": 1.0,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
             }
           ],
           "indirect": []
@@ -145,6 +109,30 @@
           "indirect": []
         },
         {
+          "name": "游戏",
+          "direct_value": 29460.0,
+          "indirect_value": 0,
+          "total_value": 29460.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "002517",
+              "name": "恺英网络",
+              "market_value": 29460.0,
+              "weight": 2.8,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有观望(Q2 信号确认门控, 估值 preliminary)",
+              "action": "维持 3.0%(¥29460) 不动. 主 agent 后续按 data_gaps_to_fetch 补 4 项数据, 数据齐后 confidence 上修, 估值校准",
+              "confidence": 0.55,
+              "summary": "PE 10x 隐含 CAGR -3%~+1% vs Q1+50.65% 强正预期差; 但 critic 警示: 4 项核心数据(毛利率/经营现金流/分部营收/一致预期)缺失, 当前估值标 preliminary。维持 3% 仓位等 Q2 财报(2026-08) + 数据补齐。",
+              "stop_loss": "¥13(-29%, 跌破=bear case 兑现); 极端三重叠合 ¥3-4(组合最大冲击 3%×85%=2.5%)",
+              "direction": "中性偏多 — 逆向预期差线索强但需 Q2 验证 + 4 项数据缺口补齐"
+            }
+          ],
+          "indirect": []
+        },
+        {
           "name": "人工智能算力",
           "direct_value": 12096.0,
           "indirect_value": 5077.0,
@@ -156,6 +144,29 @@
               "name": "海康威视",
               "market_value": 12096.0,
               "weight": 1.15,
+              "instrument_type": "stock",
+              "analyzed": false,
+              "stance": null,
+              "action": null,
+              "confidence": null,
+              "summary": null,
+              "stop_loss": null
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "互联网平台",
+          "direct_value": 10480.0,
+          "indirect_value": 6390.0,
+          "total_value": 16870.0,
+          "has_industry_analysis": true,
+          "holdings": [
+            {
+              "code": "01810",
+              "name": "Xiaomi Corporation",
+              "market_value": 10480.0,
+              "weight": 1.0,
               "instrument_type": "stock",
               "analyzed": false,
               "stance": null,
