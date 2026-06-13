@@ -86,10 +86,10 @@ tools:
        · DCF 假设区间(营收/净利率/WACC/g 都是区间不是单点)
        · 安全边际档位说明(为什么这只股归该档)
        · 不同派别对应不同合理价
-     - 必查**诚实 missing 清单**:
-       · ❌ 未建立 N 年盈利预测模型 → 必须显式标
-       · ❌ 未做 DCF 敏感性矩阵 → 必须显式标
-       · ❌ 未拿到 IV-skew / 历史复盘 → 必须显式标
+     - 必查**诚实 missing 清单是否是取数 task 而非借口**:
+       · ❌ 借口式: "未建立 N 年盈利预测模型" (停止理由) → NEEDS_CHANGES
+       · ✅ task 式: `data_gaps_to_fetch: [{gap, source_hint, usage_after_fetch}]` (待办)
+     - 必查 **`data_fetched_in_loop`** 字段: 主 agent 是否真去取过缺数据, 取到的关键数据是否回填重跑了 valuation. 装作"已查"实际数据没动 = fatal_flaw (用户D0-8'缺数据接着查'指令)
      - 三态对照判定:
        · ❌ 纯锚定话术("等¥X买"无推导) → NEEDS_CHANGES
        · ❌ 假装精确单点(EPS×PE反向凑数) → NEEDS_CHANGES (这是隐性锚定包装版)
