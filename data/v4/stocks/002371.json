@@ -143,6 +143,7 @@
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch"
     },
-    "price_at_judgment": 698.0
+    "price_at_judgment": 698.0,
+    "valuation_basis": "半导体设备成长股PE法: 目标价850元=2026E EPS约10.6元 × PE 80x(设备龙头+大基金三期战略溢价,行业平均70-90x); 买点640-700=PE 60-66x(20%安全边际); 破600=PE<57盈利下修→清仓。净利率承压是主要风险。"
   }
 }

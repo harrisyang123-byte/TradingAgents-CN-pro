@@ -148,6 +148,7 @@
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch"
     },
-    "price_at_judgment": 199.0
+    "price_at_judgment": 199.0,
+    "valuation_basis": "刻蚀龙头PE法: 目标价260元=2026E EPS约2.4元 × PE 110x(估值溢价224%,刻蚀稀缺); 买点180-210=PE 75-88x; 破170→清仓。估值偏高是首要风险,小仓。"
   }
 }

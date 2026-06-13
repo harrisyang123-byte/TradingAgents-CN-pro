@@ -165,6 +165,7 @@
       "alpha_note": "判断时价 526.0 → 实际 526.0(涨跌 0.0%),评级'增持(1.6T 第二' → flat;目标 700",
       "data_status": "verified"
     },
-    "price_at_judgment": 526.0
+    "price_at_judgment": 526.0,
+    "valuation_basis": "高成长光模块PE法: 目标价700元=2026E EPS约20元 × forward PE 35x(1.6T放量,低于中际旭创); 买点480-540=forward PE 24-27x(20%安全边际); 破480=forward PE<24盈利下修→清仓。2025净利+236%高基数,2026增速放缓需警惕。"
   }
 }

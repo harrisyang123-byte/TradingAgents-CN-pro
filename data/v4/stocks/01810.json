@@ -137,6 +137,7 @@
       "why_changed": "B1.15 旧 v1 baseline 升级到新架构",
       "self_check": "v1_to_new_arch_upgrade"
     },
-    "price_at_judgment": 48.0
+    "price_at_judgment": 48.0,
+    "valuation_basis": "SOTP分部估值: 目标价62港元=手机+IoT(PE 25x)+汽车(PS估值,放量但未盈利)+互联网服务; 买点42-48=综合25%安全边际; 破36→清仓。汽车毛利率转正是估值关键变量。"
   }
 }

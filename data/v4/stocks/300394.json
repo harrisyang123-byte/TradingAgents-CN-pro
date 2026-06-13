@@ -141,6 +141,7 @@
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch"
     },
-    "price_at_judgment": 325.0
+    "price_at_judgment": 325.0,
+    "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。"
   }
 }

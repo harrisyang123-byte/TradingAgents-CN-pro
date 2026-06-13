@@ -294,6 +294,7 @@
       "hit": "tracking",
       "alpha_note": "实际价 1000.0,区间法无目标价;[局限] 缺判断时价",
       "data_status": "verified"
-    }
+    },
+    "valuation_basis": "区间法(窗口期交易非估值买入): 不给单一目标价。当前~1000元/forward PE 34.87隐含2026E净利+123%已基本匹配可验证订单; 买点800-850=forward PE回到28-30x(15-20%安全边际); 跌破800=forward PE<28即盈利下修信号→清仓。CPO替代使长期DCF不可靠,故用窗口期赔率而非DCF。"
   }
 }

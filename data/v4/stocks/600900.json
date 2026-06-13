@@ -142,6 +142,7 @@
       "why_changed": "红利底仓首选",
       "self_check": "first_run_new_arch"
     },
-    "price_at_judgment": 26.81
+    "price_at_judgment": 26.81,
+    "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。"
   }
 }

@@ -51,6 +51,7 @@ tools:
   "rating": "买入|增持|中性|减持|卖出",
   "target_price": 数字或null, "entry_price_range": [下限, 上限],
   "price_at_judgment": 数字,  // ★判断发出时的现价(data-desk核实)——回测算真alpha的锚,无则null但应尽力填
+  "valuation_basis": "★买点/目标价推导链(禁止拍脑袋): 目标价=forward EPS X元 × 目标PE Y倍(对标谁/为什么给这个PE) = Z元; 买点=目标价×安全边际(如0.8) 或 PB锚 或 DCF; 写清每个数字的来源",
   "expectation_gap": "正|负|收敛中 + 三锚综合理由",
   "chokepoint_score": "瓶颈卡位评分与定性（无则 null）",
   "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",
@@ -103,3 +104,4 @@ tools:
 6. 个股结论不能逆行业大方向。严禁照抄示例数字。只输出 JSON。
 7. **质量内化铁律**：上方「专业投资者四维质量闸门」是 `v4-investor-critic` 评审标准的**前置内化**——目的是第一遍就达专业水准，而非靠事后多轮评审补救。每条 verdict 都应能直接通过 critic 的四视角拷问（生意质量/逆向最坏/风险优先/退出纪律/不确定性诚实）。
 8. **forward_view 强制要求**（个股层适配,A/B 测试 asset 层 89 vs 52 已证实有效）：消费 data-desk 的 `forward_view` + 多空辩论前瞻论点 + 行业 verdict.forward_view,必须输出完整 forward_view（near_term_calendar/mid_term_path/path_scenarios/earnings_revision_view/stock_specific_risks/key_assumptions/trigger_monitor）。**触发监控用绝对阈值**（如份额跌破X/客户砍单>X%/股价跌破X→止损）,禁止相对偏离。
+9. **估值推导链铁律（信任感根基,D0-1 新增）**：`target_price`/`entry_price_range` **禁止拍脑袋**,必须在 `valuation_basis` 写清推导链——目标价 = forward EPS（哪年/多少）× 目标 PE（对标谁/为什么这个倍数）；买点 = 目标价 × 安全边际 或 PB/DCF 锚。**每个数字都要能追溯到核实数据**。一个说不清怎么来的目标价,比没有目标价更危险（给用户虚假信心）。重资产/亏损股用 PB/PS/DCF 而非 PE。
