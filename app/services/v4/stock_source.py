@@ -158,6 +158,65 @@ def _fetch_change(ak, code: str, out: dict) -> None:
         out.setdefault("_errors", []).append(f"change:{type(e).__name__}")
 
 
+# ============================================================================
+# 5+1 五力深做所需的竞争/产业链数据 (2026-06-13 D 阶段加)
+# ============================================================================
+
+# 5 力深做必需但 AKShare 无标准化接口的字段清单 (schema 定义)
+# 这些字段当前由主 agent 在模式 A 下联网补 (web_search/web_fetch),取数后塞进 inputs 包
+# 未来若有机构接口/财报关键词解析,可在此函数实现自动化
+COMPETITIVE_DATA_SCHEMA: dict[str, str] = {
+    # 买方力 (buyer_power) 必需
+    "customer_concentration_cr1": "第一大客户占营收比例 (%)",
+    "customer_concentration_cr3": "前三大客户占营收比例 (%)",
+    "customer_concentration_cr5": "前五大客户占营收比例 (%)",
+    "customer_type": "客户性质 (国央企/外资/民营/分散零售/B端/C端)",
+    "gross_margin_3y_trend": "近 3 年毛利率序列 (eg [42, 39, 37])",
+    "net_margin_3y_trend": "近 3 年净利率序列",
+    "ar_turnover_days": "应收账款周转天数 (反映客户议价/占款)",
+    # 供方力 (supplier_power) 必需
+    "key_inputs_top3": "前三大关键投入 (eg ['射频电源', '精密阀门', '真空泵'])",
+    "supplier_cr1": "最大供应商占采购比例 (%)",
+    "import_dependency": "进口依赖度 (%) 或受管制清单状态",
+    "inventory_turnover_days": "库存周转天数 (反映备货/断供风险)",
+    # 同业竞争 (rivalry) 必需
+    "industry_cr3": "行业 CR3 (前三家份额 %)",
+    "industry_cr5": "行业 CR5",
+    "industry_hhi": "行业 HHI 集中度指数",
+    "capacity_utilization": "产能利用率 (%, 反映供需)",
+    "competitor_top3": "前三大竞品 (含份额估计)",
+    # 进入威胁 (entry_threat) 必需
+    "rd_expense_ratio": "研发费用率 (%, 反映技术壁垒)",
+    "patent_count": "累计专利数",
+    "certification_cycle_months": "客户验证周期 (月, 反映认证壁垒)",
+    # 替代威胁 (substitute_threat) 必需
+    "substitute_alternatives": "替代技术清单 (含成熟度/渗透率)",
+    "switching_cost_qualitative": "客户切换成本定性 (高/中/低 + 说明)",
+}
+
+
+def _fetch_competitive_data(ak, code: str, out: dict) -> None:
+    """5+1 五力深做所需的竞争/产业链数据。
+
+    现状(2026-06-13)：AKShare 无标准化接口直接取这些字段，函数仅声明 schema。
+    模式 A 下由主 agent 用 web_search/web_fetch 联网补数据后塞进 inputs/stock_<code>.json。
+    未来可在此扩展：
+      - 财报附注关键词解析 (前五大客户/供应商集中度)
+      - 卷宗/招股书结构化数据 (产能利用率/CR3/CR5)
+      - 第三方数据源 (Wind/Choice/同花顺产业链卡)
+
+    out["competitive_data_status"]: "manual" | "auto" | "missing"
+    out["competitive_data_schema"]: 字段说明，让主 agent 知道要补什么
+    """
+    out["competitive_data_status"] = "manual_required"  # 当前需主 agent 联网补
+    out["competitive_data_schema"] = COMPETITIVE_DATA_SCHEMA
+    out["competitive_data_note"] = (
+        "5 力深做需要的客户集中度/CR3/CR5/产能/上游供应商等字段 AKShare 无直接接口，"
+        "请主 agent 在模式 A 下用 web_search/web_fetch 按 COMPETITIVE_DATA_SCHEMA 联网补，"
+        "缺失字段标 missing 不编造。"
+    )
+
+
 def build_stock_fundamentals(code: str) -> dict[str, Any]:
     """取 A股个股硬数据。返回 {available, data{...}, note, source}。
 
@@ -176,6 +235,7 @@ def build_stock_fundamentals(code: str) -> dict[str, Any]:
     _fetch_valuation(ak, code, data)
     _fetch_financials(ak, code, data)
     _fetch_change(ak, code, data)
+    _fetch_competitive_data(ak, code, data)  # 5+1 五力深做必需字段(声明 schema, 当前需主 agent 联网补)
 
     # 判定可用性：至少拿到价格或估值或财务之一
     ok = any(data.get(k) is not None for k in ("price", "pe_ttm", "net_profit"))
