@@ -33,7 +33,7 @@
           </div>
           <div class="sdt-action-cell">
             <span class="sdt-action-label">目标价</span>
-            <b class="sdt-action-val">{{ detail.target_price != null ? `¥${detail.target_price}` : '区间法' }}</b>
+            <b class="sdt-action-val">{{ fmtTarget(detail.target_price) }}</b>
           </div>
           <div class="sdt-action-cell">
             <span class="sdt-action-label">硬止损线</span>
@@ -444,12 +444,12 @@ const posShares = computed(() => {
   if (!price) return 0
   return Math.round(posAmount.value * 10000 / price)
 })
-// 止损线
+// 止损线 — 从 sell_discipline 解析"硬止损 ¥X"(优先)或匹配 元/¥
 const stopPrice = computed(() => {
-  const range = detail.value?.entry_price_range || []
-  if (range.length === 2 && typeof range[0] === 'number') return range[0]
-  const s1 = (detail.value?.sell_discipline || [])[0] || ''
-  const m = s1.match(/(\d{2,5}(?:\.\d+)?)\s*元/)
+  const sells = detail.value?.sell_discipline || []
+  // 优先找含"硬止损"的条目
+  const hard = sells.find((s: any) => typeof s === 'string' && /硬止损/.test(s)) || sells[0] || ''
+  const m = String(hard).match(/[¥$]?\s*(\d{2,6}(?:\.\d+)?)/)
   return m ? parseFloat(m[1]) : null
 })
 
@@ -565,6 +565,13 @@ const debatePairs = computed(() => {
 })
 
 function fmtRange(r?: number[]) { return r && r.length === 2 ? `¥${r[0]} - ¥${r[1]}` : '-' }
+// 目标价: 数字→加¥; 已带¥/HK$前缀的字符串→原样; null→区间法
+function fmtTarget(t: any): string {
+  if (t == null) return '区间法'
+  if (typeof t === 'number') return `¥${t}`
+  const s = String(t)
+  return /^[¥$]|HK\$|US\$/.test(s) ? s : `¥${s}`
+}
 function scnLabel(n?: string) { return ({ base: '基准', bull: '乐观', bear: '悲观' } as Record<string, string>)[n || ''] || n }
 function moatType(r?: string): any { return ({ '宽': 'success', '中上': 'success', '中': 'info', '中下': 'warning', '窄': 'danger' } as Record<string, any>)[r || ''] || 'info' }
 function ratingTypeFor(r?: string): any {

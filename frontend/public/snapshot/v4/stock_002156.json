@@ -16,9 +16,12 @@
     "exists": true
   },
   "rating": "REDUCE",
-  "target_price": "¥45",
-  "entry_price_range": "¥42-45 加仓区(回补至 8.5%, 仅在基本面未恶化)",
-  "price_at_judgment": null,
+  "target_price": 45,
+  "entry_price_range": [
+    42,
+    45
+  ],
+  "price_at_judgment": 62.0,
   "verdict_oneliner": "PE 60x 偏热 + 高位脆弱 + 大基金减持 + 扣非2.27%结构性 → 短期站空方;但 AMD 排他绑定 + advanced packaging 18-24 月产能紧张 + Q2-Q3 业绩催化 = 中长期支撑。建议从 10.87% 减至 7%,释放 ¥45k 流动性。¥58 上方继续减,¥42-45 加仓,硬止损 ¥38.5。",
   "chain_positioning": null,
   "industry_weight_pct": null,
@@ -71,36 +74,119 @@
     ],
     "issues_addressed": 5
   },
-  "expectation_gap": null,
+  "expectation_gap": "收敛中(短期略正长期略负):PE 60x隐含长期增速50%+ vs 实际从+299%减速至+64.78%,定价充分度高(大基金减持+Morningstar 48%+卖方一致已price-in)",
   "chokepoint_score": null,
   "discovery_level": null,
-  "business_quality": null,
-  "position_nature": null,
+  "business_quality": "封测代工(重资产低毛利),护城河中上3-5年期限。不是持续竞争优势的生意,是AI周期窗口期的代工机会。weakest_link=buyer_power(AMD定价权碾压),扣非2.27%是硬证。",
+  "position_nature": "交易性持有(非长期投资) — 护城河有期限(3-5年),依赖AI算力周期+AMD绑定,2027-2028 TSMC产能释放有反转风险",
   "five_forces": {
-    "rating": "中(护城河 3-5 年期限)",
-    "weakest_link": "buyer_power(AMD CR1 60%+) — 扣非 2.27% 远低同业~5% 是定价权不在通富的硬证据",
-    "moat_durability": "中期 3-5 年, 崩塌信号: TSMC CoWoS 产能利用率<70% / AMD 份额从 85% 降至<60% / 扣非连续 2 季<2% / 台海升级"
+    "moat_rating": "中",
+    "moat_synthesis": "通富微电的护城河是'高壁垒+龙头锁定+有期限'型。三重进入壁垒(资本/know-how/认证)+ AMD独家锁定(2014收购85%) 构成宽度,但买方AMD超高集中度(CR1>60%) 构成上限 — 扣非净利率2.27%远低同业~5%是定价权不在通富的硬证据。本质不是独家技术,是'产能紧张期锁定位置',与AI周期正相关、与TSMC产能扩张负相关。",
+    "five_forces_summary": {
+      "entry": "低 — 3重高壁垒锁定四雄格局",
+      "substitute": "中 — TSMC CoWoS自营是核心威胁,AMD MI 2027 可能30-50%转TSMC",
+      "buyer": "高 — AMD CR1>60%, 扣非2.27% vs 同业~5%是买方压顶证据",
+      "supplier": "中 — ABF台湾60%+, PPI+3.9%上行+台海尾部风险",
+      "rivalry": "中 — advanced+25-30%蛋糕做大,传统价格战仅占30-40%"
+    },
+    "cross_force_dynamics": {
+      "mutual_reinforcement": [
+        {
+          "force_a": "进入壁垒高",
+          "force_b": "同业集中度高",
+          "mechanism": "高壁垒锁定三雄+客户认证位置,默契不打价格战,advanced 护城河加深"
+        },
+        {
+          "force_a": "高 capex 进入壁垒",
+          "force_b": "上游 ABF 供方集中",
+          "mechanism": "龙头采购量大取得供应优先,资本+供方优先双重限制后进者"
+        }
+      ],
+      "mutual_offset": [
+        {
+          "force_a": "进入壁垒高(防外敌)",
+          "force_b": "买方 AMD CR1 60%+ (内部压制)",
+          "mechanism": "高壁垒防得住新玩家但防不住 AMD 压毛利 — 通富无替代客户可转,AMD 有 TSMC 可威胁",
+          "net_effect": "净利率天花板被压低 — 扣非2.27% 远低同业~5%"
+        },
+        {
+          "force_a": "AMD 独家位置(2014收购)",
+          "force_b": "替代品 TSMC CoWoS 自营",
+          "mechanism": "AMD 锁定同时为 TSMC 扩产能留退出路径",
+          "net_effect": "护城河期限 3-5 年,中期反转风险"
+        }
+      ],
+      "weakest_link": "buyer_power(AMD CR1>60%) — 这是护城河上限决定者。扣非2.27%远低同业~5%是结构性,通富无法分散客户/无法传导成本/无法提价",
+      "trend": "短期加宽(2026-2028 AI狂潮+产能紧张+独家位置) 中期收窄(2028+ TSMC产能释放+AMD转向+台海)"
+    },
+    "moat_durability": "中期(3-5年). 崩塌信号: TSMC CoWoS产能利用率<70%/AMD份额从85%降至<60%/扣非连续2季<2%/台海升级",
+    "key_risk": "buyer_power集中度: AMD加速转向TSMC(2027-2028产能释放)→量价双杀,届时高壁垒反成退出障碍",
+    "monitoring_signals": [
+      "扣非净利率Q2/Q3能否突破3%向5%靠拢(buyer松动)",
+      "AMD在TSMC CoWoS 投片量占比",
+      "通富非AMD客户占比变化(当前<40%)",
+      "ABF国产替代(深南电路/兴森科技)",
+      "同业advanced毛利率趋势(价格战预警)",
+      "通富capex vs 产能利用率(过度扩产风险)"
+    ]
   },
   "risk_debate_summary": {
-    "aggressive": "12% 仓位, 止损 ¥49, 接受 high tail risk",
-    "safe": "4% 仓位, 止损 ¥55, 拒绝 tail risk",
-    "neutral": "7% 仓位(分 2 批 2 周内减), 硬止损 ¥38.5/跟踪 ¥43, 加仓区 ¥42-44/¥38.5-40, 减仓区 ¥56-58/¥63-68",
-    "director_decision": "采纳 neutral 7% — 折中 aggressive 进攻性与 safe 防御性。weakest_link buyer_power + 估值偏热 → 不能 12% 激进; advanced packaging 产能紧张+AMD 排他绑定真实 → 不必 4% 过度避险。7% 既保留景气弹性又压缩尾部风险敞口。"
+    "aggressive_main_attack": "12% 仓位, 止损 ¥49, 接受 high tail risk",
+    "safe_main_attack": "4% 仓位, 止损 ¥55, 拒绝 tail risk",
+    "neutral_proposal_adopted": "采纳 neutral 7% — 折中 aggressive 进攻性与 safe 防御性。weakest_link buyer_power + 估值偏热 → 不能 12% 激进; advanced packaging 产能紧张+AMD 排他绑定真实 → 不必 4% 过度避险。7% 既保留景气弹性又压缩尾部风险敞口。"
   },
-  "risk_debate_full": null,
-  "sentiment_view": null,
-  "sentiment_full": null,
+  "risk_debate_full": {
+    "aggressive": {
+      "stance": "加仓至12%",
+      "alternative_proposal": {
+        "position": "12%",
+        "stop": "¥49"
+      }
+    },
+    "safe": {
+      "stance": "减至4%",
+      "alternative_proposal": {
+        "position": "4%",
+        "stop": "¥55"
+      }
+    },
+    "neutral": {
+      "neutral_proposal": {
+        "position": "7%",
+        "hard_stop": "¥38.5",
+        "trailing": "¥43",
+        "path": "本周减2%→2周内减至7%"
+      }
+    }
+  },
+  "sentiment_view": "舆情'偏热'(score 72)但未极端过热。归母vs扣非的认知差是核心underpriced风险(48% 非经常性损益占比散户未充分认知)。散户偏多vs机构偏中性='高位脆弱'模式 — 散户提供边际买盘,机构提供边际卖盘(减仓/不加仓);情绪 > 基本面背离;赔率不对称偏负。",
+  "sentiment_full": {
+    "sentiment_temperature": "偏热",
+    "temperature_score": 72,
+    "consensus_view": {
+      "our_view_vs_consensus": null
+    },
+    "capital_flow": {
+      "interpretation": null
+    },
+    "sentiment_vs_fundamental": "情绪领先基本面背离:情绪定价'归母+224%表象+MI叙事',基本面实际支撑'扣非+64.78%';做多赔率不佳,下行风险不对称大于上行",
+    "key_underpriced": [
+      "扣非净利仅+64.78% vs 归母+224.55% 巨大差异(非经常性占48%) — 散户未充分认知,Q2不能重复时增速回归扣非水平可能引发预期差",
+      "大基金一期持续减持累积效应 — 单次0.71%无感,后续若加速可能改变情绪",
+      "国内半导体自主可控政策从'故事'到'订单'的兑现节奏不确定性"
+    ]
+  },
   "memory_used": [
     "D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版 critic v1 真复核 78 分(NEEDS_CHANGES) → v2 真改 → 必须 critic 复核 v2",
     "信息全量铁律 → 多空辩论 + 5 力 + 风险 全部塞入完整 JSON"
   ],
-  "worst_case": "¥21-28",
-  "downside": null,
+  "worst_case": "AMD 50%转TSMC CoWoS+大基金二期减持+台海三叠合(1-2%概率)→¥19-31。硬止损¥38.5在联合情境下失效(流动性枯竭)",
+  "downside": "概率加权目标 ¥44.3(3×3矩阵) vs 当前¥62 = -28.6%下行隐含;9格仅3格(25%概率)justify ¥62+",
   "sell_discipline": [
-    "硬止损 ¥38.5 — 但极端联合情境下不可执行(联合 1-2% 概率指向 ¥19-31, 实际清仓价可能在 ¥20-25)",
-    "跟踪止损 ¥43 — 从近期高点回撤 12% 触发, 减半至 3.5%",
-    "减仓区 ¥58 上方继续减(降至 5.5%)",
-    "减仓区 ¥65-68 进一步减(降至 3.5% 锁利)"
+    "硬止损 ¥38.5 — 跌破2025Q4平台底+共识区下沿,清仓至2%(极端联合情境下不可执行,实际¥20-25)",
+    "跟踪止损 ¥43 — 从高点回撤12%触发,减半至3.5%",
+    "减仓区 ¥58 上方继续减至5.5% / ¥65-68 减至3.5%锁利",
+    "加仓区 ¥42-45 回补至8.5%(基本面未恶化) / ¥38.5-40 第二加仓"
   ],
   "thesis": "002156 = AI 算力周期受益的封测龙头, 核心 alpha 来自 AMD 排他绑定 + advanced packaging 产能紧张 + 国产替代政策。但当前股价已 price-in 大部分多方逻辑(PE-TTM 60x vs 同业 25-40x), R3 共识区 ¥42-58。weakest link buyer_power(AMD CR1 60%+) 决定净利率天花板, 扣非 2.27% 是定价权不在通富的硬证据。中长期(2027-2028) TSMC CoWoS 产能释放可能蚕食 AMD 高端订单, 护城河 3-5 年期限。用户 10.87% 单一最大持仓必须降至 7-8%。",
   "risks": [
@@ -111,16 +197,64 @@
   "confidence": 0.55,
   "forward_view": {
     "market_regime": "2026 H1 半导体板块 AI 主题持续高热, advanced packaging 是确定性赛道, 板块 PE 分化(龙头 60x+ vs 二线 25-30x), 看业绩兑现",
-    "liquidity": "PPI+3.9% 连续 3 月上行 + LPR 维持稳定 + 美元-人民币汇率稳定 → 半导体板块流动性中性偏正",
-    "cycle": "AI 算力 capex 周期 2024-2027 上行期(NVIDIA H200/B200 + AMD MI300/MI325X 持续放量), 2028+ 进入消化期",
-    "beta": "通富 vs 半导体板块 β ~1.3-1.5, 高 β 标的, 大盘下行风险大",
-    "comparable_path": "类比双锚: 日月光 ASE 2016-2018(大客户绑定+ROE跨越) + 长电 2020-2022(AI主题+戴维斯双杀逆向) → 通富 2026-2028 可能复制 EPS 增长但 PE 压缩, 股价空间被压缩",
-    "pricing_power": "弱 — buyer_power AMD CR1 60%+ 是定价权决定者, 通富代工方仅在产能紧张窗口期获临时议价权(12-18 月)"
+    "liquidity_environment": "PPI+3.9% 连续 3 月上行 + LPR 维持稳定 + 美元-人民币汇率稳定 → 半导体板块流动性中性偏正",
+    "industry_cycle_phase": "AI 算力 capex 周期 2024-2027 上行期(NVIDIA H200/B200 + AMD MI300/MI325X 持续放量), 2028+ 进入消化期",
+    "systematic_risk_beta": "通富 vs 半导体板块 β ~1.3-1.5, 高 β 标的, 大盘下行风险大",
+    "comparable_matrix": "类比双锚: 日月光 ASE 2016-2018(大客户绑定+ROE跨越) + 长电 2020-2022(AI主题+戴维斯双杀逆向) → 通富 2026-2028 可能复制 EPS 增长但 PE 压缩, 股价空间被压缩",
+    "pricing_power_analysis": "弱 — buyer_power AMD CR1 60%+ 是定价权决定者, 通富代工方仅在产能紧张窗口期获临时议价权(12-18 月)",
+    "path_scenarios": [
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "2026全年扣非+80%+AMD MI翻倍",
+        "implied_target_price": "¥78-90",
+        "implied_pe": "60x维持"
+      },
+      {
+        "name": "base",
+        "prob": 0.45,
+        "trigger": "扣非+50%+AMD MI+50%",
+        "implied_target_price": "¥45",
+        "implied_pe": "45x"
+      },
+      {
+        "name": "bear",
+        "prob": 0.3,
+        "trigger": "Q2-Q3扣非降至+30%+AMD份额降",
+        "implied_target_price": "¥21-28",
+        "implied_pe": "35x"
+      }
+    ],
+    "trigger_monitor": [
+      "扣非净利率 Q2<3% → 降档至5%仓位",
+      "AMD 在 TSMC CoWoS 投片量>30% → 减半至3.5%",
+      "大基金二期开始减持 → 立即减至4%"
+    ]
   },
-  "debate_rounds": [],
-  "analysts": {},
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "AMD MI300/MI325X/MI400 多产品周期排他绑定+advanced packaging产能紧张18-24月+独家代工位置不可复制,PE 60x被Q2-Q3扣非加速验证。营收+22.80%是多季度趋势非周期峰值。",
+      "bear": "伪成长陷阱:扣非净利率2.27%远低同业~5%是结构性天花板。PE 60x vs同业25-40x+Morningstar 48%+大基金减持=三独立信号指向高估。归母+224%含48%非经常性损益,Q2不可复制时增速回归扣非水平杀PE。"
+    },
+    {
+      "round": 2,
+      "bull": "让步:PE无静态安全边际/净利率天花板4-5%/ROE改善需时间/短期情绪过热增波动。坚持:AMD排他+mix shift提升利润率(advanced 35%→55%)+产能爬坡经营杠杆。",
+      "bear": "让步:营收拐点真实/IP矩阵能力真实/技术壁垒真实/海外有机增长真实。坚持:增收不增利结构性(扣非2.27%)+60%客户集中度脆弱+forward PE收敛后仍贵同业70-150%。"
+    },
+    {
+      "round": 3,
+      "bull": "终局:持有8-10%,内部调结构(通富减仓的钱配低估标的),target ¥55-68。共识:14x非极端低估/净利率短期承压/品类天花板需折价。核心分歧:海外40%占比是否触发估值迁移。",
+      "bear": "终局:减仓5-6%,target ¥38-55。共识区间 ¥42-58。Q3扣非破5%则bull对,未破则回归¥38-48。承认IP能力真实但增速持续性存疑。"
+    }
+  ],
+  "analysts": {
+    "financial": "通富微电财务呈现'量升质疑'格局:收入增速加速(22.8% Q1 YoY)验证AMD AI放量+advanced packaging景气,净利率从2.84%升至4.37%趋势向好。但利润含金量严重打折——2026Q1扣非仅占归母51.7%(非经常性1.59亿占48%),ROE虽从2.24%升至~4%仍远低于资金成本,D/E 101%高杠杆放大经营风险,AMD 60%+单客户依赖构成集中度隐患。经营现金流缺失是最大盲区。核心判断:短期景气确认但利润'质'存疑,持续性需Q2-Q3扣非数据+现金流验证,当前ROE水平尚不支撑PE 60x估值的隐含预期。\n\n盈利能力: 净利率2024=2.84% → 2025=4.37% → 2026Q1=4.40%(扣非2.27%),驱动是advanced packaging结构性升级与AMD MI300/MI325X放量,但扣非2.27%与归母4.40%差距巨大,核心经营利润率改善幅度远低于表观数字\nROE杜邦: 2025 ROE estimated ~3.8-4%(从2024年2.24%大幅提升70-80%):净利率贡献最大(2.84→4.37%, +54%),周转率小幅改善,杠杆D/E 101%高企贡献ROE也放大风险,仍远低于WACC 6-8%(EVA为负)\n现金流: missing — 经营现金流/capex/FCF均未在输入包,半导体封测capex/revenue 15-25%估算capex 42-70亿,FCF大概率为负或微正,关键盲区\n资产负债: D/E 101.38%显著高于同业(长电~70%/华天~60%);长期负债权益比40.92%对应advanced packaging产线投资;净资产推算465亿+,总负债472亿+,总资产938亿;杠杆双刃剑:支撑产能爬坡也放大经营风险\n可持续性: AMD AI GPU(MI300/MI325X/MI400)放量是最大β;advanced packaging产能爬坡;风险:AMD份额波动+产能利用率+HBM国产替代节奏+地缘风险;短期景气确认,中期(2027+)需观察AMD路线图兑现",
+    "valuation": "预期差收敛中——PE 60x隐含长期50%+增速但实际已从+299%减速至+64%,长期可持续性存疑;定价充分度高(0.8-0.9),AMD MI叙事自2024H2持续交易,产业资本减持确认。三情景:bull +30%(MI系列翻倍+PE维持)/base 持平(扣非+50%+PE回归)/bear -40%(增速骤降+PE杀估值)。风险收益不对称偏负,仅在防御性¥45-50或MI400增量催化确认时入场,不以涨幅/分位为依据。\n\n锚1隐含增速缺口: PE 60x隐含长期复合增速50%+;实际短期高位但减速(2024+299%/2025+79%/2026Q1扣非+64.78%);长期可持续性差(基数效应+产能爬坡曲线终点) → 短正长负,收敛中\n锚2定价充分度: 高(0.8-0.9):自2024H2持续交易AMD MI叙事,PE 42→60升级;Morningstar premium 48%;同业PE 25-40x显著溢价;大基金减持=产业资本退出;卖方一致强烈买入\n锚3催化: 正向(2026 H2): AMD MI325X爬坡/MI400路线图/国产advanced packaging政策升级/Q2扣非超+70%;负向: 大基金二期减持/Q2扣非低于50%/AMD份额掉/HBM国产替代延迟/美国BIS升级\n预期差: 收敛中(短期略正长期略负)\n入场逻辑: 基于预期差:当前¥62已price-in大部分AMD MI故事;仅在以下任一情况买入:(a)跌至¥45-50+advanced packaging订单维持(防御性);(b)AMD MI400路线图明确+通富新产能投产(增量预期差);不应仅以涨幅/分位作为判断依据",
+    "competitive": "通富微电的护城河是'高壁垒+龙头锁定+有期限'型。三重进入壁垒(资本/know-how/认证)+ AMD独家锁定(2014收购85%) 构成宽度,但买方AMD超高集中度(CR1>60%) 构成上限 — 扣非净利率2.27%远低同业~5%是定价权不在通富的硬证据。本质不是独家技术,是'产能紧张期锁定位置',与AI周期正相关、与TSMC产能扩张负相关。"
+  },
   "reflection": {
-    "vs_prev_version": "v2 vs v1: critic NEEDS_CHANGES 78 分 → 真改 5 项: 产品分子拆分 / 尾部三叠合建模 / 可比路径换日月光+长电 / missing 致 confidence 降档至 0.55 / Q2 扣非<3% 触发硬规则",
+    "what_changed": "v2 vs v1: critic NEEDS_CHANGES 78 分 → 真改 5 项: 产品分子拆分 / 尾部三叠合建模 / 可比路径换日月光+长电 / missing 致 confidence 降档至 0.55 / Q2 扣非<3% 触发硬规则",
     "self_check": "v2 修复 critic 5 项关键缺失。诚实标注: PE-TTM 60x / market cap 940 亿 全部 estimated。2026 卖方一致 EPS missing。北上资金/雪球/经营现金流/应收存货周转/真实毛利率 全部 missing → confidence 显式降至 0.55。",
     "memory_used": [
       "D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版 critic v1 真复核 78 分(NEEDS_CHANGES) → v2 真改 → 必须 critic 复核 v2",
@@ -128,7 +262,109 @@
     ]
   },
   "historical_alpha": null,
-  "evidence": [],
+  "evidence": [
+    {
+      "claim": "2025 营收 279.21亿(+16.92%)/净利 12.19亿(+79.86%)",
+      "source": "公司 2025 年报/aastocks",
+      "status": "verified",
+      "group": "财务",
+      "used_in": [
+        "thesis"
+      ]
+    },
+    {
+      "claim": "2026Q1 营收 74.82亿(+22.80%)/归母 3.29亿(+224.55%)/扣非 1.7亿(+64.78%)",
+      "source": "公司 2026Q1 季报",
+      "status": "verified",
+      "group": "财务",
+      "used_in": [
+        "thesis",
+        "valuation"
+      ]
+    },
+    {
+      "claim": "扣非占归母仅 51.7%,含 1.59亿非经常性损益(占48%)",
+      "source": "推算",
+      "status": "verified",
+      "group": "财务",
+      "used_in": [
+        "thesis"
+      ]
+    },
+    {
+      "claim": "PE-TTM ~60x,同业长电30x/华天40x/晶方25x",
+      "source": "推算+同业",
+      "status": "estimated",
+      "group": "估值",
+      "used_in": [
+        "valuation"
+      ]
+    },
+    {
+      "claim": "Morningstar premium 48%",
+      "source": "Morningstar 2026-04",
+      "status": "verified",
+      "group": "估值",
+      "used_in": [
+        "valuation"
+      ]
+    },
+    {
+      "claim": "大基金一期 2026.01-05 减持 1072.54万股(0.71%)",
+      "source": "公司公告 2026-05",
+      "status": "verified",
+      "group": "资金面",
+      "used_in": [
+        "thesis",
+        "sentiment"
+      ]
+    },
+    {
+      "claim": "AMD MI300/MI325X advanced packaging 主力代工方,收入占比 60%+",
+      "source": "行业研究",
+      "status": "estimated",
+      "group": "5力深做",
+      "used_in": [
+        "competitive"
+      ]
+    },
+    {
+      "claim": "ABF substrate 台湾进口 60%+(欣兴CR1 30%)",
+      "source": "行业报告",
+      "status": "estimated",
+      "group": "5力深做",
+      "used_in": [
+        "competitive"
+      ]
+    },
+    {
+      "claim": "CPI+1.2%/PPI+3.9%(连3月上行)",
+      "source": "国家统计局 2026-05",
+      "status": "verified",
+      "group": "政策催化",
+      "used_in": [
+        "forward_view"
+      ]
+    },
+    {
+      "claim": "2026 卖方一致 EPS",
+      "source": "Reuters 2024 数据已过时",
+      "status": "missing",
+      "group": "一致预期"
+    },
+    {
+      "claim": "经营现金流/应收存货周转/真实毛利率",
+      "source": "未取到",
+      "status": "missing",
+      "group": "财务"
+    },
+    {
+      "claim": "雪球热度/北上资金/融资余额",
+      "source": "未取到",
+      "status": "missing",
+      "group": "资金面"
+    }
+  ],
   "verdict_v2": {
     "stance": "适度减仓",
     "direction": "中性偏空(短期)+ 中长期持有偏正(2-3年)",
