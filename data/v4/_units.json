@@ -400,11 +400,11 @@
     "stock:01810": {
       "unit_id": "stock:01810",
       "unit_type": "stock",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T15:19:51Z",
+      "generated_at": "2026-06-13T18:11:33Z",
       "upstream": [],
       "error": null,
       "path": "stocks/01810.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T18:01:01Z"
+  "updated_at": "2026-06-13T18:11:33Z"
 }

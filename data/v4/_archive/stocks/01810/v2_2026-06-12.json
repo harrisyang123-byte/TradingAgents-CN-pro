@@ -1,0 +1,143 @@
+{
+  "unit_id": "stock:01810",
+  "unit_type": "stock",
+  "schema_version": "v4.0",
+  "version": 2,
+  "fingerprint": "",
+  "upstream": [],
+  "status": "green",
+  "ttl_days": 5,
+  "generated_at": "2026-06-12T15:19:51Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "code": "01810",
+    "name": "小米集团",
+    "industry": "互联网平台",
+    "market": "HK",
+    "instrument_type": "stock",
+    "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
+    "target_price": 62,
+    "entry_price_range": [
+      42,
+      48
+    ],
+    "expectation_gap": "正(中等):汽车SU7/SU7 Ultra/MAX销量持续超预期+AI手机/AIoT放量+IoT毛利率提升;但港股已大涨估值已部分反映,需精选回调买点",
+    "chokepoint_score": "中-高(消费电子+智能汽车+AIoT生态三重布局,处AI硬件芯片+模组瓶颈下游)",
+    "discovery_level": "🟡半发现",
+    "business_quality": "中性偏好(消费电子+汽车+AIoT;汽车业务高速增长但利润率未稳定);10年看汽车业务能否盈利是关键",
+    "position_nature": "中期窗口期(汽车放量爆发期)+长期等汽车盈利转正",
+    "worst_case": "汽车销量不及预期+车型推迟+消费电子失速 → -25%(36港元)",
+    "downside": "下行-25%(36港元) vs 上行+30%(62港元) → 赔率约1.2",
+    "sell_discipline": [
+      "SU7/SU7 Ultra单月销量连降两月 → 减仓",
+      "汽车毛利率<10% → 减仓",
+      "AI手机出货量低于预期>10% → 减仓",
+      "破36港元 → 清仓"
+    ],
+    "thesis": "汽车业务高速放量(SU7/SU7 Ultra订单火爆)+AI手机/AIoT毛利率改善+IoT生态规模效应;雷军IP+生态加持;但需观察汽车毛利率能否在2026 H2转正",
+    "risks": [
+      "汽车业务利润率不稳",
+      "车型推迟/质量事件",
+      "消费电子需求失速",
+      "小米汽车工厂扩产节奏"
+    ],
+    "confidence": "medium",
+    "evidence": [
+      {
+        "claim": "小米SU7/SU7 Ultra 2026 销量持续超预期(具体数据需Q2财报披露)",
+        "source": "行业新闻",
+        "status": "estimated"
+      },
+      {
+        "claim": "AI手机+AIoT 2026 H1放量",
+        "source": "产业链",
+        "status": "estimated"
+      },
+      {
+        "claim": "小米汽车工厂二期2026 H2投产",
+        "source": "公司公告",
+        "status": "verified"
+      }
+    ],
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-08",
+          "event": "Q2财报+汽车销量",
+          "consensus": "汽车交付20万+",
+          "our_view": "22-25万",
+          "gap": "slight_beat",
+          "impact_on_stock": "汽车放量是最大催化"
+        },
+        {
+          "date": "2026-Q3",
+          "event": "小米汽车工厂二期投产",
+          "consensus": "按计划",
+          "our_view": "按计划",
+          "gap": "inline",
+          "impact_on_stock": "产能瓶颈解除"
+        },
+        {
+          "date": "2026-Q4",
+          "event": "AI手机出货+IoT节庆销售",
+          "consensus": "温和",
+          "our_view": "+10-15%",
+          "gap": "slight_beat",
+          "impact_on_stock": "全年指引上修"
+        }
+      ],
+      "mid_term_path": "2026 汽车放量+AI硬件兑现;2027 汽车毛利率转正+海外扩张;2028+ 汽车规模化盈利",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.55,
+          "trigger": "汽车销量超预期+AI硬件兑现",
+          "implied_pe": 35,
+          "implied_target_price": 62
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "汽车毛利率2026 H2转正+海外突破",
+          "implied_pe": 45,
+          "implied_target_price": 80
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "汽车质量事件/销量失速+消费电子下行",
+          "implied_pe": 22,
+          "implied_target_price": 36
+        }
+      ],
+      "earnings_revision_view": "卖方一致2026E 收入+25-30%,我方判断+30-35%(汽车贡献)",
+      "stock_specific_risks": "汽车业务亏损未消化(汽车毛利率从2026 Q1的15%向上爬坡);车型质量/安全风险大",
+      "key_assumptions": [
+        {
+          "assumption": "汽车毛利率2026 H2转正(>0%)",
+          "falsification_signal": "H1毛利率<10%或继续下行"
+        },
+        {
+          "assumption": "AI手机+IoT毛利率改善",
+          "falsification_signal": "消费电子毛利率连降两季"
+        }
+      ],
+      "trigger_monitor": [
+        "SU7/SU7 Ultra单月销量连降两月 → 减仓",
+        "汽车毛利率<10% → 减仓",
+        "AI手机出货量低于预期>10% → 减仓",
+        "破36港元 → 清仓"
+      ]
+    },
+    "reflection": {
+      "prev_rating": "v1 无 rating",
+      "prev_date": null,
+      "what_changed": "v2升级:加完整四维质量闸门+forward_view 7字段+硬止损纪律",
+      "why_changed": "B1.15 旧 v1 baseline 升级到新架构",
+      "self_check": "v1_to_new_arch_upgrade"
+    },
+    "price_at_judgment": 48.0,
+    "valuation_basis": "SOTP分部估值: 目标价62港元=手机+IoT(PE 25x)+汽车(PS估值,放量但未盈利)+互联网服务; 买点42-48=综合25%安全边际; 破36→清仓。汽车毛利率转正是估值关键变量。"
+  }
+}

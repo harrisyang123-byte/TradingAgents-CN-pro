@@ -2,7 +2,7 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 6,
+    "analyzed_count": 7,
     "total_stocks": 9,
     "total_funds": 26,
     "pending_actions": 8,
@@ -97,29 +97,6 @@
           "indirect": []
         },
         {
-          "name": "互联网平台",
-          "direct_value": 10480.0,
-          "indirect_value": 6390.0,
-          "total_value": 16870.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "01810",
-              "name": "Xiaomi Corporation",
-              "market_value": 10480.0,
-              "weight": 1.0,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            }
-          ],
-          "indirect": []
-        },
-        {
           "name": "半导体/物联网模组",
           "direct_value": 15540.0,
           "indirect_value": 0,
@@ -187,6 +164,30 @@
               "summary": "海康 2025 营收 925.08 亿(+0.01%) 但归母 +18.52% 经营现金流 253.39 亿大幅增长. 现价 ¥29 PE 18.8x 处历史 15% 分位, R3 共识 ¥28-34 中枢 ¥30. 全球 38% 安防龙头+四层壁垒+创新业务(萤石/机器人/汽车/储能)期权. 用户现仓 1.15%(¥12096), 加至 2.5% (neutral 推荐). 反骑墙: 证据偏多(利润质量+估值低+现金流), Q2-Q3 PBG 财政回暖+创新业务放量是关键验证.",
               "stop_loss": "¥23 (-21%, 跌破 R3 共识下沿+承认 bear 兑现)",
               "direction": "看多 — 现价进入价值区间下沿, 利润+18.52% 现金流 253 亿验证质量"
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "消费电子/智能 EV/IoT",
+          "direct_value": 10480.0,
+          "indirect_value": 702.0,
+          "total_value": 11182.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "01810",
+              "name": "Xiaomi Corporation",
+              "market_value": 10480.0,
+              "weight": 1.0,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有偏观望(SOTP 公允, 1% 现仓不动等 EV 信号)",
+              "action": "维持 1.0%(¥10480) 不动, 价格回踩 HK$28-30 加 0.5% 至 1.5-2.0%",
+              "confidence": 0.62,
+              "summary": "小米 2025 营收 4573 亿(+25%) 归母 416 亿(+76%) 但 Q1 经调整净利 60.72 亿(-43.1%) — EV 亏损扩大. 现价 HK$32 (52周 28.80-61.45) 已大幅回调, PE 17.61x / forward 21.91x. SOTP 公允 HK$28-33 中枢 HK$30. 用户现仓 1.0%(¥10480) 接近建议中性区. 反骑墙: 短期利润下滑+EV 烧钱真实, 长期生态飞轮+SU7 30 万+交付+回购 1.44% 真信心. 持有等 Q2 中报(2026-08) EV 毛利率转正信号.",
+              "stop_loss": "HK$22 (-31%, SOTP 中枢-25% 安全边际, bear 兑现)",
+              "direction": "中性偏观望 — SOTP 公允, EV 期权价值未充分定价"
             }
           ],
           "indirect": []

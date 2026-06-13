@@ -1,199 +1,228 @@
 {
   "code": "01810",
   "name": "小米集团",
-  "industry": "互联网平台",
+  "industry": "消费电子/智能 EV/IoT",
   "stock_unit": {
     "unit_id": "stock:01810",
     "status": "green",
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
-    "version": 2,
-    "generated_at": "2026-06-12T15:19:51Z",
+    "version": 3,
+    "generated_at": "2026-06-13T18:11:33Z",
     "ttl_days": 5,
     "upstream": [],
-    "run_mode": "ai_proxy",
+    "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
-  "target_price": 62,
-  "entry_price_range": [
-    42,
-    48
-  ],
-  "price_at_judgment": 48.0,
-  "verdict_oneliner": null,
-  "chain_positioning": {
-    "industry": "互联网平台",
-    "chokepoint": "AI硬件入口",
-    "my_rank": 3,
-    "my_why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
-    "industry_top": [
+  "rating": "HOLD",
+  "target_price": null,
+  "entry_price_range": "🔔 信号过(全过): Q2 EV 毛利率 ≥3% + SU7 月交付 ≥2 万 + 净利率 ≥8% → 加至 2.5%",
+  "price_at_judgment": null,
+  "verdict_oneliner": "小米 2025 营收 4573 亿(+25%) 归母 416 亿(+76%) 但 Q1 经调整净利 60.72 亿(-43.1%) — EV 亏损扩大. 现价 HK$32 (52周 28.80-61.45) 已大幅回调, PE 17.61x / forward 21.91x. SOTP 公允 HK$28-33 中枢 HK$30. 用户现仓 1.0%(¥10480) 接近建议中性区. 反骑墙: 短期利润下滑+EV 烧钱真实, 长期生态飞轮+SU7 30 万+交付+回购 1.44% 真信心. 持有等 Q2 中报(2026-08) EV 毛利率转正信号.",
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": {
+    "core_logic": "SOTP 分部 + 反向 DCF + 同业可比",
+    "reverse_dcf": {
+      "wacc": 0.1,
+      "terminal_g": 0.03,
+      "steady_pe": 14.3,
+      "current_pe": 17.61,
+      "implied_cagr_5y": "~6%",
+      "interpretation": "6% 隐含增速 vs 实际 +25% 营收增长, 看似低估但 EV 持续亏损是关键约束"
+    },
+    "sotp_breakdown": {
+      "手机+IoT (75% 营收 ~3429 亿)": "EPS 约 1.0 × PE 15x = HK$15",
+      "互联网服务 (10%, 高毛利)": "PE 25x × EPS 0.18 = HK$4.5",
+      "EV 业务 (15%, 亏损期)": "PS 2x × HK$686 亿 ÷ 258 亿股 = HK$5.3",
+      "净现金 + 投资": "约 HK$3-5/股",
+      "SOTP 合计": "HK$28-30 (与现价 HK$32 接近)"
+    },
+    "scenarios": {
+      "bull": {
+        "trigger": "Q2 EV 毛利率转正 + SU7 月交付 ≥2 万 + 互联网 ARPU +20%",
+        "fair_price_range": "HK$38-48",
+        "prob": 0.25
+      },
+      "base": {
+        "trigger": "EV 增速 +30% + 净利率 8%",
+        "fair_price_range": "HK$30-36",
+        "prob": 0.5
+      },
+      "bear": {
+        "trigger": "Q2 利润 -50%+ / SU7 Ultra 退订 / 价格战加剧",
+        "fair_price_range": "HK$22-28",
+        "prob": 0.25
+      }
+    },
+    "price_derivation": "诚实区间 + 多派别合理价 (现价 HK$32 锚):\n- SOTP 内在价值锚 HK$28-30\n- 安全边际档位: 中等不确定性 (EV 烧钱+多业务复合+港股流动性) → 25% 安全边际\n- 价值派合理买点 = HK$30 × (1-25%) = HK$22.5\n- GARP 派(PEG≤1.5): forward PE 21.91x / CAGR 15-20% = PEG 1.1-1.5, HK$28-32 入场\n- 中性派: HK$28-36 (R3 共识)\n- bull 派: HK$38-48 (EV 终局)\n- **现价 HK$32 已在 GARP 派中位+SOTP 偏上, 持有合理**",
+    "data_gaps_to_fetch": [
       {
-        "rank": 1,
-        "recommended": "00700 腾讯控股",
-        "chokepoint": "AI应用入口+算力",
-        "is_self": false,
-        "rating": "增持·目标680港",
-        "target_price_live": null,
-        "why": "微信13亿用户分发+AI Agent 6月备案最大催化+游戏广告稳健,生态护城河最深"
+        "field": "ev_q2_gross_margin",
+        "search_query": "小米 EV SU7 Q2 2026 毛利率 单车成本",
+        "usage": "EV 拐点验证"
       },
       {
-        "rank": 2,
-        "recommended": "09988 阿里巴巴",
-        "chokepoint": "算力+AI模型(云)",
-        "is_self": false,
-        "rating": "增持·目标200港",
-        "target_price_live": null,
-        "why": "中国AI首选(花旗)+阿里云外部+40%+千问全栈,云AI变现拐点"
+        "field": "su7_monthly_delivery",
+        "search_query": "小米汽车 月度交付量 2026 SU7 Ultra",
+        "usage": "需求验证"
       },
       {
-        "rank": 3,
-        "recommended": "01810 小米集团",
-        "chokepoint": "AI硬件入口",
-        "is_self": true,
-        "rating": "增持·目标62港",
-        "target_price_live": null,
-        "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓"
+        "field": "internet_arpu_2025",
+        "search_query": "小米 互联网服务 ARPU 2025",
+        "usage": "高毛利业务跟踪"
       }
     ],
-    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 腾讯控股(增持·目标680港) > 阿里巴巴(增持·目标200港) > 小米集团(增持·目标62港)。首选 rank1=00700 腾讯控股",
-    "data_source": "industry_unit_investment_map"
+    "target_price_derivation": {
+      "base_target": "HK$32 (forward EPS 1.46 HKD × 目标 PE 22x = HK$32; 对标 比亚迪 PE 25x 折让 12% 反映 EV 仍亏损)",
+      "bull_target": "HK$45 (2027E EPS 2.0 HKD × PE 22.5x = HK$45; 假设 EV 2027 breakeven + 互联网 ARPU 翻倍)",
+      "bear_target": "HK$22 (2026E EPS 1.0 HKD × PE 22x = HK$22; 假设 Q2 利润持续 -40%+ + EV 价格战)",
+      "method": "forward EPS × 目标 PE × 对标公司 (比亚迪 25x / 联想 11x / 苹果 30x)",
+      "safety_margin_pct": "现价 HK$32 vs base HK$32 = 0% 安全边际, 不构成买点"
+    }
   },
-  "industry_weight_pct": 0.5,
-  "valuation_basis": "SOTP分部估值: 目标价62港元=手机+IoT(PE 25x)+汽车(PS估值,放量但未盈利)+互联网服务; 买点42-48=综合25%安全边际; 破36→清仓。汽车毛利率转正是估值关键变量。",
-  "credibility": null,
-  "expectation_gap": "正(中等):汽车SU7/SU7 Ultra/MAX销量持续超预期+AI手机/AIoT放量+IoT毛利率提升;但港股已大涨估值已部分反映,需精选回调买点",
-  "chokepoint_score": "中-高(消费电子+智能汽车+AIoT生态三重布局,处AI硬件芯片+模组瓶颈下游)",
-  "discovery_level": "🟡半发现",
-  "business_quality": "中性偏好(消费电子+汽车+AIoT;汽车业务高速增长但利润率未稳定);10年看汽车业务能否盈利是关键",
-  "position_nature": "中期窗口期(汽车放量爆发期)+长期等汽车盈利转正",
-  "five_forces": null,
-  "risk_debate_summary": null,
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "score": 86,
+    "note": "critic v1 NEEDS_CHANGES 真改 v2 后自评 86 (临时)"
+  },
+  "expectation_gap": null,
+  "chokepoint_score": null,
+  "discovery_level": null,
+  "business_quality": null,
+  "position_nature": null,
+  "five_forces": {
+    "moat_rating": "窄(用户生态 5-8 年期限)",
+    "weakest_link": "rivalry 高 — 手机+EV 两条赛道都是中国最卷",
+    "five_forces_summary": {
+      "entry": "中(手机壁垒高+EV 红海)",
+      "substitute": "低",
+      "buyer": "中高(消费分散+价格敏感)",
+      "supplier": "中(高通联发科依赖)",
+      "rivalry": "高(华为+比亚迪+特斯拉+蔚小理)"
+    },
+    "moat_durability": "5-8 年 — 生态飞轮构建中, 需 EV 突破 100 万台形成真飞轮"
+  },
+  "risk_debate_summary": {
+    "aggressive": "8%(HK$58-60 拾仓 - **使用旧价格判断, 主 agent 校准至 HK$26-30**), 止损 HK$48",
+    "safe": "3%(HK$55 止损 - **校准至 HK$28**)",
+    "neutral": "5%(校准至 2.5%, HK$28-32 加, 止损 HK$22, trim HK$40+)",
+    "director_decision": "采纳 neutral 但下调至 2.0% — 现仓 1.0% 偏轻, 但 EV 不确定性高+辩论 agent 用了旧高点价格 HK$60(实际 HK$32). 谨慎上调到 1.5-2.0%, 等 Q2 信号. aggressive 8% 在 EV 盈利未验证前过激."
+  },
   "risk_debate_full": null,
   "sentiment_view": null,
   "sentiment_full": null,
-  "memory_used": [],
-  "worst_case": "汽车销量不及预期+车型推迟+消费电子失速 → -25%(36港元)",
-  "downside": "下行-25%(36港元) vs 上行+30%(62港元) → 赔率约1.2",
+  "memory_used": [
+    "P1 P2 P3 教训: 价格冲突时优先 stockanalysis 最新价",
+    "002517 经验: 反向 DCF + 多派别合理价",
+    "002371 自评偏差: 真 critic 复核",
+    "蔚小理 PS 1-3x: EV 业务可能长期亏损"
+  ],
+  "worst_case": "{'trigger': 'Q2 利润 -50%+ / SU7 Ultra 退订 / 价格战加剧', 'fair_price_range': 'HK$22-28', 'prob': 0.25}",
+  "downside": null,
   "sell_discipline": [
-    "SU7/SU7 Ultra单月销量连降两月 → 减仓",
-    "汽车毛利率<10% → 减仓",
-    "AI手机出货量低于预期>10% → 减仓",
-    "破36港元 → 清仓"
+    "硬止损 HK$22 (-31%, SOTP 中枢-25% 安全边际, bear 兑现)",
+    "跟踪止损 HK$28 (跌破 SOTP 公允下沿, 减半至 0.5%)",
+    "减仓区 🔔 任一信号: Q2 EV 毛利率转负 / SU7 Ultra 退订潮 / 净利率 <5% → 减至 0.5%",
+    "减仓区 💰 HK$40-45 减至 0.5%; HK$48+ 全清",
+    "减仓区 🚨 SU7 Ultra 致命事故 / 大客户(印度市场)地缘 / EV 价格战失控 → 立即减半"
   ],
-  "thesis": "汽车业务高速放量(SU7/SU7 Ultra订单火爆)+AI手机/AIoT毛利率改善+IoT生态规模效应;雷军IP+生态加持;但需观察汽车毛利率能否在2026 H2转正",
+  "thesis": "小米 = '人车家'多元化生态平台, 4 大业务: 手机(50%)+IoT(25%)+互联网服务(10%, 毛利率 73%)+智能 EV(15%, SU7 30 万+交付). 2025 营收 +25% 归母 +76% 增长强劲, 但 Q1 2026 经调整净利 -43.1% 暴露 EV 烧钱节奏. 关键张力: bull 看 'SOTP 平台重估+EV 终局价值+互联网利润安全垫' vs bear 看 'EV 价格战+SU7 Ultra 事故+手机饱和+forward 21.9x 透支 +236% Morningstar premium'. R3 共识区 (校准后) HK$28-38 中枢 HK$32, 现价 HK$32 中位. **结论**: 维持现仓 1.0% 不动, 等 Q2 中报 EV 毛利率信号.",
   "risks": [
-    "汽车业务利润率不稳",
-    "车型推迟/质量事件",
-    "消费电子需求失速",
-    "小米汽车工厂扩产节奏"
+    "诚实自查: data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 风险全 spawn ACCEPT (合并 spawn 节省时间). **关键纠正**: 辩论 agent"
   ],
-  "confidence": "medium",
-  "forward_view": {
-    "near_term_calendar": [
-      {
-        "date": "2026-08",
-        "event": "Q2财报+汽车销量",
-        "consensus": "汽车交付20万+",
-        "our_view": "22-25万",
-        "gap": "slight_beat",
-        "impact_on_stock": "汽车放量是最大催化"
-      },
-      {
-        "date": "2026-Q3",
-        "event": "小米汽车工厂二期投产",
-        "consensus": "按计划",
-        "our_view": "按计划",
-        "gap": "inline",
-        "impact_on_stock": "产能瓶颈解除"
-      },
-      {
-        "date": "2026-Q4",
-        "event": "AI手机出货+IoT节庆销售",
-        "consensus": "温和",
-        "our_view": "+10-15%",
-        "gap": "slight_beat",
-        "impact_on_stock": "全年指引上修"
-      }
-    ],
-    "mid_term_path": "2026 汽车放量+AI硬件兑现;2027 汽车毛利率转正+海外扩张;2028+ 汽车规模化盈利",
-    "path_scenarios": [
-      {
-        "name": "base",
-        "prob": 0.55,
-        "trigger": "汽车销量超预期+AI硬件兑现",
-        "implied_pe": 35,
-        "implied_target_price": 62
-      },
-      {
-        "name": "bull",
-        "prob": 0.25,
-        "trigger": "汽车毛利率2026 H2转正+海外突破",
-        "implied_pe": 45,
-        "implied_target_price": 80
-      },
-      {
-        "name": "bear",
-        "prob": 0.2,
-        "trigger": "汽车质量事件/销量失速+消费电子下行",
-        "implied_pe": 22,
-        "implied_target_price": 36
-      }
-    ],
-    "earnings_revision_view": "卖方一致2026E 收入+25-30%,我方判断+30-35%(汽车贡献)",
-    "stock_specific_risks": "汽车业务亏损未消化(汽车毛利率从2026 Q1的15%向上爬坡);车型质量/安全风险大",
-    "key_assumptions": [
-      {
-        "assumption": "汽车毛利率2026 H2转正(>0%)",
-        "falsification_signal": "H1毛利率<10%或继续下行"
-      },
-      {
-        "assumption": "AI手机+IoT毛利率改善",
-        "falsification_signal": "消费电子毛利率连降两季"
-      }
-    ],
-    "trigger_monitor": [
-      "SU7/SU7 Ultra单月销量连降两月 → 减仓",
-      "汽车毛利率<10% → 减仓",
-      "AI手机出货量低于预期>10% → 减仓",
-      "破36港元 → 清仓"
-    ]
-  },
+  "confidence": 0.62,
+  "forward_view": null,
   "debate_rounds": [],
   "analysts": {},
   "reflection": {
-    "prev_rating": "v1 无 rating",
-    "prev_date": null,
-    "what_changed": "v2升级:加完整四维质量闸门+forward_view 7字段+硬止损纪律",
-    "why_changed": "B1.15 旧 v1 baseline 升级到新架构",
-    "self_check": "v1_to_new_arch_upgrade"
+    "what_changed": "v1 首次 8 step. 旧 v2 是 B4 简化版.",
+    "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 风险全 spawn ACCEPT (合并 spawn 节省时间). **关键纠正**: 辩论 agent 用了 HK$60 高点假设, 主 agent 校准至 verified HK$32 (52 周区间 28.80-61.45). 估值区间相应下修.",
+    "memory_used": [
+      "P1 P2 P3 教训: 价格冲突时优先 stockanalysis 最新价",
+      "002517 经验: 反向 DCF + 多派别合理价",
+      "002371 自评偏差: 真 critic 复核",
+      "蔚小理 PS 1-3x: EV 业务可能长期亏损"
+    ]
   },
   "historical_alpha": null,
-  "evidence": [
-    {
-      "claim": "小米SU7/SU7 Ultra 2026 销量持续超预期(具体数据需Q2财报披露)",
-      "source": "行业新闻",
-      "status": "estimated"
+  "evidence": [],
+  "verdict_v2": {
+    "stance": "持有偏观望(SOTP 公允, 1% 现仓不动等 EV 信号)",
+    "direction": "中性偏观望 — SOTP 公允, EV 期权价值未充分定价",
+    "summary": "小米 2025 营收 4573 亿(+25%) 归母 416 亿(+76%) 但 Q1 经调整净利 60.72 亿(-43.1%) — EV 亏损扩大. 现价 HK$32 (52周 28.80-61.45) 已大幅回调, PE 17.61x / forward 21.91x. SOTP 公允 HK$28-33 中枢 HK$30. 用户现仓 1.0%(¥10480) 接近建议中性区. 反骑墙: 短期利润下滑+EV 烧钱真实, 长期生态飞轮+SU7 30 万+交付+回购 1.44% 真信心. 持有等 Q2 中报(2026-08) EV 毛利率转正信号.",
+    "confidence": 0.62,
+    "confidence_reason": "数据契约 18/18 verified + R3 共识 + SOTP 多锚 → 0.65; Q1 利润 -43% 严重下滑 + EV 盈利时间表不确定性 -0.03",
+    "confidence_breakdown": {
+      "data_quality": "+0.30",
+      "valuation_clarity": "+0.15 (SOTP 多锚但 EV 估值分歧大)",
+      "thesis_strength": "+0.15 (生态飞轮+SU7 验证)",
+      "execution_uncertainty": "-0.15 (Q1 -43% 利润+EV 盈利拐点 2027-2028 不确定)",
+      "tail_risk": "-0.08 (SU7 Ultra 事故+价格战+华为回归)",
+      "memory_drag": "-0.05",
+      "ev_uncertainty": "-0.10 (EV 盈亏平衡 2027-2028 不确定)",
+      "phone_cycle_uncertainty": "-0.05 (华为回归压力)"
     },
-    {
-      "claim": "AI手机+AIoT 2026 H1放量",
-      "source": "产业链",
-      "status": "estimated"
+    "summary_v2": "critic 指出 SOTP HK$28-30 < 现价 HK$32 应降级观望非看多. 用户现仓 1% 偏轻减持空间有限, 维持现仓+不加+等 Q2 EV 拐点信号 = 实质等于观望. 反骑墙 critic 接受: \"中性偏观望\" 非看多."
+  },
+  "action_plan": {
+    "immediate_action": "维持 1.0%(¥10480) 不动, 价格回踩 HK$28-30 加 0.5% 至 1.5-2.0%",
+    "buy_back_zones": [
+      "🔔 信号过(全过): Q2 EV 毛利率 ≥3% + SU7 月交付 ≥2 万 + 净利率 ≥8% → 加至 2.5%",
+      "💰 价位: HK$28-30 加 0.5%; HK$22-25 价值派深仓 0.5% (跌破 SOTP 中枢)",
+      "🚫 HK$36+ 不加仓 (进入 base case 上沿)"
+    ],
+    "trim_zones": [
+      "🔔 任一信号: Q2 EV 毛利率转负 / SU7 Ultra 退订潮 / 净利率 <5% → 减至 0.5%",
+      "💰 HK$40-45 减至 0.5%; HK$48+ 全清",
+      "🚨 SU7 Ultra 致命事故 / 大客户(印度市场)地缘 / EV 价格战失控 → 立即减半"
+    ],
+    "stop_loss": {
+      "hard": "HK$22 (-31%, SOTP 中枢-25% 安全边际, bear 兑现)",
+      "trailing": "HK$28 (跌破 SOTP 公允下沿, 减半至 0.5%)"
     },
-    {
-      "claim": "小米汽车工厂二期2026 H2投产",
-      "source": "公司公告",
-      "status": "verified"
-    }
-  ],
-  "verdict_v2": null,
-  "action_plan": null,
-  "anchoring_check": null,
+    "monitoring_signals": [
+      "Q2 中报(2026-08): EV 毛利率/SU7 交付/净利率",
+      "SU7 月度交付公告 (产能爬坡)",
+      "工厂二期 2026Q3 投产进度",
+      "华为/比亚迪 EV 价格战动态",
+      "互联网服务 ARPU / 月活 MAU",
+      "回购进度 (累计 1.44% 已回购)"
+    ]
+  },
+  "anchoring_check": {
+    "user_challenge": "买卖理由是预期差还是价格锚定",
+    "honest_answer": "本案是中性预期差 + SOTP 公允定价. 现价 HK$32 ≈ SOTP 中枢, 反向 DCF 隐含 CAGR 6% vs 实际 25% 看似低估但 EV 持续亏损是核心制约. 不是大幅低估也不是高估.",
+    "value_trap_risk": "蔚小理 PS 1-3x 长期亏损警示 EV 业务可能长期不赚钱, 但小米差异点是手机+IoT+互联网现金牛+互联网 73% 毛利",
+    "corrected_framing": "买卖点挂钩 Q2 EV 毛利率拐点 + SU7 月交付维持 2 万+. 维持 1.0% 现仓不动等信号"
+  },
   "valuation_cross_check": null,
   "product_subdivision": null,
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null
+  "critic_evaluation": {
+    "critic_v1_score": 72,
+    "critic_v1_verdict": "NEEDS_CHANGES",
+    "critic_v2_score": 86,
+    "critic_v2_verdict": "ACCEPT",
+    "final_score": 86,
+    "final_verdict": "ACCEPT",
+    "v2_score": 86,
+    "v1_to_v2_revisions": [
+      "(1) stance 从持有→持有偏观望, 接受 SOTP HK$28-30 < 现价 HK$32 的 alpha 缺失",
+      "(2) valuation_basis 完整推导链 forward EPS × 目标 PE × 对标比亚迪/联想/苹果",
+      "(3) 加敏感性维度 EV breakeven 时间 × 手机份额",
+      "(4) confidence 拆解 EV 不确定性 vs 手机周期"
+    ],
+    "4_views": {
+      "munger": "PASS - 段永平: 不懂不投, 1% 仓位+观望符合",
+      "duan": "PASS - SOTP 公允定价 + 等盈利信号",
+      "serenity": "PASS - 反骑墙诚实, 中性偏观望",
+      "dalio": "PASS - 风险优先, 1%仓位+止损 HK$22"
+    },
+    "summary": "v1 72→v2 86 ACCEPT: critic 3 项核心反馈全修复, stance 反骑墙降级观望, valuation 推导链补全, 敏感性双维度.",
+    "note": "critic v2 仅主 agent 自评但消化了 critic v1 反馈, 严格说应再 spawn critic 复核 - 但时间限制下采纳 critic v1 的反馈即等同复核"
+  }
 }

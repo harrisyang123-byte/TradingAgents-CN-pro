@@ -213,8 +213,7 @@
       "analyzed": true,
       "rank": 3,
       "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
-      "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
-      "target_price_live": 62,
+      "rating": "增持·目标62港",
       "rating_source": "stock_unit_latest"
     }
   ],
@@ -271,23 +270,6 @@
       "target_price": 680
     },
     {
-      "unit_id": "stock:01810",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:01810」，或运行：./scripts/run_v4.sh analyze stock:01810",
-      "version": 2,
-      "generated_at": "2026-06-12T15:19:51Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "01810",
-      "name": "小米集团",
-      "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
-      "target_price": 62
-    },
-    {
       "unit_id": "stock:09988",
       "status": "green",
       "status_label": "新鲜",
@@ -306,9 +288,9 @@
     }
   ],
   "indirect_holdings": {
-    "direct_yi": 10480.0,
-    "indirect_yi": 6389.92,
-    "total_yi": 16869.92,
+    "direct_yi": 0.0,
+    "indirect_yi": 5687.92,
+    "total_yi": 5687.92,
     "contributing_funds": [
       {
         "code": "010736",
@@ -323,8 +305,8 @@
         "code": "006327",
         "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
         "market_value": 8498.74,
-        "industry_weight_pct": 61.44,
-        "indirect_yi": 5221.625856,
+        "industry_weight_pct": 53.17999999999999,
+        "indirect_yi": 4519.629932,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       },
@@ -342,7 +324,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 29,
+      "industries_count": 30,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
