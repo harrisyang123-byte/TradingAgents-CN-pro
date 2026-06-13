@@ -207,7 +207,9 @@
       "analyzed": true,
       "rank": 1,
       "why": "铜+金双轮+Q1净利+97.5%+多金属分散,龙头地位+员工持股托底",
-      "rating": "增持·目标42"
+      "rating": "增持(铜+金双轮+Q1净利翻倍+员工持股托底)",
+      "target_price_live": 42,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "稀土+磁材",
@@ -215,7 +217,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "中国稀土战略资产(全球90%)+Q1+113%+张建平34.5亿入股,弹性大",
-      "rating": "增持·目标80"
+      "rating": "增持(战略稀缺+Q1净利翻倍+张建平大手笔买入)",
+      "target_price_live": 80,
+      "rating_source": "stock_unit_latest"
     }
   ],
   "analysts": {},

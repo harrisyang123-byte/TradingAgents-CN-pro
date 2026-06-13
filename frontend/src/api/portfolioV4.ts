@@ -275,6 +275,9 @@ export interface InvestmentMapRow {
   rank?: number
   why?: string
   rating?: string
+  // D0-2 修复(2026-06-13): 后端实时同步个股最新评级到投资地图
+  target_price_live?: number | null
+  rating_source?: 'stock_unit_latest' | string
 }
 
 export interface StockDetail {

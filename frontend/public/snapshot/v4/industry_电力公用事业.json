@@ -198,7 +198,9 @@
       "analyzed": true,
       "rank": 1,
       "why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强",
-      "rating": "增持·目标33"
+      "rating": "增持(红利底仓+电力化受益+战略稀缺)",
+      "target_price_live": 33,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "核电(低碳基荷)",
@@ -206,7 +208,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累",
-      "rating": "增持·目标12"
+      "rating": "增持(核电核准加速+低碳基荷+成长性)",
+      "target_price_live": 12,
+      "rating_source": "stock_unit_latest"
     }
   ],
   "analysts": {},

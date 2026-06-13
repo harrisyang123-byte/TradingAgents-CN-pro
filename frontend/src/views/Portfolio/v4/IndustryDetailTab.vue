@@ -31,87 +31,28 @@
         <EmptyUnitState v-else title="尚未深辩此行业" :cli-hint="detail.industry_unit.cli_hint" />
       </div>
 
-      <!-- 辩论历程（折叠） -->
-      <div v-if="detail.debate_rounds?.length" class="card idt-debate">
-        <el-collapse>
-          <el-collapse-item :title="`行业深辩历程（${detail.debate_rounds.length} 轮）`" name="debate">
-            <div v-for="rd in detail.debate_rounds" :key="rd.round" class="idt-round">
-              <div class="idt-round-no">第 {{ rd.round }} 轮</div>
-              <div class="idt-duel">
-                <div class="idt-bull">
-                  <div class="idt-side-tag idt-tag-bull">多头</div>
-                  <p>{{ extractText(rd.bull) }}</p>
-                </div>
-                <div class="idt-bear">
-                  <div class="idt-side-tag idt-tag-bear">空头</div>
-                  <p>{{ extractText(rd.bear) }}</p>
-                </div>
-              </div>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-
-      <!-- 产业链瓶颈地图 Chokepoint Map（行业层增强） -->
-      <div v-if="detail.chokepoint_map?.length" class="card idt-chokepoint">
-        <div class="idt-cp-head">
-          🔗 产业链瓶颈地图（Chokepoint）
-          <span v-if="detail.top_chokepoints?.length" class="idt-cp-top">
-            最窄咽喉：{{ detail.top_chokepoints.join('；') }}
-          </span>
-        </div>
-        <div class="idt-cp-table">
-          <div class="idt-cp-row idt-cp-thead">
-            <span class="idt-cp-c-node">环节 / 层级</span>
-            <span>不可替代</span>
-            <span>供给集中</span>
-            <span>产能刚性</span>
-            <span>价值卡位</span>
-            <span class="idt-cp-c-wide">替代路径风险</span>
-            <span class="idt-cp-c-wide">可投标的（A股 / QDII）</span>
-          </div>
-          <div
-            v-for="(cp, i) in detail.chokepoint_map"
-            :key="i"
-            class="idt-cp-row"
-            :class="{ 'idt-cp-istop': cp.is_top }"
-          >
-            <span class="idt-cp-c-node">
-              <b>{{ cp.node }}</b><em>{{ cp.layer }}</em>
-              <el-tag v-if="cp.is_top" type="danger" size="small" effect="dark">TOP</el-tag>
-            </span>
-            <span :class="dimCls(cp.irreplaceability)">{{ cp.irreplaceability }}</span>
-            <span :class="dimCls(cp.supply_concentration)">{{ cp.supply_concentration }}</span>
-            <span :class="dimCls(cp.capacity_rigidity)">{{ cp.capacity_rigidity }}</span>
-            <span :class="dimCls(cp.value_capture)">{{ cp.value_capture }}</span>
-            <span class="idt-cp-c-wide idt-cp-sub">{{ cp.substitution_risk }}</span>
-            <span class="idt-cp-c-wide idt-cp-plays">
-              <span v-if="(cp.beneficiaries_a || []).length" class="idt-cp-a">A股：{{ (cp.beneficiaries_a || []).join('、') }}</span>
-              <span v-if="(cp.beneficiaries_qdii || []).length" class="idt-cp-q">QDII：{{ (cp.beneficiaries_qdii || []).join('、') }}</span>
-            </span>
-          </div>
-        </div>
-        <div v-if="detail.verdict?.chokepoint_conclusion" class="idt-cp-concl">
-          <b>瓶颈落地结论：</b>{{ detail.verdict.chokepoint_conclusion }}
-        </div>
-      </div>
-
-      <!-- D0-2 投资地图：产业链瓶颈 → 推荐个股（解决"不知道买什么"） -->
-      <div v-if="detail.investment_map?.length" class="card idt-invmap">
+      <!-- D0-2 投资地图：产业链瓶颈 → 推荐个股（置顶,一进页面就看"买什么"） -->
+      <div v-if="detail.investment_map?.length" class="card idt-invmap idt-invmap-prime">
         <div class="idt-section-title">🎯 投资地图：瓶颈环节 → 买哪只（卡位排序）</div>
         <p v-if="detail.verdict?.investment_conclusion" class="idt-inv-concl">
           <b>结论：</b>{{ detail.verdict.investment_conclusion }}
         </p>
         <table class="idt-inv-table">
           <thead>
-            <tr><th>排序</th><th>瓶颈环节</th><th>推荐个股</th><th>评级</th><th>为什么是它</th><th>详情</th></tr>
+            <tr><th>排序</th><th>瓶颈环节</th><th>推荐个股</th><th>最新评级</th><th>目标价</th><th>为什么是它</th><th>详情</th></tr>
           </thead>
           <tbody>
             <tr v-for="(m, i) in sortedInvMap" :key="i">
               <td><span class="idt-rank">#{{ m.rank }}</span></td>
               <td>{{ m.chokepoint }}</td>
               <td><b>{{ m.recommended }}</b></td>
-              <td><el-tag size="small" :type="m.rating && /增持|买入/.test(m.rating) ? 'success' : 'info'" effect="plain">{{ m.rating }}</el-tag></td>
+              <td>
+                <el-tag size="small" :type="m.rating && /增持|买入/.test(m.rating) ? 'success' : (m.rating && /减|卖出/.test(m.rating) ? 'danger' : 'info')" effect="plain">{{ m.rating }}</el-tag>
+                <el-tooltip v-if="m.rating_source === 'stock_unit_latest'" content="已同步最新个股单元" placement="top">
+                  <el-icon class="idt-sync-ico"><Refresh /></el-icon>
+                </el-tooltip>
+              </td>
+              <td><b v-if="m.target_price_live != null" class="idt-target">¥{{ m.target_price_live }}</b><span v-else class="idt-pending">-</span></td>
               <td class="idt-inv-why">{{ m.why }}</td>
               <td>
                 <el-button v-if="m.analyzed && extractCode(m.recommended)" link type="primary" size="small"
@@ -137,6 +78,75 @@
         </div>
         <StockTable :stocks="detail.stocks || []" :stock-weights="detail.stock_weights || []" />
       </div>
+
+      <!-- 产业链瓶颈地图 Chokepoint Map（折叠收起 - 支撑分析） -->
+      <div v-if="detail.chokepoint_map?.length" class="card idt-chokepoint">
+        <el-collapse>
+          <el-collapse-item name="cp">
+            <template #title>
+              <span class="idt-section-title">
+                🔗 产业链瓶颈地图（Chokepoint 四维 + 五力支撑分析）
+                <span v-if="detail.top_chokepoints?.length" class="idt-cp-top-inline">最窄咽喉：{{ detail.top_chokepoints.join('；') }}</span>
+              </span>
+            </template>
+            <div class="idt-cp-table">
+              <div class="idt-cp-row idt-cp-thead">
+                <span class="idt-cp-c-node">环节 / 层级</span>
+                <span>不可替代</span>
+                <span>供给集中</span>
+                <span>产能刚性</span>
+                <span>价值卡位</span>
+                <span class="idt-cp-c-wide">替代路径风险</span>
+                <span class="idt-cp-c-wide">可投标的（A股 / QDII）</span>
+              </div>
+              <div
+                v-for="(cp, i) in detail.chokepoint_map"
+                :key="i"
+                class="idt-cp-row"
+                :class="{ 'idt-cp-istop': cp.is_top }"
+              >
+                <span class="idt-cp-c-node">
+                  <b>{{ cp.node }}</b><em>{{ cp.layer }}</em>
+                  <el-tag v-if="cp.is_top" type="danger" size="small" effect="dark">TOP</el-tag>
+                </span>
+                <span :class="dimCls(cp.irreplaceability)">{{ cp.irreplaceability }}</span>
+                <span :class="dimCls(cp.supply_concentration)">{{ cp.supply_concentration }}</span>
+                <span :class="dimCls(cp.capacity_rigidity)">{{ cp.capacity_rigidity }}</span>
+                <span :class="dimCls(cp.value_capture)">{{ cp.value_capture }}</span>
+                <span class="idt-cp-c-wide idt-cp-sub">{{ cp.substitution_risk }}</span>
+                <span class="idt-cp-c-wide idt-cp-plays">
+                  <span v-if="(cp.beneficiaries_a || []).length" class="idt-cp-a">A股：{{ (cp.beneficiaries_a || []).join('、') }}</span>
+                  <span v-if="(cp.beneficiaries_qdii || []).length" class="idt-cp-q">QDII：{{ (cp.beneficiaries_qdii || []).join('、') }}</span>
+                </span>
+              </div>
+            </div>
+            <div v-if="detail.verdict?.chokepoint_conclusion" class="idt-cp-concl">
+              <b>瓶颈落地结论：</b>{{ detail.verdict.chokepoint_conclusion }}
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+
+      <!-- 辩论历程（折叠 - 支撑分析） -->
+      <div v-if="detail.debate_rounds?.length" class="card idt-debate">
+        <el-collapse>
+          <el-collapse-item :title="`行业深辩历程（${detail.debate_rounds.length} 轮 - 多空攻防过程）`" name="debate">
+            <div v-for="rd in detail.debate_rounds" :key="rd.round" class="idt-round">
+              <div class="idt-round-no">第 {{ rd.round }} 轮</div>
+              <div class="idt-duel">
+                <div class="idt-bull">
+                  <div class="idt-side-tag idt-tag-bull">多头</div>
+                  <p>{{ extractText(rd.bull) }}</p>
+                </div>
+                <div class="idt-bear">
+                  <div class="idt-side-tag idt-tag-bear">空头</div>
+                  <p>{{ extractText(rd.bear) }}</p>
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
     </template>
 
     <EmptyUnitState v-else title="无数据" />
@@ -145,6 +155,7 @@
 
 <script setup lang="ts">
 import { computed, watch } from 'vue'
+import { Refresh } from '@element-plus/icons-vue'
 import UnitStatusBadge from './UnitStatusBadge.vue'
 import EmptyUnitState from './EmptyUnitState.vue'
 import StockTable from './StockTable.vue'
@@ -259,5 +270,11 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
 .idt-rank { display: inline-block; background: #2f4f8f; color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 11px; }
 .idt-inv-why { color: #606266; max-width: 280px; }
 .idt-pending { color: #c0c4cc; font-size: 12px; }
+
+/* 投资地图置顶强调样式（"买什么"先于"为什么"） */
+.idt-invmap-prime { border-left: 4px solid #2f4f8f; box-shadow: 0 2px 6px rgba(47, 79, 143, 0.08); }
+.idt-target { color: #2f4f8f; font-size: 14px; }
+.idt-sync-ico { color: #67c23a; font-size: 12px; margin-left: 4px; vertical-align: middle; }
+.idt-cp-top-inline { font-size: 12px; color: #c45656; font-weight: normal; margin-left: 8px; }
 
 </style>

@@ -246,7 +246,8 @@
       "analyzed": true,
       "rank": 1,
       "why": "全球龙头(800G>40%/1.6T 50-70%),卡位最强;但已涨11倍,窗口期交易+硬止损",
-      "rating": "中性·窗口期"
+      "rating": "中性（窗口期交易持有 + 硬止损纪律）",
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "1.6T光模块(第二梯队)",
@@ -254,7 +255,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "Q1+106%增速最快,估值比中际旭创便宜,1.6T放量弹性大",
-      "rating": "增持·目标700"
+      "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
+      "target_price_live": 700,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "光器件(上游)",
@@ -262,7 +265,9 @@
       "analyzed": true,
       "rank": 3,
       "why": "光器件+海外布局先行,但议价权弱于光模块整机,分散配置",
-      "rating": "增持·目标420"
+      "rating": "增持(光器件高增+海外布局先行)",
+      "target_price_live": 420,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "CoWoS先进封装/HBM",

@@ -295,7 +295,9 @@
       "analyzed": true,
       "rank": 1,
       "why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)",
-      "rating": "增持·目标850"
+      "rating": "持有(从v1增持下调) — 反对加仓 + 等基本面拐点确认",
+      "target_price_live": 650,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "刻蚀机",
@@ -303,7 +305,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "刻蚀龙头+国产替代核心,但估值溢价224%偏高,小仓",
-      "rating": "增持·目标260"
+      "rating": "增持(刻蚀龙头+高估值高成长)",
+      "target_price_live": 260,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "电子特气(材料)",
@@ -311,7 +315,9 @@
       "analyzed": true,
       "rank": 3,
       "why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%",
-      "rating": "增持·小仓"
+      "rating": "增持(电子特气国产替代加速)",
+      "target_price_live": 75,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "晶圆制造",
@@ -319,7 +325,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现",
-      "rating": "增持·目标140"
+      "rating": "增持(成熟制程涨价兑现+价值修复)",
+      "target_price_live": 140,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "EDA软件",

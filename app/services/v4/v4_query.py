@@ -190,6 +190,30 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
     ind_env = units.get(f"industry:{name}")
     alloc_env = units.get(f"alloc:industry:{name}")
     ind_payload = (ind_env or {}).get("payload", {}) if ind_env else {}
+
+    # D0-2 修复(2026-06-13): investment_map 中的 rating/target_price 实时从 stocks 单元取最新
+    # 避免行业 payload 落盘后个股 v2 下修但行业仍显示 v1 旧评级的不一致问题
+    raw_inv_map = ind_payload.get("investment_map", []) or []
+    fresh_inv_map = []
+    for item in raw_inv_map:
+        item = dict(item)  # 不改原 payload
+        rec = (item.get("recommended") or "").strip()
+        # 提取代码: "002371 北方华创" → "002371"
+        code_match = rec.split()[0] if rec else ""
+        if code_match and code_match.isdigit():
+            stock_env = units.get(f"stock:{code_match}")
+            if stock_env:
+                stock_p = stock_env.get("payload", {})
+                live_rating = stock_p.get("rating")
+                live_target = stock_p.get("target_price")
+                if live_rating:
+                    item["rating"] = live_rating  # 用最新个股评级覆盖
+                if live_target is not None:
+                    item["target_price_live"] = live_target  # 新字段:最新目标价(行业 payload 没这个)
+                # 加一致性标记：这条数据来自最新个股单元
+                item["rating_source"] = "stock_unit_latest"
+        fresh_inv_map.append(item)
+
     resp: Dict[str, Any] = {
         "industry": name,
         "industry_unit": decorate_unit(f"industry:{name}", ind_env, units),
@@ -198,8 +222,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         # Chokepoint 产业链瓶颈地图（行业层增强，透传给前端展示；无则空，不影响旧行业单元）
         "chokepoint_map": ind_payload.get("chokepoint_map", []),
         "top_chokepoints": ind_payload.get("top_chokepoints", []),
-        # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序）
-        "investment_map": ind_payload.get("investment_map", []),
+        # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序，实时同步个股最新评级）
+        "investment_map": fresh_inv_map,
         "analysts": ind_payload.get("analysts", {}),
         "intra_alloc_unit": decorate_unit(f"alloc:industry:{name}", alloc_env, units),
         "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],

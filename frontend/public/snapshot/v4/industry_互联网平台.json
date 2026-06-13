@@ -193,7 +193,9 @@
       "analyzed": true,
       "rank": 1,
       "why": "微信13亿用户分发+AI Agent 6月备案最大催化+游戏广告稳健,生态护城河最深",
-      "rating": "增持·目标680港"
+      "rating": "增持(AI+游戏+广告+微信AI Agent催化)",
+      "target_price_live": 680,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "算力+AI模型(云)",
@@ -201,7 +203,9 @@
       "analyzed": true,
       "rank": 2,
       "why": "中国AI首选(花旗)+阿里云外部+40%+千问全栈,云AI变现拐点",
-      "rating": "增持·目标200港"
+      "rating": "增持(中国AI首选+云增速40%+全栈AI能力)",
+      "target_price_live": 200,
+      "rating_source": "stock_unit_latest"
     },
     {
       "chokepoint": "AI硬件入口",
@@ -209,7 +213,9 @@
       "analyzed": true,
       "rank": 3,
       "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
-      "rating": "增持·目标62港"
+      "rating": "增持(汽车放量+AI硬件+IoT生态三轮驱动)",
+      "target_price_live": 62,
+      "rating_source": "stock_unit_latest"
     }
   ],
   "analysts": {},
