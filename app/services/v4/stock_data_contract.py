@@ -158,7 +158,7 @@ SHOULD_FIELDS: Dict[str, Dict[str, Any]] = {
 # 工具函数
 # ============================================================================
 def _has_value(d: Dict, key: str) -> bool:
-    """字段是否真有值(不是 None/空字符串/empty dict/empty list)"""
+    """字段是否真有 verified 值(不是 None/空/unattainable/missing 占位字符串)"""
     if not isinstance(d, dict):
         return False
     v = d.get(key)
@@ -166,7 +166,25 @@ def _has_value(d: Dict, key: str) -> bool:
         return False
     if isinstance(v, dict) and not any(v.values()):
         return False
+    # D0-8 unattainable/missing 占位字符串不算 verified(防止"装作已查")
+    if isinstance(v, str):
+        s = v.strip().lower()
+        if s.startswith("unattainable") or s.startswith("missing") or s == "n/a":
+            return False
     return True
+
+
+def _is_unattainable(d: Dict, key: str, alias_paths: List[str]) -> bool:
+    """字段是否标了 unattainable(诚实降级,与真 missing 区分)"""
+    def _check(v):
+        return isinstance(v, str) and v.strip().lower().startswith("unattainable")
+    if _check(d.get(key)):
+        return True
+    for alias in alias_paths:
+        v = _path_get(d, alias)
+        if _check(v):
+            return True
+    return False
 
 
 # 字段别名映射: 契约 key → 输入包里可能的实际路径(支持嵌套点号)
@@ -329,7 +347,9 @@ def check_data_contract(stock_pack: Dict[str, Any]) -> Dict[str, Any]:
 
     must_satisfied: List[str] = []
     must_missing: List[str] = []
+    must_unattainable: List[str] = []  # D0-8 诚实降级:真取不到的(如公司未披露/付费数据)
     should_missing: List[str] = []
+    should_unattainable: List[str] = []
     fetch_tasks: List[Dict[str, Any]] = []
 
     def _make_task(field_key: str, spec: Dict, priority: str) -> Dict[str, Any]:
@@ -352,36 +372,58 @@ def check_data_contract(stock_pack: Dict[str, Any]) -> Dict[str, Any]:
 
     # 检查 MUST
     for field_key, spec in MUST_FIELDS.items():
+        aliases = FIELD_ALIASES.get(field_key, [])
         if _resolve_field(stock_pack, field_key):
             must_satisfied.append(field_key)
+        elif _is_unattainable(stock_pack, field_key, aliases):
+            must_unattainable.append(field_key)  # 诚实降级,不阻断,但 critic 必查降 confidence
         else:
             must_missing.append(field_key)
             fetch_tasks.append(_make_task(field_key, spec, "MUST"))
 
     # 检查 SHOULD
     for field_key, spec in SHOULD_FIELDS.items():
-        if not _resolve_field(stock_pack, field_key):
+        aliases = FIELD_ALIASES.get(field_key, [])
+        if _resolve_field(stock_pack, field_key):
+            pass  # 有值
+        elif _is_unattainable(stock_pack, field_key, aliases):
+            should_unattainable.append(field_key)
+        else:
             should_missing.append(field_key)
             fetch_tasks.append(_make_task(field_key, spec, "SHOULD"))
 
-    # confidence 折扣: SHOULD 每缺 1 个扣 0.02, 上限 0.20
-    confidence_penalty = min(0.20, len(should_missing) * 0.02)
+    # confidence 折扣:
+    # - SHOULD 真缺 -0.02 / 项, 上限 -0.10
+    # - unattainable(MUST/SHOULD) -0.03 / 项, 上限 -0.15(诚实降级也要扣)
+    confidence_penalty = (
+        min(0.10, len(should_missing) * 0.02)
+        + min(0.15, (len(must_unattainable) + len(should_unattainable)) * 0.03)
+    )
 
-    ok = len(must_missing) == 0
+    # ok 判定: MUST 字段(verified + unattainable) ≥ 18 才允许跑
+    # 但 unattainable 比例 > 30% 时 critic 应警告"数据基础不足"
+    must_total_covered = len(must_satisfied) + len(must_unattainable)
+    ok = must_total_covered == len(MUST_FIELDS)
+    unattainable_ratio = len(must_unattainable) / max(1, len(MUST_FIELDS))
     n_must = len(MUST_FIELDS)
     n_should = len(SHOULD_FIELDS)
     summary = (f"契约检查 {('通过' if ok else '不通过')}: "
-               f"MUST {len(must_satisfied)}/{n_must} verified, "
-               f"SHOULD {n_should - len(should_missing)}/{n_should} verified, "
+               f"MUST {len(must_satisfied)} verified + {len(must_unattainable)} unattainable / {n_must}, "
+               f"SHOULD {n_should - len(should_missing) - len(should_unattainable)} verified / {n_should}, "
                f"confidence 折扣 {confidence_penalty:.2f}")
+    if unattainable_ratio > 0.3:
+        summary += f" ⚠️ MUST unattainable 比例 {unattainable_ratio:.0%} 偏高,数据基础不足,critic 应警告"
 
     return {
         "ok": ok,
         "must_satisfied": must_satisfied,
+        "must_unattainable": must_unattainable,
         "must_missing": must_missing,
         "should_missing": should_missing,
+        "should_unattainable": should_unattainable,
         "fetch_tasks": fetch_tasks,
         "confidence_penalty": confidence_penalty,
+        "unattainable_ratio": unattainable_ratio,
         "summary": summary,
     }
 
