@@ -96,6 +96,33 @@
         </div>
       </div>
 
+      <!-- D0-2 投资地图：产业链瓶颈 → 推荐个股（解决"不知道买什么"） -->
+      <div v-if="detail.investment_map?.length" class="card idt-invmap">
+        <div class="idt-section-title">🎯 投资地图：瓶颈环节 → 买哪只（卡位排序）</div>
+        <p v-if="detail.verdict?.investment_conclusion" class="idt-inv-concl">
+          <b>结论：</b>{{ detail.verdict.investment_conclusion }}
+        </p>
+        <table class="idt-inv-table">
+          <thead>
+            <tr><th>排序</th><th>瓶颈环节</th><th>推荐个股</th><th>评级</th><th>为什么是它</th><th>详情</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="(m, i) in sortedInvMap" :key="i">
+              <td><span class="idt-rank">#{{ m.rank }}</span></td>
+              <td>{{ m.chokepoint }}</td>
+              <td><b>{{ m.recommended }}</b></td>
+              <td><el-tag size="small" :type="m.rating && /增持|买入/.test(m.rating) ? 'success' : 'info'" effect="plain">{{ m.rating }}</el-tag></td>
+              <td class="idt-inv-why">{{ m.why }}</td>
+              <td>
+                <el-button v-if="m.analyzed && extractCode(m.recommended)" link type="primary" size="small"
+                  @click="$emit('open-stock', extractCode(m.recommended))">查看 →</el-button>
+                <span v-else class="idt-pending">待分析</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <!-- 个股表格 + 行业内配比（AC8.3） -->
       <div class="card idt-body">
         <div class="idt-stocks-head">
@@ -124,8 +151,19 @@ import StockTable from './StockTable.vue'
 import { useIndustryDetail } from './useV4Units'
 
 const props = defineProps<{ industry: string }>()
+defineEmits<{ (e: 'open-stock', code: string): void }>()
 
 const { detail, loading, load } = useIndustryDetail()
+
+// D0-2 投资地图: 按 rank 排序 + 从"300502 新易盛"提取代码
+const sortedInvMap = computed(() =>
+  [...(detail.value?.investment_map || [])].sort((a: any, b: any) => (a.rank || 99) - (b.rank || 99)),
+)
+function extractCode(rec?: string): string {
+  if (!rec) return ''
+  const m = rec.match(/(\d{5,6}|[0-9]{5})/)
+  return m ? m[1] : ''
+}
 
 const stanceLabel = computed(
   () => ({ bullish: '看多', bearish: '看空', neutral: '中性', go: '看好(Go)', nogo: '回避' }[detail.value?.verdict?.stance || ''] || detail.value?.verdict?.stance),
@@ -211,4 +249,15 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
 .idt-cp-a { color: #409eff; }
 .idt-cp-q { color: #909399; }
 .idt-cp-concl { margin-top: 12px; padding: 10px; background: #ecf5ff; border-radius: 6px; font-size: 13px; color: #606266; line-height: 1.6; }
+/* D0-2 投资地图 */
+.idt-invmap { border: 1px solid #ebeef5; border-radius: 8px; background: #fff; padding: 16px; margin-bottom: 14px; }
+.idt-section-title { font-weight: 600; color: #2f4f8f; margin-bottom: 8px; font-size: 14px; }
+.idt-inv-concl { font-size: 13px; background: #f0f9eb; padding: 8px; border-radius: 4px; margin-bottom: 10px; color: #5a6a4f; }
+.idt-inv-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.idt-inv-table th, .idt-inv-table td { border: 1px solid #ebeef5; padding: 6px 8px; text-align: left; vertical-align: top; }
+.idt-inv-table th { background: #f5f7fa; font-weight: 600; }
+.idt-rank { display: inline-block; background: #2f4f8f; color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 11px; }
+.idt-inv-why { color: #606266; max-width: 280px; }
+.idt-pending { color: #c0c4cc; font-size: 12px; }
+
 </style>

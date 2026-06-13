@@ -114,6 +114,8 @@ export interface AssetVerdict {
   reflection?: ReflectionData | null
   // 前瞻视野（11 维内化前瞻能力，A/B 测试落地）
   forward_view?: ForwardView | null
+  // D0-2 投资地图结论(行业层)
+  investment_conclusion?: string
 }
 
 export interface ForwardCalendarEvent {
@@ -130,6 +132,8 @@ export interface PathScenario {
   trigger?: string
   macro_outcome?: string
   asset_impact?: string
+  implied_pe?: number       // 个股层情景估值
+  implied_target_price?: number
 }
 export interface KeyAssumption {
   assumption?: string
@@ -226,10 +230,60 @@ export interface IndustryDetail {
   // Chokepoint 产业链瓶颈地图（行业层增强）
   chokepoint_map?: ChokepointNode[]
   top_chokepoints?: string[]
+  // D0-2 投资地图：瓶颈环节→推荐个股→卡位排序
+  investment_map?: InvestmentMapRow[]
   analysts?: Record<string, any>
   intra_alloc_unit: UnitMeta
   stock_weights: StockWeightRow[]
   stocks: StockUnit[]
+}
+
+export interface InvestmentMapRow {
+  chokepoint?: string
+  recommended?: string
+  analyzed?: boolean
+  rank?: number
+  why?: string
+  rating?: string
+}
+
+export interface StockDetail {
+  code: string
+  name?: string
+  industry?: string
+  stock_unit?: UnitMeta
+  rating?: string
+  target_price?: number | null
+  entry_price_range?: number[]
+  price_at_judgment?: number | null
+  valuation_basis?: string        // D0-1 估值推导链
+  expectation_gap?: string
+  chokepoint_score?: string
+  discovery_level?: string
+  business_quality?: string
+  position_nature?: string
+  worst_case?: string
+  downside?: string
+  sell_discipline?: string[]
+  thesis?: string
+  risks?: string[]
+  confidence?: string
+  forward_view?: ForwardView | null
+  debate_rounds?: DebateRound[]
+  analysts?: Record<string, any>
+  reflection?: ReflectionData | null
+  historical_alpha?: HistoricalAlpha | null   // C 阶段回测准确率
+  evidence?: any[]
+}
+
+export interface HistoricalAlpha {
+  evaluated_at?: string
+  prev_version?: number | null
+  prev_judgment?: { rating?: string; target_price?: number | null; date?: string }
+  actual_outcome?: { price?: number | null; change_vs_target_pct?: number | null; source?: string }
+  hit?: string
+  alpha_note?: string
+  data_status?: string
 }
 
 export interface ChokepointNode {
@@ -272,5 +326,10 @@ export const portfolioV4Api = {
   async getIndustryDetail(name: string) {
     if (STATIC_SNAPSHOT) return loadSnapshot<IndustryDetail>(`industry_${name}.json`)
     return ApiClient.get<IndustryDetail>(`/api/portfolio/v4/industry/${encodeURIComponent(name)}`)
+  },
+
+  async getStockDetail(code: string) {
+    if (STATIC_SNAPSHOT) return loadSnapshot<StockDetail>(`stock_${code}.json`)
+    return ApiClient.get<StockDetail>(`/api/portfolio/v4/stock/${encodeURIComponent(code)}`)
   },
 }

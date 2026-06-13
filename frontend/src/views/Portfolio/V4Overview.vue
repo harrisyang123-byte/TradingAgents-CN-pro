@@ -36,7 +36,16 @@
           <span>{{ currentIndustry ? `行业：${currentIndustry}` : '行业 / 个股' }}</span>
         </template>
         <div v-if="!currentIndustry" class="v4-hint">请在权益大类详情中点击某行业进入。</div>
-        <IndustryDetailTab v-else :industry="currentIndustry" />
+        <IndustryDetailTab v-else :industry="currentIndustry" @open-stock="openStock" />
+      </el-tab-pane>
+
+      <!-- Tab4 个股详情（动态，D0-3） -->
+      <el-tab-pane :disabled="!currentStock" name="stock">
+        <template #label>
+          <span>{{ currentStock ? `个股：${currentStock}` : '个股详情' }}</span>
+        </template>
+        <div v-if="!currentStock" class="v4-hint">请在行业详情的「投资地图」中点击某个股「查看 →」进入。</div>
+        <StockDetailTab v-else :code="currentStock" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -47,6 +56,7 @@ import { ref } from 'vue'
 import AssetAllocationTab from './v4/AssetAllocationTab.vue'
 import AssetDetailTab from './v4/AssetDetailTab.vue'
 import IndustryDetailTab from './v4/IndustryDetailTab.vue'
+import StockDetailTab from './v4/StockDetailTab.vue'
 import { classLabel } from './v4/assetClasses'
 import { useV4Overview } from './v4/useV4Units'
 
@@ -54,6 +64,7 @@ const activeTab = ref('allocation')
 const currentAsset = ref<string>('')
 const currentAssetLabel = ref<string>('')
 const currentIndustry = ref<string>('')
+const currentStock = ref<string>('')
 
 // 用于把 equity_quota 透传给 Tab2 行业表格
 const { overview, load: loadOverview } = useV4Overview()
@@ -71,6 +82,10 @@ function openAsset(assetClass: string) {
 function openIndustry(name: string) {
   currentIndustry.value = name
   activeTab.value = 'industry'
+}
+function openStock(code: string) {
+  currentStock.value = code
+  activeTab.value = 'stock'
 }
 </script>
 
