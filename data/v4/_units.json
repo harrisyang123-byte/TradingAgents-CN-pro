@@ -337,6 +337,18 @@
       "error": null,
       "path": "stocks/002050.json"
     },
+    "stock:002156": {
+      "unit_id": "stock:002156",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
+      "upstream": [],
+      "error": null,
+      "path": "stocks/002156.json"
+    },
     "stock:002371": {
       "unit_id": "stock:002371",
       "unit_type": "stock",
@@ -435,12 +447,12 @@
     },
     "stock:09992": {
       "unit_id": "stock:09992",
-      "unit_type": "stock",
+      "unit_type": null,
       "version": 2,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 5,
-      "generated_at": "2026-06-12T15:23:43Z",
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
       "path": "stocks/09992.json"
@@ -734,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T09:29:04Z"
+  "updated_at": "2026-06-13T11:34:57Z"
 }
