@@ -1,0 +1,149 @@
+{
+  "code": "600900",
+  "name": "长江电力",
+  "industry": "电力公用事业",
+  "stock_unit": {
+    "unit_id": "stock:600900",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:600900」，或运行：./scripts/run_v4.sh analyze stock:600900",
+    "version": 1,
+    "generated_at": "2026-06-12T15:13:38Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(红利底仓+电力化受益+战略稀缺)",
+  "target_price": 33,
+  "entry_price_range": [
+    24,
+    27
+  ],
+  "price_at_judgment": 26.81,
+  "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
+  "expectation_gap": "中性偏正:作为 A 股最优质红利底仓+大水电稀缺资产+电力化(AI/EV)长期受益;但已大涨估值溢价824%透支较多,买点回调到24-27更合理",
+  "chokepoint_score": "极高(三峡+乌东德+白鹤滩四大水电站,中国最大水电资产+稀缺性极强,无法复制)",
+  "discovery_level": "🔴已发现(红利标的多年配置)",
+  "business_quality": "超好生意(水电=资源稀缺+无原料成本+永续现金流);10年长青(水电站永续运营)",
+  "position_nature": "长期投资(战略红利底仓)+ 中期催化(电力化+利率下行)",
+  "worst_case": "水电连续来水偏枯(>20%)+电价管制收紧+利率反弹 → -18%(22元)",
+  "downside": "下行-18%(22元) vs 上行+22%(33元) → 赔率约1.2,适合作为底仓",
+  "sell_discipline": [
+    "水电来水连续两年偏枯>20% → 减仓",
+    "10年期国债收益率>2.5% → 暂停加仓",
+    "电价管制大幅收紧 → 减仓",
+    "破22元(分红率<3.5%即不再具吸引力) → 清仓"
+  ],
+  "thesis": "中国最大水电资产+稀缺性+稳定现金流;2026 营收+2.07%/净利+6.17%(稳健增长);电力化趋势+AI数据中心耗电+利率下行环境利好红利;Beta 仅0.12防御属性强;一年股价-9% 已部分修正",
+  "risks": [
+    "来水波动",
+    "电价管制",
+    "利率反弹",
+    "估值溢价偏高"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "中报",
+        "consensus": "H1净利+5-7%",
+        "our_view": "+6-8%",
+        "gap": "slight_inline",
+        "impact_on_stock": "业绩稳健"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "长江流域来水情况",
+        "consensus": "正常",
+        "our_view": "正常",
+        "gap": "inline",
+        "impact_on_stock": "枯水期是关键"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "分红派息",
+        "consensus": "约5%股息率",
+        "our_view": "约5%",
+        "gap": "inline",
+        "impact_on_stock": "红利兑现"
+      }
+    ],
+    "mid_term_path": "2026-2027 电力化提速(AI/EV/电采暖);2028+ 核电与水电协同;2030+ 新能源消纳挑战",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.6,
+        "trigger": "水电稳定+利率下行",
+        "implied_pe": 22,
+        "implied_target_price": 33
+      },
+      {
+        "name": "bull",
+        "prob": 0.2,
+        "trigger": "利率快速下行+电力化加速",
+        "implied_pe": 26,
+        "implied_target_price": 40
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "水电偏枯+电价管制",
+        "implied_pe": 18,
+        "implied_target_price": 22
+      }
+    ],
+    "earnings_revision_view": "卖方一致2026E +5-7%,我方判断+6-8%(电力化拉动)",
+    "stock_specific_risks": "来水周期性影响盈利;电价受管制不能完全市场化",
+    "key_assumptions": [
+      {
+        "assumption": "长江流域来水正常",
+        "falsification_signal": "连续两年来水偏少>20%"
+      },
+      {
+        "assumption": "利率维持下行通道",
+        "falsification_signal": "10Y国债>2.5% → 红利吸引力下降"
+      }
+    ],
+    "trigger_monitor": [
+      "水电来水连续两年偏枯>20% → 减仓",
+      "10Y国债>2.5% → 暂停加仓",
+      "电价管制大幅收紧 → 减仓",
+      "破22元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.11)",
+    "why_changed": "红利底仓首选",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2026营收862.4亿(+2.07%)/净利345亿(+6.17%)",
+      "source": "Quartr",
+      "status": "verified"
+    },
+    {
+      "claim": "股价26.81元(2026-04 FT)/Beta 0.1247",
+      "source": "FT",
+      "status": "verified"
+    },
+    {
+      "claim": "Morningstar估值溢价824%",
+      "source": "Morningstar",
+      "status": "verified"
+    },
+    {
+      "claim": "1年涨跌-9.00%",
+      "source": "FT",
+      "status": "verified"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "code": "600276",
+  "name": "恒瑞医药",
+  "industry": "创新药",
+  "stock_unit": {
+    "unit_id": "stock:600276",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:600276」，或运行：./scripts/run_v4.sh analyze stock:600276",
+    "version": 1,
+    "generated_at": "2026-06-12T15:10:41Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(BMS战略合作+创新药营收高增+9款获批催化)",
+  "target_price": 75,
+  "entry_price_range": [
+    52,
+    58
+  ],
+  "price_at_judgment": 56.49,
+  "valuation_basis": "创新药PE法: 目标价75元=2026E EPS约2.1元 × PE 35x(创新药+30%增速+BD溢价,vs仿制药PE 20x); 买点52-58=PE 25-28x; 破48→清仓。BMS 9.5亿美元BD是估值上修催化。",
+  "expectation_gap": "正(中等):Q1营收+12.98%/净利+21.78%稳健;9.5亿美元BMS license out交易兑现+9款产品Q2-Q4获批是关键催化",
+  "chokepoint_score": "高(国内创新药龙头+best-in-class靶点能力+出海BD能力)",
+  "discovery_level": "🟡半发现",
+  "business_quality": "好生意(创新药+管线丰富+研发22.2亿/季);10年护城河强",
+  "position_nature": "长期投资(创新药本土龙头+出海加速)",
+  "worst_case": "生物安全法案+集采降价超预期+BD遇阻 → -25%(42元)",
+  "downside": "下行-25%(42元) vs 上行+30%(75元) → 赔率约1.2,中性偏多",
+  "sell_discipline": [
+    "生物安全法案进入二读 → 减仓50%",
+    "重磅BD交易被退货/受阻 → 减仓",
+    "Q3指引下修(创新药增速<25%) → 减仓",
+    "破48元 → 清仓"
+  ],
+  "thesis": "BMS 9.5亿美元交易已落地兑现+创新药2026指引+30%+9款产品Q2-Q4获批+研发投入持续(Q1 22.2亿);瑞银目标97.4港元A股56.49元支撑买入",
+  "risks": [
+    "集采降价压力",
+    "BD依赖度",
+    "出海地缘风险",
+    "研发烧钱周期"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "Q2财报+9款产品获批进展",
+        "consensus": "营收+15%",
+        "our_view": "+18-20%",
+        "gap": "slight_beat",
+        "impact_on_stock": "获批数量超预期=股价上修"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "创新药放量+BMS交易里程碑",
+        "consensus": "BMS第一阶段款项",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "现金流改善"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "医保谈判结果+生物安全法案",
+        "consensus": "温和",
+        "our_view": "创新药友好",
+        "gap": "slight_dovish",
+        "impact_on_stock": "政策友好+催化"
+      }
+    ],
+    "mid_term_path": "2026-2027 创新药营收+30%+BD交易兑现;2028+ first-in-class管线规模化",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.6,
+        "trigger": "创新药+30%兑现+9款获批",
+        "implied_pe": 35,
+        "implied_target_price": 75
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "重磅BD连续+海外管线兑现",
+        "implied_pe": 42,
+        "implied_target_price": 92
+      },
+      {
+        "name": "bear",
+        "prob": 0.15,
+        "trigger": "集采降价超预期+BMS受阻",
+        "implied_pe": 22,
+        "implied_target_price": 42
+      }
+    ],
+    "earnings_revision_view": "卖方一致2026E +25%,我方判断+30%(因BMS BD已落地)",
+    "stock_specific_risks": "BD交易依赖度上升;集采降价对仿制药板块持续压制",
+    "key_assumptions": [
+      {
+        "assumption": "创新药2026收入+30%兑现",
+        "falsification_signal": "H1创新药营收同比<25%"
+      },
+      {
+        "assumption": "9款产品Q2-Q4按时获批",
+        "falsification_signal": "任一款CDE反馈不利或推迟>6月"
+      }
+    ],
+    "trigger_monitor": [
+      "生物安全法案进入二读 → 减仓50%",
+      "BMS BD里程碑款项延后 → 减仓20%",
+      "Q3创新药营收增速<25% → 减仓",
+      "破48元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.7)",
+    "why_changed": "创新药本土龙头+BD标杆",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2026Q1营收81.4亿+13%/净利22.82亿+21.78%",
+      "source": "Quartr/AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "瑞银目标97.4港元 维持买入;创新药2026指引+30%",
+      "source": "AASTOCKS 大行",
+      "status": "verified"
+    },
+    {
+      "claim": "与百时美施贵宝(BMS)9.5亿美元战略合作及许可协议",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "研发投入Q1 22.2亿(其中16.5亿费用化);销售费用率降0.3pct至27%",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "A股股价56.49元 港股70.75元(涨5.83%)",
+      "source": "AASTOCKS",
+      "status": "verified"
+    }
+  ]
+}

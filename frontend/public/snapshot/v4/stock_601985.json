@@ -1,0 +1,149 @@
+{
+  "code": "601985",
+  "name": "中国核电",
+  "industry": "电力公用事业",
+  "stock_unit": {
+    "unit_id": "stock:601985",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:601985」，或运行：./scripts/run_v4.sh analyze stock:601985",
+    "version": 1,
+    "generated_at": "2026-06-12T15:17:35Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(核电核准加速+低碳基荷+成长性)",
+  "target_price": 12,
+  "entry_price_range": [
+    7.5,
+    8.5
+  ],
+  "price_at_judgment": 8.69,
+  "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
+  "expectation_gap": "中性偏正:核电核准加速(2025-26高峰)+低碳基荷不可替代;Q1净利34.19%下行因检修成本上升,但2025全年营收+6.22%/净利+6%稳健",
+  "chokepoint_score": "高(核电中国双寡头之一+核准加速窗口)",
+  "discovery_level": "🟡半发现",
+  "business_quality": "好生意(核电基荷+低碳+长期现金流);10年长青",
+  "position_nature": "长期投资(核电核准加速窗口期)",
+  "worst_case": "核电核准放缓+核安全事件+电价管制 → -25%(6.5元)",
+  "downside": "下行-25% vs 上行+30% → 赔率约1.2",
+  "sell_discipline": [
+    "核电核准延后超6月 → 减仓",
+    "Q3净利同比转负>15% → 减仓",
+    "核安全事件 → 减仓50%",
+    "破7元 → 清仓"
+  ],
+  "thesis": "核电核准2025-26高峰+低碳基荷不可替代+电力化拉动需求;市值1900亿/股价8.69元;1年涨跌-8%已部分修正",
+  "risks": [
+    "核电核准节奏",
+    "Q1净利下行34.19%(检修成本)",
+    "电价管制",
+    "核安全敏感"
+  ],
+  "confidence": "medium",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "中报",
+        "consensus": "H1净利+8%",
+        "our_view": "+5-8%",
+        "gap": "slight_inline",
+        "impact_on_stock": "看是否走出Q1低谷"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "核电核准批文+电价政策",
+        "consensus": "按计划",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "核准是关键催化"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "全年业绩+分红预期",
+        "consensus": "+6%",
+        "our_view": "+5-7%",
+        "gap": "inline",
+        "impact_on_stock": "红利预期"
+      }
+    ],
+    "mid_term_path": "2026-27 核电核准+在建机组投产;2028+ AP1000/华龙一号规模化;2030+ 第四代核能技术",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "核电按计划核准+检修恢复",
+        "implied_pe": 20,
+        "implied_target_price": 12
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "核准加速+电价上调",
+        "implied_pe": 24,
+        "implied_target_price": 15
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "核准放缓+检修成本持续",
+        "implied_pe": 13,
+        "implied_target_price": 6.5
+      }
+    ],
+    "earnings_revision_view": "卖方一致2026E +6-8%,我方判断稳健",
+    "stock_specific_risks": "检修成本持续高;核电核准节奏受政策影响大;Q1净利下行需观察",
+    "key_assumptions": [
+      {
+        "assumption": "核电核准2026继续加速",
+        "falsification_signal": "连续2季度无新核准"
+      },
+      {
+        "assumption": "Q2-Q3走出Q1低谷",
+        "falsification_signal": "H1净利低于预期"
+      }
+    ],
+    "trigger_monitor": [
+      "核电核准延后>6月 → 减仓",
+      "Q3净利同比<-20% → 减仓",
+      "核安全事件 → 减仓50%",
+      "破7元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.12)",
+    "why_changed": "核电双寡头之一",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2025营收820.8亿+6.22%/净利93亿+6%",
+      "source": "Quartr",
+      "status": "verified"
+    },
+    {
+      "claim": "市值1900亿元/EV 7518亿/股价8.69元(2026-04 FT)",
+      "source": "FT/StockAnalysis",
+      "status": "verified"
+    },
+    {
+      "claim": "Q1净利同比-34.19%(检修成本上升)",
+      "source": "TradingView",
+      "status": "verified"
+    },
+    {
+      "claim": "1年涨跌-8.04%",
+      "source": "FT",
+      "status": "verified"
+    }
+  ]
+}

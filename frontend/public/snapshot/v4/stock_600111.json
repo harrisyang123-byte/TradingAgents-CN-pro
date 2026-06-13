@@ -1,0 +1,149 @@
+{
+  "code": "600111",
+  "name": "北方稀土",
+  "industry": "有色资源",
+  "stock_unit": {
+    "unit_id": "stock:600111",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:600111」，或运行：./scripts/run_v4.sh analyze stock:600111",
+    "version": 1,
+    "generated_at": "2026-06-12T15:12:46Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(战略稀缺+Q1净利翻倍+张建平大手笔买入)",
+  "target_price": 80,
+  "entry_price_range": [
+    55,
+    62
+  ],
+  "price_at_judgment": 62.0,
+  "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
+  "expectation_gap": "正(强):中国占稀土全球90%+战略资产+Q1净利翻倍+稀土价格上涨+下游永磁需求(EV/风电)增长;星标投资者张建平34.5亿入股是关键信号",
+  "chokepoint_score": "极高(稀土+磁材产业链龙头,中国稀土战略资产+磁材龙头金力永磁等下游)",
+  "discovery_level": "🟢未发现(中长期国家战略资产但短期波动大)",
+  "business_quality": "好生意(中国稀土战略资产+永磁需求EV/风电/AI机器人长期向好);10年长青",
+  "position_nature": "长期投资(战略稀缺资源+下游需求长期增长)",
+  "worst_case": "稀土价格暴跌+全球需求下行+中美关系缓和(出口管制取消) → -30%(40元)",
+  "downside": "下行-30%(40元) vs 上行+35%(80元) → 赔率约1.2,中性偏多",
+  "sell_discipline": [
+    "稀土精矿价格Q3环比下行>10% → 减仓",
+    "下游永磁订单连降两月 → 减仓",
+    "全球PMI<48 → 减仓50%",
+    "破48元 → 清仓"
+  ],
+  "thesis": "Q1营收+27.69%/净利+113.12% 强劲;Q2稀土精矿价38804元/吨;张建平34.5亿入股是机构信心信号;EPS 0.2539元;长期看EV+风电+人形机器人持续拉动永磁需求",
+  "risks": [
+    "稀土价格周期性强",
+    "全球需求下行",
+    "出口管制变化",
+    "下游订单波动"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-Q3",
+        "event": "稀土精矿价格调整+下游永磁订单",
+        "consensus": "温和上行",
+        "our_view": "+5-10%",
+        "gap": "slight_inline",
+        "impact_on_stock": "稀土价格利多"
+      },
+      {
+        "date": "2026-08",
+        "event": "中报+下游订单数据",
+        "consensus": "H1净利+80%",
+        "our_view": "+90-100%",
+        "gap": "slight_beat",
+        "impact_on_stock": "业绩超预期延续"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "出口管制变化",
+        "consensus": "维持",
+        "our_view": "加严风险",
+        "gap": "hawkish",
+        "impact_on_stock": "出口管制加严利多稀土价格"
+      }
+    ],
+    "mid_term_path": "2026-2027 EV+风电+AI机器人永磁需求增长;2028+ 稀土战略地位强化(中美脱钩加速)",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "稀土价格维持+下游需求温和",
+        "implied_pe": 35,
+        "implied_target_price": 80
+      },
+      {
+        "name": "bull",
+        "prob": 0.3,
+        "trigger": "出口管制加严+人形机器人量产",
+        "implied_pe": 50,
+        "implied_target_price": 110
+      },
+      {
+        "name": "bear",
+        "prob": 0.15,
+        "trigger": "全球衰退+稀土价格暴跌",
+        "implied_pe": 18,
+        "implied_target_price": 40
+      }
+    ],
+    "earnings_revision_view": "卖方一致2026E +60%,我方判断+90-100%(Q1基础上)",
+    "stock_specific_risks": "稀土价格周期波动剧烈;高度依赖政策(出口管制/产业政策)",
+    "key_assumptions": [
+      {
+        "assumption": "稀土精矿价格维持35000+",
+        "falsification_signal": "跌破32000 → 减仓"
+      },
+      {
+        "assumption": "下游永磁订单延续",
+        "falsification_signal": "金力永磁等下游订单连降两月 → 减仓"
+      }
+    ],
+    "trigger_monitor": [
+      "稀土精矿Q3环比下行>10% → 减仓",
+      "下游永磁订单连降两月 → 减仓",
+      "全球PMI<48 → 减仓50%",
+      "破48元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.10)",
+    "why_changed": "稀土战略资产龙头",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2026Q1营收118.59亿(+27.69%)/净利9.18亿(+113.12%)/EPS 0.2539元",
+      "source": "AASTOCKS/Quartr",
+      "status": "verified"
+    },
+    {
+      "claim": "2026Q2稀土精矿不含税38804元/吨(REO=50%)",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "星标投资者张建平34.5亿元入股",
+      "source": "BigGo Finance",
+      "status": "verified"
+    },
+    {
+      "claim": "扣非净利8.6-9亿元(+97.76%-106.97%)",
+      "source": "AASTOCKS",
+      "status": "verified"
+    }
+  ]
+}

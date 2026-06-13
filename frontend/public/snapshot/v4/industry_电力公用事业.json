@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze industry:电力公用事业",
-    "version": 3,
-    "generated_at": "2026-06-12T09:37:14Z",
+    "version": 4,
+    "generated_at": "2026-06-13T00:22:17Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -115,7 +115,8 @@
         "水电来水偏少>20%→警惕",
         "核电核准延后>6月→暂停加仓"
       ]
-    }
+    },
+    "investment_conclusion": "产业链瓶颈兑现时,钱流向: 长江电力(增持·目标33) > 中国核电(增持·目标12)。首选 rank1=600900 长江电力"
   },
   "debate_rounds": [],
   "chokepoint_map": [
@@ -173,6 +174,24 @@
   "top_chokepoints": [
     "大水电(长电/华能水电)",
     "核电"
+  ],
+  "investment_map": [
+    {
+      "chokepoint": "大水电(稀缺资源)",
+      "recommended": "600900 长江电力",
+      "analyzed": true,
+      "rank": 1,
+      "why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强",
+      "rating": "增持·目标33"
+    },
+    {
+      "chokepoint": "核电(低碳基荷)",
+      "recommended": "601985 中国核电",
+      "analyzed": true,
+      "rank": 2,
+      "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累",
+      "rating": "增持·目标12"
+    }
   ],
   "analysts": {},
   "intra_alloc_unit": {

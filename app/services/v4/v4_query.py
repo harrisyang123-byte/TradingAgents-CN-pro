@@ -198,6 +198,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         # Chokepoint 产业链瓶颈地图（行业层增强，透传给前端展示；无则空，不影响旧行业单元）
         "chokepoint_map": ind_payload.get("chokepoint_map", []),
         "top_chokepoints": ind_payload.get("top_chokepoints", []),
+        # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序）
+        "investment_map": ind_payload.get("investment_map", []),
         "analysts": ind_payload.get("analysts", {}),
         "intra_alloc_unit": decorate_unit(f"alloc:industry:{name}", alloc_env, units),
         "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],
@@ -212,3 +214,46 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
                                "rating": pl.get("rating"), "target_price": pl.get("target_price")})
     resp["stocks"] = stocks
     return resp
+
+
+def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str, Any]:
+    """个股详情（D0-3）：四维质量闸门 + forward_view + 估值推导 + 止损纪律 + historical_alpha。
+
+    解决"个股看不到详细分析+不知买点怎么来+回测前端看不到"。透传 stock payload 全字段。
+    """
+    env = units.get(f"stock:{code}")
+    p = (env or {}).get("payload", {}) if env else {}
+    return {
+        "code": code,
+        "name": p.get("name"),
+        "industry": p.get("industry"),
+        "stock_unit": decorate_unit(f"stock:{code}", env, units),
+        # 评级与买卖
+        "rating": p.get("rating"),
+        "target_price": p.get("target_price"),
+        "entry_price_range": p.get("entry_price_range"),
+        "price_at_judgment": p.get("price_at_judgment"),
+        # D0-1 估值推导链(买点怎么来)
+        "valuation_basis": p.get("valuation_basis"),
+        # 预期差 + 四维质量闸门
+        "expectation_gap": p.get("expectation_gap"),
+        "chokepoint_score": p.get("chokepoint_score"),
+        "discovery_level": p.get("discovery_level"),
+        "business_quality": p.get("business_quality"),
+        "position_nature": p.get("position_nature"),
+        "worst_case": p.get("worst_case"),
+        "downside": p.get("downside"),
+        "sell_discipline": p.get("sell_discipline", []),
+        "thesis": p.get("thesis"),
+        "risks": p.get("risks", []),
+        "confidence": p.get("confidence"),
+        # 前瞻
+        "forward_view": p.get("forward_view"),
+        # 辩论 + 反思
+        "debate_rounds": p.get("debate_rounds", []),
+        "analysts": p.get("analysts", {}),
+        "reflection": p.get("reflection"),
+        # C 阶段 回测准确率(前端展示)
+        "historical_alpha": p.get("historical_alpha"),
+        "evidence": p.get("evidence", []),
+    }

@@ -1,0 +1,154 @@
+{
+  "code": "00700",
+  "name": "腾讯控股",
+  "industry": "互联网平台",
+  "stock_unit": {
+    "unit_id": "stock:00700",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:00700」，或运行：./scripts/run_v4.sh analyze stock:00700",
+    "version": 1,
+    "generated_at": "2026-06-12T15:18:16Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(AI+游戏+广告+微信AI Agent催化)",
+  "target_price": 680,
+  "entry_price_range": [
+    440,
+    500
+  ],
+  "price_at_judgment": 500.0,
+  "valuation_basis": "互联网SOTP分部估值: 目标价680港元=游戏+广告+金融科技核心业务PE 22x + 投资资产+AI云期权; 买点440-500=核心PE 16-18x(25%安全边际); 破380→清仓。微信AI Agent是估值期权。",
+  "expectation_gap": "正(中等):2025全年营收+13.86%/净利+15.85%;2026Q1 non-IFRS EPS +12%好过共识5-8%;微信AI Agent 6月备案是大催化;但AI投资压制利润率",
+  "chokepoint_score": "极高(AI应用入口+算力+广告主回流三大瓶颈卡位+微信生态护城河深)",
+  "discovery_level": "🟡半发现",
+  "business_quality": "好生意(微信生态+游戏+支付10年护城河);AI应用入口是新增长引擎",
+  "position_nature": "长期投资(AI+互联网双重叙事)",
+  "worst_case": "游戏版号收紧+AI投资失败+反垄断重启 → -25%(360港元)",
+  "downside": "下行-25%(370港元) vs 上行+35%(680港元) → 赔率约1.4,中性偏多",
+  "sell_discipline": [
+    "微信AI Agent商业化失败信号 → 减仓",
+    "游戏版号收紧/重磅游戏被禁 → 减仓",
+    "Q3 non-IFRS净利<同比+5% → 减仓",
+    "破380港元 → 清仓"
+  ],
+  "thesis": "微信AI Agent 6月备案是2026最大催化(微信13亿用户分发能力);Q1业绩稳健好过共识(non-IFRS EPS +12%);AI云价格上调反映竞争优势;扣除AI投资经营利润率扩大3pct至43%",
+  "risks": [
+    "AI投资压制利润率(短期)",
+    "游戏增速正常化",
+    "Meta/字节竞争",
+    "反垄断风险"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "Q2财报",
+        "consensus": "营收+10%",
+        "our_view": "+11-13%",
+        "gap": "slight_beat",
+        "impact_on_stock": "业绩稳健"
+      },
+      {
+        "date": "2026-06-Q3",
+        "event": "微信AI Agent备案+外部测试",
+        "consensus": "按计划",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "产品落地是最大催化"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "游戏新版本+AI云季节性",
+        "consensus": "温和",
+        "our_view": "温和",
+        "gap": "inline",
+        "impact_on_stock": "全年指引"
+      }
+    ],
+    "mid_term_path": "2026 微信AI Agent商业化启动;2027-28 AI云规模化+游戏出海;2030+ AI应用入口规模兑现",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "微信AI Agent平稳推出+游戏稳健",
+        "implied_pe": 22,
+        "implied_target_price": 680
+      },
+      {
+        "name": "bull",
+        "prob": 0.3,
+        "trigger": "AI Agent超预期+游戏大爆款",
+        "implied_pe": 28,
+        "implied_target_price": 820
+      },
+      {
+        "name": "bear",
+        "prob": 0.15,
+        "trigger": "AI失败+反垄断+游戏版号收紧",
+        "implied_pe": 15,
+        "implied_target_price": 370
+      }
+    ],
+    "earnings_revision_view": "卖方2026E +10-12%,我方判断接近+13%(微信AI变现)",
+    "stock_specific_risks": "AI投资压制利润率(2026E -2~-3pct);游戏增速正常化;Meta WeChat竞争",
+    "key_assumptions": [
+      {
+        "assumption": "微信AI Agent按时落地",
+        "falsification_signal": "备案延后或商业化失败"
+      },
+      {
+        "assumption": "游戏版号正常发放",
+        "falsification_signal": "重磅游戏被禁或版号收紧"
+      }
+    ],
+    "trigger_monitor": [
+      "微信AI Agent商业化失败 → 减仓",
+      "游戏版号收紧 → 减仓",
+      "Q3 non-IFRS净利<+5% → 减仓",
+      "破380港元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.13)",
+    "why_changed": "互联网龙头+AI应用入口",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2025营收7517.7亿(+13.86%)/净利2248.4亿(+15.85%)",
+      "source": "StockAnalysis",
+      "status": "verified"
+    },
+    {
+      "claim": "2026Q1 non-IFRS EPS同比+12%超共识5-8%",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "non-IFRS经营利润+9%至756亿;扣除AI投资+17%/利润率扩大3pct至43%",
+      "source": "AASTOCKS 野村",
+      "status": "verified"
+    },
+    {
+      "claim": "花旗目标价783港元(微降);大摩目标价650港元",
+      "source": "AASTOCKS 大行",
+      "status": "verified"
+    },
+    {
+      "claim": "微信AI Agent 6月监管备案,后续分阶段推出",
+      "source": "AASTOCKS 大摩",
+      "status": "verified"
+    }
+  ]
+}

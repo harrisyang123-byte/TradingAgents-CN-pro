@@ -1,0 +1,155 @@
+{
+  "code": "688012",
+  "name": "中微公司",
+  "industry": "半导体",
+  "stock_unit": {
+    "unit_id": "stock:688012",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:688012」，或运行：./scripts/run_v4.sh analyze stock:688012",
+    "version": 1,
+    "generated_at": "2026-06-12T15:04:29Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(刻蚀龙头+高估值高成长)",
+  "target_price": 260,
+  "entry_price_range": [
+    180,
+    210
+  ],
+  "price_at_judgment": 199.0,
+  "valuation_basis": "刻蚀龙头PE法: 目标价260元=2026E EPS约2.4元 × PE 110x(估值溢价224%,刻蚀稀缺); 买点180-210=PE 75-88x; 破170→清仓。估值偏高是首要风险,小仓。",
+  "expectation_gap": "中性偏正:2025 +37% 业绩兑现,但估值溢价 224% 偏高;刻蚀机国产化率提升空间大但增速慢于光模块",
+  "chokepoint_score": "高(刻蚀机龙头,与北方华创并列半导体设备双雄,卡位关键工艺)",
+  "discovery_level": "🟡半发现",
+  "business_quality": "好生意(刻蚀机技术壁垒高+客户黏性强);10 年长青",
+  "position_nature": "长期投资+中期窗口期",
+  "worst_case": "美升级管制+大基金三期延后+全球半导体见顶 → -35%(130 元)",
+  "downside": "下行 -35%(130 元) vs 上行 +30%(260 元) → 赔率约 0.85",
+  "sell_discipline": [
+    "美升级管制 → 减仓 50%",
+    "大基金三期延后超 6 月 → 减仓",
+    "Q3 业绩同比 < 25% → 减仓",
+    "破 170 元 → 清仓"
+  ],
+  "thesis": "刻蚀机国产替代核心+大基金三期最大获益+2025 业绩 +37% 兑现;估值偏高但战略稀缺溢价合理;与北方华创搭配是半导体设备双龙",
+  "risks": [
+    "估值偏高(224% 溢价)",
+    "美管制风险",
+    "大基金三期节奏",
+    "全球半导体周期"
+  ],
+  "confidence": "medium",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "H1 业绩+Q2 业绩",
+        "consensus": "营收+20-30%",
+        "our_view": "+25-40%",
+        "gap": "slight_beat",
+        "impact_on_stock": "业绩超预期则估值上修"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "大基金三期招标关键期",
+        "consensus": "约3000亿",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "国产替代加速"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "美对华出口管制升级风险",
+        "consensus": "概率40%",
+        "our_view": "50%",
+        "gap": "hawkish",
+        "impact_on_stock": "短期阵痛+长期国产替代加速"
+      }
+    ],
+    "cross_market_leading": "2s10s+47bp 已正常化;HY OAS 健康(3.0-3.3%);全球半导体景气延续",
+    "mid_term_path": "2026-2027 行业景气持续;2027+ 看HBM 周期+管制升级风险",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "业绩兑现+宏观稳定",
+        "implied_pe": 110,
+        "implied_target_price": 260
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "业绩超预期+催化加速",
+        "implied_pe": 140,
+        "implied_target_price": 340
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "管制升级或景气见顶",
+        "implied_pe": 70,
+        "implied_target_price": 130
+      }
+    ],
+    "earnings_revision_view": "卖方一致预期 2026E 高增,我方判断接近上限",
+    "stock_specific_risks": "美升级管制+大基金三期延后+全球半导体见顶 → -35%(130 元)",
+    "key_assumptions": [
+      {
+        "assumption": "宏观环境不大幅恶化",
+        "falsification_signal": "美 CPI 破 4.5% 或 FOMC 鹰派加息"
+      },
+      {
+        "assumption": "行业景气延续 2026-27",
+        "falsification_signal": "下游订单连续两季下滑"
+      }
+    ],
+    "trigger_monitor": [
+      "美升级管制 → 减仓 50%",
+      "大基金三期延后超 6 月 → 减仓",
+      "Q3 业绩同比 < 25% → 减仓",
+      "破 170 元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业半导体龙头)",
+    "why_changed": "B 阶段个股下钻补全",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2025 全年营收 123.85 亿元(+36.62%)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "股价约 199 元(2026 Google 财经)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "Morningstar 显示交易在 224% 溢价(估值偏高)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "estimated"
+    },
+    {
+      "claim": "中国刻蚀机龙头,与北方华创并列半导体设备双雄",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "2026 派发现金红利 2.2 亿+转增 3.08 亿股",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    }
+  ]
+}

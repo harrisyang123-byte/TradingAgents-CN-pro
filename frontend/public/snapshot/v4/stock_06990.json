@@ -1,0 +1,154 @@
+{
+  "code": "06990",
+  "name": "科伦博泰生物",
+  "industry": "创新药",
+  "stock_unit": {
+    "unit_id": "stock:06990",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:06990」，或运行：./scripts/run_v4.sh analyze stock:06990",
+    "version": 1,
+    "generated_at": "2026-06-12T15:11:21Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(ADC出海标杆+商业化启航+ASCO催化)",
+  "target_price": 520,
+  "entry_price_range": [
+    380,
+    440
+  ],
+  "price_at_judgment": 440.0,
+  "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
+  "expectation_gap": "正(强):3款核心ADC(SKB264/A167/A140)2026年1月入医保+ASCO肺癌III期数据(HR=0.35显著)+大行齐升目标价(招银507/野村544);商业化启航是关键拐点",
+  "chokepoint_score": "高(ADC出海标杆+TROP-2 ADC国际化领先+与默沙东合作)",
+  "discovery_level": "🟢未发现(ADC专项+商业化早期+大行评级上调)",
+  "business_quality": "好生意(ADC技术+管线丰富+出海BD能力);10年长青(ADC是肿瘤治疗下一代主流)",
+  "position_nature": "长期投资+中期催化(2026 ASCO数据+商业化爬坡)",
+  "worst_case": "生物安全法案+ASCO数据不及预期+商业化爬坡缓慢 → -30%(280元)",
+  "downside": "下行-30%(290元) vs 上行+25%(520元) → 赔率约0.85",
+  "sell_discipline": [
+    "ASCO数据不及预期 → 减仓30%",
+    "生物安全法案进入二读 → 减仓50%",
+    "Q2商业化收入<5亿元 → 减仓",
+    "破320港元 → 清仓"
+  ],
+  "thesis": "3款核心ADC入医保=销售放量基础;ASCO sac-TMT III期OptiTROP-Lung05数据(HR=0.35 PFS显著)是2026最大催化;6+亿元和解款增厚现金流;招银507/野村544港元目标价分歧度高但都看多",
+  "risks": [
+    "商业化爬坡不及预期",
+    "ADC竞品(第一三共/阿斯利康)激烈",
+    "BD依赖度高",
+    "小市值流动性"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-Q2",
+        "event": "ASCO 2026年会 sac-TMT 完整数据",
+        "consensus": "积极",
+        "our_view": "超预期(HR=0.35强)",
+        "gap": "beat",
+        "impact_on_stock": "+10-15%"
+      },
+      {
+        "date": "2026-08",
+        "event": "H1业绩+商业化收入披露",
+        "consensus": "5-8亿元",
+        "our_view": "7-10亿",
+        "gap": "slight_beat",
+        "impact_on_stock": "商业化兑现验证"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "全球III期数据更新",
+        "consensus": "按计划",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "管线进展"
+      }
+    ],
+    "mid_term_path": "2026 商业化启航+ASCO催化;2027-28 海外授权放量+管线扩展;2030+ ADC平台化",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "商业化兑现+ASCO数据稳健",
+        "implied_pe": 80,
+        "implied_target_price": 520
+      },
+      {
+        "name": "bull",
+        "prob": 0.3,
+        "trigger": "重磅BD+ASCO突破",
+        "implied_pe": 100,
+        "implied_target_price": 650
+      },
+      {
+        "name": "bear",
+        "prob": 0.15,
+        "trigger": "商业化失败+生物安全法",
+        "implied_pe": 40,
+        "implied_target_price": 290
+      }
+    ],
+    "earnings_revision_view": "商业化早期,2026E预计营收15-20亿(从0起步);卖方分歧度大",
+    "stock_specific_risks": "ADC赛道激烈竞争(第一三共DS-8201/阿斯利康Enhertu);商业化能力未验证",
+    "key_assumptions": [
+      {
+        "assumption": "3款ADC医保后销售爬坡",
+        "falsification_signal": "H1商业化收入<5亿元 → 减仓"
+      },
+      {
+        "assumption": "ASCO数据巩固竞争力",
+        "falsification_signal": "OS数据未达统计学显著 → 估值杀"
+      }
+    ],
+    "trigger_monitor": [
+      "ASCO数据低于预期 → 减仓30%",
+      "生物安全法案 → 减仓50%",
+      "Q2商业化收入<5亿 → 减仓",
+      "破320港元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.8)",
+    "why_changed": "创新药ADC出海标杆",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "3款核心ADC(SKB264 sac-TMT/A167/A140)2026年1月入医保",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "招银国际目标价507.11港元 野村目标价544.42港元",
+      "source": "AASTOCKS 大行",
+      "status": "verified"
+    },
+    {
+      "claim": "ASCO 2026 sac-TMT OptiTROP-Lung05 III期 HR=0.35 PFS显著改善",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "收到宜联生物医药逾6亿人民币和解款",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "H股全流通备案获批",
+      "source": "AASTOCKS",
+      "status": "verified"
+    }
+  ]
+}

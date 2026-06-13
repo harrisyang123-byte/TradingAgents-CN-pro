@@ -59,6 +59,13 @@ async def v4_industry_detail(name: str, current_user: dict = Depends(get_current
     return ok(v4_query.build_industry_detail(units, name))
 
 
+@router.get("/stock/{code}", response_model=dict)
+async def v4_stock_detail(code: str, current_user: dict = Depends(get_current_user)):
+    """个股详情（D0-3）：四维 + forward_view + 估值推导 + 止损 + historical_alpha。"""
+    units = await v4_query.load_user_units(_db(), current_user["id"])
+    return ok(v4_query.build_stock_detail(units, code))
+
+
 @router.post("/import", response_model=dict)
 async def v4_import(payload: dict, current_user: dict = Depends(get_current_user)):
     """幂等导入单元信封（按 unit_id upsert，AC9.5）。亦可用 scripts/import_v4.py 脚本直写。"""

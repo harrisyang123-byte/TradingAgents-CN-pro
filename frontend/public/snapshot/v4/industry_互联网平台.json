@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:互联网平台」，或运行：./scripts/run_v4.sh analyze industry:互联网平台",
-    "version": 3,
-    "generated_at": "2026-06-12T09:37:14Z",
+    "version": 4,
+    "generated_at": "2026-06-13T00:22:17Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -115,7 +115,8 @@
         "平台公司EPS下修>10%→止盈",
         "政策不利公告→单日清仓50%"
       ]
-    }
+    },
+    "investment_conclusion": "产业链瓶颈兑现时,钱流向: 腾讯控股(增持·目标680港) > 阿里巴巴(增持·目标200港) > 小米集团(增持·目标62港)。首选 rank1=00700 腾讯控股"
   },
   "debate_rounds": [],
   "chokepoint_map": [
@@ -176,6 +177,32 @@
   "top_chokepoints": [
     "AI 应用入口/分发",
     "算力(GPU+云)"
+  ],
+  "investment_map": [
+    {
+      "chokepoint": "AI应用入口+算力",
+      "recommended": "00700 腾讯控股",
+      "analyzed": true,
+      "rank": 1,
+      "why": "微信13亿用户分发+AI Agent 6月备案最大催化+游戏广告稳健,生态护城河最深",
+      "rating": "增持·目标680港"
+    },
+    {
+      "chokepoint": "算力+AI模型(云)",
+      "recommended": "09988 阿里巴巴",
+      "analyzed": true,
+      "rank": 2,
+      "why": "中国AI首选(花旗)+阿里云外部+40%+千问全栈,云AI变现拐点",
+      "rating": "增持·目标200港"
+    },
+    {
+      "chokepoint": "AI硬件入口",
+      "recommended": "01810 小米集团",
+      "analyzed": true,
+      "rank": 3,
+      "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
+      "rating": "增持·目标62港"
+    }
   ],
   "analysts": {},
   "intra_alloc_unit": {

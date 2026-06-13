@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-    "version": 7,
-    "generated_at": "2026-06-12T15:22:43Z",
+    "version": 8,
+    "generated_at": "2026-06-13T00:22:17Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -114,7 +114,8 @@
         "CPO出货占比>15%→可插拔减半",
         "HBM价格连降两季→风险预警"
       ]
-    }
+    },
+    "investment_conclusion": "产业链瓶颈兑现时,钱流向: 中际旭创(中性·窗口期) > 新易盛(增持·目标700) > 天孚通信(增持·目标420)。首选 rank1=300308 中际旭创"
   },
   "debate_rounds": [
     {
@@ -221,6 +222,40 @@
   "top_chokepoints": [
     "CoWoS先进封装(最窄垄断,国产替代盛合晶微)",
     "800G/1.6T光模块(A股直接可买中际旭创,但CPO 2027+替代近忧)"
+  ],
+  "investment_map": [
+    {
+      "chokepoint": "800G/1.6T光模块",
+      "recommended": "300308 中际旭创",
+      "analyzed": true,
+      "rank": 1,
+      "why": "全球龙头(800G>40%/1.6T 50-70%),卡位最强;但已涨11倍,窗口期交易+硬止损",
+      "rating": "中性·窗口期"
+    },
+    {
+      "chokepoint": "1.6T光模块(第二梯队)",
+      "recommended": "300502 新易盛",
+      "analyzed": true,
+      "rank": 2,
+      "why": "Q1+106%增速最快,估值比中际旭创便宜,1.6T放量弹性大",
+      "rating": "增持·目标700"
+    },
+    {
+      "chokepoint": "光器件(上游)",
+      "recommended": "300394 天孚通信",
+      "analyzed": true,
+      "rank": 3,
+      "why": "光器件+海外布局先行,但议价权弱于光模块整机,分散配置",
+      "rating": "增持·目标420"
+    },
+    {
+      "chokepoint": "CoWoS先进封装/HBM",
+      "recommended": "(通富微电/长电科技,未深析)",
+      "analyzed": false,
+      "rank": 4,
+      "why": "AI算力封装瓶颈,但中国厂商与台积电差距大,待深析",
+      "rating": "待分析"
+    }
   ],
   "analysts": {
     "prosperity": {

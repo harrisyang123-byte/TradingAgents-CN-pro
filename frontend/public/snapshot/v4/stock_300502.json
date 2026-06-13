@@ -1,0 +1,171 @@
+{
+  "code": "300502",
+  "name": "新易盛",
+  "industry": "人工智能算力",
+  "stock_unit": {
+    "unit_id": "stock:300502",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:300502」，或运行：./scripts/run_v4.sh analyze stock:300502",
+    "version": 1,
+    "generated_at": "2026-06-12T15:04:29Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
+  "target_price": 700,
+  "entry_price_range": [
+    480,
+    540
+  ],
+  "price_at_judgment": 526.0,
+  "valuation_basis": "高成长光模块PE法: 目标价700元=2026E EPS约20元 × forward PE 35x(1.6T放量,低于中际旭创); 买点480-540=forward PE 24-27x(20%安全边际); 破480=forward PE<24盈利下修→清仓。2025净利+236%高基数,2026增速放缓需警惕。",
+  "expectation_gap": "正(中等):2025 高增已被 price-in,2Q26 起 1.6T 产能释放是新一轮预期差催化;但中际旭创经验显示一年涨 11 倍后可能进入收敛期,需精选时间窗",
+  "chokepoint_score": "中-高(光模块 1.6T 卡位,与中际旭创并列第二梯队但增速更快)",
+  "discovery_level": "🟡半发现(2025 已大涨,2026 需要新催化)",
+  "business_quality": "周期生意+成长属性(光模块本质制造业,但 1.6T 切换期享受高增红利);10 年面临 CPO 替代风险,与中际旭创相同",
+  "position_nature": "中期窗口期交易(2026-2027 1.6T 红利期),不建议长期重仓",
+  "worst_case": "AI capex 下修+CPO 加速+1.6T 价格战 → 股价回到 250-300 元(-50%)",
+  "downside": "下行 -40%(310-330 元) vs 上行 +30-40%(680-740 元) → 赔率约 0.7-1.0",
+  "sell_discipline": [
+    "Meta/MS/Goog 任一2026Q3 capex 指引下修>10% → 减仓50%",
+    "1.6T 出货 H2 不达预期 → 减仓 30%",
+    "CPO 加速渗透 → 清仓",
+    "破 480 元 → 清仓"
+  ],
+  "thesis": "2Q26 起 1.6T 产能释放是新一轮戴维斯双击;Q1 +106% 已验证强劲需求;比中际旭创估值更便宜+增速更快;但同样面临 CPO 中期威胁,只是窗口期更长(2026-27)",
+  "risks": [
+    "AI capex 周期见顶",
+    "CPO 加速",
+    "客户集中度+竞争激烈",
+    "2025 已大涨估值不便宜"
+  ],
+  "confidence": "medium",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-07-15-08-15",
+        "event": "科技巨头2026Q2财报+capex指引",
+        "consensus": "维持",
+        "our_view": "+30~+50%",
+        "gap": "inline",
+        "impact_on_stock": "capex 下修>10% 是最大利空"
+      },
+      {
+        "date": "2026-08",
+        "event": "H1 业绩+Q2 业绩",
+        "consensus": "营收+50-100%",
+        "our_view": "+50-80%",
+        "gap": "slight_beat",
+        "impact_on_stock": "业绩兑现强度决定后续走势"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "英伟达 GB300 量产+CPO 试点",
+        "consensus": "按计划",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "CPO 进展是利空触发"
+      }
+    ],
+    "cross_market_leading": "2s10s+47bp 已正常化(衰退后置 6-12 月);AI capex 高位但 2027 见顶风险",
+    "mid_term_path": "2026-2027 行业景气持续;2027+ 看CPO 替代风险",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "业绩兑现+宏观稳定",
+        "implied_pe": 35,
+        "implied_target_price": 700
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "业绩超预期+催化加速",
+        "implied_pe": 45,
+        "implied_target_price": 900
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "管制升级或景气见顶",
+        "implied_pe": 18,
+        "implied_target_price": 350
+      }
+    ],
+    "earnings_revision_view": "卖方一致预期 2026E 高增,我方判断接近上限",
+    "stock_specific_risks": "AI capex 下修+CPO 加速+1.6T 价格战 → 股价回到 250-300 元(-50%)",
+    "key_assumptions": [
+      {
+        "assumption": "宏观环境不大幅恶化",
+        "falsification_signal": "美 CPI 破 4.5% 或 FOMC 鹰派加息"
+      },
+      {
+        "assumption": "行业景气延续 2026-27",
+        "falsification_signal": "下游订单连续两季下滑"
+      }
+    ],
+    "trigger_monitor": [
+      "Meta/MS/Goog 任一2026Q3 capex 指引下修>10% → 减仓50%",
+      "1.6T 出货 H2 不达预期 → 减仓 30%",
+      "CPO 加速渗透 → 清仓",
+      "破 480 元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业人工智能算力龙头)",
+    "why_changed": "B 阶段个股下钻补全",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": {
+    "evaluated_at": "2026-06-13",
+    "prev_version": null,
+    "prev_judgment": {
+      "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
+      "target_price": 700,
+      "date": "2026-06-12"
+    },
+    "actual_outcome": {
+      "price": 526.0,
+      "change_vs_target_pct": 0.0,
+      "source": "manual"
+    },
+    "hit": "flat",
+    "alpha_note": "判断时价 526.0 → 实际 526.0(涨跌 0.0%),评级'增持(1.6T 第二' → flat;目标 700",
+    "data_status": "verified"
+  },
+  "evidence": [
+    {
+      "claim": "2025年全年营收 248.42 亿元(+187.29%),净利 95.32 亿元(+235.89%)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "2026Q1 营收 83.4 亿元(+105.76% YoY),增速强劲",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "国金证券:看好 2Q26 起 1.6T 产能释放带来收入&利润双增",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "股价约 526-540 元(2026-06)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "1.6T 光模块第二梯队(中际旭创第一梯队)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    }
+  ]
+}

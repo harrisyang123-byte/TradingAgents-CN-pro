@@ -1,0 +1,149 @@
+{
+  "code": "601899",
+  "name": "紫金矿业",
+  "industry": "有色资源",
+  "stock_unit": {
+    "unit_id": "stock:601899",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:601899」，或运行：./scripts/run_v4.sh analyze stock:601899",
+    "version": 1,
+    "generated_at": "2026-06-12T15:12:01Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(铜+金双轮+Q1净利翻倍+员工持股托底)",
+  "target_price": 42,
+  "entry_price_range": [
+    28,
+    32
+  ],
+  "price_at_judgment": 32.0,
+  "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
+  "expectation_gap": "正(中等):Q1营收+24.79%/净利+97.5% 强劲超预期;铜电力化+金避险双驱动+稀土战略;但估值溢价267%已部分透支",
+  "chokepoint_score": "高(铜矿+金矿双瓶颈卡位+全球前十大铜矿企业)",
+  "discovery_level": "🔴已发现(2024-25已大涨)",
+  "business_quality": "周期生意但电力化驱动结构性长青;铜矿+金矿+锂矿多元化降低单一商品风险;10年仍在",
+  "position_nature": "长期投资(战略矿产+股息)+中期窗口期(铜价高位)",
+  "worst_case": "全球衰退+capex回落+铜价下行20%+金价回落 → -30%(24元)",
+  "downside": "下行-30%(24元) vs 上行+30%(42元) → 赔率约1.0",
+  "sell_discipline": [
+    "LME铜库存月增>30% → 减仓",
+    "金价跌破3500 → 减仓",
+    "全球PMI连续3月<48 → 减仓50%",
+    "破24元 → 清仓"
+  ],
+  "thesis": "Q1净利+97.5% 强劲超预期(矿产金/碳酸锂量+主营金属价上涨);铜电力化(AI+EV)+金避险+稀土战略多重共振;员工持股19.36元/股(市价60%)是底部托底;EPS 0.755元",
+  "risks": [
+    "估值溢价267%偏高",
+    "全球衰退导致铜价下行",
+    "金价高位回落",
+    "碳酸锂价格压力"
+  ],
+  "confidence": "medium-high",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "中报",
+        "consensus": "H1净利+50%",
+        "our_view": "+60-70%",
+        "gap": "slight_beat",
+        "impact_on_stock": "超预期延续"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "美国Fed降息预期+铜需求季节性",
+        "consensus": "温和",
+        "our_view": "铜价上行",
+        "gap": "slight_dovish",
+        "impact_on_stock": "铜价利多"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "地缘风险+央行购金延续",
+        "consensus": "持续",
+        "our_view": "加速",
+        "gap": "slight_bull",
+        "impact_on_stock": "金价继续上行"
+      }
+    ],
+    "mid_term_path": "2026-2027 铜电力化加速+金价4500-5000;2028+ AI数据中心耗电高峰+铜矿供给紧张",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "铜价维持+金价高位",
+        "implied_pe": 18,
+        "implied_target_price": 42
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "地缘升级+Fed降息+铜矿罢工",
+        "implied_pe": 22,
+        "implied_target_price": 52
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "全球衰退+铜价下行",
+        "implied_pe": 12,
+        "implied_target_price": 24
+      }
+    ],
+    "earnings_revision_view": "卖方一致2026E +50%,我方判断+60-70%(Q1已+97.5%基础)",
+    "stock_specific_risks": "金属价格周期波动;碳酸锂业务拖累;全球衰退导致铜需求下行",
+    "key_assumptions": [
+      {
+        "assumption": "LME铜价维持10000美元/吨上方",
+        "falsification_signal": "跌破8500即趋势反转 → 减仓"
+      },
+      {
+        "assumption": "央行购金延续",
+        "falsification_signal": "月度购金量<150吨持续3月 → 减速"
+      }
+    ],
+    "trigger_monitor": [
+      "LME铜库存月增>30% → 减仓",
+      "金价跌破3500美元 → 暂停加仓",
+      "全球PMI连续3月<48 → 减仓50%",
+      "破24元 → 清仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次v4完整新架构(B1.9)",
+    "why_changed": "有色资源行业首选龙头",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "2026Q1营收984.98亿(+24.79%)/净利200.79亿(+97.5%)/扣非净利184.59亿(+86.81%)",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "EPS 0.755元",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "员工持股计划受让价格19.36元/股(回购均价60%)",
+      "source": "AASTOCKS",
+      "status": "verified"
+    },
+    {
+      "claim": "Morningstar估值溢价267%",
+      "source": "Morningstar",
+      "status": "verified"
+    }
+  ]
+}

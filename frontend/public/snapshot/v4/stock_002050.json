@@ -1,0 +1,131 @@
+{
+  "code": "002050",
+  "name": "三花智控",
+  "industry": "新能源车",
+  "stock_unit": {
+    "unit_id": "stock:002050",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:002050」，或运行：./scripts/run_v4.sh analyze stock:002050",
+    "version": 2,
+    "generated_at": "2026-06-12T15:23:43Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(EV热管理+人形机器人催化)",
+  "target_price": 50,
+  "entry_price_range": [
+    35,
+    40
+  ],
+  "price_at_judgment": null,
+  "valuation_basis": null,
+  "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
+  "chokepoint_score": "待行业重新分类后评估",
+  "discovery_level": "🟡半发现",
+  "business_quality": "待深度分析(汽车热管理/家电行业属性,需联网核实)",
+  "position_nature": "中期窗口期(等深度分析后定性)",
+  "worst_case": "行业景气下行+公司基本面恶化 → 跌破24元(-30%)",
+  "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
+  "sell_discipline": [
+    "破24元 → 清仓",
+    "Q3业绩同比转负>10% → 减仓",
+    "行业景气信号转弱 → 减仓"
+  ],
+  "thesis": "增持(EV热管理+人形机器人催化); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
+  "risks": [
+    "数据未充分核实",
+    "下次重跑替换"
+  ],
+  "confidence": "low(B4 简化升级)",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "Q2财报",
+        "consensus": "温和",
+        "our_view": "待数据",
+        "gap": "inline",
+        "impact_on_stock": "业绩兑现"
+      }
+    ],
+    "mid_term_path": "汽车热管理/家电行业景气延续",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "行业景气稳定",
+        "implied_pe": 25,
+        "implied_target_price": 50
+      },
+      {
+        "name": "bull",
+        "prob": 0.2,
+        "trigger": "行业催化超预期",
+        "implied_pe": 35,
+        "implied_target_price": 65
+      },
+      {
+        "name": "bear",
+        "prob": 0.25,
+        "trigger": "行业景气下行",
+        "implied_pe": 15,
+        "implied_target_price": 24
+      }
+    ],
+    "earnings_revision_view": "待深度分析",
+    "stock_specific_risks": "数据待核实",
+    "key_assumptions": [
+      {
+        "assumption": "行业景气稳定",
+        "falsification_signal": "行业景气拐点信号"
+      }
+    ],
+    "trigger_monitor": [
+      "破24元 → 清仓",
+      "Q3业绩同比转负>10% → 减仓",
+      "行业景气信号转弱 → 减仓"
+    ]
+  },
+  "debate_rounds": [
+    {
+      "round": 1,
+      "bull": "热管理龙头+人形机器人执行器(机电),机器人催化打开第二曲线。",
+      "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
+    },
+    {
+      "round": 2,
+      "bull": "基本面/主题支撑中期",
+      "bear": "短期β扰动，注意回撤"
+    },
+    {
+      "round": 3,
+      "bull": "维持评级，强调分批",
+      "bear": "认同分批与仓位控制"
+    }
+  ],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "增持(EV热管理+人形机器人催化)",
+    "prev_date": "2026-06-07T07:42:50Z",
+    "what_changed": "B4 简化升级 forward_view 框架",
+    "why_changed": "B 阶段 数据一致性",
+    "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "三花智控所属新能源车方向(见industry单元)",
+      "source_url": "industry:新能源车",
+      "status": "verified"
+    },
+    {
+      "claim": "当前价/PE未核实",
+      "source_url": "needs_fetch",
+      "status": "missing"
+    }
+  ]
+}

@@ -93,6 +93,13 @@ def main() -> int:
             _write(out_dir, f"industry_{name}.json", v4_query.build_industry_detail(units, name))
             n += 1
 
+    # stock_<code>.json（D0-3：个股详情，按已落盘 stock 单元）
+    for uid in units:
+        if uid.startswith("stock:"):
+            code = uid.split(":", 1)[1]
+            _write(out_dir, f"stock_{code}.json", v4_query.build_stock_detail(units, code))
+            n += 1
+
     print(f"✅ v4 静态快照生成完成：{n} 个文件 → {out_dir}")
     print("   前端设 VITE_STATIC_SNAPSHOT=1 即直接 fetch 这些快照（与走 API 同构）")
     return 0

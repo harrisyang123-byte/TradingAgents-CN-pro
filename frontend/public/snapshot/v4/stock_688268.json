@@ -1,0 +1,145 @@
+{
+  "code": "688268",
+  "name": "华特气体",
+  "industry": "半导体",
+  "stock_unit": {
+    "unit_id": "stock:688268",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:688268」，或运行：./scripts/run_v4.sh analyze stock:688268",
+    "version": 1,
+    "generated_at": "2026-06-12T15:04:29Z",
+    "ttl_days": 5,
+    "upstream": [],
+    "run_mode": "ai_proxy",
+    "exists": true
+  },
+  "rating": "增持(电子特气国产替代加速)",
+  "target_price": 75,
+  "entry_price_range": [
+    50,
+    58
+  ],
+  "price_at_judgment": 55.0,
+  "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
+  "expectation_gap": "中性:电子特气国产替代故事强,但估值溢价过高(625%)是警示;Q1 数据缺失,需等中报验证",
+  "chokepoint_score": "高(电子特气国产化率 10-30% 空间最大,处半导体材料核心瓶颈)",
+  "discovery_level": "🟢未发现(小市值 + 估值溢价 → 高风险高回报)",
+  "business_quality": "好生意(电子特气壁垒高+认证周期长+客户黏性强);10 年长青",
+  "position_nature": "中期窗口期交易(国产替代窗口),小仓位试探不超过 1-2%",
+  "worst_case": "估值杀(625% 溢价回归到正常) → -50%(28 元)",
+  "downside": "下行 -50%(28 元) vs 上行 +35%(75 元) → 赔率约 0.7,但上下行不对称(估值风险)",
+  "sell_discipline": [
+    "Q2 业绩低于预期 → 减仓 50%",
+    "美升级材料管制 → 加仓(国产替代加速)",
+    "破 45 元 → 清仓",
+    "估值 premium 回到 < 200% → 加仓"
+  ],
+  "thesis": "电子特气国产替代是半导体材料最大空间(国产化率 10-30%);小市值+高弹性;估值偏高但成长性强;建议小仓试探(≤1%)",
+  "risks": [
+    "估值溢价 625% 极高",
+    "Q1 数据缺失",
+    "小市值流动性风险",
+    "行业周期敏感"
+  ],
+  "confidence": "medium",
+  "forward_view": {
+    "near_term_calendar": [
+      {
+        "date": "2026-08",
+        "event": "H1 业绩+Q2 业绩",
+        "consensus": "营收+20-30%",
+        "our_view": "+25-40%",
+        "gap": "slight_beat",
+        "impact_on_stock": "业绩超预期则估值上修"
+      },
+      {
+        "date": "2026-Q3",
+        "event": "大基金三期招标关键期",
+        "consensus": "约3000亿",
+        "our_view": "按计划",
+        "gap": "inline",
+        "impact_on_stock": "国产替代加速"
+      },
+      {
+        "date": "2026-Q4",
+        "event": "美对华出口管制升级风险",
+        "consensus": "概率40%",
+        "our_view": "50%",
+        "gap": "hawkish",
+        "impact_on_stock": "短期阵痛+长期国产替代加速"
+      }
+    ],
+    "cross_market_leading": "2s10s+47bp 已正常化;HY OAS 健康(3.0-3.3%);全球半导体景气延续",
+    "mid_term_path": "2026-2027 行业景气持续;2027+ 看HBM 周期+管制升级风险",
+    "path_scenarios": [
+      {
+        "name": "base",
+        "prob": 0.55,
+        "trigger": "业绩兑现+宏观稳定",
+        "implied_pe": 60,
+        "implied_target_price": 75
+      },
+      {
+        "name": "bull",
+        "prob": 0.25,
+        "trigger": "业绩超预期+催化加速",
+        "implied_pe": 80,
+        "implied_target_price": 100
+      },
+      {
+        "name": "bear",
+        "prob": 0.2,
+        "trigger": "管制升级或景气见顶",
+        "implied_pe": 30,
+        "implied_target_price": 28
+      }
+    ],
+    "earnings_revision_view": "卖方一致预期 2026E 高增,我方判断接近上限",
+    "stock_specific_risks": "估值杀(625% 溢价回归到正常) → -50%(28 元)",
+    "key_assumptions": [
+      {
+        "assumption": "宏观环境不大幅恶化",
+        "falsification_signal": "美 CPI 破 4.5% 或 FOMC 鹰派加息"
+      },
+      {
+        "assumption": "行业景气延续 2026-27",
+        "falsification_signal": "下游订单连续两季下滑"
+      }
+    ],
+    "trigger_monitor": [
+      "Q2 业绩低于预期 → 减仓 50%",
+      "美升级材料管制 → 加仓(国产替代加速)",
+      "破 45 元 → 清仓",
+      "估值 premium 回到 < 200% → 加仓"
+    ]
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": null,
+    "prev_date": null,
+    "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业半导体龙头)",
+    "why_changed": "B 阶段个股下钻补全",
+    "self_check": "first_run_new_arch"
+  },
+  "historical_alpha": null,
+  "evidence": [
+    {
+      "claim": "电子特气国产替代龙头(特气+激光气+超高纯气)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    },
+    {
+      "claim": "Morningstar 显示交易在 625% 溢价(高估值警示)",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "estimated"
+    },
+    {
+      "claim": "2026 Q1 数据未充分披露,标 estimated",
+      "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
+      "status": "verified"
+    }
+  ]
+}
