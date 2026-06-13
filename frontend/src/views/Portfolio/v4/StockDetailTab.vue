@@ -1,7 +1,7 @@
 <template>
   <div class="stock-detail-tab">
     <div v-if="loading" class="sdt-loading"><el-skeleton :rows="6" animated /></div>
-    <template v-else-if="detail">
+    <template v-else-if="detail && detail.code">
 
       <!-- ===== 头部 ===== -->
       <div class="card sdt-head">
@@ -411,9 +411,21 @@ async function load(code: string) {
   if (!code) return
   loading.value = true
   try {
-    const res = await portfolioV4Api.getStockDetail(code)
-    detail.value = (res as any).data ?? null
-  } catch { detail.value = null } finally { loading.value = false }
+    const res: any = await portfolioV4Api.getStockDetail(code)
+    // 兼容三种返回形态: {data:{code,...}} / {code,...} 直接对象 / {success,data:...}
+    let d: any = res
+    if (d && typeof d === 'object') {
+      if (d.data && typeof d.data === 'object' && (d.data.code || d.data.name)) d = d.data
+      else if (!d.code && d.payload) d = d.payload  // unit envelope 兜底
+    }
+    detail.value = d && d.code ? d : null
+    if (!detail.value) {
+      console.warn('[v4-stock] detail empty for', code, 'raw:', res)
+    }
+  } catch (e) {
+    console.error('[v4-stock] load failed', code, e)
+    detail.value = null
+  } finally { loading.value = false }
 }
 
 const fv = computed(() => detail.value?.forward_view || {})

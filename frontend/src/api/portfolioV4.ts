@@ -513,12 +513,22 @@ export const portfolioV4Api = {
 
   async getStockDetail(code: string) {
     if (STATIC_SNAPSHOT) return loadSnapshot<StockDetail>(`stock_${code}.json`)
-    return ApiClient.get<StockDetail>(`/api/portfolio/v4/stock/${encodeURIComponent(code)}`)
+    // D0-8: 后端 Mongo 可能没该单元(刚跑出的产物只在 data/v4/stocks/),
+    // 静态快照永远是最新(build_snapshot_v4.py 落盘后即更新), 优先尝试快照, 失败再走 API
+    try {
+      return await loadSnapshot<StockDetail>(`stock_${code}.json`)
+    } catch {
+      return ApiClient.get<StockDetail>(`/api/portfolio/v4/stock/${encodeURIComponent(code)}`)
+    }
   },
 
   async getHoldingsReview() {
     if (STATIC_SNAPSHOT) return loadSnapshot<HoldingsReview>('holdings_review.json')
-    return ApiClient.get<HoldingsReview>('/api/portfolio/v4/holdings-review')
+    try {
+      return await loadSnapshot<HoldingsReview>('holdings_review.json')
+    } catch {
+      return ApiClient.get<HoldingsReview>('/api/portfolio/v4/holdings-review')
+    }
   },
 }
 
