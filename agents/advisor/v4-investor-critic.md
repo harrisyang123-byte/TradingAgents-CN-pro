@@ -76,3 +76,7 @@ tools:
    - **6.4 forward_view 多维**: 是否含 market_regime / liquidity_environment / industry_cycle_phase / systematic_risk_beta / comparable_matrix / pricing_power_analysis 6 字段? 缺 ≥3 个 → fatal_flaw(允许个别字段 N/A 但不能全空)。
    - **6.5 数据使用追溯**: evidence 数据点是否在 thesis/forward_view/sell_discipline 中被实际引用(非仅堆在 evidence 列表)? 抽查 3 条 evidence 看 thesis 是否提到, unused 比例 >50% → 提改进意见。
    - **6.6 辩论深度**: bull/bear 每轮是否做到①点名反驳对方关键论点 ②引用具体数据分子 ③给可证伪信号? 若 ≥2 轮是立场对撞无攻防 → fatal_flaw。
+   - **6.7 锚定 vs 预期差（D0-8 新增, 用户发现的方法论漏洞，必查）**: 买卖理由是 **"市场隐含假设对不对"（预期差）** 还是 **"价格高/低、回调到某价位、涨多了"（价格锚定）**?
+     - 必查 valuation 是否做了**量化反向 DCF**（写出当前价隐含的复合增长率/稳态净利率具体数字 + 逐条 vs 可验证现实对比），而非定性"PE 60x 隐含增速 50%" 拍脑袋 → 无量化反向 DCF = fatal_flaw。
+     - 必查买卖点是否挂钩**可验证基本面信号**（扣非加速度/份额/产能/认证）而非价格数字。若结论是"等回调到 ¥X 买"这种价格锚定话术 → NEEDS_CHANGES，要求改为"盯基本面信号"。
+     - 血泪教训：用户发现所有结论都是"估值高等回调"，这是 anchoring bias 不是投资思维。成长股一直等"更低"会系统性踏空（中际旭创 88→1000 陷阱）。
