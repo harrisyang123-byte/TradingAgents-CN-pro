@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个股投资建议 — 中际旭创 300308（样板）</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:#f0f2f5; color:#303133; line-height:1.7; padding:20px; }
+  .wrap { max-width:860px; margin:0 auto; }
+  .card { background:#fff; border-radius:10px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .stock-name { font-size:22px; font-weight:700; }
+  .stock-code { font-size:14px; color:#909399; font-weight:400; }
+  .tag { display:inline-block; padding:3px 12px; border-radius:14px; font-size:13px; font-weight:600; }
+  .tag-neutral { background:#f4f4f5; color:#909399; }
+  .tag-credit { background:#eef2ff; color:#4f46e5; margin-left:8px; }
+  .action-card { background:linear-gradient(135deg,#fff7e6 0%,#fff 100%); border:2px solid #ffd591; }
+  .action-title { font-size:15px; font-weight:700; color:#d46b08; margin-bottom:14px; }
+  .action-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
+  .ag-item { text-align:center; }
+  .ag-label { font-size:12px; color:#909399; }
+  .ag-value { font-size:20px; font-weight:700; color:#303133; }
+  .ag-value.danger { color:#cf1322; }
+  .ag-value.muted { color:#bfbfbf; font-size:15px; }
+  .pos-calc { background:#fffbe6; border-radius:8px; padding:12px; font-size:14px; }
+  .pos-calc b { color:#d46b08; }
+  .pos-input { width:90px; padding:3px 6px; border:1px solid #ffd591; border-radius:4px; }
+  .alert-box { background:#fff1f0; border-left:3px solid #cf1322; padding:10px 12px; border-radius:6px; margin-top:12px; font-size:14px; color:#a8071a; }
+  .oneliner { font-size:17px; font-weight:600; color:#1d2129; padding:14px; background:#f7f8fa; border-radius:8px; border-left:4px solid #909399; }
+  .thesis { font-size:14.5px; color:#4e5969; white-space:pre-wrap; }
+  .thesis strong, .thesis b { color:#1d2129; }
+  .sec-title { font-size:15px; font-weight:700; margin-bottom:10px; color:#1d2129; }
+  .credit { font-size:13px; color:#4f46e5; background:#eef2ff; padding:10px; border-radius:6px; margin-top:12px; }
+  .sell-list { list-style:none; }
+  .sell-list li { padding:8px 0 8px 26px; position:relative; border-bottom:1px dashed #f0f0f0; font-size:14px; }
+  .sell-list li::before { content:"🛑"; position:absolute; left:0; }
+  details { border:1px solid #ebeef5; border-radius:8px; margin-bottom:10px; }
+  summary { padding:12px 16px; cursor:pointer; font-weight:600; font-size:14px; color:#1d2129; background:#fafafa; border-radius:8px; }
+  .detail-body { padding:14px 16px; font-size:13.5px; color:#4e5969; }
+  .duel { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+  .bull { background:#f6ffed; border-radius:6px; padding:10px; }
+  .bear { background:#fff1f0; border-radius:6px; padding:10px; }
+  .ff-table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  .ff-table td { border:1px solid #f0f0f0; padding:5px 8px; }
+  .ff-high { color:#cf1322; font-weight:600; }
+  .note { font-size:12px; color:#bfbfbf; margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card head">
+    <div><span class="stock-name">中际旭创 <span class="stock-code">300308 · 光模块</span></span></div>
+    <div>
+      <span class="tag tag-neutral">中性 · 窗口期持有不加仓</span>
+      <span class="tag tag-credit">评审 72→87 ✓</span>
+    </div>
+  </div>
+
+  <div class="card action-card">
+    <div class="action-title">💼 操作建议（直接照做）</div>
+    <div class="action-grid">
+      <div class="ag-item"><div class="ag-label">当前价</div><div class="ag-value">¥1000</div></div>
+      <div class="ag-item"><div class="ag-label">建议买点</div><div class="ag-value">¥800-850</div></div>
+      <div class="ag-item"><div class="ag-label">目标价</div><div class="ag-value muted">区间法<br><span style="font-size:11px">不给单一目标</span></div></div>
+      <div class="ag-item"><div class="ag-label">止损线</div><div class="ag-value danger">¥800</div></div>
+    </div>
+    <div class="pos-calc">
+      <b>建议仓位：</b>行业内配比 <b>3.5%</b>（来自资金配比层）。
+      若你组合总市值 <input class="pos-input" id="cap" type="number" value="100" onchange="calc()"> 万元，
+      则建议金额约 <b id="amt">3.5</b> 万元 ≈ <b id="shares">35</b> 股（当前价）。
+      <div class="note">A股 100 股/手，不足 1 手建议等回调到买点或小额参与。</div>
+    </div>
+    <div class="alert-box">
+      ⚠️ <b>当前不建议新建仓</b>：现价 ¥1000 已无安全边际（88→1000 属历史预期差已耗尽）。
+      已持有者：<b>持有但绝不加仓</b>，严守下方 3 条止损线。若新介入仅限组合 ≤5% 试探。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="oneliner">📌 这是赚可插拔光模块最后 2-3 年确定性的【交易】，不是能拿 10 年的【投资】。中性·窗口期持有不加仓，已持有者守硬止损。</div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">📄 为什么这样判断（完整逻辑）</div>
+    <div class="thesis"><strong>为什么是交易而非投资——生意质量的诚实判断</strong>
+光模块 10 年大概率不是好生意。CPO（共封装光学）是物理规律驱动的确定性终局（功耗/密度/成本三重优势），只是落地节奏不确定（3 年还是 7 年）。旭创现在的护城河（800G&gt;40%/1.6T 50-70% 份额+客户绑定+规模），在 CPO 时代会大幅缩水。<b>从波特五力看这个生意的"利润能留住多久"存疑：①替代品威胁最致命（CPO 高威胁，物理替代）；②买方议价强（Meta/微软等云厂客户集中&gt;70%，已现订单波动，压毛利）；③同业竞争烈（新易盛/Coherent/Lumentum 追赶）。</b>三力叠加意味着即便未来 2-3 年量价齐升，长期利润难守。自研 CPO 转型成功概率是管理层资本配置能力的盲区，看不懂 3 年后，confidence 仅 50%。
+
+<strong>为什么不新建仓——预期差+估值</strong>
+88 元时是巨大正预期差（市场用传统光模块估值看它），现涨到 ~1000 元、forward PE 34.87 隐含 2026E 净利 +123%——增速已基本匹配可验证订单，预期差从"巨大正"收敛到"微正"。当前价定价的是"近 2 年可插拔确定性"，剩下只是"CPO 不来+capex 不退"的双条件看涨期权，不是未发现的 alpha。一年涨 11 倍，交易拥挤，筹码脆弱。
+
+<strong>最坏情景</strong>
+CPO 2027 加速+capex 回落双杀→营收腰斩→400-500 元（-50~55%）。赔率约 2:1 偏空（上行 +20-30% vs 下行 -40-50%）。</div>
+    <div class="credit">🎩 可信度：本判断经芒格/段永平/Serenity/达里奥四视角评审委员会，从 72 分迭代到 87 分 ACCEPT——第一轮被段永平视角打回（"中性持有"是不愿承认不懂），迭代后显式承认"这是交易非投资"+补 10 年视角+硬止损，才通过。</div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🛑 持有者止损纪律（看到就执行，不犹豫）</div>
+    <ul class="sell-list">
+      <li>任一云厂 CPO 出货占比 &gt;15% 或 旭创丢失 top 客户份额 &gt;10% → <b>减仓 50%</b>（不等渗透率&gt;30%，抢跑）</li>
+      <li>AI capex 增速连续两季环比转负 → <b>减仓 30%</b></li>
+      <li>股价跌破 800 元（forward PE&lt;28 = 盈利下修信号）→ <b>清仓</b></li>
+      <li>不建议新建仓：当前无安全边际</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🔬 支撑分析（点击展开）</div>
+    <details>
+      <summary>① 多空 3 轮辩论（真实交锋）</summary>
+      <div class="detail-body">
+        <b>第 3 轮 · 终局</b>
+        <div class="duel">
+          <div class="bull"><b>多头·增持</b><br>2025-27 可插拔爆发锁 3 年高增；CPO 2028+ 旭创升级为光引擎平台商非降级。翻转信号：英伟达 GB300 自封装 CPO 批量出货且旭创未进供应链。</div>
+          <div class="bear"><b>空头·减持/不追</b><br>CPO 共存期价值量缩水+毛利塌+估值锚切换是中期硬伤，叠加客户集中&gt;70%+拥挤，forward PE35 已透支。</div>
+        </div>
+        <div class="note">director 反骑墙拍板：近 2-3 年确定性不砍，但显式承认是窗口期交易+硬止损。</div>
+      </div>
+    </details>
+    <details>
+      <summary>② 波特五力 · 护城河可持续性</summary>
+      <div class="detail-body">
+        <table class="ff-table">
+          <tr><td>替代品威胁</td><td class="ff-high">高（CPO 物理替代，最致命）</td></tr>
+          <tr><td>买方议价力</td><td class="ff-high">高（云厂客户集中&gt;70%，压毛利）</td></tr>
+          <tr><td>同业竞争</td><td class="ff-high">高（新易盛/Coherent 追赶）</td></tr>
+          <tr><td>潜在进入者</td><td>中（技术迭代快）</td></tr>
+          <tr><td>供方议价</td><td>中（光芯片部分进口）</td></tr>
+        </table>
+        <div class="note">→ 护城河结论：窗口期护城河，三力叠加压制，非长期护城河。</div>
+      </div>
+    </details>
+    <details>
+      <summary>③ 估值推导（买点怎么来的）</summary>
+      <div class="detail-body">
+        区间法（窗口期交易非估值买入）：不给单一目标价。当前 ~1000 元/forward PE 34.87 隐含 2026E +123% 已匹配可验证订单；买点 800-850 = forward PE 回到 28-30x（15-20% 安全边际）；跌破 800 = forward PE&lt;28 即盈利下修信号→清仓。CPO 替代使长期 DCF 不可靠，故用窗口期赔率而非 DCF。
+      </div>
+    </details>
+    <details>
+      <summary>④ 历史判断准确率（结果闭环）</summary>
+      <div class="detail-body">
+        🔍 追踪中 · 当前 ~1000 元（区间法无单一目标价）。<br>
+        <span class="note">[局限] 真 alpha 需联网历史价回填，生产环境用 AKShare 计算。评估日 2026-06-13。</span>
+      </div>
+    </details>
+  </div>
+
+  <div class="note" style="text-align:center;padding:10px;">样板 · TradingAgents-CN v4 · 数据 2026-06-13 联网核实 · 仅供参考不构成投资建议</div>
+</div>
+<script>
+function calc(){
+  var cap = parseFloat(document.getElementById('cap').value)||0;
+  var amt = cap * 0.035;
+  var shares = Math.round(amt*10000/1000);
+  document.getElementById('amt').innerText = amt.toFixed(1);
+  document.getElementById('shares').innerText = shares;
+}
+</script>
+</body>
+</html>
