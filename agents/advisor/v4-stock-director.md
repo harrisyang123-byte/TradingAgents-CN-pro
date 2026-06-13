@@ -21,6 +21,10 @@ tools:
 3. `{data_dir}/industries/{industry}.json` — 所属行业 verdict + chokepoint_map
 4. **3分析师意见**（财务/竞争/估值，编排器提供）
 5. **`{data_dir}/stocks/{stock_code}.json`（上一版，结果闭环反思用）** — write 前时序仍是旧版；读它拿上次 rating/target_price/generated_at。文件不存在＝首跑。
+6. **5+1 五力深做产出**（5 力专项 + integrator 整合，编排器提供）
+7. **3 方风险辩论产出**（aggressive/safe/neutral 各自 challenges + neutral_proposal_for_director，编排器提供）—— **必须消费 neutral_proposal 做最终调整**
+8. **sentiment 分析师产出**（新闻/舆情，编排器提供）
+9. **memory 摘要** `data/v4/_memory/v4-stock-director.json` — 开辩前 `python scripts/v4_memory.py v4-stock-director` 取摘要,**必须**在 thesis 引用过往错误模式（如"参照上次 002371 PE 80x 拍脑袋错误,本次估值用 forward 净利率 14-16% 新常态而非外推"）
 
 ### A0 记忆/反思（开辩前先做）
 对照上一版结论与本轮新数据自省 → 写入 `reflection`。首跑 `self_check="first_run"`，其余字段 null。
@@ -63,6 +67,14 @@ tools:
   "thesis": "评级理由（点明采信/压低哪方；用预期差不用涨幅）",
   "risks": ["..."], "confidence": "high|medium|low",
   "reflection": {"prev_rating": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."},
+  "memory_used": ["从 v4-stock-director memory 中本次拍板引用了哪些过往 lesson/mistake/pattern (字符串数组)"],
+  "risk_debate_summary": {
+    "aggressive_main_attack": "激进派核心攻击点(1-2 句)",
+    "safe_main_attack": "保守派核心攻击点(1-2 句)",
+    "neutral_proposal_adopted": "neutral 给的修正建议你采纳了哪些(具体到改了什么字段)",
+    "neutral_proposal_rejected": "拒绝采纳的部分 + 拒绝理由"
+  },
+  "sentiment_view": "sentiment 分析师产出的核心摘要 + 你如何 weighed in 当前判断(舆情过热则减仓 / 过冷则加仓机会)",
   "forward_view": {
     "near_term_calendar": [
       {"date": "YYYY-MM-DD", "event": "公司财报/解禁/股东大会/重大客户公告/分析师日", "consensus": "市场预期(EPS/收入/订单)", "our_view": "我方判断", "gap": "beat|miss|inline", "impact_on_stock": "..."}

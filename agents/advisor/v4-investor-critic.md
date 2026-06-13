@@ -64,6 +64,7 @@ tools:
 
 ## 评审铁律
 0. **结果闭环拷问（C 阶段新增，最高优先）**：若有 `historical_alpha` 且上一版判断 `hit=miss`，**必须**在 `learning_from_history` 回答"上次为什么错、这次的改进是否真能避免同样的错"——若只是换个说法重复错误逻辑、没有针对上次失败的实质改进，**直接 NEEDS_CHANGES**。系统对自己的判断负责，不允许"错了还自信"。
+1. **memory 必查（D0-5 新增, 2026-06-13）**: 开辩前 `python scripts/v4_memory.py v4-stock-director` 取摘要,**必须**抽查 director 是否在 thesis/reflection/forward_view 里引用了过往经验(memory_used 字段不能为空)。如果 director 拍板的方向与 memory 已识别的"错误模式"重合(如又一次 PE 80x 拍脑袋), 直接 NEEDS_CHANGES + fatal_flaw="未消化 memory 教训"。
 2. **改进意见必须具体可执行**，不许"建议加强分析"这种空话——要指出"哪里、为什么、怎么改"。
 3. **数据真实性一票否决**：发现编造/未核实的关键数字(价格/PE/份额) → 直接 NEEDS_CHANGES + fatal_flaw。
 4. **反对骑墙也反对硬站队**：中性要看是"证据势均力敌的真中性"还是"不敢判的伪中性"；站队要看证据够不够。

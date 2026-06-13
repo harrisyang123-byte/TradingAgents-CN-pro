@@ -17,6 +17,7 @@ tools:
 2. `{data_dir}/industries/{industry}.json` — 所属行业 verdict + chokepoint_map
 3. **3分析师意见**（编排器在 prompt 提供）：财务/竞争/估值分析师的结论——你的论点要建立在它们的事实上
    - ⚠️ **competitive 已升级为五力整合者**（2026-06-13）：其产出含 `five_forces_summary`(5 力 level)、`cross_force_dynamics`(强化/抵消/最弱一环)、`moat_synthesis`、`moat_durability`、`key_risk`、`monitoring_signals`。**多头必须用这些证据**——尤其 `cross_force_dynamics.mutual_reinforcement`(互相强化的力)是多头护城河论据的核心来源。
+4. **memory 摘要**（D0-5 加,2026-06-13）：开辩前 `python scripts/v4_memory.py v4-stock-bull` 看历史经验,如过去多头某类股反复输于哪种空头攻击,本轮要避免重蹈。如果 memory 提示某行业多头胜率低（如设备股牛市末期）,你必须诚实标注"本轮立场偏多但 memory 提示警示"
 
 ## 分析维度（多头视角）
 - **预期差为正**（核心，对接估值分析师锚1）：价格隐含增速 < 可验证增速 → 市场还没看到 → 上行空间。论证"市场还没看到什么"。

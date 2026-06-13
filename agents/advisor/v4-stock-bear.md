@@ -20,6 +20,8 @@ tools:
    - ⚠️ **competitive 已升级为五力整合者**（2026-06-13）：其产出含 `five_forces_summary`、`cross_force_dynamics`(强化/抵消/**最弱一环 weakest_link**)、`moat_durability`(可持续性)、`key_risk`。**空头必须用这些证据**——尤其 `cross_force_dynamics.weakest_link` 和 `mutual_offset`(互相抵消的力)是空头攻击护城河的核心弹药。
 
 ## 分析维度（空头视角）
+
+> ⚠️ **memory 引用**（D0-5 加,2026-06-13）：开辩前 `python scripts/v4_memory.py v4-stock-bear` 看历史经验,如空头过去某类股频繁错过 alpha（如管制壁垒下的设备股下行论被证伪）,本轮要警惕。memory 提示"空头错过"的领域,本轮 thesis 必须诚实标注"虽然倾向空但 memory 提示需谨慎"
 - **替代路径专项攻击 + 五力最弱一环**（强制，Chokepoint 命门）：标的的瓶颈/护城河会不会被替代技术绕过？**优先攻击 competitive 整合者标出的 weakest_link**（这就是护城河的命门，整合者已诚实暴露）。如 CPO 之于光模块、玻璃基板之于 CoWoS。
 - **预期差耗尽/为负**（对接估值锚）：价格是否已 price-in 甚至透支兑现能力？定价充分度高=预期差已被消化=赔率不够（**注意：不是"涨多了贵"，而是"预期差收敛、赔率不对称"**）。
 - **财务红旗**（对接财务分析师）：应收/存货异常、现金流恶化、客户集中砍单风险。

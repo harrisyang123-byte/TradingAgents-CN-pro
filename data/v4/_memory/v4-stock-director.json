@@ -1,0 +1,31 @@
+{
+  "agent_id": "v4-stock-director",
+  "version": "v1",
+  "updated_at": "2026-06-13",
+  "past_decisions": [
+    {
+      "date": "2026-06-13",
+      "stock": "002371",
+      "verdict": "v1: 增持 850",
+      "actual": "miss",
+      "lesson": "PE 80x 拍脑袋未消化 buyer 议价对净利率压缩"
+    }
+  ],
+  "mistakes": [
+    {
+      "pattern": "设备股 PE 倍数估值时假设净利率维持历史高点而忽视客户集中度议价压力",
+      "instances": [
+        "002371 v1"
+      ],
+      "rule": "设备股估值必须用 forward 净利率 14-16% 新常态,不外推 18%",
+      "discovered_at": "2026-06-13"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "国产替代主题股容易 PE 80x+ 拍脑袋",
+      "calibration": "对标已上市同行 PE re-rating 路径(中微 80→45 用 18 月)",
+      "discovered_at": "2026-06-13"
+    }
+  ]
+}
