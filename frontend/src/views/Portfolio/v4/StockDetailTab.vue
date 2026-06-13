@@ -564,11 +564,12 @@ const debatePairs = computed(() => {
   for (const r of rounds) {
     const rd = r.round || 0
     if (!map[rd]) map[rd] = { round: rd }
+    // bull 与 bear 独立判断(不能用 else if 链 — 同一 round 对象可能同时含 bull+bear)
     if (r.side === 'bull' && r.thesis) map[rd].bull = r.thesis
-    else if (r.side === 'bear' && r.thesis) map[rd].bear = r.thesis
     else if (typeof r.bull === 'string') map[rd].bull = r.bull
-    else if (typeof r.bear === 'string') map[rd].bear = r.bear
     else if (r.bull?.thesis) map[rd].bull = r.bull.thesis
+    if (r.side === 'bear' && r.thesis) map[rd].bear = r.thesis
+    else if (typeof r.bear === 'string') map[rd].bear = r.bear
     else if (r.bear?.thesis) map[rd].bear = r.bear.thesis
   }
   return Object.values(map).filter(p => p.bull || p.bear).sort((a, b) => a.round - b.round)
