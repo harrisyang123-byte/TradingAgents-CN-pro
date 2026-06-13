@@ -244,7 +244,21 @@ def _build_industry_pack(inputs: Path, name: str, classified: dict, macro: dict)
 
 
 def _build_stock_pack(inputs: Path, code: str, classified: dict, macro: dict, user_id: str) -> None:
-    """个股输入包（FR-006 AC6.4）：基本面/行情(best-effort) + 所属行业推断。"""
+    """个股输入包（FR-006 AC6.4）：基本面/行情(best-effort) + 所属行业推断。
+
+    D0-8 加 merge 模式: 若 inputs/stock_<code>.json 已存在(含主 agent web_search 回填的数据),
+    保留这些字段, 只补 fundamentals/macro_context. 避免 collect 重跑覆盖取数闭环成果.
+    """
+    # 读取已有输入包(主 agent 之前可能补了 web_search 数据)
+    existing_path = inputs / f"stock_{_safe(code)}.json"
+    existing_pack: dict = {}
+    if existing_path.exists():
+        try:
+            existing_pack = json.loads(existing_path.read_text(encoding="utf-8"))
+            print(f"  ℹ️  发现已有输入包 stock_{code}.json, 将合并(保留主 agent 已回填数据)")
+        except Exception:
+            existing_pack = {}
+
     # 从持仓里找该 code 的名称/行业线索
     name = code
     industry = ""
@@ -290,6 +304,22 @@ def _build_stock_pack(inputs: Path, code: str, classified: dict, macro: dict, us
         "macro_context": macro,
         "data_availability": {"fundamentals": fundamentals["available"], "macro": macro["data_availability"]},
     }
+
+    # D0-8 合并已有(主 agent web_search 回填)字段, 不覆盖用户/agent 已补的数据
+    if existing_pack:
+        # 保留: 主 agent 已补的所有 MUST/SHOULD 字段 + 别名字段(financials/business/valuation 等)
+        for k, v in existing_pack.items():
+            if k in ("data_contract_check", "data_contract_instructions"):
+                continue  # 这两个每次重新算
+            # 优先保留已有值(如果新 pack 字段被默认值覆盖才用新的)
+            if k not in pack or pack[k] in (None, "", [], {}, code, name):
+                pack[k] = v
+        # fundamentals 特殊处理: 若 existing 里 fundamentals.available 已 True 则保留
+        if isinstance(existing_pack.get("fundamentals"), dict) and existing_pack["fundamentals"].get("available"):
+            pack["fundamentals"] = existing_pack["fundamentals"]
+        # 同步 print 用的局部变量(避免 industry 已合并但 print 显示空)
+        industry = pack.get("industry") or industry
+        name = pack.get("name") or name
 
     # D0-8 数据契约检查 — 用户 '缺数据接着查' 指令落地
     # 检查 18 MUST 字段 + 10 SHOULD 字段, 缺 MUST 输出取数指令(主 agent 必须 web_search 补)

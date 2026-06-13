@@ -105,7 +105,7 @@ MUST_FIELDS: Dict[str, Dict[str, Any]] = {
     },
     "industry_size_cagr": {
         "label": "所在行业市场规模 + 未来 3-5 年 CAGR",
-        "search_query_template": "{industry} 市场规模 {fy_year} CAGR 复合增长率",
+        "search_query_template": "{name_or_industry} 行业 市场规模 {fy_year} CAGR 复合增长率",
         "source_hints": ["Yole/Gartner/Frost & Sullivan/IDC", "卖方行业深度报告"],
         "usage": "天花板判断 / 长期增长可持续性",
     },
@@ -319,6 +319,7 @@ def check_data_contract(stock_pack: Dict[str, Any]) -> Dict[str, Any]:
     code = stock_pack.get("code", "?")
     name = stock_pack.get("name", "")
     industry = stock_pack.get("industry", "")
+    name_or_industry = industry if industry else name  # 行业空时用公司名兜底
     peers_str = ""
     peers_v = stock_pack.get("peers") or (stock_pack.get("business", {}) or {}).get("peers")
     if isinstance(peers_v, list):
@@ -338,7 +339,8 @@ def check_data_contract(stock_pack: Dict[str, Any]) -> Dict[str, Any]:
                  .replace("{code}", code)
                  .replace("{fy_year}", str(fy_year))
                  .replace("{industry}", industry)
-                 .replace("{peers}", peers_str))
+                 .replace("{name_or_industry}", name_or_industry)
+                 .replace("{peers}", peers_str if peers_str else (name + " 同业")))
         return {
             "field": field_key,
             "label": spec["label"],
