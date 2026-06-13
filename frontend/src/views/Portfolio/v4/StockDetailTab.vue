@@ -105,17 +105,31 @@
 
           <!-- Step 1 数据采集 -->
           <el-collapse-item name="step1">
-            <template #title><span class="sdt-step-title">📥 Step 1 · 数据采集（data-desk）</span></template>
-            <p class="sdt-step-desc">data-desk 是唯一联网取数台,5 力深做 + 财务 + 估值的所有数据从这里来</p>
-            <div v-if="detail.evidence?.length">
-              <p><b>核实的数据点（{{ detail.evidence.length }} 条）：</b></p>
-              <ul class="sdt-evidence-list">
-                <li v-for="(e, i) in detail.evidence" :key="i">
-                  <el-tag :type="evidenceTagType(e.status)" size="small" effect="plain">{{ e.status }}</el-tag>
-                  {{ e.claim }}
-                  <span v-if="e.source" class="sdt-evidence-src">— {{ e.source }}</span>
-                </li>
-              </ul>
+            <template #title>
+              <span class="sdt-step-title">
+                📥 Step 1 · 数据采集（data-desk）
+                <el-tag size="small" type="info" class="sdt-step-tag">{{ detail.evidence?.length ?? 0 }} 条数据</el-tag>
+                <el-tag v-if="evidenceCoverage.verified > 0" size="small" type="success" class="sdt-step-tag">✓ verified {{ evidenceCoverage.verified }}</el-tag>
+                <el-tag v-if="evidenceCoverage.estimated > 0" size="small" type="warning" class="sdt-step-tag">⚠ estimated {{ evidenceCoverage.estimated }}</el-tag>
+                <el-tag v-if="evidenceCoverage.missing > 0" size="small" type="info" class="sdt-step-tag">- missing {{ evidenceCoverage.missing }}</el-tag>
+              </span>
+            </template>
+            <p class="sdt-step-desc">data-desk 是唯一联网取数台，按 schema 分组采集：估值/财务/5力深做(21字段)/同业可比/政策催化/资金面/一致预期。所有 5 力分析师消费的数据都来自这里。</p>
+            <div v-if="!detail.evidence?.length" class="sdt-empty">（暂无数据）</div>
+            <div v-else>
+              <div v-for="(items, group) in groupedEvidence" :key="group" class="sdt-evi-group">
+                <div class="sdt-evi-group-head">
+                  <b>{{ group }}</b>
+                  <span class="sdt-evi-group-count">{{ items.length }} 条</span>
+                </div>
+                <ul class="sdt-evidence-list">
+                  <li v-for="(e, i) in items" :key="i">
+                    <el-tag :type="evidenceTagType(e.status)" size="small" effect="plain">{{ e.status }}</el-tag>
+                    {{ e.claim }}
+                    <span v-if="e.source" class="sdt-evidence-src">— {{ e.source }}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </el-collapse-item>
 
@@ -422,6 +436,26 @@ const whyExpGap = computed(() => {
   return g ? g.slice(0, 100) : ''
 })
 
+// evidence 按 group 分组(数据采集 Step 1 用)
+const groupedEvidence = computed(() => {
+  const ev = detail.value?.evidence || []
+  const groups: Record<string, any[]> = {}
+  for (const e of ev) {
+    const g = (e as any).group || '其他'
+    if (!groups[g]) groups[g] = []
+    groups[g].push(e)
+  }
+  return groups
+})
+const evidenceCoverage = computed(() => {
+  const ev = detail.value?.evidence || []
+  return {
+    verified: ev.filter((e: any) => e.status === 'verified').length,
+    estimated: ev.filter((e: any) => e.status === 'estimated').length,
+    missing: ev.filter((e: any) => e.status === 'missing').length,
+  }
+})
+
 // 辩论双栏配对
 const debatePairs = computed(() => {
   const rounds = detail.value?.debate_rounds || []
@@ -541,6 +575,13 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-evidence-list { padding-left: 0; list-style: none; font-size: 12.5px; line-height: 1.8; }
 .sdt-evidence-list li { padding: 4px 0; border-bottom: 1px dashed #f5f7fa; }
 .sdt-evidence-src { color: #909399; font-size: 11.5px; margin-left: 6px; }
+
+/* Step 1 evidence 分组展示 */
+.sdt-evi-group { margin: 12px 0; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }
+.sdt-evi-group-head { background: #fafafa; padding: 8px 12px; font-size: 13px; color: #303133; display: flex; justify-content: space-between; align-items: center; }
+.sdt-evi-group-head b { color: #2f4f8f; }
+.sdt-evi-group-count { color: #909399; font-size: 12px; }
+.sdt-evi-group .sdt-evidence-list { padding: 8px 12px; }
 
 /* 五力表(原型同款) */
 .sdt-moat-synthesis { background: #f5f7fa; padding: 10px 14px; border-left: 3px solid #67c23a; border-radius: 4px; font-size: 13.5px; line-height: 1.8; color: #4e5969; }

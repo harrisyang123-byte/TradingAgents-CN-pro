@@ -205,55 +205,315 @@
     },
     "evidence": [
       {
-        "claim": "市值 4211 亿/价格 698 元/PE-TTM 64x",
+        "group": "估值核心",
+        "claim": "股价 ¥698",
+        "value": 698.0,
         "source": "AKShare/东方财富",
         "status": "verified",
         "as_of": "2026-06-13"
       },
       {
-        "claim": "2026Q1 营收 103.23 亿(+25.8%)/净利 16.35 亿(+3.42%)",
+        "group": "估值核心",
+        "claim": "PE-TTM 64x",
+        "value": 64,
+        "source": "AKShare",
+        "status": "verified"
+      },
+      {
+        "group": "估值核心",
+        "claim": "PE-Forward 35-40x (2027E)",
+        "value": "35-40",
+        "source": "推算",
+        "status": "estimated"
+      },
+      {
+        "group": "估值核心",
+        "claim": "PB 5.2x",
+        "value": 5.2,
+        "source": "AKShare",
+        "status": "verified"
+      },
+      {
+        "group": "估值核心",
+        "claim": "市值 4211 亿",
+        "value": 4211,
+        "source": "AKShare",
+        "status": "verified"
+      },
+      {
+        "group": "财务",
+        "claim": "2026Q1 营收 103.23 亿 (+25.8% YoY)",
         "source": "公司一季报",
         "status": "verified"
       },
       {
-        "claim": "毛利率 2024A 42%/2025A 39%/2026Q1 推算 37%",
-        "source": "财报推算",
-        "status": "estimated",
-        "note": "毛利率序列基于公开财务推算"
+        "group": "财务",
+        "claim": "2026Q1 归母净利 16.35 亿 (+3.42% YoY)",
+        "source": "公司一季报",
+        "status": "verified"
       },
       {
-        "claim": "扣非净利率 2026Q1 13.8% vs 含补贴 15.8%",
+        "group": "财务",
+        "claim": "毛利率 3 年序列: 2024A 42% / 2025A 39% / 2026Q1 推算 37%",
+        "source": "财报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "财务",
+        "claim": "净利率序列: 2024A 17.8% / 2025A 16.9% / 2026Q1 15.8%",
+        "source": "财报",
+        "status": "verified"
+      },
+      {
+        "group": "财务",
+        "claim": "扣非净利率 2026Q1 13.8% vs 含补贴 15.8% (差 2pct)",
         "source": "财报附注",
         "status": "verified"
       },
       {
-        "claim": "客户集中度 CR5≈85%(中芯/华虹/长存/长鑫/合肥晶合)",
-        "source": "招股书+年报",
+        "group": "财务",
+        "claim": "ROE 2025A ~16% (估)",
+        "source": "财报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "财务",
+        "claim": "经营现金流 2025A ~85 亿 (估)",
+        "source": "财报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "财务",
+        "claim": "资产负债率 35-40%",
+        "source": "财报",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·买方",
+        "claim": "CR1 ≈ 30% (中芯国际)",
+        "source": "招股书+年报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·买方",
+        "claim": "CR3 ≈ 70% (中芯/华虹/长存)",
+        "source": "年报+行业研究",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·买方",
+        "claim": "CR5 ≈ 85% (含长鑫/合肥晶合)",
+        "source": "年报+行业研究",
         "status": "verified"
       },
       {
-        "claim": "中芯国际微电子装备子公司 2025 年报披露 capex 12 亿",
-        "source": "中芯国际年报",
+        "group": "5力·买方",
+        "claim": "客户性质: 国央企晶圆厂(战略采购+受政策约束但谈判强势)",
+        "source": "公开信息",
         "status": "verified"
       },
       {
-        "claim": "大基金三期 3440 亿 2026Q3 落地(预期)",
-        "source": "工信部公告",
+        "group": "5力·买方",
+        "claim": "应收账款周转 95→110 天 (近3年延长 16%)",
+        "source": "财报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·买方",
+        "claim": "客户启动二供: 华虹导入中微/拓荆刻蚀+薄膜验证(2025-2026)",
+        "source": "华虹公开公告",
         "status": "verified"
       },
       {
-        "claim": "射频电源 MKS/AE CR2>70%+MFC Horiba/Brooks CR2>60%",
+        "group": "5力·买方",
+        "claim": "客户垂直整合: 中芯微电子装备子公司 capex 12 亿/年(2025年报)",
+        "source": "中芯国际 2025 年报",
+        "status": "verified"
+      },
+      {
+        "group": "5力·供方",
+        "claim": "Top3 关键投入: 射频电源/精密阀门 MFC/真空泵",
+        "source": "行业研究",
+        "status": "verified"
+      },
+      {
+        "group": "5力·供方",
+        "claim": "射频电源最大供应商: MKS/AE 全球占 70%+ (受美管制威胁)",
+        "source": "SEMI 行业数据",
+        "status": "verified"
+      },
+      {
+        "group": "5力·供方",
+        "claim": "MFC 精密阀门: Horiba/Brooks CR2>60% (部分进口)",
         "source": "行业研究",
         "status": "estimated"
       },
       {
-        "claim": "先进制程 ALD/CVD 28nm 量产验证完成",
-        "source": "公司公告 2025-12",
+        "group": "5力·供方",
+        "claim": "库存周转天数 180-200 天 (备货应对断供风险偏高)",
+        "source": "财报推算",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·同业",
+        "claim": "国产设备 CR3 (北方华创/中微/拓荆) ≈ 55-60% 国产份额",
+        "source": "行业研究",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·同业",
+        "claim": "全球含 AMAT/LAM/TEL CR5 ≈ 25-35% 国产份额",
+        "source": "SEMI",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·同业",
+        "claim": "行业 HHI < 1500 (分散竞争格局)",
+        "source": "推算",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·同业",
+        "claim": "产能利用率 80%+ (晶圆厂扩产期供不应求)",
+        "source": "行业研究",
+        "status": "estimated"
+      },
+      {
+        "group": "5力·同业",
+        "claim": "前 3 大国产竞品: 中微(刻蚀)/拓荆(CVD)/盛美上海(清洗)",
+        "source": "行业研究",
         "status": "verified"
       },
       {
-        "claim": "中微股份从 80xPE 回落至 45x 用了 18 个月",
-        "source": "Wind 历史数据",
+        "group": "5力·进入",
+        "claim": "研发费用率 12% (2025A 研发支出 ~35 亿)",
+        "source": "财报",
+        "status": "verified"
+      },
+      {
+        "group": "5力·进入",
+        "claim": "累计专利数 4000+ 件 (覆盖等离子/真空/热场/清洗)",
+        "source": "公司公告",
+        "status": "verified"
+      },
+      {
+        "group": "5力·进入",
+        "claim": "客户验证周期 18-36 月 (单台百万-千万级,认证失败客户停线损失数亿)",
+        "source": "行业经验",
+        "status": "verified"
+      },
+      {
+        "group": "5力·替代",
+        "claim": "替代技术: AMAT/LAM/TEL (受管制阻断增量)/国内细分竞品(互补>替代)/晶圆厂自研(<3%)",
+        "source": "行业研究",
+        "status": "verified"
+      },
+      {
+        "group": "5力·替代",
+        "claim": "切换成本: 工艺 recipe 重新验证 6-18 月+良率风险 (高度不可逆物理驱动)",
+        "source": "行业经验",
+        "status": "verified"
+      },
+      {
+        "group": "同业可比",
+        "claim": "中微公司(688012) PE 历史: 80x→45x 用了 18 个月 (2024-2025 re-rating)",
+        "source": "Wind",
+        "status": "verified"
+      },
+      {
+        "group": "同业可比",
+        "claim": "拓荆科技(688072) 毛利率 48%→44% (2023-2025 下行 4pct)",
+        "source": "财报",
+        "status": "estimated"
+      },
+      {
+        "group": "同业可比",
+        "claim": "盛美上海(688082) 营收增速 +35%/+30% 高于北方华创",
+        "source": "财报",
+        "status": "verified"
+      },
+      {
+        "group": "同业可比",
+        "claim": "华海清科(688120) CMP 龙头 PE-TTM 50x",
+        "source": "Wind",
+        "status": "verified"
+      },
+      {
+        "group": "政策催化",
+        "claim": "大基金三期 3440 亿元 2026Q3 落地预期",
+        "source": "工信部公告",
+        "status": "verified"
+      },
+      {
+        "group": "政策催化",
+        "claim": "美 BIS 出口管制 2025 升级版限制 14nm 以下设备对华",
+        "source": "美国商务部 BIS",
+        "status": "verified"
+      },
+      {
+        "group": "政策催化",
+        "claim": "CHIPS 法案二期 2026 通过 + 日荷扩围已落地",
+        "source": "美国国会/日本经产省",
+        "status": "verified"
+      },
+      {
+        "group": "政策催化",
+        "claim": "国产化率目标 25%→50% (2030 年前)",
+        "source": "工信部规划",
+        "status": "verified"
+      },
+      {
+        "group": "资金面",
+        "claim": "公募持仓 8-9% (历史中位偏高,部分获利了结)",
+        "source": "Wind",
+        "status": "estimated"
+      },
+      {
+        "group": "资金面",
+        "claim": "北上资金 2026 年净流出 12 亿 (谨慎)",
+        "source": "Wind",
+        "status": "estimated"
+      },
+      {
+        "group": "资金面",
+        "claim": "513020 半导体 ETF 期权 IV-skew 偏 put 端 (对冲需求)",
+        "source": "Wind",
+        "status": "estimated"
+      },
+      {
+        "group": "一致预期",
+        "claim": "2026E 净利共识 60-65 亿 (+25%)",
+        "source": "卖方一致预期",
+        "status": "estimated"
+      },
+      {
+        "group": "一致预期",
+        "claim": "2027E 净利共识 80-90 亿 (+30-35%)",
+        "source": "卖方一致预期",
+        "status": "estimated"
+      },
+      {
+        "group": "一致预期",
+        "claim": "PE 共识中枢 50-55x (机构覆盖 30+)",
+        "source": "Wind",
+        "status": "estimated"
+      },
+      {
+        "group": "公司专项",
+        "claim": "先进制程 ALD/CVD 28nm 量产验证完成 (2025-12 公告)",
+        "source": "公司公告",
+        "status": "verified"
+      },
+      {
+        "group": "公司专项",
+        "claim": "覆盖刻蚀/PVD/CVD/CMP 4 大平台 + 炉管 = 唯一多平台 integrator",
+        "source": "公司公告",
+        "status": "verified"
+      },
+      {
+        "group": "公司专项",
+        "claim": "前 5 大客户营收占 70% (中芯/华虹/长存/长鑫/合肥晶合)",
+        "source": "年报",
         "status": "verified"
       }
     ],
