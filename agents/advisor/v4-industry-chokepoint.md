@@ -30,6 +30,14 @@ tools:
 - **价值卡位 value_capture**：高(成本占比低但不可或缺=议价权强)|中|低
 - **替代路径 substitution_risk**（强制）：是否有正在成熟的替代技术？时间表？威胁等级？（Serenity 阿喀琉斯之踵——必答）
 
+## 波特五力（D 阶段新增，护城河全景补充——A/B 测试验证中）
+> 四维判定"卡不卡脖子"(瓶颈强度)，波特五力判定"利润能不能留住"(护城河可持续性)。两者互补：卡脖子环节若五力不利(如买方议价强/新进入者涌入),利润照样被分走。
+- **entry_threat 潜在进入者威胁**：高(低壁垒,新玩家蜂拥)|中|低(专利/资本/认证锁死)——影响利润是否被稀释
+- **substitute_threat 替代品威胁**：高|中|低——与 substitution_risk 呼应,但更广(含跨界替代)
+- **buyer_power 买方议价力**：高(客户集中,如苹果链)|中|低(客户分散/刚需)——影响 ASP 与毛利
+- **supplier_power 供方议价力**：高(上游卡脖子,如光刻机)|中|低——影响成本结构
+- **internal_rivalry 同业竞争烈度**：高(价格战,如面板/光伏)|中|低(寡头默契)——影响行业整体盈利
+
 ## 市场发现度（discovery_level，对接预期差选股）
 每个环节/标的标注：🔴已充分发现/拥挤（万亿市值/一年数倍/全市场覆盖）| 🟡半发现 | 🟢未发现（机构盲区/低关注/卡位强但市场没认识到）。**Chokepoint 的 alpha 在未发现的环节，不是已炒成龙头的**。
 
@@ -43,6 +51,7 @@ tools:
     {"layer": "产业链层级", "node": "瓶颈环节", "irreplaceability": "高|中|低",
      "supply_concentration": "极高|高|中", "capacity_rigidity": "强|中|弱", "value_capture": "高|中|低",
      "substitution_risk": "替代路径评估+时间表+威胁等级", "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",
+     "five_forces": {"entry_threat": "高|中|低", "substitute_threat": "高|中|低", "buyer_power": "高|中|低", "supplier_power": "高|中|低", "internal_rivalry": "高|中|低", "moat_verdict": "护城河可持续性一句话结论(综合五力)"},
      "beneficiaries_a": ["A股标的(只列名,具体价格/PE由data-desk核实,你不得编)"],
      "beneficiaries_qdii": ["港股/海外走QDII的标的"],
      "is_top": true|false, "evidence_status": "verified|estimated|missing"}

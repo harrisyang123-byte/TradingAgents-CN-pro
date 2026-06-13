@@ -253,3 +253,11 @@
   - **C4 v4-investor-critic 增强**: 加 historical_alpha 输入 + learning_from_history 字段 + 铁律0(上次miss必须回答这次为何对,否则NEEDS_CHANGES)
   - **价值**: 系统从"定性反思"升级为"量化判断准确率+对过往负责";沙箱无外网仅3股演示回填,生产环境用 AKShare 全量回填
   - 待办: 生产环境联网全量回填 historical_alpha;积累2-3季度后识别系统性偏差
+
+- **2026-06-13 D0 决策链打通 + D 五力补全 完成**：
+  - **D0-1 估值推导链**: stock-director schema 加 valuation_basis + 铁律9(禁拍脑袋); 18 股补推导链(中芯PB/紫金PE+矿NPV/百济PS+管线/长电DDM/腾讯阿里SOTP)
+  - **D0-2 产业链→个股连接**: industry schema 加 investment_map + verdict.investment_conclusion + 铁律8; 6 推荐行业补(瓶颈→推荐股→卡位排序→为什么是它→是否已深析)
+  - **D0-3 前端**: 新建 StockDetailTab.vue(估值推导/四维/止损/historical_alpha/前瞻) + IndustryDetailTab 加投资地图表(点击跳个股) + V4Overview Tab4 + build_stock_detail 后端+路由+快照; TS 全通过
+  - **D 五力 A/B 测试**: 半导体设备样本,独立 critic 盲评 加五力85 vs 原四维78(+7); 五力真增量=supplier_power上游断供+buyer_power买方集中+entry/substitute交叉验证; 决策=固化(critic建议),四维管"卡不卡脖子"五力管"利润能否留住"分工去重
+  - **D 落地**: chokepoint schema 加 five_forces; 6 行业 top 环节补五力(moat_verdict护城河结论)
+  - 信任感修复完成: 产业链→个股→买点→回测全链条不断层,每个数字有推导

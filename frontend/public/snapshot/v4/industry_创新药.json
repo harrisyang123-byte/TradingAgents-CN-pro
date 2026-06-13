@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:创新药」，或运行：./scripts/run_v4.sh analyze industry:创新药",
-    "version": 7,
-    "generated_at": "2026-06-13T00:22:17Z",
+    "version": 8,
+    "generated_at": "2026-06-13T00:37:10Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -152,7 +152,15 @@
         "科伦博泰06990"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "中(管线壁垒高但新药企涌现)",
+        "substitute_threat": "中(竞品me-better)",
+        "buyer_power": "高(海外大药企议价强)",
+        "supplier_power": "低",
+        "internal_rivalry": "高(国内药企出海竞争)",
+        "moat_verdict": "护城河在first-in-class管线+全球临床能力,BD议价权受买方压制"
+      }
     },
     {
       "layer": "研发-管线",

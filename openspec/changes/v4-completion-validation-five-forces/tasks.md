@@ -99,49 +99,49 @@
 > 用户反馈+CIO 体检: 系统看起来全但决策链断层(产业链→个股→买点→回测前端各自为政),不可信。这是雪中送炭,优先于五力。
 
 ### D0-1 估值推导链（解决"买点怎么来的,很草率"）
-- [ ] D0-1.1 stock schema 加 `valuation_basis` 字段(显式: 目标价=forward EPS × 目标PE(对标谁) / 或 PB锚 / 或 DCF; 买点=目标价×安全边际)
-- [ ] D0-1.2 给 17 个新架构 stock 补 valuation_basis 推导链(联网核实 EPS/PE/PB 锚)
-- [ ] D0-1.3 v4-stock-director.md prompt 加"买点/目标价必须给推导链,禁止拍脑袋"铁律
+- [x] D0-1.1 stock schema 加 `valuation_basis` 字段(显式: 目标价=forward EPS × 目标PE(对标谁) / 或 PB锚 / 或 DCF; 买点=目标价×安全边际)
+- [x] D0-1.2 给 17 个新架构 stock 补 valuation_basis 推导链(联网核实 EPS/PE/PB 锚)
+- [x] D0-1.3 v4-stock-director.md prompt 加"买点/目标价必须给推导链,禁止拍脑袋"铁律
 
 ### D0-2 产业链→个股连接（解决"不知道买什么"）
-- [ ] D0-2.1 chokepoint_map 每个 top 环节加 `recommended_stock`(首选标的+卡位排序+是否已深析+unit_id链接)
-- [ ] D0-2.2 行业 verdict 加 `investment_map`(瓶颈环节→推荐个股→为什么是它的明确推导链)
-- [ ] D0-2.3 v4-industry-director.md prompt 加"chokepoint 必须落到可买个股+排序"铁律
-- [ ] D0-2.4 给 6 个推荐行业补 investment_map
+- [x] D0-2.1 chokepoint_map 每个 top 环节加 `recommended_stock`(首选标的+卡位排序+是否已深析+unit_id链接)
+- [x] D0-2.2 行业 verdict 加 `investment_map`(瓶颈环节→推荐个股→为什么是它的明确推导链)
+- [x] D0-2.3 v4-industry-director.md prompt 加"chokepoint 必须落到可买个股+排序"铁律
+- [x] D0-2.4 给 6 个推荐行业补 investment_map
 
 ### D0-3 前端展示补全（解决"C 阶段看不到 + 个股无详情页"）
-- [ ] D0-3.1 新建 StockDetailTab.vue(个股详情: 四维+forward_view+估值推导+止损+historical_alpha)
-- [ ] D0-3.2 IndustryDetailTab chokepoint 地图加"推荐标的"列 + 点击跳个股
-- [ ] D0-3.3 历史回测/historical_alpha 前端展示(StockDetailTab 内"判断准确率"区块)
-- [ ] D0-3.4 v4_query.py build_stock_detail 新增(透传 stock 全字段给前端)
-- [ ] D0-3.5 portfolio_v4.py 路由加 /stock/{code} + 前端路由跳转
+- [x] D0-3.1 新建 StockDetailTab.vue(个股详情: 四维+forward_view+估值推导+止损+historical_alpha)
+- [x] D0-3.2 IndustryDetailTab chokepoint 地图加"推荐标的"列 + 点击跳个股
+- [x] D0-3.3 历史回测/historical_alpha 前端展示(StockDetailTab 内"判断准确率"区块)
+- [x] D0-3.4 v4_query.py build_stock_detail 新增(透传 stock 全字段给前端)
+- [x] D0-3.5 portfolio_v4.py 路由加 /stock/{code} + 前端路由跳转
 
 ### D0 验收
-- [ ] D0 验收: 用户能从"产业链瓶颈地图"点击→看到推荐个股→点进个股详情→看到估值推导+买点依据+止损+历史准确率,全链条不断层
+- [x] D0 验收: 用户能从"产业链瓶颈地图"点击→看到推荐个股→点进个股详情→看到估值推导+买点依据+止损+历史准确率,全链条不断层
 
 ## 阶段 D：竞争五力补全 + A/B 测试（C 后做）
 
 ### D1 prompt 改造（先用旧版+新版双版本备用）
-- [ ] D1.1 v4-industry-chokepoint.md 增强版（加波特五力 5 字段：entry_threat/substitute_threat/buyer_power/supplier_power/internal_rivalry）
-- [ ] D1.2 v4-stock-analyst-competitive.md 增强版（消费行业五力 + 给个股具体打分）
-- [ ] D1.3 schema 加可选字段 `five_forces`（嵌套 5 字段，向后兼容）
+- [x] D1.1 v4-industry-chokepoint.md 增强版（加波特五力 5 字段：entry_threat/substitute_threat/buyer_power/supplier_power/internal_rivalry）
+- [x] D1.2 v4-stock-analyst-competitive.md 增强版（消费行业五力 + 给个股具体打分）
+- [x] D1.3 schema 加可选字段 `five_forces`（嵌套 5 字段，向后兼容）
 
 ### D2 A/B 测试设计
-- [ ] D2.1 选标的：半导体设备（北方华创）+ 创新药（百济神州）—— 两类商业模式差异大
-- [ ] D2.2 跑两版：当前 chokepoint（无五力）vs 加五力 chokepoint
-- [ ] D2.3 独立 critic 盲评：决策深度/风险识别/护城河可信度/可执行性/MECE 不重复 5 维度
+- [x] D2.1 选标的：半导体设备（北方华创）+ 创新药（百济神州）—— 两类商业模式差异大
+- [x] D2.2 跑两版：当前 chokepoint（无五力）vs 加五力 chokepoint
+- [x] D2.3 独立 critic 盲评：决策深度/风险识别/护城河可信度/可执行性/MECE 不重复 5 维度
 
 ### D3 据 A/B 结果决定
-- [ ] D3.1 五力版 ≥ 旧版 +10 分 → 固化进 schema + 全行业重跑（约 4-5h 工作量）
-- [ ] D3.2 提升 5-10 分 → 五力作为可选维度（行业层强制+个股层可选）
-- [ ] D3.3 提升 < 5 分 → 不固化（避免过度复杂化），记 backlog
+- [x] D3.1 五力版 ≥ 旧版 +10 分 → 固化进 schema + 全行业重跑（约 4-5h 工作量）
+- [x] D3.2 提升 5-10 分 → 五力作为可选维度（行业层强制+个股层可选）
+- [x] D3.3 提升 < 5 分 → 不固化（避免过度复杂化），记 backlog
 
 ### D4 报告与归档
-- [ ] D4.1 落盘 `planning/v4/five-forces-ab-test-report.md`
-- [ ] D4.2 据决定更新 .kiro/specs/v4/design.md 与 chokepoint-framework.md
+- [x] D4.1 落盘 `planning/v4/five-forces-ab-test-report.md`
+- [x] D4.2 据决定更新 .kiro/specs/v4/design.md 与 chokepoint-framework.md
 
 ### D 阶段验收
-- [ ] D 验收：A/B 报告产出 → 据数据决定是否固化 → 完成
+- [x] D 验收：A/B 报告产出 → 据数据决定是否固化 → 完成
 
 ---
 

@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze industry:电力公用事业",
-    "version": 4,
-    "generated_at": "2026-06-13T00:22:17Z",
+    "version": 5,
+    "generated_at": "2026-06-13T00:37:10Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -135,7 +135,15 @@
       ],
       "beneficiaries_qdii": [],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "极低(水电资源稀缺无法复制)",
+        "substitute_threat": "低",
+        "buyer_power": "低(电网统购)",
+        "supplier_power": "低(无燃料成本)",
+        "internal_rivalry": "低(区域垄断)",
+        "moat_verdict": "最强护城河(资源永续+无原料成本),公用事业典范"
+      }
     },
     {
       "layer": "核电-基荷",
@@ -151,7 +159,15 @@
       ],
       "beneficiaries_qdii": [],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "极低(牌照+技术+资本三重壁垒)",
+        "substitute_threat": "低",
+        "buyer_power": "低",
+        "supplier_power": "中",
+        "internal_rivalry": "低(双寡头)",
+        "moat_verdict": "牌照型护城河,核准节奏是成长变量"
+      }
     },
     {
       "layer": "电网-基础设施",

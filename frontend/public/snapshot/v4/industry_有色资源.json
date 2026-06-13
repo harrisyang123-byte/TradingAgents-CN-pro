@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:有色资源」，或运行：./scripts/run_v4.sh analyze industry:有色资源",
-    "version": 4,
-    "generated_at": "2026-06-13T00:22:17Z",
+    "version": 5,
+    "generated_at": "2026-06-13T00:37:10Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -138,7 +138,15 @@
         "FCX"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "低(矿权稀缺+开发周期8-10年)",
+        "substitute_threat": "低(电力化刚需)",
+        "buyer_power": "低(大宗商品定价)",
+        "supplier_power": "低(自有矿)",
+        "internal_rivalry": "中(全球矿企)",
+        "moat_verdict": "资源型护城河,电力化需求+矿权稀缺,周期波动是主要风险"
+      }
     },
     {
       "layer": "贵金属",
@@ -177,7 +185,15 @@
         "MP Materials MP"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "极低(中国战略管制+资源垄断)",
+        "substitute_threat": "低",
+        "buyer_power": "中(下游永磁/EV)",
+        "supplier_power": "低",
+        "internal_rivalry": "低(国家整合)",
+        "moat_verdict": "国家战略级护城河(全球90%),最强稀缺性"
+      }
     }
   ],
   "top_chokepoints": [

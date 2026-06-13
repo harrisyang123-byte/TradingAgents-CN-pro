@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:人工智能算力」，或运行：./scripts/run_v4.sh analyze industry:人工智能算力",
-    "version": 8,
-    "generated_at": "2026-06-13T00:22:17Z",
+    "version": 9,
+    "generated_at": "2026-06-13T00:37:10Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -142,7 +142,15 @@
         "台积电(台股/半导体QDII)"
       ],
       "is_top": true,
-      "evidence_status": "estimated"
+      "evidence_status": "estimated",
+      "five_forces": {
+        "entry_threat": "低(台积电/海力士垄断)",
+        "substitute_threat": "中",
+        "buyer_power": "中(英伟达主导但需求爆发)",
+        "supplier_power": "高",
+        "internal_rivalry": "低(寡头)",
+        "moat_verdict": "全球主线宽护城河,但中国厂商卡位弱"
+      }
     },
     {
       "layer": "器件-存储",
@@ -180,7 +188,15 @@
       "is_top": true,
       "evidence_status": "verified(价格/PE经stockanalysis核实2026-06)",
       "discovery_level": "🔴已充分发现/拥挤(全市场覆盖,定价充分度9/10)",
-      "expectation_gap": "收敛偏负:隐含增速(PE77隐含未来高增)vs可验证增速(1.6T放量100%+)缺口已收窄;88元时是正预期差>70pct(当时市场用传统光模块估值),现已耗尽"
+      "expectation_gap": "收敛偏负:隐含增速(PE77隐含未来高增)vs可验证增速(1.6T放量100%+)缺口已收窄;88元时是正预期差>70pct(当时市场用传统光模块估值),现已耗尽",
+      "five_forces": {
+        "entry_threat": "中(技术迭代快,新玩家有机会)",
+        "substitute_threat": "高(CPO 2027+结构性替代)",
+        "buyer_power": "高(云厂客户集中,Meta等议价强)",
+        "supplier_power": "中(光芯片部分进口)",
+        "internal_rivalry": "高(中际/新易盛/天孚竞争激烈)",
+        "moat_verdict": "窗口期护城河,CPO替代+买方集中+同业竞争三重压制,非长期护城河"
+      }
     },
     {
       "layer": "材料-封装基板",

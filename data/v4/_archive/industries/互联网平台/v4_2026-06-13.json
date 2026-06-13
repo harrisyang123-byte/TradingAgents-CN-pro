@@ -2,12 +2,12 @@
   "unit_id": "industry:互联网平台",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 5,
+  "version": 4,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-13T00:37:10Z",
+  "generated_at": "2026-06-13T00:22:17Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -50,15 +50,7 @@
           "腾讯00700(腾讯云)"
         ],
         "is_top": true,
-        "evidence_status": "verified",
-        "five_forces": {
-          "entry_threat": "中",
-          "substitute_threat": "低",
-          "buyer_power": "中",
-          "supplier_power": "高(GPU受管制)",
-          "internal_rivalry": "高(阿里云/腾讯云/华为云)",
-          "moat_verdict": "云护城河+AI变现,GPU供给是供方约束"
-        }
+        "evidence_status": "verified"
       },
       {
         "layer": "业务-广告",

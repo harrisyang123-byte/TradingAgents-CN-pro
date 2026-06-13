@@ -6,8 +6,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:半导体」，或运行：./scripts/run_v4.sh analyze industry:半导体",
-    "version": 7,
-    "generated_at": "2026-06-13T00:22:17Z",
+    "version": 8,
+    "generated_at": "2026-06-13T00:37:10Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -152,7 +152,15 @@
         "Nikon(日本ETF)"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "极低(ASML垄断,壁垒物理级)",
+        "substitute_threat": "低",
+        "buyer_power": "中",
+        "supplier_power": "高(光源/镜头卡脖子)",
+        "internal_rivalry": "低(全球寡头)",
+        "moat_verdict": "最宽护城河但中国受禁运,国产化是从0突破"
+      }
     },
     {
       "layer": "设备-工艺",
@@ -173,7 +181,15 @@
         "AMAT/LRCX/KLAC(纳指)"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "低(技术+认证壁垒高,新玩家难入)",
+        "substitute_threat": "低(工艺刚需无替代)",
+        "buyer_power": "高(中芯+华虹+长存占70%,客户集中压毛利)",
+        "supplier_power": "中(上游精密零部件部分进口,断供风险)",
+        "internal_rivalry": "中(北方华创/中微/拓荆各有侧重但有重叠)",
+        "moat_verdict": "宽护城河但买方集中是毛利天花板,上游断供是尾部风险"
+      }
     },
     {
       "layer": "材料",
@@ -196,7 +212,15 @@
         "信越化学(日本)"
       ],
       "is_top": true,
-      "evidence_status": "verified"
+      "evidence_status": "verified",
+      "five_forces": {
+        "entry_threat": "中(认证周期长但国产替代涌入)",
+        "substitute_threat": "低",
+        "buyer_power": "高(晶圆厂集中)",
+        "supplier_power": "中",
+        "internal_rivalry": "高(国产替代多家竞争,价格战风险)",
+        "moat_verdict": "国产替代空间大但竞争渐烈,毛利受买方+同业双重压制"
+      }
     },
     {
       "layer": "软件-EDA",
