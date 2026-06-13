@@ -293,6 +293,25 @@
       "financial": "Q1 营收 103.23 亿(+25.8%) vs 净利 16.35 亿(+3.42%) 剪刀差 22.4pct;毛利率 42→39→37 三年序列;净利率扣非 13.8%;应收周转 95→110 天;库存 180-200 天 — 财务证据全面支持空头利润率恶化论",
       "competitive_integrator": "5+1 整合: 量护城河宽(管制+四平台+大基金) vs 价护城河被侵蚀(CR5=85% buyer 议价 weakest_link),moat_rating=中上,durability 3-5 年(管制窗口锚定)",
       "valuation": "三锚: 锚1 forward 75亿×35x=620(中性);锚2 PB 5-6x ×400-500亿净资产=2500-3000亿;锚3 PEG 1×30%=30xPE×60亿=1800亿(过低)。综合 620+期权 5%=650 元目标"
+    },
+    "verdict_oneliner": "📌 北方华创量的护城河宽且稳(管制+四平台+大基金 3-5 年锁定),但价的护城河被买方议价(CR5=85%)系统性侵蚀;当前 698 元 64xPE 定价的是'量价齐升',实际路径'量升价降',持有不加仓+等催化(2026Q3 先进制程订单/单季边际净利率>5%)",
+    "credibility": {
+      "critic_score": 87,
+      "critic_iterations": 1,
+      "initial_score": 87,
+      "challenges": [
+        "确认 reflection 直认 v1 PE 80x 拍脑袋错误并给推导链",
+        "确认 weakest_link=buyer 议价用 6 个独立数据点支撑",
+        "确认 sell_discipline 5 条全部绝对阈值(可执行)",
+        "微调建议: sell_discipline 第3条阈值已对齐 trigger_monitor"
+      ],
+      "final_verdict": "ACCEPT",
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥"
+      ]
     }
   }
 }

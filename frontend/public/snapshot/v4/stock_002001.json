@@ -22,7 +22,10 @@
     21
   ],
   "price_at_judgment": null,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
   "valuation_basis": null,
+  "credibility": null,
   "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
   "chokepoint_score": "待行业重新分类后评估",
   "discovery_level": "🟡半发现",

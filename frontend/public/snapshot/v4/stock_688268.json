@@ -22,7 +22,64 @@
     58
   ],
   "price_at_judgment": 55.0,
+  "verdict_oneliner": null,
+  "chain_positioning": {
+    "industry": "半导体",
+    "chokepoint": "电子特气(材料)",
+    "my_rank": 3,
+    "my_why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%",
+    "industry_top": [
+      {
+        "rank": 1,
+        "recommended": "002371 北方华创",
+        "chokepoint": "半导体设备(刻蚀/CVD/CMP)",
+        "is_self": false,
+        "rating": "增持·目标850",
+        "target_price_live": null,
+        "why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)"
+      },
+      {
+        "rank": 2,
+        "recommended": "688012 中微公司",
+        "chokepoint": "刻蚀机",
+        "is_self": false,
+        "rating": "增持·目标260",
+        "target_price_live": null,
+        "why": "刻蚀龙头+国产替代核心,但估值溢价224%偏高,小仓"
+      },
+      {
+        "rank": 2,
+        "recommended": "688981 中芯国际",
+        "chokepoint": "晶圆制造",
+        "is_self": false,
+        "rating": "增持·目标140",
+        "target_price_live": null,
+        "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现"
+      },
+      {
+        "rank": 3,
+        "recommended": "688268 华特气体",
+        "chokepoint": "电子特气(材料)",
+        "is_self": true,
+        "rating": "增持·小仓",
+        "target_price_live": null,
+        "why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%"
+      },
+      {
+        "rank": 5,
+        "recommended": "(华大九天,未深析)",
+        "chokepoint": "EDA软件",
+        "is_self": false,
+        "rating": "待分析",
+        "target_price_live": null,
+        "why": "壁垒最高+发现度最低,长坡厚雪需3-5年耐心,待深析"
+      }
+    ],
+    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创",
+    "data_source": "industry_unit_investment_map"
+  },
   "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
+  "credibility": null,
   "expectation_gap": "中性:电子特气国产替代故事强,但估值溢价过高(625%)是警示;Q1 数据缺失,需等中报验证",
   "chokepoint_score": "高(电子特气国产化率 10-30% 空间最大,处半导体材料核心瓶颈)",
   "discovery_level": "🟢未发现(小市值 + 估值溢价 → 高风险高回报)",

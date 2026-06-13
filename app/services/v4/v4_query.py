@@ -244,21 +244,76 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
     """个股详情（D0-3）：四维质量闸门 + forward_view + 估值推导 + 止损纪律 + historical_alpha。
 
     解决"个股看不到详细分析+不知买点怎么来+回测前端看不到"。透传 stock payload 全字段。
+    2026-06-13 加: 反查 industry payload 构造 chain_positioning(产业链卡位 — 服务"全面"目标)。
     """
     env = units.get(f"stock:{code}")
     p = (env or {}).get("payload", {}) if env else {}
+    industry = p.get("industry")
+
+    # D0-4 产业链卡位反查(服务"全面"目标 — 让个股页能看到行业层投资地图视角):
+    # 从 industry payload.investment_map 找到本股所在条目 + 同环节其他标的 + 卡位排序
+    chain_positioning = None
+    if industry:
+        ind_env = units.get(f"industry:{industry}")
+        ind_p = (ind_env or {}).get("payload", {}) if ind_env else {}
+        inv_map = ind_p.get("investment_map") or []
+
+        # 找到本股所在的 chokepoint(瓶颈环节)
+        my_entry = None
+        for item in inv_map:
+            rec = (item.get("recommended") or "").strip()
+            entry_code = rec.split()[0] if rec else ""
+            if entry_code == code:
+                my_entry = item
+                break
+
+        if my_entry:
+            my_chokepoint = my_entry.get("chokepoint")
+            # 找同环节(或邻接环节)的其他标的 — 列出 top 3,本股置顶
+            same_or_near = []
+            for item in inv_map:
+                rec = (item.get("recommended") or "").strip()
+                entry_code = rec.split()[0] if rec else ""
+                # 同 chokepoint 或同行业 top 3
+                same_or_near.append({
+                    "rank": item.get("rank"),
+                    "recommended": rec,
+                    "chokepoint": item.get("chokepoint"),
+                    "is_self": entry_code == code,
+                    "rating": item.get("rating"),
+                    "target_price_live": item.get("target_price_live"),
+                    "why": item.get("why"),
+                })
+            same_or_near.sort(key=lambda x: x.get("rank") or 99)
+
+            chain_positioning = {
+                "industry": industry,
+                "chokepoint": my_chokepoint,
+                "my_rank": my_entry.get("rank"),
+                "my_why": my_entry.get("why"),
+                "industry_top": same_or_near[:5],  # top 5 让用户看到本股 + 横向比较
+                "industry_conclusion": (ind_p.get("verdict") or {}).get("investment_conclusion"),
+                "data_source": "industry_unit_investment_map",
+            }
+
     return {
         "code": code,
         "name": p.get("name"),
-        "industry": p.get("industry"),
+        "industry": industry,
         "stock_unit": decorate_unit(f"stock:{code}", env, units),
         # 评级与买卖
         "rating": p.get("rating"),
         "target_price": p.get("target_price"),
         "entry_price_range": p.get("entry_price_range"),
         "price_at_judgment": p.get("price_at_judgment"),
+        # D0-4 一句话总结(服务"可信"目标 - 核心判断不绕弯)
+        "verdict_oneliner": p.get("verdict_oneliner"),
+        # D0-4 产业链卡位(服务"全面"目标 - 连接行业层)
+        "chain_positioning": chain_positioning,
         # D0-1 估值推导链(买点怎么来)
         "valuation_basis": p.get("valuation_basis"),
+        # D0-4 可信度(服务"可信"目标 - critic 评审过程: 从 X 分迭代到 Y 分 ACCEPT)
+        "credibility": p.get("credibility"),
         # 预期差 + 四维质量闸门
         "expectation_gap": p.get("expectation_gap"),
         "chokepoint_score": p.get("chokepoint_score"),

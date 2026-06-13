@@ -22,7 +22,37 @@
     8.5
   ],
   "price_at_judgment": 8.69,
+  "verdict_oneliner": null,
+  "chain_positioning": {
+    "industry": "电力公用事业",
+    "chokepoint": "核电(低碳基荷)",
+    "my_rank": 2,
+    "my_why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累",
+    "industry_top": [
+      {
+        "rank": 1,
+        "recommended": "600900 长江电力",
+        "chokepoint": "大水电(稀缺资源)",
+        "is_self": false,
+        "rating": "增持·目标33",
+        "target_price_live": null,
+        "why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强"
+      },
+      {
+        "rank": 2,
+        "recommended": "601985 中国核电",
+        "chokepoint": "核电(低碳基荷)",
+        "is_self": true,
+        "rating": "增持·目标12",
+        "target_price_live": null,
+        "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累"
+      }
+    ],
+    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 长江电力(增持·目标33) > 中国核电(增持·目标12)。首选 rank1=600900 长江电力",
+    "data_source": "industry_unit_investment_map"
+  },
   "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
+  "credibility": null,
   "expectation_gap": "中性偏正:核电核准加速(2025-26高峰)+低碳基荷不可替代;Q1净利34.19%下行因检修成本上升,但2025全年营收+6.22%/净利+6%稳健",
   "chokepoint_score": "高(核电中国双寡头之一+核准加速窗口)",
   "discovery_level": "🟡半发现",

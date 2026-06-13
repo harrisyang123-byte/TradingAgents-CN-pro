@@ -22,7 +22,64 @@
     115
   ],
   "price_at_judgment": 120.0,
+  "verdict_oneliner": null,
+  "chain_positioning": {
+    "industry": "半导体",
+    "chokepoint": "晶圆制造",
+    "my_rank": 2,
+    "my_why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现",
+    "industry_top": [
+      {
+        "rank": 1,
+        "recommended": "002371 北方华创",
+        "chokepoint": "半导体设备(刻蚀/CVD/CMP)",
+        "is_self": false,
+        "rating": "增持·目标850",
+        "target_price_live": null,
+        "why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)"
+      },
+      {
+        "rank": 2,
+        "recommended": "688012 中微公司",
+        "chokepoint": "刻蚀机",
+        "is_self": false,
+        "rating": "增持·目标260",
+        "target_price_live": null,
+        "why": "刻蚀龙头+国产替代核心,但估值溢价224%偏高,小仓"
+      },
+      {
+        "rank": 2,
+        "recommended": "688981 中芯国际",
+        "chokepoint": "晶圆制造",
+        "is_self": true,
+        "rating": "增持·目标140",
+        "target_price_live": null,
+        "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现"
+      },
+      {
+        "rank": 3,
+        "recommended": "688268 华特气体",
+        "chokepoint": "电子特气(材料)",
+        "is_self": false,
+        "rating": "增持·小仓",
+        "target_price_live": null,
+        "why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%"
+      },
+      {
+        "rank": 5,
+        "recommended": "(华大九天,未深析)",
+        "chokepoint": "EDA软件",
+        "is_self": false,
+        "rating": "待分析",
+        "target_price_live": null,
+        "why": "壁垒最高+发现度最低,长坡厚雪需3-5年耐心,待深析"
+      }
+    ],
+    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创",
+    "data_source": "industry_unit_investment_map"
+  },
   "valuation_basis": "重资产代工看PB不看PE(折旧吞噬利润): 目标价140元=2026E BPS约23元 × 目标PB 6x(战略稀缺溢价,vs台积电PB 4x+50%,因国产替代唯一性); 买点105-115=PB 4.5-5x(回到港股3x与A股6x中枢之间,15-20%安全边际); 破100=PB<4.3x盈利或叙事下修→清仓。",
+  "credibility": null,
   "expectation_gap": "正(收敛中):2026Q1 营收 176.17 亿+8.1%、净利 13.61 亿+0.4%(略低预期),Q2 指引上修+毛利率 20.1% 持续修复;先进制程突破 5nm 长期看涨叙事+大基金三期+涨价信号;forward 估值仍偏低估;空头侧重短期管制压制+ Q1 利润 miss",
   "chokepoint_score": "中-高。处半导体行业'设备+先进封装'交叉点,中国唯一掌握 12 寸成熟+先进制程的代工厂=战略稀缺;成熟制程涨价兑现+先进制程突破窗口最大获益者",
   "discovery_level": "🟡半发现",

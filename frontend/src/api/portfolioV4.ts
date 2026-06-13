@@ -156,6 +156,9 @@ export interface ForwardView {
   tail_risks?: TailRisk[]
   cross_market_leading?: string
   trigger_monitor?: string[]
+  // D0-4 新增字段(个股 forward_view)
+  consensus_view?: string
+  expectation_vs_consensus?: string
 }
 
 // D 阶段 5+1 五力深做(2026-06-13)
@@ -186,6 +189,37 @@ export interface FiveForces {
   monitoring_signals?: string[]
   implication_for_director?: string
   evidence?: any[]
+}
+
+// D0-4 产业链卡位(行业层投资地图反查到个股视角)
+export interface ChainPositioningRow {
+  rank?: number
+  recommended?: string
+  chokepoint?: string
+  is_self?: boolean
+  rating?: string
+  target_price_live?: number | null
+  why?: string
+}
+
+export interface ChainPositioning {
+  industry?: string
+  chokepoint?: string
+  my_rank?: number
+  my_why?: string
+  industry_top?: ChainPositioningRow[]
+  industry_conclusion?: string
+  data_source?: string
+}
+
+// D0-4 可信度(critic 评审过程)
+export interface Credibility {
+  critic_score?: number          // 最终 ACCEPT 分数
+  critic_iterations?: number     // 迭代轮数
+  initial_score?: number         // 初始分数
+  challenges?: string[]          // 评审委员会的关键挑战
+  final_verdict?: 'ACCEPT' | 'NEEDS_CHANGES' | string
+  reviewers?: string[]           // 例如 ['芒格', '段永平', 'Serenity', '达里奥']
 }
 
 export interface PlanInstrument {
@@ -234,8 +268,12 @@ export interface AssetDetail {
 // ── Tab3 行业详情 ─────────────────────────────────────────────────────
 export interface DebateRound {
   round: number
-  bull: any
-  bear: any
+  // 旧格式(行业层): {round, bull, bear} 双方一行
+  bull?: any
+  bear?: any
+  // 新格式(个股层 5+1 架构): {round, side, thesis} 单方一行
+  side?: 'bull' | 'bear' | string
+  thesis?: string
 }
 
 export interface StockWeightRow {
@@ -303,6 +341,10 @@ export interface StockDetail {
   confidence?: string
   forward_view?: ForwardView | null
   five_forces?: FiveForces | null   // D 阶段 5+1 五力深做
+  // D0-4 (2026-06-13) 服务"全面/可信"目标的新字段
+  verdict_oneliner?: string | null   // 一句话总结(可信:核心判断不绕弯)
+  chain_positioning?: ChainPositioning | null   // 产业链卡位(全面:连接行业层)
+  credibility?: Credibility | null   // 可信度(可信+会学习:critic 评审过程)
   debate_rounds?: DebateRound[]
   analysts?: Record<string, any>
   reflection?: ReflectionData | null

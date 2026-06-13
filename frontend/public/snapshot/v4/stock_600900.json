@@ -22,7 +22,37 @@
     27
   ],
   "price_at_judgment": 26.81,
+  "verdict_oneliner": null,
+  "chain_positioning": {
+    "industry": "电力公用事业",
+    "chokepoint": "大水电(稀缺资源)",
+    "my_rank": 1,
+    "my_why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强",
+    "industry_top": [
+      {
+        "rank": 1,
+        "recommended": "600900 长江电力",
+        "chokepoint": "大水电(稀缺资源)",
+        "is_self": true,
+        "rating": "增持·目标33",
+        "target_price_live": null,
+        "why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强"
+      },
+      {
+        "rank": 2,
+        "recommended": "601985 中国核电",
+        "chokepoint": "核电(低碳基荷)",
+        "is_self": false,
+        "rating": "增持·目标12",
+        "target_price_live": null,
+        "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累"
+      }
+    ],
+    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 长江电力(增持·目标33) > 中国核电(增持·目标12)。首选 rank1=600900 长江电力",
+    "data_source": "industry_unit_investment_map"
+  },
   "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
+  "credibility": null,
   "expectation_gap": "中性偏正:作为 A 股最优质红利底仓+大水电稀缺资产+电力化(AI/EV)长期受益;但已大涨估值溢价824%透支较多,买点回调到24-27更合理",
   "chokepoint_score": "极高(三峡+乌东德+白鹤滩四大水电站,中国最大水电资产+稀缺性极强,无法复制)",
   "discovery_level": "🔴已发现(红利标的多年配置)",

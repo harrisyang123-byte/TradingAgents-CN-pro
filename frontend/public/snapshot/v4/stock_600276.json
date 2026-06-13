@@ -22,7 +22,46 @@
     58
   ],
   "price_at_judgment": 56.49,
+  "verdict_oneliner": null,
+  "chain_positioning": {
+    "industry": "创新药",
+    "chokepoint": "first-in-class靶点+BD",
+    "my_rank": 2,
+    "my_why": "国内龙头+管线最厚+BMS 9.5亿美元BD兑现+9款获批催化",
+    "industry_top": [
+      {
+        "rank": 1,
+        "recommended": "06160 百济神州",
+        "chokepoint": "出海BD变现能力",
+        "is_self": false,
+        "rating": "增持·目标460港",
+        "target_price_live": null,
+        "why": "出海最深+扭亏拐点+净利+178倍,全球化标杆,卡位最强"
+      },
+      {
+        "rank": 2,
+        "recommended": "600276 恒瑞医药",
+        "chokepoint": "first-in-class靶点+BD",
+        "is_self": true,
+        "rating": "增持·目标75",
+        "target_price_live": null,
+        "why": "国内龙头+管线最厚+BMS 9.5亿美元BD兑现+9款获批催化"
+      },
+      {
+        "rank": 3,
+        "recommended": "06990 科伦博泰",
+        "chokepoint": "ADC出海",
+        "is_self": false,
+        "rating": "增持·目标520港",
+        "target_price_live": null,
+        "why": "ADC出海标杆+3款入医保+ASCO数据催化,但商业化早期波动大"
+      }
+    ],
+    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州",
+    "data_source": "industry_unit_investment_map"
+  },
   "valuation_basis": "创新药PE法: 目标价75元=2026E EPS约2.1元 × PE 35x(创新药+30%增速+BD溢价,vs仿制药PE 20x); 买点52-58=PE 25-28x; 破48→清仓。BMS 9.5亿美元BD是估值上修催化。",
+  "credibility": null,
   "expectation_gap": "正(中等):Q1营收+12.98%/净利+21.78%稳健;9.5亿美元BMS license out交易兑现+9款产品Q2-Q4获批是关键催化",
   "chokepoint_score": "高(国内创新药龙头+best-in-class靶点能力+出海BD能力)",
   "discovery_level": "🟡半发现",
