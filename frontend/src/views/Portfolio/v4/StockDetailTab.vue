@@ -486,31 +486,45 @@ const alertBody = computed(() => {
 })
 
 // "为什么"5 行精炼(从已有字段提炼)
+// D0-8 类型安全: 字段在新 schema 是 dict, 旧 schema 是 string, 需兼容
+function _safeStr(x: any, max = 100): string {
+  if (x == null) return ''
+  if (typeof x === 'string') return x.slice(0, max)
+  if (typeof x === 'object') {
+    // dict → 提取常见 'core_logic'/'summary'/'implication' 字段, 否则 JSON 化
+    const v = x.core_logic || x.summary || x.implication || x.thesis || x.value || ''
+    if (typeof v === 'string') return v.slice(0, max)
+    return JSON.stringify(x).slice(0, max)
+  }
+  return String(x).slice(0, max)
+}
+function _safeSplit(x: any, sep: string | RegExp): string[] {
+  const s = _safeStr(x, 500)
+  return s ? s.split(sep) : ['']
+}
+
 const whyChain = computed(() => {
   const cp = detail.value?.chain_positioning
   if (!cp) return ''
-  return `${cp.industry} → ${cp.chokepoint} → 排 #${cp.my_rank}（${cp.my_why ? cp.my_why.slice(0, 50) + '…' : ''}）`
+  return `${cp.industry} → ${cp.chokepoint} → 排 #${cp.my_rank}（${cp.my_why ? _safeStr(cp.my_why, 50) + '…' : ''}）`
 })
 const whyMoat = computed(() => {
   const f = detail.value?.five_forces
   if (!f) return ''
   const rating = f.moat_rating || '?'
-  const dur = f.moat_durability ? f.moat_durability.split('；')[0].slice(0, 30) : ''
-  const weak = (f.cross_force_dynamics?.weakest_link || '').split('—')[0].slice(0, 40)
+  const dur = _safeSplit(f.moat_durability, '；')[0].slice(0, 30)
+  const weak = _safeSplit(f.cross_force_dynamics?.weakest_link, '—')[0].slice(0, 40)
   return `护城河 ${rating}（${dur}） · 最弱一环：${weak}`
 })
 const whyValuation = computed(() => {
-  const v = detail.value?.valuation_basis || ''
-  // 提取第一句
-  return v ? v.split(/[;。]/)[0].slice(0, 100) : ''
+  const v = detail.value?.valuation_basis
+  return _safeSplit(v, /[;。]/)[0].slice(0, 100)
 })
 const whyWorst = computed(() => {
-  const w = detail.value?.worst_case || detail.value?.downside || ''
-  return w ? w.slice(0, 100) : ''
+  return _safeStr(detail.value?.worst_case || detail.value?.downside, 100)
 })
 const whyExpGap = computed(() => {
-  const g = detail.value?.expectation_gap || ''
-  return g ? g.slice(0, 100) : ''
+  return _safeStr(detail.value?.expectation_gap, 100)
 })
 
 // evidence 按 group 分组(数据采集 Step 1 用)
