@@ -60,6 +60,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 腾讯控股(增持·目标680港) > 阿里巴巴(增持·目标200港) > 小米集团(增持·目标62港)。首选 rank1=00700 腾讯控股",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 2.0,
   "valuation_basis": "互联网SOTP分部估值: 目标价680港元=游戏+广告+金融科技核心业务PE 22x + 投资资产+AI云期权; 买点440-500=核心PE 16-18x(25%安全边际); 破380→清仓。微信AI Agent是估值期权。",
   "credibility": null,
   "expectation_gap": "正(中等):2025全年营收+13.86%/净利+15.85%;2026Q1 non-IFRS EPS +12%好过共识5-8%;微信AI Agent 6月备案是大催化;但AI投资压制利润率",

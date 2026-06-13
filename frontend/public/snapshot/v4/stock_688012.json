@@ -78,6 +78,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 1.5,
   "valuation_basis": "刻蚀龙头PE法: 目标价260元=2026E EPS约2.4元 × PE 110x(估值溢价224%,刻蚀稀缺); 买点180-210=PE 75-88x; 破170→清仓。估值偏高是首要风险,小仓。",
   "credibility": null,
   "expectation_gap": "中性偏正:2025 +37% 业绩兑现,但估值溢价 224% 偏高;刻蚀机国产化率提升空间大但增速慢于光模块",

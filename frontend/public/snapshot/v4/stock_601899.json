@@ -51,6 +51,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 紫金矿业(增持·目标42) > 北方稀土(增持·目标80)。首选 rank1=601899 紫金矿业",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 3.0,
   "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
   "credibility": null,
   "expectation_gap": "正(中等):Q1营收+24.79%/净利+97.5% 强劲超预期;铜电力化+金避险双驱动+稀土战略;但估值溢价267%已部分透支",

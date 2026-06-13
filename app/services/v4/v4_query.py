@@ -253,10 +253,19 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
     # D0-4 产业链卡位反查(服务"全面"目标 — 让个股页能看到行业层投资地图视角):
     # 从 industry payload.investment_map 找到本股所在条目 + 同环节其他标的 + 卡位排序
     chain_positioning = None
+    industry_weight_pct = None  # 服务"可执行": 仓位计算器需要
     if industry:
         ind_env = units.get(f"industry:{industry}")
         ind_p = (ind_env or {}).get("payload", {}) if ind_env else {}
         inv_map = ind_p.get("investment_map") or []
+
+        # 反查行业内配比 alloc:industry:<本股行业> 的 stock_weights
+        alloc_ind_env = units.get(f"alloc:industry:{industry}")
+        alloc_p = (alloc_ind_env or {}).get("payload", {}) if alloc_ind_env else {}
+        for w in alloc_p.get("stock_weights", []) or []:
+            if w.get("code") == code:
+                industry_weight_pct = w.get("target_weight")
+                break
 
         # 找到本股所在的 chokepoint(瓶颈环节)
         my_entry = None
@@ -310,6 +319,8 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "verdict_oneliner": p.get("verdict_oneliner"),
         # D0-4 产业链卡位(服务"全面"目标 - 连接行业层)
         "chain_positioning": chain_positioning,
+        # D0-4 行业内目标权重(服务"可执行"目标 - 仓位计算器需要)
+        "industry_weight_pct": industry_weight_pct,
         # D0-1 估值推导链(买点怎么来)
         "valuation_basis": p.get("valuation_basis"),
         # D0-4 可信度(服务"可信"目标 - critic 评审过程: 从 X 分迭代到 Y 分 ACCEPT)

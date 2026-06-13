@@ -60,6 +60,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 腾讯控股(增持·目标680港) > 阿里巴巴(增持·目标200港) > 小米集团(增持·目标62港)。首选 rank1=00700 腾讯控股",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 0.5,
   "valuation_basis": "SOTP分部估值: 目标价62港元=手机+IoT(PE 25x)+汽车(PS估值,放量但未盈利)+互联网服务; 买点42-48=综合25%安全边际; 破36→清仓。汽车毛利率转正是估值关键变量。",
   "credibility": null,
   "expectation_gap": "正(中等):汽车SU7/SU7 Ultra/MAX销量持续超预期+AI手机/AIoT放量+IoT毛利率提升;但港股已大涨估值已部分反映,需精选回调买点",

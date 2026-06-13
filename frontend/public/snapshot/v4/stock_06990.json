@@ -60,6 +60,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 1.2,
   "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
   "credibility": null,
   "expectation_gap": "正(强):3款核心ADC(SKB264/A167/A140)2026年1月入医保+ASCO肺癌III期数据(HR=0.35显著)+大行齐升目标价(招银507/野村544);商业化启航是关键拐点",

@@ -69,6 +69,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 中际旭创(中性·窗口期) > 新易盛(增持·目标700) > 天孚通信(增持·目标420)。首选 rank1=300308 中际旭创",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 1.5,
   "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。",
   "credibility": null,
   "expectation_gap": "正(收敛中):Q1 +45% 业绩兑现,但增速低于新易盛(+106%)和中际旭创(+160%);海外布局是差异化优势",

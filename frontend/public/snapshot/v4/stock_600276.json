@@ -60,6 +60,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 1.8,
   "valuation_basis": "创新药PE法: 目标价75元=2026E EPS约2.1元 × PE 35x(创新药+30%增速+BD溢价,vs仿制药PE 20x); 买点52-58=PE 25-28x; 破48→清仓。BMS 9.5亿美元BD是估值上修催化。",
   "credibility": null,
   "expectation_gap": "正(中等):Q1营收+12.98%/净利+21.78%稳健;9.5亿美元BMS license out交易兑现+9款产品Q2-Q4获批是关键催化",

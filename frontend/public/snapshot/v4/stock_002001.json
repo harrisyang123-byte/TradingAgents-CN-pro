@@ -24,6 +24,7 @@
   "price_at_judgment": null,
   "verdict_oneliner": null,
   "chain_positioning": null,
+  "industry_weight_pct": null,
   "valuation_basis": null,
   "credibility": null,
   "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",

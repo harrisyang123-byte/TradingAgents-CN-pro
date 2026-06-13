@@ -51,6 +51,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 长江电力(增持·目标33) > 中国核电(增持·目标12)。首选 rank1=600900 长江电力",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 2.5,
   "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
   "credibility": null,
   "expectation_gap": "中性偏正:作为 A 股最优质红利底仓+大水电稀缺资产+电力化(AI/EV)长期受益;但已大涨估值溢价824%透支较多,买点回调到24-27更合理",

@@ -344,6 +344,7 @@ export interface StockDetail {
   // D0-4 (2026-06-13) 服务"全面/可信"目标的新字段
   verdict_oneliner?: string | null   // 一句话总结(可信:核心判断不绕弯)
   chain_positioning?: ChainPositioning | null   // 产业链卡位(全面:连接行业层)
+  industry_weight_pct?: number | null   // 行业内目标权重(可执行:仓位计算器)
   credibility?: Credibility | null   // 可信度(可信+会学习:critic 评审过程)
   debate_rounds?: DebateRound[]
   analysts?: Record<string, any>

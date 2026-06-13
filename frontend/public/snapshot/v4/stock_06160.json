@@ -60,6 +60,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 2.0,
   "valuation_basis": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。",
   "credibility": null,
   "expectation_gap": "正(中等):2026Q1扭亏为盈+净利同比178倍+上调全年收入指引,出海BD变现能力是创新药行业最强的,但股价已部分反映",

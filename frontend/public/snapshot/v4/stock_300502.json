@@ -69,6 +69,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 中际旭创(中性·窗口期) > 新易盛(增持·目标700) > 天孚通信(增持·目标420)。首选 rank1=300308 中际旭创",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 2.5,
   "valuation_basis": "高成长光模块PE法: 目标价700元=2026E EPS约20元 × forward PE 35x(1.6T放量,低于中际旭创); 买点480-540=forward PE 24-27x(20%安全边际); 破480=forward PE<24盈利下修→清仓。2025净利+236%高基数,2026增速放缓需警惕。",
   "credibility": null,
   "expectation_gap": "正(中等):2025 高增已被 price-in,2Q26 起 1.6T 产能释放是新一轮预期差催化;但中际旭创经验显示一年涨 11 倍后可能进入收敛期,需精选时间窗",

@@ -78,6 +78,7 @@
     "industry_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创",
     "data_source": "industry_unit_investment_map"
   },
+  "industry_weight_pct": 2.0,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {
     "critic_score": 87,
