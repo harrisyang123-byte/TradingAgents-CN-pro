@@ -2,10 +2,10 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 8,
+    "analyzed_count": 9,
     "total_stocks": 9,
     "total_funds": 26,
-    "pending_actions": 9,
+    "pending_actions": 10,
     "style_region": {
       "A股": 450172.88999999996,
       "美国": 19415.815,
@@ -193,29 +193,6 @@
           "indirect": []
         },
         {
-          "name": "新能源车",
-          "direct_value": 4481.0,
-          "indirect_value": 1838.0,
-          "total_value": 6319.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "002050",
-              "name": "三花智控",
-              "market_value": 4481.0,
-              "weight": 0.43,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            }
-          ],
-          "indirect": []
-        },
-        {
           "name": "创新药/化工/维生素/香精香料",
           "direct_value": 6018.0,
           "indirect_value": 0,
@@ -235,6 +212,30 @@
               "summary": "新和成 2025 营收 213.6 亿 净利 58.7 亿(净利率 27.5% 顶级) ROE 18%. 现价 ¥22.27 PE 9.87x 历史底部区间, 同业折价 38%. 全球 VA 第一(40%)+VE 第二(25%)+蛋氨酸第四+高端聚酯材料 (PPA/PPS). R3 共识区 ¥25-30 (+12-35% upside). 用户现仓 0.57%(¥6018) 偏轻, 加 0.43% 至 1.0%, 价格回踩 ¥20 加至 1.8%. 反骑墙: 9.87x PE + 27.5% 净利率 + 顶级护城河 (VA 三寡头) 数据明确向上, 加仓有依据.",
               "stop_loss": "¥17.5 (-21%, 跌破 = 极端 bear 兑现, 净利率 <22% + VA 再跌 20%)",
               "direction": "看多 — 全球 VA 寡头底部估值 PE 9.87x + 净利率 27.5% 顶级 + 新材料期权"
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "新能源车/汽车热管理/制冷",
+          "direct_value": 4481.0,
+          "indirect_value": 1225.0,
+          "total_value": 5706.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "002050",
+              "name": "三花智控",
+              "market_value": 4481.0,
+              "weight": 0.43,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
+              "action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
+              "confidence": 0.65,
+              "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
+              "stop_loss": "¥38 (-17%)",
+              "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估"
             }
           ],
           "indirect": []
@@ -607,6 +608,11 @@
         "desc": "通富微电 适度减仓（10.87%）",
         "amount": null,
         "note": "本周(6/13-6/17): 减 2% (¥21k 市值, 当前价 ¥62 高位减), 仓位降至 8.8%"
+      },
+      {
+        "desc": "三花智控 减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)（0.43%）",
+        "amount": null,
+        "note": "维持 0.43% (¥4481) 不动 设止损 ¥38"
       },
       {
         "desc": "基金同主题合并（5 组重复）",

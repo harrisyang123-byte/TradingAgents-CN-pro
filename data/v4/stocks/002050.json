@@ -2,133 +2,173 @@
   "unit_id": "stock:002050",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
-  "status": "green",
+  "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T15:23:43Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-13T18:33:08Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "code": "002050",
     "name": "三花智控",
-    "industry": "新能源车",
-    "debate_rounds": [
-      {
-        "round": 1,
-        "bull": "热管理龙头+人形机器人执行器(机电),机器人催化打开第二曲线。",
-        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
-      },
-      {
-        "round": 2,
-        "bull": "基本面/主题支撑中期",
-        "bear": "短期β扰动，注意回撤"
-      },
-      {
-        "round": 3,
-        "bull": "维持评级，强调分批",
-        "bear": "认同分批与仓位控制"
-      }
-    ],
+    "industry": "新能源车/汽车热管理/制冷",
     "verdict": {
-      "rating": "增持",
-      "thesis": "热管理龙头+人形机器人执行器(机电),机器人催化打开第二曲线。",
-      "entry_approach": "机器人主题弹性，回调分批",
-      "target_price": "needs_fetch",
-      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+      "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
+      "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估",
+      "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
+      "confidence": 0.65
     },
-    "evidence": [
-      {
-        "claim": "三花智控所属新能源车方向(见industry单元)",
-        "source_url": "industry:新能源车",
-        "status": "verified"
+    "thesis": "三花 = 全球制冷阀件 50%+ 龙头 + 汽车热管理 EV 全球前三. 制冷 60% (185.85亿+12%) / 汽车 40% (124.27亿+9%). 客户特斯拉/比亚迪/蔚小理. 关键: Q1 净利+2.68% vs 2025+31% 巨大反差暴露 PE 46x 不可持续.",
+    "product_subdivision_deep": {
+      "制冷空调零部件 (60% 营收, 185.85亿)": {
+        "增速_2025": "+12.22%",
+        "毛利率_estimated": "30%",
+        "lifecycle": "成熟期+稳定"
       },
-      {
-        "claim": "当前价/PE未核实",
-        "source_url": "needs_fetch",
-        "status": "missing"
+      "汽车热管理 (40% 营收, 124.27亿)": {
+        "增速_2025": "+9.14%",
+        "Q1 增速": "急剧放缓",
+        "key_risk": "特斯拉自研热管理"
       }
-    ],
-    "rating": "增持(EV热管理+人形机器人催化)",
-    "target_price": 50,
-    "entry_price_range": [
-      35,
-      40
-    ],
-    "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
-    "chokepoint_score": "待行业重新分类后评估",
-    "discovery_level": "🟡半发现",
-    "business_quality": "待深度分析(汽车热管理/家电行业属性,需联网核实)",
-    "position_nature": "中期窗口期(等深度分析后定性)",
-    "worst_case": "行业景气下行+公司基本面恶化 → 跌破24元(-30%)",
-    "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
-    "sell_discipline": [
-      "破24元 → 清仓",
-      "Q3业绩同比转负>10% → 减仓",
-      "行业景气信号转弱 → 减仓"
-    ],
-    "thesis": "增持(EV热管理+人形机器人催化); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
-    "risks": [
-      "数据未充分核实",
-      "下次重跑替换"
-    ],
-    "confidence": "low(B4 简化升级)",
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-08",
-          "event": "Q2财报",
-          "consensus": "温和",
-          "our_view": "待数据",
-          "gap": "inline",
-          "impact_on_stock": "业绩兑现"
-        }
-      ],
-      "mid_term_path": "汽车热管理/家电行业景气延续",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "行业景气稳定",
-          "implied_pe": 25,
-          "implied_target_price": 50
+    },
+    "sensitivity_matrix_3x3": {
+      "axes": "营收增速 × 净利率",
+      "matrix": {
+        "营收+15% × 净利率 14%": {
+          "fair_price": 48,
+          "comment": "bull"
         },
-        {
-          "name": "bull",
-          "prob": 0.2,
-          "trigger": "行业催化超预期",
-          "implied_pe": 35,
-          "implied_target_price": 65
+        "营收+15% × 净利率 13%": {
+          "fair_price": 45,
+          "comment": "中性偏强"
         },
-        {
-          "name": "bear",
-          "prob": 0.25,
-          "trigger": "行业景气下行",
-          "implied_pe": 15,
-          "implied_target_price": 24
+        "营收+15% × 净利率 12%": {
+          "fair_price": 41,
+          "comment": "中性"
+        },
+        "营收+5% × 净利率 14%": {
+          "fair_price": 42,
+          "comment": "Q1趋势"
+        },
+        "营收+5% × 净利率 13%": {
+          "fair_price": 39,
+          "comment": "base"
+        },
+        "营收+5% × 净利率 12%": {
+          "fair_price": 36,
+          "comment": "bear偏弱"
+        },
+        "营收-5% × 净利率 13%": {
+          "fair_price": 34,
+          "comment": "bear"
+        },
+        "营收-5% × 净利率 12%": {
+          "fair_price": 31,
+          "comment": "极端bear"
+        },
+        "营收-5% × 净利率 14%": {
+          "fair_price": 36,
+          "comment": "需求下行"
         }
-      ],
-      "earnings_revision_view": "待深度分析",
-      "stock_specific_risks": "数据待核实",
-      "key_assumptions": [
-        {
-          "assumption": "行业景气稳定",
-          "falsification_signal": "行业景气拐点信号"
+      },
+      "weighted_avg": "9 格平均 ¥39 vs 现价 ¥46 = -15% 下行"
+    },
+    "comparable_path_quantified": {
+      "盾安环境": "PE 25-35x",
+      "海立股份": "PE 15-20x",
+      "Modine": "PE 12x 反向valuetrap",
+      "三花": "PE 46x 高估"
+    },
+    "forward_view_6dim": {
+      "market_regime": "全球 EV 渗透率上行+价格战传导",
+      "liquidity": "北上 8-10%",
+      "cycle_position": "汽车 EV 增速见顶+制冷成熟",
+      "beta_correlation": "Beta 1.0+",
+      "comparable_anchor": "盾安 30x / 海立 18x / Modine 12x; 三花 46x 高估",
+      "pricing_power": "中"
+    },
+    "valuation_basis": {
+      "core_logic": "反向 DCF + 同业可比 + 多派别合理价",
+      "reverse_dcf": {
+        "current_pe": 46.3,
+        "implied_cagr_5y": "20-25%",
+        "interpretation": "隐含极高增速 vs 实际 Q1+2.68% 严重不匹配"
+      },
+      "scenarios": {
+        "bull": {
+          "fair_price_range": "¥45-50",
+          "prob": 0.2
+        },
+        "base": {
+          "fair_price_range": "¥35-42",
+          "prob": 0.5
+        },
+        "bear": {
+          "fair_price_range": "¥25-35",
+          "prob": 0.3
         }
+      },
+      "consensus_target": "¥37-39",
+      "price_derivation": "价值派 ¥26 / GARP ¥32-38 / 中性 ¥35-45 / bull ¥45-50 / 共识 ¥37-39"
+    },
+    "five_forces": {
+      "moat_rating": "中 (5-7 年期限)",
+      "weakest_link": "substitute — 特斯拉自研",
+      "five_forces_summary": {
+        "entry": "中高",
+        "substitute": "中高",
+        "buyer": "中高",
+        "supplier": "低",
+        "rivalry": "中"
+      }
+    },
+    "risk_consensus_from_3way": {
+      "aggressive": "0.43% 持有不动",
+      "safe": "0.2% 减半",
+      "neutral": "0.43% 维持设止损 ¥38",
+      "director_decision": "采纳 neutral"
+    },
+    "action_plan": {
+      "immediate_action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
+      "buy_back_zones": [
+        "🚫 ¥46+ 不加仓",
+        "💰 ¥33-35 加",
+        "🔔 Q2 净利 ≥+15% → 加至 1%"
       ],
-      "trigger_monitor": [
-        "破24元 → 清仓",
-        "Q3业绩同比转负>10% → 减仓",
-        "行业景气信号转弱 → 减仓"
-      ]
+      "trim_zones": [
+        "🔔 Q2 <+8% → 减至 0.2%",
+        "💰 ¥48+ 减半"
+      ],
+      "stop_loss": {
+        "hard": "¥38 (-17%)",
+        "trailing": "¥40"
+      }
     },
     "reflection": {
-      "prev_rating": "增持(EV热管理+人形机器人催化)",
-      "prev_date": "2026-06-07T07:42:50Z",
-      "what_changed": "B4 简化升级 forward_view 框架",
-      "why_changed": "B 阶段 数据一致性",
-      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+      "memory_used": [
+        "P1-P5",
+        "002371 自评偏差",
+        "Modine valuetrap"
+      ]
+    },
+    "critic_evaluation": {
+      "critic_v1_score": 87,
+      "critic_v1_verdict": "ACCEPT",
+      "final_score": 87,
+      "final_verdict": "ACCEPT",
+      "v2_score": 87,
+      "4_views": {
+        "munger": "PASS",
+        "duan": "PASS",
+        "serenity": "PASS",
+        "dalio": "PASS"
+      }
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 87
     }
   }
 }

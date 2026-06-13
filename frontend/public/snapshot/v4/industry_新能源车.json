@@ -211,29 +211,11 @@
       "reasoning": "EV龙头;watch 行业仅占小仓位"
     }
   ],
-  "stocks": [
-    {
-      "unit_id": "stock:002050",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:002050」，或运行：./scripts/run_v4.sh analyze stock:002050",
-      "version": 2,
-      "generated_at": "2026-06-12T15:23:43Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "002050",
-      "name": "三花智控",
-      "rating": "增持(EV热管理+人形机器人催化)",
-      "target_price": 50
-    }
-  ],
+  "stocks": [],
   "indirect_holdings": {
-    "direct_yi": 4481.0,
-    "indirect_yi": 1838.19,
-    "total_yi": 6319.19,
+    "direct_yi": 0.0,
+    "indirect_yi": 613.13,
+    "total_yi": 613.13,
     "contributing_funds": [
       {
         "code": "270042",
@@ -243,31 +225,13 @@
         "indirect_yi": 613.1310000000001,
         "data_status": "estimated",
         "via": "top_holdings_v4_industry_lookup"
-      },
-      {
-        "code": "005063",
-        "name": "广发中证全指家用电器ETF联接A",
-        "market_value": 8499.8,
-        "industry_weight_pct": 8.19,
-        "indirect_yi": 696.13362,
-        "data_status": "verified",
-        "via": "top_holdings_v4_industry_lookup"
-      },
-      {
-        "code": "013180",
-        "name": "广发国证新能源车电池ETF发起联接C",
-        "market_value": 8149.9,
-        "industry_weight_pct": 6.490000000000001,
-        "indirect_yi": 528.9285100000001,
-        "data_status": "verified",
-        "via": "top_holdings_v4_industry_lookup"
       }
     ],
     "summary": {
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 30,
+      "industries_count": 31,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
