@@ -407,16 +407,16 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 stock:002371」，或运行：./scripts/run_v4.sh analyze stock:002371",
-      "version": 1,
-      "generated_at": "2026-06-12T15:04:29Z",
+      "version": 2,
+      "generated_at": "2026-06-13T03:05:21Z",
       "ttl_days": 5,
       "upstream": [],
       "run_mode": "ai_proxy",
       "exists": true,
       "code": "002371",
       "name": "北方华创",
-      "rating": "增持(国产替代核心受益者+大基金三期最大获益)",
-      "target_price": 850
+      "rating": "持有(从v1增持下调) — 反对加仓 + 等基本面拐点确认",
+      "target_price": 650
     },
     {
       "unit_id": "stock:603236",

@@ -28,6 +28,7 @@
   "discovery_level": "🟡半发现",
   "business_quality": "好生意(核电基荷+低碳+长期现金流);10年长青",
   "position_nature": "长期投资(核电核准加速窗口期)",
+  "five_forces": null,
   "worst_case": "核电核准放缓+核安全事件+电价管制 → -25%(6.5元)",
   "downside": "下行-25% vs 上行+30% → 赔率约1.2",
   "sell_discipline": [

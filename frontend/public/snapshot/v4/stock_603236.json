@@ -28,6 +28,7 @@
   "discovery_level": "🟡半发现",
   "business_quality": "待深度分析(IoT模组行业属性,需联网核实)",
   "position_nature": "中期窗口期(等深度分析后定性)",
+  "five_forces": null,
   "worst_case": "行业景气下行+公司基本面恶化 → 跌破42元(-30%)",
   "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
   "sell_discipline": [

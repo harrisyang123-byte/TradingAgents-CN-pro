@@ -28,6 +28,7 @@
   "discovery_level": "🟢未发现(中长期国家战略资产但短期波动大)",
   "business_quality": "好生意(中国稀土战略资产+永磁需求EV/风电/AI机器人长期向好);10年长青",
   "position_nature": "长期投资(战略稀缺资源+下游需求长期增长)",
+  "five_forces": null,
   "worst_case": "稀土价格暴跌+全球需求下行+中美关系缓和(出口管制取消) → -30%(40元)",
   "downside": "下行-30%(40元) vs 上行+35%(80元) → 赔率约1.2,中性偏多",
   "sell_discipline": [
