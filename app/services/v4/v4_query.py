@@ -241,6 +241,8 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "discovery_level": p.get("discovery_level"),
         "business_quality": p.get("business_quality"),
         "position_nature": p.get("position_nature"),
+        # D 阶段 5+1 五力深做(2026-06-13 拆分): 5 力 level + cross_force_dynamics + weakest_link + moat_durability + monitoring_signals
+        "five_forces": p.get("five_forces"),
         "worst_case": p.get("worst_case"),
         "downside": p.get("downside"),
         "sell_discipline": p.get("sell_discipline", []),

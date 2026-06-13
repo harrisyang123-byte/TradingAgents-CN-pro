@@ -158,6 +158,36 @@ export interface ForwardView {
   trigger_monitor?: string[]
 }
 
+// D 阶段 5+1 五力深做(2026-06-13)
+export interface ForceDynamic {
+  force_a?: string
+  force_b?: string
+  mechanism?: string
+}
+
+export interface FiveForces {
+  five_forces_summary?: {
+    entry?: string
+    substitute?: string
+    buyer?: string
+    supplier?: string
+    rivalry?: string
+  }
+  cross_force_dynamics?: {
+    mutual_reinforcement?: ForceDynamic[]
+    mutual_offset?: ForceDynamic[]
+    weakest_link?: string
+    trend?: string
+  }
+  moat_synthesis?: string
+  moat_rating?: string
+  moat_durability?: string
+  key_risk?: string
+  monitoring_signals?: string[]
+  implication_for_director?: string
+  evidence?: any[]
+}
+
 export interface PlanInstrument {
   instrument?: string
   vehicle?: string
@@ -269,6 +299,7 @@ export interface StockDetail {
   risks?: string[]
   confidence?: string
   forward_view?: ForwardView | null
+  five_forces?: FiveForces | null   // D 阶段 5+1 五力深做
   debate_rounds?: DebateRound[]
   analysts?: Record<string, any>
   reflection?: ReflectionData | null

@@ -71,6 +71,46 @@
         </el-collapse>
       </div>
 
+      <!-- D 阶段 五力深做 (5+1 架构 2026-06-13) -->
+      <div v-if="detail.five_forces" class="card sdt-section">
+        <el-collapse>
+          <el-collapse-item name="ff">
+            <template #title>
+              <span class="sdt-section-title">
+                🏰 五力深做(护城河多强多稳)
+                <el-tag v-if="ff.moat_rating" :type="moatType(ff.moat_rating)" size="small" class="sdt-moat">{{ ff.moat_rating }}</el-tag>
+                <el-tag v-if="ff.moat_durability" type="info" size="small" class="sdt-moat">⏳ {{ durabilityShort(ff.moat_durability) }}</el-tag>
+              </span>
+            </template>
+            <p v-if="ff.moat_synthesis" class="sdt-moat-synthesis"><b>护城河综合：</b>{{ ff.moat_synthesis }}</p>
+            <div v-if="ff.five_forces_summary" class="sdt-fv-scn">
+              <b>📊 五力评估：</b>
+              <ul class="sdt-ff-list">
+                <li v-if="ff.five_forces_summary.entry"><b>🚧 进入威胁：</b>{{ ff.five_forces_summary.entry }}</li>
+                <li v-if="ff.five_forces_summary.substitute"><b>🔄 替代威胁：</b>{{ ff.five_forces_summary.substitute }}</li>
+                <li v-if="ff.five_forces_summary.buyer"><b>🛒 买方议价：</b>{{ ff.five_forces_summary.buyer }}</li>
+                <li v-if="ff.five_forces_summary.supplier"><b>📦 供方议价：</b>{{ ff.five_forces_summary.supplier }}</li>
+                <li v-if="ff.five_forces_summary.rivalry"><b>⚔️ 同业竞争：</b>{{ ff.five_forces_summary.rivalry }}</li>
+              </ul>
+            </div>
+            <div v-if="cfd?.mutual_reinforcement?.length" class="sdt-fv-scn">
+              <b>🔗 力间互相强化（飞轮）：</b>
+              <ol><li v-for="(m, i) in cfd.mutual_reinforcement" :key="'r'+i">{{ m.force_a }} × {{ m.force_b }}：{{ m.mechanism }}</li></ol>
+            </div>
+            <div v-if="cfd?.mutual_offset?.length" class="sdt-fv-scn">
+              <b>⚖️ 力间互相抵消：</b>
+              <ol><li v-for="(m, i) in cfd.mutual_offset" :key="'o'+i">{{ m.force_a }} × {{ m.force_b }}：{{ m.mechanism }}</li></ol>
+            </div>
+            <p v-if="cfd?.weakest_link" class="sdt-weakest"><b>⚠️ 最弱一环：</b>{{ cfd.weakest_link }}</p>
+            <p v-if="ff.key_risk"><b>🎯 最大单一风险：</b>{{ ff.key_risk }}</p>
+            <div v-if="ff.monitoring_signals?.length">
+              <b>👀 护城河层面监控信号：</b>
+              <ul><li v-for="(s, i) in ff.monitoring_signals" :key="i">{{ s }}</li></ul>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+
       <!-- 风险 + 证据 -->
       <div v-if="detail.risks?.length" class="card sdt-section">
         <div class="sdt-section-title">⚠️ 主要风险</div>
@@ -100,6 +140,8 @@ async function load(code: string) {
 }
 
 const fv = computed(() => detail.value?.forward_view || {})
+const ff = computed(() => detail.value?.five_forces || {})
+const cfd = computed(() => (detail.value?.five_forces || {}).cross_force_dynamics || {})
 const shortGap = computed(() => (detail.value?.expectation_gap || '').slice(0, 20))
 const ratingType = computed(() => {
   const r = detail.value?.rating || ''
@@ -112,6 +154,8 @@ const hitType = computed(() => ({ hit: 'success', miss: 'danger', flat: 'info' }
 
 function fmtRange(r?: number[]) { return r && r.length === 2 ? `${r[0]} - ${r[1]}` : '-' }
 function scnLabel(n?: string) { return ({ base: '基准', bull: '乐观', bear: '悲观' } as Record<string, string>)[n || ''] || n }
+function moatType(r?: string): any { return ({ '宽': 'success', '中上': 'success', '中': 'info', '中下': 'warning', '窄': 'danger' } as Record<string, any>)[r || ''] || 'info' }
+function durabilityShort(d?: string): string { if (!d) return ''; if (d.includes('长期')) return '长期 10 年+'; if (d.includes('中期')) return '中期 3-5 年'; if (d.includes('短期')) return '短期 1-3 年'; return d.slice(0, 10) }
 
 watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 </script>
@@ -141,4 +185,8 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-fv-trigger { background: #fef3e6; padding: 8px; border-radius: 4px; margin-bottom: 8px; }
 .sdt-scn { margin: 3px 0; font-size: 12px; }
 .sdt-risk { margin: 3px; }
+.sdt-moat { margin-left: 6px; }
+.sdt-moat-synthesis { background: #f5f7fa; padding: 8px; border-left: 3px solid #67c23a; border-radius: 4px; font-size: 13px; line-height: 1.7; margin-bottom: 10px; }
+.sdt-ff-list { padding-left: 18px; font-size: 13px; line-height: 1.8; }
+.sdt-weakest { background: #fef0f0; padding: 6px 8px; border-radius: 4px; font-size: 13px; color: #6a3030; margin-top: 8px; }
 </style>
