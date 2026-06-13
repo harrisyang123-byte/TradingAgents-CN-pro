@@ -125,6 +125,8 @@
                 <ul class="sdt-evidence-list">
                   <li v-for="(e, i) in items" :key="i">
                     <el-tag :type="evidenceTagType(e.status)" size="small" effect="plain">{{ e.status }}</el-tag>
+                    <el-tag v-if="(e as any).used_in?.length" size="small" type="success" effect="plain" class="sdt-used-tag">used in {{ (e as any).used_in.length }}</el-tag>
+                    <el-tag v-else size="small" type="info" effect="plain" class="sdt-unused-tag">unused</el-tag>
                     {{ e.claim }}
                     <span v-if="e.source" class="sdt-evidence-src">— {{ e.source }}</span>
                   </li>
@@ -257,6 +259,16 @@
               </div>
               <p v-if="fv.mid_term_path"><b>📈 中长期路径：</b>{{ fv.mid_term_path }}</p>
               <p v-if="fv.expectation_vs_consensus"><b>📊 vs 一致预期：</b>{{ fv.expectation_vs_consensus }}</p>
+              <!-- D0-5 forward_view 6 维多维推演 -->
+              <div v-if="fv.market_regime || fv.liquidity_environment || fv.industry_cycle_phase || fv.systematic_risk_beta || fv.comparable_matrix || fv.pricing_power_analysis" class="sdt-fv-6d">
+                <div class="sdt-fv-6d-title">🌐 多维推演（不只 PE）</div>
+                <div v-if="fv.market_regime" class="sdt-fv-6d-row"><b>📈 市场风格：</b>{{ fv.market_regime }}</div>
+                <div v-if="fv.liquidity_environment" class="sdt-fv-6d-row"><b>💧 流动性：</b>{{ fv.liquidity_environment }}</div>
+                <div v-if="fv.industry_cycle_phase" class="sdt-fv-6d-row"><b>🔄 行业周期：</b>{{ fv.industry_cycle_phase }}</div>
+                <div v-if="fv.systematic_risk_beta" class="sdt-fv-6d-row"><b>⚡ 系统性 β：</b>{{ typeof fv.systematic_risk_beta === 'string' ? fv.systematic_risk_beta : JSON.stringify(fv.systematic_risk_beta) }}</div>
+                <div v-if="fv.comparable_matrix" class="sdt-fv-6d-row"><b>📊 对标矩阵：</b>{{ typeof fv.comparable_matrix === 'string' ? fv.comparable_matrix : JSON.stringify(fv.comparable_matrix) }}</div>
+                <div v-if="fv.pricing_power_analysis" class="sdt-fv-6d-row"><b>🛒 定价能力：</b>{{ fv.pricing_power_analysis }}</div>
+              </div>
             </details>
             <!-- reflection 完整版 -->
             <details class="sdt-substep" v-if="detail.reflection">
@@ -265,6 +277,24 @@
               <p v-if="detail.reflection.what_changed"><b>本次变化：</b>{{ detail.reflection.what_changed }}</p>
               <p v-if="detail.reflection.why_changed"><b>为何改：</b>{{ detail.reflection.why_changed }}</p>
               <p v-if="detail.reflection.self_check"><b>自检：</b>{{ detail.reflection.self_check }}</p>
+            </details>
+            <!-- D0-5 3 方风险辩论 -->
+            <details class="sdt-substep" v-if="detail.risk_debate_summary">
+              <summary>⚖️ 3 方风险辩论（aggressive / safe / neutral）— TradingAgents 对齐</summary>
+              <p v-if="detail.risk_debate_summary.aggressive_main_attack"><b>🔥 激进派核心攻击：</b>{{ detail.risk_debate_summary.aggressive_main_attack }}</p>
+              <p v-if="detail.risk_debate_summary.safe_main_attack"><b>🛡️ 保守派核心攻击：</b>{{ detail.risk_debate_summary.safe_main_attack }}</p>
+              <p v-if="detail.risk_debate_summary.neutral_proposal_adopted" class="sdt-risk-adopted"><b>✅ 中立派建议（director 已采纳）：</b>{{ detail.risk_debate_summary.neutral_proposal_adopted }}</p>
+              <p v-if="detail.risk_debate_summary.neutral_proposal_rejected" class="sdt-risk-rejected"><b>❌ 中立派建议（director 拒绝）：</b>{{ detail.risk_debate_summary.neutral_proposal_rejected }}</p>
+            </details>
+            <!-- D0-5 sentiment -->
+            <details class="sdt-substep" v-if="detail.sentiment_view">
+              <summary>📰 sentiment 舆情分析（director 整合）</summary>
+              <p>{{ detail.sentiment_view }}</p>
+            </details>
+            <!-- D0-5 memory_used -->
+            <details class="sdt-substep" v-if="detail.memory_used?.length">
+              <summary>🧠 memory 已引用过往经验（{{ detail.memory_used.length }} 条）</summary>
+              <ul><li v-for="(m, i) in detail.memory_used" :key="i">{{ m }}</li></ul>
             </details>
           </el-collapse-item>
 
@@ -575,6 +605,17 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-evidence-list { padding-left: 0; list-style: none; font-size: 12.5px; line-height: 1.8; }
 .sdt-evidence-list li { padding: 4px 0; border-bottom: 1px dashed #f5f7fa; }
 .sdt-evidence-src { color: #909399; font-size: 11.5px; margin-left: 6px; }
+.sdt-used-tag { margin: 0 4px; }
+.sdt-unused-tag { margin: 0 4px; opacity: 0.6; }
+
+/* forward_view 6 维多维推演 */
+.sdt-fv-6d { margin-top: 12px; padding: 10px 12px; background: #f5f7fa; border-radius: 6px; border-left: 3px solid #2f4f8f; }
+.sdt-fv-6d-title { font-weight: 700; color: #2f4f8f; margin-bottom: 8px; font-size: 13px; }
+.sdt-fv-6d-row { font-size: 13px; line-height: 1.7; margin: 4px 0; color: #4e5969; }
+
+/* 3 方风险辩论展示 */
+.sdt-risk-adopted { background: #f6ffed; padding: 6px 8px; border-radius: 4px; border-left: 2px solid #67c23a; margin: 6px 0; }
+.sdt-risk-rejected { background: #fff1f0; padding: 6px 8px; border-radius: 4px; border-left: 2px solid #cf1322; margin: 6px 0; }
 
 /* Step 1 evidence 分组展示 */
 .sdt-evi-group { margin: 12px 0; border: 1px solid #ebeef5; border-radius: 6px; overflow: hidden; }

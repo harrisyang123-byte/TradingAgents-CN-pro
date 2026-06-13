@@ -50,6 +50,17 @@ tools:
   - **替代威胁**：替代技术清单（成熟度+渗透率）、客户切换成本定性
   - 取不到的字段 → 标 `status: missing`，**禁止编造**；5 力 agent 接到 missing 字段时降低 confidence 不补凭空数字。
 
+- **`stock:<code>` sentiment 加取**（2026-06-13 D0-5 加,对齐 TradingAgents news/social_media analyst）：服务 `v4-stock-analyst-sentiment`,必须按以下 schema 联网补 `desk_news` + `desk_sentiment` 段:
+  - `desk_news`: 近 30 天新闻列表[{date, title, type:policy/earnings/order/management/m&a/external_shock, sentiment:+/0/-, summary, source}]
+  - `desk_sentiment.xueqiu`: 雪球关注度（讨论数 / 涨跌评论比 / 历史百分位）
+  - `desk_sentiment.guba`: 股吧情绪指数（如同花顺/东财股吧 0-100）
+  - `desk_sentiment.consensus`: 卖方一致预期 EPS 2026/2027 + 评级分布(买入X/增持Y/持有Z/减持W) + 30天 revision 方向
+  - `desk_sentiment.northbound`: 北上资金 30 天净流入(亿)
+  - `desk_sentiment.margin`: 融资余额 30 天变化 %
+  - `desk_sentiment.iv_skew`: 期权 IV-skew(偏 put/call/平衡, 仅有期权的标的)
+  - `desk_sentiment.fund_holdings_percentile`: 公募持仓历史百分位
+  - 取不到的字段 → 标 missing,sentiment agent 自动降 confidence。
+
 ## 输入（用 Read 读取已有上下文）
 1. `{data_dir}/inputs/portfolio_classified.json` — 七大类穿透归类（了解该取哪些单元）
 2. `{data_dir}/inputs/data_macro.json` — 已有宏观快照（档A：检查 `fetched_at`+`ttl_hours`，**新鲜则复用、不重复联网**）

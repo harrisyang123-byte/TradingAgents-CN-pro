@@ -62,6 +62,9 @@ def main() -> int:
     s_w.add_argument("--status", default="green")
     s_w.add_argument("--error", default="")
     s_w.add_argument("--ttl-days", type=int, default=None)
+    # D0-5 (2026-06-13) critic 接入编排: payload.credibility.final_verdict 必须 ACCEPT 才落盘
+    s_w.add_argument("--skip-critic", action="store_true",
+                     help="跳过 credibility.final_verdict ACCEPT 校验(紧急情况;默认必须 ACCEPT)")
 
     args = ap.parse_args()
 
@@ -117,6 +120,27 @@ def main() -> int:
                     upstream = []
             else:
                 upstream = _build_upstream([x.strip() for x in up_raw.split(",") if x.strip()])
+
+        # D0-5 critic 接入编排: 校验 credibility.final_verdict ACCEPT
+        # 仅对 stock:/industry:/asset:* 单元强制(plan/alloc 单元绕过)
+        if not args.skip_critic and args.unit_id.startswith(("stock:", "industry:", "asset:")):
+            cred = (payload or {}).get("credibility") or {}
+            verdict = cred.get("final_verdict")
+            if verdict != "ACCEPT":
+                fatal = cred.get("fatal_flaws") or cred.get("challenges") or []
+                fatal_str = "; ".join(fatal[:3]) if isinstance(fatal, list) else str(fatal)[:200]
+                msg = (
+                    f"BLOCKED: credibility.final_verdict={verdict!r} (need 'ACCEPT'). "
+                    f"director 必须根据 critic 反馈迭代 verdict 直到 ACCEPT 才落盘。"
+                    f" fatal_flaws/challenges: {fatal_str}"
+                )
+                print(json.dumps({
+                    "unit_id": args.unit_id,
+                    "blocked_by_critic": True,
+                    "final_verdict": verdict,
+                    "message": msg,
+                }, ensure_ascii=False), file=sys.stderr)
+                return 4
 
         env = store.new_envelope(
             args.unit_id,

@@ -159,6 +159,13 @@ export interface ForwardView {
   // D0-4 新增字段(个股 forward_view)
   consensus_view?: string
   expectation_vs_consensus?: string
+  // D0-5 TradingAgents 对齐 - forward_view 6 维多维推演 (2026-06-13)
+  market_regime?: string                  // 看多/看空/中性大盘风格 + 概率(决定 PE 中枢)
+  liquidity_environment?: string          // LPR/MLF/外资流向对 PE 的影响
+  industry_cycle_phase?: string           // 行业周期阶段(起飞/高速/平台/衰退) + 估值修正系数
+  systematic_risk_beta?: string | { beta?: number; scenarios?: any }  // β + 大盘各情景下本股影响
+  comparable_matrix?: any                 // 对标公司 PE 表 + 我方相对溢价/折价 + 推演路径
+  pricing_power_analysis?: string         // 涨价 pass-through 能力 + 历史佐证
 }
 
 // D 阶段 5+1 五力深做(2026-06-13)
@@ -346,6 +353,21 @@ export interface StockDetail {
   chain_positioning?: ChainPositioning | null   // 产业链卡位(全面:连接行业层)
   industry_weight_pct?: number | null   // 行业内目标权重(可执行:仓位计算器)
   credibility?: Credibility | null   // 可信度(可信+会学习:critic 评审过程)
+  // D0-5 (2026-06-13) TradingAgents 对齐字段
+  risk_debate_summary?: {
+    aggressive_main_attack?: string
+    safe_main_attack?: string
+    neutral_proposal_adopted?: string
+    neutral_proposal_rejected?: string
+  } | null
+  risk_debate_full?: {
+    aggressive?: any
+    safe?: any
+    neutral?: any
+  } | null
+  sentiment_view?: string | null
+  sentiment_full?: any | null
+  memory_used?: string[]
   debate_rounds?: DebateRound[]
   analysts?: Record<string, any>
   reflection?: ReflectionData | null

@@ -333,13 +333,19 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "position_nature": p.get("position_nature"),
         # D 阶段 5+1 五力深做(2026-06-13 拆分): 5 力 level + cross_force_dynamics + weakest_link + moat_durability + monitoring_signals
         "five_forces": p.get("five_forces"),
+        # D0-5 TradingAgents 对齐(2026-06-13): 3 方风险辩论 + sentiment + memory + forward_view 6 维 + 数据追溯
+        "risk_debate_summary": p.get("risk_debate_summary"),
+        "risk_debate_full": p.get("risk_debate_full"),  # aggressive/safe/neutral 完整产出
+        "sentiment_view": p.get("sentiment_view"),
+        "sentiment_full": p.get("sentiment_full"),  # sentiment 分析师完整产出
+        "memory_used": p.get("memory_used") or [],  # director 引用的 memory 记录
         "worst_case": p.get("worst_case"),
         "downside": p.get("downside"),
         "sell_discipline": p.get("sell_discipline", []),
         "thesis": p.get("thesis"),
         "risks": p.get("risks", []),
         "confidence": p.get("confidence"),
-        # 前瞻
+        # 前瞻 (D0-5 加 6 维多维推演: market_regime/liquidity/cycle/β/comparable_matrix/pricing_power)
         "forward_view": p.get("forward_view"),
         # 辩论 + 反思
         "debate_rounds": p.get("debate_rounds", []),
@@ -347,5 +353,5 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "reflection": p.get("reflection"),
         # C 阶段 回测准确率(前端展示)
         "historical_alpha": p.get("historical_alpha"),
-        "evidence": p.get("evidence", []),
+        "evidence": p.get("evidence", []),  # D0-5 加 used_in: string[] 追溯到 thesis/forward_view/sell_discipline
     }
