@@ -1,0 +1,108 @@
+{
+  "fund_code": "270042",
+  "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+  "fetched_at": "2026-06-13",
+  "available": true,
+  "data_status": "estimated",
+  "source": "holdings_user_filled",
+  "as_of": "2025-12-31",
+  "fund_type": "ETF联接·QDII·权益",
+  "fund_company": "广发基金",
+  "asset_size_yi": null,
+  "management_fee_pct": 0.5,
+  "benchmark": "纳斯达克100指数",
+  "stock_position_pct": 95.0,
+  "bond_position_pct": 0,
+  "cash_position_pct": 5.0,
+  "top_holdings": [
+    {
+      "code": "AAPL",
+      "name": "苹果",
+      "market": "US",
+      "weight": 8.5,
+      "industry": "消费电子"
+    },
+    {
+      "code": "MSFT",
+      "name": "微软",
+      "market": "US",
+      "weight": 7.8,
+      "industry": "软件"
+    },
+    {
+      "code": "NVDA",
+      "name": "英伟达",
+      "market": "US",
+      "weight": 7.2,
+      "industry": "半导体"
+    },
+    {
+      "code": "GOOGL",
+      "name": "Alphabet",
+      "market": "US",
+      "weight": 5.0,
+      "industry": "互联网"
+    },
+    {
+      "code": "AMZN",
+      "name": "亚马逊",
+      "market": "US",
+      "weight": 4.5,
+      "industry": "互联网零售"
+    },
+    {
+      "code": "META",
+      "name": "Meta",
+      "market": "US",
+      "weight": 4.2,
+      "industry": "社交媒体"
+    },
+    {
+      "code": "AVGO",
+      "name": "博通",
+      "market": "US",
+      "weight": 3.8,
+      "industry": "半导体"
+    },
+    {
+      "code": "TSLA",
+      "name": "特斯拉",
+      "market": "US",
+      "weight": 3.0,
+      "industry": "新能源车"
+    },
+    {
+      "code": "COST",
+      "name": "好市多",
+      "market": "US",
+      "weight": 2.5,
+      "industry": "零售"
+    },
+    {
+      "code": "NFLX",
+      "name": "奈飞",
+      "market": "US",
+      "weight": 2.2,
+      "industry": "流媒体"
+    }
+  ],
+  "industry_exposure": {
+    "信息技术": 50.0,
+    "通信服务": 15.0,
+    "可选消费": 14.0,
+    "医疗保健": 6.0,
+    "工业": 5.0,
+    "金融": 3.0,
+    "其他": 7.0
+  },
+  "region_exposure": {
+    "美国": 95.0,
+    "其他": 5.0
+  },
+  "style": {
+    "size": "大盘",
+    "growth_value": "成长"
+  },
+  "_data_source": "用户填充示范 (来自纳指 100 成分约 2025 末公开权重) - 待用户用真实季报数据替换",
+  "_data_status": "estimated"
+}

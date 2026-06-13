@@ -68,6 +68,80 @@ git add data/v4/_inputs/holdings.json && git commit -m "chore: update v4 holding
 }
 ```
 
+## 基金穿透字段 `_fund_passthrough`（2026-06-13 加，可选但**强烈推荐**）
+
+> **为什么需要**：基金本质是股票/债券组合，不穿透到底层就无法算清楚行业暴露/重叠/风格。沙箱无外网取不到 AKShare 真数据，**用户本地填充是最可靠的来源**（从天天基金/雪球/招商证券/基金季报 PDF 任一渠道）。
+
+**基金 / ETF 持仓 →加可选字段** `_fund_passthrough`：
+
+```json
+{
+  "code": "270042",
+  "name": "广发纳指100ETF联接（QDII）人民币A",
+  "market_value": 20438,
+  "instrument_type": "fund",
+  "weight": 1.94,
+
+  "_fund_passthrough": {
+    "as_of": "2025-12-31",                ← 季报披露日 (3/31, 6/30, 9/30, 12/31 末)
+    "fund_type": "ETF联接·QDII·权益",      ← 类型: 股票型/混合型/债券型/货币型/QDII/REIT/商品型/...
+    "fund_company": "广发基金",
+    "asset_size_yi": 28.5,                 ← 规模(亿元), 不知道留 null
+    "management_fee_pct": 0.50,            ← 管理费率 % (年)
+    "benchmark": "纳斯达克100指数",         ← 业绩比较基准
+    "stock_position_pct": 95.0,            ← 股票仓位 % (相对净值, 季报披露)
+    "bond_position_pct": 0,
+    "cash_position_pct": 5.0,
+    "top_holdings": [                      ← 前 10 重仓 (核心数据! 行业聚合靠这个)
+      {"code": "AAPL", "name": "苹果", "market": "US", "weight": 8.5, "industry": "消费电子"},
+      {"code": "MSFT", "name": "微软", "market": "US", "weight": 7.8, "industry": "软件"},
+      ...
+    ],
+    "industry_exposure": {                 ← 行业暴露 % (核心! 行业页"间接持仓"靠这个)
+      "信息技术": 50.0,
+      "通信服务": 15.0,
+      "可选消费": 14.0,
+      ...
+    },
+    "region_exposure": {                   ← QDII 加这个 (中国/美国/全球) ; A 股基金可省
+      "美国": 95.0
+    },
+    "style": {                             ← 风格 (Level 2 用; Level 1 占位)
+      "size": "大盘",                       ← 大盘/中盘/小盘
+      "growth_value": "成长"                 ← 成长/价值/平衡
+    },
+    "_data_source": "易方达官网 2025 年 4 季报 / 天天基金 / 雪球",
+    "_data_status": "verified"             ← verified / estimated / partial
+  }
+}
+```
+
+### 字段说明（按 v4-data-desk.md 协议）
+
+| 字段 | 必填 | 说明 |
+|---|---|---|
+| `as_of` | **必填** | 季报披露日，越新越好（A 股季报 4/8/10 月披露，QDII 时滞略大）|
+| `fund_type` | **必填** | 用于 classifier 大类归属判断（QDII 归 equity_overseas，债基归 fixed_income，黄金 ETF 归 precious_metal） |
+| `top_holdings` | **核心**（无则降级）| 前 10 重仓股，**行业聚合的主要数据源** |
+| `industry_exposure` | **核心**（无则降级）| 行业暴露 %，**行业页"间接持仓"的数据源** |
+| `region_exposure` | QDII 必填 | 海外/A 股/港股区域暴露，影响大类归类 |
+| `style` | 可选 | Level 2 风格因子分析用 |
+| `_data_source` | 推荐 | 数据来源（用于追溯 + 多源冲突标记） |
+| `_data_status` | 推荐 | verified（季报确认）/ estimated（招商等第三方推算）/ partial（只填了部分） |
+
+### 取数渠道（推荐优先级）
+
+1. **基金公司官网季报 PDF**：最权威，但 PDF 解析麻烦
+2. **天天基金 → 基金详情 → 重仓股/行业分布**：体验好，但数据时滞 1-2 季度
+3. **雪球 → 基金详情**：含历史持仓变化曲线
+4. **招商证券 / 各券商 App → 基金诊断报告**：含风格因子分析（Level 2）
+5. **AKShare 程序化取数**（生产环境）：`python scripts/v4_fund_source.py 270042`，沙箱不可用
+
+### 不填会怎样
+
+- `_fund_passthrough` 缺失 → fund_source.py 写 `data_status: "manual_required"` 占位 → 行业页该基金"间接持仓 ¥0 (待填)" → **不影响其他基金/股票分析**
+- 部分填（只填 top_holdings 不填 industry_exposure）→ aggregator 用 top_holdings 反推行业（精度低，标 estimated）
+
 ## 跑全量分析（拿到 holdings.json 之后）
 
 按约束链自上而下依序触发单元（每次只跑命中单元，不连带重跑其它）：
