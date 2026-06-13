@@ -2,10 +2,10 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 5,
+    "analyzed_count": 6,
     "total_stocks": 9,
     "total_funds": 26,
-    "pending_actions": 7,
+    "pending_actions": 8,
     "style_region": {
       "A股": 450172.88999999996,
       "美国": 19415.815,
@@ -97,29 +97,6 @@
           "indirect": []
         },
         {
-          "name": "人工智能算力",
-          "direct_value": 12096.0,
-          "indirect_value": 5077.0,
-          "total_value": 17173.0,
-          "has_industry_analysis": true,
-          "holdings": [
-            {
-              "code": "002415",
-              "name": "海康威视",
-              "market_value": 12096.0,
-              "weight": 1.15,
-              "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
-            }
-          ],
-          "indirect": []
-        },
-        {
           "name": "互联网平台",
           "direct_value": 10480.0,
           "indirect_value": 6390.0,
@@ -186,6 +163,30 @@
               "summary": "中兴 2025 营收 +10.4% 但归母 -33.3% / 2026Q1 -46.58% 利润严重塌方, 净利率 4.2%→3.7% 持续压缩. 现价 ¥36.72 PE 30.89x (forward 23.32x) 在 R3 共识区 ¥32-38 中位无安全边际. 大摩调降目标至 ¥31.5(-14%). 用户现仓 1.38%(¥14540), 维持不动等 Q2 利润企稳信号 + 价格回踩 ¥28-32 价值派买点. 反骑墙: 证据偏空(利润+估值)但 AI 算力期权+回购托底, 站队'持有偏防御'非'减仓'.",
               "stop_loss": "¥28 (-24%, R3 共识下沿+大摩目标价)",
               "direction": "中性偏空 — 短期利润 -47% 加速下滑, 中长期 AI 算力布局有期权但未兑现"
+            }
+          ],
+          "indirect": []
+        },
+        {
+          "name": "人工智能/AIoT/安防",
+          "direct_value": 12096.0,
+          "indirect_value": 1771.0,
+          "total_value": 13867.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "002415",
+              "name": "海康威视",
+              "market_value": 12096.0,
+              "weight": 1.15,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "加仓(分批至 2.5%)",
+              "action": "现价 ¥29 加 1.35% 至 2.5% (从 ¥12096 加至 ¥26300)",
+              "confidence": 0.7,
+              "summary": "海康 2025 营收 925.08 亿(+0.01%) 但归母 +18.52% 经营现金流 253.39 亿大幅增长. 现价 ¥29 PE 18.8x 处历史 15% 分位, R3 共识 ¥28-34 中枢 ¥30. 全球 38% 安防龙头+四层壁垒+创新业务(萤石/机器人/汽车/储能)期权. 用户现仓 1.15%(¥12096), 加至 2.5% (neutral 推荐). 反骑墙: 证据偏多(利润质量+估值低+现金流), Q2-Q3 PBG 财政回暖+创新业务放量是关键验证.",
+              "stop_loss": "¥23 (-21%, 跌破 R3 共识下沿+承认 bear 兑现)",
+              "direction": "看多 — 现价进入价值区间下沿, 利润+18.52% 现金流 253 亿验证质量"
             }
           ],
           "indirect": []
@@ -637,6 +638,10 @@
       },
       {
         "desc": "移远通信 加仓(分批至 2.5-3%)",
+        "amount": null
+      },
+      {
+        "desc": "海康威视 加仓(分批至 2.5%)",
         "amount": null
       }
     ]

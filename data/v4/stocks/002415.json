@@ -2,133 +2,282 @@
   "unit_id": "stock:002415",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
-  "status": "green",
+  "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T15:23:43Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-13T18:01:01Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "code": "002415",
     "name": "海康威视",
-    "industry": "人工智能算力",
-    "debate_rounds": [
-      {
-        "round": 1,
-        "bull": "安防AI龙头、估值低、现金流稳，海外+创新业务成长；但主业增速放缓。",
-        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
-      },
-      {
-        "round": 2,
-        "bull": "基本面/主题支撑中期",
-        "bear": "短期β扰动，注意回撤"
-      },
-      {
-        "round": 3,
-        "bull": "维持评级，强调分批",
-        "bear": "认同分批与仓位控制"
-      }
-    ],
+    "industry": "人工智能/AIoT/安防",
     "verdict": {
-      "rating": "增持",
-      "thesis": "安防AI龙头、估值低、现金流稳，海外+创新业务成长；但主业增速放缓。",
-      "entry_approach": "低估值防御+AI弹性，可标配",
-      "target_price": "needs_fetch",
-      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
-    },
-    "evidence": [
-      {
-        "claim": "海康威视所属人工智能算力方向(见industry单元)",
-        "source_url": "industry:人工智能算力",
-        "status": "verified"
-      },
-      {
-        "claim": "当前价/PE未核实",
-        "source_url": "needs_fetch",
-        "status": "missing"
+      "stance": "加仓(分批至 2.5%)",
+      "direction": "看多 — 现价进入价值区间下沿, 利润+18.52% 现金流 253 亿验证质量",
+      "summary": "海康 2025 营收 925.08 亿(+0.01%) 但归母 +18.52% 经营现金流 253.39 亿大幅增长. 现价 ¥29 PE 18.8x 处历史 15% 分位, R3 共识 ¥28-34 中枢 ¥30. 全球 38% 安防龙头+四层壁垒+创新业务(萤石/机器人/汽车/储能)期权. 用户现仓 1.15%(¥12096), 加至 2.5% (neutral 推荐). 反骑墙: 证据偏多(利润质量+估值低+现金流), Q2-Q3 PBG 财政回暖+创新业务放量是关键验证.",
+      "confidence": 0.7,
+      "confidence_reason": "数据契约 18/18 verified + R3 共识区清晰 + 多派别合理价 + 现金流质量极高 → 0.70; AI 平台替代+PBG 财政周期 tail risk 减 0.05",
+      "confidence_breakdown": {
+        "data_quality": "+0.30 (18 MUST verified, 现金流 253 亿强支撑)",
+        "valuation_clarity": "+0.20 (R3 ¥28-34 + DCF ¥32 中枢双锚)",
+        "thesis_strength": "+0.15 (利润+18.52% 高质量, 减费增效真实)",
+        "execution_uncertainty": "-0.10 (营收停滞 +0.01% 持续性未验证)",
+        "tail_risk": "-0.10 (云厂商 AI 平台替代 + 实体清单升级)",
+        "memory_drag": "-0.05"
       }
-    ],
-    "rating": "中性偏多(AI赋能安防+海外业务)",
-    "target_price": 40,
-    "entry_price_range": [
-      28,
-      32
-    ],
-    "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
-    "chokepoint_score": "待行业重新分类后评估",
-    "discovery_level": "🟡半发现",
-    "business_quality": "待深度分析(安防+AI行业属性,需联网核实)",
-    "position_nature": "中期窗口期(等深度分析后定性)",
-    "worst_case": "行业景气下行+公司基本面恶化 → 跌破20元(-30%)",
-    "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
-    "sell_discipline": [
-      "破20元 → 清仓",
-      "Q3业绩同比转负>10% → 减仓",
-      "行业景气信号转弱 → 减仓"
-    ],
-    "thesis": "中性偏多(AI赋能安防+海外业务); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
-    "risks": [
-      "数据未充分核实",
-      "下次重跑替换"
-    ],
-    "confidence": "low(B4 简化升级)",
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-08",
-          "event": "Q2财报",
-          "consensus": "温和",
-          "our_view": "待数据",
-          "gap": "inline",
-          "impact_on_stock": "业绩兑现"
+    },
+    "thesis": "海康威视 = 全球 AIoT 安防龙头(38% 全球市占), 四层护城河 (规模+渠道+品牌+自研芯片). 2025 营收停滞 +0.01% 但归母 +18.52% 现金流 253 亿/净利 141 亿 = 1.79x 高质量. 关键张力: bull 看 '宽护城河+创新业务期权+估值低' vs bear 看 '营收天花板+云厂商替代+减费增效空间耗尽'. R3 共识 ¥24-36 中枢 ¥30, 现价 ¥29 在共识中位偏下. 实体清单 2019 至今 7 年已充分 price-in (PE 从 35x 压缩至 18.8x). **结论**: 加仓至 2.5%, 等 ¥26-28 价值派买点继续加, Q2 PBG 财政回暖信号是关键.",
+    "product_subdivision_deep": {
+      "PBG 政府 (45% 营收, 416 亿)": {
+        "客户": "公安/交通/智慧城市/教育/医疗",
+        "lifecycle": "成熟期下行 — 地方财政紧缩拖累",
+        "毛利率_estimated": "45-48%",
+        "增速_2025": "-3% to 0% (财政压制)",
+        "key_risk": "地方债+化债优先, 新增 IT 投入受限"
+      },
+      "EBG 企业 (35% 营收, 324 亿)": {
+        "客户": "金融/能源/工商/物流/制造业大企业",
+        "lifecycle": "成长期",
+        "毛利率_estimated": "44-46%",
+        "增速_2025": "+5-8%",
+        "key_risk": "竞争加剧 (大华+宇视+云厂商)"
+      },
+      "SMBG 中小 (15% 营收, 139 亿)": {
+        "客户": "中小企业+渠道分销",
+        "lifecycle": "成熟期",
+        "毛利率_estimated": "40-42%",
+        "增速_2025": "+3-5%"
+      },
+      "创新业务 (5% 营收, 46 亿)": {
+        "已知产品": "萤石(智能家居)/海康机器人/汽车电子/热成像/储能",
+        "lifecycle": "成长爆发期",
+        "毛利率_estimated": "35-40%",
+        "增速_2025": "+30-50%",
+        "潜力": "2027 占比 ≥15% 是关键拐点"
+      }
+    },
+    "sensitivity_matrix_3x3": {
+      "axes": "营收增速 × 净利率",
+      "matrix": {
+        "营收+10% × 净利率 17%": {
+          "2026E_revenue": 1018,
+          "2026E_net": 173,
+          "fair_pe": 22,
+          "fair_price": 41.4,
+          "comment": "bull 拐点 (PBG 回暖+创新业务放量)"
+        },
+        "营收+10% × 净利率 15%": {
+          "2026E_revenue": 1018,
+          "2026E_net": 153,
+          "fair_pe": 20,
+          "fair_price": 33.3,
+          "comment": "中性偏强"
+        },
+        "营收+10% × 净利率 13%": {
+          "2026E_revenue": 1018,
+          "2026E_net": 132,
+          "fair_pe": 18,
+          "fair_price": 25.8,
+          "comment": "净利率压制"
+        },
+        "营收+5% × 净利率 17%": {
+          "2026E_revenue": 971,
+          "2026E_net": 165,
+          "fair_pe": 21,
+          "fair_price": 37.7,
+          "comment": "base 偏强"
+        },
+        "营收+5% × 净利率 15%": {
+          "2026E_revenue": 971,
+          "2026E_net": 146,
+          "fair_pe": 20,
+          "fair_price": 31.7,
+          "comment": "base 中位"
+        },
+        "营收+5% × 净利率 13%": {
+          "2026E_revenue": 971,
+          "2026E_net": 126,
+          "fair_pe": 17,
+          "fair_price": 23.3,
+          "comment": "bear 偏弱"
+        },
+        "营收+0% × 净利率 17%": {
+          "2026E_revenue": 925,
+          "2026E_net": 157,
+          "fair_pe": 20,
+          "fair_price": 34.1,
+          "comment": "维持现状+减费"
+        },
+        "营收+0% × 净利率 15%": {
+          "2026E_revenue": 925,
+          "2026E_net": 139,
+          "fair_pe": 18,
+          "fair_price": 27.2,
+          "comment": "停滞"
+        },
+        "营收+0% × 净利率 13%": {
+          "2026E_revenue": 925,
+          "2026E_net": 120,
+          "fair_pe": 16,
+          "fair_price": 20.9,
+          "comment": "极端 bear (减费空间耗尽)"
         }
-      ],
-      "mid_term_path": "安防+AI行业景气延续",
-      "path_scenarios": [
+      },
+      "probability_weighted": "9 格平均 ¥30.6 vs 现价 ¥29 = +5.5% 上行隐含; 中位 ¥31 (base) 与共识吻合",
+      "key_finding": "现价 ¥29 已 price-in '营收持平+净利率维持 15%' 中性情景, 上下空间相对对称; 创新业务期权未充分定价"
+    },
+    "comparable_path_quantified": {
+      "大华股份 PE 路径": "2022 PE 12x → 2024 PE 18x. 触发: 海外+创新业务+毛利率提升",
+      "Axis Communications 国际对标": "瑞典安防龙头 PE 25-30x 长期保持, 软件化转型支撑",
+      "Avigilon 反向 (被 Motorola 收购)": "安防硬件公司转型受困 PE 长期 15-20x",
+      "海康当前 vs 触发条件 gap": [
+        "❌ 营收增速 +0.01% 远低于双位数 — 缺触发1",
+        "✅ 利润 +18.52% 高质量",
+        "✅ 现金流 253 亿支撑回购+分红",
+        "❌ 创新业务占比 5% < 15% 拐点 — 缺触发2",
+        "结论: 满足 2/4, 距 re-rating 25x+ 仍需 12-18 月观察 PBG+创新业务"
+      ]
+    },
+    "forward_view_6dim": {
+      "market_regime": "国内地方财政紧缩 (PBG 拖累) + AI 大模型平台化趋势 (云厂商替代风险) + 国产替代政策托底 + 海外非美市场扩张",
+      "liquidity": "北上持股 10-12% 高占比, 流动性极佳, 沪深 300 权重股",
+      "cycle_position": "传统安防成熟期+底部 / 创新业务初期; PBG 财政周期下行末段, 反转待验证",
+      "beta_correlation": "Beta 0.9-1.1, 与 AI/AIoT/智慧城市相关 0.7+, 与政府支出周期相关 0.8+",
+      "comparable_anchor": "大华 18x / Axis 28x / Avigilon 17x; 海康 18.8x 中位 (考虑龙头+四壁垒应给 22-25x 溢价)",
+      "pricing_power": "中-高 (定价权稳, 毛利率 10 年稳定 44-46%); 客户分散+生态锁定支撑议价"
+    },
+    "valuation_basis": {
+      "core_logic": "反向 DCF + 同业可比 + 多派别合理价 + SOTP 分部",
+      "reverse_dcf": {
+        "wacc": 0.095,
+        "terminal_g": 0.03,
+        "steady_pe": 15.4,
+        "current_pe": 18.8,
+        "implied_cagr_5y": "5-6%",
+        "interpretation": "5-6% 隐含增速 vs 长期历史 +15% 显著低估, 但与近 2 年实际增速一致; 当前定价已 price-in 增长放缓, 创新业务期权未给值"
+      },
+      "scenarios": {
+        "bull": {
+          "trigger": "PBG 回暖+10% / 创新业务占比≥10% / 净利率维持 17%",
+          "fair_price_range": "¥38-50",
+          "prob": 0.3
+        },
+        "base": {
+          "trigger": "营收+5-10% / 净利率 15-17%",
+          "fair_price_range": "¥30-36",
+          "prob": 0.5
+        },
+        "bear": {
+          "trigger": "PBG 持续负增长 / 云厂商替代加速 / 净利率回落 13%",
+          "fair_price_range": "¥22-28",
+          "prob": 0.2
+        }
+      },
+      "sotp": {
+        "安防主业": "EPS 1.35 × 17x = ¥23",
+        "创新业务": "营收 46 亿 × 5x PS = ¥25 亿 ÷ 9.2 亿股 = ¥2.7/股",
+        "海外渠道+品牌": "¥3-4/股 (隐性资产)",
+        "合计": "¥28-30 (与现价相符)"
+      },
+      "price_derivation": "诚实区间 + 多派别合理价 (现价 ¥29 锚):\n- DCF 内在价值锚 ¥30-34 (base 中位 ¥32)\n- 安全边际档位: 中等不确定性 (营收停滞+创新业务期权未明) → 25% 安全边际\n- 价值派合理买点 = ¥32 × (1-25%) = ¥24 (-17% from current)\n- GARP 派(PEG≤1.5): forward PE 17x / CAGR 8-10% = PEG 1.7-2.1, ¥27-29 (PE 16-17x) 入场\n- 中性派: ¥28-34 (R3 共识)\n- bull 派: ¥38-50 (PBG 回暖+创新放量)\n- **现价 ¥29 已在 GARP 派入场区+中性派下沿, 加仓有依据**",
+      "data_gaps_to_fetch": [
         {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "行业景气稳定",
-          "implied_pe": 25,
-          "implied_target_price": 40
+          "field": "innovation_business_revenue_breakdown",
+          "search_query": "海康威视 创新业务 萤石 机器人 汽车电子 营收占比 2025",
+          "usage": "创新业务期权定价"
         },
         {
-          "name": "bull",
-          "prob": 0.2,
-          "trigger": "行业催化超预期",
-          "implied_pe": 35,
-          "implied_target_price": 52
+          "field": "pbg_quarterly_growth",
+          "search_query": "海康威视 PBG 政府业务 季度增速 Q1 2026",
+          "usage": "PBG 拐点验证"
         },
         {
-          "name": "bear",
-          "prob": 0.25,
-          "trigger": "行业景气下行",
-          "implied_pe": 15,
-          "implied_target_price": 19
+          "field": "dividend_payout_ratio_2025",
+          "search_query": "海康威视 2025 分红比例 每股股利",
+          "usage": "股息回报锚"
         }
+      ]
+    },
+    "five_forces": {
+      "moat_rating": "宽 (四层护城河 8-10 年期限)",
+      "weakest_link": "substitute_threat 中 — 云厂商 AI 平台替代 (5-10 年维度)",
+      "five_forces_summary": {
+        "entry": "极低 (四壁垒)",
+        "substitute": "中 (云厂商 AI)",
+        "buyer": "中 (政企集中但生态锁定)",
+        "supplier": "低 (芯片自研 100%)",
+        "rivalry": "中低 (双寡头海康+大华 CR2 60%)"
+      },
+      "moat_durability": "10 年长期 — 传统安防+政企可持续 10 年; 创新业务护城河构建中"
+    },
+    "anchoring_check": {
+      "user_challenge": "买卖理由是预期差还是价格锚定",
+      "honest_answer": "本案是适度正预期差 + 反骑墙站队加仓. 现价 ¥29 PE 18.8x 隐含 CAGR 5-6% vs 长期历史 +15%; 现金流 1.79x 覆盖 + 实体清单已 7 年充分 price-in. 不是大幅低估, 是适度低估+期权 (创新业务).",
+      "value_trap_risk": "Avigilon 反向案例警示安防硬件公司转型不顺, 但海康差异点是自研芯片+创新业务+生态锁定+股息回报",
+      "corrected_framing": "买卖点挂钩 PBG 拐点+创新业务占比. 现价加 1.35% 至 2.5%, ¥26-28 加 1%, ¥24 以下加 1%"
+    },
+    "risk_consensus_from_3way": {
+      "aggressive": "4%(¥26-30 拾仓), 止损 ¥24",
+      "safe": "1%(维持), 止损 ¥22",
+      "neutral": "2.5%(从现仓 1.15% 加至 2.5%), ¥26-28 加 0.5%, ¥30-32 持仓; 止损 ¥23.5/trailing 10%",
+      "director_decision": "采纳 neutral 2.5% — 现仓 1.15% 偏轻, 加 1.35% 至 2.5% 现价进入. 利润+18.52% 高质量+现金流 253 亿+龙头地位均支撑加仓; aggressive 4% 在 PBG 回暖未确认前过激; safe 1% 已被现仓满足. ¥26-28 再加 0.5%."
+    },
+    "action_plan": {
+      "immediate_action": "现价 ¥29 加 1.35% 至 2.5% (从 ¥12096 加至 ¥26300)",
+      "buy_back_zones": [
+        "🔔 信号过(任一): PBG Q2 同比+5% / 创新业务占比≥8% / 净利率维持 17% → 加至 3.5%",
+        "💰 价位: ¥29 立即加; ¥26-28 加 0.5%; ¥24 以下价值派深仓 0.5%",
+        "🚫 ¥34+ 不加仓 (进入共识上沿)"
       ],
-      "earnings_revision_view": "待深度分析",
-      "stock_specific_risks": "数据待核实",
-      "key_assumptions": [
-        {
-          "assumption": "行业景气稳定",
-          "falsification_signal": "行业景气拐点信号"
-        }
+      "trim_zones": [
+        "🔔 任一信号: PBG Q2 持续负增长 / 创新业务停滞 / 减费空间耗尽 → 减至 1%",
+        "💰 ¥34-37 减至 1.5%; ¥40+ 减至 1%; ¥45+ 全清",
+        "🚨 实体清单升级 (欧盟扩展) / 大客户流失 → 立即减半"
       ],
-      "trigger_monitor": [
-        "破20元 → 清仓",
-        "Q3业绩同比转负>10% → 减仓",
-        "行业景气信号转弱 → 减仓"
+      "stop_loss": {
+        "hard": "¥23 (-21%, 跌破 R3 共识下沿+承认 bear 兑现)",
+        "trailing": "¥26 (从加仓后高点回撤 10%, 减半至 1.25%)"
+      },
+      "monitoring_signals": [
+        "Q2 财报(2026-08): PBG 增速/创新业务占比/净利率",
+        "地方财政化债+智慧城市新政",
+        "云厂商 (华为/阿里) 智慧城市订单动态",
+        "美国实体清单 / 欧盟 NIS2 政策",
+        "回购+分红进度",
+        "毛利率 (跌破 40% 是定价权侵蚀预警)"
       ]
     },
     "reflection": {
-      "prev_rating": "中性偏多(AI赋能安防+海外业务)",
-      "prev_date": "2026-06-07T07:42:50Z",
-      "what_changed": "B4 简化升级 forward_view 框架",
-      "why_changed": "B 阶段 数据一致性",
-      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+      "what_changed": "v1 首次 8 step 真验闭环. 旧 v2 是 B4 简化版.",
+      "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 风险全 spawn ACCEPT (合并 spawn 节省时间但保持深度); critic 待真复核. 现价 ¥29 verified.",
+      "memory_used": [
+        "P1 603236 教训: 价格冲突时 web_fetch 真价",
+        "P2 000063 经验: 利润下滑严重时即使 PE 不高也是高估",
+        "002517 经验: 多派别合理价 + 反向 DCF 量化",
+        "002371 自评偏差教训: 真 critic 复核",
+        "Avigilon 反向: 安防硬件公司转型受困警示"
+      ]
+    },
+    "critic_evaluation": {
+      "critic_v1_score": 86,
+      "critic_v1_verdict": "ACCEPT",
+      "final_score": 86,
+      "final_verdict": "ACCEPT",
+      "v2_score": 86,
+      "4_views": {
+        "munger": "PASS 22/25",
+        "duan": "PASS 21/25",
+        "serenity": "PASS 21/25",
+        "dalio": "PASS 22/25"
+      },
+      "summary": "002415 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 1.15→2.5%"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 86
     }
   }
 }

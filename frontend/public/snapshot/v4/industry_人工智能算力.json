@@ -327,23 +327,6 @@
   ],
   "stocks": [
     {
-      "unit_id": "stock:002415",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:002415」，或运行：./scripts/run_v4.sh analyze stock:002415",
-      "version": 2,
-      "generated_at": "2026-06-12T15:23:43Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "002415",
-      "name": "海康威视",
-      "rating": "中性偏多(AI赋能安防+海外业务)",
-      "target_price": 40
-    },
-    {
       "unit_id": "stock:300308",
       "status": "green",
       "status_label": "新鲜",
@@ -396,16 +379,16 @@
     }
   ],
   "indirect_holdings": {
-    "direct_yi": 12096.0,
-    "indirect_yi": 5077.46,
-    "total_yi": 17173.46,
+    "direct_yi": 0.0,
+    "indirect_yi": 3306.48,
+    "total_yi": 3306.48,
     "contributing_funds": [
       {
         "code": "012733",
         "name": "易方达中证人工智能主题ETF联接A",
         "market_value": 14951.84,
-        "industry_weight_pct": 14.63,
-        "indirect_yi": 2187.454192,
+        "industry_weight_pct": 8.519999999999998,
+        "indirect_yi": 1273.8967679999998,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       },
@@ -413,8 +396,8 @@
         "code": "012734",
         "name": "易方达中证人工智能主题ETF联接C",
         "market_value": 14033.19,
-        "industry_weight_pct": 14.629999999999999,
-        "indirect_yi": 2053.055697,
+        "industry_weight_pct": 8.52,
+        "indirect_yi": 1195.627788,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       },
@@ -432,7 +415,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 28,
+      "industries_count": 29,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,

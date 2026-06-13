@@ -364,11 +364,11 @@
     "stock:002415": {
       "unit_id": "stock:002415",
       "unit_type": "stock",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T15:23:43Z",
+      "generated_at": "2026-06-13T18:01:01Z",
       "upstream": [],
       "error": null,
       "path": "stocks/002415.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T17:50:47Z"
+  "updated_at": "2026-06-13T18:01:01Z"
 }
