@@ -16,8 +16,11 @@
     "exists": true
   },
   "rating": "HOLD",
-  "target_price": "HK$156.5",
-  "entry_price_range": "信号①: Q2 财报 LABUBU 季度营收 ≥ Q1 flat + 非 LABUBU 占比升至 65%+ → 矩阵接力验证, 加仓至 5%",
+  "target_price": "HK$157",
+  "entry_price_range": [
+    125,
+    145
+  ],
   "price_at_judgment": "155-180",
   "verdict_oneliner": "Pop Mart forward PE 14x 看似低估, 但 critic 关键拷问成立: 14x 的分母(2026 净利 40 亿+)本身是未验证假设, 若 LABUBU 退潮则分母塌缩 PE 反弹至 25-30x。产品分子压力测试显示: LABUBU-30% 时非 LABUBU(占 62%)需+40% 才能持平, 可能性中等。鉴于 confidence 0.62 偏低 + LABUBU 周期拐点不可预测, 修正为维持 3.48% 观望, 仅在 HK$130 以下深跌时逆向小注至 4%(不超), 等 Q2 财报校准盈利分母后再决策。",
   "chain_positioning": null,
@@ -115,7 +118,8 @@
       ],
       "gap_conclusion": "隐含近零增长 << Q1实际+75% → 表面预期差正; 但critic拷问: 14x分母(2026E净利140亿)未验证, 若LABUBU退潮分母萎缩至100亿则PE反弹至22-28x → 预期差\"有条件正\", 条件=Q2-Q3 LABUBU≥flat+非LABUBU矩阵接力"
     },
-    "market_implied_assumptions": "forward PE 14x 在 WACC 9%+g 3% 下稳态PE=16.7x; 当前14x<稳态 → 隐含未来5年净利CAGR约-3%至+2%(近零),即市场price-in\"LABUBU周期见顶,增速从+184%崩落至低个位数甚至负\""
+    "market_implied_assumptions": "forward PE 14x 在 WACC 9%+g 3% 下稳态PE=16.7x; 当前14x<稳态 → 隐含未来5年净利CAGR约-3%至+2%(近零),即市场price-in\"LABUBU周期见顶,增速从+184%崩落至低个位数甚至负\"",
+    "price_derivation": "概率加权目标价 HK$157 = bull HK$250 × 0.25 + base HK$192 × 0.45 + bear HK$127 × 0.30; 加仓 HK$140-160 = base 中位 × -15% 安全边际(HK$160) 至 bear 上沿(HK$140 极保守); 止损 HK$115 = bear case 下沿 HK$110-145 区间下边 (forward PE 跌至 ~10x = 市场彻底否定 IP 平台); 减仓 HK$200+ = bull HK$220-280 × -10% (已 price-in 乐观)"
   },
   "credibility": {
     "initial_score": 76,
@@ -233,10 +237,11 @@
   "worst_case": "LABUBU-50%(净利降90-100亿)+东南亚库存减值+欧美扩张亏损三叠 → forward PE反弹至22-28x,跌至HK$70-110(-40%至-55%)",
   "downside": "3×3敏感性矩阵概率加权 HK$156.5(乐观40%×215+中性30%×145+悲观30%×90),仅45%概率支撑当前价",
   "sell_discipline": [
-    "信号触发硬止损: LABUBU 连续 2 季环比 -20% + 净利率 < 25% → 全清",
-    "矩阵失败信号: 非 LABUBU IP 占比降至 55% 以下 → 减仓",
-    "海外失败信号: 海外同店连续 2 季转负 → 减半",
-    "组合风险硬规则: 单只回撤 -30% 强制减半评估"
+    "🔔 信号 + 💰 价位双触发硬止损: LABUBU 连续 2 季环比 -20% + 跌破 HK$115 → 全清",
+    "🔔 矩阵失败信号: 非 LABUBU IP 占比 < 55% → 减仓 (无论价格)",
+    "🔔 海外失败信号: 海外同店连续 2 季转负 → 减半 (无论价格)",
+    "💰 跟踪止损: HK$135 (买入后高点 -15%) — 减半至 2%",
+    "🛡️ 组合层硬规则: 单只回撤 -30% 强制减半评估"
   ],
   "thesis": "Pop Mart = 全球 IP 平台, IP 矩阵化能力 + 全球 DTC 渠道 + 供应链效率是真实护城河(bear R2 已承认)。但核心争议点(critic 拷问): forward PE 14x 的'低估'建立在 2026 净利 40 亿+的假设上, 而这个分母本身依赖 LABUBU 周期延续 + 海外有机增长。市场给 14x 不一定是'误定价为玩具公司', 也可能是'定价增速将均值回归至 25-30%'。多空 R3 共识区间 HK$135-180。weakest_link substitute_threat。结论: 逆向线索存在但不构成主动加仓理由, 盈利分母需 Q2 验证。",
   "risks": [
@@ -394,18 +399,18 @@
   "action_plan": {
     "immediate_action": "维持当前 3.48% 观望 — 不在当前价 HK$155-180 主动加仓(confidence 0.58 偏低)",
     "buy_back_zones": [
-      "信号①: Q2 财报 LABUBU 季度营收 ≥ Q1 flat + 非 LABUBU 占比升至 65%+ → 矩阵接力验证, 加仓至 5%",
-      "信号②: 海外同店销售正增长(亚太重回 +40%+) → 全球化重定价, 加仓",
-      "信号③: 沽空比率回落 < 10% + 季度新 IP(非 LABUBU)放量 → 平台能力再证, 加仓"
+      "🔔 信号(强): Q2 财报 LABUBU 季度营收 ≥ Q1 flat + 非 LABUBU 占比升 65%+ → 矩阵接力验证, 加仓至 5%",
+      "💰 价位: 信号触发后, 按 HK$140-160 区间分批加 (HK$160 = base case 中位 ×-15% 安全边际; HK$140 = 接近 bear case 上沿 145, 极保守入场)",
+      "🛡️ 防御位: 若信号未触发但跌破 HK$130 + 沽空 < 25% → 逆向小注 0.3%"
     ],
     "trim_zones": [
-      "信号①: LABUBU 连续 2 季营收环比负增长 + 非 LABUBU 未补位(占比 < 58%) → 证伪清仓",
-      "信号②: 净利率连续 2 季 < 28% + 海外库存周转天数 > 75 → 减半至 1%",
-      "信号③: 沽空比率突破 25% + 大股东减持 → 减仓至 2%"
+      "🔔 信号: Q2 LABUBU 环比首次负 + 非 LABUBU 未补位 → 减半",
+      "💰 价位: 触发后 HK$200+ 分批减 (= bull case ¥220-280 × -10%, 已 price-in 多数乐观)",
+      "💰 加速减: HK$240+ → 减至 1.5% (进入 bull case 中位区, 风险回报失衡)"
     ],
     "stop_loss": {
-      "hard": "信号触发型: LABUBU 连续 2 季环比 -20% + 净利率 < 25% → 全清(非价格止损)",
-      "trailing": "组合层面: 单只回撤 -30% 强制减半评估"
+      "hard": "HK$115 硬止损 (= bear case 下沿 ¥110-145 区间下边, forward PE 跌至 ~10x 表示市场否定 IP 平台叙事) — 全清至 0",
+      "trailing": "HK$135 跟踪止损 (从买入后高点回撤 15% 触发减半至 2%)"
     },
     "monitoring_threshold_table": [
       {
