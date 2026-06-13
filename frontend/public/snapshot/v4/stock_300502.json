@@ -226,6 +226,7 @@
   "verdict_v2": null,
   "action_plan": null,
   "anchoring_check": null,
+  "valuation_cross_check": null,
   "product_subdivision": null,
   "sensitivity_matrix": null,
   "tail_risk": null,

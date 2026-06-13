@@ -97,16 +97,6 @@
         </div>
       </div>
 
-      <!-- ===== ②bis 锚定效应自查（防止"等回调买"= 价格锚定而非投资思维） ===== -->
-      <div v-if="detail.anchoring_check" class="card sdt-anchor">
-        <div class="sdt-section-title sdt-anchor-title">🧭 ②bis 锚定自查 — 买卖理由是「预期差/基本面」还是「价格锚定」？</div>
-        <p class="sdt-anchor-q">❓ {{ detail.anchoring_check.user_challenge }}</p>
-        <p class="sdt-anchor-honest"><b>诚实回答：</b>{{ detail.anchoring_check.honest_answer }}</p>
-        <p v-if="detail.anchoring_check.but_distinction" class="sdt-anchor-dist"><b>区分：</b>{{ detail.anchoring_check.but_distinction }}</p>
-        <p v-if="detail.anchoring_check.the_real_risk" class="sdt-anchor-risk"><b>⚠️ 真锚定风险：</b>{{ detail.anchoring_check.the_real_risk }}</p>
-        <p class="sdt-anchor-fix"><b>✅ 修正(盯信号不盯价格)：</b>{{ detail.anchoring_check.corrected_framing }}</p>
-      </div>
-
       <!-- ===== ③ 支撑分析（按编排器流程顺序展开,看完整推理链） ===== -->
       <div class="card sdt-support">
         <div class="sdt-section-title">🔬 ③ 支撑分析 — 完整推理链（点击每步展开）</div>
@@ -209,11 +199,50 @@
               </details>
             </details>
             <!-- 2c 估值分析师 -->
-            <details class="sdt-substep">
-              <summary>💰 c · 估值分析师（三锚推导）</summary>
-              <p v-if="detail.valuation_basis" class="sdt-thesis-valuation">{{ detail.valuation_basis }}</p>
-              <p v-if="detail.analysts?.valuation">{{ detail.analysts.valuation }}</p>
-              <p v-if="!detail.valuation_basis && !detail.analysts?.valuation" class="sdt-empty">（valuation_basis 未提供）</p>
+            <!-- 2c 估值分析师 — D0-8 升级反向DCF + SOTP + 多方法交叉 -->
+            <details class="sdt-substep" open>
+              <summary>💰 c · 估值分析师（反向DCF + SOTP + 多方法交叉 + 锚定自查）</summary>
+
+              <!-- 反向DCF 量化对照(核心) -->
+              <div v-if="rdcf" class="sdt-rdcf-block">
+                <div class="sdt-rdcf-title">🔄 反向 DCF — 市场在赌什么 vs 可验证现实</div>
+                <p v-if="rdcf.current_price" class="sdt-rdcf-price"><b>当前价：</b>{{ rdcf.current_price }}</p>
+                <p v-if="rdcf.market_implied_assumptions" class="sdt-rdcf-implied">
+                  <b>📊 市场隐含假设：</b>{{ rdcf.market_implied_assumptions }}
+                </p>
+                <p v-if="rdcf.verifiable_reality" class="sdt-rdcf-reality">
+                  <b>🔍 可验证现实：</b>{{ rdcf.verifiable_reality }}
+                </p>
+                <table v-if="rdcf.assumption_vs_reality?.length" class="sdt-rdcf-table">
+                  <thead><tr><th>市场隐含假设</th><th>可验证现实</th><th>判定</th></tr></thead>
+                  <tbody>
+                    <tr v-for="(a, i) in rdcf.assumption_vs_reality" :key="i" :class="verdictCls(a.verdict)">
+                      <td>{{ a.assumption }}</td><td>{{ a.reality }}</td>
+                      <td><span :class="['sdt-verdict-tag', verdictCls(a.verdict)]">{{ a.verdict }}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p v-if="rdcf.gap_conclusion" class="sdt-rdcf-conclusion">
+                  <b>🎯 缺口结论：</b>{{ rdcf.gap_conclusion }}
+                </p>
+              </div>
+
+              <!-- 多方法交叉验证 -->
+              <div v-if="vcc" class="sdt-vcc-block">
+                <div class="sdt-rdcf-title">🧮 多方法交叉验证（避免单一 PE 锚定）</div>
+                <div v-if="vcc.comparable" class="sdt-vcc-row"><b>📐 可比估值：</b>{{ vcc.comparable }}</div>
+                <div v-if="vcc.sotp" class="sdt-vcc-row"><b>🧩 SOTP 分部估值：</b>{{ vcc.sotp }}</div>
+                <div v-if="vcc.optionality" class="sdt-vcc-row"><b>🎰 可选性价值（期权）：</b>{{ vcc.optionality }}</div>
+                <div v-if="vcc.methods_divergence" class="sdt-vcc-divergence"><b>⚠️ 多方法分歧：</b>{{ vcc.methods_divergence }}</div>
+              </div>
+
+              <!-- analysts.valuation 完整文字（保留作为补充） -->
+              <details v-if="detail.analysts?.valuation" class="sdt-vfull">
+                <summary>📋 估值分析师完整文字（含三锚 + 三情景 + 买卖信号 + 锚定自查）</summary>
+                <pre class="sdt-vfull-text">{{ detail.analysts.valuation }}</pre>
+              </details>
+
+              <p v-if="!rdcf && !vcc && !detail.analysts?.valuation" class="sdt-empty">（valuation 未提供）</p>
             </details>
             <!-- 2d 舆情分析师 (sentiment) — 与财务/竞争/估值并列的第 4 个分析师 -->
             <details class="sdt-substep" v-if="detail.sentiment_view || detail.sentiment_full">
@@ -370,6 +399,13 @@
                 <li v-for="(c, i) in detail.credibility.challenges" :key="i">{{ c }}</li>
               </ol>
             </div>
+
+            <!-- 锚定自查融入 critic 评审(D0-8 用户发现的方法论漏洞,critic 必查的一部分) -->
+            <details v-if="detail.anchoring_check" class="sdt-substep" open style="margin-top:10px">
+              <summary>🧭 锚定 vs 预期差自查（critic 6.7 必查项）</summary>
+              <p v-if="detail.anchoring_check.honest_answer" class="sdt-anchor-line"><b>结论：</b>{{ detail.anchoring_check.honest_answer }}</p>
+              <p v-if="detail.anchoring_check.corrected_framing" class="sdt-anchor-line sdt-anchor-fix"><b>✅ 已修正：</b>{{ detail.anchoring_check.corrected_framing }}</p>
+            </details>
           </el-collapse-item>
 
           <!-- Step 7 历史准确率 完整 -->
@@ -576,6 +612,22 @@ const debatePairs = computed(() => {
 })
 
 function fmtRange(r?: number[]) { return r && r.length === 2 ? `¥${r[0]} - ¥${r[1]}` : '-' }
+// 反向DCF / 多方法交叉 (D0-8 valuation 升级)
+const rdcf = computed(() => {
+  const v: any = detail.value?.valuation_basis
+  // 优先从 valuation_basis(dict) 取, fallback 到 spawn 出的字段
+  if (v && typeof v === 'object' && (v.market_implied_assumptions || v.reverse_dcf)) {
+    return v.reverse_dcf || v
+  }
+  return (detail.value as any)?.reverse_dcf || null
+})
+const vcc = computed(() => (detail.value as any)?.valuation_cross_check || null)
+function verdictCls(v?: string): string {
+  if (!v) return ''
+  if (/超越|超过|超出/.test(v)) return 'verdict-positive'
+  if (/达不到|低于|缺/.test(v)) return 'verdict-negative'
+  return 'verdict-neutral'
+}
 // 目标价: 数字→加¥; 已带¥/HK$前缀的字符串→原样; null→区间法
 function fmtTarget(t: any): string {
   if (t == null) return '区间法'
@@ -778,4 +830,26 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-anchor-dist { font-size: 12.5px; color: #4e5969; margin: 6px 0; line-height: 1.6; }
 .sdt-anchor-risk { font-size: 12.5px; color: #c45656; margin: 6px 0; line-height: 1.6; }
 .sdt-anchor-fix { font-size: 13px; color: #67c23a; margin: 6px 0; line-height: 1.6; background:#f6ffed; padding:8px; border-radius:6px; }
+
+.sdt-rdcf-block { background: #f5f7ff; border-left: 3px solid #5b6dde; padding: 10px 12px; border-radius: 6px; margin: 8px 0; }
+.sdt-rdcf-title { font-weight: 600; color: #5b6dde; font-size: 13px; margin-bottom: 6px; }
+.sdt-rdcf-price { font-size: 12.5px; color: #303133; margin: 4px 0; }
+.sdt-rdcf-implied { font-size: 12.5px; color: #c45656; margin: 6px 0; line-height: 1.6; }
+.sdt-rdcf-reality { font-size: 12.5px; color: #67c23a; margin: 6px 0; line-height: 1.6; }
+.sdt-rdcf-table { width: 100%; font-size: 12px; border-collapse: collapse; margin: 8px 0; background:#fff; border-radius:4px; overflow:hidden; }
+.sdt-rdcf-table th { background: #ecf0fb; color: #303133; padding: 6px 8px; text-align: left; font-weight: 600; }
+.sdt-rdcf-table td { padding: 6px 8px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+.sdt-rdcf-table tr.verdict-positive { background: #f6ffed; }
+.sdt-rdcf-table tr.verdict-negative { background: #fef0f0; }
+.sdt-verdict-tag { font-size: 11px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.sdt-verdict-tag.verdict-positive { background: #67c23a; color: #fff; }
+.sdt-verdict-tag.verdict-negative { background: #f56c6c; color: #fff; }
+.sdt-verdict-tag.verdict-neutral { background: #909399; color: #fff; }
+.sdt-rdcf-conclusion { font-size: 13px; color: #303133; margin-top: 8px; padding: 6px 10px; background: #fff; border-radius: 4px; line-height: 1.6; }
+.sdt-vcc-block { background: #fff7e6; border-left: 3px solid #faad14; padding: 10px 12px; border-radius: 6px; margin: 8px 0; }
+.sdt-vcc-row { font-size: 12.5px; color: #4e5969; margin: 4px 0; line-height: 1.6; }
+.sdt-vcc-divergence { font-size: 12.5px; color: #c45656; margin-top: 6px; padding: 6px; background: #fff; border-radius: 4px; line-height: 1.6; }
+.sdt-vfull { margin-top: 10px; }
+.sdt-vfull summary { font-size: 12px; color: #909399; cursor: pointer; }
+.sdt-vfull-text { white-space: pre-wrap; font-size: 12px; color: #4e5969; line-height: 1.7; padding: 8px; background: #fafafa; border-radius: 4px; max-height: 400px; overflow-y: auto; }
 </style>

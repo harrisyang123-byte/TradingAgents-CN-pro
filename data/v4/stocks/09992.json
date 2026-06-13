@@ -124,7 +124,31 @@
       "comparable_path": "Funko(美国潮玩 2022 库存危机市值-80%, PE 跌至 5-7x) 是 bear 极端锚; 三丽鸥(Hello Kitty 50 年长青, PE 35-40x) 是 bull 锚; Pop Mart 在两者之间, 当前 14x 偏向 Funko 锚定 — 市场怀疑其可持续性",
       "probability_weighted_target": "重新概率加权(基于矩阵): 乐观 4 格均值 215×0.40 + 中性 2 格均值 145×0.30 + 悲观 3 格均值 90×0.30 = 86 + 43.5 + 27 = HK$156.5 (vs 当前 HK$155-180 = 持平至小幅下行)",
       "method": "3×3 敏感性矩阵概率加权 + 双锚可比(Funko/三丽鸥)",
-      "reverse_dcf_summary": "PE 14x隐含5年CAGR -3%~+2%近零; SOTP暗示18-24x; 同业三丽鸥35-40x; 预期差有条件正需Q2验证分母"
+      "reverse_dcf_summary": "PE 14x隐含5年CAGR -3%~+2%近零; SOTP暗示18-24x; 同业三丽鸥35-40x; 预期差有条件正需Q2验证分母",
+      "reverse_dcf": {
+        "current_price": "HK$155-180",
+        "market_implied_assumptions": "forward PE 14x 在 WACC 9%+g 3% 下稳态PE=16.7x; 当前14x<稳态 → 隐含未来5年净利CAGR约-3%至+2%(近零),即市场price-in\"LABUBU周期见顶,增速从+184%崩落至低个位数甚至负\"",
+        "verifiable_reality": "Q1+75-80%仍高增但含低基数+开店一次性约15-20ppt; 亚太放缓25-30%; LABUBU占40%集中度风险; 净利率34.4%含经营杠杆一次性长期28-32%",
+        "assumption_vs_reality": [
+          {
+            "assumption": "PE 14x隐含未来5年CAGR -3%至+2%(近零增长)",
+            "reality": "Q1整体+75-80%, Q1年化隐含2026E增速60%+",
+            "verdict": "远超越但分母未验证"
+          },
+          {
+            "assumption": "稳态净利率回归28-30%",
+            "reality": "2025净利率34.4%, 小程序模式可能结构性高于传统",
+            "verdict": "可能超越"
+          },
+          {
+            "assumption": "海外回归低增",
+            "reality": "亚太放缓但欧美从0起步, 需拆区域",
+            "verdict": "部分对"
+          }
+        ],
+        "gap_conclusion": "隐含近零增长 << Q1实际+75% → 表面预期差正; 但critic拷问: 14x分母(2026E净利140亿)未验证, 若LABUBU退潮分母萎缩至100亿则PE反弹至22-28x → 预期差\"有条件正\", 条件=Q2-Q3 LABUBU≥flat+非LABUBU矩阵接力"
+      },
+      "market_implied_assumptions": "forward PE 14x 在 WACC 9%+g 3% 下稳态PE=16.7x; 当前14x<稳态 → 隐含未来5年净利CAGR约-3%至+2%(近零),即市场price-in\"LABUBU周期见顶,增速从+184%崩落至低个位数甚至负\""
     },
     "forward_view": {
       "market_regime": "港股消费分化, Pop Mart 跌 60% 脱离主升浪, 看业绩拐点",
@@ -471,6 +495,12 @@
       "but_distinction": "区分: 02156 是'高估值+预期差消失'(站空), 09992 是'低估值+盈利分母未验证'(观望)。两者都不是纯价格锚定,但 09992 的'HK$130 以下逆向小注'仍带价格锚定色彩。",
       "corrected_framing": "已用反向DCF重跑: 之前'等HK$130深跌'改为'Q2 LABUBU营收≥flat+非LABUBU占比65%'信号触发, 无论价格。警惕游戏/潮玩低PE价值陷阱",
       "critic_miss": "critic 应查'买卖理由是预期差/基本面 还是价格锚定',此次未查(用户发现)"
+    },
+    "_valuation_cross_check": {
+      "comparable": "forward 14x vs 三丽鸥35-40x(纯IP授权)/万代22-25x(IP综合)/美泰15-18x(传统玩具) — 市场按\"无增长玩具制造商(美泰级)\"而非\"IP生态平台(三丽鸥级)\"定价, 剥夺IP孵化能力溢价",
+      "sotp": "分IP/分渠道: LABUBU(40%×15-18x折价) + 非LABUBU矩阵(45%×20-25x稳定) + 海外DTC(15%×25-30x高增) + 乐园/游戏期权 → 暗示合理PE 18-24x > 当前14x",
+      "optionality": "新IP孵化能力(已三证Molly→Dimoo→LABUBU轮转) + 乐园(北京已开+海外规划) + 游戏数字化 + 欧美从0起步, 单一DCF低估这些 real option",
+      "methods_divergence": "forward 14x vs 德银沽售140 vs 汇丰379 = 2.7倍极端分歧不调和。德银赌LABUBU崩+净利率回归28%+12x; 汇丰赌IP平台持续+海外打开+28x。本质=对IP生命周期判断的根本分歧, 非参数微调可调和"
     }
   }
 }

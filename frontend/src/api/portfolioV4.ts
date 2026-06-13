@@ -418,6 +418,13 @@ export interface StockDetail {
     corrected_framing?: string
     critic_miss?: string
   }
+  valuation_cross_check?: {
+    comparable?: string
+    sotp?: string
+    optionality?: string
+    methods_divergence?: string
+  }
+  reverse_dcf?: any
   code: string
   name?: string
   industry?: string

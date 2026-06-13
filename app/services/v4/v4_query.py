@@ -552,6 +552,7 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "verdict_v2": p.get("verdict") if isinstance(p.get("verdict"), dict) else None,
         "action_plan": p.get("action_plan") if isinstance(p.get("action_plan"), dict) else None,
         "anchoring_check": p.get("anchoring_check"),
+        "valuation_cross_check": p.get("_valuation_cross_check") or (p.get("valuation_basis") or {}).get("valuation_cross_check") if isinstance(p.get("valuation_basis"), dict) else p.get("_valuation_cross_check"),
         "product_subdivision": p.get("product_subdivision") or p.get("product_subdivision_stress_test"),
         "sensitivity_matrix": (
             (p.get("valuation_basis") or {}).get("sensitivity_matrix_3x3")
