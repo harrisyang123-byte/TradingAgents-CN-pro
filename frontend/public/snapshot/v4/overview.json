@@ -204,6 +204,1801 @@
   ],
   "equity_quota": 44.0,
   "equity_disabled": false,
+  "fund_passthrough": {
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    },
+    "style_factors": {
+      "size": {
+        "未知": 450172.88999999996,
+        "大盘": 20437.7
+      },
+      "growth_value": {
+        "未知": 450172.88999999996,
+        "成长": 20437.7
+      },
+      "region": {
+        "A股": 450172.88999999996,
+        "美国": 19415.815,
+        "其他": 1021.885
+      },
+      "fund_type": {
+        "ETF联接·权益": 221269.19999999998,
+        "债券型·混合一级": 101954.03,
+        "ETF联接·商品": 43227.75,
+        "债券型·纯债": 32993.65,
+        "ETF联接·QDII·权益": 28936.440000000002,
+        "债券型·指数": 14998.29,
+        "QDII·主动权益": 14297.59,
+        "指数增强·权益": 8054.35,
+        "ETF联接·QDII": 4879.29
+      },
+      "raw_funds": [
+        {
+          "code": "270042",
+          "name": "广发纳指100ETF联接（QDII）人民币A",
+          "market_value": 20437.7,
+          "size": "大盘",
+          "growth_value": "成长",
+          "fund_type": "ETF联接·QDII·权益",
+          "region": "美国,其他"
+        },
+        {
+          "code": "024245",
+          "name": "广发上证科创板人工智能ETF发起式联接A",
+          "market_value": 22048.02,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "007029",
+          "name": "易方达中证500ETF联接C",
+          "market_value": 26104.18,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "012733",
+          "name": "易方达中证人工智能主题ETF联接A",
+          "market_value": 14951.84,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "019058",
+          "name": "易方达中证绿色电力ETF联接发起式A",
+          "market_value": 21698.39,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "009052",
+          "name": "易方达中证红利ETF联接C",
+          "market_value": 15300.7,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "012734",
+          "name": "易方达中证人工智能主题ETF联接C",
+          "market_value": 14033.19,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "110020",
+          "name": "易方达沪深300ETF联接A",
+          "market_value": 13439.23,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "010736",
+          "name": "易方达沪深300精选增强A",
+          "market_value": 8054.35,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "指数增强·权益",
+          "region": "A股"
+        },
+        {
+          "code": "006327",
+          "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+          "market_value": 8498.74,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·QDII·权益",
+          "region": "A股"
+        },
+        {
+          "code": "161130",
+          "name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+          "market_value": 4879.29,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·QDII",
+          "region": "A股"
+        },
+        {
+          "code": "270010",
+          "name": "广发沪深300ETF联接A",
+          "market_value": 19604.39,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "022424",
+          "name": "广发中证A500ETF联接A",
+          "market_value": 20607.77,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "270023",
+          "name": "广发全球精选股票(QDII)人民币A",
+          "market_value": 14297.59,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "QDII·主动权益",
+          "region": "A股"
+        },
+        {
+          "code": "003765",
+          "name": "广发创业板ETF联接A",
+          "market_value": 18681.94,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "012629",
+          "name": "广发国证半导体芯片ETF联接A",
+          "market_value": 9999.78,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "005063",
+          "name": "广发中证全指家用电器ETF联接A",
+          "market_value": 8499.8,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "013180",
+          "name": "广发国证新能源车电池ETF发起联接C",
+          "market_value": 8149.9,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "009881",
+          "name": "广发中证医疗ETF联接C",
+          "market_value": 8150.07,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·权益",
+          "region": "A股"
+        },
+        {
+          "code": "110008",
+          "name": "易方达稳健收益债B",
+          "market_value": 53003.19,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "债券型·混合一级",
+          "region": "A股"
+        },
+        {
+          "code": "110017",
+          "name": "易方达增强回报债A",
+          "market_value": 48950.84,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "债券型·混合一级",
+          "region": "A股"
+        },
+        {
+          "code": "000205",
+          "name": "易方达投资级信用债A",
+          "market_value": 11623.09,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "债券型·纯债",
+          "region": "A股"
+        },
+        {
+          "code": "270044",
+          "name": "广发双债添利债券A",
+          "market_value": 21370.56,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "债券型·纯债",
+          "region": "A股"
+        },
+        {
+          "code": "003376",
+          "name": "广发中债7-10年国开债指数A",
+          "market_value": 14998.29,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "债券型·指数",
+          "region": "A股"
+        },
+        {
+          "code": "000307",
+          "name": "易方达黄金ETF联接A",
+          "market_value": 13244.65,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·商品",
+          "region": "A股"
+        },
+        {
+          "code": "008986",
+          "name": "广发上海金ETF联接A",
+          "market_value": 29983.1,
+          "size": "未知",
+          "growth_value": "未知",
+          "fund_type": "ETF联接·商品",
+          "region": "A股"
+        }
+      ],
+      "total_fund_mv": 470610.59
+    },
+    "overlap_analysis": {
+      "theme_overlaps": [
+        {
+          "theme": "国债/信用债",
+          "fund_count": 5,
+          "total_mv": 149945.97,
+          "funds": [
+            {
+              "code": "110008",
+              "name": "易方达稳健收益债B",
+              "mv": 53003.19
+            },
+            {
+              "code": "110017",
+              "name": "易方达增强回报债A",
+              "mv": 48950.84
+            },
+            {
+              "code": "000205",
+              "name": "易方达投资级信用债A",
+              "mv": 11623.09
+            },
+            {
+              "code": "270044",
+              "name": "广发双债添利债券A",
+              "mv": 21370.56
+            },
+            {
+              "code": "003376",
+              "name": "广发中债7-10年国开债指数A",
+              "mv": 14998.29
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 5 只 国债/信用债 主题基金合计 ¥149946, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        },
+        {
+          "theme": "大盘宽基",
+          "fund_count": 5,
+          "total_mv": 87809.92,
+          "funds": [
+            {
+              "code": "007029",
+              "name": "易方达中证500ETF联接C",
+              "mv": 26104.18
+            },
+            {
+              "code": "110020",
+              "name": "易方达沪深300ETF联接A",
+              "mv": 13439.23
+            },
+            {
+              "code": "010736",
+              "name": "易方达沪深300精选增强A",
+              "mv": 8054.35
+            },
+            {
+              "code": "270010",
+              "name": "广发沪深300ETF联接A",
+              "mv": 19604.39
+            },
+            {
+              "code": "022424",
+              "name": "广发中证A500ETF联接A",
+              "mv": 20607.77
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 5 只 大盘宽基 主题基金合计 ¥87810, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        },
+        {
+          "theme": "AI/人工智能",
+          "fund_count": 4,
+          "total_mv": 61032.83,
+          "funds": [
+            {
+              "code": "024245",
+              "name": "广发上证科创板人工智能ETF发起式联接A",
+              "mv": 22048.02
+            },
+            {
+              "code": "012733",
+              "name": "易方达中证人工智能主题ETF联接A",
+              "mv": 14951.84
+            },
+            {
+              "code": "012734",
+              "name": "易方达中证人工智能主题ETF联接C",
+              "mv": 14033.19
+            },
+            {
+              "code": "012629",
+              "name": "广发国证半导体芯片ETF联接A",
+              "mv": 9999.78
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 4 只 AI/人工智能 主题基金合计 ¥61033, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        },
+        {
+          "theme": "黄金",
+          "fund_count": 2,
+          "total_mv": 43227.75,
+          "funds": [
+            {
+              "code": "000307",
+              "name": "易方达黄金ETF联接A",
+              "mv": 13244.65
+            },
+            {
+              "code": "008986",
+              "name": "广发上海金ETF联接A",
+              "mv": 29983.1
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 2 只 黄金 主题基金合计 ¥43228, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        },
+        {
+          "theme": "创业板/科创板",
+          "fund_count": 2,
+          "total_mv": 40729.96,
+          "funds": [
+            {
+              "code": "024245",
+              "name": "广发上证科创板人工智能ETF发起式联接A",
+              "mv": 22048.02
+            },
+            {
+              "code": "003765",
+              "name": "广发创业板ETF联接A",
+              "mv": 18681.94
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 2 只 创业板/科创板 主题基金合计 ¥40730, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        },
+        {
+          "theme": "纳指/QDII美股",
+          "fund_count": 2,
+          "total_mv": 25316.99,
+          "funds": [
+            {
+              "code": "270042",
+              "name": "广发纳指100ETF联接（QDII）人民币A",
+              "mv": 20437.7
+            },
+            {
+              "code": "161130",
+              "name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "mv": 4879.29
+            }
+          ],
+          "advice": "⚠️ 重复暴露: 2 只 纳指/QDII美股 主题基金合计 ¥25317, 建议合并到 1-2 只代表性 ETF (低管理费/高规模) 降低费率"
+        }
+      ],
+      "stock_overlaps": [
+        {
+          "code": "300750",
+          "name": "宁德时代",
+          "total_indirect_value": 6553.99,
+          "fund_count": 5,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 3.25,
+              "indirect_value": 436.77
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 3.27,
+              "indirect_value": 641.06
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 2.96,
+              "indirect_value": 609.99
+            },
+            {
+              "fund_code": "003765",
+              "fund_name": "广发创业板ETF联接A",
+              "weight": 19.94,
+              "indirect_value": 3725.18
+            },
+            {
+              "fund_code": "013180",
+              "fund_name": "广发国证新能源车电池ETF发起联接C",
+              "weight": 14.0,
+              "indirect_value": 1140.99
+            }
+          ]
+        },
+        {
+          "code": "688256",
+          "name": "寒武纪",
+          "total_indirect_value": 4846.19,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "024245",
+              "fund_name": "广发上证科创板人工智能ETF发起式联接A",
+              "weight": 8.66,
+              "indirect_value": 1909.36
+            },
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 7.01,
+              "indirect_value": 1048.12
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 7.01,
+              "indirect_value": 983.73
+            },
+            {
+              "fund_code": "012629",
+              "fund_name": "广发国证半导体芯片ETF联接A",
+              "weight": 9.05,
+              "indirect_value": 904.98
+            }
+          ]
+        },
+        {
+          "code": "688008",
+          "name": "澜起科技",
+          "total_indirect_value": 4254.49,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "024245",
+              "fund_name": "广发上证科创板人工智能ETF发起式联接A",
+              "weight": 10.47,
+              "indirect_value": 2308.43
+            },
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 4.82,
+              "indirect_value": 720.68
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 4.82,
+              "indirect_value": 676.4
+            },
+            {
+              "fund_code": "012629",
+              "fund_name": "广发国证半导体芯片ETF联接A",
+              "weight": 5.49,
+              "indirect_value": 548.99
+            }
+          ]
+        },
+        {
+          "code": "00700",
+          "name": "腾讯控股",
+          "total_indirect_value": 3712.82,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "010736",
+              "fund_name": "易方达沪深300精选增强A",
+              "weight": 9.73,
+              "indirect_value": 783.69
+            },
+            {
+              "fund_code": "006327",
+              "fund_name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+              "weight": 29.94,
+              "indirect_value": 2544.52
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 2.69,
+              "indirect_value": 384.61
+            }
+          ]
+        },
+        {
+          "code": "600900",
+          "name": "长江电力",
+          "total_indirect_value": 3144.54,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "019058",
+              "fund_name": "易方达中证绿色电力ETF联接发起式A",
+              "weight": 10.53,
+              "indirect_value": 2284.84
+            },
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 1.66,
+              "indirect_value": 223.09
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 1.66,
+              "indirect_value": 325.43
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 1.51,
+              "indirect_value": 311.18
+            }
+          ]
+        },
+        {
+          "code": "600519",
+          "name": "贵州茅台",
+          "total_indirect_value": 3067.2,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 4.79,
+              "indirect_value": 643.74
+            },
+            {
+              "fund_code": "010736",
+              "fund_name": "易方达沪深300精选增强A",
+              "weight": 7.35,
+              "indirect_value": 591.99
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 4.78,
+              "indirect_value": 937.09
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 4.34,
+              "indirect_value": 894.38
+            }
+          ]
+        },
+        {
+          "code": "688111",
+          "name": "金山办公",
+          "total_indirect_value": 3036.11,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "024245",
+              "fund_name": "广发上证科创板人工智能ETF发起式联接A",
+              "weight": 8.88,
+              "indirect_value": 1957.86
+            },
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 3.72,
+              "indirect_value": 556.21
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 3.72,
+              "indirect_value": 522.03
+            }
+          ]
+        },
+        {
+          "code": "AAPL",
+          "name": "苹果",
+          "total_indirect_value": 2907.25,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 8.5,
+              "indirect_value": 1737.2
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 9.27,
+              "indirect_value": 452.31
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 5.02,
+              "indirect_value": 717.74
+            }
+          ]
+        },
+        {
+          "code": "MSFT",
+          "name": "微软",
+          "total_indirect_value": 2564.21,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 7.8,
+              "indirect_value": 1594.14
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 7.75,
+              "indirect_value": 378.14
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 4.14,
+              "indirect_value": 591.92
+            }
+          ]
+        },
+        {
+          "code": "NVDA",
+          "name": "英伟达",
+          "total_indirect_value": 2547.88,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 7.2,
+              "indirect_value": 1471.51
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 7.35,
+              "indirect_value": 358.63
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 5.02,
+              "indirect_value": 717.74
+            }
+          ]
+        },
+        {
+          "code": "603501",
+          "name": "韦尔股份",
+          "total_indirect_value": 2538.17,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 6.09,
+              "indirect_value": 910.57
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 6.09,
+              "indirect_value": 854.62
+            },
+            {
+              "fund_code": "012629",
+              "fund_name": "广发国证半导体芯片ETF联接A",
+              "weight": 7.73,
+              "indirect_value": 772.98
+            }
+          ]
+        },
+        {
+          "code": "002594",
+          "name": "比亚迪",
+          "total_indirect_value": 2470.79,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 1.65,
+              "indirect_value": 221.75
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 1.66,
+              "indirect_value": 325.43
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 1.5,
+              "indirect_value": 309.12
+            },
+            {
+              "fund_code": "013180",
+              "fund_name": "广发国证新能源车电池ETF发起联接C",
+              "weight": 19.81,
+              "indirect_value": 1614.5
+            }
+          ]
+        },
+        {
+          "code": "300059",
+          "name": "东方财富",
+          "total_indirect_value": 2334.95,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 1.39,
+              "indirect_value": 186.81
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 1.39,
+              "indirect_value": 272.5
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 1.26,
+              "indirect_value": 259.66
+            },
+            {
+              "fund_code": "003765",
+              "fund_name": "广发创业板ETF联接A",
+              "weight": 8.65,
+              "indirect_value": 1615.99
+            }
+          ]
+        },
+        {
+          "code": "688169",
+          "name": "石头科技",
+          "total_indirect_value": 2311.88,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "024245",
+              "fund_name": "广发上证科创板人工智能ETF发起式联接A",
+              "weight": 8.72,
+              "indirect_value": 1922.59
+            },
+            {
+              "fund_code": "005063",
+              "fund_name": "广发中证全指家用电器ETF联接A",
+              "weight": 4.58,
+              "indirect_value": 389.29
+            }
+          ]
+        },
+        {
+          "code": "000333",
+          "name": "美的集团",
+          "total_indirect_value": 2267.02,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 1.87,
+              "indirect_value": 251.31
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 1.87,
+              "indirect_value": 366.6
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 1.7,
+              "indirect_value": 350.33
+            },
+            {
+              "fund_code": "005063",
+              "fund_name": "广发中证全指家用电器ETF联接A",
+              "weight": 15.28,
+              "indirect_value": 1298.77
+            }
+          ]
+        },
+        {
+          "code": "688521",
+          "name": "芯原股份",
+          "total_indirect_value": 2114.44,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "024245",
+              "fund_name": "广发上证科创板人工智能ETF发起式联接A",
+              "weight": 9.01,
+              "indirect_value": 1986.53
+            },
+            {
+              "fund_code": "007029",
+              "fund_name": "易方达中证500ETF联接C",
+              "weight": 0.49,
+              "indirect_value": 127.91
+            }
+          ]
+        },
+        {
+          "code": "AMZN",
+          "name": "亚马逊",
+          "total_indirect_value": 1883.51,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 4.5,
+              "indirect_value": 919.7
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 5.6,
+              "indirect_value": 273.24
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 4.83,
+              "indirect_value": 690.57
+            }
+          ]
+        },
+        {
+          "code": "300308",
+          "name": "中际旭创",
+          "total_indirect_value": 1866.45,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 4.77,
+              "indirect_value": 713.2
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 4.77,
+              "indirect_value": 669.38
+            },
+            {
+              "fund_code": "003765",
+              "fund_name": "广发创业板ETF联接A",
+              "weight": 2.59,
+              "indirect_value": 483.86
+            }
+          ]
+        },
+        {
+          "code": "META",
+          "name": "Meta",
+          "total_indirect_value": 1775.98,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 4.2,
+              "indirect_value": 858.38
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 3.51,
+              "indirect_value": 171.26
+            },
+            {
+              "fund_code": "270023",
+              "fund_name": "广发全球精选股票(QDII)人民币A",
+              "weight": 5.22,
+              "indirect_value": 746.33
+            }
+          ]
+        },
+        {
+          "code": "002415",
+          "name": "海康威视",
+          "total_indirect_value": 1770.99,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 6.11,
+              "indirect_value": 913.56
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 6.11,
+              "indirect_value": 857.43
+            }
+          ]
+        },
+        {
+          "code": "600036",
+          "name": "招商银行",
+          "total_indirect_value": 1590.86,
+          "fund_count": 4,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 2.61,
+              "indirect_value": 350.76
+            },
+            {
+              "fund_code": "010736",
+              "fund_name": "易方达沪深300精选增强A",
+              "weight": 2.98,
+              "indirect_value": 240.02
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 2.61,
+              "indirect_value": 511.67
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 2.37,
+              "indirect_value": 488.4
+            }
+          ]
+        },
+        {
+          "code": "603019",
+          "name": "中科曙光",
+          "total_indirect_value": 1515.92,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 5.23,
+              "indirect_value": 781.98
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 5.23,
+              "indirect_value": 733.94
+            }
+          ]
+        },
+        {
+          "code": "300760",
+          "name": "迈瑞医疗",
+          "total_indirect_value": 1466.38,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "003765",
+              "fund_name": "广发创业板ETF联接A",
+              "weight": 3.84,
+              "indirect_value": 717.39
+            },
+            {
+              "fund_code": "009881",
+              "fund_name": "广发中证医疗ETF联接C",
+              "weight": 9.19,
+              "indirect_value": 748.99
+            }
+          ]
+        },
+        {
+          "code": "600690",
+          "name": "海尔智家",
+          "total_indirect_value": 1461.29,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "010736",
+              "fund_name": "易方达沪深300精选增强A",
+              "weight": 4.35,
+              "indirect_value": 350.36
+            },
+            {
+              "fund_code": "005063",
+              "fund_name": "广发中证全指家用电器ETF联接A",
+              "weight": 13.07,
+              "indirect_value": 1110.92
+            }
+          ]
+        },
+        {
+          "code": "300502",
+          "name": "新易盛",
+          "total_indirect_value": 1440.03,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 3.75,
+              "indirect_value": 560.69
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 3.75,
+              "indirect_value": 526.24
+            },
+            {
+              "fund_code": "003765",
+              "fund_name": "广发创业板ETF联接A",
+              "weight": 1.89,
+              "indirect_value": 353.09
+            }
+          ]
+        },
+        {
+          "code": "601318",
+          "name": "中国平安",
+          "total_indirect_value": 1401.09,
+          "fund_count": 3,
+          "funds": [
+            {
+              "fund_code": "110020",
+              "fund_name": "易方达沪深300ETF联接A",
+              "weight": 2.7,
+              "indirect_value": 362.86
+            },
+            {
+              "fund_code": "270010",
+              "fund_name": "广发沪深300ETF联接A",
+              "weight": 2.71,
+              "indirect_value": 531.28
+            },
+            {
+              "fund_code": "022424",
+              "fund_name": "广发中证A500ETF联接A",
+              "weight": 2.46,
+              "indirect_value": 506.95
+            }
+          ]
+        },
+        {
+          "code": "002230",
+          "name": "科大讯飞",
+          "total_indirect_value": 1373.89,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 4.74,
+              "indirect_value": 708.72
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 4.74,
+              "indirect_value": 665.17
+            }
+          ]
+        },
+        {
+          "code": "002050",
+          "name": "三花智控",
+          "total_indirect_value": 1225.06,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "005063",
+              "fund_name": "广发中证全指家用电器ETF联接A",
+              "weight": 8.19,
+              "indirect_value": 696.13
+            },
+            {
+              "fund_code": "013180",
+              "fund_name": "广发国证新能源车电池ETF发起联接C",
+              "weight": 6.49,
+              "indirect_value": 528.93
+            }
+          ]
+        },
+        {
+          "code": "GOOGL",
+          "name": "Alphabet",
+          "total_indirect_value": 1144.36,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "270042",
+              "fund_name": "广发纳指100ETF联接（QDII）人民币A",
+              "weight": 5.0,
+              "indirect_value": 1021.88
+            },
+            {
+              "fund_code": "161130",
+              "fund_name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "weight": 2.51,
+              "indirect_value": 122.47
+            }
+          ]
+        },
+        {
+          "code": "000938",
+          "name": "紫光股份",
+          "total_indirect_value": 979.69,
+          "fund_count": 2,
+          "funds": [
+            {
+              "fund_code": "012733",
+              "fund_name": "易方达中证人工智能主题ETF联接A",
+              "weight": 3.38,
+              "indirect_value": 505.37
+            },
+            {
+              "fund_code": "012734",
+              "fund_name": "易方达中证人工智能主题ETF联接C",
+              "weight": 3.38,
+              "indirect_value": 474.32
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "theme_overlap_count": 6,
+        "theme_overlap_total_mv": 408063.42,
+        "stock_overlap_count": 39,
+        "indirect_concentration_top10": [
+          {
+            "code": "300750",
+            "name": "宁德时代",
+            "total_indirect_value": 6553.99,
+            "fund_count": 5
+          },
+          {
+            "code": "688256",
+            "name": "寒武纪",
+            "total_indirect_value": 4846.19,
+            "fund_count": 4
+          },
+          {
+            "code": "688008",
+            "name": "澜起科技",
+            "total_indirect_value": 4254.49,
+            "fund_count": 4
+          },
+          {
+            "code": "00700",
+            "name": "腾讯控股",
+            "total_indirect_value": 3712.82,
+            "fund_count": 3
+          },
+          {
+            "code": "600900",
+            "name": "长江电力",
+            "total_indirect_value": 3144.54,
+            "fund_count": 4
+          },
+          {
+            "code": "600519",
+            "name": "贵州茅台",
+            "total_indirect_value": 3067.2,
+            "fund_count": 4
+          },
+          {
+            "code": "688111",
+            "name": "金山办公",
+            "total_indirect_value": 3036.11,
+            "fund_count": 3
+          },
+          {
+            "code": "AAPL",
+            "name": "苹果",
+            "total_indirect_value": 2907.25,
+            "fund_count": 3
+          },
+          {
+            "code": "MSFT",
+            "name": "微软",
+            "total_indirect_value": 2564.21,
+            "fund_count": 3
+          },
+          {
+            "code": "NVDA",
+            "name": "英伟达",
+            "total_indirect_value": 2547.88,
+            "fund_count": 3
+          }
+        ]
+      }
+    },
+    "industries_top10": [
+      [
+        "未分类",
+        {
+          "direct_yi": 114440.0,
+          "indirect_yi": 88905.92,
+          "total_yi": 203345.92,
+          "direct_holdings": [
+            {
+              "code": "002156",
+              "name": "通富微电",
+              "market_value": 114440.0
+            }
+          ],
+          "contributing_funds": [
+            {
+              "code": "024245",
+              "name": "广发上证科创板人工智能ETF发起式联接A",
+              "market_value": 22048.02,
+              "industry_weight_pct": 70.48,
+              "indirect_yi": 15539.444496000002,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "007029",
+              "name": "易方达中证500ETF联接C",
+              "market_value": 26104.18,
+              "industry_weight_pct": 5.949999999999999,
+              "indirect_yi": 1553.19871,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "012733",
+              "name": "易方达中证人工智能主题ETF联接A",
+              "market_value": 14951.84,
+              "industry_weight_pct": 34.99,
+              "indirect_yi": 5231.648816,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "019058",
+              "name": "易方达中证绿色电力ETF联接发起式A",
+              "market_value": 21698.39,
+              "industry_weight_pct": 38.04,
+              "indirect_yi": 8254.067556,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "009052",
+              "name": "易方达中证红利ETF联接C",
+              "market_value": 15300.7,
+              "industry_weight_pct": 15.76,
+              "indirect_yi": 2411.39032,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "012734",
+              "name": "易方达中证人工智能主题ETF联接C",
+              "market_value": 14033.19,
+              "industry_weight_pct": 34.99,
+              "indirect_yi": 4910.213181,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "110020",
+              "name": "易方达沪深300ETF联接A",
+              "market_value": 13439.23,
+              "industry_weight_pct": 19.79,
+              "indirect_yi": 2659.6236169999997,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "010736",
+              "name": "易方达沪深300精选增强A",
+              "market_value": 8054.35,
+              "industry_weight_pct": 38.339999999999996,
+              "indirect_yi": 3088.03779,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "006327",
+              "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+              "market_value": 8498.74,
+              "industry_weight_pct": 30.3,
+              "indirect_yi": 2575.11822,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "161130",
+              "name": "易方达纳斯达克100ETF联接（QDII-LOF）A(人民币)",
+              "market_value": 4879.29,
+              "industry_weight_pct": 47.82000000000001,
+              "indirect_yi": 2333.276478,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "270010",
+              "name": "广发沪深300ETF联接A",
+              "market_value": 19604.39,
+              "industry_weight_pct": 19.820000000000004,
+              "indirect_yi": 3885.5900980000006,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "022424",
+              "name": "广发中证A500ETF联接A",
+              "market_value": 20607.77,
+              "industry_weight_pct": 17.98,
+              "indirect_yi": 3705.2770459999997,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "270023",
+              "name": "广发全球精选股票(QDII)人民币A",
+              "market_value": 14297.59,
+              "industry_weight_pct": 36.42,
+              "indirect_yi": 5207.182278,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "003765",
+              "name": "广发创业板ETF联接A",
+              "market_value": 18681.94,
+              "industry_weight_pct": 45.76,
+              "indirect_yi": 8548.855743999999,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "012629",
+              "name": "广发国证半导体芯片ETF联接A",
+              "market_value": 9999.78,
+              "industry_weight_pct": 42.849999999999994,
+              "indirect_yi": 4284.9057299999995,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "005063",
+              "name": "广发中证全指家用电器ETF联接A",
+              "market_value": 8499.8,
+              "industry_weight_pct": 62.449999999999996,
+              "indirect_yi": 5308.125099999999,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "013180",
+              "name": "广发国证新能源车电池ETF发起联接C",
+              "market_value": 8149.9,
+              "industry_weight_pct": 61.55,
+              "indirect_yi": 5016.2634499999995,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "009881",
+              "name": "广发中证医疗ETF联接C",
+              "market_value": 8150.07,
+              "industry_weight_pct": 53.910000000000004,
+              "indirect_yi": 4393.702737,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ],
+      [
+        "GICS·未分类",
+        {
+          "direct_yi": 0.0,
+          "indirect_yi": 147266.46,
+          "total_yi": 147266.46,
+          "direct_holdings": [],
+          "contributing_funds": []
+        }
+      ],
+      [
+        "互联网平台",
+        {
+          "direct_yi": 39940.0,
+          "indirect_yi": 6389.92,
+          "total_yi": 46329.92,
+          "direct_holdings": [
+            {
+              "code": "002517",
+              "name": "恺英网络",
+              "market_value": 29460.0
+            },
+            {
+              "code": "01810",
+              "name": "Xiaomi Corporation",
+              "market_value": 10480.0
+            }
+          ],
+          "contributing_funds": [
+            {
+              "code": "010736",
+              "name": "易方达沪深300精选增强A",
+              "market_value": 8054.35,
+              "industry_weight_pct": 9.73,
+              "indirect_yi": 783.688255,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "006327",
+              "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+              "market_value": 8498.74,
+              "industry_weight_pct": 61.44,
+              "indirect_yi": 5221.625856,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "270023",
+              "name": "广发全球精选股票(QDII)人民币A",
+              "market_value": 14297.59,
+              "industry_weight_pct": 2.69,
+              "indirect_yi": 384.605171,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ],
+      [
+        "消费电子家电",
+        {
+          "direct_yi": 36600.0,
+          "indirect_yi": 0.0,
+          "total_yi": 36600.0,
+          "direct_holdings": [
+            {
+              "code": "09992",
+              "name": "Pop Mart International Group Limited",
+              "market_value": 36600.0
+            }
+          ],
+          "contributing_funds": []
+        }
+      ],
+      [
+        "半导体",
+        {
+          "direct_yi": 30080.0,
+          "indirect_yi": 4610.1,
+          "total_yi": 34690.1,
+          "direct_holdings": [
+            {
+              "code": "603236",
+              "name": "移远通信",
+              "market_value": 15540.0
+            },
+            {
+              "code": "000063",
+              "name": "中兴通讯",
+              "market_value": 14540.0
+            }
+          ],
+          "contributing_funds": [
+            {
+              "code": "270042",
+              "name": "广发纳指100ETF联接（QDII）人民币A",
+              "market_value": 20437.7,
+              "industry_weight_pct": 10.999999999999998,
+              "indirect_yi": 2248.147,
+              "data_status": "estimated",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "012629",
+              "name": "广发国证半导体芯片ETF联接A",
+              "market_value": 9999.78,
+              "industry_weight_pct": 23.619999999999997,
+              "indirect_yi": 2361.948036,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ],
+      [
+        "人工智能算力",
+        {
+          "direct_yi": 12096.0,
+          "indirect_yi": 5077.46,
+          "total_yi": 17173.46,
+          "direct_holdings": [
+            {
+              "code": "002415",
+              "name": "海康威视",
+              "market_value": 12096.0
+            }
+          ],
+          "contributing_funds": [
+            {
+              "code": "012733",
+              "name": "易方达中证人工智能主题ETF联接A",
+              "market_value": 14951.84,
+              "industry_weight_pct": 14.63,
+              "indirect_yi": 2187.454192,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "012734",
+              "name": "易方达中证人工智能主题ETF联接C",
+              "market_value": 14033.19,
+              "industry_weight_pct": 14.629999999999999,
+              "indirect_yi": 2053.055697,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "003765",
+              "name": "广发创业板ETF联接A",
+              "market_value": 18681.94,
+              "industry_weight_pct": 4.4799999999999995,
+              "indirect_yi": 836.9509119999998,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ],
+      [
+        "新能源车",
+        {
+          "direct_yi": 4481.0,
+          "indirect_yi": 1838.19,
+          "total_yi": 6319.19,
+          "direct_holdings": [
+            {
+              "code": "002050",
+              "name": "三花智控",
+              "market_value": 4481.0
+            }
+          ],
+          "contributing_funds": [
+            {
+              "code": "270042",
+              "name": "广发纳指100ETF联接（QDII）人民币A",
+              "market_value": 20437.7,
+              "industry_weight_pct": 3.0000000000000004,
+              "indirect_yi": 613.1310000000001,
+              "data_status": "estimated",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "005063",
+              "name": "广发中证全指家用电器ETF联接A",
+              "market_value": 8499.8,
+              "industry_weight_pct": 8.19,
+              "indirect_yi": 696.13362,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "013180",
+              "name": "广发国证新能源车电池ETF发起联接C",
+              "market_value": 8149.9,
+              "industry_weight_pct": 6.490000000000001,
+              "indirect_yi": 528.9285100000001,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ],
+      [
+        "创新药",
+        {
+          "direct_yi": 6018.0,
+          "indirect_yi": 0.0,
+          "total_yi": 6018.0,
+          "direct_holdings": [
+            {
+              "code": "002001",
+              "name": "新和成",
+              "market_value": 6018.0
+            }
+          ],
+          "contributing_funds": []
+        }
+      ],
+      [
+        "GICS·信息技术",
+        {
+          "direct_yi": 0.0,
+          "indirect_yi": 5242.27,
+          "total_yi": 5242.27,
+          "direct_holdings": [],
+          "contributing_funds": []
+        }
+      ],
+      [
+        "电力公用事业",
+        {
+          "direct_yi": 0.0,
+          "indirect_yi": 5019.28,
+          "total_yi": 5019.28,
+          "direct_holdings": [],
+          "contributing_funds": [
+            {
+              "code": "019058",
+              "name": "易方达中证绿色电力ETF联接发起式A",
+              "market_value": 21698.39,
+              "industry_weight_pct": 19.17,
+              "indirect_yi": 4159.581363,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "110020",
+              "name": "易方达沪深300ETF联接A",
+              "market_value": 13439.23,
+              "industry_weight_pct": 1.6599999999999997,
+              "indirect_yi": 223.09121799999997,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "270010",
+              "name": "广发沪深300ETF联接A",
+              "market_value": 19604.39,
+              "industry_weight_pct": 1.66,
+              "indirect_yi": 325.43287399999997,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "022424",
+              "name": "广发中证A500ETF联接A",
+              "market_value": 20607.77,
+              "industry_weight_pct": 1.5099999999999998,
+              "indirect_yi": 311.177327,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            }
+          ]
+        }
+      ]
+    ],
+    "indirect_concentration_top10": [
+      {
+        "code": "300750",
+        "name": "宁德时代",
+        "total_indirect_value": 6553.99,
+        "fund_count": 5
+      },
+      {
+        "code": "688256",
+        "name": "寒武纪",
+        "total_indirect_value": 4846.19,
+        "fund_count": 4
+      },
+      {
+        "code": "688008",
+        "name": "澜起科技",
+        "total_indirect_value": 4254.49,
+        "fund_count": 4
+      },
+      {
+        "code": "00700",
+        "name": "腾讯控股",
+        "total_indirect_value": 3712.82,
+        "fund_count": 3
+      },
+      {
+        "code": "600900",
+        "name": "长江电力",
+        "total_indirect_value": 3144.54,
+        "fund_count": 4
+      },
+      {
+        "code": "600519",
+        "name": "贵州茅台",
+        "total_indirect_value": 3067.2,
+        "fund_count": 4
+      },
+      {
+        "code": "688111",
+        "name": "金山办公",
+        "total_indirect_value": 3036.11,
+        "fund_count": 3
+      },
+      {
+        "code": "AAPL",
+        "name": "苹果",
+        "total_indirect_value": 2907.25,
+        "fund_count": 3
+      },
+      {
+        "code": "MSFT",
+        "name": "微软",
+        "total_indirect_value": 2564.21,
+        "fund_count": 3
+      },
+      {
+        "code": "NVDA",
+        "name": "英伟达",
+        "total_indirect_value": 2547.88,
+        "fund_count": 3
+      }
+    ]
+  },
   "has_data": true,
   "asset_classes": [
     {

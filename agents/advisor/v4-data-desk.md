@@ -61,6 +61,29 @@ tools:
   - `desk_sentiment.fund_holdings_percentile`: 公募持仓历史百分位
   - 取不到的字段 → 标 missing,sentiment agent 自动降 confidence。
 
+- **基金穿透取数**（2026-06-13 D0-6 加,服务 v4-fund-passthrough Level 1）：用户持仓中的基金/ETF (instrument_type=fund/etf) 必须穿透到底层股票/行业,否则组合分析瞎眼一半。
+
+  **取数源优先级**：
+  1. `holdings.json` 里的 `_fund_passthrough` 字段（**用户本地填**，从天天基金/雪球/招商证券/季报 PDF 取）— 沙箱友好,推荐
+  2. `data/v4/_funds/<code>.json` 缓存（7 天内有效）
+  3. AKShare 联网取数（生产环境跑 `python scripts/v4_fund_source.py <code>`）：
+     - `fund_portfolio_hold_em(symbol)` 取前 10 重仓股
+     - `fund_individual_basic_info_xq(symbol)` 取基本信息
+     - `fund_portfolio_industry_allocation_em(symbol)` 取行业分布
+
+  **必填字段** (见 `data/v4/_inputs/README.md` 完整 schema):
+  - `as_of`: 季报披露日 (3/31, 6/30, 9/30, 12/31)
+  - `fund_type`: 类型 (股票型/混合型/债券型/QDII/ETF联接/货币型/商品型)
+  - `top_holdings`: 前 10 重仓股 [{code, name, market, weight, industry}] — **行业聚合主数据源**
+  - `industry_exposure`: 行业暴露 % {半导体: 12, 新能源: 8, ...} — fallback 数据源(GICS)
+  - `region_exposure`: QDII 必填 {美国: 95}
+  - `_data_status`: verified / estimated / partial
+
+  **数据状态铁律**:
+  - `_data_status: verified` (季报确认) > `estimated` (招商等推算) > `partial` (只填部分) > `manual_required` (待用户填)
+  - 取不到 → 标 `manual_required`,classifier 仍归大类(向后兼容),aggregator 不算入间接持仓
+  - 行业体系冲突:基金 industry_exposure 用 GICS(信息技术/通信服务) ≠ v4 stock industry(半导体/AI算力),aggregator 已用 top_holdings 反推 v4 体系优先,GICS fallback 标 'GICS·' 前缀区分
+
 ## 输入（用 Read 读取已有上下文）
 1. `{data_dir}/inputs/portfolio_classified.json` — 七大类穿透归类（了解该取哪些单元）
 2. `{data_dir}/inputs/data_macro.json` — 已有宏观快照（档A：检查 `fetched_at`+`ttl_hours`，**新鲜则复用、不重复联网**）

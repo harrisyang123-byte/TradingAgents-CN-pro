@@ -142,7 +142,40 @@ def build_overview(units: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         "asset_cards": cards,
         "equity_quota": equity_quota,
         "equity_disabled": equity_quota == 0,
+        # D0-6 (2026-06-13) 基金穿透体检 — Level 2 风格因子 + 重叠分析
+        "fund_passthrough": _fund_passthrough_summary_for_overview(units),
     }
+
+
+def _fund_passthrough_summary_for_overview(units: Dict[str, Dict[str, Any]]) -> Dict[str, Any] | None:
+    """组合层基金穿透体检 (用于 V4Overview 卡)"""
+    try:
+        from pathlib import Path
+        holdings_path = Path("data/v4/_inputs/holdings.json")
+        if not holdings_path.exists():
+            return None
+        from app.services.v4.v4_classifier import classify_holdings
+        from app.services.v4.v4_aggregator import aggregate_full
+        h = json.loads(holdings_path.read_text(encoding="utf-8"))
+        classified = classify_holdings(h.get("positions", []) or [])
+        stock_inds = {}
+        for uid2, env2 in units.items():
+            if uid2.startswith("stock:"):
+                p2 = env2.get("payload", {}) or {}
+                code2 = p2.get("code")
+                ind2 = p2.get("industry")
+                if code2 and ind2:
+                    stock_inds[code2] = ind2
+        agg = aggregate_full(classified, stock_inds)
+        return {
+            "summary": agg.get("summary", {}),
+            "style_factors": agg.get("style_factors", {}),
+            "overlap_analysis": agg.get("overlap_analysis", {}),
+            "industries_top10": list(agg.get("industries", {}).items())[:10],
+            "indirect_concentration_top10": agg.get("overlap_analysis", {}).get("summary", {}).get("indirect_concentration_top10", []),
+        }
+    except Exception:
+        return None
 
 
 def build_units_status(units: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:

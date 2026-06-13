@@ -90,6 +90,63 @@ export interface V4Overview {
   equity_disabled: boolean
   has_data: boolean
   asset_classes: AssetClassConfig[]
+  // D0-6 基金穿透体检 (2026-06-13)
+  fund_passthrough?: FundPassthroughSummary | null
+}
+
+export interface FundPassthroughSummary {
+  summary: {
+    total_market_value: number
+    direct_market_value: number
+    indirect_market_value: number
+    industries_count: number
+    funds_with_passthrough: number
+    funds_without_passthrough: number
+    passthrough_coverage_pct: number
+    method?: string
+  }
+  style_factors: {
+    size: Record<string, number>
+    growth_value: Record<string, number>
+    region: Record<string, number>
+    fund_type: Record<string, number>
+    raw_funds?: any[]
+    total_fund_mv: number
+  }
+  overlap_analysis: {
+    theme_overlaps: Array<{
+      theme: string
+      fund_count: number
+      total_mv: number
+      funds: Array<{ code: string; name: string; mv: number }>
+      advice: string
+    }>
+    stock_overlaps: Array<{
+      code: string
+      name: string
+      total_indirect_value: number
+      fund_count: number
+      funds: any[]
+    }>
+    summary: {
+      theme_overlap_count: number
+      theme_overlap_total_mv: number
+      stock_overlap_count: number
+      indirect_concentration_top10: Array<{
+        code: string
+        name: string
+        total_indirect_value: number
+        fund_count: number
+      }>
+    }
+  }
+  industries_top10?: any[]
+  indirect_concentration_top10?: Array<{
+    code: string
+    name: string
+    total_indirect_value: number
+    fund_count: number
+  }>
 }
 
 // ── Tab2 大类详情 ─────────────────────────────────────────────────────
