@@ -53,6 +53,133 @@ def _resolver(units: Dict[str, Dict[str, Any]]):
     return resolve
 
 
+# D0-8 兼容层 — 把新 schema(verdict.stance/action_plan/critic_evaluation) 翻译成
+# 前端 StockDetailTab 期望的旧字段(rating/credibility/risks/...)
+# 让 002156/09992 这类按新流程跑出的标的也能在前端正常展示分析详情
+def _stance_to_rating(verdict):
+    if not isinstance(verdict, dict):
+        return None
+    s = (verdict.get("stance") or "").strip()
+    if not s:
+        return None
+    # 优先匹配 持有/观望(因为可能含"加仓"上下文如"不主动加仓")
+    if any(k in s for k in ("持有", "观望", "HOLD", "维持")):
+        return "HOLD"
+    if any(k in s for k in ("减仓", "卖", "SELL", "清", "REDUCE")):
+        return "REDUCE"
+    if any(k in s for k in ("加仓", "买入", "BUY")):
+        return "BUY"
+    return s[:6]
+
+
+def _extract_target_price(p):
+    vb = p.get("valuation_basis")
+    if not isinstance(vb, dict):
+        return None
+    sc = vb.get("forward_eps_scenarios_with_confidence") or vb.get("forward_eps_scenarios") or vb.get("scenarios") or {}
+    if not isinstance(sc, dict):
+        return None
+    base = sc.get("base")
+    if isinstance(base, dict):
+        return base.get("fair_price") or base.get("implied_price_hkd") or base.get("price")
+    if isinstance(base, str):
+        return base
+    pwt = vb.get("probability_weighted_target")
+    # 截断长字符串避免污染前端 target 显示
+    if isinstance(pwt, str) and len(pwt) > 40:
+        # 尝试抓出 HK$XXX 或 ¥XXX 数字
+        import re
+        m = re.search(r"(HK\$\d+\.?\d*|¥\d+\.?\d*|\$\d+\.?\d*)", pwt)
+        if m:
+            return m.group(1)
+    return pwt
+
+
+def _extract_worst_case(p):
+    vb = p.get("valuation_basis")
+    if not isinstance(vb, dict):
+        return None
+    sc = vb.get("forward_eps_scenarios_with_confidence") or vb.get("forward_eps_scenarios") or vb.get("scenarios") or {}
+    if not isinstance(sc, dict):
+        return None
+    bear = sc.get("bear")
+    if isinstance(bear, dict):
+        return bear.get("fair_price") or bear.get("implied_price_hkd") or str(bear)
+    return bear
+
+
+def _extract_entry_range(p):
+    ap = p.get("action_plan")
+    if not isinstance(ap, dict):
+        return None
+    bz = ap.get("buy_back_zones") or []
+    if bz:
+        first = bz[0]
+        if isinstance(first, (str, int, float)):
+            return first
+        if isinstance(first, dict):
+            return first.get("zone") or first.get("range")
+        return str(first)[:80]
+    return None
+
+
+def _extract_credibility(p):
+    ce = p.get("critic_evaluation") or {}
+    if not ce:
+        return None
+    return {
+        "initial_score": ce.get("v1_score"),
+        "critic_score": ce.get("v2_score") or ce.get("v1_score"),
+        "final_verdict": ce.get("v2_recommendation") or ce.get("recommendation") or "ACCEPT",
+        "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
+        "issues_addressed": ce.get("v1_issues_addressed"),
+    }
+
+
+def _extract_risk_debate(p):
+    rc = p.get("risk_consensus_from_3way") or {}
+    if not rc:
+        return None
+    return {
+        "aggressive": rc.get("aggressive"),
+        "safe": rc.get("safe"),
+        "neutral": rc.get("neutral"),
+        "director_decision": rc.get("director_decision"),
+    }
+
+
+def _extract_sell_discipline(p):
+    ap = p.get("action_plan") or {}
+    out = []
+    sl = ap.get("stop_loss") or {}
+    if isinstance(sl, dict):
+        if sl.get("hard"):
+            out.append(f"硬止损 {sl['hard']}")
+        if sl.get("trailing"):
+            out.append(f"跟踪止损 {sl['trailing']}")
+    elif sl:
+        out.append(str(sl))
+    for tz in (ap.get("trim_zones") or []):
+        out.append(f"减仓区 {tz}")
+    return out
+
+
+def _extract_risks(p):
+    out = []
+    refl = p.get("reflection") or {}
+    if refl.get("self_check"):
+        out.append(f"诚实自查: {refl['self_check'][:120]}")
+    tr = p.get("tail_risk_joint_scenario_modeling") or {}
+    for k, v in tr.items():
+        if "joint" in k.lower() and isinstance(v, dict) and v.get("implication"):
+            out.append(f"尾部联合风险: {v['implication'][:130]}")
+    ds = p.get("data_status_overall") or {}
+    miss = ds.get("missing") or []
+    if miss:
+        out.append(f"数据盲区: {', '.join(miss[:3])} 等 {len(miss)} 项 missing")
+    return out[:8]
+
+
 def decorate_unit(unit_id: str, envelope: Optional[Dict[str, Any]],
                   units: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
     """为单元附加实时 status/stale_reason/cli_hint（统一前端契约，AC8.4）。"""
@@ -377,13 +504,13 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "name": p.get("name"),
         "industry": industry,
         "stock_unit": decorate_unit(f"stock:{code}", env, units),
-        # 评级与买卖
-        "rating": p.get("rating"),
-        "target_price": p.get("target_price"),
-        "entry_price_range": p.get("entry_price_range"),
+        # 评级与买卖 (兼容新 schema: 从 verdict.stance 推断 rating)
+        "rating": p.get("rating") or _stance_to_rating(p.get("verdict", {})),
+        "target_price": p.get("target_price") or _extract_target_price(p),
+        "entry_price_range": p.get("entry_price_range") or _extract_entry_range(p),
         "price_at_judgment": p.get("price_at_judgment"),
         # D0-4 一句话总结(服务"可信"目标 - 核心判断不绕弯)
-        "verdict_oneliner": p.get("verdict_oneliner"),
+        "verdict_oneliner": p.get("verdict_oneliner") or (p.get("verdict") or {}).get("summary"),
         # D0-4 产业链卡位(服务"全面"目标 - 连接行业层)
         "chain_positioning": chain_positioning,
         # D0-4 行业内目标权重(服务"可执行"目标 - 仓位计算器需要)
@@ -391,27 +518,27 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         # D0-1 估值推导链(买点怎么来)
         "valuation_basis": p.get("valuation_basis"),
         # D0-4 可信度(服务"可信"目标 - critic 评审过程: 从 X 分迭代到 Y 分 ACCEPT)
-        "credibility": p.get("credibility"),
+        "credibility": p.get("credibility") or _extract_credibility(p),
         # 预期差 + 四维质量闸门
-        "expectation_gap": p.get("expectation_gap"),
+        "expectation_gap": p.get("expectation_gap") or ((p.get("valuation_basis") or {}).get("expectation_gap") if isinstance(p.get("valuation_basis"), dict) else None),
         "chokepoint_score": p.get("chokepoint_score"),
         "discovery_level": p.get("discovery_level"),
         "business_quality": p.get("business_quality"),
         "position_nature": p.get("position_nature"),
         # D 阶段 5+1 五力深做(2026-06-13 拆分): 5 力 level + cross_force_dynamics + weakest_link + moat_durability + monitoring_signals
-        "five_forces": p.get("five_forces"),
+        "five_forces": p.get("five_forces") or p.get("five_forces_summary"),
         # D0-5 TradingAgents 对齐(2026-06-13): 3 方风险辩论 + sentiment + memory + forward_view 6 维 + 数据追溯
-        "risk_debate_summary": p.get("risk_debate_summary"),
-        "risk_debate_full": p.get("risk_debate_full"),  # aggressive/safe/neutral 完整产出
+        "risk_debate_summary": p.get("risk_debate_summary") or _extract_risk_debate(p),
+        "risk_debate_full": p.get("risk_debate_full"),
         "sentiment_view": p.get("sentiment_view"),
-        "sentiment_full": p.get("sentiment_full"),  # sentiment 分析师完整产出
-        "memory_used": p.get("memory_used") or [],  # director 引用的 memory 记录
-        "worst_case": p.get("worst_case"),
+        "sentiment_full": p.get("sentiment_full"),
+        "memory_used": p.get("memory_used") or (p.get("reflection") or {}).get("memory_used") or [],
+        "worst_case": p.get("worst_case") or _extract_worst_case(p),
         "downside": p.get("downside"),
-        "sell_discipline": p.get("sell_discipline", []),
+        "sell_discipline": p.get("sell_discipline") or _extract_sell_discipline(p),
         "thesis": p.get("thesis"),
-        "risks": p.get("risks", []),
-        "confidence": p.get("confidence"),
+        "risks": p.get("risks") or _extract_risks(p),
+        "confidence": p.get("confidence") if p.get("confidence") is not None else (p.get("verdict") or {}).get("confidence"),
         # 前瞻 (D0-5 加 6 维多维推演: market_regime/liquidity/cycle/β/comparable_matrix/pricing_power)
         "forward_view": p.get("forward_view"),
         # 辩论 + 反思
@@ -420,5 +547,16 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "reflection": p.get("reflection"),
         # C 阶段 回测准确率(前端展示)
         "historical_alpha": p.get("historical_alpha"),
-        "evidence": p.get("evidence", []),  # D0-5 加 used_in: string[] 追溯到 thesis/forward_view/sell_discipline
+        "evidence": p.get("evidence", []),
+        # D0-8 新 schema 透传(action_plan/stance verdict/critic_evaluation 让前端可逐步迁移)
+        "verdict_v2": p.get("verdict") if isinstance(p.get("verdict"), dict) else None,
+        "action_plan": p.get("action_plan") if isinstance(p.get("action_plan"), dict) else None,
+        "product_subdivision": p.get("product_subdivision") or p.get("product_subdivision_stress_test"),
+        "sensitivity_matrix": (
+            (p.get("valuation_basis") or {}).get("sensitivity_matrix_3x3")
+            or (p.get("valuation_basis") or {}).get("sensitivity_matrix")
+        ) if isinstance(p.get("valuation_basis"), dict) else None,
+        "tail_risk": p.get("tail_risk_joint_scenario_modeling"),
+        "data_status_overall": p.get("data_status_overall"),
+        "critic_evaluation": p.get("critic_evaluation"),
     }

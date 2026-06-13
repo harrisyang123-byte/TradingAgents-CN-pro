@@ -137,5 +137,18 @@
       "source_url": "needs_fetch",
       "status": "missing"
     }
-  ]
+  ],
+  "verdict_v2": {
+    "rating": "增持",
+    "thesis": "安防AI龙头、估值低、现金流稳，海外+创新业务成长；但主业增速放缓。",
+    "entry_approach": "低估值防御+AI弹性，可标配",
+    "target_price": "needs_fetch",
+    "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+  },
+  "action_plan": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null
 }

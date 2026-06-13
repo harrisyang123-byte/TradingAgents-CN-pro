@@ -137,5 +137,18 @@
       "source_url": "needs_fetch",
       "status": "missing"
     }
-  ]
+  ],
+  "verdict_v2": {
+    "rating": "增持",
+    "thesis": "热管理龙头+人形机器人执行器(机电),机器人催化打开第二曲线。",
+    "entry_approach": "机器人主题弹性，回调分批",
+    "target_price": "needs_fetch",
+    "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+  },
+  "action_plan": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null
 }

@@ -137,5 +137,18 @@
       "source_url": "needs_fetch",
       "status": "missing"
     }
-  ]
+  ],
+  "verdict_v2": {
+    "rating": "增持",
+    "thesis": "全球物联网模组龙头，AIoT/车载/海外受益，份额领先。",
+    "entry_approach": "周期与毛利波动，分批",
+    "target_price": "needs_fetch",
+    "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+  },
+  "action_plan": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null
 }

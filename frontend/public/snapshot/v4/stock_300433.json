@@ -165,5 +165,12 @@
       "source": "Morningstar/Google Finance",
       "status": "verified"
     }
-  ]
+  ],
+  "verdict_v2": null,
+  "action_plan": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null
 }

@@ -199,5 +199,12 @@
       "source": "AASTOCKS/Quartr/Morningstar 2026-04~06",
       "status": "verified"
     }
-  ]
+  ],
+  "verdict_v2": null,
+  "action_plan": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null
 }
