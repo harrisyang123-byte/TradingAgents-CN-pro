@@ -2,10 +2,10 @@
   "as_of": null,
   "summary": {
     "total_value": 1052785.0,
-    "analyzed_count": 7,
+    "analyzed_count": 8,
     "total_stocks": 9,
     "total_funds": 26,
-    "pending_actions": 8,
+    "pending_actions": 9,
     "style_region": {
       "A股": 450172.88999999996,
       "美国": 19415.815,
@@ -216,11 +216,11 @@
           "indirect": []
         },
         {
-          "name": "创新药",
+          "name": "创新药/化工/维生素/香精香料",
           "direct_value": 6018.0,
           "indirect_value": 0,
           "total_value": 6018.0,
-          "has_industry_analysis": true,
+          "has_industry_analysis": false,
           "holdings": [
             {
               "code": "002001",
@@ -228,12 +228,13 @@
               "market_value": 6018.0,
               "weight": 0.57,
               "instrument_type": "stock",
-              "analyzed": false,
-              "stance": null,
-              "action": null,
-              "confidence": null,
-              "summary": null,
-              "stop_loss": null
+              "analyzed": true,
+              "stance": "加仓(分批 0.57%→1.0%→1.8%)",
+              "action": "现价 ¥22.27 加 0.43% 至 1.0% (从 ¥6018 加至 ¥10500)",
+              "confidence": 0.7,
+              "summary": "新和成 2025 营收 213.6 亿 净利 58.7 亿(净利率 27.5% 顶级) ROE 18%. 现价 ¥22.27 PE 9.87x 历史底部区间, 同业折价 38%. 全球 VA 第一(40%)+VE 第二(25%)+蛋氨酸第四+高端聚酯材料 (PPA/PPS). R3 共识区 ¥25-30 (+12-35% upside). 用户现仓 0.57%(¥6018) 偏轻, 加 0.43% 至 1.0%, 价格回踩 ¥20 加至 1.8%. 反骑墙: 9.87x PE + 27.5% 净利率 + 顶级护城河 (VA 三寡头) 数据明确向上, 加仓有依据.",
+              "stop_loss": "¥17.5 (-21%, 跌破 = 极端 bear 兑现, 净利率 <22% + VA 再跌 20%)",
+              "direction": "看多 — 全球 VA 寡头底部估值 PE 9.87x + 净利率 27.5% 顶级 + 新材料期权"
             }
           ],
           "indirect": []
@@ -643,6 +644,10 @@
       },
       {
         "desc": "海康威视 加仓(分批至 2.5%)",
+        "amount": null
+      },
+      {
+        "desc": "新和成 加仓(分批 0.57%→1.0%→1.8%)",
         "amount": null
       }
     ]

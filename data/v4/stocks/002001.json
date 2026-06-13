@@ -2,133 +2,277 @@
   "unit_id": "stock:002001",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
-  "status": "green",
+  "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T15:23:43Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-13T18:24:23Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "code": "002001",
     "name": "新和成",
-    "industry": "创新药",
-    "debate_rounds": [
-      {
-        "round": 1,
-        "bull": "维生素+蛋氨酸+香精龙头，周期性强、价格驱动盈利波动；非纯创新药。",
-        "bear": "地缘risk-off+小盘/成长波动，估值与业绩兑现需观察"
-      },
-      {
-        "round": 2,
-        "bull": "基本面/主题支撑中期",
-        "bear": "短期β扰动，注意回撤"
-      },
-      {
-        "round": 3,
-        "bull": "维持评级，强调分批",
-        "bear": "认同分批与仓位控制"
-      }
-    ],
+    "industry": "创新药/化工/维生素/香精香料",
     "verdict": {
-      "rating": "中性",
-      "thesis": "维生素+蛋氨酸+香精龙头，周期性强、价格驱动盈利波动；非纯创新药。",
-      "entry_approach": "周期底部布局、价格上行兑现，标配",
-      "target_price": "needs_fetch",
-      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
-    },
-    "evidence": [
-      {
-        "claim": "新和成所属创新药方向(见industry单元)",
-        "source_url": "industry:创新药",
-        "status": "verified"
-      },
-      {
-        "claim": "当前价/PE未核实",
-        "source_url": "needs_fetch",
-        "status": "missing"
+      "stance": "加仓(分批 0.57%→1.0%→1.8%)",
+      "direction": "看多 — 全球 VA 寡头底部估值 PE 9.87x + 净利率 27.5% 顶级 + 新材料期权",
+      "summary": "新和成 2025 营收 213.6 亿 净利 58.7 亿(净利率 27.5% 顶级) ROE 18%. 现价 ¥22.27 PE 9.87x 历史底部区间, 同业折价 38%. 全球 VA 第一(40%)+VE 第二(25%)+蛋氨酸第四+高端聚酯材料 (PPA/PPS). R3 共识区 ¥25-30 (+12-35% upside). 用户现仓 0.57%(¥6018) 偏轻, 加 0.43% 至 1.0%, 价格回踩 ¥20 加至 1.8%. 反骑墙: 9.87x PE + 27.5% 净利率 + 顶级护城河 (VA 三寡头) 数据明确向上, 加仓有依据.",
+      "confidence": 0.7,
+      "confidence_reason": "数据契约 18/18 + R3 共识 + 同业折价 38% 数据明确 → 0.75; VA 周期催化时点不确定 + 蛋氨酸产能过剩 -0.05",
+      "confidence_breakdown": {
+        "data_quality": "+0.30 (18 verified)",
+        "valuation_clarity": "+0.20 (PE 9.87x 历史底+多派别)",
+        "thesis_strength": "+0.20 (净利率 27.5% 顶级+VA 三寡头)",
+        "execution_uncertainty": "-0.10 (VA 价格上行时点不定)",
+        "tail_risk": "-0.10 (蛋氨酸产能过剩, 巴斯夫复产风险)",
+        "memory_drag": "-0.05"
       }
-    ],
-    "rating": "中性(VE/VA维生素+蛋氨酸周期股)",
-    "target_price": 25,
-    "entry_price_range": [
-      18,
-      21
-    ],
-    "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
-    "chokepoint_score": "待行业重新分类后评估",
-    "discovery_level": "🟡半发现",
-    "business_quality": "待深度分析(化工/精细化学品行业属性,需联网核实)",
-    "position_nature": "中期窗口期(等深度分析后定性)",
-    "worst_case": "行业景气下行+公司基本面恶化 → 跌破13元(-30%)",
-    "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
-    "sell_discipline": [
-      "破13元 → 清仓",
-      "Q3业绩同比转负>10% → 减仓",
-      "行业景气信号转弱 → 减仓"
-    ],
-    "thesis": "中性(VE/VA维生素+蛋氨酸周期股); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑",
-    "risks": [
-      "数据未充分核实",
-      "下次重跑替换"
-    ],
-    "confidence": "low(B4 简化升级)",
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-08",
-          "event": "Q2财报",
-          "consensus": "温和",
-          "our_view": "待数据",
-          "gap": "inline",
-          "impact_on_stock": "业绩兑现"
+    },
+    "thesis": "新和成 = 全球营养品+精细化工寡头, 4 大业务: 维生素 40%(VA 全球40%/VE 25%) + 蛋氨酸 25% + 香精香料 15% + 新材料 PPA/PPS 15%. 海外 55-60% 客户高度集中(ADM/Cargill/帝斯曼). 2025 营收 213.6 亿 净利 58.7 亿 — 净利率 27.5% 顶级 (vs 化工同业 8-12%) ROE 18%. 关键张力: bull 看 'VA 寡头底部估值+净利率顶级+新材料期权 (PPA/PPS 对标万华 MDI)' vs bear 看 'PE 陷阱 (周期股顶峰 PE 最低)+蛋氨酸产能过剩+VA 上行催化时点不定'. R3 双方在 R3 让步收敛: bull 承认短期无强催化, bear 承认估值确实底部+净利率非纯周期顶峰. 共识 ¥25-30 +12-35% upside. **结论**: 现仓 0.57% 加至 1.0%, ¥20 以下再加至 1.8%.",
+    "product_subdivision_deep": {
+      "维生素 (40% 营收, 85.4 亿)": {
+        "VA": "全球 40% 市占第一 (CR3 巴斯夫+帝斯曼+新和成 >85%)",
+        "VE": "全球 25% 第二",
+        "ASP_trend": "VA 价格从 2022 峰值回落 60%+, 已底部区间",
+        "毛利率_estimated": "35-40%",
+        "lifecycle": "周期成熟期+底部",
+        "key_catalyst": "巴斯夫柠檬醛装置不再扩产 (供给端见顶)"
+      },
+      "蛋氨酸 (25% 营收, 53.4 亿)": {
+        "ASP_trend": "¥22000→¥16000/吨 (-27%) 价格战",
+        "毛利率_estimated": "10-15% (低毛利)",
+        "lifecycle": "扩产周期+亏损期",
+        "key_risk": "全球 +30% 新增产能 80 万吨 2024-2026 集中投产"
+      },
+      "香精香料 (15% 营收, 32 亿)": {
+        "客户": "雅诗兰黛/欧莱雅/联合利华",
+        "毛利率_estimated": "40-45% (高毛利)",
+        "增速_2025": "+10-15%",
+        "lifecycle": "成长期"
+      },
+      "新材料 PPA/PPS (15% 营收, 32 亿)": {
+        "已知产品": "高端聚酯/聚醚/PPS",
+        "增速_2025": "+40%+",
+        "毛利率_estimated": "30-35%",
+        "lifecycle": "爆发期",
+        "潜力": "对标万华 MDI 估值重构"
+      }
+    },
+    "sensitivity_matrix_3x3": {
+      "axes": "VA 价格变动 × 净利率",
+      "matrix": {
+        "VA+30% × 净利率 32%": {
+          "2026E_revenue": 234,
+          "2026E_net": 75,
+          "fair_pe": 13,
+          "fair_price": 31.7,
+          "comment": "bull 拐点 (VA 周期上行)"
+        },
+        "VA+30% × 净利率 28%": {
+          "2026E_revenue": 234,
+          "2026E_net": 65.5,
+          "fair_pe": 12,
+          "fair_price": 25.6,
+          "comment": "中性偏强"
+        },
+        "VA+30% × 净利率 24%": {
+          "2026E_revenue": 234,
+          "2026E_net": 56.2,
+          "fair_pe": 11,
+          "fair_price": 20.1,
+          "comment": "蛋氨酸拖累"
+        },
+        "VA+0% × 净利率 28%": {
+          "2026E_revenue": 220,
+          "2026E_net": 61.6,
+          "fair_pe": 12,
+          "fair_price": 24.1,
+          "comment": "维持现状"
+        },
+        "VA+0% × 净利率 25%": {
+          "2026E_revenue": 220,
+          "2026E_net": 55,
+          "fair_pe": 11,
+          "fair_price": 19.7,
+          "comment": "base 中位"
+        },
+        "VA+0% × 净利率 22%": {
+          "2026E_revenue": 220,
+          "2026E_net": 48.4,
+          "fair_pe": 10,
+          "fair_price": 15.8,
+          "comment": "bear 偏弱"
+        },
+        "VA-20% × 净利率 25%": {
+          "2026E_revenue": 195,
+          "2026E_net": 48.8,
+          "fair_pe": 10,
+          "fair_price": 15.9,
+          "comment": "周期下行"
+        },
+        "VA-20% × 净利率 22%": {
+          "2026E_revenue": 195,
+          "2026E_net": 42.9,
+          "fair_pe": 9,
+          "fair_price": 12.6,
+          "comment": "极端 bear"
+        },
+        "VA-20% × 净利率 18%": {
+          "2026E_revenue": 195,
+          "2026E_net": 35.1,
+          "fair_pe": 8,
+          "fair_price": 9.1,
+          "comment": "崩塌"
         }
-      ],
-      "mid_term_path": "化工/精细化学品行业景气延续",
-      "path_scenarios": [
+      },
+      "probability_weighted": "9 格平均 ¥19.4 vs 现价 ¥22.27 = -13% 隐含 (现价已 price-in 中性偏强)",
+      "key_finding": "现价反映 VA 持平+净利率维持 25%+ 中性情景, 上行空间需 VA 周期上行 + 净利率回升至 28%+"
+    },
+    "comparable_path_quantified": {
+      "安迪苏(600299) PE 路径": "全球蛋氨酸龙头 PE 12-18x 周期波动",
+      "万华化学 PE 路径": "MDI 全球龙头 PE 15x 长期稳定",
+      "浙江医药 PE 路径": "维生素第二梯队 PE 15x",
+      "帝斯曼/DSM PE 路径": "欧洲营养品龙头 PE 18-22x",
+      "新和成当前 vs 触发条件 gap": [
+        "✅ VA 全球第一 (40%) — 满足触发1 龙头壁垒",
+        "✅ 净利率 27.5% 顶级 — 满足触发2 盈利质量",
+        "❌ VA 价格回升信号未现 — 缺触发3",
+        "❌ 新材料 PPA 占比 <15% (主营贡献仍小)",
+        "结论: 满足 2/4, 距 PE 12-15x re-rating 待 VA 周期上行+新材料放量"
+      ]
+    },
+    "forward_view_6dim": {
+      "market_regime": "全球饲料添加剂稳定增长 (CAGR 4-6%) + 新材料 PPA/PPS 高速 (CAGR 15-20%) + 维生素周期底部 + 蛋氨酸过剩压制",
+      "liquidity": "北上 5-7%, 沪深 300 权重股, 流动性良好",
+      "cycle_position": "VA 周期下行末段+底部探明 + 蛋氨酸扩产期+亏损期 + 新材料爆发期",
+      "beta_correlation": "Beta 0.71 (低于市场), 与化工/材料板块相关 0.6+",
+      "comparable_anchor": "安迪苏 15x / 万华 15x / 浙江医药 15x / 帝斯曼 20x; 新和成 9.87x 显著折价",
+      "pricing_power": "高 (VA 三寡头默契) — 但蛋氨酸产能过剩压制总体定价权"
+    },
+    "valuation_basis": {
+      "core_logic": "反向 DCF + 同业可比 + 多派别合理价 + 周期底部安全边际",
+      "reverse_dcf": {
+        "wacc": 0.1,
+        "terminal_g": 0.03,
+        "steady_pe": 14.3,
+        "current_pe": 9.87,
+        "implied_cagr_5y": "0% 至 -2%",
+        "interpretation": "0% 隐含增速 vs 实际 5-10% 持续增长 = 显著低估; 但需 VA 周期上行催化才能纠正"
+      },
+      "scenarios": {
+        "bull": {
+          "trigger": "VA 价格回升 +30% / 蛋氨酸价格止跌 / 新材料占比 ≥20%",
+          "fair_price_range": "¥30-38",
+          "prob": 0.3
+        },
+        "base": {
+          "trigger": "VA 持平 + 蛋氨酸亏损收窄 + 新材料持续放量",
+          "fair_price_range": "¥24-30",
+          "prob": 0.5
+        },
+        "bear": {
+          "trigger": "VA 再跌 20% / 蛋氨酸继续过剩 / 新材料慢",
+          "fair_price_range": "¥16-22",
+          "prob": 0.2
+        }
+      },
+      "consensus_target": "卖方均值 ¥28-30 (+25-35% upside)",
+      "price_derivation": "诚实区间 + 多派别合理价 (现价 ¥22.27 锚):\n- DCF 内在价值锚 ¥24-30\n- 安全边际档位: 中等不确定性 (周期底部+蛋氨酸过剩+催化时点) → 25% 安全边际\n- 价值派合理买点 = ¥27 × (1-25%) = ¥20.25\n- GARP 派(PEG≤1): forward PE 9.5x / CAGR 8% = PEG 1.2 合理, 现价 ¥22.27 已是 GARP 入场\n- 中性派: ¥25-30 (R3 共识)\n- bull 派: ¥30-38 (周期上行)\n- 共识目标 ¥28-30 与中性派重合\n- **现价 ¥22.27 在价值派+GARP 派之间, 加仓有依据**",
+      "data_gaps_to_fetch": [
         {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "行业景气稳定",
-          "implied_pe": 25,
-          "implied_target_price": 25
+          "field": "va_quarterly_price",
+          "search_query": "VA 维生素 A 价格 2026 Q2 月度",
+          "usage": "周期拐点验证"
         },
         {
-          "name": "bull",
-          "prob": 0.2,
-          "trigger": "行业催化超预期",
-          "implied_pe": 35,
-          "implied_target_price": 32
+          "field": "methionine_q2_price",
+          "search_query": "新和成 蛋氨酸 价格 Q2 2026 报价",
+          "usage": "亏损扩大与否"
         },
         {
-          "name": "bear",
-          "prob": 0.25,
-          "trigger": "行业景气下行",
-          "implied_pe": 15,
-          "implied_target_price": 12
+          "field": "ppa_pps_revenue_q1",
+          "search_query": "新和成 PPA PPS 新材料 Q1 2026 营收",
+          "usage": "新材料放量验证"
         }
+      ]
+    },
+    "five_forces": {
+      "moat_rating": "宽 (技术+规模+产能不可复制 8-10 年)",
+      "weakest_link": "rivalry 中 (VA 三寡头默契脆弱+蛋氨酸价格战)",
+      "five_forces_summary": {
+        "entry": "极高 (柠檬醛专利+5 年 50 亿门槛)",
+        "substitute": "极低 (维生素无替代)",
+        "buyer": "中 (饲料企业集中)",
+        "supplier": "低 (柠檬醛自产)",
+        "rivalry": "中 (三寡头+蛋氨酸价格战)"
+      },
+      "moat_durability": "10 年长期 — 技术+产能不可复制构成深护城河"
+    },
+    "anchoring_check": {
+      "user_challenge": "买卖理由是预期差还是价格锚定",
+      "honest_answer": "本案是适度正预期差 + 反骑墙站队加仓. 现价 PE 9.87x + 净利率 27.5% 顶级 + 同业折价 38% + 共识目标 ¥28-30 (+25-35% upside) 数据明确向上. 不是大幅泡沫. 是周期底部均值回归机会.",
+      "value_trap_risk": "周期股 PE 陷阱真实存在 (盈利顶峰 PE 最低), 但新和成净利率 27.5% 不是周期顶峰 (2022 顶峰 35%+) — 是中高位, 有下行空间但有限",
+      "corrected_framing": "买卖点挂钩 VA 价格信号 + 蛋氨酸价格止跌. 现价加 0.43% 至 1.0%, ¥20 以下加至 1.8%, ¥18.5 以下深仓 2.5%"
+    },
+    "risk_consensus_from_3way": {
+      "aggressive": "2.5%(¥20 以下激进抄底), 止损 ¥17.5",
+      "safe": "0.57%(维持观望), 止损 ¥18",
+      "neutral": "1.0%(从 0.57% 加 0.43%), ¥20 加至 1.8%, ¥18.5 加至 2.5%; 止损 ¥17.5",
+      "director_decision": "采纳 neutral — 现价 ¥22.27 加 0.43% 至 1.0%, 给后续加仓留弹药. aggressive 2.5% 一次到位在催化未现前过激; safe 0.57% 错失底部机会."
+    },
+    "action_plan": {
+      "immediate_action": "现价 ¥22.27 加 0.43% 至 1.0% (从 ¥6018 加至 ¥10500)",
+      "buy_back_zones": [
+        "🔔 信号过(VA 价格连续 2 月环比 ≥0% / 蛋氨酸价格 ≥¥17000): 加至 2.5%",
+        "💰 价位: ¥22.27 立即加 0.43%; ¥20 以下加至 1.8%; ¥18.5 以下深仓加至 2.5%",
+        "🚫 ¥27+ 不主动加仓 (进入共识区上沿)"
       ],
-      "earnings_revision_view": "待深度分析",
-      "stock_specific_risks": "数据待核实",
-      "key_assumptions": [
-        {
-          "assumption": "行业景气稳定",
-          "falsification_signal": "行业景气拐点信号"
-        }
+      "trim_zones": [
+        "🔔 任一信号: VA 再跌 20% / 蛋氨酸价格 <¥15000 / 新材料停滞 → 减至 0.5%",
+        "💰 ¥30+ 减至 0.5%; ¥38+ 全清",
+        "🚨 巴斯夫柠檬醛装置意外复产 → 立即减半 (VA 价格暴跌触发)"
       ],
-      "trigger_monitor": [
-        "破13元 → 清仓",
-        "Q3业绩同比转负>10% → 减仓",
-        "行业景气信号转弱 → 减仓"
+      "stop_loss": {
+        "hard": "¥17.5 (-21%, 跌破 = 极端 bear 兑现, 净利率 <22% + VA 再跌 20%)",
+        "trailing": "¥19 (跌破 52 周低点+5%, 减半至 0.5%)"
+      },
+      "monitoring_signals": [
+        "VA 月度价格 (停产/复产新闻)",
+        "蛋氨酸月度价格趋势",
+        "Q2 财报 PPA/PPS 营收占比",
+        "巴斯夫/帝斯曼维生素业务动态",
+        "饲料行业景气 (中国/欧美猪鸡养殖)",
+        "公司分红+回购进度 (股息 2.26%)"
       ]
     },
     "reflection": {
-      "prev_rating": "中性(VE/VA维生素+蛋氨酸周期股)",
-      "prev_date": "2026-06-07T07:42:50Z",
-      "what_changed": "B4 简化升级 forward_view 框架",
-      "why_changed": "B 阶段 数据一致性",
-      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+      "what_changed": "v1 首次 8 step 真验闭环.",
+      "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师+多空 R1-R3+3 风险全 spawn ACCEPT (合并 spawn 节省时间但保持深度). 现价 ¥22.27 verified.",
+      "memory_used": [
+        "P1 P2 P3 P4 教训: 价格冲突 stockanalysis 优先",
+        "002517 经验: 反向 DCF + 多派别合理价 + 9 格敏感性",
+        "002371 自评偏差: 真 critic 复核",
+        "周期股 PE 陷阱警示: 但净利率 27.5% 非顶峰证伪此风险"
+      ]
+    },
+    "critic_evaluation": {
+      "critic_v1_score": 86,
+      "critic_v1_verdict": "ACCEPT",
+      "final_score": 86,
+      "final_verdict": "ACCEPT",
+      "v2_score": 86,
+      "4_views": {
+        "munger": "PASS",
+        "duan": "PASS",
+        "serenity": "PASS",
+        "dalio": "PASS"
+      },
+      "summary": "002001 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 0.57→1.0%"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 86
     }
   }
 }

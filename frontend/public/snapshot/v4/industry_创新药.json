@@ -304,23 +304,6 @@
   ],
   "stocks": [
     {
-      "unit_id": "stock:002001",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:002001」，或运行：./scripts/run_v4.sh analyze stock:002001",
-      "version": 2,
-      "generated_at": "2026-06-12T15:23:43Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "002001",
-      "name": "新和成",
-      "rating": "中性(VE/VA维生素+蛋氨酸周期股)",
-      "target_price": 25
-    },
-    {
       "unit_id": "stock:06160",
       "status": "green",
       "status_label": "新鲜",
@@ -373,9 +356,9 @@
     }
   ],
   "indirect_holdings": {
-    "direct_yi": 6018.0,
-    "indirect_yi": 0.0,
-    "total_yi": 6018.0,
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
     "contributing_funds": [],
     "summary": {
       "total_market_value": 714265.59,
