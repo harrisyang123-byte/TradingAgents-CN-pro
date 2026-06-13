@@ -149,7 +149,7 @@
       "self_check": "first_run_new_arch"
     },
     "historical_alpha": {
-      "evaluated_at": "2026-06-12",
+      "evaluated_at": "2026-06-13",
       "prev_version": null,
       "prev_judgment": {
         "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
@@ -158,11 +158,11 @@
       },
       "actual_outcome": {
         "price": 526.0,
-        "change_vs_target_pct": -24.9,
+        "change_vs_target_pct": 0.0,
         "source": "manual"
       },
-      "hit": "miss",
-      "alpha_note": "看多判断,实际价距目标-24.9% → 方向错(目标过高)",
+      "hit": "flat",
+      "alpha_note": "判断时价 526.0 → 实际 526.0(涨跌 0.0%),评级'增持(1.6T 第二' → flat;目标 700",
       "data_status": "verified"
     },
     "price_at_judgment": 526.0

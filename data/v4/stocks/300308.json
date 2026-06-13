@@ -277,6 +277,23 @@
         "股价跌破800元(forward PE<28即盈利下修信号) → 清仓"
       ]
     },
-    "price_at_judgment": 1000.0
+    "price_at_judgment": 1000.0,
+    "historical_alpha": {
+      "evaluated_at": "2026-06-13",
+      "prev_version": 4,
+      "prev_judgment": {
+        "rating": "中性（窗口期交易持有 + 硬止损纪律）",
+        "target_price": null,
+        "date": "2026-06-10"
+      },
+      "actual_outcome": {
+        "price": 1000.0,
+        "change_vs_target_pct": null,
+        "source": "manual"
+      },
+      "hit": "tracking",
+      "alpha_note": "实际价 1000.0,区间法无目标价;[局限] 缺判断时价",
+      "data_status": "verified"
+    }
   }
 }

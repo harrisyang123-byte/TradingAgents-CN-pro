@@ -167,12 +167,12 @@
         "date": "2026-06-12"
       },
       "actual_outcome": {
-        "price": 100.0,
-        "change_vs_target_pct": -16.7,
+        "price": 120.0,
+        "change_vs_target_pct": 0.0,
         "source": "manual"
       },
-      "hit": "miss",
-      "alpha_note": "判断时价 120.0 → 实际 100.0(涨跌 -16.7%),评级'增持(成熟制程涨价兑' → miss;目标 140",
+      "hit": "flat",
+      "alpha_note": "判断时价 120.0 → 实际 120.0(涨跌 0.0%),评级'增持(成熟制程涨价兑' → flat;目标 140",
       "data_status": "verified"
     },
     "price_at_judgment": 120.0
