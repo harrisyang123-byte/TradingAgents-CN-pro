@@ -243,3 +243,13 @@
   - **B5 静态快照**: build_snapshot_v4 重生成 18 个文件,前端 TS 通过
   - **覆盖度**: 26/26 stock 全部有 forward_view + 8/8 alloc:industry v2 + 8/8 industry 新架构 + 7/7 大类(unclassified)forward_view
   - 工作量: ~3-4h
+
+- **2026-06-13 C 阶段回测验证机制完成 (OpenSpec change v4-completion-validation-five-forces)**：
+  - **C1 v4_replay.py**: 历史判断回放器(收集 archive+当前版本/提取判断/取实际价对比/JSON+md输出);中际旭创 v1-v6 跑通
+  - **C2 --backfill + 设计洞修复**: historical_alpha 写回单元;暴露关键洞——算真 alpha 需"判断发出时价格",原 payload 未存
+    - 修复: stock-director schema 加 price_at_judgment + 18 个已落盘 stock 回填核实现价
+    - backfill 升级为真 alpha: 判断价→实际价涨跌算 hit/miss(看多涨=hit/跌超10%=miss);验证中芯 120→135=hit/→100=miss
+  - **C3 v4_quarterly_review.py**: 季度复盘报告(按层命中率总览+胜负case+系统性偏差+改进建议);首份 planning/v4/quarterly-review-2026-Q2.md
+  - **C4 v4-investor-critic 增强**: 加 historical_alpha 输入 + learning_from_history 字段 + 铁律0(上次miss必须回答这次为何对,否则NEEDS_CHANGES)
+  - **价值**: 系统从"定性反思"升级为"量化判断准确率+对过往负责";沙箱无外网仅3股演示回填,生产环境用 AKShare 全量回填
+  - 待办: 生产环境联网全量回填 historical_alpha;积累2-3季度后识别系统性偏差

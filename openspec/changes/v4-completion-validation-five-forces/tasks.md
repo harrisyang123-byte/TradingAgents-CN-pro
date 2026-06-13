@@ -69,28 +69,28 @@
 ## 阶段 C：回测验证机制（B 后做）
 
 ### C1 历史快照回放器
-- [ ] C1.1 设计 `scripts/v4_replay.py` —— 输入 unit_id + from_version + to_date，输出该时点判断 vs 实际行情对比
-- [ ] C1.2 数据源：股价用 AKShare 取历史，宏观用 FRED/AKShare，行业景气用 PE/ROE 历史
-- [ ] C1.3 输出格式：JSON + 简表 markdown（unit/version/judgment/actual/alpha/hit_or_miss）
-- [ ] C1.4 用中际旭创 v1→v6 跑通验证
+- [x] C1.1 设计 `scripts/v4_replay.py` —— 输入 unit_id + from_version + to_date，输出该时点判断 vs 实际行情对比
+- [x] C1.2 数据源：股价用 AKShare 取历史，宏观用 FRED/AKShare，行业景气用 PE/ROE 历史
+- [x] C1.3 输出格式：JSON + 简表 markdown（unit/version/judgment/actual/alpha/hit_or_miss）
+- [x] C1.4 用中际旭创 v1→v6 跑通验证
 
 ### C2 判断准确率回填
-- [ ] C2.1 schema 加 `historical_alpha` 字段（每个 verdict 一个）
-- [ ] C2.2 v4_unit_cli write 时自动调用 v4_replay 回填上一版 alpha（若存在足够历史）
+- [x] C2.1 schema 加 `historical_alpha` 字段（每个 verdict 一个）
+- [x] C2.2 v4_unit_cli write 时自动调用 v4_replay 回填上一版 alpha（若存在足够历史）
 - [ ] C2.3 v4_query.build_*_detail 透传 historical_alpha 到前端
 
 ### C3 季度复盘报告
-- [ ] C3.1 `scripts/v4_quarterly_review.py` —— 扫所有 verdict 历史 → 按层（asset/industry/stock）汇总命中率/平均alpha/最大胜负/系统性偏差
-- [ ] C3.2 输出 `planning/v4/quarterly-review-YYYY-Qx.md`
-- [ ] C3.3 章节：本季度命中率/胜负 case 分析/系统性偏差识别/改进建议
+- [x] C3.1 `scripts/v4_quarterly_review.py` —— 扫所有 verdict 历史 → 按层（asset/industry/stock）汇总命中率/平均alpha/最大胜负/系统性偏差
+- [x] C3.2 输出 `planning/v4/quarterly-review-YYYY-Qx.md`
+- [x] C3.3 章节：本季度命中率/胜负 case 分析/系统性偏差识别/改进建议
 
 ### C4 critic 评审增强
-- [ ] C4.1 v4-investor-critic.md 加 historical_alpha 输入消费
-- [ ] C4.2 评审铁律加："如果上次判断错了，这次为什么会对？" 强制回答
-- [ ] C4.3 critic 输出 schema 加 `learning_from_history` 字段
+- [x] C4.1 v4-investor-critic.md 加 historical_alpha 输入消费
+- [x] C4.2 评审铁律加："如果上次判断错了，这次为什么会对？" 强制回答
+- [x] C4.3 critic 输出 schema 加 `learning_from_history` 字段
 
 ### C 阶段验收
-- [ ] C 验收：用中际旭创+创新药跑回测 → 季度复盘报告产出 → 用户看效果 → 拍板进入 D 阶段
+- [x] C 验收：用中际旭创+创新药跑回测 → 季度复盘报告产出 → 用户看效果 → 拍板进入 D 阶段
 
 ---
 
