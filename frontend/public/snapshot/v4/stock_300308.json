@@ -78,6 +78,11 @@
   "business_quality": null,
   "position_nature": null,
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": null,
   "downside": null,
   "sell_discipline": [

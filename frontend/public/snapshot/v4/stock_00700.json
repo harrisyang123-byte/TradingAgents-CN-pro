@@ -69,6 +69,11 @@
   "business_quality": "好生意(微信生态+游戏+支付10年护城河);AI应用入口是新增长引擎",
   "position_nature": "长期投资(AI+互联网双重叙事)",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "游戏版号收紧+AI投资失败+反垄断重启 → -25%(360港元)",
   "downside": "下行-25%(370港元) vs 上行+35%(680港元) → 赔率约1.4,中性偏多",
   "sell_discipline": [

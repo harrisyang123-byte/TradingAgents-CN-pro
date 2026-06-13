@@ -60,6 +60,11 @@
   "business_quality": "超好生意(水电=资源稀缺+无原料成本+永续现金流);10年长青(水电站永续运营)",
   "position_nature": "长期投资(战略红利底仓)+ 中期催化(电力化+利率下行)",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "水电连续来水偏枯(>20%)+电价管制收紧+利率反弹 → -18%(22元)",
   "downside": "下行-18%(22元) vs 上行+22%(33元) → 赔率约1.2,适合作为底仓",
   "sell_discipline": [

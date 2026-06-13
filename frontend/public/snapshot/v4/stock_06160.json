@@ -69,6 +69,11 @@
   "business_quality": "好生意(创新药+出海+泽布替尼全球放量+管线丰富),10年护城河强",
   "position_nature": "长期投资(出海BD+管线兑现长坡)",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "生物安全法案落地+FDA审评收紧+泽布替尼竞品超预期 → -35%(港股~250元)",
   "downside": "下行-30%(280元) vs 上行+25%(460元) → 赔率约0.85",
   "sell_discipline": [

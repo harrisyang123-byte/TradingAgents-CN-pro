@@ -33,6 +33,11 @@
   "business_quality": "待深度分析(通信设备/AI算力外延行业属性,需联网核实)",
   "position_nature": "中期窗口期(等深度分析后定性)",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "行业景气下行+公司基本面恶化 → 跌破20元(-30%)",
   "downside": "下行-30% vs 上行+25-30% → 赔率约0.85",
   "sell_discipline": [

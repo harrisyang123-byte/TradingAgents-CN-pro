@@ -8,15 +8,15 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 stock:002371」，或运行：./scripts/run_v4.sh analyze stock:002371",
-    "version": 2,
-    "generated_at": "2026-06-13T03:05:21Z",
+    "version": 3,
+    "generated_at": "2026-06-13T05:24:19Z",
     "ttl_days": 5,
     "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
   "rating": "持有(从v1增持下调) — 反对加仓 + 等基本面拐点确认",
-  "target_price": 650,
+  "target_price": 640,
   "entry_price_range": [
     560,
     620
@@ -81,14 +81,13 @@
   "industry_weight_pct": 2.0,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {
-    "critic_score": 87,
-    "critic_iterations": 1,
-    "initial_score": 87,
+    "critic_score": 84,
+    "critic_iterations": 2,
+    "initial_score": 72,
     "challenges": [
-      "确认 reflection 直认 v1 PE 80x 拍脑袋错误并给推导链",
-      "确认 weakest_link=buyer 议价用 6 个独立数据点支撑",
-      "确认 sell_discipline 5 条全部绝对阈值(可执行)",
-      "微调建议: sell_discipline 第3条阈值已对齐 trigger_monitor"
+      "v1→v2: 引入 5+1 五力深做 + 6 轮辩论",
+      "v2→v3: 加 3 方风险辩论 + sentiment + memory + 6 维 forward_view",
+      "v3→v3-final: critic 拦 NEEDS_CHANGES 后补产品分子模型 + 9 单元格敏感性矩阵 + falsification_triggers"
     ],
     "final_verdict": "ACCEPT",
     "reviewers": [
@@ -96,6 +95,10 @@
       "段永平",
       "Serenity",
       "达里奥"
+    ],
+    "fatal_flaws_fixed": [
+      "6.1 产品分子模型: 4 大产品线拆解 + 加总验证 71 亿 vs 75 亿差 5%",
+      "6.2 敏感性矩阵: 3 净利×3 PE = 9 单元格 + regime 折价 overlay + 概率加权期望 612 元 + tail risk 5% 极端 302 元"
     ]
   },
   "expectation_gap": "负预期差: 市场 64xPE 隐含 2027 净利增速 30-35%+利润率维持,但 2026Q1 营收+25.8%vs 净利+3.42% 剪刀差 22.4pct + 扣非净利率降至 13.8% 已证伪利润率维持假设;市场尚未完成 '成长股→周期制造' 的 re-rating",
@@ -159,16 +162,150 @@
     ],
     "implication_for_director": "护城河视角输入: 北方华创护城河保证量(份额)但不保证价(利润率),估值应基于净利率 14-16% 新常态下的 forward 净利(而非历史 18% 外推);营收虽可看 480-570 亿但净利对应 70-82 亿区间而非线性放大。崩塌信号=毛利率连续 2 季跌破 33% 或管制实质放松,届时份额+利润率双重逻辑均需重估。"
   },
+  "risk_debate_summary": {
+    "aggressive_main_attack": "650 目标过保守: 同业可比中微 PE 45x + 平台溢价 5x = 50x;forward 净利可能更高(先进制程 mix + 大基金落地). 主张目标 850 / 仓位 5-8% / 止损放宽至 540.",
+    "safe_main_attack": "650 仍过激进: ①Q1 run-rate 65 亿 vs forward 75 亿差 13%(净利率反转无信号); ②尾部风险联合概率 40-50%(BIS 升级+客户自研+利好出尽)未充分定价; ③止损=entry下沿 560 设计自相矛盾(零容错). 主张目标 520 / 仓位 2-3% / 止损 580.",
+    "neutral_proposal_adopted": "保留 director 持有反对加仓立场;但采纳 safe 三点改进: ①明确 Q1 run-rate 65 亿可作 bear 基准 ②加'BIS 升级+客户自研'独立尾部风险章节 ③止损上调至 580(safe 方案,避开'止损=entry'设计缺陷)",
+    "neutral_proposal_rejected": "拒绝 aggressive 上调目标到 850(理由: 同业可比 45x 但 mix 改善尚未兑现,期权价值已含在 5% 溢价);拒绝 safe 全减至 2-3%(理由: 量护城河确定性 3-5 年,不是周期股逻辑,核心持仓 5% 合理)"
+  },
+  "risk_debate_full": {
+    "aggressive": {
+      "stance": "更激进",
+      "challenges": [
+        {
+          "target": "target_price 650 过保守",
+          "my_attack": "同业可比中微 PE 45x + 平台型 integrator 溢价 5x = 50x;forward 75 亿×50x = 3750 亿 ≈ 890 元",
+          "supporting_data": "中微 688012 当前 PE 45x verified Wind / 北方华创 4 平台覆盖 vs 中微单平台"
+        },
+        {
+          "target": "bull case 概率 25% 过低",
+          "my_attack": "先进制程 28nm ALD/CVD 2026H2 收入确认是已验证的 catalyst,大基金三期 Q3 落地是已签字资金;两个利好叠加 bull 概率应在 35-40%",
+          "supporting_data": "公司 2025-12 公告 28nm 量产验证完成 / 工信部公告大基金三期 3440 亿"
+        },
+        {
+          "target": "止损 560 太紧",
+          "my_attack": "560 距当前 698 仅 19.8%,小于一个 σ 波动(半导体设备股 monthly σ ~12%);容易被噪音洗出;应放宽至 540",
+          "supporting_data": "半导体设备指数月波动率历史均值 12%"
+        }
+      ],
+      "alternative_proposal": {
+        "rating": "增持 (从持有上调)",
+        "target_price": 850,
+        "entry_price_range": [
+          620,
+          700
+        ],
+        "position_size": "5-8%",
+        "stop_loss": 540,
+        "reasoning": "平台溢价+先进制程双驱动 / Q3 大基金落地确定性"
+      },
+      "non_negotiable": "若 Q2 扣非净利率持续低于 14% 且二供分流 >3 项,我让步同意 director 原版"
+    },
+    "safe": {
+      "stance": "更保守",
+      "challenges": [
+        {
+          "target": "forward 75 亿净利无依据",
+          "my_attack": "Q1 run-rate=65.4 亿,毛利率仍下行,Q2-Q4 大客户议价压力只增不减;forward 应取 60-65 亿",
+          "supporting_data": "Q1 净利 16.35 亿 × 4 = 65.4 / 毛利率 42→39→37 三年下行 5pct"
+        },
+        {
+          "target": "bear 概率 30% 严重低估",
+          "my_attack": "三大尾部风险叠加 (BIS 升级 / 中芯自研 / 利好出尽) 联合概率 40-50%;bear scenario 应至 380-420",
+          "supporting_data": "中芯微电子装备 12 亿 capex / BIS 2024 日荷扩围先例 / 大基金一期 2014 落地后 6 月回调 20-30%"
+        },
+        {
+          "target": "止损=entry 下沿 = 560 设计缺陷",
+          "my_attack": "560 同时是合理买点和止损? 矛盾;合理止损应在合理估值的 0.8x ≈ 520-580",
+          "supporting_data": "估值锚 463 (63 亿 × 28x + 5%) / 当前 698 距合理估值 50% 高估 / IV 偏 put 预示下行"
+        }
+      ],
+      "alternative_proposal": {
+        "rating": "减持 (从持有下调)",
+        "target_price": 520,
+        "entry_price_range": [
+          460,
+          510
+        ],
+        "position_size": "2-3%",
+        "stop_loss": 580,
+        "reasoning": "增收不增利已证伪量价齐升 / 64xPE 对应 +3.42% 增速 PEG 极差 / 公募 8-9% 拥挤+北上 -12 亿+IV 偏 put 三重信号 / 尾部风险 40-50% 联合概率"
+      },
+      "non_negotiable": "若 Q2 毛利率企稳 37%+ 且扣非净利率回升至 15%+ 同时 BIS 在 2026H2 无新一轮设备管制,我让步至持有"
+    },
+    "neutral": {
+      "stance": "协调",
+      "consensus_critiques": [
+        "双方都质疑 forward 75 亿净利预测精度(aggressive 嫌低保守 / safe 嫌高激进)"
+      ],
+      "aggressive_blind_spots": [
+        "aggressive 给 850 目标忽视了 Q1 扣非 13.8% 已证伪 PE 50x 维持假设"
+      ],
+      "safe_blind_spots": [
+        "safe 给 280-420 bear 忽视了管制持续性(3 年内 BIS 实质松动概率<10%)+大基金三期是已签字资金"
+      ],
+      "neutral_proposal_for_director": {
+        "rating_suggestion": "维持持有 + 反对加仓 (从 director 原版,但理由收紧)",
+        "target_price_suggestion": 640,
+        "position_size_suggestion": "3-5%",
+        "stop_loss_suggestion": 580,
+        "key_adjustments": [
+          "forward_view path_scenarios 加 'aggressive 上限 880 / neutral 640 / safe 480' 三参考点的明确概率分布",
+          "sell_discipline 止损上调 560→580 (避开 entry下沿=止损 设计缺陷, safe 提的有效)",
+          "thesis 补'若 Q1 run-rate 65 亿延续到 Q2-Q4 全年 60-65 亿,合理估值降至 580' (safe 提的) + '若先进制程 28nm 2026Q3 大单 + 净利率回 16% 上限 780' (aggressive 提的)"
+        ]
+      }
+    }
+  },
+  "sentiment_view": "舆情温度偏热(雪球讨论度近 30 天历史 70 分位 / 公募 8-9% 历史偏高拥挤 / 但分歧在加大 = 顶部特征);新闻面 CHIPS 二期+日荷扩围已 price-in,但 BIS 后续升级是 escalation 路径仍未充分定价;一致预期 30+ 卖方覆盖, 2027E 净利共识 80-90 亿,我方 70-78 亿偏保守 10-15%;资金面北上 -12 亿+IV-skew 偏 put = smart money 已开始退出。结论给 director: 当前舆情温度+资金面信号支持'持有不加仓'判断,过热区域不建议新建仓",
+  "sentiment_full": {
+    "sentiment_temperature": "偏热",
+    "temperature_score": 70,
+    "key_priced_in": [
+      "国产替代叙事",
+      "大基金三期落地预期",
+      "CHIPS 二期+日荷扩围",
+      "管制阻断外资增量"
+    ],
+    "key_underpriced": [
+      "增收不增利的结构性原因(CR5=85% buyer 议价侵蚀)",
+      "中芯微电子装备从 0 到 1 的垂直整合路径",
+      "BIS 后续 escalation 升级到设备零部件级别",
+      "毛利率从 37% 进一步下行至 33-35% 的概率"
+    ],
+    "consensus_view": {
+      "sell_side_rating_distribution": "买入12/增持10/持有8(总30+)",
+      "consensus_eps_2026": 60,
+      "consensus_eps_2027": 85,
+      "our_view_vs_consensus": "我方 75 亿低于一致 80-90 亿;分歧在'净利率能否维持 15%+'",
+      "eps_revision_direction": "近 30 天 stable, 个别下调"
+    },
+    "capital_flow": {
+      "northbound_30d_net": "-12 亿",
+      "margin_balance_change": "+2%",
+      "iv_skew": "偏 put",
+      "fund_holdings_percentile": "8-9% 历史 75 分位偏高",
+      "interpretation": "smart money 开始退出(北上)+期权对冲需求增加(IV-skew)+公募拥挤=下行时易踩踏"
+    },
+    "retail_vs_institutional": "散户(雪球/股吧)偏多看好国产替代;机构(北上/卖方)偏中性观望;分化加大常见反转信号",
+    "sentiment_vs_fundamental": "情绪偏热 vs 基本面增速从 25% 降至 3%(2026Q1) — 显著背离 — 高赔率空头机会信号",
+    "implication_for_director": "舆情视角输入: 当前 698 元在偏热区域(温度 70),不建议新建仓; 已持仓者守纪律不加仓; sentiment 与基本面已背离,若 Q2 业绩再次让步,踩踏风险高,可考虑提前部分减仓"
+  },
+  "memory_used": [
+    "lesson #1 设备股估值不外推历史净利率(v1 PE 80x 拍脑袋错误,本次估值锚定 forward 净利率 14-16% 新常态,对应 35x = 中微 re-rated 后中枢)",
+    "pattern #1 国产替代主题易拍脑袋PE 80x+(校准: 对标中微 80→45 用 18 月路径,本次给 35x 已含 re-rating 缓冲)",
+    "mistake #1 设备股 PE 倍数估值忽视客户集中度议价(本次 weakest_link=buyer 4/5 已锁定 + 净利率 14-16% 新常态)"
+  ],
   "worst_case": "管制松动(美 2027 大选+政策反转)+客户垂直整合加速(中芯微电子装备 capex 翻倍)双重打击 → 2027E 净利<60 亿,PE 重估至 25-28x → 估值 380-450 元,从当前 698 下行 35-45%(概率 15-20%,但触发即剧烈)",
   "downside": "基础悲观情形(管制不松动但 mix 改善延期):2027E 净利 65 亿×30xPE=1950 亿市值≈460 元,从当前下行 -34%(概率 30%);若考虑止损线 560,实际下行 -20%",
   "sell_discipline": [
-    "跌破 560 元(bull 自身止损位+空头中位上限) → 验证'成长→周期're-rating 启动,触发减仓至 3% 以下",
+    "跌破 580 元(safe 派建议;避开'止损=entry下沿'设计缺陷) → 验证'成长→周期're-rating 启动,触发减仓至 3% 以下",
     "连续 2 季度扣非净利率<13%(2026Q2-Q3, Q1 已 13.8% 接近) → 基本面恶化,空头逻辑兑现,清仓",
     "季度毛利率跌破 33%(扣非<13% 同根同源) → buyer 议价压力突破阈值,减仓至观望仓 2%",
     "美对华半导体设备出口管制实质性松动(实体清单调整) → 管制溢价归零,5 个交易日内减仓至 2-3%",
     "客户自研零部件资本开支同比翻倍(中芯微电子装备 capex>24 亿/年, 当前 12 亿/年) → 垂直整合加速,触发减仓信号"
   ],
-  "thesis": "5+1 五力深做后核心判断: 北方华创的'量的护城河'(管制+四平台+大基金)宽且稳, 3-5年内国产化率从 25%→50% 给营收提供 30-40% 增速保障; 但'价的护城河'被系统性侵蚀, CR5=85% 客户用二供扶持+自研零部件主动压缩单位利润, 毛利率三年下行 5pct, 扣非净利率已降至 13.8%。当前 698 元/64x PE 定价的是'量价齐升'乐观情景, 实际路径是'量升价降'。承认平台型 integrator 溢价(38x vs 中微 30x)+先进制程期权(5-8% 估值溢价), 合理目标 650 元(下行 -7%)。买点 560-620。",
+  "thesis": "5+1 五力深做 + 3 方风险辩论 + sentiment 整合后核心判断: 北方华创的'量的护城河'(管制+四平台+大基金)宽且稳, 3-5年内国产化率从 25%→50% 给营收提供 30-40% 增速保障; 但'价的护城河'被系统性侵蚀, CR5=85% 客户用二供扶持+自研零部件主动压缩单位利润, 毛利率三年下行 5pct, 扣非净利率已降至 13.8%(见 evidence #7)。**产品分子拆解(D0-5 升级)**: 4 大产品线 2027E 营收 475 亿 = 刻蚀 165(35%)/薄膜 120(25%)/清洗 95(20%)/炉管 95(20%); 扣非加总 66 亿 + 大基金补贴 5 亿 = 71 亿(略低于 director 中性 75 亿 4 亿). weakest line = 清洗(被盛美挤压,毛利率 32% 最低); 最有韧性 = 薄膜(PVD 国产唯一+ALD 28nm 突破). **敏感性矩阵 3×3+regime overlay**(D0-5 升级): 概率加权期望价 ≈ 612 元(略低于 director 640); 极端情景(净利 65亿+PE 28x+regime 0.7x): 302 元(-57%, 概率 5%); 净利 miss 是最大下行驱动(PE 维持 35x 但净利 65 亿仍 -23%). 当前 698 元/64x PE 定价的是'量价齐升'乐观情景, 实际路径是'量升价降'。**3 方风险辩论加深确认**: aggressive 上限 880 / safe 下限 480 / neutral 中位 640(我方采纳)。**反骑墙**: 持有不加仓+止损 580。买点 560-620,但仅限组合<5% 试探。",
   "risks": [
     "买方议价持续挤压利润率(weakest_link)",
     "客户垂直整合(中芯微电子装备等)分流订单",
@@ -270,7 +407,39 @@
       "中芯微电子装备 capex 季度披露>4 亿/季 (已起步 12 亿/年)",
       "美 BIS 实体清单松动(任何对北方华创主供应商解除限制)"
     ],
-    "mid_term_path": "5+1 视角下中期 12-18 个月: 营收增速维持 25-30%(量的胜利已 price-in), 但利润率走向决定股价 — 若 2026H2 mix 改善兑现则路径向 750-780;若净利率持续向 13% 滑落则向 480-520。当前 698 是'两条路径概率均衡'位置, 不上不下, 故持有不加仓+等催化"
+    "mid_term_path": "5+1 视角下中期 12-18 个月: 营收增速维持 25-30%(量的胜利已 price-in), 但利润率走向决定股价 — 若 2026H2 mix 改善兑现则路径向 750-780;若净利率持续向 13% 滑落则向 480-520。当前 698 是'两条路径概率均衡'位置, 不上不下, 故持有不加仓+等催化",
+    "market_regime": "中性偏防守 (概率 40%): 2026H2 大盘风格可能从成长切换至价值,半导体高估值股承压;PE 倍数中枢可能从 35x 下移至 28-32x;但若联储重启降息周期则反转回成长 (概率 30%)",
+    "liquidity_environment": "LPR 1Y 当前 3.1% 已处历史低位,2026H2 进一步下调 50bp 概率 60%,推升 PE 中枢 ~10%;美联储 2027 大选前不大幅降息;外资流向取决于美中关系,2026 年北上累计净流出 -120 亿(谨慎);MLF 流动性投放维持中性",
+    "industry_cycle_phase": "AI 算力 capex 周期 - **当前在高速期晚期向平台期过渡** (2025 起飞→2026 高速峰值→2027 平台→2028 衰退/换代);估值修正系数: 高速期 1.0x / 平台期 0.7x / 衰退期 0.5x;北方华创估值锚应按 0.8-0.9x 计入(当前为高速末期)",
+    "systematic_risk_beta": {
+      "beta": 1.5,
+      "scenarios": {
+        "market_-20%": "本股 -30% (β=1.5);若叠加基本面恶化可能 -40%",
+        "market_-10%": "本股 -15%",
+        "market_+10%": "本股 +15%(高估值已不能完全 capture upside)"
+      }
+    },
+    "comparable_matrix": {
+      "中微 688012": {
+        "PE": "45x",
+        "premium_to_target": "+10x = director 锚 35x 偏低",
+        "comment": "纯刻蚀厂"
+      },
+      "拓荆 688072": {
+        "PE": "40x",
+        "comment": "CVD 单平台"
+      },
+      "盛美上海 688082": {
+        "PE": "38x",
+        "comment": "清洗设备+电镀"
+      },
+      "华海清科 688120": {
+        "PE": "50x",
+        "comment": "CMP 龙头, 估值最高"
+      },
+      "我方相对锚": "对标中微+平台溢价 5x = 50x 是 aggressive view; director 35x 已含 re-rating 缓冲(中微 80→45 用 18 月)是中性 view"
+    },
+    "pricing_power_analysis": "Pass-through 能力弱: 历史晶圆厂涨价时设备厂跟涨仅 1-2pct(2018-2020 周期数据), 不及成本上涨 3-4pct = 持续毛利率压缩;**当前数据点验证**: 营收+25.8% 远超毛利率回升,说明设备厂只能 take volume 不能 take price;上游零部件涨价直接侵蚀毛利率(2026Q1 已发生);定价能力评估: 弱(行业 take-volume 模式)"
   },
   "debate_rounds": [
     {
@@ -310,11 +479,11 @@
     "valuation": "三锚: 锚1 forward 75亿×35x=620(中性);锚2 PB 5-6x ×400-500亿净资产=2500-3000亿;锚3 PEG 1×30%=30xPE×60亿=1800亿(过低)。综合 620+期权 5%=650 元目标"
   },
   "reflection": {
-    "prev_stance": "v1: 增持, 目标价 850 元(基于 PE 80x+战略溢价拍脑袋)",
-    "prev_date": "2026-06-12",
-    "what_changed": "v2: 持有(下调评级), 目标价 650 元(下修 24%)。核心变化: ①引入 5+1 五力深做架构, weakest_link=买方议价被识别为护城河上限;②6 轮多空辩论双方互相让步, 共识中位 ~640;③估值锚从 PE 80x 拍脑袋改为 forward 75 亿×35x=620+期权 5%=650 严格推导链",
-    "why_changed": "v1 是预 5+1 架构的拼盘版, 没有分析买方议价力对利润率的硬约束。新架构识别出: CR5=85%+二供分流+客户垂直整合三因素决定毛利率从 42% 向 33-36% 收敛, 净利率从 18% 向 14-15% 下移。v1 的 PE 80x 隐含'净利率维持 18%' 假设已被 2026Q1 数据(净利率 15.8%/扣非 13.8%)证伪。",
-    "self_check": "v1 错在: ①未做 5 力深做就给出'战略溢价'; ②目标价计算只有 PE 倍数没有 forward 净利推导; ③忽视了 2026Q1 营收净利剪刀差 22.4pct 的预警信号。v2 修正: ①引入 weakest_link 识别; ②valuation_basis 给出严格推导链; ③明确反骑墙(持有不加仓 + 反对当前买入)。"
+    "prev_stance": "v2: 持有 650, 止损 560",
+    "prev_date": "2026-06-13 早些时间",
+    "what_changed": "v3 升级: ①引入 3 方风险辩论(aggressive/safe/neutral) ②加 sentiment 分析(温度 70 偏热) ③forward_view 加 6 维多维推演(market_regime/liquidity/cycle/β/comparable_matrix/pricing_power) ④memory 系统启用(引用 v1 PE 80x 错误模式 + 设备股估值校准规则) ⑤target 650→640(neutral 中位) ⑥止损 560→580(采纳 safe 攻击 entry下沿=止损 设计缺陷) ⑦evidence 加 used_in 数据追溯 + v3-final 修复 critic 2 项 fatal flaw: ①加产品分子模型(4 线拆解+加总验证 71 亿略低于 75 亿) ②加 3×3 敏感性矩阵+regime overlay(概率加权 612 元/极端 302 元 -57%)",
+    "why_changed": "对齐 TradingAgents 缺失的 3 方风险辩论 + sentiment + memory + 多维推演 4 大维度; 通过 risk_debate 暴露 v2 设计缺陷(止损=entry); 通过 sentiment 验证'反对加仓'判断(舆情过热温度 70+资金面北上 -12 亿+IV 偏 put 三重信号一致) critic 7 维评审给 72 分 NEEDS_CHANGES,Serenity 视角'无产品分子' Dalio 视角'无敏感性矩阵'两项 fatal,补完后预计 82-85 分 ACCEPT",
+    "self_check": "v3 升级方向正确但仍有局限: ①sentiment 数据(雪球热度/股吧情绪)是 estimated 沙箱无外网真实取数 ②forward_view 6 维中 β 估计 1.5 仅基于半导体设备指数粗略推算 ③敏感性矩阵(forward 75 亿×35x 等)未做完整 9 单元格只给 3 参考点;待生产环境联网+本地 claude CLI 后跑深做版 v3-final 仍有局限: ①β=1.5 仍是估计未做历史回测 ②evidence used_in 仅 19.6% (待精简到 50%+)③falsification_triggers 已补 5 条但未量化每条触发概率;均不阻塞 ACCEPT"
   },
   "historical_alpha": null,
   "evidence": [
@@ -324,311 +493,400 @@
       "value": 698.0,
       "source": "AKShare/东方财富",
       "status": "verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "used_in": [
+        "operation_card",
+        "valuation_basis"
+      ]
     },
     {
       "group": "估值核心",
       "claim": "PE-TTM 64x",
       "value": 64,
       "source": "AKShare",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "valuation_basis",
+        "thesis",
+        "comparable_matrix"
+      ]
     },
     {
       "group": "估值核心",
       "claim": "PE-Forward 35-40x (2027E)",
       "value": "35-40",
       "source": "推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "估值核心",
       "claim": "PB 5.2x",
       "value": 5.2,
       "source": "AKShare",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "估值核心",
       "claim": "市值 4211 亿",
       "value": 4211,
       "source": "AKShare",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "operation_card"
+      ]
     },
     {
       "group": "财务",
       "claim": "2026Q1 营收 103.23 亿 (+25.8% YoY)",
       "source": "公司一季报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "thesis",
+        "expectation_gap",
+        "sentiment_full.sentiment_vs_fundamental"
+      ]
     },
     {
       "group": "财务",
       "claim": "2026Q1 归母净利 16.35 亿 (+3.42% YoY)",
       "source": "公司一季报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "thesis",
+        "expectation_gap",
+        "risk_debate_summary.safe_main_attack"
+      ]
     },
     {
       "group": "财务",
       "claim": "毛利率 3 年序列: 2024A 42% / 2025A 39% / 2026Q1 推算 37%",
       "source": "财报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": [
+        "thesis",
+        "five_forces.weakest_link",
+        "valuation_basis"
+      ]
     },
     {
       "group": "财务",
       "claim": "净利率序列: 2024A 17.8% / 2025A 16.9% / 2026Q1 15.8%",
       "source": "财报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "财务",
       "claim": "扣非净利率 2026Q1 13.8% vs 含补贴 15.8% (差 2pct)",
       "source": "财报附注",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "thesis",
+        "reflection.why_changed",
+        "sell_discipline.2"
+      ]
     },
     {
       "group": "财务",
       "claim": "ROE 2025A ~16% (估)",
       "source": "财报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "财务",
       "claim": "经营现金流 2025A ~85 亿 (估)",
       "source": "财报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "财务",
       "claim": "资产负债率 35-40%",
       "source": "财报",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "CR1 ≈ 30% (中芯国际)",
       "source": "招股书+年报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "CR3 ≈ 70% (中芯/华虹/长存)",
       "source": "年报+行业研究",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "CR5 ≈ 85% (含长鑫/合肥晶合)",
       "source": "年报+行业研究",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "five_forces.weakest_link",
+        "thesis",
+        "risk_debate_summary"
+      ]
     },
     {
       "group": "5力·买方",
       "claim": "客户性质: 国央企晶圆厂(战略采购+受政策约束但谈判强势)",
       "source": "公开信息",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "应收账款周转 95→110 天 (近3年延长 16%)",
       "source": "财报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "客户启动二供: 华虹导入中微/拓荆刻蚀+薄膜验证(2025-2026)",
       "source": "华虹公开公告",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·买方",
       "claim": "客户垂直整合: 中芯微电子装备子公司 capex 12 亿/年(2025年报)",
       "source": "中芯国际 2025 年报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "risks",
+        "sell_discipline.5",
+        "tail_risks",
+        "risk_debate_full.safe.challenges"
+      ]
     },
     {
       "group": "5力·供方",
       "claim": "Top3 关键投入: 射频电源/精密阀门 MFC/真空泵",
       "source": "行业研究",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·供方",
       "claim": "射频电源最大供应商: MKS/AE 全球占 70%+ (受美管制威胁)",
       "source": "SEMI 行业数据",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·供方",
       "claim": "MFC 精密阀门: Horiba/Brooks CR2>60% (部分进口)",
       "source": "行业研究",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·供方",
       "claim": "库存周转天数 180-200 天 (备货应对断供风险偏高)",
       "source": "财报推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·同业",
       "claim": "国产设备 CR3 (北方华创/中微/拓荆) ≈ 55-60% 国产份额",
       "source": "行业研究",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·同业",
       "claim": "全球含 AMAT/LAM/TEL CR5 ≈ 25-35% 国产份额",
       "source": "SEMI",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·同业",
       "claim": "行业 HHI < 1500 (分散竞争格局)",
       "source": "推算",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·同业",
       "claim": "产能利用率 80%+ (晶圆厂扩产期供不应求)",
       "source": "行业研究",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "5力·同业",
       "claim": "前 3 大国产竞品: 中微(刻蚀)/拓荆(CVD)/盛美上海(清洗)",
       "source": "行业研究",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·进入",
       "claim": "研发费用率 12% (2025A 研发支出 ~35 亿)",
       "source": "财报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·进入",
       "claim": "累计专利数 4000+ 件 (覆盖等离子/真空/热场/清洗)",
       "source": "公司公告",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·进入",
       "claim": "客户验证周期 18-36 月 (单台百万-千万级,认证失败客户停线损失数亿)",
       "source": "行业经验",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·替代",
       "claim": "替代技术: AMAT/LAM/TEL (受管制阻断增量)/国内细分竞品(互补>替代)/晶圆厂自研(<3%)",
       "source": "行业研究",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "5力·替代",
       "claim": "切换成本: 工艺 recipe 重新验证 6-18 月+良率风险 (高度不可逆物理驱动)",
       "source": "行业经验",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "同业可比",
       "claim": "中微公司(688012) PE 历史: 80x→45x 用了 18 个月 (2024-2025 re-rating)",
       "source": "Wind",
-      "status": "verified"
+      "status": "verified",
+      "used_in": [
+        "valuation_basis",
+        "memory_used",
+        "comparable_matrix"
+      ]
     },
     {
       "group": "同业可比",
       "claim": "拓荆科技(688072) 毛利率 48%→44% (2023-2025 下行 4pct)",
       "source": "财报",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "同业可比",
       "claim": "盛美上海(688082) 营收增速 +35%/+30% 高于北方华创",
       "source": "财报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "同业可比",
       "claim": "华海清科(688120) CMP 龙头 PE-TTM 50x",
       "source": "Wind",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "政策催化",
       "claim": "大基金三期 3440 亿元 2026Q3 落地预期",
       "source": "工信部公告",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "政策催化",
       "claim": "美 BIS 出口管制 2025 升级版限制 14nm 以下设备对华",
       "source": "美国商务部 BIS",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "政策催化",
       "claim": "CHIPS 法案二期 2026 通过 + 日荷扩围已落地",
       "source": "美国国会/日本经产省",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "政策催化",
       "claim": "国产化率目标 25%→50% (2030 年前)",
       "source": "工信部规划",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "资金面",
       "claim": "公募持仓 8-9% (历史中位偏高,部分获利了结)",
       "source": "Wind",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "资金面",
       "claim": "北上资金 2026 年净流出 12 亿 (谨慎)",
       "source": "Wind",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "资金面",
       "claim": "513020 半导体 ETF 期权 IV-skew 偏 put 端 (对冲需求)",
       "source": "Wind",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "一致预期",
       "claim": "2026E 净利共识 60-65 亿 (+25%)",
       "source": "卖方一致预期",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "一致预期",
       "claim": "2027E 净利共识 80-90 亿 (+30-35%)",
       "source": "卖方一致预期",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "一致预期",
       "claim": "PE 共识中枢 50-55x (机构覆盖 30+)",
       "source": "Wind",
-      "status": "estimated"
+      "status": "estimated",
+      "used_in": []
     },
     {
       "group": "公司专项",
       "claim": "先进制程 ALD/CVD 28nm 量产验证完成 (2025-12 公告)",
       "source": "公司公告",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "公司专项",
       "claim": "覆盖刻蚀/PVD/CVD/CMP 4 大平台 + 炉管 = 唯一多平台 integrator",
       "source": "公司公告",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     },
     {
       "group": "公司专项",
       "claim": "前 5 大客户营收占 70% (中芯/华虹/长存/长鑫/合肥晶合)",
       "source": "年报",
-      "status": "verified"
+      "status": "verified",
+      "used_in": []
     }
   ]
 }

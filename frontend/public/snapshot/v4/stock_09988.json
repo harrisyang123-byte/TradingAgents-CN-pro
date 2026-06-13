@@ -69,6 +69,11 @@
   "business_quality": "好生意(中国云第一+电商+全球化);AI是最大新增长极",
   "position_nature": "长期投资(中国AI首选+云规模化)",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "反垄断重启+电商竞争+AI云价值不被定价 → -25%(105港元)",
   "downside": "下行-25%(105港元) vs 上行+45%(200港元) → 赔率约1.8,强偏多",
   "sell_discipline": [

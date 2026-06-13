@@ -33,6 +33,11 @@
   "business_quality": "中性(消费电子供应链中段+苹果链高度集中风险);AI硬件革新是新增长极,但单一公司面临客户/技术风险;10年护城河取决于技术迁移能力",
   "position_nature": "中期窗口期交易(等 iPhone17 发售验证+AI硬件兑现),不是长期重仓;若 Q1 亏损延续到 Q2-Q3 则降级",
   "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
   "worst_case": "苹果iPhone17销量大幅低于预期+AI硬件革新失败+海外双反三重叠加 → 股价回到20元以下(-30%)",
   "downside": "下行 -30%(20-22元) vs 上行 +20-30%(36-40元) → 赔率约 0.7-1.0",
   "sell_discipline": [
