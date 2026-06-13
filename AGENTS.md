@@ -33,6 +33,24 @@
 
 ---
 
+## 0ter. 信息流转全量铁律（2026-06-13 用户拍板"满血版分析",对齐 TradingAgents 输入全量原则）
+
+**TradingAgents 实际机制**(看源码 `bull_researcher.py` 等): 每个 debater 接收完整 5 份报告 (market/sentiment/news/fundamentals + history) ≈ 15000-20000 字/次。
+**v4 之前实际跑**: spawn task 是主 agent 手写 ~800-1500 字精简事实摘要 → 缩水 90%+。
+
+**新铁律**: spawn 时必须把上一阶段产出**完整 JSON 字符串化塞入 task**, 不得精简。具体:
+- spawn 5 力 agent 时: 完整 data-desk inputs JSON + 上一阶段已跑的力的完整产出
+- spawn integrator 时: 5 力 5 个 agent 完整 JSON 全部
+- spawn bull/bear 时: 4 分析师完整 JSON + 5+1 整合者完整 JSON + sentiment 完整 JSON + 历史辩论 history 累积
+- spawn 3 方风险辩论时: bull/bear 完整 history + 4 分析师完整 JSON
+- spawn critic 时: director verdict 完整 payload (不是字段摘要)
+
+**触底约束**: 单次 spawn 输入字数预期 5000-15000 字 (vs 之前 1500), 输入越长 timeout 风险升高 30-50%, 但**质量优先**——失败时主 agent 接管 (按 §0bis 铁律), 不简化输入。
+
+**为什么必要**: 输入精简意味着 subagent 看不到细节,论点空洞、数据引用流于形式、辩论沦为立场对撞。这是用户反复指出的"建议言之无物"根本原因之一。
+
+---
+
 ## 1. 主线：v4 分层独立深度投研
 
 把投研拆成常驻的「**分析单元（unit）**」：七大类资产 → 行业 → 个股 + 各层配比，每个都是一个有稳定 `unit_id`、独立产物 JSON、独立五色状态、独立 TTL 的单元。触发只跑命中单元，绝不连带重跑其它。独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器 `scripts/workflow-v4-advisor.js`、独立只读路由 `app/routers/portfolio_v4.py`。完整规格见 `.kiro/specs/v4/`。

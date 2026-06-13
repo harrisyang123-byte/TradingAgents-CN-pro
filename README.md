@@ -56,85 +56,98 @@
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
-| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + `v4-stock-bull/bear` + `v4-stock-director` | **个股 3 分析师分队**(财务/竞争/估值)打底 → 多空 → 总监预期差拍板。**competitive 升级为五力整合者**,消费下方 5 力专项 agent 产出 |
+| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情** 2026-06-13 加) → 多空 → **3 方风险辩论**(2026-06-13 加,TradingAgents 对齐) → 总监预期差拍板。**competitive 升级为五力整合者**,消费下方 5 力专项 agent 产出 |
 | 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
-| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES；标准已前置内化进各层 director（A/B 测试验证 62→82） |
+| 个股·风险辩论 | **`v4-stock-risk-aggressive/safe/neutral`**（3 方风险辩论，2026-06-13 加 D0-5）| **TradingAgents `risk_debaters` 对齐**: aggressive 攻保守/safe 攻激进/neutral 协调; 维度=仓位+止损+tail risk 不是方向(与 bull/bear 互补) |
+| 个股·舆情 | **`v4-stock-analyst-sentiment`**（新闻舆情分析师，2026-06-13 加 D0-5）| **TradingAgents `news_analyst+social_media_analyst` 对齐**: 5 维度(温度/新闻/一致预期偏差/资金面/情绪vs基本面背离); 是 director 的输入之一(非产物) |
+| 跨次记忆 | **memory 系统** `data/v4/_memory/<agent_id>.json` (2026-06-13 加 D0-5)| **TradingAgents `agent.memory` 对齐**: 跨股累积过往判断/错误模式/行为校准; bull/bear/director/critic 开辩前必读, 写 reflection 时追加 |
+| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES; **接入 v4_unit_cli.py write 编排** (NEEDS_CHANGES 直接 exit=4 拦截不让落盘); 6 项深度必查(产品分子/敏感性矩阵/可比路径/forward_view 6维/数据追溯/辩论深度) |
 | 元指导 | **`v4-chief-investment-officer`** | **首席投资官+投委会**视角，以"用户持久盈利"为锚审视整个系统方向(五维:可信/能用/连得上/会学/值得)，识别"假专业"与过度工程，给开发明确优先级 |
 
 > 全部分析角色 `tools:[Read]`、**只消费 data-desk 产出的输入包、绝不自己联网取数**；唯一带 `web_search`/`web_fetch` 的是 `v4-data-desk`。
 
 ---
 
-## 个股完整分析流程（架构图）
+## 个股完整分析流程（架构图 — 8 step 真实编排器顺序）
 
 ```
-                ┌───────────────────────────────────────────────────┐
-                │  v4-data-desk（唯一联网）                          │
-                │  • 股价/PE/PB/财务大类  via stock_source.py        │
-                │  • 客户集中度/竞品份额/产能/上游 ⚠️待升级          │
-                │  → 输出 inputs/stock_<code>.json                   │
-                └────────────────┬──────────────────────────────────┘
-                                 │ (输入包)
-            ┌────────────────────┼────────────────────────┐
-            ▼                    ▼                        ▼
-   ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-   │  财务分析师       │  │  五力深做(并行)   │  │  估值分析师       │
-   │  v4-stock-       │  │  v4-stock-       │  │  v4-stock-       │
-   │  analyst-        │  │  force-{5力}     │  │  analyst-        │
-   │  financial       │  │  entry/substitute│  │  valuation       │
-   │  毛利率/ROE/     │  │  buyer/supplier  │  │  PE/PB/DCF/      │
-   │  现金流/财务     │  │  rivalry         │  │  预期差三锚      │
-   │  健康度          │  │  每力深做+证据   │  │                  │
-   └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘
-            │                     │                     │
-            │                     ▼                     │
-            │          ┌──────────────────────┐         │
-            │          │  五力整合者           │         │
-            │          │  v4-stock-analyst-   │         │
-            │          │  competitive         │         │
-            │          │  交叉编织 5 力 →     │         │
-            │          │  护城河+买入条件     │         │
-            │          └────────┬─────────────┘         │
-            │                   │                       │
-            └───────────────────┼───────────────────────┘
-                                ▼
-                ┌──────────────────────────────────┐
-                │  多空 3 轮辩论                    │
-                │  v4-stock-bull  vs  v4-stock-bear│
-                │  消费 3 分析师产出 + chokepoint   │
-                │  R1 开局 → R2 交锋 → R3 终局      │
-                └────────────────┬─────────────────┘
-                                 ▼
-                ┌──────────────────────────────────┐
-                │  v4-stock-director               │
-                │  • 预期差三锚拍板(rating/目标价) │
-                │  • 四维质量闸门(芒格/段永平...)  │
-                │  • forward_view 11 维前瞻         │
-                │  • 估值推导链(valuation_basis)   │
-                │  • 反骑墙站队 + reflection 自省  │
-                └────────────────┬─────────────────┘
-                                 ▼
-                ┌──────────────────────────────────┐
-                │  v4-investor-critic（质量闸门）   │
-                │  芒格/段永平/Serenity/达里奥四视角│
-                │  → ACCEPT / NEEDS_CHANGES        │
-                └────────────────┬─────────────────┘
-                                 │ (NEEDS_CHANGES → 迭代)
-                                 ▼
-                ┌──────────────────────────────────┐
-                │  v4_unit_cli.py write 落盘        │
-                │  → data/v4/stocks/<code>.json    │
-                │  → 自动归档旧版到 _archive       │
-                │  → 前端 StockDetailTab 可视       │
-                │  → v4_replay --backfill 回填     │
-                │     historical_alpha             │
-                └──────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 1 📥 data-desk 数据采集（唯一联网取数台）                            │
+│  • 股价/PE/PB/财务大类 via stock_source.py                                │
+│  • 5 力深做 schema (CR1/CR3/CR5/产能/上游) ⚠️ 部分待联网升级               │
+│  • 新闻+雪球/股吧情绪 + 卖方一致预期 + 北上资金 (sentiment 加取)            │
+│  → 输出 inputs/stock_<code>.json (50+ 条 evidence + 21 字段竞争 schema)   │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ 输入包 (所有 agent 共享)
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 2 👔 4 分析师并列分析 (无依赖, 并发跑)                               │
+│  ┌────────────┐ ┌────────────────┐ ┌────────────┐ ┌────────────┐        │
+│  │ a 财务      │ │ b 竞争 + 五力深做│ │ c 估值     │ │ d 舆情      │       │
+│  │ analyst-   │ │ 整合者 +5 力专项 │ │ analyst-   │ │ sentiment  │       │
+│  │ financial  │ │ entry/substitute │ │ valuation  │ │ (D0-5 加)  │       │
+│  │            │ │ /buyer/supplier  │ │            │ │ 5 维度:温度  │       │
+│  │ 毛利率/    │ │ /rivalry         │ │ PE/PB/DCF/ │ │ /新闻/一致预│       │
+│  │ ROE/财务   │ │ → competitive    │ │ 预期差三锚 │ │ 期/资金面/   │       │
+│  │ 健康度     │ │ 整合者交叉编织   │ │            │ │ 情绪vs基本 │       │
+│  └────────────┘ └────────────────┘ └────────────┘ └────────────┘        │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ 4 份完整 JSON 产出
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 3 ⚔️ 多空 N 轮辩论 (消费 4 分析师产出)                              │
+│  bull R1 → bear R1 → bull R2 → bear R2 → bull R3 → bear R3              │
+│  R3 终局: 双方诚实让步, 形成"方向"维度共识区 (target 区间, 概率分布)        │
+│  字数无限制 (D0-5 取消) + 辩论深度铁律 (点名反驳+数据分子+可证伪信号)        │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ 多空 R3 共识
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 4 ⚖️ 3 方风险辩论 (TradingAgents `risk_debaters` 对齐, D0-5 加)      │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐                          │
+│  │ aggressive │  │ safe       │  │ neutral    │                          │
+│  │ 攻保守     │  │ 攻激进     │  │ 协调双方   │                          │
+│  │ 主张追风险 │  │ 主张守底线 │  │ 给修正建议 │                          │
+│  └────────────┘  └────────────┘  └────────────┘                          │
+│  共识焦点: 仓位 / 止损 / tail risk / 执行节奏 (与 Step 3 维度互补不重复)    │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ neutral_proposal_for_director
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 5 🎩 director 综合拍板 (消费 Step 1-4 全部 + memory)                 │
+│  • thesis 融会贯通核心论述                                                  │
+│  • 四维质量闸门 (芒格/段永平/Serenity/达里奥)                                │
+│  • valuation_basis 估值推导链 (forward EPS×PE×对标谁, 禁拍脑袋)             │
+│  • forward_view 6 维多维推演 (market_regime/liquidity/cycle/β/comparable/ │
+│    pricing_power) — 不只 PE 一维                                           │
+│  • 产品分子模型 + 3×3 敏感性矩阵                                           │
+│  • reflection 对比上版 + memory_used 引用过往经验                          │
+│  • 反骑墙站队 + 采纳/拒绝 neutral_proposal reasoning                       │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ director verdict
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Step 6 🎓 v4-investor-critic 评审 (4 视角 + 6 必查项)                    │
+│  芒格/段永平/Serenity/达里奥 拷问 → ACCEPT (≥85) / NEEDS_CHANGES          │
+│  6 必查: 产品分子/敏感性矩阵/可比路径/forward_view 6 维/数据追溯/辩论深度    │
+│  接入 v4_unit_cli.py write 编排: NEEDS_CHANGES 直接 exit=4 拦截不让落盘   │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ ACCEPT
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  落盘 → data/v4/stocks/<code>.json (auto-archive 旧版 + version+1)         │
+│  ↓                                                                        │
+│  Step 7 📈 v4_replay 回填 historical_alpha (结果闭环)                      │
+│  Step 8 ⚠️ v4_monitor.py 止损监控 (价格型自动 + 基本面型季度核查)           │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 **架构特点**：
-- **MECE 分工**：财务/竞争/估值并列，不重叠不漏
-- **五力深做**（2026-06-13 拆分）：5 个力专项 agent 各深做一力 → competitive 整合 agent 交叉编织（避免单 agent 偏见）
-- **辩论驱动质量**：每层对立角色（multi-analyst → bull/bear → director），证据势均力敌才中性
+- **MECE 分工**：4 分析师并列(财务/竞争+5力/估值/舆情)，不重叠不漏
+- **5+1 五力深做**（D 阶段）：5 力专项 agent + competitive 整合者交叉编织
+- **2 层辩论**（D0-5）：Step 3 多空辩论=方向维度 / Step 4 3 方风险辩论=执行维度，独立不重复
+- **跨次 memory**（D0-5）：bull/bear/director/critic 开辩前读 memory，写 reflection 时追加，跨股累积经验
+- **critic 接入编排**（D0-5）：NEEDS_CHANGES 强拦截，禁止"主 agent 自评"绕过
 - **结果闭环**：reflection（对比上一版）+ historical_alpha（回测准确率）+ critic 评审
 
 ---
