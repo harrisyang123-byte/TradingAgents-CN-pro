@@ -372,11 +372,14 @@ class PortfolioService:
             sina_codes = []
             for c in codes:
                 c = str(c).strip()
-                if c.startswith(("6", "68")):
+                if c.startswith(("5", "6")):
+                    # Shanghai: A shares (6xxxxx), STAR (688xxx), ETFs (510xxx-519xxx, 511xxx, 512xxx, 513xxx, 588xxx)
                     sina_codes.append(f"sh{c}")
-                elif c.startswith(("0", "3")):
+                elif c.startswith(("0", "1", "2", "3")):
+                    # Shenzhen: A shares (0xxxxx), ChiNext (3xxxxx), bonds/ETFs (159xxx), B shares (2xxxxx)
                     sina_codes.append(f"sz{c}")
-                elif c.startswith(("8", "4")):
+                elif c.startswith(("4", "8")):
+                    # Beijing: 4xxxxx, 8xxxxx
                     sina_codes.append(f"bj{c}")
             if not sina_codes:
                 return
