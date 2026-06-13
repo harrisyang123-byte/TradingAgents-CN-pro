@@ -246,5 +246,21 @@
       "rating": "中性偏谨慎(Q1亏损警钟+长期催化但需观察)",
       "target_price": 32
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 36600.0,
+    "indirect_yi": 0.0,
+    "total_yi": 36600.0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }

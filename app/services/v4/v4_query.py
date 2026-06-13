@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import logging
+import json
 from typing import Any, Dict, List, Optional
 
 from app.services.v4 import asset_classes as ac
@@ -238,14 +239,26 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
                                "rating": pl.get("rating"), "target_price": pl.get("target_price")})
     resp["stocks"] = stocks
 
-    # D0-6 (2026-06-13) 基金穿透 — 间接持仓: 从 _funds/<code>.json 缓存反查贡献给本行业的基金
+    # D0-6 (2026-06-13) 基金穿透 — 间接持仓: 实时算聚合 (不依赖 data/v4/inputs/ 磁盘文件,因其 gitignore)
     # 数据流: holdings.json _fund_passthrough → v4_classifier 透传 → v4_aggregator 聚合
-    # 读 inputs/portfolio_aggregated.json (collect_v4 跑后产出)
     try:
         from pathlib import Path
-        agg_path = Path("data/v4/inputs/portfolio_aggregated.json")
-        if agg_path.exists():
-            agg = json.loads(agg_path.read_text(encoding="utf-8"))
+        holdings_path = Path("data/v4/_inputs/holdings.json")
+        if holdings_path.exists():
+            from app.services.v4.v4_classifier import classify_holdings
+            from app.services.v4.v4_aggregator import aggregate_to_industry_with_direct_stocks
+            h = json.loads(holdings_path.read_text(encoding="utf-8"))
+            classified = classify_holdings(h.get("positions", []) or [])
+            # 反查 stocks 单元的 industry 映射
+            stock_inds = {}
+            for uid2, env2 in units.items():
+                if uid2.startswith("stock:"):
+                    p2 = env2.get("payload", {}) or {}
+                    code2 = p2.get("code")
+                    ind2 = p2.get("industry")
+                    if code2 and ind2:
+                        stock_inds[code2] = ind2
+            agg = aggregate_to_industry_with_direct_stocks(classified, stock_inds)
             ind_data = (agg.get("industries") or {}).get(name) or {}
             resp["indirect_holdings"] = {
                 "direct_yi": ind_data.get("direct_yi", 0),
@@ -254,8 +267,9 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
                 "contributing_funds": ind_data.get("contributing_funds", []),
                 "summary": agg.get("summary", {}),
             }
-    except Exception:
-        pass
+    except Exception as e:
+        # 任何错都不影响主流程,行业页仍正常显示其他内容
+        resp["indirect_holdings"] = None
 
     return resp
 

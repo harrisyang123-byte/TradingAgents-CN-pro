@@ -302,5 +302,49 @@
       "rating": "中性(锆+稀土小盘股)",
       "target_price": 15
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 0.0,
+    "indirect_yi": 753.12,
+    "total_yi": 753.12,
+    "contributing_funds": [
+      {
+        "code": "110020",
+        "name": "易方达沪深300ETF联接A",
+        "market_value": 13439.23,
+        "industry_weight_pct": 1.45,
+        "indirect_yi": 194.868835,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "270010",
+        "name": "广发沪深300ETF联接A",
+        "market_value": 19604.39,
+        "industry_weight_pct": 1.46,
+        "indirect_yi": 286.224094,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "022424",
+        "name": "广发中证A500ETF联接A",
+        "market_value": 20607.77,
+        "industry_weight_pct": 1.32,
+        "indirect_yi": 272.02256400000005,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }

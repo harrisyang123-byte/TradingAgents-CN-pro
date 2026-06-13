@@ -494,5 +494,40 @@
       "rating": "增持(成熟制程涨价兑现+价值修复)",
       "target_price": 140
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 30080.0,
+    "indirect_yi": 4610.1,
+    "total_yi": 34690.1,
+    "contributing_funds": [
+      {
+        "code": "270042",
+        "name": "广发纳指100ETF联接（QDII）人民币A",
+        "market_value": 20437.7,
+        "industry_weight_pct": 10.999999999999998,
+        "indirect_yi": 2248.147,
+        "data_status": "estimated",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "012629",
+        "name": "广发国证半导体芯片ETF联接A",
+        "market_value": 9999.78,
+        "industry_weight_pct": 23.619999999999997,
+        "indirect_yi": 2361.948036,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }

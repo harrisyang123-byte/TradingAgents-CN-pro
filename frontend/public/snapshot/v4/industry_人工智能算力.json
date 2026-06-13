@@ -394,5 +394,49 @@
       "rating": "增持(1.6T 第二梯队+业绩超预期+赔率仍可)",
       "target_price": 700
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 12096.0,
+    "indirect_yi": 5077.46,
+    "total_yi": 17173.46,
+    "contributing_funds": [
+      {
+        "code": "012733",
+        "name": "易方达中证人工智能主题ETF联接A",
+        "market_value": 14951.84,
+        "industry_weight_pct": 14.63,
+        "indirect_yi": 2187.454192,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "012734",
+        "name": "易方达中证人工智能主题ETF联接C",
+        "market_value": 14033.19,
+        "industry_weight_pct": 14.629999999999999,
+        "indirect_yi": 2053.055697,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "003765",
+        "name": "广发创业板ETF联接A",
+        "market_value": 18681.94,
+        "industry_weight_pct": 4.4799999999999995,
+        "indirect_yi": 836.9509119999998,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }

@@ -229,5 +229,49 @@
       "rating": "增持(EV热管理+人形机器人催化)",
       "target_price": 50
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 4481.0,
+    "indirect_yi": 1838.19,
+    "total_yi": 6319.19,
+    "contributing_funds": [
+      {
+        "code": "270042",
+        "name": "广发纳指100ETF联接（QDII）人民币A",
+        "market_value": 20437.7,
+        "industry_weight_pct": 3.0000000000000004,
+        "indirect_yi": 613.1310000000001,
+        "data_status": "estimated",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "005063",
+        "name": "广发中证全指家用电器ETF联接A",
+        "market_value": 8499.8,
+        "industry_weight_pct": 8.19,
+        "indirect_yi": 696.13362,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "013180",
+        "name": "广发国证新能源车电池ETF发起联接C",
+        "market_value": 8149.9,
+        "industry_weight_pct": 6.490000000000001,
+        "indirect_yi": 528.9285100000001,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }

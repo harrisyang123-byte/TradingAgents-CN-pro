@@ -276,5 +276,58 @@
       "rating": "增持(核电核准加速+低碳基荷+成长性)",
       "target_price": 12
     }
-  ]
+  ],
+  "indirect_holdings": {
+    "direct_yi": 0.0,
+    "indirect_yi": 5019.28,
+    "total_yi": 5019.28,
+    "contributing_funds": [
+      {
+        "code": "019058",
+        "name": "易方达中证绿色电力ETF联接发起式A",
+        "market_value": 21698.39,
+        "industry_weight_pct": 19.17,
+        "indirect_yi": 4159.581363,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "110020",
+        "name": "易方达沪深300ETF联接A",
+        "market_value": 13439.23,
+        "industry_weight_pct": 1.6599999999999997,
+        "indirect_yi": 223.09121799999997,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "270010",
+        "name": "广发沪深300ETF联接A",
+        "market_value": 19604.39,
+        "industry_weight_pct": 1.66,
+        "indirect_yi": 325.43287399999997,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "022424",
+        "name": "广发中证A500ETF联接A",
+        "market_value": 20607.77,
+        "industry_weight_pct": 1.5099999999999998,
+        "indirect_yi": 311.177327,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 24,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
 }
