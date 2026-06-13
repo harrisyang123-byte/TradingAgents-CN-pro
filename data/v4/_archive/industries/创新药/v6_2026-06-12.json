@@ -2,12 +2,12 @@
   "unit_id": "industry:创新药",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 7,
+  "version": 6,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-13T00:22:17Z",
+  "generated_at": "2026-06-12T09:37:14Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -228,8 +228,7 @@
           "重磅license-out金额<10亿美元→趋势转弱",
           "医保降价>30%→重新评估"
         ]
-      },
-      "investment_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州"
+      }
     },
     "data_quality": "景气/政策/出海BD趋势已联网核实(定性充分);个股具体估值/PE未在本行业层取(下钻个股时由data-desk核实);BD交易具体金额为趋势性描述未逐笔核实,标estimated。",
     "evidence": [
@@ -257,32 +256,6 @@
         "claim": "出海BD交易具体金额/里程碑结构",
         "source": "趋势性描述",
         "status": "estimated"
-      }
-    ],
-    "investment_map": [
-      {
-        "chokepoint": "出海BD变现能力",
-        "recommended": "06160 百济神州",
-        "analyzed": true,
-        "rank": 1,
-        "why": "出海最深+扭亏拐点+净利+178倍,全球化标杆,卡位最强",
-        "rating": "增持·目标460港"
-      },
-      {
-        "chokepoint": "first-in-class靶点+BD",
-        "recommended": "600276 恒瑞医药",
-        "analyzed": true,
-        "rank": 2,
-        "why": "国内龙头+管线最厚+BMS 9.5亿美元BD兑现+9款获批催化",
-        "rating": "增持·目标75"
-      },
-      {
-        "chokepoint": "ADC出海",
-        "recommended": "06990 科伦博泰",
-        "analyzed": true,
-        "rank": 3,
-        "why": "ADC出海标杆+3款入医保+ASCO数据催化,但商业化早期波动大",
-        "rating": "增持·目标520港"
       }
     ]
   }

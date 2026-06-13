@@ -2,12 +2,12 @@
   "unit_id": "industry:有色资源",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 4,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-13T00:22:17Z",
+  "generated_at": "2026-06-12T09:37:14Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -182,28 +182,9 @@
           "金价跌破3800→暂停加仓",
           "稀土出口管制变化→调整稀土仓位"
         ]
-      },
-      "investment_conclusion": "产业链瓶颈兑现时,钱流向: 紫金矿业(增持·目标42) > 北方稀土(增持·目标80)。首选 rank1=601899 紫金矿业"
+      }
     },
     "data_quality": "行业层骨架升级,具体数据由后续 data-desk 联网核实",
-    "evidence": [],
-    "investment_map": [
-      {
-        "chokepoint": "铜矿+金矿",
-        "recommended": "601899 紫金矿业",
-        "analyzed": true,
-        "rank": 1,
-        "why": "铜+金双轮+Q1净利+97.5%+多金属分散,龙头地位+员工持股托底",
-        "rating": "增持·目标42"
-      },
-      {
-        "chokepoint": "稀土+磁材",
-        "recommended": "600111 北方稀土",
-        "analyzed": true,
-        "rank": 2,
-        "why": "中国稀土战略资产(全球90%)+Q1+113%+张建平34.5亿入股,弹性大",
-        "rating": "增持·目标80"
-      }
-    ]
+    "evidence": []
   }
 }

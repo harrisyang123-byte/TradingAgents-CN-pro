@@ -84,3 +84,4 @@ tools:
 5. 严禁编造数据、严禁照抄示例数字；evidence 逐条标记。只输出 JSON。
 6. **质量内化铁律**：上方「四维质量闸门」是 `v4-investor-critic` 评审标准的前置内化（赛道质量/逆向最坏/周期定位/配置纪律/不确定性诚实），目的是第一遍就达专业水准、不靠事后评审补救；verdict 应能直接通过 critic 拷问。
 7. **forward_view 强制要求**（行业层适配,A/B 测试在 asset 层 89 vs 52 已证实有效）：消费 data-desk 的 `forward_view` + 多空辩论中前瞻论点,必须输出完整 forward_view（near_term_calendar/mid_term_path/path_scenarios/supply_demand_signals/competitive_landscape/key_assumptions/tail_risks/cross_market_leading/trigger_monitor）。**触发监控用绝对阈值**（如某景气数据突破X/竞品份额>X%/政策窗口落地）,禁止相对偏离。
+8. **产业链→个股连接铁律（信任感根基,D0-2 新增）**：chokepoint_map **不能只列受益标的名字就完事**,必须输出 `investment_map`——每个 top 瓶颈环节 → 推荐首选个股(已深析的优先) + 卡位排序(rank) + **为什么是它不是同行**(why) + 是否已深度分析(analyzed) + 该股评级。verdict 加 `investment_conclusion` 一句话点明"钱流向 X>Y>Z,首选 rank1"。**目的: 用户看完瓶颈地图,立刻知道"所以买哪只、首选哪只、为什么",不再断层。**

@@ -208,11 +208,11 @@
     "industry:互联网平台": {
       "unit_id": "industry:互联网平台",
       "unit_type": "industry",
-      "version": 3,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/互联网平台.json"
@@ -220,11 +220,11 @@
     "industry:人工智能算力": {
       "unit_id": "industry:人工智能算力",
       "unit_type": "industry",
-      "version": 7,
+      "version": 8,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T15:22:43Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/人工智能算力.json"
@@ -232,11 +232,11 @@
     "industry:创新药": {
       "unit_id": "industry:创新药",
       "unit_type": "industry",
-      "version": 6,
+      "version": 7,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/创新药.json"
@@ -244,11 +244,11 @@
     "industry:半导体": {
       "unit_id": "industry:半导体",
       "unit_type": "industry",
-      "version": 6,
+      "version": 7,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/半导体.json"
@@ -268,11 +268,11 @@
     "industry:有色资源": {
       "unit_id": "industry:有色资源",
       "unit_type": "industry",
-      "version": 3,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/有色资源.json"
@@ -292,11 +292,11 @@
     "industry:电力公用事业": {
       "unit_id": "industry:电力公用事业",
       "unit_type": "industry",
-      "version": 3,
+      "version": 4,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+      "generated_at": "2026-06-13T00:22:17Z",
       "upstream": [],
       "error": null,
       "path": "industries/电力公用事业.json"
@@ -734,5 +734,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-12T15:24:07Z"
+  "updated_at": "2026-06-13T00:22:17Z"
 }

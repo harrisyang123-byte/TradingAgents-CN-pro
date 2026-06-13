@@ -2,12 +2,12 @@
   "unit_id": "industry:半导体",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 7,
+  "version": 6,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-13T00:22:17Z",
+  "generated_at": "2026-06-12T09:37:14Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
@@ -277,8 +277,7 @@
           "大基金三期延后6月+→延后买入",
           "HBM价格连降两季→减仓"
         ]
-      },
-      "investment_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创"
+      }
     },
     "data_quality": "全球景气(HBM/AI memory/Micron capex)+国产替代趋势(国产化率梳理/大基金三期/2026Q1涨价)已联网核实;具体标的PE/估值未在本行业层取(下钻个股时由data-desk核实);大基金三期具体规模/招标节奏为趋势性描述,标estimated。",
     "evidence": [
@@ -316,48 +315,6 @@
         "claim": "大基金三期具体规模/招标节奏",
         "source": "行业趋势性描述",
         "status": "estimated"
-      }
-    ],
-    "investment_map": [
-      {
-        "chokepoint": "半导体设备(刻蚀/CVD/CMP)",
-        "recommended": "002371 北方华创",
-        "analyzed": true,
-        "rank": 1,
-        "why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)",
-        "rating": "增持·目标850"
-      },
-      {
-        "chokepoint": "刻蚀机",
-        "recommended": "688012 中微公司",
-        "analyzed": true,
-        "rank": 2,
-        "why": "刻蚀龙头+国产替代核心,但估值溢价224%偏高,小仓",
-        "rating": "增持·目标260"
-      },
-      {
-        "chokepoint": "电子特气(材料)",
-        "recommended": "688268 华特气体",
-        "analyzed": true,
-        "rank": 3,
-        "why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%",
-        "rating": "增持·小仓"
-      },
-      {
-        "chokepoint": "晶圆制造",
-        "recommended": "688981 中芯国际",
-        "analyzed": true,
-        "rank": 2,
-        "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现",
-        "rating": "增持·目标140"
-      },
-      {
-        "chokepoint": "EDA软件",
-        "recommended": "(华大九天,未深析)",
-        "analyzed": false,
-        "rank": 5,
-        "why": "壁垒最高+发现度最低,长坡厚雪需3-5年耐心,待深析",
-        "rating": "待分析"
       }
     ]
   }
