@@ -290,10 +290,43 @@ def _build_stock_pack(inputs: Path, code: str, classified: dict, macro: dict, us
         "macro_context": macro,
         "data_availability": {"fundamentals": fundamentals["available"], "macro": macro["data_availability"]},
     }
-    out = inputs / f"stock_{_safe(code)}.json"
-    _write_json(out, pack)
-    print(f"  ✓ stock:{code} 输入包 → inputs/{out.name}"
-          + (f"（行业={industry}）" if industry else "（未推断出所属行业，agent 将仅按个股数据分析）"))
+
+    # D0-8 数据契约检查 — 用户 '缺数据接着查' 指令落地
+    # 检查 18 MUST 字段 + 10 SHOULD 字段, 缺 MUST 输出取数指令(主 agent 必须 web_search 补)
+    try:
+        from app.services.v4 import stock_data_contract as sdc
+        contract_result = sdc.check_data_contract(pack)
+        pack["data_contract_check"] = contract_result
+        # 在快照里输出可读的取数指令(给主 agent 看)
+        instructions = sdc.render_fetch_instructions(contract_result)
+        pack["data_contract_instructions"] = instructions
+
+        out = inputs / f"stock_{_safe(code)}.json"
+        _write_json(out, pack)
+        print(f"  ✓ stock:{code} 输入包 → inputs/{out.name}"
+              + (f"（行业={industry}）" if industry else "（未推断出所属行业，agent 将仅按个股数据分析）"))
+        print(f"  📋 数据契约: {contract_result['summary']}")
+
+        if not contract_result["ok"]:
+            # MUST 字段缺 → exit=4(与 critic NEEDS_CHANGES 同模式), 阻断后续 agent 跑分析
+            # 输出可执行的取数指令供主 agent 消费
+            print()
+            print("=" * 70)
+            print(f"❌ stock:{code} 数据契约不通过 — 主 agent 必须先用 web_search 补齐 MUST 字段后重新 collect")
+            print("=" * 70)
+            print(instructions)
+            print()
+            print(f"提示: 已生成的输入包 {out.name} 含 fetch_tasks 字段, 可直接消费")
+            print(f"取数后回填到 {out.name}, 重跑 collect_v4 直至 exit 0")
+            sys.exit(4)
+    except SystemExit:
+        raise
+    except Exception as e:
+        print(f"  ⚠️ 数据契约检查失败(降级跳过): {e}")
+        out = inputs / f"stock_{_safe(code)}.json"
+        _write_json(out, pack)
+        print(f"  ✓ stock:{code} 输入包 → inputs/{out.name}"
+              + (f"（行业={industry}）" if industry else "（未推断出所属行业，agent 将仅按个股数据分析）"))
 
 
 if __name__ == "__main__":

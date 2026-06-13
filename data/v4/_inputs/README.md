@@ -169,3 +169,45 @@ python scripts/build_snapshot_v4.py        # （可选）生成前端静态快�
 ```
 
 `run_v4.sh` 第 2 阶段（Agent 推理）有两种驱动：**① 本会话 AI agent 直跑**（默认，无需 `claude` CLI，缺数据源联网补齐而非降级，产物存 `data/v4/` 单元 JSON，前端走静态快照、MongoDB 可选）；**② `claude -p` 子进程**（需 claude 鉴权）。无 claude 时第 1 阶段（采集输入包）仍完成、退出码 2 不是阻塞——改走方式 ①。完整步骤见 `docs/wiki/v4-ai-proxy-run.md`。
+
+
+## 个股数据契约（D0-8 用户"缺数据接着查"指令落地，2026-06-13）
+
+`collect_v4.py` 跑 `stock:<code>` 时会调 `app/services/v4/stock_data_contract.py` 自动校验 18 MUST 字段 + 10 SHOULD 字段，缺关键字段直接 **exit=4 阻断**，输出**精确的取数任务**让主 agent web_search 补齐。
+
+### MUST 字段（18 个，缺一就阻断）
+
+**财务硬数据 8**：最近年度营收 / 净利 / 毛利率 / 净利率 / ROE / 经营现金流 / 当前股价 / 总市值
+**业务结构 6**：主营业务 / 分部营收占比 / 分地区营收占比 / 前 5 大客户占比 / 同业清单 / 行业规模 CAGR
+**估值锚 4**：PE-TTM / PE 历史中枢分位 / 同业 PE 对比 / 卖方一致 EPS 未来 2 年
+
+### SHOULD 字段（10 个，缺降 confidence 不阻断）
+
+最近季度营收/净利、应收周转、存货周转、D/E、总股本、近期股东变动、沽空比例/融资余额、北上资金、卖方目标价
+
+### 工作流
+
+```
+collect_v4.py stock:<code>
+  ↓
+1. 调 stock_source.py (AKShare 取硬数据)
+  ↓
+2. 调 stock_data_contract.check_data_contract(pack)
+  ↓
+3a. 契约通过 → 写 inputs/stock_<code>.json，exit 0，可进 spawn analysts
+3b. 契约不通过 → 输出 fetch_tasks(每条含 search_query+source_hints+usage)
+                 exit=4 阻断，主 agent 必须真去 web_search 补齐字段
+                 → 回填到 inputs/stock_<code>.json
+                 → 重跑 collect_v4 直至契约通过
+
+最终 inputs/stock_<code>.json 含 data_contract_check + data_contract_instructions
+让主 agent 透明看到取数审计
+```
+
+### 真取不到的字段处理
+
+- 沙箱无外网 → 标 `unattainable: 沙箱限制` + 给替代假设区间（行业平均/同业代理）
+- 公司未披露（如客户精确占比）→ 标 `unattainable: 公司未披露` + 引用行业研报估算
+- 付费数据（Bloomberg consensus）→ 标 `unattainable: 数据收费` + 用免费源代理（stockanalysis）
+
+critic 6.8 必查：装作"已查"实际数据没动 = fatal_flaw。

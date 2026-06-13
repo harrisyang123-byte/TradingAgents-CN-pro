@@ -90,6 +90,11 @@ tools:
        · ❌ 借口式: "未建立 N 年盈利预测模型" (停止理由) → NEEDS_CHANGES
        · ✅ task 式: `data_gaps_to_fetch: [{gap, source_hint, usage_after_fetch}]` (待办)
      - 必查 **`data_fetched_in_loop`** 字段: 主 agent 是否真去取过缺数据, 取到的关键数据是否回填重跑了 valuation. 装作"已查"实际数据没动 = fatal_flaw (用户D0-8'缺数据接着查'指令)
+   - **6.8 数据契约必查 (D0-8 用户'通盘完善'指令落地, 永久)**: stock 输入包必须通过 `app.services.v4.stock_data_contract.check_data_contract()` 18 MUST 字段检查 (财务8 + 业务6 + 估值4):
+     - MUST 缺 → collect_v4 阶段已 exit=4 阻断, 主 agent 必须用 web_search/web_fetch 补齐后重跑 collect, 然后才能进 spawn analysts → director → critic
+     - critic 必查 `data_contract_check.must_satisfied` 数 = 18, 否则 fatal_flaw "契约未达标却跑了 agent"
+     - SHOULD 缺 → confidence 自动扣分 (max -0.20), critic 检查实际 confidence 是否反映了 should_missing 数量
+     - 取数审计: critic 抽查 fetch_tasks 里 ≥3 条 MUST 的 search_query 是否在 evidence 字段里有对应来源, 装作"已查"实际没用 = fatal_flaw
      - 三态对照判定:
        · ❌ 纯锚定话术("等¥X买"无推导) → NEEDS_CHANGES
        · ❌ 假装精确单点(EPS×PE反向凑数) → NEEDS_CHANGES (这是隐性锚定包装版)
