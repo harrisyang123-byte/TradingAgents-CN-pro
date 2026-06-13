@@ -123,11 +123,11 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
-      "version": 4,
-      "generated_at": "2026-06-12T15:22:43Z",
-      "ttl_days": 7,
+      "version": 5,
+      "generated_at": null,
+      "ttl_days": null,
       "upstream": [],
-      "run_mode": "ai_proxy",
+      "run_mode": null,
       "exists": true
     },
     {
