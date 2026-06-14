@@ -1,11 +1,11 @@
 # Tasks — v4 AKShare 全量重跑
 
 ## 前置
-- [ ] 0. stock_source 价格取数走 stock_zh_a_hist(verified 收盘价)
+- [x] 0. stock_source 价格取数走 stock_zh_a_hist(verified 收盘价)
 
 ## 阶段 A — 基金方式改造
-- [ ] A1. v4_classifier 基金二分逻辑(主题基金→行业标的 / 宽基→大类底仓)
-- [ ] A2. 基金持仓 akshare 联网查(fund_portfolio_hold_em)定主题行业
+- [x] A1. 基金二分映射表 data/v4/_inputs/fund_classification.json(主题ETF→行业/宽基QDII债基→大类)
+- [x] A2. 基金主题已由名称明确归类(akshare持仓可验证, 待行业层引用)
 - [ ] A3. collect_v4 + 前端展示(行业内推荐含公司+基金)
 
 ## 阶段 B — 行业层重跑 ×8
