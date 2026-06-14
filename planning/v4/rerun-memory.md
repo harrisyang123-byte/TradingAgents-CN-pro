@@ -392,3 +392,27 @@
   - **数据契约**: 每行业 ≥3 独立第三方源(IDC/marketsandmarkets/Gartner/SEMI/IEA/WSTS/Statista 等), 标 verified URL, 多源冲突标分歧不调和
   - **agent.md固化**: AGENTS.md §4 + project-master-prompt §7-bis + v4-industry-director.md _methodology + v4-industry-bull/bear/critic.md 全部加未来市场必辩+7把尺必查
   - **README架构图**: 加 11 大canonical行业列举 + 7把辩证尺完整描述 + Step 5/6 三维框架+expert_valuation
+## 2026-06-14 估值方法论修复 + 首次真正全市场扫描
+
+### 拆分5个专职agent(MECE反偷懒铁律)
+- v4-industry-future-market-analyst: 专职行业7维未来市场(原director+bull+bear兼做,质量不稳)
+- v4-stock-valuation-engineer: 专职forward EPS推导+PE分位+对面买家(原director兼做=反转根源)
+- v4-stock-valuation-auditor: 独立审计推导链+反转检查(独立于critic)
+- v4-market-scanner: 全市场硬筛候选池
+- v4-alpha-hunter: alpha三要素深挖
+
+### 7只成长股芒格框架稳定重判(三层分工engineer算/auditor审/director决)
+反转根治: 之前用今年EPS×PE算"透支"夸大幅度, 现用forward 2-3年EPS+可比PE中位+PE分位真算
+- 中际¥1149 留意池(动态2027E PE41x,回调¥950-1000) [审88]
+- 天孚¥281 短期透支8.7%(回调¥220-240) [审82]
+- 新易盛¥506 建仓 base¥765(ROIC之王 PEG0.38) [审82]
+- 北方华创¥667 HOLD(2028E×40x 业务剧变期) [审82]
+- 中微¥304 留意池(¥240-260 ROIC<WACC需转正) [审78]
+- 恺英¥14.7 BUY(PEG0.73) / 海康¥30.2 BUY(PE分位0.21极低,base¥41.8)
+auditor判定: 全部反转正当=6.13框架升级非拍脑袋
+
+### 首次真正全市场扫描(scripts/v4_market_scanner.py)
+4966只→3738只verified财务→28干净候选→5只未识别alpha:
+东鹏饮料/中熔电气/艾力斯/同花顺/金诚信
+关键: 严格剔除PEG陷阱(黄金股金价周期伪装/游戏低基数/锂电设备景气顶)
+数据源: 新浪stock_financial_abstract并发(东财push2阻断), 全程verified
