@@ -142,6 +142,38 @@ def main() -> int:
                 }, ensure_ascii=False), file=sys.stderr)
                 return 4
 
+        # 🚨 RULE-DATA-VERIFIED 强制校验(2026-06-14 用户血泪固化, 防通富$157B事故再现)
+        # 仅对 stock:* 单元启用(industry/asset 已有 critic 6.11/6.12 必查)
+        if args.unit_id.startswith("stock:"):
+            try:
+                from app.services.v4.stock_data_contract import (
+                    check_expert_valuation_verified,
+                    render_data_verified_report,
+                )
+                check = check_expert_valuation_verified(payload or {})
+                if check["block_write"]:
+                    msg = (
+                        f"🚨 RULE-DATA-VERIFIED 违规, 拒绝落盘! "
+                        f"expert_valuation 字段未通过 verified 校验。"
+                        f" violations={len(check['violations'])} warnings={len(check['warnings'])}"
+                    )
+                    print(json.dumps({
+                        "unit_id": args.unit_id,
+                        "blocked_by_rule_data_verified": True,
+                        "violations": check["violations"],
+                        "warnings": check["warnings"],
+                        "message": msg,
+                        "report": render_data_verified_report(check),
+                    }, ensure_ascii=False, indent=2), file=sys.stderr)
+                    return 4
+                # 通过但有 warning 时打印提示, 不阻止落盘
+                if check["warnings"]:
+                    print(f"⚠️  RULE-DATA-VERIFIED 警告({len(check['warnings'])}项, 不阻止但建议改进): "
+                          + "; ".join(w["issue"] for w in check["warnings"][:3]),
+                          file=sys.stderr)
+            except ImportError:
+                pass  # 契约模块不可用时跳过(向前兼容)
+
         env = store.new_envelope(
             args.unit_id,
             payload,

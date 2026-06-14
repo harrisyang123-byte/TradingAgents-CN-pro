@@ -491,3 +491,129 @@ def render_fetch_instructions(check_result: Dict[str, Any]) -> str:
         for t in should_tasks:
             lines.append(f"  • {t['field']} → {t['search_query']}")
     return "\n".join(lines)
+
+
+# ════════════════════════════════════════════════════════════════
+# 🚨 RULE-DATA-VERIFIED 强制校验(2026-06-14 用户血泪固化, 防通富$157B事故再现)
+# ════════════════════════════════════════════════════════════════
+
+EXPERT_VALUATION_REQUIRED_VERIFIED_FIELDS = [
+    "future_tam",           # 必须含派生自行业层标记 + verified_sources
+    "future_share",         # 必须基于子赛道可寻址 + 数据来源
+    "target_price",         # 必须含 forward EPS + 可比PE推导链
+]
+
+
+def check_expert_valuation_verified(stock_payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    🚨 RULE-DATA-VERIFIED 强制校验
+
+    检查 stock 的 expert_valuation 字段是否符合 verified 数据红线:
+    1. future_tam 必须含 'verified' 关键词或 derived_from_industry 标记
+    2. future_share 必须含子赛道可寻址逻辑(不能用整个行业 TAM × 份额)
+    3. target_price 必须含可比 PE 推导链(标可比公司 + 来源)
+    4. data_status 必须明示 verified/estimated/missing
+
+    返回:
+        {
+          "rule_violated": bool,
+          "violations": [...],     # 违反列表
+          "warnings": [...],       # 警告列表
+          "block_write": bool,     # 是否应阻止落盘
+        }
+
+    用法:
+        result = check_expert_valuation_verified(stock_payload)
+        if result["block_write"]:
+            print("🚨 RULE_DATA_VERIFIED 违规, 拒绝落盘")
+            sys.exit(4)
+    """
+    violations = []
+    warnings = []
+
+    vc = stock_payload.get("value_creation", {}) or {}
+    ev = vc.get("expert_valuation", {}) or {}
+
+    # 1. future_tam 校验
+    future_tam = ev.get("future_tam", "")
+    if isinstance(future_tam, str):
+        # 必须含派生标记或 verified 关键词
+        has_derived = "derived_from" in str(ev) or "派生自行业层" in future_tam
+        has_verified = "verified" in future_tam.lower() or "Yole" in future_tam or "IDC" in future_tam or "Gartner" in future_tam or "WSTS" in future_tam or "marketsandmarkets" in future_tam
+        if future_tam and not (has_derived or has_verified):
+            violations.append({
+                "field": "future_tam",
+                "issue": "缺 verified_source 或 派生自行业层 标记",
+                "rule": "RULE-DATA-VERIFIED-1",
+                "fix": "TAM 数字必须有 ≥3 独立来源标 URL, 或显式标'派生自行业层 industry:xxx'"
+            })
+
+    # 2. target_price 校验
+    target_price = ev.get("target_price", "")
+    if isinstance(target_price, str) and target_price:
+        # 必须含可比 PE 推导链
+        has_pe_chain = "PE" in target_price and ("EPS" in target_price or "倍" in target_price or "x" in target_price)
+        has_comparable = any(c in target_price for c in ["对标", "可比", "vs ", "Lonza", "台积电", "Meta", "Coherent"])
+        if not has_pe_chain:
+            warnings.append({
+                "field": "target_price",
+                "issue": "缺 forward EPS × 目标 PE 推导链",
+                "rule": "RULE-DATA-VERIFIED-3",
+                "fix": "目标价应明示 'forward EPS ¥X × 合理 PE Yx = ¥Z'"
+            })
+        if not has_comparable and not warnings:  # 已有推导链但缺可比
+            warnings.append({
+                "field": "target_price",
+                "issue": "缺可比公司锚定",
+                "fix": "应标 vs Lonza 25x / 台积电 15x 等"
+            })
+
+    # 3. assumptions 校验
+    assumptions = ev.get("assumptions", "")
+    if isinstance(assumptions, str) and assumptions:
+        if "证伪" not in assumptions and "若" not in assumptions:
+            warnings.append({
+                "field": "assumptions",
+                "issue": "缺可证伪信号",
+                "fix": "每个核心假设需配可证伪条件(如'若份额<X% 则下修')"
+            })
+
+    # 4. data_status 校验
+    data_status = ev.get("data_status", "")
+    if not data_status:
+        violations.append({
+            "field": "data_status",
+            "issue": "未标注 data_status",
+            "rule": "RULE-DATA-VERIFIED-4",
+            "fix": "必须标 verified/estimated/missing/synthesized_by_main_agent"
+        })
+
+    rule_violated = len(violations) > 0
+    block_write = rule_violated  # 有 violation 直接阻止落盘
+
+    return {
+        "rule_violated": rule_violated,
+        "violations": violations,
+        "warnings": warnings,
+        "block_write": block_write,
+        "summary": f"violations={len(violations)} warnings={len(warnings)}"
+    }
+
+
+def render_data_verified_report(check_result: Dict[str, Any]) -> str:
+    """渲染校验报告为可读文本(用于 cli/critic 输出)"""
+    lines = []
+    if check_result["rule_violated"]:
+        lines.append("🚨 RULE-DATA-VERIFIED 违规! 以下字段未通过 verified 校验:")
+        for v in check_result["violations"]:
+            lines.append(f"  ❌ {v['field']}: {v['issue']}")
+            lines.append(f"     规则: {v.get('rule', 'general')}")
+            lines.append(f"     修复: {v.get('fix', 'N/A')}")
+    if check_result["warnings"]:
+        lines.append("\n⚠️  警告(不阻止落盘但建议补充):")
+        for w in check_result["warnings"]:
+            lines.append(f"  • {w['field']}: {w['issue']}")
+            lines.append(f"    建议: {w.get('fix', 'N/A')}")
+    if not check_result["rule_violated"] and not check_result["warnings"]:
+        lines.append("✅ RULE-DATA-VERIFIED 校验通过")
+    return "\n".join(lines)

@@ -137,6 +137,40 @@
 
 **铁律:违反任一条 = 简化跑 = 伪改造 = 欺骗用户(同 §5)**
 
+### 🚨 §7-bis-x 代码层强制校验(2026-06-14 用户拍板"krio rule 强制限制",血泪固化,无法绕过)
+
+主 agent 反复在 expert_valuation 字段拍脑袋(通富 $157B 虚高 96%/新易盛 target 三次反转),靠"自觉"无效。固化为代码层 4 层防御:
+
+1. **认知层**: `AGENTS.md` 顶部 `🚨 RULE-DATA-VERIFIED 永久红线`(每个 agent 第一眼看到)
+2. **数据契约层**: `app/services/v4/stock_data_contract.py::check_expert_valuation_verified()` 校验函数
+   - future_tam 必须含 `derived_from_industry` 标记或 verified 关键词(Yole/IDC/Gartner/WSTS 等)
+   - target_price 必须含 `forward EPS × PE` 推导链 + 可比公司锚定
+   - assumptions 必须含可证伪信号(`若...则下修`)
+   - data_status 必须明示
+3. **代码强制层**: `scripts/v4_unit_cli.py::write` 落盘前调用契约校验, **violation > 0 → exit=4 拒绝落盘**(同 critic ACCEPT 拦截机制并列)
+4. **辩证层**: 本节(§7-bis-x)详细规则,所有 agent 必读
+
+### 校验调用示例
+```python
+from app.services.v4.stock_data_contract import check_expert_valuation_verified
+check = check_expert_valuation_verified(stock_payload)
+if check["block_write"]:
+    print(check["violations"])  # 详细违规列表
+    sys.exit(4)
+```
+
+### 当此红线被触发(违反时)
+- v4_unit_cli.py 直接 exit=4 + 红色错误信息: `"🚨 RULE-DATA-VERIFIED 违规,拒绝落盘"`
+- 详细 violations 列表打印,告知具体哪个字段缺什么
+- 主 agent 必须修复(取数 / 派生标注 / 推导链补全)后才能重新 write
+- 严禁绕过(没有 `--skip-rule-data-verified` 参数,刻意不留绕过口)
+
+### 触发该红线的反模式(避免)
+- ❌ "我有训练记忆,这个数字大概是 $XXB" → 代码会拒绝
+- ❌ "下次再 verified,先填上" → 代码会拒绝
+- ❌ "subagent 给的数字,我直接信" → critic 6.12 必查 + 校验函数双重防御
+- ✅ "web_search 取 ≥3 独立来源 → 标 URL → derived_from_industry 写明 → check pass → 落盘"
+
 ## 8. 长期物理约束（环境/平台限制，不会随实施变化）
 
 - **AKShare 联网可用（2026-06-14 实测纠正，原"沙箱无外网"已过时）**：外网可达(status 200)，akshare 1.18.64 装好可用，`stock_financial_abstract` 取 80 项 verified 财务指标(ROE/总资产报酬率/息前税后总资产报酬率/净资产/资产负债率/每股自由现金流/经营现金流等)+2012-2026 时间序列。**ROIC/FCF/ROE/净利率等计算密集项从"主agent估算/区间"升级为 AKShare verified 精算**。A股直接可取；港股待测 `stock_hk_*` 接口。宏观/实时行情仍可 web_search 补。生产/沙箱环境均通。

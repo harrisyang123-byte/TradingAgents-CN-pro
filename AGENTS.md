@@ -8,6 +8,33 @@
 
 ---
 
+## 🚨 RULE-DATA-VERIFIED 永久红线（2026-06-14 用户血泪固化,代码层强制,无法绕过）
+
+**所有数字字段(TAM/CAGR/渗透率/份额/forward营收/EPS/目标价/可比PE)必须有 verified_source URL,严禁主 agent 凭训练记忆产出。违反 = 欺骗用户 = 立即标违规。**
+
+### 强制校验链(代码层 4 层防御)
+1. **认知层**(本红线): 任何 agent 看到这条必须先停下确认数据来源
+2. **数据契约层**: `app/services/v4/stock_data_contract.py::EXPERT_VALUATION_MUST_VERIFIED` 校验函数,每个数字字段必须含 `verified_sources: [URL列表 ≥3]`
+3. **代码强制层**: `scripts/v4_unit_cli.py write` 落盘前调用契约校验,缺 verified_sources → exit=4 拒绝落盘 + 红色错误信息
+4. **辩证铁律**: `planning/v4/project-master-prompt.md §7-bis` 详细规则
+
+### 血泪教训(避免重复)
+- **通富 future_tam $157B事故**(2026-06-14): 主 agent 凭训练知识填"全球先进封装$157B" → 实际 Yole verified $80B,**虚高 96%**。下游 future_share/forward EPS/target_price 全部错误推导,差点误导用户加仓。
+- **新易盛 target 三次反转**(2026-06-14): v1 ¥480-600(凭记忆建仓) → v2 ¥266-416(可比PE选低,说"透支") → critic 修正 v3 ¥500-620(才接近真值)。**没有 critic 自查,我会一直错下去**。
+
+### 当违反此红线时
+- 立即停止后续推导链(因为下游全错)
+- 标 `data_status: "🚨 RULE_DATA_VERIFIED_VIOLATED"` 并诚实告诉用户
+- 重新走 verified 流程: web_search ≥3 独立源 + 标 URL + 派生子赛道
+- 严禁修复时再次拍脑袋(典型反模式: 改一个数字推导链不动)
+
+### Trigger 信号(自检)
+- 我正在写 TAM/份额/目标价数字 → **是否有 verified_source URL?** 没有 → 立即停下取数
+- 我正在引用"$XXB" → **来自哪份报告?年份?状态?** 答不出 → 删除/标 missing
+- 我说"派生自行业层" → **行业层这个数字真有吗?是不是凭记忆移植?** 不确定 → 实际打开行业 JSON 核对
+
+---
+
 ## 0. 第一铁律：文档即代码契约
 
 **改了代码就必须同步本文件和 `README.md`。** 本项目反复踩的坑就是「文档和代码两套、互相飘移」——退役的架构还写在文档里骗后来人。所以：
