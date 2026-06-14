@@ -340,7 +340,7 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
-    "version": 2,
+    "version": 3,
     "generated_at": "2026-06-11T01:19:00Z",
     "ttl_days": 7,
     "upstream": [],
@@ -353,56 +353,132 @@
       "target_weight": 8,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "首选(AI算力 stance=bullish):capex 725B+77%硬约束+瓶颈层(光模块/HBM/CoWoS)极度紧张+1.6T爆发期(2026H2-27);forward触发监控9条覆盖capex/CPO/HBM三大风险.建议8%(实际持有中际旭创已偏高,留空间结构调整)."
+      "reasoning": "首选(AI算力 stance=bullish):capex 725B+77%硬约束+瓶颈层(光模块/HBM/CoWoS)极度紧张+1.6T爆发期(2026H2-27);forward触发监控9条覆盖capex/CPO/HBM三大风险.建议8%(实际持有中际旭创已偏高,留空间结构调整).",
+      "value_creation_roic": "光模块价值创造之王(新易盛50-66%/天孚36-48%/中际31-41%)",
+      "fund_in_industry": [
+        {
+          "code": "024245",
+          "name": "广发上证科创板AI ETF联接A",
+          "weight": 2.09
+        },
+        {
+          "code": "012733",
+          "name": "易方达中证AI主题ETF联接A",
+          "weight": 1.42
+        },
+        {
+          "code": "012734",
+          "name": "易方达中证AI主题ETF联接C",
+          "weight": 1.33
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(024245分散)"
     },
     {
       "industry": "半导体",
       "target_weight": 7,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "双引擎(全球AI memory 超级周期+国产替代深水区):HBM售罄/Micron $200B capex+大基金三期+涨价信号.精选材料(电子特气/CMP/光刻胶)+设备(刻蚀/CVD/CMP)+EDA;避免硅片(已拥挤+全球过剩)."
+      "reasoning": "双引擎(全球AI memory 超级周期+国产替代深水区):HBM售罄/Micron $200B capex+大基金三期+涨价信号.精选材料(电子特气/CMP/光刻胶)+设备(刻蚀/CVD/CMP)+EDA;避免硅片(已拥挤+全球过剩).",
+      "value_creation_roic": "设备临界(北方华创/中微7-10%)+代工毁灭(中芯2.7-3.7%) → 行业内避中芯A股选设备",
+      "fund_in_industry": [
+        {
+          "code": "012629",
+          "name": "广发国证半导体芯片ETF联接A",
+          "weight": 0.95
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(012629分散)"
     },
     {
       "industry": "创新药",
       "target_weight": 5,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "政策十年最强拐点+出海BD井喷打开海外天花板+1类新药获批22→40→50+逐年递增.精选'有全球权益变现能力'龙头(百济神州/恒瑞/科伦博泰),避开纯me-too和无管线尾部."
+      "reasoning": "政策十年最强拐点+出海BD井喷打开海外天花板+1类新药获批22→40→50+逐年递增.精选'有全球权益变现能力'龙头(百济神州/恒瑞/科伦博泰),避开纯me-too和无管线尾部.",
+      "value_creation_roic": "恒瑞价值创造13-17%+科伦未盈利(PS估值)",
+      "fund_in_industry": [
+        {
+          "code": "009881",
+          "name": "广发中证医疗ETF联接C",
+          "weight": 0.77
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(009881分散)"
     },
     {
       "industry": "有色资源",
       "target_weight": 5,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "铜电力化(AI数据中心耗电+EV)+金避险(央行购金17月连续)+稀土战略(对美脱钩);商品周期'加速段早中期'.龙头紫金矿业/北方稀土具备战略价值."
+      "reasoning": "铜电力化(AI数据中心耗电+EV)+金避险(央行购金17月连续)+稀土战略(对美脱钩);商品周期'加速段早中期'.龙头紫金矿业/北方稀土具备战略价值.",
+      "value_creation_roic": "紫金价值创造之列15-20%",
+      "fund_in_industry": [],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(无主题基金分散)"
     },
     {
       "industry": "电力公用事业",
       "target_weight": 4,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "电力化提速(AI+EV)+大水电稀缺+核电核准加速+红利稳定派息.适合作为防御+成长双重作用.长江电力作为底仓.利率下行环境下进一步受益."
+      "reasoning": "电力化提速(AI+EV)+大水电稀缺+核电核准加速+红利稳定派息.适合作为防御+成长双重作用.长江电力作为底仓.利率下行环境下进一步受益.",
+      "value_creation_roic": "长江电力价值创造(电力WACC 5-6%)+核电不足 → 选长江避核电",
+      "fund_in_industry": [
+        {
+          "code": "019058",
+          "name": "易方达中证绿色电力ETF联接A",
+          "weight": 2.06
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(019058分散)"
     },
     {
       "industry": "互联网平台",
       "target_weight": 4,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "政策周期底→上行(反垄断结束+鼓励发展)+AI变现初现+港股估值修复.腾讯/阿里/美团基本面回暖.受益消费温和复苏."
+      "reasoning": "政策周期底→上行(反垄断结束+鼓励发展)+AI变现初现+港股估值修复.腾讯/阿里/美团基本面回暖.受益消费温和复苏.",
+      "value_creation_roic": "腾讯价值创造15.25%/阿里投入期6.26%",
+      "fund_in_industry": [
+        {
+          "code": "006327",
+          "name": "易方达中证海外中国互联网50ETF联接(QDII)",
+          "weight": 0.81
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(006327分散)"
     },
     {
       "industry": "消费电子家电",
       "target_weight": 3,
       "direction": "watch",
       "stance": "neutral",
-      "reasoning": "AI硬件革新+苹果链复苏+家电出海(美的海尔)三重正面;但中性偏积极,等待AI手机渗透率确认.苹果Q3指引为关键观察点."
+      "reasoning": "AI硬件革新+苹果链复苏+家电出海(美的海尔)三重正面;但中性偏积极,等待AI手机渗透率确认.苹果Q3指引为关键观察点.",
+      "value_creation_roic": "海康/小米价值创造+蓝思不足",
+      "fund_in_industry": [
+        {
+          "code": "005063",
+          "name": "广发中证全指家用电器ETF联接A",
+          "weight": 0.81
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(005063分散)"
     },
     {
       "industry": "新能源车",
       "target_weight": 2,
       "direction": "watch",
       "stance": "neutral_to_cautious",
-      "reasoning": "渗透率突破50%+价格战延续+海外双反风险.行业从增量转存量竞争.限定2%作为观察仓,精选智能化标的(华为/小鹏)."
+      "reasoning": "渗透率突破50%+价格战延续+海外双反风险.行业从增量转存量竞争.限定2%作为观察仓,精选智能化标的(华为/小鹏).",
+      "value_creation_roic": "三花价值创造但Q1增速崩+高估",
+      "fund_in_industry": [
+        {
+          "code": "013180",
+          "name": "广发国证新能源车电池ETF联接C",
+          "weight": 0.77
+        }
+      ],
+      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(013180分散)"
     }
   ]
 }

@@ -6,7 +6,7 @@
       "status_label": "新鲜",
       "stale_reason": null,
       "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
-      "version": 2,
+      "version": 3,
       "generated_at": "2026-06-11T01:19:00Z",
       "ttl_days": 7,
       "upstream": [],
