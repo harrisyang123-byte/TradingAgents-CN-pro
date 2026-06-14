@@ -28,7 +28,17 @@
       },
       "future_market": "全球医药研发外包TAM ~$1000亿 CAGR 8-10%; 创新药管线增长驱动外包渗透率; CRDMO一体化客户黏性强",
       "risk": "美国BIOSECURE法案(美国业务~60%)是真实地缘风险, 已price-in(PE14.9), 落地则减半",
-      "roic_vs_wacc": "verified ROIC 21-28% vs 行业WACC 10% → ★价值创造; ROIC 21-28% >> 10% WACC 价值创造之王(CXO一体化客户黏性)"
+      "roic_vs_wacc": "verified ROIC 21-28% vs 行业WACC 10% → ★价值创造; ROIC 21-28% >> 10% WACC 价值创造之王(CXO一体化客户黏性)",
+      "expert_valuation": {
+        "now_judgment": "现价¥99.71 / PE 14.9x — 明确低估。ROIC 21-28% 价值创造之王 vs PE仅14.9x,被创新药寒冬+BIOSECURE错杀",
+        "future_tam": "全球医药研发外包(CXO) 2024~$850亿 → 2027E ~$1150亿(CAGR~10%)",
+        "future_share": "药明康德全球CXO份额~11-13%(CRDMO一体化龙头),份额随管线增长稳步提升",
+        "future_forward": "当前EPS~6.69(99.71/14.9);2026E EPS~8.2(常态增速22%,剔除低基数);2027E~10",
+        "target_price": "目标价 ¥150-180 = 2026E EPS 8.2 × 合理PE 18-22x(CXO龙头)",
+        "target_verdict": "现价¥99.71对目标¥150-180有50-80%空间,安全边际足;BIOSECURE落地是最大下行风险",
+        "assumptions": "假设:常态增速22%(剔除102%低基数)、目标PE 20x。BIOSECURE落地则美国业务(~60%)冲击,目标下修30%",
+        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      }
     },
     "critic_evaluation": {
       "critic_score": 78,

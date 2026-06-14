@@ -285,7 +285,17 @@
         "as_of": "2026-06-13",
         "net_income_growth_pct": 108.8
       },
-      "roic_vs_wacc": "verified ROIC 31-41% vs 行业WACC 11.5% → ★价值创造; ROIC 31-41% >> 11.5% AI算力WACC 强价值创造(光模块龙头)"
+      "roic_vs_wacc": "verified ROIC 31-41% vs 行业WACC 11.5% → ★价值创造; ROIC 31-41% >> 11.5% AI算力WACC 强价值创造(光模块龙头)",
+      "expert_valuation": {
+        "now_judgment": "现价¥1149 / PE~89x — 高位。ROIC 31-41%价值创造之王,但估值已price-in高增长,安全边际薄",
+        "future_tam": "全球高速光模块(同新易盛赛道) 2027E ~$350亿",
+        "future_share": "中际旭创全球光模块份额第一(~20%+),800G/1.6T龙头",
+        "future_forward": "当前EPS~12.9(1149/89);2026E EPS~21(增速60%回落);2027E~28",
+        "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
+        "target_verdict": "现价¥1149处目标区间中部,分批建仓2-3%;等回调至PE60-65x(¥850-900)更优",
+        "assumptions": "假设:2026增速60%(从108%回落)、目标PE 32x。CSP capex见顶或CPO颠覆则下修",
+        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      }
     },
     "debate_rounds": [
       {

@@ -241,7 +241,17 @@
       "price_source": "stock_zh_a_daily/hk新浪verified",
       "as_of": "2026-06-13"
     },
-    "roic_vs_wacc": "verified ROIC 16-21% vs 行业WACC 10% → ★价值创造; ROIC 16-21% > 10% WACC 强价值创造(净利率27.5%顶级,VA寡头)"
+    "roic_vs_wacc": "verified ROIC 16-21% vs 行业WACC 10% → ★价值创造; ROIC 16-21% > 10% WACC 强价值创造(净利率27.5%顶级,VA寡头)",
+    "expert_valuation": {
+      "now_judgment": "现价¥30.09 / PE 13.6x / PEG 0.89 — 低估。ROIC 16-21%价值创造,净利率27.5%顶级,VA周期底部",
+      "future_tam": "维生素(VA/VE)全球寡头CR3>80% + 新材料(PPS/PPA)第二曲线",
+      "future_share": "VA全球前三,新材料占比提升至25%+",
+      "future_forward": "当前EPS~2.21(30.09/13.6);2026E EPS~2.55(增速15%+VA涨价弹性)",
+      "target_price": "目标价 ¥35-43 = 2026E EPS 2.55 × 合理PE 14-17x(VA涨价则上修)",
+      "target_verdict": "现价¥30对目标¥35-43有16-43%空间;VA价格是核心变量,周期底部布局",
+      "assumptions": "假设:增速15%、目标PE 15x。VA价格继续低迷或净利率<22%则下修(周期风险)",
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+    }
   },
   "dcf_intrinsic": null
 }

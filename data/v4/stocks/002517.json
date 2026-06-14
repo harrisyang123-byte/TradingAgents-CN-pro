@@ -329,7 +329,17 @@
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
       },
-      "roic_vs_wacc": "verified ROIC 18-24% vs 行业WACC 9% → ★价值创造; ROIC 18-24% >> 9% WACC 强价值创造(游戏轻资产高ROIC)"
+      "roic_vs_wacc": "verified ROIC 18-24% vs 行业WACC 9% → ★价值创造; ROIC 18-24% >> 9% WACC 强价值创造(游戏轻资产高ROIC)",
+      "expert_valuation": {
+        "now_judgment": "现价¥14.73 / PE 16.6x / PEG 0.98 — 合理偏低。ROIC 18-24%价值创造(轻资产游戏高回报)",
+        "future_tam": "国内游戏+小程序游戏(绕过渠道30%分成),传奇/仙侠IP矩阵",
+        "future_share": "细分传奇品类领先,小程序游戏放量提升净利率3-5pct",
+        "future_forward": "当前EPS~0.89(14.73/16.6);2026E EPS~1.04(增速17%);小程序兑现则上修",
+        "target_price": "目标价 ¥17-19 = 2026E EPS 1.04 × 合理PE 16-18x",
+        "target_verdict": "现价¥14.73对目标¥17-19有15-29%空间;Q2小程序流水验证是关键催化",
+        "assumptions": "假设:增速17%、目标PE 17x。游戏单品周期+版号风险,流水不及则下修",
+        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      }
     },
     "debate_rounds": [
       {

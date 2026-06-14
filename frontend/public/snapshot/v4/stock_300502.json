@@ -286,6 +286,16 @@
       "future_market_correction": "ROIC 50-66%全场最高 + AI光互联800G→1.6T结构性5年趋势 + forward PEG<0.6(净利增速235.9%) = 之前误判贵实为错杀; 分批建仓目标8-12%明天先建1/3",
       "net_income_growth_pct": 235.9,
       "revenue_growth_pct": 187.3
+    },
+    "expert_valuation": {
+      "now_judgment": "现价¥506 / PE 52.7x — 看似贵,但 forward PEG<0.6(增速远超PE)。ROIC 50-66% 全场最高=极致价值创造。结论:合理偏低,贵在\"赌增速兑现\"而非估值泡沫",
+      "future_tam": "全球高速光模块(800G/1.6T) 2024~110亿美元 → 2027E ~350亿美元(AI算力capex驱动,CAGR~47%)",
+      "future_share": "新易盛全球份额 2024~13% → 2027E 16-18%(北美CSP核心供应商,1.6T卡位)",
+      "future_forward": "2026E 营收~340亿(+90%),净利率20%→净利~68亿;按7.1亿股 forward EPS~9.6→2026E~17(增速从235%回落至80%假设)",
+      "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
+      "target_verdict": "当前¥506处目标区间下沿,增速兑现可向上;若Q3增速<100%则下修",
+      "assumptions": "假设:2026增速80%(从235%回落)、净利率20%、目标PE 30x。增速不及则目标价下修",
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

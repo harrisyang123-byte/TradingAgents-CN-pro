@@ -209,7 +209,17 @@
       "net_income_growth_pct": 15.9,
       "verified_pe": 14.91
     },
-    "roic_vs_wacc": "verified ROIC 15.25% vs 行业WACC 8.5% → 价值创造; ROIC 15.25% > 8.5% 互联网WACC 价值创造,vs海外Meta/Alphabet ROIC可比但PE折价50%"
+    "roic_vs_wacc": "verified ROIC 15.25% vs 行业WACC 8.5% → 价值创造; ROIC 15.25% > 8.5% 互联网WACC 价值创造,vs海外Meta/Alphabet ROIC可比但PE折价50%",
+    "expert_valuation": {
+      "now_judgment": "现价HK$463.6 / PE 14.91x — 低估。ROIC 15.25%价值创造 + 三引擎(广告/游戏/AI),vs Meta/Alphabet 25-30x折价50%",
+      "future_tam": "中国互联网广告+游戏+金融科技+云,腾讯生态13.4亿微信用户,AI(混元)打开第二曲线",
+      "future_share": "微信社交垄断,游戏国内第一,广告(视频号)份额提升中",
+      "future_forward": "当前EPS~31(港元);2026E EPS~36(增速15%);AI商业化兑现则加速",
+      "target_price": "目标价 HK$550-620 = 2026E EPS 36 × 合理PE 16-18x(仍低于海外同行)",
+      "target_verdict": "现价HK$463对目标有18-34%空间;AI capex翻倍侵蚀短期FCF是主要扰动",
+      "assumptions": "假设:增速15%、目标PE 17x(给中国互联网折价)。监管收紧或AI回报不及则下修",
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+    }
   },
   "dcf_intrinsic": null
 }

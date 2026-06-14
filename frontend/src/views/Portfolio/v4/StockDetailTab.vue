@@ -58,31 +58,53 @@
 
       <!-- ===== ② 为什么这样判断（30 秒精炼,5 行核心） ===== -->
       <div class="card sdt-why">
-        <div class="sdt-section-title sdt-why-title">📄 ② 为什么这样判断（30 秒读完核心）</div>
+        <div class="sdt-section-title sdt-why-title">📄 ② 核心结论（现在该不该买 · 未来值多少钱）</div>
         <div v-if="detail.verdict_oneliner" class="sdt-why-oneliner">
           <span class="sdt-why-icon">📌</span>{{ detail.verdict_oneliner }}
         </div>
-        <ul class="sdt-why-points">
-          <li v-if="whyChain"><span class="sdt-why-tag sdt-tag-chain">🎯 投什么</span>{{ whyChain }}</li>
-          <li v-if="whyMoat"><span class="sdt-why-tag sdt-tag-moat">🏰 凭什么</span>{{ whyMoat }}</li>
-          <li v-if="whyValuation"><span class="sdt-why-tag sdt-tag-val">💰 估值</span>{{ whyValuation }}</li>
-          <li v-if="whyTam"><span class="sdt-why-tag sdt-tag-chain">📈 成长空间</span>{{ whyTam }}</li>
-          <li v-if="whyRoic"><span class="sdt-why-tag sdt-tag-moat">🏭 价值创造</span>{{ whyRoic }}</li>
-          <li v-if="whyDcf"><span class="sdt-why-tag sdt-tag-val">📐 内在值</span>{{ whyDcf }}</li>
-          <li v-if="whyWorst"><span class="sdt-why-tag sdt-tag-worst">⚠️ 最坏</span>{{ whyWorst }}</li>
-          <li v-if="whyExpGap"><span class="sdt-why-tag sdt-tag-gap">🎲 预期差</span>{{ whyExpGap }}</li>
-        </ul>
-        <!-- 🎯 可操作结论(2026-06-14 三维: 好公司ROIC × 好价格PE × 好未来PEG, 全 verified) -->
-        <div v-if="actionableVerdict" class="sdt-actionable">
-          <div class="sdt-actionable-head">
-            <span class="sdt-actionable-tag">🎯 明天可操作</span>
-            <b class="sdt-actionable-stance">{{ actionableVerdict.stance }}</b>
+
+        <!-- 📍 现在该不该买 -->
+        <div class="sdt-block sdt-now">
+          <div class="sdt-block-head">📍 现在该不该买</div>
+          <div v-if="actionableVerdict" class="sdt-stance-line" :class="stanceColorCls">
+            {{ actionableVerdict.stance }}
           </div>
-          <div v-if="actionableText" class="sdt-actionable-data">{{ actionableText }}</div>
-          <p v-if="actionableVerdict.reason" class="sdt-actionable-reason">{{ actionableVerdict.reason }}</p>
-          <p v-if="actionableVerdict.future_market_correction" class="sdt-actionable-correction">🔮 未来维度修正：{{ actionableVerdict.future_market_correction }}</p>
-          <p v-if="actionableVerdict.critic_correction" class="sdt-actionable-correction">🎓 critic修正：{{ actionableVerdict.critic_correction }}</p>
+          <div v-if="actionableText" class="sdt-data-line">{{ actionableText }}</div>
+          <p class="sdt-judge-text">{{ expertVal?.now_judgment || actionableVerdict?.reason || whyValuation }}</p>
         </div>
+
+        <!-- 🔮 未来值多少钱 -->
+        <div v-if="expertVal" class="sdt-block sdt-future">
+          <div class="sdt-block-head">🔮 未来值多少钱</div>
+          <div class="sdt-target-price">🎯 {{ expertVal.target_price }}</div>
+          <p class="sdt-judge-text">{{ expertVal.target_verdict }}</p>
+          <ul class="sdt-chain">
+            <li v-if="expertVal.future_tam"><b>赛道空间</b><span>{{ expertVal.future_tam }}</span></li>
+            <li v-if="expertVal.future_share"><b>公司份额</b><span>{{ expertVal.future_share }}</span></li>
+            <li v-if="expertVal.future_forward"><b>盈利预测</b><span>{{ expertVal.future_forward }}</span></li>
+          </ul>
+          <p class="sdt-assume">⚠️ 测算假设：{{ expertVal.assumptions }}</p>
+        </div>
+        <!-- 无专家估值时回退显示成长空间/内在值文字 -->
+        <div v-else-if="whyTam || whyDcf" class="sdt-block sdt-future">
+          <div class="sdt-block-head">🔮 未来空间</div>
+          <p v-if="whyTam" class="sdt-judge-text"><b>成长空间：</b>{{ whyTam }}</p>
+          <p v-if="whyDcf" class="sdt-judge-text"><b>内在值：</b>{{ whyDcf }}</p>
+          <p class="sdt-assume">该股暂未做精算目标价（仅核心推荐/持仓股做了 forward 估值测算）</p>
+        </div>
+
+        <!-- 更多分析要点（折叠，精简颜色） -->
+        <details v-if="whyChain || whyMoat || whyRoic || whyWorst || whyExpGap" class="sdt-more">
+          <summary>更多分析要点（护城河 / 价值创造 / 最坏情况 / 预期差）</summary>
+          <ul class="sdt-more-list">
+            <li v-if="whyChain"><b>🎯 投什么</b>{{ whyChain }}</li>
+            <li v-if="whyMoat"><b>🏰 凭什么</b>{{ whyMoat }}</li>
+            <li v-if="whyRoic"><b>🏭 价值创造</b>{{ whyRoic }}</li>
+            <li v-if="whyWorst"><b>⚠️ 最坏情况</b>{{ whyWorst }}</li>
+            <li v-if="whyExpGap"><b>🎲 预期差</b>{{ whyExpGap }}</li>
+          </ul>
+        </details>
+
         <!-- 辅助标签栏: 较上次自检 + 可信度 + 历史准确率 -->
         <div class="sdt-why-aux">
           <div v-if="detail.reflection?.what_changed" class="sdt-aux-card sdt-aux-reflection">
@@ -614,6 +636,15 @@ const actionableText = computed(() => {
   if (av.industry_wacc != null) parts.push(`行业WACC ${av.industry_wacc}%`)
   return parts.join(' · ')
 })
+// 专家 forward 估值(现在该不该买 + 未来值多少钱)
+const expertVal = computed(() => (detail.value as any)?.value_creation?.expert_valuation || null)
+// stance 颜色(精简: 红=减/卖, 绿=加/买, 橙=持有/中性)
+const stanceColorCls = computed(() => {
+  const s = actionableVerdict.value?.stance || ''
+  if (s.includes('减') || s.includes('卖') || s.includes('回避')) return 'neg'
+  if (s.includes('加') || s.includes('买') || s.includes('建仓') || s.includes('优先')) return 'pos'
+  return 'neutral'
+})
 
 // evidence 按 group 分组(数据采集 Step 1 用)
 const groupedEvidence = computed(() => {
@@ -747,22 +778,29 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-why-icon { font-size: 18px; margin-right: 6px; }
 .sdt-why-points { list-style: none; padding: 0; }
 .sdt-why-points li { padding: 10px 0; border-bottom: 1px dashed #f0f0f0; font-size: 14px; line-height: 1.7; color: #4e5969; display: flex; align-items: flex-start; gap: 10px; }
-.sdt-why-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; flex-shrink: 0; min-width: 80px; text-align: center; }
-.sdt-tag-chain { background: #eef2ff; color: #2f4f8f; }
-.sdt-tag-moat { background: #fff7e6; color: #d46b08; }
-.sdt-tag-val { background: #f6ffed; color: #2f6627; }
-.sdt-tag-worst { background: #fff1f0; color: #a8071a; }
-.sdt-tag-gap { background: #ecf5ff; color: #2f54eb; }
 /* 辅助标签栏 */
 .sdt-why-aux { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
-/* 🎯 可操作结论(三维 verified) */
-.sdt-actionable { margin-top: 14px; padding: 12px 14px; background: linear-gradient(135deg, #fff7e6 0%, #fff 100%); border: 1px solid #ffd591; border-radius: 8px; }
-.sdt-actionable-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.sdt-actionable-tag { font-size: 12px; font-weight: 700; color: #fff; background: #fa8c16; padding: 2px 8px; border-radius: 4px; }
-.sdt-actionable-stance { font-size: 15px; color: #d46b08; }
-.sdt-actionable-data { margin-top: 8px; font-size: 13px; color: #595959; font-family: monospace; }
-.sdt-actionable-reason { margin: 8px 0 0; font-size: 13px; color: #434343; line-height: 1.6; }
-.sdt-actionable-correction { margin: 6px 0 0; font-size: 12.5px; color: #c41d7f; line-height: 1.6; }
+/* ② 两段式说人话(精简颜色: 蓝=现在, 橙=未来, 绿=目标价) */
+.sdt-block { margin-top: 12px; padding: 12px 14px; border-radius: 8px; }
+.sdt-now { background: #f0f7ff; border-left: 4px solid #409eff; }
+.sdt-future { background: #fff7ec; border-left: 4px solid #fa8c16; }
+.sdt-block-head { font-size: 14px; font-weight: 700; color: #303133; margin-bottom: 8px; }
+.sdt-stance-line { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.sdt-stance-line.pos { color: #389e0d; }
+.sdt-stance-line.neg { color: #cf1322; }
+.sdt-stance-line.neutral { color: #d46b08; }
+.sdt-data-line { font-size: 12.5px; color: #8c8c8c; font-family: monospace; margin-bottom: 8px; }
+.sdt-judge-text { font-size: 13.5px; color: #434343; line-height: 1.7; margin: 4px 0; }
+.sdt-target-price { font-size: 18px; font-weight: 800; color: #389e0d; margin-bottom: 6px; }
+.sdt-chain { list-style: none; padding: 0; margin: 8px 0; }
+.sdt-chain li { font-size: 13px; color: #595959; line-height: 1.7; padding: 3px 0; display: flex; gap: 8px; }
+.sdt-chain li b { color: #fa8c16; white-space: nowrap; min-width: 60px; }
+.sdt-assume { font-size: 12px; color: #909399; line-height: 1.6; margin-top: 8px; font-style: italic; }
+.sdt-more { margin-top: 12px; }
+.sdt-more summary { font-size: 13px; color: #909399; cursor: pointer; padding: 4px 0; }
+.sdt-more-list { list-style: none; padding: 8px 0 0; margin: 0; }
+.sdt-more-list li { font-size: 13px; color: #595969; line-height: 1.7; padding: 4px 0; }
+.sdt-more-list li b { color: #606266; margin-right: 8px; }
 .sdt-aux-card { padding: 10px; border-radius: 6px; }
 .sdt-aux-reflection { background: #ecf5ff; border-left: 3px solid #409eff; }
 .sdt-aux-cred { background: #eef2ff; border-left: 3px solid #4f46e5; }
