@@ -372,3 +372,11 @@
   - 维度5多空辩论: 4→28/28 ✓
   - 全28只五维度齐全: 三维结论/价值创造文字/未来维度增速/critic评审/多空辩论
   - 关键多空亮点: 新易盛三维全优(forward PEG<0.6)/药明CXO错杀(PE14.9+ROIC28%)/腾讯AI capex拐点定价/紫金周期伪装成长(critic纠错)/中芯A股95x荒谬H股35x合理/华特ROIC毁灭+PE166x无安全边际
+
+- **2026-06-14 前端按用户期望重构(4大问题全部解决, 用户怒批"堆指标自顾自展示不说人话")**:
+  - **问题4(最痛) 个股②区说人话**: 8种颜色tag → 两段式(📍现在该不该买:stance+价格判断+为什么 / 🔮未来值多少钱:目标价+赛道空间+公司份额+盈利预测推导链+假设), 颜色精简蓝/橙/绿3色。**8核心股专家forward估值**写入value_creation.expert_valuation(目标价推导链+市占率%): 新易盛¥480-600/药明¥150-180/腾讯HK$550-620/恺英¥17-19/新和成¥35-43/海康¥32-37/紫金周期不追高/中际¥1100-1400, 全标假设。
+  - **问题1 持仓树加推荐**: build_holdings_review加rec_by_ind(非持仓stock按行业), 持仓行业挂recommendations+11纯推荐行业。前端持仓行(蓝'持仓')+推荐行(橙'推荐'+目标价+stance)。
+  - **问题2 大类删行业配比**: AssetDetailTab删IndustryTable(已在持仓树), 权益大类只留该大类分析。
+  - **问题3 基金不穿透**: 删IndustryDetailTab穿透卡片+HoldingsReviewTab间接穿透行, 基金作整体标的(主题去重)。
+  - 全部vue-tsc编译通过。关键: StockDetailTab②区(expertVal computed), build_snapshot_v4.py(rec_by_ind ~163行)。
+  - **待办(下次)**: 其余20只非核心股的expert_valuation目标价测算未做(仅8核心股); 基金二分(主题→行业标的/宽基→大类底仓)前端可进一步体现fund_classification.json映射。
