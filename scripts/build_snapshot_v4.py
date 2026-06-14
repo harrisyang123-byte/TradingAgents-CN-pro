@@ -131,9 +131,18 @@ def build_holdings_review(repo: Path, units: dict):
     # 大类目标配比（从 alloc:portfolio target_weights 直接读 + overview asset_cards 取 action）
     portfolio_path = repo / "data/v4/allocation/portfolio.json"
     target_weights = {}
+    per_class_reasoning = {}
+    portfolio_actions = []
+    portfolio_risks = []
+    portfolio_conf = None
     if portfolio_path.exists():
         pf = json.loads(portfolio_path.read_text(encoding="utf-8"))
-        target_weights = (pf.get("payload", {}) or {}).get("target_weights", {}) or {}
+        pfp = pf.get("payload", {}) or {}
+        target_weights = pfp.get("target_weights", {}) or {}
+        per_class_reasoning = pfp.get("per_class_reasoning", {}) or {}
+        portfolio_actions = pfp.get("key_actions", []) or []
+        portfolio_risks = pfp.get("key_risks", []) or []
+        portfolio_conf = pfp.get("confidence")
     try:
         ov = v4_query.build_overview(units)
         card_map = {c.get("asset_class"): c for c in ov.get("asset_cards", []) or []}
@@ -264,6 +273,7 @@ def build_holdings_review(repo: Path, units: dict):
             "target_pct": target, "action": action, "gap_value": gap_value,
             "has_class_analysis": units.get(f"asset:{key}") is not None,
             "industries": [], "direct_holdings": [], "fund_themes": [],
+            "reasoning": per_class_reasoning.get(key, {}),
         }
         if not hs and gap_value is None:
             continue
@@ -391,6 +401,9 @@ def build_holdings_review(repo: Path, units: dict):
         "industry_allocations": industry_allocations,
         "equity_quota_v4": equity_quota_v4,
         "asset_class_targets": target_weights,
+        "portfolio_key_actions": portfolio_actions,
+        "portfolio_key_risks": portfolio_risks,
+        "portfolio_confidence": portfolio_conf,
     }
 
 

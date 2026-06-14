@@ -19,9 +19,9 @@
       "label": "权益",
       "current_value": 521092.0,
       "current_pct": 49.5,
-      "target_pct": 50,
-      "action": "hold",
-      "gap_value": 5300.0,
+      "target_pct": 55.0,
+      "action": "add",
+      "gap_value": 57940.0,
       "has_class_analysis": true,
       "industries": [
         {
@@ -698,16 +698,25 @@
           "release_mv": 0,
           "action": "已是单只，无需合并"
         }
-      ]
+      ],
+      "reasoning": {
+        "current_pct": 49.5,
+        "target_pct": 55.0,
+        "gap": "+5.5pp",
+        "macro": "A股结构牛确认: AI算力capex超级周期(Meta/Google/字节2026 capex +40%YoY)叠加创新药集采出清后管线兑现期, 8/11行业strong go提供超额来源. 10Y=1.7%实际利率极低, 权益风险溢价仍有吸引力",
+        "flow": "北上资金连续3月净流入AI/半导板块, 公募仓位从82%回升至87%但未极端, 两融余额温和扩张. 现金释放优先补权益而非债券",
+        "policy": "新国九条鼓励长期资金入市+科创板做市商扩容+险资权益上限提至25%, 政策风向明确支撑权益估值中枢",
+        "risk": "不过激加仓至60%+: 行业层3/11仍在迭代(互联网/可选消费景气存疑), 结构牛≠全面牛, 55%已含+5.5pp加仓留有余地"
+      }
     },
     {
       "key": "fixed_income",
       "label": "固定收益",
       "current_value": 149946.0,
       "current_pct": 14.2,
-      "target_pct": 18,
-      "action": "add",
-      "gap_value": 39555.0,
+      "target_pct": 12.0,
+      "action": "reduce",
+      "gap_value": -23612.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -814,16 +823,25 @@
           "release_mv": 47992.0,
           "action": "保留 易方达稳健收益债B、易方达增强回报债A；卖出其余 3 只释放 ¥47992"
         }
-      ]
+      ],
+      "reasoning": {
+        "current_pct": 14.2,
+        "target_pct": 12.0,
+        "gap": "-2.2pp",
+        "macro": "10Y=1.7%历史低位, 久期风险收益比极差——利率每上行20bp, 10Y久期≈8的债基回撤1.6%. 低通胀支撑债价但已充分price-in",
+        "flow": "债基规模2026H1创历史新高(拥挤), 信用利差压缩至历史10%分位, 拥挤度高",
+        "policy": "央行明确'防止利率过低'基调+MLF缩量续作信号, 短端安全但长端有政策逆风",
+        "risk": "小幅减持长端转短债/货币增强, 保留12%作防御底仓(短久期<2Y为主)"
+      }
     },
     {
       "key": "cash",
       "label": "现金及等价物",
       "current_value": 338519.0,
       "current_pct": 32.2,
-      "target_pct": 18,
+      "target_pct": 15.0,
       "action": "reduce",
-      "gap_value": -149018.0,
+      "gap_value": -180601.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -841,29 +859,47 @@
           "stop_loss": null
         }
       ],
-      "fund_themes": []
+      "fund_themes": [],
+      "reasoning": {
+        "current_pct": 32.2,
+        "target_pct": 15.0,
+        "gap": "-17.2pp",
+        "macro": "现金32%严重超配=隐性踏空成本. 实际利率接近0(存款1.5%-通胀0.3%=1.2%实际), 持现机会成本高于权益风险溢价约4%",
+        "flow": "货基收益率1.4-1.6%持续下行, 资金正从货基流向短债/红利ETF, 顺势减配",
+        "policy": "存款利率下调周期未结束(2026已降2次), 现金购买力持续缩水",
+        "risk": "保留15%作尾部风险缓冲+再平衡弹药(黑天鹅时有钱加仓). 一次性释放17pp需分3-4周执行避免冲击"
+      }
     },
     {
       "key": "commodity",
       "label": "大宗商品",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 2,
+      "target_pct": 3.0,
       "action": "add",
-      "gap_value": 21056.0,
+      "gap_value": 31584.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
-      "fund_themes": []
+      "fund_themes": [],
+      "reasoning": {
+        "current_pct": 0.0,
+        "target_pct": 3.0,
+        "gap": "+3.0pp",
+        "macro": "铜/铝受AI数据中心电力需求拉动(每GW数据中心=4万吨铜), 供给端铜矿capex不足产能2027才释放. 原油震荡偏弱(需求端EV替代)不配",
+        "flow": "有色ETF(512400)资金净流入, 铜价站稳$9500/吨上方趋势完整",
+        "policy": "国储收铜+再生金属管控趋严, 供给端政策性收紧",
+        "risk": "大宗商品波动率高(铜年化vol 20%+), 仅配3%+用ETF而非期货控制风险. 周期品禁用PEG, 关注库存周期拐点"
+      }
     },
     {
       "key": "precious_metal",
       "label": "贵金属",
       "current_value": 43228.0,
       "current_pct": 4.1,
-      "target_pct": 7,
+      "target_pct": 8.0,
       "action": "add",
-      "gap_value": 30467.0,
+      "gap_value": 40995.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -916,53 +952,93 @@
           "release_mv": 13245.0,
           "action": "保留 广发上海金ETF联接A；卖出其余 1 只释放 ¥13245"
         }
-      ]
+      ],
+      "reasoning": {
+        "current_pct": 4.1,
+        "target_pct": 8.0,
+        "gap": "+3.9pp",
+        "macro": "全球央行购金2024-2026连续3年>1000吨, 美元信用体系裂缝(冻结俄储备后效应), 实际利率下行周期金价有底. 金价$2400+但长期锚$2800-3200",
+        "flow": "黄金ETF(518880/159934)份额2026持续净申购, 北上资金同步增配黄金股, 趋势未竭",
+        "policy": "中国央行连续18个月增持黄金储备(占比仍仅5%vs全球平均15%), 政策性需求是硬底",
+        "risk": "金价短期$2400已含较多乐观预期, 加仓节奏跟随回调(每跌3%加1pp). 8%为中长期目标配置"
+      }
     },
     {
       "key": "real_estate",
       "label": "房地产",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 0,
-      "action": "hold",
-      "gap_value": 0.0,
+      "target_pct": 2.0,
+      "action": "add",
+      "gap_value": 21056.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
-      "fund_themes": []
+      "fund_themes": [],
+      "reasoning": {
+        "current_pct": 0.0,
+        "target_pct": 2.0,
+        "gap": "+2.0pp",
+        "macro": "中国房地产仍在下行出清期(新开工面积-20%YoY), 但REITs(公募基础设施REITs)与住宅周期脱钩——产业园/物流仓/数据中心REITs受益AI基建",
+        "flow": "公募REITs二级市场折价收窄(从15%→8%), 机构配置型资金进场",
+        "policy": "REITs扩募+新品类(数据中心)获批, 政策持续扩容",
+        "risk": "住宅地产坚决不碰. 仅配产业园/数据中心REITs 2%作收益增强. 流动性差需长持"
+      }
     },
     {
       "key": "alternative",
       "label": "另类投资",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 5,
+      "target_pct": 5.0,
       "action": "add",
       "gap_value": 52639.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
-      "fund_themes": []
+      "fund_themes": [],
+      "reasoning": {
+        "current_pct": 0.0,
+        "target_pct": 5.0,
+        "gap": "+5.0pp",
+        "macro": "海外QDII(纳指/标普/越南)提供A股低相关性分散. 美股AI七巨头盈利周期仍在扩张期, 纳指forward PE 28x vs 盈利增速25%=PEG 1.1合理",
+        "flow": "QDII额度紧张但仍可申购(华夏纳指ETF/博时标普500), 场内溢价3-5%需等回落或场外定投",
+        "policy": "外汇管理局2026未收紧QDII个人额度($50k/年), 跨境投资通道稳定",
+        "risk": "汇率风险(人民币若升值5%吃掉收益)+QDII溢价+美股估值已不便宜. 控制5%上限"
+      }
     },
     {
       "key": "unclassified",
       "label": "待穿透",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 0,
+      "target_pct": 0.0,
       "action": "hold",
       "gap_value": 0.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
-      "fund_themes": []
+      "fund_themes": [],
+      "reasoning": {
+        "current_pct": 0.0,
+        "target_pct": 0.0,
+        "gap": "0",
+        "macro": "无未归类资产",
+        "flow": "N/A",
+        "policy": "N/A",
+        "risk": "若出现未归类标的须穿透后重新分配"
+      }
     }
   ],
   "capital_flow": {
     "sources": [
       {
-        "desc": "现金及等价物 当前 32.2% 高于目标 18%",
-        "amount": 149018.0
+        "desc": "固定收益 当前 14.2% 高于目标 12.0%",
+        "amount": 23612.0
+      },
+      {
+        "desc": "现金及等价物 当前 32.2% 高于目标 15.0%",
+        "amount": 180601.0
       },
       {
         "desc": "通富微电 适度减仓（10.87%）",
@@ -981,23 +1057,23 @@
     ],
     "uses": [
       {
-        "desc": "权益 当前 49.5% 低于目标 50%，需加仓",
-        "amount": 5300.0
+        "desc": "权益 当前 49.5% 低于目标 55.0%，需加仓",
+        "amount": 57940.0
       },
       {
-        "desc": "固定收益 当前 14.2% 低于目标 18%，需加仓",
-        "amount": 39555.0
+        "desc": "大宗商品 当前 0.0% 低于目标 3.0%，需加仓",
+        "amount": 31584.0
       },
       {
-        "desc": "大宗商品 当前 0.0% 低于目标 2%，需加仓",
+        "desc": "贵金属 当前 4.1% 低于目标 8.0%，需加仓",
+        "amount": 40995.0
+      },
+      {
+        "desc": "房地产 当前 0.0% 低于目标 2.0%，需加仓",
         "amount": 21056.0
       },
       {
-        "desc": "贵金属 当前 4.1% 低于目标 7%，需加仓",
-        "amount": 30467.0
-      },
-      {
-        "desc": "另类投资 当前 0.0% 低于目标 5%，需加仓",
+        "desc": "另类投资 当前 0.0% 低于目标 5.0%，需加仓",
         "amount": 52639.0
       },
       {
@@ -1423,13 +1499,24 @@
   ],
   "equity_quota_v4": 44.0,
   "asset_class_targets": {
-    "equity": 50,
-    "fixed_income": 18,
-    "cash": 18,
-    "precious_metal": 7,
-    "alternative": 5,
-    "commodity": 2,
-    "real_estate": 0,
-    "unclassified": 0
-  }
+    "equity": 55.0,
+    "fixed_income": 12.0,
+    "cash": 15.0,
+    "precious_metal": 8.0,
+    "alternative": 5.0,
+    "commodity": 3.0,
+    "real_estate": 2.0,
+    "unclassified": 0.0
+  },
+  "portfolio_key_actions": [
+    "【最优先】现金释放17pp: 分4周释放(每周~4.3pp), 优先补equity(+5.5pp→AI算力/创新药个股)+precious_metal(+3.9pp→黄金ETF)+alternative(+5pp→QDII纳指)+commodity(+3pp→有色ETF)",
+    "【第二】黄金加仓至8%: 跟随金价回调分批建仓(518880/159934), 每跌3%加1pp, 3个月内完成",
+    "【第三】固收久期缩短: 长端(7Y+)减2pp转短债基金(<2Y), 锁定票息避久期亏损风险"
+  ],
+  "portfolio_key_risks": [
+    "A股结构牛转熊(触发: 社融连续3月负增长/AI capex指引下修>20%/地缘冲突)→权益回撤15-20%, 对冲: 15%现金+8%黄金=23%防御垫",
+    "利率反转上行(触发: 通胀超预期回升/央行收紧)→债基回撤+权益杀估值双杀, 对冲: 已缩短久期+权益侧重盈利驱动非估值驱动板块",
+    "海外黑天鹅(美股泡沫破裂/QDII暂停申赎)→alternative 5%承受冲击, 对冲: 控制5%上限+分散纳指/标普/越南三线"
+  ],
+  "portfolio_confidence": 0.78
 }

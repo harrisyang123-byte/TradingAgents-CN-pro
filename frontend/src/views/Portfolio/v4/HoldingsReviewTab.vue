@@ -11,6 +11,18 @@
       </div>
 
       <!-- 资金流向：同一笔钱怎么动 -->
+      <!-- 大类配比委员会 v10: 3大行动 + 3大风险 -->
+      <div v-if="(review as any).portfolio_key_actions?.length" class="dt-pf-actions">
+        <div class="dt-pf-actions-title">📋 大类配比委员会 关键行动 <span v-if="(review as any).portfolio_confidence" class="dt-pf-conf">conf {{ (review as any).portfolio_confidence }}</span></div>
+        <ul class="dt-pf-actions-list">
+          <li v-for="(a, i) in (review as any).portfolio_key_actions" :key="'a'+i" class="dt-pf-action">{{ a }}</li>
+        </ul>
+        <div class="dt-pf-actions-title risk">⚠️ 关键风险 + 对冲</div>
+        <ul class="dt-pf-actions-list">
+          <li v-for="(r, i) in (review as any).portfolio_key_risks" :key="'r'+i" class="dt-pf-risk">{{ r }}</li>
+        </ul>
+      </div>
+
       <!-- 11 canonical 行业配比总览(权益 equity_quota 下11大行业目标分配) -->
       <div v-if="(review as any).industry_allocations?.length" class="dt-ind-alloc">
         <div class="dt-ind-alloc-title">
@@ -48,6 +60,13 @@
 
           <!-- 展开内容 -->
           <div v-show="open[node.key]" class="dt-class-body">
+            <!-- 大类配比 reasoning(macro/flow/policy/risk 四视角) -->
+            <div v-if="node.reasoning && Object.keys(node.reasoning).length" class="dt-class-reasoning">
+              <div class="dt-cr-row" v-if="node.reasoning.macro"><span class="dt-cr-tag macro">📊 宏观</span>{{ node.reasoning.macro }}</div>
+              <div class="dt-cr-row" v-if="node.reasoning.flow"><span class="dt-cr-tag flow">💧 资金</span>{{ node.reasoning.flow }}</div>
+              <div class="dt-cr-row" v-if="node.reasoning.policy"><span class="dt-cr-tag policy">📜 政策</span>{{ node.reasoning.policy }}</div>
+              <div class="dt-cr-row" v-if="node.reasoning.risk"><span class="dt-cr-tag risk">⚠️ 风险</span>{{ node.reasoning.risk }}</div>
+            </div>
             <!-- 行业（权益） -->
             <div v-for="ind in node.industries" :key="ind.name" class="dt-ind">
               <!-- 行业首行: 名+目标配比+持仓金额+基金金额+推荐数量 -->
@@ -246,6 +265,22 @@ function actLabel(a?: string | null): string {
 .dt-link:hover { text-decoration: underline; }
 
 .dt-class-body { padding: 4px 14px 12px 30px; background: #fff; }
+/* 大类配比 reasoning */
+.dt-class-reasoning { background: #fafbfc; border-left: 3px solid #409eff; padding: 8px 12px; margin: 6px 0 10px; border-radius: 4px; }
+.dt-cr-row { font-size: 12px; color: #4e5969; line-height: 1.7; padding: 3px 0; }
+.dt-cr-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10.5px; font-weight: 700; margin-right: 6px; }
+.dt-cr-tag.macro { background: #ecf5ff; color: #1d3a8e; }
+.dt-cr-tag.flow { background: #e6fffb; color: #006d75; }
+.dt-cr-tag.policy { background: #fff7e6; color: #d46b08; }
+.dt-cr-tag.risk { background: #fff1f0; color: #cf1322; }
+/* 大类配比委员会 keyactions/risks */
+.dt-pf-actions { background: #fff7e6; border: 1px solid #ffd591; border-radius: 8px; padding: 10px 14px; margin: 14px 0; }
+.dt-pf-actions-title { font-size: 13px; font-weight: 700; color: #d46b08; margin: 6px 0 6px; }
+.dt-pf-actions-title.risk { color: #cf1322; margin-top: 12px; }
+.dt-pf-conf { font-size: 11px; color: #1d3a8e; font-weight: 600; background: #ecf5ff; padding: 1px 6px; border-radius: 3px; margin-left: 8px; }
+.dt-pf-actions-list { list-style: none; padding: 0; margin: 0; }
+.dt-pf-action, .dt-pf-risk { font-size: 12.5px; color: #434343; line-height: 1.7; padding: 3px 0; }
+.dt-pf-risk { color: #595959; }
 .dt-ind { margin: 12px 0; }
 .dt-ind-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; margin-bottom: 4px; }
 .dt-ind-name { font-weight: 700; color: #303133; font-size: 13.5px; }
