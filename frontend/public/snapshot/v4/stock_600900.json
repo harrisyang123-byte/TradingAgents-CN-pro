@@ -24,7 +24,7 @@
   "price_at_judgment": 26.81,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 2.5,
+  "industry_weight_pct": null,
   "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
   "credibility": {
     "final_verdict": "ACCEPT",
@@ -228,7 +228,9 @@
       "target_price": "合理目标价 ¥25-32 = 2026E EPS 1.40 × 合理PE 18-23x(公用事业+股息溢价); 当前¥28.28处中部",
       "target_verdict": "现价¥28.28处合理区间中部,防御底仓3-5%;十年期国债破2.3%下行(利好)或电价市场化竞价压制(利空)是关键变量",
       "assumptions": "假设:增速6%稳定、目标PE 20x、十年期国债≤2.0%。利率反弹至2.5%+则估值回撤15-20%",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "电力公用事业",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:电力公用事业 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

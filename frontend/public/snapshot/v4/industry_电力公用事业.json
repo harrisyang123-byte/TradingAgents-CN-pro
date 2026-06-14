@@ -28,31 +28,18 @@
   },
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:电力公用事业",
-    "status": "green",
-    "status_label": "新鲜",
+    "status": "gray",
+    "status_label": "未运行",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze alloc:industry:电力公用事业",
-    "version": 2,
-    "generated_at": "2026-06-12T15:21:35Z",
-    "ttl_days": 7,
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
     "upstream": [],
-    "run_mode": "ai_proxy",
-    "exists": true
+    "run_mode": null,
+    "exists": false
   },
-  "stock_weights": [
-    {
-      "code": "600900",
-      "name": "长江电力",
-      "target_weight": 2.5,
-      "reasoning": "红利底仓+大水电稀缺+电力化受益+Beta 0.12防御"
-    },
-    {
-      "code": "601985",
-      "name": "中国核电",
-      "target_weight": 1.5,
-      "reasoning": "核电核准加速+低碳基荷+成长性"
-    }
-  ],
+  "stock_weights": [],
   "stocks": [
     {
       "unit_id": "stock:600900",

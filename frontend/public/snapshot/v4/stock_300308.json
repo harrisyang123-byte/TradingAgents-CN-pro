@@ -233,7 +233,9 @@
       "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
       "target_verdict": "现价¥1149处目标区间中部,分批建仓2-3%;等回调至PE60-65x(¥850-900)更优",
       "assumptions": "假设:2026增速60%(从108%回落)、目标PE 32x。CSP capex见顶或CPO颠覆则下修",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "AI算力数据中心",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

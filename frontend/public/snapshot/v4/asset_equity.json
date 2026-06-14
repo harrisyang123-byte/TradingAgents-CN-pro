@@ -340,8 +340,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:equity_industries」，或运行：./scripts/run_v4.sh analyze alloc:equity_industries",
-    "version": 3,
-    "generated_at": "2026-06-11T01:19:00Z",
+    "version": 4,
+    "generated_at": "2026-06-14T10:24:00Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "ai_proxy",
@@ -349,12 +349,12 @@
   },
   "industries": [
     {
-      "industry": "人工智能算力",
-      "target_weight": 8,
+      "industry": "AI算力数据中心",
+      "target_weight": 9,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "首选(AI算力 stance=bullish):capex 725B+77%硬约束+瓶颈层(光模块/HBM/CoWoS)极度紧张+1.6T爆发期(2026H2-27);forward触发监控9条覆盖capex/CPO/HBM三大风险.建议8%(实际持有中际旭创已偏高,留空间结构调整).",
-      "value_creation_roic": "光模块价值创造之王(新易盛50-66%/天孚36-48%/中际31-41%)",
+      "reasoning": "★行业层 critic 82, AI算力 critic ACCEPT(7把尺全用). hyperscaler 2026 capex $700B+/800G→1.6T结构性5年窗口/光模块龙头forward PEG 0.2-0.8(自身增速).中际+新易盛+天孚 CN3 占全球40%+. 建议9%(高于上版8%, 因 critic 验证后空间确认)",
+      "value_creation_roic": "光模块龙头价值创造之王(新易盛50-66%/天孚36-48%/中际31-41%/中兴4.4-5.8%毁灭避)",
       "fund_in_industry": [
         {
           "code": "024245",
@@ -372,15 +372,15 @@
           "weight": 1.33
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(024245分散)"
+      "recommendation": "★第一优先建仓(新易盛三维全优), 中际/天孚回调买, 中兴持有偏防御不加"
     },
     {
-      "industry": "半导体",
+      "industry": "半导体产业链",
       "target_weight": 7,
-      "direction": "go",
-      "stance": "bullish",
-      "reasoning": "双引擎(全球AI memory 超级周期+国产替代深水区):HBM售罄/Micron $200B capex+大基金三期+涨价信号.精选材料(电子特气/CMP/光刻胶)+设备(刻蚀/CVD/CMP)+EDA;避免硅片(已拥挤+全球过剩).",
-      "value_creation_roic": "设备临界(北方华创/中微7-10%)+代工毁灭(中芯2.7-3.7%) → 行业内避中芯A股选设备",
+      "direction": "go_with_cautions",
+      "stance": "cautious_bullish",
+      "reasoning": "★critic 82 但指出尺②⑦不足. 行业景气确认上行(WSTS/SIA/Gartner三源一致+WFE连续3年上行+AI capex扩张), 但 中国标的全面 PEG 3-11倍透支+ROIC<WACC 价值毁灭. 配置选股>选行业: 移远(PE17.3 PEG0.41)+通富(封测稀缺)>>其余. 7%含基金",
+      "value_creation_roic": "通富 4.4-5.9%/北方华创 7.3-9.7%/中微 7.4-9.9%/华特 4.8-6.4%/中芯 2.7-3.7% — 全部 ROIC<半导WACC 12% 价值毁灭, 仅移远 5.9-7.9%临界稍好",
       "fund_in_industry": [
         {
           "code": "012629",
@@ -388,15 +388,15 @@
           "weight": 0.95
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(012629分散)"
+      "recommendation": "★避中芯A股95x荒谬+华特PE166x+三祥259x; 移远(IoT模组)+通富(封测)是好赛道相对好价格"
     },
     {
-      "industry": "创新药",
-      "target_weight": 5,
+      "industry": "创新药+CXO",
+      "target_weight": 6,
       "direction": "go",
       "stance": "bullish",
-      "reasoning": "政策十年最强拐点+出海BD井喷打开海外天花板+1类新药获批22→40→50+逐年递增.精选'有全球权益变现能力'龙头(百济神州/恒瑞/科伦博泰),避开纯me-too和无管线尾部.",
-      "value_creation_roic": "恒瑞价值创造13-17%+科伦未盈利(PS估值)",
+      "reasoning": "★critic 82 ACCEPT(7把尺中6把). 全球外包率50%→68%结构性升+药明 ROIC 21-28%+forward PEG 0.68严重错杀. BIOSECURE 30%概率非基准已对冲. 6%含基金",
+      "value_creation_roic": "药明21-28%价值创造之王/恒瑞13-17%创造但 PEG 1.85偏贵换药明/百济临界/科伦未盈利避",
       "fund_in_industry": [
         {
           "code": "009881",
@@ -404,81 +404,111 @@
           "weight": 0.77
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(009881分散)"
-    },
-    {
-      "industry": "有色资源",
-      "target_weight": 5,
-      "direction": "go",
-      "stance": "bullish",
-      "reasoning": "铜电力化(AI数据中心耗电+EV)+金避险(央行购金17月连续)+稀土战略(对美脱钩);商品周期'加速段早中期'.龙头紫金矿业/北方稀土具备战略价值.",
-      "value_creation_roic": "紫金价值创造之列15-20%",
-      "fund_in_industry": [],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(无主题基金分散)"
-    },
-    {
-      "industry": "电力公用事业",
-      "target_weight": 4,
-      "direction": "go",
-      "stance": "bullish",
-      "reasoning": "电力化提速(AI+EV)+大水电稀缺+核电核准加速+红利稳定派息.适合作为防御+成长双重作用.长江电力作为底仓.利率下行环境下进一步受益.",
-      "value_creation_roic": "长江电力价值创造(电力WACC 5-6%)+核电不足 → 选长江避核电",
-      "fund_in_industry": [
-        {
-          "code": "019058",
-          "name": "易方达中证绿色电力ETF联接A",
-          "weight": 2.06
-        }
-      ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(019058分散)"
+      "recommendation": "★药明建仓5-8%核心+恒瑞回调买/换药明; 百济临界观望; 科伦回避"
     },
     {
       "industry": "互联网平台",
-      "target_weight": 4,
+      "target_weight": 6,
       "direction": "go",
-      "stance": "bullish",
-      "reasoning": "政策周期底→上行(反垄断结束+鼓励发展)+AI变现初现+港股估值修复.腾讯/阿里/美团基本面回暖.受益消费温和复苏.",
-      "value_creation_roic": "腾讯价值创造15.25%/阿里投入期6.26%",
+      "stance": "bullish_iteration_v2",
+      "reasoning": "★critic 68 NEEDS_CHANGES → 主agent补漏 critic_iteration_v2 (补尺①②③⑥⑦+龙头份额%量化+可证伪信号). 数字广告 $700-1126B 多源, 腾讯 PEG 0.93+恺英 0.98 合理偏低, AI变现初期(元宝MAU 1亿+).",
+      "value_creation_roic": "腾讯15.25%>WACC 价值创造/恺英18-24%价值创造/阿里6.26%<WACC战略投入期",
       "fund_in_industry": [
         {
-          "code": "006327",
-          "name": "易方达中证海外中国互联网50ETF联接(QDII)",
-          "weight": 0.81
+          "code": "001875",
+          "name": "易方达中证海外中国互联网50ETF联接A",
+          "weight": 1.59
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(006327分散)"
+      "recommendation": "★腾讯建仓6-7%核心+恺英持有Q2小程序信号加+阿里降级谨慎信号门控"
     },
     {
-      "industry": "消费电子家电",
-      "target_weight": 3,
-      "direction": "watch",
-      "stance": "neutral",
-      "reasoning": "AI硬件革新+苹果链复苏+家电出海(美的海尔)三重正面;但中性偏积极,等待AI手机渗透率确认.苹果Q3指引为关键观察点.",
-      "value_creation_roic": "海康/小米价值创造+蓝思不足",
+      "industry": "消费电子+IoT",
+      "target_weight": 4,
+      "direction": "cautious_bullish",
+      "stance": "bullish_with_split",
+      "reasoning": "★critic 82 ACCEPT. 双速分化(智能机成熟+IoT爆发). 移远 PEG 0.41 IoT 全球#1, 蓝思 PEG 4.8 透支. 4%",
+      "value_creation_roic": "小米10.9临界/移远5.9-7.9不足/蓝思5.2-6.9毁灭",
       "fund_in_industry": [
         {
-          "code": "005063",
+          "code": "024250",
           "name": "广发中证全指家用电器ETF联接A",
-          "weight": 0.81
+          "weight": 1.66
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(005063分散)"
+      "recommendation": "移远50%权重+小米35%(EV期权)+蓝思15%观察等PE<30x"
     },
     {
-      "industry": "新能源车",
-      "target_weight": 2,
-      "direction": "watch",
-      "stance": "neutral_to_cautious",
-      "reasoning": "渗透率突破50%+价格战延续+海外双反风险.行业从增量转存量竞争.限定2%作为观察仓,精选智能化标的(华为/小鹏).",
-      "value_creation_roic": "三花价值创造但Q1增速崩+高估",
+      "industry": "新能源车EV供应链",
+      "target_weight": 3,
+      "direction": "bullish_industry_cautious_stock",
+      "stance": "cautious",
+      "reasoning": "★critic 78 ACCEPT(尺②⑦不足). EV 渗透 20%→50% 5-7年窗口β确定, 但三花 PEG 1.40偏高+Q1扣非黄灯. 3% 通过基金获取行业β",
+      "value_creation_roic": "三花9.9-13%创造但 PEG 偏高",
       "fund_in_industry": [
         {
-          "code": "013180",
-          "name": "广发国证新能源车电池ETF联接C",
-          "weight": 0.77
+          "code": "012714",
+          "name": "广发国证新能源车ETF联接A",
+          "weight": 1.58
         }
       ],
-      "recommendation": "行业内: 个股(高ROIC价值创造者优先)+基金(013180分散)"
+      "recommendation": "三花不加不减+EV 行业β走主题基金"
+    },
+    {
+      "industry": "AIoT安防",
+      "target_weight": 3,
+      "direction": "cautious_bullish",
+      "stance": "hold",
+      "reasoning": "★critic 82 ACCEPT. 视频监控 $135-148B 多源一致. 海康 PEG 1.06 合理但非低估. 3%",
+      "value_creation_roic": "海康11.6-15.4%价值创造",
+      "fund_in_industry": [],
+      "recommendation": "海康持有观察不加, EBG收入>25%或海外双位数恢复加仓"
+    },
+    {
+      "industry": "有色金属资源",
+      "target_weight": 3,
+      "direction": "cautious_bullish_cycle",
+      "stance": "cautious",
+      "reasoning": "★critic 82 ACCEPT(★周期股禁PEG陷阱③教科书级避开). 紫金 PEG 0.24 是周期伪装(金铜价高位内生仅8-12%). 不追高 3%",
+      "value_creation_roic": "紫金15-20%创造但 PEG 周期陷阱/稀土6.7-8.9%临界/三祥 PE 259离谱",
+      "fund_in_industry": [],
+      "recommendation": "紫金回调¥25或金价$2100以下左侧, 稀土回避, 三祥强烈回避"
+    },
+    {
+      "industry": "化工必需消费",
+      "target_weight": 2,
+      "direction": "bullish_value_pick",
+      "stance": "bullish",
+      "reasoning": "★critic 82 ACCEPT. VA 全球寡头 CR3>80%+新和成 PEG 0.89 合理偏低+净利率27.5%顶级.老龄化驱动. 2%",
+      "value_creation_roic": "新和成16-21%价值创造",
+      "fund_in_industry": [],
+      "recommendation": "新和成加仓至1%"
+    },
+    {
+      "industry": "可选消费",
+      "target_weight": 1,
+      "direction": "bullish_high_conviction",
+      "stance": "hold",
+      "reasoning": "★critic 58 NEEDS_CHANGES → TAM 单源严重不足标 estimated_unverified, 主agent补漏拆解. 泡泡玛特 ROIC 130.69%价值创造之王但已涨多 1%",
+      "value_creation_roic": "泡泡玛特 130.69% 极致价值创造",
+      "fund_in_industry": [],
+      "recommendation": "持有3.5%不追高, HK$140 以下逆向小注"
+    },
+    {
+      "industry": "电力公用事业",
+      "target_weight": 2,
+      "direction": "defensive_value_creator",
+      "stance": "defensive",
+      "reasoning": "★critic 68 NEEDS_CHANGES → 主agent补漏改 total return 框架(类债属性 PEG不适用). 长电 ROIC 7.9-10.5%>电力WACC 5.5%稀缺真价值创造者+股息率4%+利率下行重估. 2%",
+      "value_creation_roic": "长电7.9-10.5%创造/中国核电3.5-4.6%临界(核电WACC按公用事业4-4.5%非毁灭)",
+      "fund_in_industry": [
+        {
+          "code": "024252",
+          "name": "易方达中证绿色电力ETF联接A",
+          "weight": 1.1
+        }
+      ],
+      "recommendation": "★长电>核电(性价比), 长电底仓3-5%防御"
     }
   ]
 }

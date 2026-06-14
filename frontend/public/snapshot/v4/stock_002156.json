@@ -591,7 +591,9 @@
       "target_price": "合理目标价 ¥35-45 = 2026E EPS 1.05 × 合理PE 35-43x(给封测中性溢价); 当前¥57.22已超合理区间, 减仓信号",
       "target_verdict": "现价¥57.22对合理¥35-45高估27-63%; 减仓至7%以下, 设止损¥48",
       "assumptions": "假设:常态化增速30%、目标PE 40x。若AMD订单超预期或Chiplet渗透远超预期,目标可上修至¥55(仍非加仓买点)",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "半导体产业链",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)"

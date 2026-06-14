@@ -24,7 +24,7 @@
   "price_at_judgment": 62.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 2.0,
+  "industry_weight_pct": null,
   "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
   "credibility": {
     "final_verdict": "ACCEPT_WITH_CAVEATS",
@@ -226,7 +226,9 @@
       "target_price": "合理目标价 ¥25-32 = 2026E EPS 0.69 × 合理PE 35-45x(稀土资源溢价); 当前¥49.43高估55-98%",
       "target_verdict": "现价¥49.43已透支;回避等待氧化镨钕价格突破¥60万/吨或股价回落至¥25-32再评估",
       "assumptions": "假设:扣非增速50%、目标PE 40x。周期股估值锚=商品价中枢+量增, 若稀土价突破¥60万/吨则上修至¥40+",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "有色金属资源",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

@@ -24,7 +24,7 @@
   "price_at_judgment": 440.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 1.2,
+  "industry_weight_pct": null,
   "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
   "credibility": {
     "final_verdict": "ACCEPT_WITH_CAVEATS",
@@ -228,7 +228,9 @@
       "target_price": "合理目标价 HK$280-400 = 给MSD BD$14亿打折+管线NPV估值; 当前HK$415.2处区间上沿",
       "target_verdict": "现价HK$415.2偏高;回避, 等SKB264关键数据/NDA等里程碑落地后以confirmed milestone重新定价",
       "assumptions": "假设:SKB264 2026Q4-2027Q1 NDA获批, 单品销售峰值$5-8亿。若关键数据失败, 股价腰斩至HK$200",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "创新药+CXO",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

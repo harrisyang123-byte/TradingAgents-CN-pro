@@ -24,7 +24,7 @@
   "price_at_judgment": 55.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 1.0,
+  "industry_weight_pct": null,
   "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
   "credibility": {
     "final_verdict": "NEEDS_CHANGES_acknowledged",
@@ -224,7 +224,9 @@
       "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
       "target_verdict": "现价¥188.5严重透支;强烈回避, 等PE回落至50x以下(¥55-60)再重新评估",
       "assumptions": "假设:增速30%恢复、目标PE 70x。福建/成都新基地放量+毛利率改善是关键, 失败则股价腰斩",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "半导体产业链",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

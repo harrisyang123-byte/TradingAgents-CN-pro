@@ -24,7 +24,7 @@
   "price_at_judgment": 698.0,
   "verdict_oneliner": "📌 北方华创量的护城河宽且稳(管制+四平台+大基金 3-5 年锁定),但价的护城河被买方议价(CR5=85%)系统性侵蚀;当前 698 元 64xPE 定价的是'量价齐升',实际路径'量升价降',持有不加仓+等催化(2026Q3 先进制程订单/单季边际净利率>5%)",
   "chain_positioning": null,
-  "industry_weight_pct": 2.0,
+  "industry_weight_pct": null,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {
     "final_verdict": "ACCEPT",
@@ -941,7 +941,9 @@
       "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
       "target_verdict": "现价¥667严重高估;回调至PE 50-60x(¥380-460区间)且ROIC季度环比改善才介入",
       "assumptions": "假设:常态化增速15%、目标PE 40x。若ROIC转正突破WACC 12%,目标上修至¥700+(届时重估)",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "半导体产业链",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

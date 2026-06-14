@@ -273,7 +273,9 @@
       "target_price": "目标价 ¥17-19 = 2026E EPS 1.04 × 合理PE 16-18x",
       "target_verdict": "现价¥14.73对目标¥17-19有15-29%空间;Q2小程序流水验证是关键催化",
       "assumptions": "假设:增速17%、目标PE 17x。游戏单品周期+版号风险,流水不及则下修",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "互联网平台",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

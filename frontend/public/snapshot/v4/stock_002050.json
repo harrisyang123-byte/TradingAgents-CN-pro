@@ -195,7 +195,9 @@
       "target_price": "合理目标价 ¥35-45 = 2026E EPS 1.05 × 合理PE 35-45x(给机器人期权适度溢价); 当前¥44.81已透支",
       "target_verdict": "现价¥44.81处目标上沿,减仓;止损¥38(对应PE 36x合理估值锚);破¥38则机器人叙事退潮",
       "assumptions": "假设:常态化增速20%、目标PE 40x。若T项目2026Q3订单落地,目标上修至¥55(届时再评估加仓)",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "新能源车EV供应链",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:新能源车EV供应链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

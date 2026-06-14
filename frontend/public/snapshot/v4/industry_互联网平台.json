@@ -28,37 +28,18 @@
   },
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:互联网平台",
-    "status": "green",
-    "status_label": "新鲜",
+    "status": "gray",
+    "status_label": "未运行",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:industry:互联网平台」，或运行：./scripts/run_v4.sh analyze alloc:industry:互联网平台",
-    "version": 2,
-    "generated_at": "2026-06-12T15:21:35Z",
-    "ttl_days": 7,
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
     "upstream": [],
-    "run_mode": "ai_proxy",
-    "exists": true
+    "run_mode": null,
+    "exists": false
   },
-  "stock_weights": [
-    {
-      "code": "00700",
-      "name": "腾讯控股",
-      "target_weight": 2.0,
-      "reasoning": "AI+游戏+广告+微信AI Agent 6月备案最大催化"
-    },
-    {
-      "code": "09988",
-      "name": "阿里巴巴",
-      "target_weight": 1.5,
-      "reasoning": "中国AI首选+阿里云外部+40%+千问生态"
-    },
-    {
-      "code": "01810",
-      "name": "小米集团",
-      "target_weight": 0.5,
-      "reasoning": "汽车放量+AI硬件;但跨行业属性混合,小仓配置"
-    }
-  ],
+  "stock_weights": [],
   "stocks": [],
   "indirect_holdings": {
     "direct_yi": 0,

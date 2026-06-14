@@ -268,7 +268,9 @@
       "target_price": "合理目标价 ¥45-55 = 2026E EPS 3.0 × 合理PE 15-18x(增收不增利的代工溢价上沿); 当前¥55.5处合理区间上沿",
       "target_verdict": "现价¥55.5接近合理上沿,持有不加仓;FCF转正(预期2027H1)确认是右侧加仓信号",
       "assumptions": "假设:常态化增速25%、目标PE 16x。若毛利率突破20%或FCF连续2季转正,目标上修至¥65;反之下修至¥40",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "半导体产业链",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

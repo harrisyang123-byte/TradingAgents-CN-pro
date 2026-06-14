@@ -24,7 +24,7 @@
   "price_at_judgment": 30.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 1.5,
+  "industry_weight_pct": null,
   "valuation_basis": "周期成长股PE法: 目标价32元=2026E EPS约1.3元 × PE 25x(消费电子中枢,Q2扭亏后); 买点24-28=PE 18-22x(去年低点24.94一线); 破24=跌破去年低点趋势反转→清仓。注:Q1亏损,2026E EPS依赖Q2扭亏假设,故偏谨慎。",
   "credibility": {
     "final_verdict": "ACCEPT_WITH_CAVEATS",
@@ -236,7 +236,9 @@
       "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
       "target_verdict": "现价¥41严重高估;回避, 等PE回落至30x以下(¥30)或ROIC突破WACC再评估",
       "assumptions": "假设:增速15%、目标PE 22x。AR/VR或汽车业务量产则可能上修至¥35-40",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "消费电子+IoT",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:消费电子+IoT 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

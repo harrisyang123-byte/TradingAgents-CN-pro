@@ -24,7 +24,7 @@
   "price_at_judgment": 526.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 2.5,
+  "industry_weight_pct": null,
   "valuation_basis": "高成长光模块PE法: 目标价700元=2026E EPS约20元 × forward PE 35x(1.6T放量,低于中际旭创); 买点480-540=forward PE 24-27x(20%安全边际); 破480=forward PE<24盈利下修→清仓。2025净利+236%高基数,2026增速放缓需警惕。",
   "credibility": {
     "final_verdict": "ACCEPT",
@@ -250,7 +250,9 @@
       "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
       "target_verdict": "当前¥506处目标区间下沿,增速兑现可向上;若Q3增速<100%则下修",
       "assumptions": "假设:2026增速80%(从235%回落)、净利率20%、目标PE 30x。增速不及则目标价下修",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "AI算力数据中心",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

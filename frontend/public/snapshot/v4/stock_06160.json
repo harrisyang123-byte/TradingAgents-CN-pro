@@ -24,7 +24,7 @@
   "price_at_judgment": 280.0,
   "verdict_oneliner": null,
   "chain_positioning": null,
-  "industry_weight_pct": 2.0,
+  "industry_weight_pct": null,
   "valuation_basis": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。",
   "credibility": {
     "final_verdict": "ACCEPT_WITH_CAVEATS",
@@ -218,7 +218,9 @@
       "target_price": "合理目标价 HK$140-200 = 2026E PS~6x(已盈利biotech估值); 当前HK$158.9处区间下沿",
       "target_verdict": "现价HK$158.9处目标下沿, 临界观望;等连续2季Non-GAAP盈利+sonrotoclax III期数据确认后右侧介入",
       "assumptions": "假设:2026Non-GAAP持续盈利、PS 6x。若pirtobrutinib等竞品快速放量, 单品依赖风险触发, 目标下修至HK$120",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "创新药+CXO",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null

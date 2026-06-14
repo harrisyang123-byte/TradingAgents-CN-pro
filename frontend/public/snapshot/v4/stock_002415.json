@@ -257,7 +257,9 @@
       "target_price": "目标价 ¥32-37 = 2026E EPS 1.83 × 合理PE 17-20x",
       "target_verdict": "现价¥30对目标¥32-37仅6-22%空间,持有观察;G端财政+实体清单压制弹性",
       "assumptions": "假设:增速18.5%、目标PE 18x。营收零增长持续或地缘升级则下修",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "derived_from_industry": "AIoT安防",
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AIoT安防 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
     }
   },
   "dcf_intrinsic": null
