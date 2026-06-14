@@ -52,6 +52,23 @@
       "prev_stance": "cautious_bullish(2026-06-12)",
       "what_changed": "本轮加 industry_future_market 完整模块, 7把尺论证, 中国份额天花板量化(<5%代工/<3%设备)",
       "why_changed": "对齐三维框架, 让下游个股expert_valuation有统一锚点"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 7,
+      "rulers_used": 5,
+      "critic_caveats": [
+        "尺②TAM拆解未做(机构总数未反推)",
+        "尺⑦景气先行仅WFE一个(缺DRAM/fab利用率/B/B ratio≥3交叉)",
+        "PEG陷阱未显式排雷(移远42%是否IoT周期高点)",
+        "ROIC<WACC缺拐点时间锚"
+      ],
+      "data_status": "真critic spawn 复核"
     }
   }
 }

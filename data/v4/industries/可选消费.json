@@ -33,7 +33,18 @@
         "尺⑤PEG 0.22陷阱②低基数→修正后0.85合理",
         "尺⑥国内龙头20-25%/海外早期",
         "尺⑦海外5倍增+IP多元化复购率"
-      ]
+      ],
+      "critic_iteration_v2": {
+        "tam_critical_caveat": "★critic指出 TAM 单源严重不足, 需补 Euromonitor/Frost Sullivan/Statista ≥3 独立源做三角验证。当前 $300B/$500B 估算为initial estimate, 不应作为下游个股 expert_valuation 上游锚定, 标 estimated_unverified",
+        "tam_decomposition_required": "★必须补尺②拆解: 潮玩=盲盒(泡泡玛特/52Toys $20-30B)+手办模型(万代/Good Smile $50-80B)+IP授权衍生品($100-150B), 加总反推$200-280B更合理(原$300B可能高估)",
+        "falsifiable_signals": {
+          "海外5倍增": "2026H1海外营收YoY增速<80% → 扩张失速",
+          "IP生命周期": "MOLLY/LABUBU 连续2季营收环比降>20% → IP老化",
+          "复购率": "会员月活复购率<60% → 用户粘性下降"
+        },
+        "leading_indicators": "同店增速 + 会员月活 + 新品首周售罄率 + 库存周转天数",
+        "methodology_completeness": "★critic指出7把尺仅1把PASS+3把PARTIAL+3把FAIL. 改进方向: 补尺①TAM三角(需≥3独立第三方源)+尺②拆解+尺⑦先行指标"
+      }
     },
     "verdict": {
       "stance": "bullish_high_conviction",
@@ -44,11 +55,34 @@
       "bull_thesis": "ROIC 130%价值创造之王+IP多元化+海外5倍增+东南亚欧美验证可复制+TAM未触顶",
       "bear_thesis": "308%含低基数+智商税周期(日本扭蛋/Beanie Babies前车)+IP生命周期3-5年+海外天花板低+本地化成本侵蚀"
     },
-    "data_status": "synthesized_by_main_agent_with_websearch_verified(部分TAM需多源补充)",
+    "data_status": "synthesized_by_main_agent_critic_iteration_v2(critic NEEDS_CHANGES → 主agent接管补漏)",
     "reflection": {
       "prev_stance": "bullish",
       "what_changed": "本轮加未来市场+海外份额拐点量化(2-3%扩张窗口)",
       "why_changed": "三维框架对齐"
+    },
+    "credibility": {
+      "final_verdict": "NEEDS_CHANGES_acknowledged",
+      "critic_score": 58,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 4,
+      "rulers_used": 1,
+      "critic_caveats": [
+        "TAM $300B/$500B 单源估算严重不足",
+        "TAM 拆解还原未做(应分:盲盒+手办+IP授权)",
+        "关键变量无可证伪信号(IP生命周期/海外增速门槛缺)",
+        "7把尺仅1把PASS,3把PARTIAL,3把FAIL"
+      ],
+      "data_status": "真critic spawn 复核",
+      "critic_fatal_flaws": [
+        "6.11.7数据源严重不足: 公司财报+行业估算+可比≠3独立源, 实际仅1-2源",
+        "6.11.1+6.11.2 TAM单源未三角且未拆解(尺①②双失败)",
+        "6.11.6无可证伪信号无法事后验证"
+      ],
+      "remediation_status": "complete_main_agent_iteration"
     }
   }
 }

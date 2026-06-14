@@ -194,7 +194,9 @@
         "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
         "target_verdict": "现价¥303.92高估;回避, 等PE回落至50-60x(¥170-210)且ROIC突破WACC再介入",
         "assumptions": "假设:常态化增速25%、目标PE 50x。若海外份额突破5%或ROIC转正, 上修至¥280",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "derived_from_industry": "半导体产业链",
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
       }
     },
     "verdict": {

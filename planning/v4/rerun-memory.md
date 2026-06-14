@@ -380,3 +380,15 @@
   - **问题3 基金不穿透**: 删IndustryDetailTab穿透卡片+HoldingsReviewTab间接穿透行, 基金作整体标的(主题去重)。
   - 全部vue-tsc编译通过。关键: StockDetailTab②区(expertVal computed), build_snapshot_v4.py(rec_by_ind ~163行)。
   - **待办(下次)**: 其余20只非核心股的expert_valuation目标价测算未做(仅8核心股); 基金二分(主题→行业标的/宽基→大类底仓)前端可进一步体现fund_classification.json映射。
+
+
+- **2026-06-14 行业层 11 行业完整重跑(canonical) + critic 真复核 + 上下游闭环**(本会话最大单轮工作量):
+  - **流程**: spawn 真subagent 多空辩论(6行业) + 主agent web_search verified 合成(5行业) + spawn critic 真复核(11/11 完成 — 铁律#5严肃执行不简化)
+  - **结果**: ACCEPT 8 (AI算力82/半导体82/创新药+CXO82/消费电子+IoT82/EV 78/AIoT安防82/有色82/化工82) + NEEDS_CHANGES 3 (互联网68/可选消费58/电力68)
+  - **3个NEEDS_CHANGES主agent接管补漏(critic_iteration_v2)**: 互联网补尺①②③⑥⑦+可证伪信号; 可选消费TAM单源不足标estimated_unverified+尺②拆解; 电力 PEG 改 total return 框架+尺①②⑦补漏
+  - **★铁律#5固化**: critic 真 spawn 暴露 3 个真硬伤(主 agent 自评 0/11 NEEDS_CHANGES vs 真 critic 3/11 — 偏差证明铁律必要)
+  - **个股上游对齐**: 28/28 个股 expert_valuation 加 derived_from_industry 字段引用 industry_future_market, 形成上下游闭环
+  - **7 把辩证分析尺方法论固化**: 行业层全部使用尺①TAM三角/②拆解还原/③CAGR久期/④渗透阶段类比/⑤forward PEG跨期/⑥龙头瓜分/⑦景气先行交叉, ACCEPT 行业用 5-7 把, NEEDS_CHANGES 行业用 1-3 把(暴露方法论不足)
+  - **数据契约**: 每行业 ≥3 独立第三方源(IDC/marketsandmarkets/Gartner/SEMI/IEA/WSTS/Statista 等), 标 verified URL, 多源冲突标分歧不调和
+  - **agent.md固化**: AGENTS.md §4 + project-master-prompt §7-bis + v4-industry-director.md _methodology + v4-industry-bull/bear/critic.md 全部加未来市场必辩+7把尺必查
+  - **README架构图**: 加 11 大canonical行业列举 + 7把辩证尺完整描述 + Step 5/6 三维框架+expert_valuation

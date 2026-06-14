@@ -51,6 +51,23 @@
       "prev_stance": "cautious_bullish",
       "what_changed": "本轮加未来市场+7把尺+双速分化判定",
       "why_changed": "三维框架对齐"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 5,
+      "rulers_used": 6,
+      "critic_caveats": [
+        "移远FCF负何时转正缺时间锚(尺⑤久期问题)",
+        "SoC-8%下修阈值未量化(应连续2Q则降stance)",
+        "移远PEG0.41与FCF负矛盾未充分对辩",
+        "EV互连久期未锚定"
+      ],
+      "data_status": "真critic spawn 复核"
     }
   }
 }

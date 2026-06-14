@@ -51,6 +51,26 @@
       "prev_stance": "bullish",
       "what_changed": "本轮明确周期股禁PEG+紫金从强推荐降谨慎(尺⑤陷阱③)",
       "why_changed": "7把尺纠错+critic 78分修正"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 7,
+      "rulers_used": 5,
+      "critic_caveats": [
+        "尺②TAM拆解未做(应铜=2800万吨×$9500=$266B)",
+        "尺⑦景气先行未列(LME库存/TC加工费/矿企capex/订单)",
+        "可证伪信号未显式配对(金<$2100=央行购金证伪/铜<$8000=AI证伪/稀土<¥40万=缅甸恢复)",
+        "基本金属TAM目标年2034与稀土2030E口径不一"
+      ],
+      "data_status": "真critic spawn 复核",
+      "critic_fatal_flaws": [
+        "核心亮点:周期股禁PEG陷阱③教科书级避开(紫金0.24=伪装成长)"
+      ]
     }
   }
 }

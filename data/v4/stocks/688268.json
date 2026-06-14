@@ -184,7 +184,9 @@
         "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
         "target_verdict": "现价¥188.5严重透支;强烈回避, 等PE回落至50x以下(¥55-60)再重新评估",
         "assumptions": "假设:增速30%恢复、目标PE 70x。福建/成都新基地放量+毛利率改善是关键, 失败则股价腰斩",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "derived_from_industry": "半导体产业链",
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
       }
     },
     "verdict": {

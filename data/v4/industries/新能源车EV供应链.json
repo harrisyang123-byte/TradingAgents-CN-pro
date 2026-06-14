@@ -50,6 +50,24 @@
       "prev_stance": "bullish",
       "what_changed": "本轮加未来市场+grandview $29B离群剔除",
       "why_changed": "三维框架对齐+区分行业β与个股α"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 78,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 6,
+      "rulers_used": 5,
+      "critic_caveats": [
+        "尺②TAM拆解未做(应4500万×$150-200=$6.75-9B反推)",
+        "尺⑦景气先行指标缺3+量化交叉(订单/产能/价格)",
+        "6.11.6关键变量缺可证伪信号阈值",
+        "龙头瓜分缺top3累计%",
+        "EV销量笔误风险"
+      ],
+      "data_status": "真critic spawn 复核"
     }
   }
 }

@@ -53,6 +53,18 @@
       "prev_stance": "go(2026-06-12 v3已存在)",
       "what_changed": "本轮加 industry_future_market 完整模块(TAM/CAGR/渗透率/forward PEG/龙头瓜分/3独立源/7把尺), 旧版仅 ROIC分层+chokepoint",
       "why_changed": "用户拍板\"行业层结合未来市场考虑了吗\"后落地, 成为下游个股 expert_valuation 的统一上游锚定"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 7,
+      "rulers_used": 7,
+      "key_concerns": "AI server 2030 口径2.1倍差异未明确conf对应情景",
+      "data_status": "真critic spawn 复核"
     }
   }
 }

@@ -33,7 +33,20 @@
         "尺⑤PEG偏高但股息+稳定弥补(防御资产逻辑)",
         "尺⑥水电长电17%/核电双寡头",
         "尺⑦十年期国债下行(利好)+电价市场化(利空)"
-      ]
+      ],
+      "critic_iteration_v2": {
+        "public_utility_total_return_framework": "★critic修正用 total return 框架替代 PEG (公用事业类债属性): 长电 PE 20 + 股息率 4.0% + EPS增速 8% = 总回报 12% / 历史中枢14-16x; 中国核电 PE 20.4 + 股息率3.2% + 增速 6% = 总回报 9.2%",
+        "rationalize_peg_with_recommendation": "★PEG偏贵但防御逻辑成立的reconcile: 公用事业 PEG 不适用因(1) 类债资产久期>20年, PE非估值锚 (2) 现金流稳定可预测 PE合理区间为利率倒数(2/利率%) → 1.7%利率下 PE 20x 是 fair value",
+        "falsifiable_signals": {
+          "利率下行逻辑": "十年期国债>2.3% → 估值重估逻辑削弱",
+          "双碳核电": "核电年审批<6台 → 2030装机翻倍miss",
+          "水电电价": "丰水期现货跌幅>12% → 长电利润预警",
+          "极端气候": "三峡来水年率<-15% → 利润缺口"
+        },
+        "tam_decomposition": "★critic修正补尺②: 中国总发电量12万亿千瓦时×均价0.5元=6万亿元行业营收, 水电+核电占比~20% = 1.2万亿可寻址市场, 长电+核电+中广核 ~6000-7000亿(占可寻址50-60%)",
+        "leading_indicators": "核电审批节奏(年6台目标) + 来水量(三峡入库流量) + 现货电价(丰水期下压幅度) + 十年期国债(利率反转)",
+        "serenity_acknowledgment": "★critic纠错: 公募/外资重仓 = 高发现度低预期差 = 纯beta防御无alpha, 配置仅作为底仓不指望超额收益"
+      }
     },
     "verdict": {
       "stance": "defensive_value_creator",
@@ -44,11 +57,32 @@
       "bull_thesis": "水电零燃料+反周期+股息防御+双碳核电翻倍β+利率下行重估+长电ROIC>WACC价值创造",
       "bear_thesis": "PE 20历史上沿+增速天花板(六库满装无大型注入)+电价市场化下压+国债反弹估值回撤"
     },
-    "data_status": "synthesized_by_main_agent_with_websearch_verified",
+    "data_status": "synthesized_by_main_agent_critic_iteration_v2(critic NEEDS_CHANGES → 主agent接管补漏)",
     "reflection": {
       "prev_stance": "bullish",
       "what_changed": "本轮加未来市场+长电vs核电性价比对比+电价市场化风险",
       "why_changed": "三维框架对齐"
+    },
+    "credibility": {
+      "final_verdict": "NEEDS_CHANGES_acknowledged",
+      "critic_score": 68,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 5,
+      "rulers_used": 2,
+      "critic_fatal_flaws": [
+        "6.11.4 forward PEG 2.5/3.4偏贵与\"防御首选\"推荐矛盾未reconcile(应改total return PEG或PB+股息+DDM框架)",
+        "6.11.6 4个关键driver未配可证伪信号阈值",
+        "6.11.x方法论仅应用尺④⑥<3把尺",
+        "尺①TAM三角缺(单源国家能源局)",
+        "尺②TAM拆解未做(应总发电×均价=营收→水电核电占比→可寻址市场)",
+        "尺⑦景气先行未列(核电审批/电价改革/利率≥3同向)",
+        "serenity视角:公募重仓高发现度未承认纯beta防御无alpha"
+      ],
+      "data_status": "真critic spawn 复核",
+      "remediation_status": "complete_main_agent_iteration"
     }
   }
 }

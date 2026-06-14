@@ -308,7 +308,9 @@
         "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
         "target_verdict": "现价HK$110.2处目标下沿, 建仓但小仓位+信号门控;ROIC季度环比改善+云收入占比破15%才右侧加仓",
         "assumptions": "假设:云+AI带ROIC 2-3年内修复+电商份额企稳。若云增速持续放缓或竞品继续蚕食,目标下修至HK$80",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "derived_from_industry": "互联网平台",
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
       }
     },
     "debate_rounds": [

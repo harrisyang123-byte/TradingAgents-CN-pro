@@ -248,7 +248,9 @@
         "target_price": "目标价 HK$550-620 = 2026E EPS 36 × 合理PE 16-18x(仍低于海外同行)",
         "target_verdict": "现价HK$463对目标有18-34%空间;AI capex翻倍侵蚀短期FCF是主要扰动",
         "assumptions": "假设:增速15%、目标PE 17x(给中国互联网折价)。监管收紧或AI回报不及则下修",
-        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)"
+        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+        "derived_from_industry": "互联网平台",
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
       }
     },
     "debate_rounds": [

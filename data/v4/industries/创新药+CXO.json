@@ -51,6 +51,23 @@
       "prev_stance": "bullish(2026-06-12)",
       "what_changed": "本轮加 industry_future_market 完整模块 + 7把尺 + 中国份额量化(11%)",
       "why_changed": "对齐三维框架成为药明个股 expert_valuation 上游锚点"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 6,
+      "rulers_used": 6,
+      "critic_caveats": [
+        "尺⑤PEG陷阱②低基数未量化(102%含寒冬恢复, 应剔除给forward常态22%而非用102%)",
+        "尺⑤久期未折算(修正PEG应=14.9/22%×3/5=0.78仍<1结论不变)",
+        "BIOSECURE 30%概率需明确trigger阈值+应急方案",
+        "缺正向DCF验证目标价仅空间倍数法"
+      ],
+      "data_status": "真critic spawn 复核"
     }
   }
 }

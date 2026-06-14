@@ -50,6 +50,23 @@
       "prev_stance": "bullish",
       "what_changed": "本轮加未来市场+VA寡头壁垒量化+周期成长双属性辩证",
       "why_changed": "三维框架对齐"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "v4-investor-critic"
+      ],
+      "review_method": "spawn_subagent_ask_v2 真复核",
+      "7_items_pass": 7,
+      "rulers_used": 6,
+      "critic_caveats": [
+        "VA现货价/库存天数未引具体数据点",
+        "15.3%增速需标forward vs trailing来源",
+        "贸易风险情景(反倾销+10%对净利率影响)未量化",
+        "PEG陷阱②低基数检查需明确(15.3%是否含周期恢复)"
+      ],
+      "data_status": "真critic spawn 复核"
     }
   }
 }
