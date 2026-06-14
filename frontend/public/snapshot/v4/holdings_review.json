@@ -19,9 +19,9 @@
       "label": "权益",
       "current_value": 521092.0,
       "current_pct": 49.5,
-      "target_pct": 56,
-      "action": "add",
-      "gap_value": 68468.0,
+      "target_pct": 50,
+      "action": "hold",
+      "gap_value": 5300.0,
       "has_class_analysis": true,
       "industries": [
         {
@@ -705,9 +705,9 @@
       "label": "固定收益",
       "current_value": 149946.0,
       "current_pct": 14.2,
-      "target_pct": 15,
-      "action": "hold",
-      "gap_value": 7972.0,
+      "target_pct": 18,
+      "action": "add",
+      "gap_value": 39555.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -821,9 +821,9 @@
       "label": "现金及等价物",
       "current_value": 338519.0,
       "current_pct": 32.2,
-      "target_pct": 19,
+      "target_pct": 18,
       "action": "reduce",
-      "gap_value": -138490.0,
+      "gap_value": -149018.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -848,9 +848,9 @@
       "label": "大宗商品",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 2.5,
+      "target_pct": 2,
       "action": "add",
-      "gap_value": 26320.0,
+      "gap_value": 21056.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
@@ -861,9 +861,9 @@
       "label": "贵金属",
       "current_value": 43228.0,
       "current_pct": 4.1,
-      "target_pct": 4.5,
-      "action": "hold",
-      "gap_value": 4148.0,
+      "target_pct": 7,
+      "action": "add",
+      "gap_value": 30467.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -923,9 +923,9 @@
       "label": "房地产",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 3,
-      "action": "add",
-      "gap_value": 31584.0,
+      "target_pct": 0,
+      "action": "hold",
+      "gap_value": 0.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
@@ -936,9 +936,9 @@
       "label": "另类投资",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 0,
-      "action": "hold",
-      "gap_value": 0.0,
+      "target_pct": 5,
+      "action": "add",
+      "gap_value": 52639.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
@@ -961,8 +961,8 @@
   "capital_flow": {
     "sources": [
       {
-        "desc": "现金及等价物 当前 32.2% 高于目标 19%",
-        "amount": 138490.0
+        "desc": "现金及等价物 当前 32.2% 高于目标 18%",
+        "amount": 149018.0
       },
       {
         "desc": "通富微电 适度减仓（10.87%）",
@@ -981,24 +981,24 @@
     ],
     "uses": [
       {
-        "desc": "权益 当前 49.5% 低于目标 56%，需加仓",
-        "amount": 68468.0
+        "desc": "权益 当前 49.5% 低于目标 50%，需加仓",
+        "amount": 5300.0
       },
       {
-        "desc": "固定收益 当前 14.2% 低于目标 15%，需加仓",
-        "amount": 7972.0
+        "desc": "固定收益 当前 14.2% 低于目标 18%，需加仓",
+        "amount": 39555.0
       },
       {
-        "desc": "大宗商品 当前 0.0% 低于目标 2.5%，需加仓",
-        "amount": 26320.0
+        "desc": "大宗商品 当前 0.0% 低于目标 2%，需加仓",
+        "amount": 21056.0
       },
       {
-        "desc": "贵金属 当前 4.1% 低于目标 4.5%，需加仓",
-        "amount": 4148.0
+        "desc": "贵金属 当前 4.1% 低于目标 7%，需加仓",
+        "amount": 30467.0
       },
       {
-        "desc": "房地产 当前 0.0% 低于目标 3%，需加仓",
-        "amount": 31584.0
+        "desc": "另类投资 当前 0.0% 低于目标 5%，需加仓",
+        "amount": 52639.0
       },
       {
         "desc": "Pop Mart International Group Limited 持有观望(不主动加仓, 仅深跌逆向小注)",
@@ -1423,13 +1423,13 @@
   ],
   "equity_quota_v4": 44.0,
   "asset_class_targets": {
-    "equity": 56,
-    "cash": 19,
-    "fixed_income": 15,
-    "unclassified": 0,
-    "precious_metal": 4.5,
-    "real_estate": 3,
-    "commodity": 2.5,
-    "alternative": 0
+    "equity": 50,
+    "fixed_income": 18,
+    "cash": 18,
+    "precious_metal": 7,
+    "alternative": 5,
+    "commodity": 2,
+    "real_estate": 0,
+    "unclassified": 0
   }
 }

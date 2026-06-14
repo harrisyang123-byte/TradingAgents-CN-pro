@@ -12,17 +12,17 @@
   "error": null,
   "payload": {
     "alloc_type": "portfolio",
-    "version": 8,
-    "stance": "moderate_aggressive_balanced (v8: unclassified 12% 合并到 equity 56%, 海外配置纳入权益)",
+    "version": 9,
+    "stance": "moderate_balanced_v9 (基于2026-06-14实际持仓+行业层11canonical+宏观verified重做)",
     "target_weights": {
-      "equity": 56,
-      "cash": 19,
-      "fixed_income": 15,
-      "unclassified": 0,
-      "precious_metal": 4.5,
-      "real_estate": 3,
-      "commodity": 2.5,
-      "alternative": 0
+      "equity": 50,
+      "fixed_income": 18,
+      "cash": 18,
+      "precious_metal": 7,
+      "alternative": 5,
+      "commodity": 2,
+      "real_estate": 0,
+      "unclassified": 0
     },
     "weight_sum": 100,
     "equity_quota": 44,
@@ -62,6 +62,9 @@
       "value_creation_impact": "价值创造维度让配比从'单看估值折价'升级为'估值折价×ROIC创造价值'双标准, 避免买入'便宜的价值毁灭股'(中芯/中国核电/华特/蓝思陷阱)。"
     },
     "changes_vs_v7": "v8 修复 v7 的 'unclassified=12%' 历史遗留 bug:\n- 实际持仓 unclassified=0%(36只全部成功归类), v3 时代 12% 含义='海外配置预留'已过时\n- 海外配置已通过 QDII 基金实现 ¥48114=4.57%(纳指100/海外中国互联网50/全球精选/纳斯达克100), 全归 equity\n- 12% target 重新分配方案 A: 合并到 equity 44%→56%(用户拍板, 承认海外是权益的子类)\n- 大类首行决策反转: equity 从'当前49.5%>目标44%超配reduce' → '当前49.5%<目标56%低配add 4.5%'\n- 实际行动建议: 海外仓位 4.57% 应加至 ~12% 目标(增 QDII 多元化), 或保持现 49.5% 而调整 56% target 到合理水平\n",
-    "v8_caveat": "大类决策反转: 权益从减仓信号变加仓信号. 用户应重新审视: 是真要加权益至56%, 还是接受49.5%而把目标下调?"
+    "v8_caveat": "大类决策反转: 权益从减仓信号变加仓信号. 用户应重新审视: 是真要加权益至56%, 还是接受49.5%而把目标下调?",
+    "changes_vs_v8": "v9 主 agent 兼大类配比委员会重决策(基于完整 v4 分析):\n\n【输入】\n- 实际持仓 verified: equity 49.5% / cash 32.2% / fixed_income 14.2% / precious_metal 4.1% (其余0)\n- 行业层11canonical critic 复核(8 ACCEPT + 3 iter_v2): AI算力/半导体/创新药+CXO/互联网平台 strong go\n- 宏观: 2026年中 AI capex 超级周期 + A股结构性牛市 + 利率下行 + 央行购金 + 地缘风险\n- 用户偏好: 持久盈利绝对收益 + moderate_aggressive_balanced\n\n【7大类辩证分析】\n- equity 50%(原v8 56%下调): 承认49.5%已合理水平+留0.5%海外QDII多元化, 不强行加6%; v8的'56%加仓'是激进过度\n- cash 18%(原32.2%→18%): 现金严重超配, 释放¥150k+到固收+黄金+海外\n- fixed_income 18%(原14.2%→18%): 利率下行环境久期享受+承接现金转移\n- precious_metal 7%(原4.1%→7%): 央行购金+地缘+实际偏低, 加3%(¥31k)\n- alternative 5%(原0%→5%): 海外QDII/对冲基金/REITs期权, 加5%(¥53k)\n- commodity 2%(原0%→2%): AI时代低配但不缺\n- real_estate 0%(主动0%): 中国地产周期下行\n- unclassified 0%: 修复v7 bug\n\n【决策反转vs v8】\n- v8: equity 44→56%(权益add 6.5%) → 激进过度\n- v9: equity 50%(权益add 0.5%, 实质hold) + 把现金释放给固收/黄金/海外 → 温和均衡\n\n【动作建议】\n- 减仓: 现金减¥150k(从32.2%→18%)\n- 加仓: 固收+¥40k / 黄金+¥31k / 海外alternative+¥53k / 大宗+¥21k = ¥145k\n- 权益不动(49.5%已合理)\n",
+    "v9_methodology": "主 agent 接管大类配比委员会(标 synthesized_by_main_agent), 基于7大类辩证(macro/flow/policy)+行业层verdict+实际持仓状态综合得出, 推荐温和均衡而非激进权益",
+    "data_status": "synthesized_by_main_agent (大类配比委员会 v9, 基于完整 v4 分析+用户实际持仓)"
   }
 }
