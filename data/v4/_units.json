@@ -616,11 +616,11 @@
     "stock:688981": {
       "unit_id": "stock:688981",
       "unit_type": "stock",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T14:18:57Z",
+      "generated_at": "2026-06-14T01:41:32Z",
       "upstream": [],
       "error": null,
       "path": "stocks/688981.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T01:30:31Z"
+  "updated_at": "2026-06-14T01:41:33Z"
 }

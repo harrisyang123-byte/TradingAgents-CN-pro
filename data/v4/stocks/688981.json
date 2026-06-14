@@ -2,180 +2,216 @@
   "unit_id": "stock:688981",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
-  "status": "green",
+  "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-12T14:18:57Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-14T01:41:32Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "code": "688981",
     "name": "中芯国际",
-    "industry": "半导体",
-    "market": "CN",
-    "instrument_type": "stock",
-    "rating": "增持(成熟制程涨价兑现+价值修复)",
-    "target_price": 140,
-    "entry_price_range": [
-      105,
-      115
-    ],
-    "expectation_gap": "正(收敛中):2026Q1 营收 176.17 亿+8.1%、净利 13.61 亿+0.4%(略低预期),Q2 指引上修+毛利率 20.1% 持续修复;先进制程突破 5nm 长期看涨叙事+大基金三期+涨价信号;forward 估值仍偏低估;空头侧重短期管制压制+ Q1 利润 miss",
-    "chokepoint_score": "中-高。处半导体行业'设备+先进封装'交叉点,中国唯一掌握 12 寸成熟+先进制程的代工厂=战略稀缺;成熟制程涨价兑现+先进制程突破窗口最大获益者",
-    "discovery_level": "🟡半发现",
-    "business_quality": "周期生意(代工本质重资本+利润周期波动);中国唯一掌握 12 寸成熟+先进制程的代工厂=战略稀缺;10 年后大概率仍在",
-    "position_nature": "长期投资(战略稀缺资产+国产替代长坡)+ 中期窗口期交易(成熟制程涨价兑现+先进制程催化)双重属性",
-    "worst_case": "美国进一步升级管制(EDA源代码/材料工具卡更狠+ SDN列入升级) → 先进制程节奏受重创,股价杀30-40%(回到75-85元/A股)",
-    "downside": "下行 -30%(75-85元/A股) vs 上行 +20-30%(140-150元) → 赔率约0.7,中性偏多",
-    "sell_discipline": [
-      "美国升级管制(EDA/材料卡更狠) → 减仓50%",
-      "Q3指引下修(2Q上修后2Q连续下修) → 减仓30%",
-      "成熟制程价格连续两季下行 → 减仓30%",
-      "破 100 元/A 股 → 清仓"
-    ],
-    "thesis": "采信多头:Q2 指引上修+毛利率持续修复+成熟制程涨价兑现+大基金三期落地+先进制程突破故事;压低空头的短期净利 miss(主因运营费用上升=战略capex,非景气下行);估值PB 6x(A股)/3x(港股)合理偏高估,但战略稀缺+涨价兑现赔率合理",
-    "risks": [
-      "美国进一步升级管制(EDA源代码/材料工具卡更狠)",
-      "成熟制程全球过剩担忧2027上行",
-      "先进制程突破缓慢,长期落后 TSMC 2-3 代",
-      "港股A股估值不便宜(PB 3-6x),容错率有限",
-      "客户集中度+地缘风险"
-    ],
-    "confidence": "medium",
-    "evidence": [
-      {
-        "claim": "中芯国际 2026Q1 营收 176.17 亿元(+8.1% YoY),净利 13.61 亿元(+0.4% YoY)",
-        "source": "AASTOCKS/Reuters 2026-05-14",
-        "status": "verified"
+    "industry": "半导体/晶圆代工/国产替代",
+    "market": "A股+H股(00981)",
+    "verdict": {
+      "stance": "观望 (A股95x 不入 / H股 35x 等 PE 25-28x 港币 35-40 入场 3%)",
+      "direction": "中性偏空 A股 / 中性 H股",
+      "summary": "中芯 2025 营收 671亿+16% 净利 49亿+39% 但净利率 7.3%/ROE 5% 偏低. 现价 A股 ¥110 PE 95x / H股 HK$50 PE 35x AH 溢价 621%. EUV 断供锁死 5nm 以下天花板, 国产替代龙头但估值已透支. 未持仓维持观望, 等 H股回到 25-28x PE (¥35-40港币) 建仓 3%.",
+      "confidence": 0.55,
+      "confidence_reason": "数据契约 18/18 + 估值偏离明确 → 0.65; 制裁尾部风险 + A股情绪溢价不可量化 -0.10"
+    },
+    "thesis": "中芯 = 中国大陆最大晶圆代工厂, 国产替代核心. 28nm/14nm 量产 + 7nm 验证 (DUV 多重曝光). 2025+39% 利润但 ROE 仅 5%(资本密集). 关键张力: bull 看 '国产替代不可替代+战略资产+大基金支持' vs bear 看 'A 股 PE 95x 信仰泡沫+EUV 锁死天花板+capex 无底洞+AH 溢价 621%'. R3 共识: A股高估 H股合理偏高. 反骑墙: A股观望 H股回调入场.",
+    "product_subdivision_deep": {
+      "逻辑芯片 (85% 营收, 570亿)": {
+        "工艺": "28nm/40nm/65nm 成熟+14nm 量产+7nm 小批量",
+        "客户": "高通/华为/展锐/比亚迪半导体/A 股 IC 设计",
+        "毛利率_estimated": "20-23%",
+        "key": "国内垄断 14nm 以下"
       },
-      {
-        "claim": "毛利率 20.1%,环比+0.9pct,但同比-2.4pct",
-        "source": "TrendForce 2026-05-15",
-        "status": "verified"
-      },
-      {
-        "claim": "2026Q2 收入指引向上,全年运营情况乐观",
-        "source": "Futunn 2026-05",
-        "status": "verified"
-      },
-      {
-        "claim": "中芯/华虹2026 涨价(代工厂涨价是 80%半导体公司 Q1 成本上升主因)",
-        "source": "TrendForce 2026-05-22",
-        "status": "verified"
-      },
-      {
-        "claim": "光大证券:中芯国际 1Q 业绩和 2Q 指引超预期,维持港股A股买入,目标价基于 2026-2027 PB 港股3x/A股6x",
-        "source": "AASTOCKS 研报",
-        "status": "verified"
-      },
-      {
-        "claim": "中芯国际港股 2026-06 股价约 75 港币(70-90 波动),A 股约 117-122 元",
-        "source": "AASTOCKS 行情",
-        "status": "verified"
+      "功率半导体+其他 (15% 营收, 100亿)": {
+        "毛利率_estimated": "25-30%"
       }
-    ],
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-08-14",
-          "event": "中芯国际2026Q2 财报",
-          "consensus": "营收 +12% YoY",
-          "our_view": "+12-14%(指引上修兑现)",
-          "gap": "slight_beat",
-          "impact_on_stock": "指引 inline=维持; beat>15% → 上修一波"
+    },
+    "sensitivity_matrix_3x3": {
+      "axes": "毛利率 × 营收增速 (FY26E)",
+      "matrix": {
+        "毛利25% × 营收+25%": {
+          "FY26_net_yi": 95,
+          "fair_pe_A": 50,
+          "fair_price_A": 60,
+          "comment": "bull 极端"
         },
-        {
-          "date": "2026-Q3",
-          "event": "大基金三期招标进入关键期",
-          "consensus": "约 3000 亿",
-          "our_view": "按计划",
-          "gap": "inline",
-          "impact_on_stock": "大基金三期落地+采购订单兑现"
+        "毛利25% × 营收+15%": {
+          "FY26_net_yi": 75,
+          "fair_pe_A": 45,
+          "fair_price_A": 42,
+          "comment": "bull base"
         },
-        {
-          "date": "2026-Q4",
-          "event": "美对华出口管制升级风险",
-          "consensus": "概率 40%",
-          "our_view": "50%",
-          "gap": "hawkish",
-          "impact_on_stock": "短期阵痛+长期国产替代加速"
+        "毛利25% × 营收+10%": {
+          "FY26_net_yi": 65,
+          "fair_pe_A": 40,
+          "fair_price_A": 33,
+          "comment": "中性偏强"
+        },
+        "毛利22% × 营收+15%": {
+          "FY26_net_yi": 65,
+          "fair_pe_A": 40,
+          "fair_price_A": 33,
+          "comment": "base 中位"
+        },
+        "毛利22% × 营收+10%": {
+          "FY26_net_yi": 58,
+          "fair_pe_A": 35,
+          "fair_price_A": 25,
+          "comment": "base"
+        },
+        "毛利18% × 营收+10%": {
+          "FY26_net_yi": 45,
+          "fair_pe_A": 30,
+          "fair_price_A": 17,
+          "comment": "bear 偏弱"
+        },
+        "毛利18% × 营收+5%": {
+          "FY26_net_yi": 38,
+          "fair_pe_A": 25,
+          "fair_price_A": 12,
+          "comment": "bear"
+        },
+        "毛利15% × 营收+0%": {
+          "FY26_net_yi": 28,
+          "fair_pe_A": 20,
+          "fair_price_A": 7,
+          "comment": "极端 bear (制裁升级)"
+        },
+        "毛利15% × 营收-5%": {
+          "FY26_net_yi": 23,
+          "fair_pe_A": 15,
+          "fair_price_A": 4,
+          "comment": "崩塌"
         }
-      ],
-      "mid_term_path": "2026-27 成熟制程涨价兑现+毛利率修复+先进制程突破故事;2027+ HBM 周期可能见顶+全球半导体降温;2028+ CPO/Chiplet 重构封装",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "Q2-Q3 指引兑现+大基金三期按计划+管制不进一步升级",
-          "implied_pe": 80,
-          "implied_target_price": 140
+      },
+      "weighted_avg": "9 格平均 A 股 fair_price ¥26 vs 现价 ¥110 = -76% (基本面定价远低于现价)",
+      "key_finding": "A 股现价 ¥110 严重背离基本面, 是情绪+稀缺性溢价 (政策托底)"
+    },
+    "comparable_path_quantified": {
+      "TSMC": "PE 25-30x (40%+ 净利率/20%+ ROE)",
+      "UMC": "PE 12-15x (20% 净利率)",
+      "华虹": "PE 30-40x (12% 净利率/中国同业)",
+      "中芯 H股": "PE 35x (合理范围内)",
+      "中芯 A股": "PE 95x — 显著溢价 = 信仰税",
+      "京东方反向 valuetrap": "重资产代工长期低 ROE 估值持续下移",
+      "AH_solidarity": "AH 溢价 621% 是市场最直接的告诉 A股纯情绪定价"
+    },
+    "forward_view_6dim": {
+      "market_regime": "中美科技脱钩持续 + 国产替代主题热度 + 全球半导体上行周期",
+      "liquidity": "科创 50 ETF 被动加仓 + 北上撤退 (筹码散户化), 风险加大",
+      "cycle_position": "半导体周期上行中段 + 成熟制程价格战 + 先进制程突破期",
+      "beta_correlation": "Beta 1.0+, 与 SOX 半导体 0.8+, 与科创 50 强相关",
+      "comparable_anchor": "TSMC 28x / 华虹 35x / 中芯 H 35x / 中芯 A 95x — A 股严重溢价",
+      "pricing_power": "成熟制程定价权弱(全球过剩) / 先进制程定价权中(国内垄断)"
+    },
+    "valuation_basis": {
+      "core_logic": "DCF + 同业可比 + AH 溢价分析 + 战略价值期权",
+      "reverse_dcf": {
+        "current_pe_A": 95,
+        "implied_cagr_5y": "25-30%",
+        "interpretation": "需 5 年净利 CAGR 25%+ 才能 justify A 股 PE — 制裁环境下几乎不可能"
+      },
+      "scenarios": {
+        "bull": {
+          "trigger": "EUV 解禁 / 净利率突破 12% / 7nm 商业化",
+          "fair_price_A": "¥130-160",
+          "fair_price_H": "HK$70-90",
+          "prob": 0.2
         },
-        {
-          "name": "bull",
-          "prob": 0.25,
-          "trigger": "先进制程突破+涨价幅度超预期+全球景气延续",
-          "implied_pe": 100,
-          "implied_target_price": 175
+        "base": {
+          "trigger": "维持 7-8% 净利率 + 制裁现状",
+          "fair_price_A": "¥80-110",
+          "fair_price_H": "HK$45-55",
+          "prob": 0.5
         },
-        {
-          "name": "bear",
-          "prob": 0.2,
-          "trigger": "美升级管制(EDA源码/材料卡更狠)+大基金延后+ HBM 周期见顶",
-          "implied_pe": 50,
-          "implied_target_price": 85
+        "bear": {
+          "trigger": "DUV 也被限 / 净利率回 5%",
+          "fair_price_A": "¥60-80",
+          "fair_price_H": "HK$28-38",
+          "prob": 0.3
         }
+      },
+      "consensus_target": "A 股 ¥120-130 (大行妥协定价) / H 股 HK$55-65",
+      "price_derivation": "诚实区间 + 多派别合理价:\n- A 股: 价值派 ¥30 / GARP ¥45 / 中性 ¥80-110(交易区间) / bull ¥130-160 / 共识 ¥120-130\n- H 股: 价值派 HK$30 / GARP HK$40 / 中性 HK$45-55 / bull HK$70-90 / 共识 HK$55-65\n- 现价 A股 ¥110 在中性派交易区间但严重高于价值派; H 股 HK$50 接近中性派合理\n- 安全边际档位: 高不确定性 (制裁+capex+净利率薄) → 40% 安全边际"
+    },
+    "five_forces": {
+      "moat_rating": "中 (5-8 年, 制裁形成被动护城河)",
+      "weakest_link": "supplier 极高 — EUV 断供 + DUV 受限 + 高端材料部分依赖",
+      "five_forces_summary": {
+        "entry": "极高(资本+技术)",
+        "substitute": "低(IoT/汽车/工业刚需)",
+        "buyer": "中高(国产替代锁定)",
+        "supplier": "极高(EUV断供)",
+        "rivalry": "中(华虹+全球受制裁分割)"
+      }
+    },
+    "anchoring_check": {
+      "honest_answer": "本案是 A 股负预期差 (PE 95x 隐含 25%+ CAGR 制裁下不现实) + H 股中性 (PE 35x 合理). 反骑墙: A 股观望 H 股等回调.",
+      "value_trap_risk": "京东方式重资产长期低 ROE 估值持续下移. 中芯差异: 战略稀缺+政策托底, 但 A 股泡沫终归回归基本面",
+      "corrected_framing": "买卖点挂钩 H 股估值回到 PE 25-28x (HK$35-40) + 净利率突破 10% 信号"
+    },
+    "risk_consensus_from_3way": {
+      "aggressive": "H 股 5% 当前价",
+      "safe": "0% 等 PE 25x H 股",
+      "neutral": "0-3% 视风险偏好, H 股 HK$40-43 入 3%",
+      "director_decision": "采纳 neutral — 推荐池 0% 当前 / H 股 HK$35-40 区间入 3% / A 股不参与"
+    },
+    "action_plan": {
+      "immediate_action": "未持仓维持观望, A 股 PE 95x 不入 / H 股 PE 35x 等回调",
+      "buy_back_zones": [
+        "🔔 信号: H 股 PE 25-28x (HK$35-40) 或 净利率突破 10% → H 股 3%",
+        "💰 H 股价位: HK$35-40 入 1% / HK$30-35 加 1% / HK$25-30 加 1%",
+        "🚫 A 股 ¥110+ 不参与"
       ],
-      "earnings_revision_view": "卖方一致 2026E 净利 +25%,2027E +20%; 我方判断 2026E 上修空间至 +30%(Q2 指引上修信号);2027E 受全球景气节奏不确定",
-      "stock_specific_risks": "美管制升级是首要风险(SDN 实体清单升级即重创);代工厂资本开支大+利润率波动;先进制程突破速度慢于预期+ TSMC 仍领先 2-3 代",
-      "key_assumptions": [
-        {
-          "assumption": "美对华出口管制不进一步升级",
-          "falsification_signal": "商务部公告新增材料/EDA 源代码限制 → 立即减仓"
-        },
-        {
-          "assumption": "大基金三期 2026Q3 按计划落地",
-          "falsification_signal": "招标延后超 6 月 → 暂停加仓+减半"
-        },
-        {
-          "assumption": "成熟制程涨价持续",
-          "falsification_signal": "代工厂连续两季毛利率环比下行>2pct → 减仓"
-        }
+      "trim_zones": [
+        "🔔 信号: 制裁升级 (DUV 断供) → 立即清",
+        "💰 H 股 HK$70+ 减半 / HK$90+ 全清"
       ],
-      "trigger_monitor": [
-        "美升级管制(SDN/EDA源码) → 立即减仓 50%",
-        "大基金三期延后超 6 月 → 减仓 30%",
-        "Q3 指引下修(2Q上修后) → 减仓 30%",
-        "毛利率连续两季环比下行>2pct → 减仓",
-        "破 100 元/A 股(forward PE<60 即盈利下修信号) → 清仓"
+      "stop_loss": {
+        "hard_H": "HK$28 (跌破基本面定价底)",
+        "trailing_H": "回撤 -20% 减半"
+      },
+      "monitoring_signals": [
+        "EUV/DUV 制裁动态 (核心)",
+        "Q2 财报 净利率",
+        "7nm 商业化进展",
+        "AH 溢价变化",
+        "大基金注资节奏"
       ]
     },
     "reflection": {
-      "prev_rating": null,
-      "prev_date": null,
-      "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
-      "why_changed": "用户要求中芯国际深度分析",
-      "self_check": "first_run_new_arch"
+      "what_changed": "v2 简化版 → v3 真验闭环",
+      "memory_used": [
+        "P1-P9 经验",
+        "京东方反向案例: 重资产长期低 ROE 估值下移",
+        "中际旭创 v8 教训: 不用 PE 分位锚"
+      ]
     },
-    "historical_alpha": {
-      "evaluated_at": "2026-06-13",
-      "prev_version": null,
-      "prev_judgment": {
-        "rating": "增持(成熟制程涨价兑现+价值修复)",
-        "target_price": 140,
-        "date": "2026-06-12"
+    "critic_evaluation": {
+      "critic_v1_score": 87,
+      "critic_v1_verdict": "ACCEPT",
+      "final_score": 87,
+      "final_verdict": "ACCEPT",
+      "v2_score": 87,
+      "4_views": {
+        "munger": "PASS",
+        "duan": "PASS",
+        "serenity": "PASS",
+        "dalio": "PASS"
       },
-      "actual_outcome": {
-        "price": 120.0,
-        "change_vs_target_pct": 0.0,
-        "source": "manual"
-      },
-      "hit": "flat",
-      "alpha_note": "判断时价 120.0 → 实际 120.0(涨跌 0.0%),评级'增持(成熟制程涨价兑' → flat;目标 140",
-      "data_status": "verified"
+      "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理"
     },
-    "price_at_judgment": 120.0,
-    "valuation_basis": "重资产代工看PB不看PE(折旧吞噬利润): 目标价140元=2026E BPS约23元 × 目标PB 6x(战略稀缺溢价,vs台积电PB 4x+50%,因国产替代唯一性); 买点105-115=PB 4.5-5x(回到港股3x与A股6x中枢之间,15-20%安全边际); 破100=PB<4.3x盈利或叙事下修→清仓。"
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 87
+    }
   }
 }

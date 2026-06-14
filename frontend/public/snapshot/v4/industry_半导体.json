@@ -325,8 +325,7 @@
       "analyzed": true,
       "rank": 2,
       "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现",
-      "rating": "增持(成熟制程涨价兑现+价值修复)",
-      "target_price_live": 140,
+      "rating": "增持·目标140",
       "rating_source": "stock_unit_latest"
     },
     {
@@ -442,29 +441,12 @@
       "name": "华特气体",
       "rating": "增持(电子特气国产替代加速)",
       "target_price": 75
-    },
-    {
-      "unit_id": "stock:688981",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:688981」，或运行：./scripts/run_v4.sh analyze stock:688981",
-      "version": 2,
-      "generated_at": "2026-06-12T14:18:57Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "688981",
-      "name": "中芯国际",
-      "rating": "增持(成熟制程涨价兑现+价值修复)",
-      "target_price": 140
     }
   ],
   "indirect_holdings": {
     "direct_yi": 0.0,
-    "indirect_yi": 4610.1,
-    "total_yi": 4610.1,
+    "indirect_yi": 3618.12,
+    "total_yi": 3618.12,
     "contributing_funds": [
       {
         "code": "270042",
@@ -479,8 +461,8 @@
         "code": "012629",
         "name": "广发国证半导体芯片ETF联接A",
         "market_value": 9999.78,
-        "industry_weight_pct": 23.619999999999997,
-        "indirect_yi": 2361.948036,
+        "industry_weight_pct": 13.700000000000001,
+        "indirect_yi": 1369.9698600000002,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       }
@@ -489,7 +471,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 33,
+      "industries_count": 34,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
