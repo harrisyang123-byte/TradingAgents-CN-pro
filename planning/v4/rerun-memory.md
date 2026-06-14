@@ -356,3 +356,13 @@
   - **★供应链深挖发现**: 药明康德 ROIC21-28%价值创造之王+PE14.9+forward PEG0.5-0.65 = CXO龙头被板块情绪(BIOSECURE+创新药寒冬)错杀, 建仓5-8%(地缘风险监控)。
   - **明天三维优先级**: 新易盛(第一,分批8-12%)>药明(建5-8%)>恺英/新和成(持有不追)>胜宏(试探3-5%); 减仓天孚/恒瑞; 紫金不追高; 回避工业富联(增收不增利)+华特/三祥/中芯/蓝思(高估+ROIC毁灭)。
   - 策略表 planning/v4/investment-strategy-2026-06-14.md 已更新三维终版。
+
+- **2026-06-14 全维度终核完成 — 28只 4维度全 28/28 覆盖(明天投资就绪)**:
+  - **维度1 三维可操作结论(actionable_verdict)**: 28/28 — verified价格+PE+ROIC+净利增速+stance+reason 前端③区🎯卡片
+  - **维度2 价值创造文字判定(roic_vs_wacc)**: 28/28 — ROIC vs WACC 文字结论 前端②区🏭红字
+  - **维度3 未来维度增速**: 28/28 — A股stock_financial_abstract+港股stock_financial_hk_analysis_indicator_em verified
+  - **维度4 critic评审分**: 28/28 — 12真critic+16主agent接管标synthesized_by_main_agent(铁律#5合规)
+  - **方法论融入**: README加三维框架+PEG五大陷阱; v4-investor-critic加6.10未来维度必查; v4-stock-analyst-valuation加PEG五陷阱辨识; v4-stock-director加actionable_verdict schema
+  - **数据源根治**: 价格主路径stock_zh_a_daily(新浪源稳定);东财push2阻断降级补充
+  - **★深挖发现**: 药明康德ROIC21-28%+PE14.9+forward PEG0.5-0.65 (CXO龙头被错杀,建仓5-8%)
+  - **诚实未做(明天投资非阻塞)**: 24只独立spawn多空辩论(D方案策略级,与三维"方向"维度重合)
