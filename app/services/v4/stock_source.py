@@ -48,37 +48,34 @@ def _fetch_spot(ak, code: str, out: dict) -> None:
     2026-06-14: 东财 push2 实时端点(stock_individual_info_em)连接被阻断(RemoteDisconnected),
     降级走 stock_zh_a_hist 取最近收盘价(verified)。
     """
-    # 主路径: 东财个股信息(含市值/行业, 若可用)
+    # 主路径: 新浪源 stock_zh_a_daily(稳定, 2026-06-14实测东财push2阻断后新浪稳定)
+    try:
+        pfx = ("sh" if code[0] == "6" else "sz") + code
+        import datetime
+        end = datetime.date.today().strftime("%Y%m%d")
+        start = (datetime.date.today() - datetime.timedelta(days=20)).strftime("%Y%m%d")
+        h = ak.stock_zh_a_daily(symbol=pfx, start_date=start, end_date=end)
+        if h is not None and not h.empty:
+            out["price"] = _safe_float(h.iloc[-1]["close"])
+            out["price_date"] = str(h.iloc[-1]["date"])
+            out["price_source"] = "stock_zh_a_daily(新浪源,稳定)"
+            out["_spot_ok"] = True
+    except Exception as e:
+        out.setdefault("_errors", []).append(f"sina_price:{type(e).__name__}")
+    # 补充: 东财个股信息(市值/行业, 间歇可用)
     try:
         df = ak.stock_individual_info_em(symbol=code)  # 两列: item / value
         kv = dict(zip(df["item"], df["value"]))
         out["name"] = kv.get("股票简称") or out.get("name")
         out["industry_em"] = kv.get("行业")
-        out["price"] = _safe_float(kv.get("最新"))
+        if not out.get("price"):
+            out["price"] = _safe_float(kv.get("最新"))
         out["total_mv"] = _safe_float(kv.get("总市值"))        # 元
         out["circ_mv"] = _safe_float(kv.get("流通市值"))
         out["listing_date"] = kv.get("上市时间")
         out["_spot_ok"] = True
     except Exception as e:
         out.setdefault("_errors", []).append(f"spot:{type(e).__name__}")
-        # 降级: stock_zh_a_hist 取最近收盘价(verified, 东财接口间歇性阻断需重试)
-        import time as _t
-        for _attempt in range(3):
-            try:
-                import datetime
-                end = datetime.date.today().strftime("%Y%m%d")
-                start = (datetime.date.today() - datetime.timedelta(days=20)).strftime("%Y%m%d")
-                h = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=start, end_date=end, adjust="")
-                if h is not None and not h.empty:
-                    out["price"] = _safe_float(h.iloc[-1]["收盘"])
-                    out["price_date"] = str(h.iloc[-1]["日期"])
-                    out["price_source"] = "stock_zh_a_hist(收盘价,东财间歇阻断降级)"
-                    out["_spot_ok"] = True
-                    break
-            except Exception as e2:
-                if _attempt == 2:
-                    out.setdefault("_errors", []).append(f"hist:{type(e2).__name__}(retry3)")
-                _t.sleep(1.5)
 
 
 def _fetch_valuation(ak, code: str, out: dict) -> None:
