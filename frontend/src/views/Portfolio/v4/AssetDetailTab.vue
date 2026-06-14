@@ -177,18 +177,10 @@
         </el-collapse>
       </div>
 
-      <!-- 权益：行业表格（AC8.2 权益） -->
-      <div v-if="detail.is_equity" class="card adt-body">
-        <IndustryTable
-          :industries="detail.industries || []"
-          :alloc-unit="detail.equity_industries_unit"
-          :equity-quota="equityQuota"
-          @open-industry="$emit('open-industry', $event)"
-        />
-      </div>
+      <!-- 权益大类: 行业间配比已在「我的持仓」树展示, 此处只保留大类分析(上方 verdict/forward_view/辩论) -->
 
       <!-- 非权益：差异化方案（AC8.2 非权益，FR-007） -->
-      <div v-else class="card adt-body">
+      <div v-if="!detail.is_equity" class="card adt-body">
         <div class="adt-plan-head">
           投资方案
           <UnitStatusBadge
@@ -217,6 +209,7 @@ import { computed, watch } from 'vue'
 import UnitStatusBadge from './UnitStatusBadge.vue'
 import EmptyUnitState from './EmptyUnitState.vue'
 import IndustryTable from './IndustryTable.vue'
+void IndustryTable  // 行业表格已移至「我的持仓」树展示，此处不再渲染
 import PlanCard from './PlanCard.vue'
 import { useAssetDetail } from './useV4Units'
 
