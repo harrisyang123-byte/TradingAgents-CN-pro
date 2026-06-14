@@ -270,3 +270,17 @@
   - **D 五力 A/B 测试**: 半导体设备样本,独立 critic 盲评 加五力85 vs 原四维78(+7); 五力真增量=supplier_power上游断供+buyer_power买方集中+entry/substitute交叉验证; 决策=固化(critic建议),四维管"卡不卡脖子"五力管"利润能否留住"分工去重
   - **D 落地**: chokepoint schema 加 five_forces; 6 行业 top 环节补五力(moat_verdict护城河结论)
   - 信任感修复完成: 产业链→个股→买点→回测全链条不断层,每个数字有推导
+
+- **2026-06-14 价值创造维度补全 (用户拍板"想未来市场多大" + 纠正"质量第一不迁就存量")**：
+  - **背景**: 用户暂停辩证终审,提出投研缺"判断公司未来值多少钱"的根基——对照其两维度框架(公司价值创造+市场价格形成),诊断出 3 硬缺口: ①TAM天花板+渗透率阶段 ②ROIC vs WACC(最关键,ROE被杠杆污染) ③管理层资本配置+坦诚执行力,半个缺口正向DCF。
+  - **用户关键纠正**: 我初版设计"SHOULD不加MUST避免存量exit=4阻断"+"critic分级豁免旧版"被批舍本逐末——"首要目标是最好的分析质量,而非不改变存量。用户思维第一"。重写为质量优先: exit=4是质量保障逼着补; 旧版按新标准NEEDS_CHANGES是诚实非问题; 存量升级到新标准而非打补丁豁免。
+  - **基础设施全完成(commit f80cbe4 + d734601)**:
+    - 数据契约 18→24 MUST(价值创造组6: roic/wacc_estimate/tam_size/penetration_rate/capital_allocation_5y/fcf_latest)+ FIELD_ALIASES
+    - director schema 加 value_creation 块(tam_penetration/roic_vs_wacc/capital_allocation/business_model)+ dcf_intrinsic + 四维质量闸门第6点"价值创造四问"(与原verdict冲突必reconcile)
+    - critic 加 6.9 价值创造四问必查(统一不豁免) + must_satisfied 18→24
+    - financial 加 ROIC vs WACC+资本配置+收入质量; valuation 加 TAM/渗透率+正向DCF三角验证
+    - 前端 build_stock_detail 透传 value_creation+dcf_intrinsic; StockDetailTab ②区融入 📈成长空间/🏭价值创造/📐内在值 (不新增模块, TS通过)
+  - **架构归属(不新增agent)**: TAM/正向DCF→valuation本职; ROIC/资本配置→financial本职。MECE。
+  - **端到端验证(commit, 002156 通富微电 critic ACCEPT 88)**: 首只存量升级。揭示 ROIC≈5.4%<WACC≈9%=价值毁灭(即使净利+79.86%仍是资本密集扩张); Chiplet TAM 2030 $157B但TAM大≠赚钱; FCF≈0资本配置被动跟随AMD。**结论方向不变(减仓7%)但理由质变: 从"PE 60x高估"→"ROIC<WACC根本不创造价值"**。这正是ROE看不出的(被杠杆污染),价值创造维度的核心价值。
+  - **剩余(诚实交接)**: 26 只存量待价值创造回补(持仓8+推荐已跑4+推荐待跑13) + alloc重跑 + 辩证终审。基础设施已就绪,剩余按新标准跑(每只: 联网补6项→分析4维→director重估→critic 6.9复核→落盘)。
+  - **关键洞察**: 价值创造维度最影响"好赛道坏回报"类(封测002156/晶圆代工688981/烧钱扩张)——高增长/高PE在ROIC<WACC下站不住。验证了用户判断的价值。
