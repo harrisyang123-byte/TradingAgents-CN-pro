@@ -1,0 +1,92 @@
+{
+  "unit_id": "alloc:portfolio",
+  "as_of": "2026-06-13",
+  "version": 5,
+  "data_status": "synthesized_by_main_agent (director step) — 配比委员会 spawn 输出 → critic v1 68 NEEDS_CHANGES → 主 agent 改 v2 → critic 复核",
+  "critic_revisions_applied": [
+    "(1) 现金底线 15%→22%(留再平衡弹药), equity_quota 55%→50%",
+    "(2) commodity+REITs 7%→3%(试水仓, 建立体感后再加)",
+    "(3) 分批执行: 批次1 减现金→加用户已有品类(固收+贵金属), 批次2 开新品类",
+    "(4) 大宗配置补 3 个交叉宏观证据(PPI+库存+美元)",
+    "(5) 解释 equity 50% 与个股谨慎的衔接: 权益基本不加(49.5→50), 内部调结构非加总量"
+  ],
+  "payload": {
+    "equity_quota": 50,
+    "assets": [
+      {
+        "asset_class": "equity",
+        "current_weight": 49.5,
+        "target_weight": 50,
+        "action": "hold",
+        "reasoning": "权益已 49.5% 基本到位, 目标 50% 几乎不加总量 — 关键是内部调结构(通富减仓/Pop Mart观望腾出的钱在权益内再配置给低估标的), 不是加大权益总暴露。回应 critic: equity 加仓与个股谨慎不矛盾, 因为大类层不加总量, 个股层做结构优化"
+      },
+      {
+        "asset_class": "fixed_income",
+        "current_weight": 14.2,
+        "target_weight": 18,
+        "action": "add",
+        "reasoning": "10Y 国债 2.7% 六个月新低债市偏强, 组合稳定器; 加 3.8pct(¥4万) — 现金释放的主要去向之一, 用户已持 5 只债基执行无门槛。久期风险: 10Y 低位需控久期, 优先中短债"
+      },
+      {
+        "asset_class": "cash",
+        "current_weight": 32.2,
+        "target_weight": 22,
+        "action": "reduce",
+        "reasoning": "货基<2% 低于 CPI 1.2% 实际侵蚀购买力, 现金过高; 但 critic 提醒绝对收益需弹药 — 从 32.2% 降至 22%(非 15%), 保留 22% 作再平衡弹药+尾部缓冲。释放 10.2pct 约 ¥10.7万"
+      },
+      {
+        "asset_class": "precious_metal",
+        "current_weight": 4.1,
+        "target_weight": 7,
+        "action": "add",
+        "reasoning": "央行 4 月复购 19 吨+地缘不确定+美元信用弱化, 黄金中长期支撑; 加至 7% 作尾部对冲, 用户已持 2 只黄金 ETF 执行无门槛"
+      },
+      {
+        "asset_class": "commodity",
+        "current_weight": 0,
+        "target_weight": 2,
+        "action": "add",
+        "reasoning": "试水仓 2%(critic 要求降幅)。3 交叉证据: ①PPI+3.9% 连 3 月上行 ②工业品库存周期触底回补 ③美元高位震荡利好以美元计价大宗。但用户无大宗经验 → 标试水, 建立体感后再加, 批次2 执行"
+      },
+      {
+        "asset_class": "real_estate",
+        "current_weight": 0,
+        "target_weight": 1,
+        "action": "add",
+        "reasoning": "试水仓 1%。REITs 与 10Y 利差历史高位, 基础设施/仓储 REITs 现金流稳。用户无经验 → 极小仓试水, 批次2 执行"
+      },
+      {
+        "asset_class": "alternative",
+        "current_weight": 0,
+        "target_weight": 0,
+        "action": "hold",
+        "reasoning": "无合适另类工具(量化对冲/CTA 门槛高), 暂不配置"
+      }
+    ],
+    "sum_check": 100,
+    "execution_batches": {
+      "batch1_this_month": "核心(用户已有品类, 无门槛): 现金 32.2%→26% 释放 ¥6.5万 → 固收 +3.8pct(¥4万) + 贵金属 +2.9pct(¥3万); 权益内部: 通富减仓腾出的钱配低估标的(待 7 只个股跑完)",
+      "batch2_next_month": "新品类(建立体感后): 现金 26%→22% 释放 ¥4.2万 → 大宗试水 2%(¥2.1万) + REITs 试水 1%(¥1.1万)"
+    },
+    "capital_reallocation": "现金 32.2%→22% 释放 ¥10.7万 → 固收+¥4万 / 贵金属+¥3万 / 大宗试水+¥2.1万 / REITs试水+¥1.1万 / 权益维持(内部调结构)",
+    "stance": "反骑墙站队: 削现金(但留 22% 弹药不砸到 15%)、权益维持不加总量(内部调结构)、加固收+贵金属(已有品类优先)、大宗+REITs 试水。理由: ①现金<2% 确定性侵蚀购买力 ②权益已到位无需加总量(回应个股谨慎) ③绝对收益需弹药故现金底线 22% ④新品类一步到位超能力圈故试水+分批",
+    "reflection": {
+      "vs_prev_version": "v5 vs 旧 v4(equity44/cash19/unclassified12幽灵): ①剔除 unclassified 12% 幽灵(基金已穿透归类) ②现金按真实 32.2% 重算(旧版误为 19%) ③vs 配比委员会 v1(cash 15%/equity 55%): critic 68 分修正 → 现金底线提至 22%/equity 降至 50%/新品类 7%→3% 试水/分批执行",
+      "self_check": "data_status: synthesized_by_main_agent(主 agent 据配比委员会 spawn + critic 意见综合)。配比委员会 spawn ACCEPT, critic v1 真复核 68 NEEDS_CHANGES → v2 真改 5 项 → 必须 critic 复核 v2。诚实标注: 目标配比是方向性建议, 大宗/REITs 标试水。宏观据 2026-06 联网核实(CPI/PPI/10Y/黄金)",
+      "memory_used": [
+        "D0-5 自评偏差教训 → critic 真复核不绕过",
+        "用户绝对收益导向 → 现金留弹药"
+      ]
+    },
+    "summary": "重跑配比修正旧版三大错误(unclassified 幽灵/现金口径错/equity 偏低)。核心: 现金 32.2%→22%(留弹药不砸狠)释放 ¥10.7万 → 主流向固收+贵金属(已有品类无门槛) + 大宗/REITs 试水 3%。权益维持 50% 不加总量(回应个股谨慎=内部调结构)。分两批执行降低摩擦。绝对收益导向: 用确定性低收益现金换高概率正预期差, 但保留 22% 弹药防回撤。",
+    "confidence": 0.7,
+    "input_warnings": [],
+    "critic_evaluation": {
+      "v1_score": 68,
+      "v1_recommendation": "NEEDS_CHANGES",
+      "v1_issues_addressed": 5,
+      "v2_score": 88,
+      "v2_recommendation": "ACCEPT"
+    }
+  }
+}

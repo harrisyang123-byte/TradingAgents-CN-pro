@@ -2,54 +2,40 @@
   "unit_id": "plan:cash",
   "unit_type": "plan",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "asset:cash",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
-  "status": "green",
+  "upstream": [],
+  "status": "ok",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:39:49Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-14T01:54:37Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "asset_class": "cash",
-    "target_weight": 15,
-    "verdict": {
-      "stance": "neutral",
-      "summary": "持有型流动性桶，当前全为活期、收益偏低，应优化持有结构并中期降仓"
+    "current_weight": 27.93,
+    "target_weight": 19,
+    "stance": "reduce",
+    "summary": "现金 27.93→19% -8.93pp 减配, 活期(0.15%)→货基(1.4-1.62%) 提升 20-30bp 年化收益. 释放¥8.93pp 资金到 固收/贵金属/REITs/商品.",
+    "valuation_basis": "实际利率: 活期 0.15-1.2=-1.05% (毁灭购买力) vs 货基 1.4-1.2=+0.2% (微正)",
+    "structure_target": "活期≤7-8% / 货基为主 ~10% / 短债 ~2%",
+    "action_plan": {
+      "immediate": "活期挪货基, 优先 511990 添益/511880 银华日利",
+      "stage2": "若 cash 已降至 19% 后, 余下减仓资金分批到 fixed_income+precious_metal+real_estate+commodity"
     },
-    "holding_structure": [
-      {
-        "instrument": "货币基金",
-        "target_share": "40-50%",
-        "rationale": "7日年化约1.3-1.5%，T+0流动性，替代低息活期提升收益",
-        "current": "0%(当前全活期)"
-      },
-      {
-        "instrument": "同业存单指数基金",
-        "target_share": "20-30%",
-        "rationale": "略高于货基收益、低波动，作为现金增强"
-      },
-      {
-        "instrument": "短债基金",
-        "target_share": "15-25%",
-        "rationale": "久期<1年，收益再增厚，可承受极小波动部分"
-      },
-      {
-        "instrument": "活期存款",
-        "target_share": "10-15%",
-        "rationale": "仅保留必要应急流动性，当前¥332,212全为活期=收益拖累，应迁移"
-      }
-    ],
-    "note": "持有型不荐个券。核心动作：把当前100%活期(¥332,212)迁移为货基/存单/短债组合提升收益；并按分批纪律将现金总仓由27.9%中期降至15%，超额投向便宜A股/固收/黄金。",
-    "risk_flags": [
-      "货基收益跟随政策利率下行",
-      "过度持币的长期复利机会成本"
-    ]
+    "four_dim_quality_gate": {
+      "composite": 7.5,
+      "pass": true
+    },
+    "critic_evaluation": {
+      "final_score": 82,
+      "final_verdict": "ACCEPT",
+      "v2_score": 82,
+      "summary": "现金超配近28%拖累收益,减至19%仍留足安全垫"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 82
+    },
+    "confidence": 0.78
   }
 }

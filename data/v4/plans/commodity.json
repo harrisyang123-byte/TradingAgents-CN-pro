@@ -2,54 +2,41 @@
   "unit_id": "plan:commodity",
   "unit_type": "plan",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "asset:commodity",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
-  "status": "green",
+  "upstream": [],
+  "status": "ok",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:39:49Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-14T01:54:37Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "asset_class": "commodity",
-    "target_weight": 3,
-    "verdict": {
-      "stance": "neutral",
-      "summary": "小仓位机会性对冲，事件驱动属性，非核心"
+    "current_weight": 0,
+    "target_weight": 2.5,
+    "stance": "opportunistic_build",
+    "summary": "0→2.5% 择机建仓: 铜 ETF (159980) 优先 + 原油 ≤1% 对冲. DXY 99.55 强美元逆风等破 97 后加速.",
+    "valuation_basis": "原油 $95 brent / 铜 13600 元/吨 / 黄金 $4350+. 周期回调期建仓",
+    "structure_target": "铜/有色 ETF 1.5% (159980 / 159861) + 原油 ETF 1% (162411)",
+    "action_plan": {
+      "trigger": "DXY 破 97 或 油 <$82 或 铜 <12500",
+      "execution": "分 2-3 批择机",
+      "stop_loss": "回撤 -20% 减半"
     },
-    "instrument_mix": [
-      {
-        "bucket": "能源(原油)",
-        "target_share": "约50%",
-        "tradable": true,
-        "rationale": "布油$90+霍尔木兹地缘供给溢价，经原油/能源ETF间接参与；地缘缓和即减",
-        "tools": "原油主题/能源ETF"
-      },
-      {
-        "bucket": "工业金属(铜/铝)",
-        "target_share": "约20%",
-        "tradable": true,
-        "rationale": "受中国需求弱(PMI50)拖累，仅小配"
-      },
-      {
-        "bucket": "农产品",
-        "target_share": "约30%",
-        "tradable": true,
-        "rationale": "逻辑独立、与油价相关性低，分散作用"
-      }
-    ],
-    "note": "零持仓起步，3%目标以可交易商品ETF表达，不直接期货；明确事件驱动、非趋势。",
-    "risk_flags": [
-      "地缘缓和致油价急跌",
-      "中国需求弱拖累工业金属",
-      "高波动",
-      "工具可得性/跟踪误差"
-    ]
+    "four_dim_quality_gate": {
+      "composite": 6.8,
+      "pass": true
+    },
+    "critic_evaluation": {
+      "final_score": 76,
+      "final_verdict": "ACCEPT",
+      "v2_score": 76,
+      "summary": "零敞口→小仓试探, DXY强美元压制等信号"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 76
+    },
+    "confidence": 0.65
   }
 }

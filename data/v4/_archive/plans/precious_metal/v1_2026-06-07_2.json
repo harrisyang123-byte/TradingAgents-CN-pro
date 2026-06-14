@@ -1,0 +1,57 @@
+{
+  "unit_id": "plan:precious_metal",
+  "unit_type": "plan",
+  "schema_version": "v4.0",
+  "version": 1,
+  "fingerprint": "",
+  "upstream": [
+    {
+      "unit_id": "asset:precious_metal",
+      "version": 1,
+      "fingerprint": ""
+    }
+  ],
+  "status": "green",
+  "ttl_days": 14,
+  "generated_at": "2026-06-07T07:39:49Z",
+  "run_mode": "ai_proxy",
+  "error": null,
+  "payload": {
+    "asset_class": "precious_metal",
+    "target_weight": 9,
+    "verdict": {
+      "stance": "bullish",
+      "summary": "核心战略避险底仓，2.9%→9%，逢回调分批"
+    },
+    "instrument_mix": [
+      {
+        "bucket": "黄金ETF(实物金支持)",
+        "target_share": "80-90%",
+        "tradable": true,
+        "rationale": "主力工具，低成本跟踪金价；现持黄金ETF联接(000307)+上海金ETF联接(008987)",
+        "current_holdings": [
+          "000307 易方达黄金ETF联接A",
+          "008987 广发上海金ETF联接C"
+        ]
+      },
+      {
+        "bucket": "白银/铂金(可选小仓)",
+        "target_share": "0-10%",
+        "tradable": true,
+        "rationale": "工业+贵金属双属性弹性更大但波动高，可选极小仓"
+      },
+      {
+        "bucket": "金矿股",
+        "target_share": "0-10%",
+        "tradable": true,
+        "rationale": "金价杠杆但含权益β与公司风险，谨慎小配"
+      }
+    ],
+    "note": "以黄金ETF为主，金价$4,460历史高位，分批增配而非一次追高；战略而非交易仓。",
+    "risk_flags": [
+      "历史高位动量回撤",
+      "美联储转鹰/实际利率上行",
+      "高位单点重仓择时风险"
+    ]
+  }
+}

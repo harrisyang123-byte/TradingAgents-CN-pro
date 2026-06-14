@@ -2,60 +2,41 @@
   "unit_id": "plan:real_estate",
   "unit_type": "plan",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "asset:real_estate",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
-  "status": "green",
+  "upstream": [],
+  "status": "ok",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:39:49Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-14T01:54:37Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "asset_class": "real_estate",
+    "current_weight": 0,
     "target_weight": 3,
-    "verdict": {
-      "stance": "neutral",
-      "summary": "仅精选经营性基础设施REITs，回避地产开发链与实物"
+    "stance": "overweight_init",
+    "summary": "0→3% 新增 REITs. 仓储物流(中金普洛斯/红土盐田港)+保障房(华夏北京保障房). 利差 250-430bp 固收替代价值, 底层现金流稳定, 与权益低相关.",
+    "exclusion": "传统地产开发商 (高杠杆+去化风险)",
+    "valuation_basis": "REITs 分派率 4-6% vs cn10y 1.71% = 利差 250-430bp 正向",
+    "structure_target": "仓储物流 REITs 1.5% / 保障房 REITs 1% / 产业园 REITs 0.5%",
+    "action_plan": {
+      "immediate": "建仓 1% 中金普洛斯+华夏北京保障房",
+      "stage2": "扩募时加仓至 2-3%"
     },
-    "instrument_mix": [
-      {
-        "bucket": "基础设施公募REITs(产业园/仓储物流/能源)",
-        "target_share": "约70%",
-        "tradable": true,
-        "rationale": "现金流稳定+政策支持，分派率约4-6%，类固收收益型",
-        "tools": "公募REITs二级/REITs指数"
-      },
-      {
-        "bucket": "保障房REITs",
-        "target_share": "约30%",
-        "tradable": true,
-        "rationale": "政策托底、现金流确定性高"
-      },
-      {
-        "bucket": "地产开发商股票",
-        "target_share": "0%",
-        "tradable": true,
-        "rationale": "结构性下行，回避"
-      },
-      {
-        "bucket": "实物房产",
-        "target_share": "记敞口(不新增)",
-        "tradable": false,
-        "rationale": "流动性差、仅作配置桶记录敞口，给宏观持有建议不荐标的"
-      }
-    ],
-    "note": "零持仓起步，3%目标聚焦现金流稳健的经营性基础设施REITs，作收益增强与分散。",
-    "risk_flags": [
-      "REITs流动性/定价效率有限",
-      "单一项目经营风险",
-      "利率上行压制估值",
-      "地产板块情绪传导"
-    ]
+    "four_dim_quality_gate": {
+      "composite": 7.2,
+      "pass": true
+    },
+    "critic_evaluation": {
+      "final_score": 80,
+      "final_verdict": "ACCEPT",
+      "v2_score": 80,
+      "summary": "REITs 利差 250-430bp 固收替代+低相关, 避开传统开发商风险"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 80
+    },
+    "confidence": 0.72
   }
 }

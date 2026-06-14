@@ -19,9 +19,9 @@
       "label": "权益",
       "current_value": 521092.0,
       "current_pct": 49.5,
-      "target_pct": 50,
-      "action": "hold",
-      "gap_value": 5300.0,
+      "target_pct": null,
+      "action": null,
+      "gap_value": null,
       "has_class_analysis": true,
       "industries": [
         {
@@ -358,9 +358,9 @@
       "label": "固定收益",
       "current_value": 149946.0,
       "current_pct": 14.2,
-      "target_pct": 18,
-      "action": "add",
-      "gap_value": 39555.0,
+      "target_pct": null,
+      "action": null,
+      "gap_value": null,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -474,9 +474,9 @@
       "label": "现金及等价物",
       "current_value": 338519.0,
       "current_pct": 32.2,
-      "target_pct": 22,
-      "action": "reduce",
-      "gap_value": -106906.0,
+      "target_pct": null,
+      "action": null,
+      "gap_value": null,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -497,26 +497,13 @@
       "fund_themes": []
     },
     {
-      "key": "commodity",
-      "label": "大宗商品",
-      "current_value": 0,
-      "current_pct": 0.0,
-      "target_pct": 2,
-      "action": "add",
-      "gap_value": 21056.0,
-      "has_class_analysis": true,
-      "industries": [],
-      "direct_holdings": [],
-      "fund_themes": []
-    },
-    {
       "key": "precious_metal",
       "label": "贵金属",
       "current_value": 43228.0,
       "current_pct": 4.1,
-      "target_pct": 7,
-      "action": "add",
-      "gap_value": 30467.0,
+      "target_pct": null,
+      "action": null,
+      "gap_value": null,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [
@@ -570,40 +557,10 @@
           "action": "保留 广发上海金ETF联接A；卖出其余 1 只释放 ¥13245"
         }
       ]
-    },
-    {
-      "key": "real_estate",
-      "label": "房地产",
-      "current_value": 0,
-      "current_pct": 0.0,
-      "target_pct": 1,
-      "action": "add",
-      "gap_value": 10528.0,
-      "has_class_analysis": true,
-      "industries": [],
-      "direct_holdings": [],
-      "fund_themes": []
-    },
-    {
-      "key": "alternative",
-      "label": "另类投资",
-      "current_value": 0,
-      "current_pct": 0.0,
-      "target_pct": 0,
-      "action": "hold",
-      "gap_value": 0.0,
-      "has_class_analysis": true,
-      "industries": [],
-      "direct_holdings": [],
-      "fund_themes": []
     }
   ],
   "capital_flow": {
     "sources": [
-      {
-        "desc": "现金及等价物 当前 32.2% 高于目标 22%",
-        "amount": 106906.0
-      },
       {
         "desc": "通富微电 适度减仓（10.87%）",
         "amount": null,
@@ -620,26 +577,6 @@
       }
     ],
     "uses": [
-      {
-        "desc": "权益 当前 49.5% 低于目标 50%，需加仓",
-        "amount": 5300.0
-      },
-      {
-        "desc": "固定收益 当前 14.2% 低于目标 18%，需加仓",
-        "amount": 39555.0
-      },
-      {
-        "desc": "大宗商品 当前 0.0% 低于目标 2%，需加仓",
-        "amount": 21056.0
-      },
-      {
-        "desc": "贵金属 当前 4.1% 低于目标 7%，需加仓",
-        "amount": 30467.0
-      },
-      {
-        "desc": "房地产 当前 0.0% 低于目标 1%，需加仓",
-        "amount": 10528.0
-      },
       {
         "desc": "Pop Mart International Group Limited 持有观望(不主动加仓, 仅深跌逆向小注)",
         "amount": null

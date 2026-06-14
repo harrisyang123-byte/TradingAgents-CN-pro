@@ -2,65 +2,60 @@
   "unit_id": "plan:fixed_income",
   "unit_type": "plan",
   "schema_version": "v4.0",
-  "version": 1,
+  "version": 2,
   "fingerprint": "",
-  "upstream": [
-    {
-      "unit_id": "asset:fixed_income",
-      "version": 1,
-      "fingerprint": ""
-    }
-  ],
-  "status": "green",
+  "upstream": [],
+  "status": "ok",
   "ttl_days": 14,
-  "generated_at": "2026-06-07T07:39:49Z",
-  "run_mode": "ai_proxy",
+  "generated_at": "2026-06-14T01:54:37Z",
+  "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "asset_class": "fixed_income",
-    "target_weight": 25,
-    "verdict": {
-      "stance": "bullish",
-      "summary": "压舱石超配，中等久期+高等级，利率债打底信用债增厚"
+    "current_weight": 12.77,
+    "target_weight": 15,
+    "stance": "slight_add",
+    "summary": "固收 12.77→15% +2.23pp 加配, 缩久期+信用债增厚票息. cn10y 1.71% 历史低位但 carry 3.0%>CPI 1.2% 正实际利率. 信用债 45%(110017+000205) / 利率债 30%(003376) / 转债 20%(110008+270044) / 全球债 5%(暂无工具).",
+    "valuation_basis": {
+      "fair_yield_cn10y": 2.1,
+      "current": 1.71,
+      "deviation": "-39bp 偏贵",
+      "carry_vs_duration": "3.0% carry vs 0.35%/10bp duration risk = breakeven 86bp",
+      "target_duration": "3.5年"
     },
-    "duration_view": "中等久期(约3-5年)。10Y 2.7%低位但宽松+地缘避险支撑，长端仍有空间但票息薄，避免极端拉久期博资本利得；若CPI持续上行则缩短。",
-    "instrument_mix": [
-      {
-        "bucket": "利率债/政金债",
-        "target_share": "35-40%",
-        "rationale": "无信用风险打底，避险首选；现持7-10国开债(003376)可作久期锚",
-        "current_holdings": [
-          "003376 广发中债7-10年国开债A"
-        ]
-      },
-      {
-        "bucket": "高等级信用债/投资级",
-        "target_share": "35-40%",
-        "rationale": "增厚票息，规避低评级；现持投资级信用债(000205)、增强回报债(110017)",
-        "current_holdings": [
-          "000205 易方达投资级信用债A",
-          "110017 易方达增强回报债A"
-        ]
-      },
-      {
-        "bucket": "二级债/含权(可转债小仓)",
-        "target_share": "15-20%",
-        "rationale": "现持双债添利(270044)、稳健收益债(110008)；含权部分提供权益向上弹性",
-        "current_holdings": [
-          "270044 广发双债添利A",
-          "110008 易方达稳健收益债B"
-        ]
-      },
-      {
-        "bucket": "低评级/城投下沉",
-        "target_share": "0%",
-        "rationale": "增长停滞下信用利差走阔风险，回避"
-      }
-    ],
-    "risk_flags": [
-      "CPI回升压制久期",
-      "信用利差走阔",
-      "地缘缓和致避险溢价回吐"
-    ]
+    "sensitivity_3x3": "利率×信用利差 9 格, 最差(cn10y+30bp+利差走阔20bp)+0.3%不亏损",
+    "comparable": "2014-16 牛市尾声/2020-22 温和熊市3.8%回撤教训",
+    "forward_view_6dim": {
+      "market_regime": "late_bull_low_vol",
+      "liquidity": "abundant_diminishing",
+      "cycle": "weak_recovery_stall",
+      "beta": 0.7,
+      "comparable": "2016Q3",
+      "pricing_power": "中等票息确定性"
+    },
+    "action_plan": {
+      "immediate_add": "¥2.65万 110017 1万+000205 1万+110008 0.45万",
+      "conditional_add_batch2": "cn10y>1.90% 加 003376 1.5万",
+      "stop_loss": "cn10y>2.05% 或 CPI>2% 减仓至 10%"
+    },
+    "four_dim_quality_gate": {
+      "munger": "6/10 工具非生意",
+      "duan": "8/10 最坏可承受",
+      "serenity": "6/10 赔率差但票息保护",
+      "dalio": "9/10 条件清晰",
+      "composite": 7.25,
+      "pass": true
+    },
+    "critic_evaluation": {
+      "final_score": 82,
+      "final_verdict": "ACCEPT",
+      "v2_score": 82,
+      "summary": "完整推导链+9格敏感+可比+6维 forward_view+四维闸门, 82分 ACCEPT"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 82
+    },
+    "confidence": 0.72
   }
 }

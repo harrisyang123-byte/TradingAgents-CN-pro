@@ -100,108 +100,72 @@
     "plan:alternative": {
       "unit_id": "plan:alternative",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:alternative",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/alternative.json"
     },
     "plan:cash": {
       "unit_id": "plan:cash",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:cash",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/cash.json"
     },
     "plan:commodity": {
       "unit_id": "plan:commodity",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:commodity",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/commodity.json"
     },
     "plan:fixed_income": {
       "unit_id": "plan:fixed_income",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:fixed_income",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/fixed_income.json"
     },
     "plan:precious_metal": {
       "unit_id": "plan:precious_metal",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:precious_metal",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/precious_metal.json"
     },
     "plan:real_estate": {
       "unit_id": "plan:real_estate",
       "unit_type": "plan",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 14,
-      "generated_at": "2026-06-07T07:39:49Z",
-      "upstream": [
-        {
-          "unit_id": "asset:real_estate",
-          "version": 1,
-          "fingerprint": ""
-        }
-      ],
+      "generated_at": "2026-06-14T01:54:37Z",
+      "upstream": [],
       "error": null,
       "path": "plans/real_estate.json"
     },
@@ -735,16 +699,16 @@
     },
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
-      "unit_type": null,
-      "version": 5,
-      "fingerprint": null,
-      "status": null,
-      "ttl_days": null,
-      "generated_at": null,
+      "unit_type": "alloc",
+      "version": 6,
+      "fingerprint": "",
+      "status": "ok",
+      "ttl_days": 7,
+      "generated_at": "2026-06-14T01:54:37Z",
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T01:41:33Z"
+  "updated_at": "2026-06-14T01:54:37Z"
 }
