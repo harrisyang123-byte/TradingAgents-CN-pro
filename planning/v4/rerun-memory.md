@@ -314,3 +314,14 @@
     4. alloc:portfolio 重跑(移远从加仓→持有等变化影响配比)
     5. 辩证 skill 横向终审(含价值创造一致性)
   - **价值创造维度集成完整**: 数据契约24MUST + stock_source verified取数 + director四问 + critic 6.9 + 前端展示 + 27只verified数据 全链路打通。
+
+- **2026-06-14 步骤5完成 + 辩证终审 (ACCEPT with CONDITIONS, 匹配度80%→86%)**：
+  - **阿里09988重审**(critic ACCEPT 76): 建仓5%→建仓降级谨慎+信号门控。ROIC 6.26%<WACC 但战略投入期(云AI+闪购)主动选择, 云已盈利+回购托底, ROIC有回升路径, 区别于移远结构性低。
+  - **推荐池14只价值创造分层**(critic ACCEPT 82, verified ROIC 驱动): 之王(新易盛50-66%/天孚36-48%)/价值创造(紫金17.6%/恒瑞13-17%/长江电力)/临界(北方华创/中微/北方稀土/三祥/百济)/不足(华特/中国核电3.5%/蓝思→回避)/未盈利(科伦-13.46%需PS)。买点/完整8step多空待实时行情接口恢复(东财实时接口限流, 财务接口新浪通)。
+  - **alloc:portfolio v7**(critic ACCEPT 84): 大类配比维持v6, 权益内部按 verified ROIC 双标准校准(便宜+ROIC>WACC=真机会 vs 便宜+ROIC<WACC=陷阱)。移远加仓→持有谨慎、阿里降级是直接影响。
+  - **辩证终审四视角 ACCEPT-with-conditions 86%**: 全面85→90/可信78→88/可执行82→86/会学习75→80。教科书级案例=移远重审(PE折价→PE折价+ROIC<WACC价值陷阱)。
+  - **★3个残留 condition(下一步优先)**:
+    1. **个股 stance 全面重审**: verified ROIC 已全注入27只(核实002371/300502/300394等都有), 但 verdict.stance 仅移远/阿里基于价值创造重审(冲突最大的); 其余 ROIC 与原 stance 多数方向一致(之王本看多/毁灭本观望)冲突小, 但应逐只确认。
+    2. **WACC 行业化**: 当前硬编 9% 一刀切, 应按 beta 分档(半导体11-13%/制造9%/消费7-8%) — 影响临界判定(北方华创 ROIC 7.29-9.72% 用9%临界, 用11%则毁灭)。
+    3. **港股 verified 确认**: 泡泡/阿里/腾讯/小米 ROIC 经核实是 akshare stock_financial_hk_analysis_indicator_em 的 ROIC_YEARLY (真verified, 非估算)。
+  - **价值创造维度全链路打通**: 契约24MUST + stock_source verified取数 + director四问 + critic6.9 + 前端展示 + 27只verified数据 + alloc双标准 + 辩证终审。这是 D 阶段以来最有实质的质量跃升(段永平: 不创造价值的公司再便宜也不买, 现在系统能 verified 判断了)。
