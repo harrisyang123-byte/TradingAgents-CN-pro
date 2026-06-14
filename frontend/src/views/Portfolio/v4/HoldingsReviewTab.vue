@@ -57,7 +57,7 @@
               <div class="dt-ind-row">
                 <span class="dt-ind-name">🏭 {{ ind.name }}</span>
                 <span v-if="ind.is_rec_only" class="dt-ind-val dt-rec-only">推荐关注（未持仓）</span>
-                <span v-else class="dt-ind-val">持仓 ¥{{ fmt(ind.direct_value) }}<template v-if="ind.indirect_value > 0"> + 间 ¥{{ fmt(ind.indirect_value) }}</template></span>
+                <span v-else class="dt-ind-val">持仓 ¥{{ fmt(ind.direct_value) }}</span>
                 <a v-if="ind.has_industry_analysis" class="dt-link" @click="$emit('open-industry', ind.name)">行业分析→</a>
               </div>
               <div v-for="hh in ind.holdings" :key="hh.code" class="dt-hold">
@@ -79,12 +79,9 @@
                 <span v-if="rc.target_price" class="dt-rec-target">🎯 {{ rc.target_price }}</span>
                 <a class="dt-link sm" @click="$emit('open-stock', rc.code)">分析→</a>
               </div>
-              <div v-if="ind.indirect.length" class="dt-indirect">
-                🔗 间接持有：<span v-for="s in ind.indirect" :key="s.code">{{ s.name }} </span>（经基金，加仓前算总暴露）
-              </div>
             </div>
 
-            <!-- 基金主题（合并动作） -->
+            <!-- 基金主题（作为整体标的管理：同主题去重，不穿透到底层个股） -->
             <div v-for="(ft, i) in node.fund_themes" :key="'ft'+i" class="dt-fund">
               <div class="dt-fund-head">
                 🪙 {{ ft.theme }} · {{ ft.fund_count }}只 ¥{{ fmt(ft.total_mv) }}

@@ -64,44 +64,7 @@
         </table>
       </div>
 
-      <!-- D0-6 基金间接持仓 (用户持仓中基金穿透到本行业的总暴露) -->
-      <div v-if="detail.indirect_holdings && (detail.indirect_holdings.contributing_funds?.length || detail.indirect_holdings.indirect_yi > 0)" class="card idt-indirect">
-        <div class="idt-section-title">
-          🪙 基金间接持仓 (穿透到本行业)
-          <el-tag v-if="detail.indirect_holdings.summary?.passthrough_coverage_pct" type="success" size="small" class="idt-cov-tag">
-            穿透覆盖 {{ detail.indirect_holdings.summary.passthrough_coverage_pct }}%
-          </el-tag>
-        </div>
-        <div class="idt-indirect-summary">
-          <div class="idt-indirect-cell">
-            <span class="idt-cell-label">直接持股本行业</span>
-            <b class="idt-cell-val">¥{{ fmtMoney(detail.indirect_holdings.direct_yi) }}</b>
-          </div>
-          <div class="idt-indirect-cell idt-cell-emphasize">
-            <span class="idt-cell-label">基金间接持仓</span>
-            <b class="idt-cell-val">¥{{ fmtMoney(detail.indirect_holdings.indirect_yi) }}</b>
-          </div>
-          <div class="idt-indirect-cell">
-            <span class="idt-cell-label">总暴露</span>
-            <b class="idt-cell-val">¥{{ fmtMoney(detail.indirect_holdings.total_yi) }}</b>
-          </div>
-        </div>
-        <table v-if="detail.indirect_holdings.contributing_funds?.length" class="idt-fund-table">
-          <thead>
-            <tr><th>贡献基金</th><th>基金总市值</th><th>本行业占比</th><th>间接贡献</th><th>数据状态</th></tr>
-          </thead>
-          <tbody>
-            <tr v-for="(f, i) in detail.indirect_holdings.contributing_funds" :key="i">
-              <td><b>{{ f.code }}</b> {{ f.name }}</td>
-              <td>¥{{ fmtMoney(f.market_value) }}</td>
-              <td>{{ f.industry_weight_pct.toFixed(1) }}%</td>
-              <td><b>¥{{ fmtMoney(f.indirect_yi) }}</b></td>
-              <td><el-tag :type="dataStatusType(f.data_status)" size="small" effect="plain">{{ f.data_status }}</el-tag></td>
-            </tr>
-          </tbody>
-        </table>
-        <p v-else class="idt-empty">本行业无基金间接持仓</p>
-      </div>
+      <!-- 基金不穿透(用户拍板): 基金作为整体标的展示 — 主题基金归对应行业作推荐标的、宽基/债基归大类底仓, 不再拆解穿透到本行业 -->
 
       <!-- 个股表格 + 行业内配比（AC8.3） -->
       <div class="card idt-body">
@@ -234,19 +197,6 @@ function extractText(side: any): string {
   if (!side) return ''
   if (typeof side === 'string') return side
   return side.thesis || side.challenge || side.reasoning || JSON.stringify(side).slice(0, 300)
-}
-
-// D0-6 基金穿透 utils
-function fmtMoney(v?: number): string {
-  if (v == null) return '0'
-  if (Math.abs(v) >= 10000) return (v / 10000).toFixed(2) + '万'
-  return v.toFixed(0)
-}
-function dataStatusType(s?: string): any {
-  if (s === 'verified') return 'success'
-  if (s === 'estimated') return 'warning'
-  if (s === 'partial') return 'info'
-  return 'info'
 }
 
 watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
