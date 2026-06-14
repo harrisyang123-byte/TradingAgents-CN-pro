@@ -628,5 +628,7 @@
     "v1_issues_addressed": 3,
     "v2_score": 86,
     "v2_recommendation": "ACCEPT"
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

@@ -221,5 +221,7 @@
     "critic_v1_verdict": "NEEDS_CHANGES",
     "critic_v2_score": 86,
     "critic_v2_verdict": "ACCEPT"
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

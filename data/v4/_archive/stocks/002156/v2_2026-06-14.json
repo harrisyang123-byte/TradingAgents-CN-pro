@@ -1,15 +1,15 @@
 {
   "unit_id": "stock:002156",
-  "unit_type": "stock",
-  "schema_version": "v4.0",
-  "version": 3,
-  "fingerprint": "",
-  "upstream": [],
-  "status": "ok",
-  "ttl_days": 5,
-  "generated_at": "2026-06-14T02:30:42Z",
-  "run_mode": "mode_a_main_agent",
-  "error": null,
+  "as_of": "2026-06-13",
+  "version": 2,
+  "data_status": "synthesized_by_main_agent (director step) — 各分析师 spawn ACCEPT, critic v1 NEEDS_CHANGES 78 → 主 agent 修改 v2 后 critic 真复核",
+  "critic_revisions_applied": [
+    "(1) 产品分子拆分(先进封装 vs 传统封装营收/毛利)",
+    "(2) 尾部风险联合情境建模(AMD 转单+大基金+地缘三叠)",
+    "(3) 可比路径换标(日月光 2016-2018 + 长电 2020-2022 双锚)",
+    "(4) missing 致估值链置信度显式降档",
+    "(5) 扣非 Q2 < 3% 触发降档至 5% 仓位的硬规则"
+  ],
   "payload": {
     "code": "002156",
     "name": "通富微电",
@@ -17,8 +17,8 @@
     "verdict": {
       "stance": "适度减仓",
       "direction": "中性偏空(短期)+ 中长期持有偏正(2-3年)",
-      "summary": "PE 60x 偏热 + 高位脆弱 + 大基金减持 + 扣非2.27%结构性 → 短期站空方;但 AMD 排他绑定 + advanced packaging 18-24 月产能紧张 + Q2-Q3 业绩催化 = 中长期支撑。建议从 10.87% 减至 7%,释放 ¥45k 流动性。¥58 上方继续减,¥42-45 加仓,硬止损 ¥38.5。 ｜ 【价值创造补全】ROIC 5.4%<WACC 9% 价值毁灭 + FCF≈0 + 资本配置被动跟随AMD → 不只PE 60x高估,而是根本不创造价值,减仓逻辑更硬",
-      "confidence": 0.6000000000000001,
+      "summary": "PE 60x 偏热 + 高位脆弱 + 大基金减持 + 扣非2.27%结构性 → 短期站空方;但 AMD 排他绑定 + advanced packaging 18-24 月产能紧张 + Q2-Q3 业绩催化 = 中长期支撑。建议从 10.87% 减至 7%,释放 ¥45k 流动性。¥58 上方继续减,¥42-45 加仓,硬止损 ¥38.5。",
+      "confidence": 0.55,
       "confidence_downgrade_reason": "missing 6 项中'真实毛利率''卖方一致 EPS'是估值推导链核心输入 — forward EPS 本身基于估计推算 → 3 情景定价置信度从 medium 降至 medium-low (0.55 而非 0.72)"
     },
     "thesis": "002156 = AI 算力周期受益的封测龙头, 核心 alpha 来自 AMD 排他绑定 + advanced packaging 产能紧张 + 国产替代政策。但当前股价已 price-in 大部分多方逻辑(PE-TTM 60x vs 同业 25-40x), R3 共识区 ¥42-58。weakest link buyer_power(AMD CR1 60%+) 决定净利率天花板, 扣非 2.27% 是定价权不在通富的硬证据。中长期(2027-2028) TSMC CoWoS 产能释放可能蚕食 AMD 高端订单, 护城河 3-5 年期限。用户 10.87% 单一最大持仓必须降至 7-8%。",
@@ -70,8 +70,7 @@
       "memory_used": [
         "D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版 critic v1 真复核 78 分(NEEDS_CHANGES) → v2 真改 → 必须 critic 复核 v2",
         "信息全量铁律 → 多空辩论 + 5 力 + 风险 全部塞入完整 JSON"
-      ],
-      "value_creation_what_changed": "补价值创造4维后: 方向不变(仍减仓至7%)但理由质变——原结论靠'PE 60x高估+大客户依赖',现补充根本原因'ROIC<WACC价值毁灭+FCF≈0+资本配置被动'。好赛道(Chiplet TAM大)但坏回报(ROIC低于资本成本)是封测重资产典型陷阱。减仓 conviction 增强"
+      ]
     },
     "valuation_basis": {
       "core_logic": "反向DCF: PE 60x隐含5年净利CAGR 29.2%+净利率7-8%, 远超可验证现实(blended 18-22%+净利率天花板5%), 三方法(反向DCF/SOTP 650亿上限/可比35-45x)共同指向预期差偏负但收窄中",
@@ -323,15 +322,7 @@
       "v1_recommendation": "NEEDS_CHANGES",
       "v1_issues_addressed": 5,
       "v2_score": 87,
-      "v2_recommendation": "ACCEPT",
-      "value_creation_critic": "ACCEPT",
-      "value_creation_score": 88,
-      "value_creation_4views": {
-        "munger": "PASS",
-        "duan": "PASS",
-        "serenity": "PASS",
-        "dalio": "PASS"
-      }
+      "v2_recommendation": "ACCEPT"
     },
     "analysts": {
       "financial": "通富微电财务呈现'量升质疑'格局:收入增速加速(22.8% Q1 YoY)验证AMD AI放量+advanced packaging景气,净利率从2.84%升至4.37%趋势向好。但利润含金量严重打折——2026Q1扣非仅占归母51.7%(非经常性1.59亿占48%),ROE虽从2.24%升至~4%仍远低于资金成本,D/E 101%高杠杆放大经营风险,AMD 60%+单客户依赖构成集中度隐患。经营现金流缺失是最大盲区。核心判断:短期景气确认但利润'质'存疑,持续性需Q2-Q3扣非数据+现金流验证,当前ROE水平尚不支撑PE 60x估值的隐含预期。\n\n盈利能力: 净利率2024=2.84% → 2025=4.37% → 2026Q1=4.40%(扣非2.27%),驱动是advanced packaging结构性升级与AMD MI300/MI325X放量,但扣非2.27%与归母4.40%差距巨大,核心经营利润率改善幅度远低于表观数字\nROE杜邦: 2025 ROE estimated ~3.8-4%(从2024年2.24%大幅提升70-80%):净利率贡献最大(2.84→4.37%, +54%),周转率小幅改善,杠杆D/E 101%高企贡献ROE也放大风险,仍远低于WACC 6-8%(EVA为负)\n现金流: missing — 经营现金流/capex/FCF均未在输入包,半导体封测capex/revenue 15-25%估算capex 42-70亿,FCF大概率为负或微正,关键盲区\n资产负债: D/E 101.38%显著高于同业(长电~70%/华天~60%);长期负债权益比40.92%对应advanced packaging产线投资;净资产推算465亿+,总负债472亿+,总资产938亿;杠杆双刃剑:支撑产能爬坡也放大经营风险\n可持续性: AMD AI GPU(MI300/MI325X/MI400)放量是最大β;advanced packaging产能爬坡;风险:AMD份额波动+产能利用率+HBM国产替代节奏+地缘风险;短期景气确认,中期(2027+)需观察AMD路线图兑现",
@@ -604,19 +595,6 @@
       "sotp": "先进封装(40%营收×5%×50x=275亿) + 传统封装(60%营收×3%×20x=100亿) = 375亿 + 控制权20%=450亿 vs 市值940亿溢价109%; 即使先进给80x极端=540亿仍折让74%",
       "optionality": "AMD MI400 ASP+30%(60%概率) + HBM国产替代(30%) + 国产advanced packaging政策(50%) = 100-200亿; SOTP+期权上限650亿 < 市值940亿",
       "methods_divergence": "三方法一致偏负: 反向DCF隐含29%不可达 / SOTP+期权上限650亿vs940亿溢价45% / 可比合理35-45x vs实际60x溢价33-71%"
-    },
-    "value_creation": {
-      "tam_penetration": "Chiplet/先进封装 TAM 2030E $157B (CAGR 24.8%, marketsandmarkets) / 全球半导体 2030 $1.5万亿(大摩,AI 占半). 通富全球封测第 4-5、AMD 先进封装核心代工,赛道天花板大且高增——但TAM大≠公司赚钱(见ROIC)",
-      "roic_vs_wacc": "★关键揭示: ROIC ≈ 5.4% (estimated: NOPAT~15亿/投入资本~280亿) < WACC ≈ 9% (beta 1.3+无风险1.7%+ERP6%) = 价值毁灭。即使2025净利+79.86%暴增,仍是'资本密集规模扩张'非'高回报创造'。先进封装占比提升或推ROIC上行,但当前低于资本成本是PE 60x的致命矛盾",
-      "capital_allocation": "减分: 持续大额capex(年~50亿)被动跟随AMD扩先进封装产能,资本配置自主性弱;capex ROI 完全绑定AMD订单持续性。无分红空间(FCF≈0),非股东友好型",
-      "business_model": "重资产代工(封测): 高capex+高周转+薄ROIC。收入质量=量驱动(产能扩张)+先进封装价驱动(mix改善);现金流特征差(capex吞噬经营现金流)"
-    },
-    "dcf_intrinsic": "正向DCF: FCF 2025≈0(经营现金流~45亿 - capex~50亿) → 当前市值无FCF支撑,正向DCF内在值远低于市值。三角验证: 正向DCF(FCF≈0偏空) + 反向DCF(PE60x隐含CAGR29%过高偏空) + 多派别(¥30-55内在区间偏空) 三者一致指向高估 → 强化减仓",
-    "data_status": "synthesized_by_main_agent (director step) — 各分析师 spawn ACCEPT, critic v1 NEEDS_CHANGES 78 → 主 agent 修改 v2 后 critic 真复核 | value_creation 增量 synthesized_by_main_agent (主agent联网取数+分析)",
-    "schema_version": "enhanced_value_v2",
-    "credibility": {
-      "final_verdict": "ACCEPT",
-      "score": 88
     }
   }
 }

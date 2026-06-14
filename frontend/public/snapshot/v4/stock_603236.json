@@ -212,5 +212,7 @@
       "serenity": "PASS — 瓶颈/赔率逻辑成立 + u-blox 反向案例诚实",
       "dalio": "CONDITIONAL_PASS — beta 0.79 防御 + IoT 周期上行, 但人民币汇率/高通垂直整合 tail risk 需补"
     }
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

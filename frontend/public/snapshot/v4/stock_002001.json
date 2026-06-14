@@ -198,5 +198,7 @@
       "dalio": "PASS"
     },
     "summary": "002001 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 0.57→1.0%"
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

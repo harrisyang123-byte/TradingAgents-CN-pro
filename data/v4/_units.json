@@ -303,12 +303,12 @@
     },
     "stock:002156": {
       "unit_id": "stock:002156",
-      "unit_type": null,
-      "version": 2,
-      "fingerprint": null,
-      "status": null,
-      "ttl_days": null,
-      "generated_at": null,
+      "unit_type": "stock",
+      "version": 3,
+      "fingerprint": "",
+      "status": "ok",
+      "ttl_days": 5,
+      "generated_at": "2026-06-14T02:30:42Z",
       "upstream": [],
       "error": null,
       "path": "stocks/002156.json"
@@ -710,5 +710,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T01:54:37Z"
+  "updated_at": "2026-06-14T02:30:42Z"
 }

@@ -152,5 +152,7 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null
+  "critic_evaluation": null,
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

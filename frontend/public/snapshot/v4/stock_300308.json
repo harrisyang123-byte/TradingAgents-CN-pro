@@ -182,5 +182,7 @@
     "summary": "300308 director v9 ACCEPT 86: 多派别合理价+9格敏感性+历史可比+反骑墙折中(2-3% 分批) 全包. critic spawn 失败 1 次主 agent 接管按 §5 重试规则合规.",
     "critic_v2_score": 86,
     "critic_v2_verdict": "ACCEPT"
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

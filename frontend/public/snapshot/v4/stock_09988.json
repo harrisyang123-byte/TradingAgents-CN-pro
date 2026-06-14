@@ -189,5 +189,7 @@
       "serenity": "PASS",
       "dalio": "PASS"
     }
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }

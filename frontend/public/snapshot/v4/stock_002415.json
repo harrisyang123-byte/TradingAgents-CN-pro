@@ -205,5 +205,7 @@
       "dalio": "PASS 22/25"
     },
     "summary": "002415 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 1.15→2.5%"
-  }
+  },
+  "value_creation": null,
+  "dcf_intrinsic": null
 }
