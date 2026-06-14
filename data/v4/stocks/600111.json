@@ -175,13 +175,33 @@
         "stance": "回避",
         "reason": "ROIC 6.7-8.9%临界 + PE 79x 高估",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 124.2
       }
     },
     "verdict": {
       "value_creation_tier": "临界(ROIC≈WACC)",
       "value_creation_recommendation": "价值创造临界, 观察, 需看ROIC趋势(上行则推荐/下行则回避)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 60,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "PEG0.65貌似低但稀土价低迷+PE79,回避合理",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 60,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "PEG0.65貌似低但稀土价低迷+PE79,回避合理",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

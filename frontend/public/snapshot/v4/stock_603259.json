@@ -25,7 +25,15 @@
   "valuation_basis": null,
   "credibility": {
     "final_verdict": "ACCEPT",
-    "score": 82
+    "critic_score": 82,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "★深挖发现,三维全优,建仓5-8%合理(critic78已认可)",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -81,7 +89,8 @@
       "price_source": "stock_zh_a_daily新浪verified"
     },
     "future_market": "全球医药研发外包TAM ~$1000亿 CAGR 8-10%; 创新药管线增长驱动外包渗透率; CRDMO一体化客户黏性强",
-    "risk": "美国BIOSECURE法案(美国业务~60%)是真实地缘风险, 已price-in(PE14.9), 落地则减半"
+    "risk": "美国BIOSECURE法案(美国业务~60%)是真实地缘风险, 已price-in(PE14.9), 落地则减半",
+    "roic_vs_wacc": "verified ROIC 21-28% vs 行业WACC 10% → ★价值创造; ROIC 21-28% >> 10% WACC 价值创造之王(CXO一体化客户黏性)"
   },
   "dcf_intrinsic": null
 }

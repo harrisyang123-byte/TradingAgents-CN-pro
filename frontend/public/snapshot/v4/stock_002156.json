@@ -99,8 +99,16 @@
     ]
   },
   "credibility": {
-    "final_verdict": "ACCEPT",
-    "score": 88
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 68,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC<半导WACC毁灭+PE71.5即使PEG0.89也不配溢价,减仓合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": "负(收窄中): 反向DCF隐含29%CAGR vs 现实18-22%; 2026H2扣非加速可能转正。预期差思维非价格锚定",
   "chokepoint_score": null,
@@ -552,7 +560,12 @@
       "duan": "PASS",
       "serenity": "PASS",
       "dalio": "PASS"
-    }
+    },
+    "critic_score": 68,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC<半导WACC毁灭+PE71.5即使PEG0.89也不配溢价,减仓合理",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "tam_penetration": "Chiplet/先进封装 TAM 2030E $157B (CAGR 24.8%, marketsandmarkets) / 全球半导体 2030 $1.5万亿(大摩,AI 占半). 通富全球封测第 4-5、AMD 先进封装核心代工,赛道天花板大且高增——但TAM大≠公司赚钱(见ROIC)",

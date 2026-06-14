@@ -53,7 +53,18 @@
   },
   "industry_weight_pct": 3.0,
   "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 70,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "★critic纠错(78分):周期伪装成长陷阱,降级不追高正确",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(中等):Q1营收+24.79%/净利+97.5% 强劲超预期;铜电力化+金避险双驱动+稀土战略;但估值溢价267%已部分透支",
   "chokepoint_score": "高(铜矿+金矿双瓶颈卡位+全球前十大铜矿企业)",
   "discovery_level": "🔴已发现(2024-25已大涨)",
@@ -196,7 +207,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 70,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "★critic纠错(78分):周期伪装成长陷阱,降级不追高正确",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)",
     "actionable_verdict": {

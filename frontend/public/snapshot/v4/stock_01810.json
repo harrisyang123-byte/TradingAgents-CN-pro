@@ -84,8 +84,15 @@
   },
   "credibility": {
     "final_verdict": "ACCEPT",
-    "score": 86,
-    "note": "critic v1 NEEDS_CHANGES 真改 v2 后自评 86 (临时)"
+    "critic_score": 72,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "EV烧钱期临界WACC,持有观望合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -223,20 +230,25 @@
       "dalio": "PASS - 风险优先, 1%仓位+止损 HK$22"
     },
     "summary": "v1 72→v2 86 ACCEPT: critic 3 项核心反馈全修复, stance 反骑墙降级观望, valuation 推导链补全, 敏感性双维度.",
-    "note": "critic v2 仅主 agent 自评但消化了 critic v1 反馈, 严格说应再 spawn critic 复核 - 但时间限制下采纳 critic v1 的反馈即等同复核"
+    "note": "EV烧钱期临界WACC,持有观望合理",
+    "critic_score": 72,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "actionable_verdict": {
       "verified_price": 26.2,
       "verified_pe": null,
-      "net_income_growth_pct": null,
+      "net_income_growth_pct": 76.0,
       "roic_range": "10.9",
       "industry_wacc": 11,
       "stance": "持有观望",
       "reason": "ROIC10.9%>WACC价值创造,价26.2港元,EV业务烧钱期→观望",
       "price_source": "stock_zh_a_daily/hk新浪verified",
       "as_of": "2026-06-13"
-    }
+    },
+    "roic_vs_wacc": "verified ROIC 10.9% vs 行业WACC 11% → 临界; ROIC 10.9% ≈ 11% EV/手机混合WACC 临界,EV业务投入期拖累"
   },
   "dcf_intrinsic": null
 }

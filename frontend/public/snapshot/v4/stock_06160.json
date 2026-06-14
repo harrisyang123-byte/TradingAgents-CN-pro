@@ -62,7 +62,18 @@
   },
   "industry_weight_pct": 2.0,
   "valuation_basis": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 65,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "临界观望,创新药拐点未稳,合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(中等):2026Q1扭亏为盈+净利同比178倍+上调全年收入指引,出海BD变现能力是创新药行业最强的,但股价已部分反映",
   "chokepoint_score": "高(出海BD变现能力+first-in-class靶点能力双重瓶颈卡位,行业最强出海标的)",
   "discovery_level": "🟡半发现",
@@ -199,7 +210,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 65,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "临界观望,创新药拐点未稳,合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 8.28% → 临界(ROIC≈WACC)",
     "actionable_verdict": {
@@ -209,7 +226,8 @@
       "stance": "临界观望",
       "reason": "ROIC≈WACC临界(百济神州),创新药龙头但盈利拐点未稳,观望待ROIC转正",
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 143.5
     }
   },
   "dcf_intrinsic": null

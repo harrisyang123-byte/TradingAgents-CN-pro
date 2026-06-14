@@ -177,13 +177,33 @@
         "stance": "推荐(防御价值创造)",
         "reason": "ROIC 7.9-10.5%>电力WACC5.5% 强价值创造 + PE 20x(电力偏高但现金流稳) = 防御配置",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 6.2
       }
     },
     "verdict": {
       "value_creation_tier": "价值创造(ROIC>WACC9%)",
       "value_creation_recommendation": "价值创造良好, 推荐(待估值核实买点/安全边际)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 82,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC>电力WACC5.5%价值创造+PE20防御,推荐合理",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 82,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC>电力WACC5.5%价值创造+PE20防御,推荐合理",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

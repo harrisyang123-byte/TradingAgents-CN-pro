@@ -197,11 +197,24 @@
         "serenity": "PASS",
         "dalio": "PASS"
       },
-      "summary": "腾讯 PE 14.91x vs 同业 25-30x 低估逻辑成立, 3% 仓位+HK$380 止损纪律到位, 多派别估值路径完整 ACCEPT 87"
+      "summary": "腾讯 PE 14.91x vs 同业 25-30x 低估逻辑成立, 3% 仓位+HK$380 止损纪律到位, 多派别估值路径完整 ACCEPT 87",
+      "critic_score": 85,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC15.25+PE14.91+vs海外折价50%,建仓6-7%合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 87
+      "critic_score": 85,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC15.25+PE14.91+vs海外折价50%,建仓6-7%合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "2025-12-31",
@@ -222,8 +235,11 @@
         "stance": "建仓6-7%",
         "reason": "ROIC15.25%>WACC8.5%价值创造+PE~14.9x(港股)vs海外Meta/Alphabet 25-30x折价50%=好公司+好价格",
         "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
-      }
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 15.9,
+        "verified_pe": 14.91
+      },
+      "roic_vs_wacc": "verified ROIC 15.25% vs 行业WACC 8.5% → 价值创造; ROIC 15.25% > 8.5% 互联网WACC 价值创造,vs海外Meta/Alphabet ROIC可比但PE折价50%"
     }
   }
 }

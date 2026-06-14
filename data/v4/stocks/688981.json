@@ -208,11 +208,24 @@
         "serenity": "PASS",
         "dalio": "PASS"
       },
-      "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理"
+      "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理",
+      "critic_score": 65,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC<半导WACC,A股PE95x不入,H股35x可关注合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
-      "final_verdict": "ACCEPT",
-      "score": 87
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 65,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC<半导WACC,A股PE95x不入,H股35x可关注合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -241,7 +254,8 @@
         "stance": "观望(A股不入/H股关注)",
         "reason": "ROIC2.7-3.7%<半导WACC12%价值毁灭,A股PE95x严重高估不入,H股35x相对合理可关注",
         "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 36.3
       }
     }
   }

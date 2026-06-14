@@ -178,13 +178,33 @@
         "reason": "中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%), ROIC 3.5-4.6%接近临界非明确毁灭; PE20x公用事业不贵; 低收益但稳定现金流防御资产, 防御配置可选",
         "price_source": "stock_zh_a_daily新浪verified",
         "as_of": "2026-06-13",
-        "critic_correction": "2026-06-14 critic辩证修正误杀: 中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%),"
+        "critic_correction": "2026-06-14 critic辩证修正误杀: 中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%),",
+        "net_income_growth_pct": 6.0
       }
     },
     "verdict": {
       "value_creation_tier": "价值创造不足(ROIC<WACC)",
       "value_creation_recommendation": "价值创造不足, 谨慎/回避; 除非ROIC有明确改善路径"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 68,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "WACC校准4-4.5%临界非毁灭,防御可选合理",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 68,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "WACC校准4-4.5%临界非毁灭,防御可选合理",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

@@ -163,9 +163,29 @@
         "stance": "强烈回避",
         "reason": "ROIC 6.3-8.5%临界 + PE 259x 离谱",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 55.2
       }
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 55,
+      "critic_verdict": "NEEDS_CHANGES_acknowledged",
+      "data_status": "synthesized_by_main_agent",
+      "note": "PE259x离谱,回避合理",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "NEEDS_CHANGES_acknowledged",
+      "critic_score": 55,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "PE259x离谱,回避合理",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

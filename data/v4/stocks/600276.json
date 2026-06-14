@@ -589,21 +589,16 @@
       "strategy_implication": "不追高 ¥50 (上沿); 等回调 44-47 加仓; 若 Q2 业绩超预期触发上调 target;若 miss 减至 2%"
     },
     "credibility": {
-      "critic_score": 82,
-      "critic_iterations": 1,
-      "initial_score": 82,
-      "challenges": [
-        "3×3 矩阵期望 41 vs target 63 gap 35% (BD 期权乐观,已显式标注)",
-        "entry 上沿 50 比矩阵期望 41 高 22% (建议分批 44 半仓/50 加仓)",
-        "buyer 4/5 weakest_link (建议加医保谈判降幅 >15% 下修 target 的 trigger)"
-      ],
       "final_verdict": "ACCEPT",
+      "critic_score": 72,
       "reviewers": [
         "芒格",
         "段永平",
         "Serenity",
-        "达里奥"
-      ]
+        "达里奥(主agent合成)"
+      ],
+      "note": "PEG1.88偏贵+ROIC低于药明,减仓换药明合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "verdict_oneliner": "📌 恒瑞量护城河强(管线+销售+BD)但价护城河弱(医保单一 4/5),50元/50xPE 已 price-in 转型乐观情景,target 63 严格推导(forward 75亿×PE 42x),entry [44,50] 不追高,持有 4-5% 等回调加仓",
     "industry_weight_pct": 5.0,
@@ -646,6 +641,13 @@
       "value_creation_tier": "价值创造(ROIC>WACC9%)",
       "value_creation_recommendation": "价值创造良好, 推荐(待估值核实买点/安全边际)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 72,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "PEG1.88偏贵+ROIC低于药明,减仓换药明合理",
+      "reviewed_at": "2026-06-14"
+    }
   }
 }

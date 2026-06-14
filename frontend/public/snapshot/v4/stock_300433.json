@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": 1.5,
   "valuation_basis": "周期成长股PE法: 目标价32元=2026E EPS约1.3元 × PE 25x(消费电子中枢,Q2扭亏后); 买点24-28=PE 18-22x(去年低点24.94一线); 破24=跌破去年低点趋势反转→清仓。注:Q1亏损,2026E EPS依赖Q2扭亏假设,故偏谨慎。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 60,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC<WACC毁灭+PE52,回避正确",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "负→收敛中:2026Q1 净亏损 1.496亿元(同比转负)+大行下调目标价(美银24元),股价从去年8月以来创新低24.94元(已反弹至~30元);利好:iPhone17规格升级+AI硬件革新+控股股东增持>1亿+限制性股票激励;市场情绪已 price-in 短期负面",
   "chokepoint_score": "中。处消费电子'AI硬件芯片+模组'瓶颈环节(精细schema is_top=true)的核心受益人之一,与立讯精密/歌尔股份并列苹果链龙头;但本身属零部件供应商,议价权弱于品牌商",
   "discovery_level": "🟡半发现",
@@ -179,7 +190,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 60,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC<WACC毁灭+PE52,回避正确",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 5.21-6.94% → 价值创造不足(ROIC<WACC)",
     "actionable_verdict": {
@@ -191,7 +208,8 @@
       "stance": "回避(毁灭+高估)",
       "reason": "ROIC 5.2-6.9%<WACC9% 毁灭 + PE 52x",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 10.9
     }
   },
   "dcf_intrinsic": null

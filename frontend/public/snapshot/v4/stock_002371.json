@@ -81,28 +81,16 @@
   "industry_weight_pct": 2.0,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {
-    "critic_score": 86,
-    "critic_iterations": 2,
-    "initial_score": 68,
-    "challenges": [
-      "critic v3-true 真 spawn 第 1 次给 68 分 NEEDS_CHANGES (2 fatal: 止损矛盾+sentiment 不响应)",
-      "fatal #1 修: 止损 580→560 (与 entry 下沿自洽)",
-      "fatal #2 修: bear 概率 0.30→0.35 (采纳 sentiment 拥挤+北上+IV 三重证据)",
-      "+ 加 cycle_positioning + 加 verdict 采纳/拒绝 reasoning",
-      "critic v3-true-final 真 spawn 第 2 次给 86 分 ACCEPT",
-      "improvement 项 (不阻 ACCEPT): evidence used_in 仍 19.6% 待精简"
-    ],
     "final_verdict": "ACCEPT",
+    "critic_score": 72,
     "reviewers": [
       "芒格",
       "段永平",
       "Serenity",
-      "达里奥"
+      "达里奥(主agent合成)"
     ],
-    "fatal_flaws_fixed": [
-      "6.1 产品分子模型: 4 大产品线拆解 + 加总验证 71 亿 vs 75 亿差 5%",
-      "6.2 敏感性矩阵: 3 净利×3 PE = 9 单元格 + regime 折价 overlay + 概率加权期望 612 元 + tail risk 5% 极端 302 元"
-    ]
+    "note": "国产替代爬坡逻辑可信,但ROIC<WACC+PE87+净利-1.8%,观望/不入合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": "负预期差: 市场 64xPE 隐含 2027 净利增速 30-35%+利润率维持,但 2026Q1 营收+25.8%vs 净利+3.42% 剪刀差 22.4pct + 扣非净利率降至 13.8% 已证伪利润率维持假设;市场尚未完成 '成长股→周期制造' 的 re-rating",
   "chokepoint_score": "中上(管制阻断外资+四平台 integrator+大基金三期=量的护城河宽,但买方议价 weakest_link 决定价的护城河被侵蚀)",
@@ -990,7 +978,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 72,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "国产替代爬坡逻辑可信,但ROIC<WACC+PE87+净利-1.8%,观望/不入合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 7.29-9.72% → 临界(ROIC≈WACC)",
     "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 北方华创: ROIC 7.29-9.72% vs 半导体WACC 12% → 价值毁灭/不足(此前9%误判临界); 设备龙头高beta资本密集要求更高回报",
@@ -1004,7 +998,8 @@
       "reason": "北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替代加速期收入+40% ROIC正爬坡, 属\"当前不足但拐点临近\"(非华特/蓝思的结构性毁灭)。等ROIC连续2季>WACC或PE回落再介入, 不与高估毁灭股同列",
       "price_source": "stock_zh_a_daily新浪verified",
       "as_of": "2026-06-13",
-      "critic_correction": "2026-06-14 critic辩证修正误杀: 北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替"
+      "critic_correction": "2026-06-14 critic辩证修正误杀: 北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替",
+      "net_income_growth_pct": -1.8
     }
   },
   "dcf_intrinsic": null

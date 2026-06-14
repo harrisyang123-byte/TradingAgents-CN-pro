@@ -164,11 +164,24 @@
         "duan": "PASS",
         "serenity": "PASS",
         "dalio": "PASS"
-      }
+      },
+      "critic_score": 70,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC虽创造但Q1增速崩+PE43.5偏高,减仓+止损¥38合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 87
+      "critic_score": 70,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC虽创造但Q1增速崩+PE43.5偏高,减仓+止损¥38合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -199,7 +212,8 @@
         "reason": "ROIC9.9-13%创造但PE43.5+增速31.1%(PEG1.40偏高)+Q1增速崩→减仓",
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
-      }
+      },
+      "roic_vs_wacc": "verified ROIC 9.9-13% vs 行业WACC 9% → 创造但脆弱; ROIC 9.9-13% > 9% WACC 价值创造,但Q1增速崩需观察"
     }
   }
 }

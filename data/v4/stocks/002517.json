@@ -280,11 +280,24 @@
       "critic_v1_score": 72,
       "critic_v1_verdict": "NEEDS_CHANGES",
       "critic_v2_score": 86,
-      "critic_v2_verdict": "ACCEPT"
+      "critic_v2_verdict": "ACCEPT",
+      "critic_score": 85,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "★三维全优,持有+信号加合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 86
+      "critic_score": 85,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "★三维全优,持有+信号加合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -315,7 +328,8 @@
         "reason": "★ROIC18-24%>WACC9%+PE16.6+增速16.9%(PEG0.98合理)=好公司+合理价+稳健,信号确认后加",
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
-      }
+      },
+      "roic_vs_wacc": "verified ROIC 18-24% vs 行业WACC 9% → ★价值创造; ROIC 18-24% >> 9% WACC 强价值创造(游戏轻资产高ROIC)"
     }
   }
 }

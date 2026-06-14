@@ -53,7 +53,18 @@
   },
   "industry_weight_pct": 2.5,
   "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC>电力WACC5.5%价值创造+PE20防御,推荐合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "中性偏正:作为 A 股最优质红利底仓+大水电稀缺资产+电力化(AI/EV)长期受益;但已大涨估值溢价824%透支较多,买点回调到24-27更合理",
   "chokepoint_score": "极高(三峡+乌东德+白鹤滩四大水电站,中国最大水电资产+稀缺性极强,无法复制)",
   "discovery_level": "🔴已发现(红利标的多年配置)",
@@ -197,7 +208,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 82,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC>电力WACC5.5%价值创造+PE20防御,推荐合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 7.9-10.53% → 价值创造(ROIC>WACC9%)",
     "roic_vs_wacc_industrialized": "★WACC行业化(电力 5.5%): 长江电力: ROIC 7.9-10.53% vs 电力WACC 5.5% → 强价值创造(此前9%误判临界); 低beta防御低资本成本",
@@ -210,7 +227,8 @@
       "stance": "推荐(防御价值创造)",
       "reason": "ROIC 7.9-10.5%>电力WACC5.5% 强价值创造 + PE 20x(电力偏高但现金流稳) = 防御配置",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 6.2
     }
   },
   "dcf_intrinsic": null

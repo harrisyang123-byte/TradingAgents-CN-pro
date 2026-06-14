@@ -268,11 +268,24 @@
         "serenity": "PASS",
         "dalio": "PASS"
       },
-      "summary": "002001 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 0.57→1.0%"
+      "summary": "002001 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 0.57→1.0%",
+      "critic_score": 85,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "三维全优:ROIC16-21%+PE13.6+PEG0.89,VA周期底部加仓合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 86
+      "critic_score": 85,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "三维全优:ROIC16-21%+PE13.6+PEG0.89,VA周期底部加仓合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -303,7 +316,8 @@
         "reason": "★ROIC16-21%>WACC10%+PE13.6+增速15.3%(PEG0.89)=好公司+好价格,VA周期底+净利率顶级",
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
-      }
+      },
+      "roic_vs_wacc": "verified ROIC 16-21% vs 行业WACC 10% → ★价值创造; ROIC 16-21% > 10% WACC 强价值创造(净利率27.5%顶级,VA寡头)"
     }
   }
 }

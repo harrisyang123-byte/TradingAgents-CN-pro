@@ -333,7 +333,12 @@
         "duan": "PASS",
         "serenity": "PASS",
         "dalio": "PASS"
-      }
+      },
+      "critic_score": 68,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC<半导WACC毁灭+PE71.5即使PEG0.89也不配溢价,减仓合理",
+      "reviewed_at": "2026-06-14"
     },
     "analysts": {
       "financial": "通富微电财务呈现'量升质疑'格局:收入增速加速(22.8% Q1 YoY)验证AMD AI放量+advanced packaging景气,净利率从2.84%升至4.37%趋势向好。但利润含金量严重打折——2026Q1扣非仅占归母51.7%(非经常性1.59亿占48%),ROE虽从2.24%升至~4%仍远低于资金成本,D/E 101%高杠杆放大经营风险,AMD 60%+单客户依赖构成集中度隐患。经营现金流缺失是最大盲区。核心判断:短期景气确认但利润'质'存疑,持续性需Q2-Q3扣非数据+现金流验证,当前ROE水平尚不支撑PE 60x估值的隐含预期。\n\n盈利能力: 净利率2024=2.84% → 2025=4.37% → 2026Q1=4.40%(扣非2.27%),驱动是advanced packaging结构性升级与AMD MI300/MI325X放量,但扣非2.27%与归母4.40%差距巨大,核心经营利润率改善幅度远低于表观数字\nROE杜邦: 2025 ROE estimated ~3.8-4%(从2024年2.24%大幅提升70-80%):净利率贡献最大(2.84→4.37%, +54%),周转率小幅改善,杠杆D/E 101%高企贡献ROE也放大风险,仍远低于WACC 6-8%(EVA为负)\n现金流: missing — 经营现金流/capex/FCF均未在输入包,半导体封测capex/revenue 15-25%估算capex 42-70亿,FCF大概率为负或微正,关键盲区\n资产负债: D/E 101.38%显著高于同业(长电~70%/华天~60%);长期负债权益比40.92%对应advanced packaging产线投资;净资产推算465亿+,总负债472亿+,总资产938亿;杠杆双刃剑:支撑产能爬坡也放大经营风险\n可持续性: AMD AI GPU(MI300/MI325X/MI400)放量是最大β;advanced packaging产能爬坡;风险:AMD份额波动+产能利用率+HBM国产替代节奏+地缘风险;短期景气确认,中期(2027+)需观察AMD路线图兑现",
@@ -628,8 +633,16 @@
     "data_status": "| 价值创造维度 AKShare verified (ROIC/FCF/ROE 真实财报值)",
     "schema_version": "enhanced_value_v2",
     "credibility": {
-      "final_verdict": "ACCEPT",
-      "score": 88
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 68,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC<半导WACC毁灭+PE71.5即使PEG0.89也不配溢价,减仓合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",

@@ -62,7 +62,18 @@
   },
   "industry_weight_pct": 1.2,
   "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 60,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "未盈利创新药ROIC负,回避合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(强):3款核心ADC(SKB264/A167/A140)2026年1月入医保+ASCO肺癌III期数据(HR=0.35显著)+大行齐升目标价(招银507/野村544);商业化启航是关键拐点",
   "chokepoint_score": "高(ADC出海标杆+TROP-2 ADC国际化领先+与默沙东合作)",
   "discovery_level": "🟢未发现(ADC专项+商业化早期+大行评级上调)",
@@ -209,7 +220,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 60,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "未盈利创新药ROIC负,回避合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC -13.46% → 未盈利创新药(ROIC负)",
     "actionable_verdict": {
@@ -219,7 +236,8 @@
       "stance": "回避(未盈利)",
       "reason": "ROIC负(科伦博泰未盈利创新药),ADC管线有潜力但价值创造未兑现,投机非投资",
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": -43.2
     }
   },
   "dcf_intrinsic": null

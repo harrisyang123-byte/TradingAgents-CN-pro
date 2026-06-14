@@ -62,9 +62,16 @@
     "price_derivation": "诚实区间 + 多派别合理价 (现价 HK$130 锚):\n- DCF 内在 HK$140-180 / 安全边际 30%(高不确定) → 价值派 HK$95\n- GARP (PEG≤1.5): forward PE 12x / CAGR 8% = PEG 1.5 合理, 现价 HK$130 已 GARP 入场\n- 中性派: HK$140-180 (R3 共识)\n- bull 派: HK$200-250 (云重估+AI 兑现)\n- SOTP: HK$190/股\n- 共识目标 HK$170-200\n- 现价 HK$130 在价值派+GARP 之间, 加仓有依据但分批降低时间成本"
   },
   "credibility": {
-    "final_verdict": "ACCEPT",
-    "score": 76,
-    "note": "价值创造重审 ROIC 6.26%<WACC, 建仓降级谨慎+信号门控, critic 76 ACCEPT"
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 68,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC6.26%<WACC,战略投入期回升路径,降级谨慎正确",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -194,7 +201,12 @@
     },
     "value_creation_recheck": "ACCEPT",
     "value_creation_recheck_score": 76,
-    "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀"
+    "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀",
+    "critic_score": 68,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC6.26%<WACC,战略投入期回升路径,降级谨慎正确",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "roic_vs_wacc": "★verified(AKShare FY2026): ROIC 6.26% < WACC≈9% = 价值毁灭/不足。ROE 9.91%/净利率9.98% 也偏低。AI+电商重投入期资本回报被摊薄。但区别于移远(结构性): 阿里 ROIC 低是云AI capex+淘宝闪购战略投入期(主动选择), 若投入兑现 ROIC 可回升; 云智能已盈利+回购150亿美元提供底。属'暂时性价值创造不足'非'结构性毁灭'",
@@ -205,7 +217,8 @@
       "stance": "建仓降级谨慎+信号门控",
       "reason": "ROIC6.26%<WACC战略投入期,云+AI回升路径但当前价值创造不足,信号确认前控仓",
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": -20.4
     }
   },
   "dcf_intrinsic": null

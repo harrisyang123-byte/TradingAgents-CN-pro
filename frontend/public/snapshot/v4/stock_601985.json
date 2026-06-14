@@ -53,7 +53,18 @@
   },
   "industry_weight_pct": 1.5,
   "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 68,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "WACC校准4-4.5%临界非毁灭,防御可选合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "中性偏正:核电核准加速(2025-26高峰)+低碳基荷不可替代;Q1净利34.19%下行因检修成本上升,但2025全年营收+6.22%/净利+6%稳健",
   "chokepoint_score": "高(核电中国双寡头之一+核准加速窗口)",
   "discovery_level": "🟡半发现",
@@ -197,7 +208,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 68,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "WACC校准4-4.5%临界非毁灭,防御可选合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 3.48-4.64% → 价值创造不足(ROIC<WACC)",
     "roic_vs_wacc_industrialized": "★WACC行业化(电力 5.5%): 中国核电: ROIC 3.48-4.64% vs 电力WACC 5.5% → 价值毁灭(即使低WACC仍不足)",
@@ -211,7 +228,8 @@
       "reason": "中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%), ROIC 3.5-4.6%接近临界非明确毁灭; PE20x公用事业不贵; 低收益但稳定现金流防御资产, 防御配置可选",
       "price_source": "stock_zh_a_daily新浪verified",
       "as_of": "2026-06-13",
-      "critic_correction": "2026-06-14 critic辩证修正误杀: 中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%),"
+      "critic_correction": "2026-06-14 critic辩证修正误杀: 中国核电: 核电WACC应按公用事业4-4.5%(非电力5.5%/制造12%),",
+      "net_income_growth_pct": 6.0
     }
   },
   "dcf_intrinsic": null

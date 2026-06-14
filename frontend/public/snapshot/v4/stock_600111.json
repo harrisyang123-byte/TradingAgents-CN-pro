@@ -53,7 +53,18 @@
   },
   "industry_weight_pct": 2.0,
   "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 60,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "PEG0.65貌似低但稀土价低迷+PE79,回避合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(强):中国占稀土全球90%+战略资产+Q1净利翻倍+稀土价格上涨+下游永磁需求(EV/风电)增长;星标投资者张建平34.5亿入股是关键信号",
   "chokepoint_score": "极高(稀土+磁材产业链龙头,中国稀土战略资产+磁材龙头金力永磁等下游)",
   "discovery_level": "🟢未发现(中长期国家战略资产但短期波动大)",
@@ -196,7 +207,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 60,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "PEG0.65貌似低但稀土价低迷+PE79,回避合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 6.65-8.87% → 临界(ROIC≈WACC)",
     "actionable_verdict": {
@@ -208,7 +225,8 @@
       "stance": "回避",
       "reason": "ROIC 6.7-8.9%临界 + PE 79x 高估",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 124.2
     }
   },
   "dcf_intrinsic": null

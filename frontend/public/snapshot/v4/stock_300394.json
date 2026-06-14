@@ -71,7 +71,18 @@
   },
   "industry_weight_pct": 1.5,
   "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 70,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC36-48%但PEG2.16透支,减仓合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(收敛中):Q1 +45% 业绩兑现,但增速低于新易盛(+106%)和中际旭创(+160%);海外布局是差异化优势",
   "chokepoint_score": "中(光器件供应商,处光模块上游,议价权弱于光模块整机)",
   "discovery_level": "🟡半发现",
@@ -213,7 +224,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 70,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC36-48%但PEG2.16透支,减仓合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 36.1-48.13% → 价值创造之王(ROIC远超WACC)",
     "actionable_verdict": {

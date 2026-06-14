@@ -76,7 +76,15 @@
   },
   "credibility": {
     "final_verdict": "ACCEPT",
-    "score": 86
+    "critic_score": 78,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC价值创造+PE19.6合理,持有观察(没想象便宜)",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -204,7 +212,12 @@
       "serenity": "PASS 21/25",
       "dalio": "PASS 22/25"
     },
-    "summary": "002415 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 1.15→2.5%"
+    "summary": "002415 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 1.15→2.5%",
+    "critic_score": 78,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC价值创造+PE19.6合理,持有观察(没想象便宜)",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "actionable_verdict": {
@@ -217,7 +230,8 @@
       "reason": "ROIC11.6-15.4%>WACC9%价值创造+PE19.6+增速18.5%(PEG1.06合理估值)→不再列加仓首选",
       "price_source": "stock_zh_a_daily/hk新浪verified",
       "as_of": "2026-06-13"
-    }
+    },
+    "roic_vs_wacc": "verified ROIC 11.6-15.4% vs 行业WACC 9% → 价值创造; ROIC 11.6-15.4% > 9% WACC 价值创造,现金流1.79x优质"
   },
   "dcf_intrinsic": null
 }

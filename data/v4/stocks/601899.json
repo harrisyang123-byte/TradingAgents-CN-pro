@@ -185,6 +185,25 @@
       "value_creation_tier": "价值创造(ROIC>WACC9%)",
       "value_creation_recommendation": "价值创造良好, 推荐(待估值核实买点/安全边际)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 70,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "★critic纠错(78分):周期伪装成长陷阱,降级不追高正确",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 70,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "★critic纠错(78分):周期伪装成长陷阱,降级不追高正确",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

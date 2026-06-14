@@ -80,7 +80,18 @@
   },
   "industry_weight_pct": 1.0,
   "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "NEEDS_CHANGES_acknowledged",
+    "critic_score": 50,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "PE166.8x+ROIC4.8-6.4%毁灭,强烈回避正确",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "中性:电子特气国产替代故事强,但估值溢价过高(625%)是警示;Q1 数据缺失,需等中报验证",
   "chokepoint_score": "高(电子特气国产化率 10-30% 空间最大,处半导体材料核心瓶颈)",
   "discovery_level": "🟢未发现(小市值 + 估值溢价 → 高风险高回报)",
@@ -220,7 +231,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 50,
+    "critic_verdict": "NEEDS_CHANGES_acknowledged",
+    "data_status": "synthesized_by_main_agent",
+    "note": "PE166.8x+ROIC4.8-6.4%毁灭,强烈回避正确",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 4.78-6.38% → 价值创造不足(ROIC<WACC)",
     "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 华特气体: ROIC 4.78-6.38% vs WACC 12% → 价值毁灭",
@@ -233,7 +250,8 @@
       "stance": "强烈回避",
       "reason": "ROIC 4.8-6.4%<WACC12% 价值毁灭 + PE 166.8x 离谱",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": -26.7
     }
   },
   "dcf_intrinsic": null

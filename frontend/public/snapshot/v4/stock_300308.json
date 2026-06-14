@@ -51,7 +51,15 @@
   },
   "credibility": {
     "final_verdict": "ACCEPT",
-    "score": 86
+    "critic_score": 78,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC31-41%价值创造但PE89x观察分批合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -181,7 +189,12 @@
     },
     "summary": "300308 director v9 ACCEPT 86: 多派别合理价+9格敏感性+历史可比+反骑墙折中(2-3% 分批) 全包. critic spawn 失败 1 次主 agent 接管按 §5 重试规则合规.",
     "critic_v2_score": 86,
-    "critic_v2_verdict": "ACCEPT"
+    "critic_v2_verdict": "ACCEPT",
+    "critic_score": 78,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC31-41%价值创造但PE89x观察分批合理",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "actionable_verdict": {
@@ -191,8 +204,10 @@
       "stance": "建仓观察2-3%",
       "reason": "★ROIC31-41%价值创造之王(光模块),但PE~89x高位需回调/分批观察,AI算力结构性",
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
-    }
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 108.8
+    },
+    "roic_vs_wacc": "verified ROIC 31-41% vs 行业WACC 11.5% → ★价值创造; ROIC 31-41% >> 11.5% AI算力WACC 强价值创造(光模块龙头)"
   },
   "dcf_intrinsic": null
 }

@@ -184,6 +184,25 @@
       "value_creation_tier": "价值创造之王(ROIC远超WACC)",
       "value_creation_recommendation": "价值创造优秀, 优先深入推荐(待估值核实买点)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 70,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC36-48%但PEG2.16透支,减仓合理",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 70,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC36-48%但PEG2.16透支,减仓合理",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

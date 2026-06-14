@@ -53,8 +53,16 @@
     "price_derivation": "诚实区间 + 多派别合理价:\n- A 股: 价值派 ¥30 / GARP ¥45 / 中性 ¥80-110(交易区间) / bull ¥130-160 / 共识 ¥120-130\n- H 股: 价值派 HK$30 / GARP HK$40 / 中性 HK$45-55 / bull HK$70-90 / 共识 HK$55-65\n- 现价 A股 ¥110 在中性派交易区间但严重高于价值派; H 股 HK$50 接近中性派合理\n- 安全边际档位: 高不确定性 (制裁+capex+净利率薄) → 40% 安全边际"
   },
   "credibility": {
-    "final_verdict": "ACCEPT",
-    "score": 87
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 65,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC<半导WACC,A股PE95x不入,H股35x可关注合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": null,
   "chokepoint_score": null,
@@ -161,7 +169,12 @@
       "serenity": "PASS",
       "dalio": "PASS"
     },
-    "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理"
+    "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理",
+    "critic_score": 65,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC<半导WACC,A股PE95x不入,H股35x可关注合理",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中芯A股: ROIC 2.74-3.65% vs WACC 12% → 严重价值毁灭(确认)",
@@ -172,7 +185,8 @@
       "stance": "观望(A股不入/H股关注)",
       "reason": "ROIC2.7-3.7%<半导WACC12%价值毁灭,A股PE95x严重高估不入,H股35x相对合理可关注",
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 36.3
     }
   },
   "dcf_intrinsic": null

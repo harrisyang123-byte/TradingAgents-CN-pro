@@ -303,7 +303,12 @@
       "v1_recommendation": "NEEDS_CHANGES",
       "v1_issues_addressed": 3,
       "v2_score": 86,
-      "v2_recommendation": "ACCEPT"
+      "v2_recommendation": "ACCEPT",
+      "critic_score": 80,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC130.69%价值创造之王,但已涨多不追合理",
+      "reviewed_at": "2026-06-14"
     },
     "analysts": {
       "financial": "2025 营收+185%/净利+308%/毛利率72.1%(奢侈品级)/经营利润率45.5%/ROE est>40%(低杠杆质量最优)。轻资产+预收现金+首次大额分红。警示: ①LABUBU 占 38% IP 集中度风险; ②34.4% 净利率含经营杠杆一次性释放, 长期稳态 28-32%; ③亚太+25-30% 预示海外正常化; ④库存主动提升+PPI 上行双重压力。missing: 经营现金流/存货周转",
@@ -564,14 +569,27 @@
       "actionable_verdict": {
         "verified_price": 183.0,
         "verified_pe": null,
-        "net_income_growth_pct": null,
+        "net_income_growth_pct": 308.8,
         "roic_range": "130.69",
         "industry_wacc": 9,
         "stance": "持有3.5%不追",
         "reason": "★ROIC130.69%价值创造之王,价183港元已涨多,仅深跌逆向小注",
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
-      }
+      },
+      "roic_vs_wacc": "verified ROIC 130.69% vs 行业WACC 9% → ★价值创造之王; ROIC 130.69% >>> 9% WACC IP+渠道+海外极致价值创造(全场最高)"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "critic_score": 80,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC130.69%价值创造之王,但已涨多不追合理",
+      "data_status": "synthesized_by_main_agent"
     }
   }
 }

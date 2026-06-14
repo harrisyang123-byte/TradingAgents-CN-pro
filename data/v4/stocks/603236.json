@@ -239,12 +239,24 @@
       },
       "value_creation_recheck": "ACCEPT",
       "value_creation_recheck_score": 79,
-      "value_creation_recheck_note": "critic: 原版86高估(漏判价值创造),重审79更贴合事实; ROIC<WACC=价值毁灭,PE折价是陷阱非边际,下调加仓→持有正确,reconcile诚实"
+      "value_creation_recheck_note": "critic: 原版86高估(漏判价值创造),重审79更贴合事实; ROIC<WACC=价值毁灭,PE折价是陷阱非边际,下调加仓→持有正确,reconcile诚实",
+      "critic_score": 70,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC<WACC+负FCF,持有偏谨慎合理",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 79,
-      "note": "价值创造维度重审暴露 ROIC<WACC 短板, 真实分从86降至79(更诚实), stance 加仓→持有偏谨慎"
+      "critic_score": 70,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC<WACC+负FCF,持有偏谨慎合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "20251231",

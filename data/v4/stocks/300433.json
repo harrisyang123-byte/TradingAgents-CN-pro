@@ -185,13 +185,33 @@
         "stance": "回避(毁灭+高估)",
         "reason": "ROIC 5.2-6.9%<WACC9% 毁灭 + PE 52x",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": 10.9
       }
     },
     "verdict": {
       "value_creation_tier": "价值创造不足(ROIC<WACC)",
       "value_creation_recommendation": "价值创造不足, 谨慎/回避; 除非ROIC有明确改善路径"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 60,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC<WACC毁灭+PE52,回避正确",
+      "reviewed_at": "2026-06-14"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 60,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC<WACC毁灭+PE52,回避正确",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

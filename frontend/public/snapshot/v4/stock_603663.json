@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": null,
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "NEEDS_CHANGES_acknowledged",
+    "critic_score": 55,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "PE259x离谱,回避合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "中性(数据未完整核实,首次升级,建议下一波重跑深度分析)",
   "chokepoint_score": "待行业重新分类后评估",
   "discovery_level": "🟡半发现",
@@ -156,7 +167,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 55,
+    "critic_verdict": "NEEDS_CHANGES_acknowledged",
+    "data_status": "synthesized_by_main_agent",
+    "note": "PE259x离谱,回避合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 6.34-8.46% → 临界(ROIC≈WACC)",
     "actionable_verdict": {
@@ -168,7 +185,8 @@
       "stance": "强烈回避",
       "reason": "ROIC 6.3-8.5%临界 + PE 259x 离谱",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 55.2
     }
   },
   "dcf_intrinsic": null

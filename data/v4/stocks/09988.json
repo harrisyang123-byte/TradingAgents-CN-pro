@@ -258,12 +258,24 @@
       },
       "value_creation_recheck": "ACCEPT",
       "value_creation_recheck_score": 76,
-      "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀"
+      "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀",
+      "critic_score": 68,
+      "critic_verdict": "ACCEPT_WITH_CAVEATS",
+      "data_status": "synthesized_by_main_agent",
+      "note": "ROIC6.26%<WACC,战略投入期回升路径,降级谨慎正确",
+      "reviewed_at": "2026-06-14"
     },
     "credibility": {
-      "final_verdict": "ACCEPT",
-      "score": 76,
-      "note": "价值创造重审 ROIC 6.26%<WACC, 建仓降级谨慎+信号门控, critic 76 ACCEPT"
+      "final_verdict": "ACCEPT_WITH_CAVEATS",
+      "critic_score": 68,
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥(主agent合成)"
+      ],
+      "note": "ROIC6.26%<WACC,战略投入期回升路径,降级谨慎正确",
+      "data_status": "synthesized_by_main_agent"
     },
     "value_creation_verified": {
       "as_of": "2026-03-31",
@@ -285,7 +297,8 @@
         "stance": "建仓降级谨慎+信号门控",
         "reason": "ROIC6.26%<WACC战略投入期,云+AI回升路径但当前价值创造不足,信号确认前控仓",
         "price_source": "stock_hk_daily/zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "net_income_growth_pct": -20.4
       }
     }
   }

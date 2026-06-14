@@ -80,7 +80,18 @@
   },
   "industry_weight_pct": 1.5,
   "valuation_basis": "刻蚀龙头PE法: 目标价260元=2026E EPS约2.4元 × PE 110x(估值溢价224%,刻蚀稀缺); 买点180-210=PE 75-88x; 破170→清仓。估值偏高是首要风险,小仓。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT_WITH_CAVEATS",
+    "critic_score": 60,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "ROIC<WACC+PE89x,回避合理",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "中性偏正:2025 +37% 业绩兑现,但估值溢价 224% 偏高;刻蚀机国产化率提升空间大但增速慢于光模块",
   "chokepoint_score": "高(刻蚀机龙头,与北方华创并列半导体设备双雄,卡位关键工艺)",
   "discovery_level": "🟡半发现",
@@ -230,7 +241,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 60,
+    "critic_verdict": "ACCEPT_WITH_CAVEATS",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC<WACC+PE89x,回避合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 7.43-9.91% → 临界(ROIC≈WACC)",
     "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中微: ROIC 7.43-9.91% vs WACC 12% → 价值毁灭/不足",
@@ -243,7 +260,8 @@
       "stance": "回避(毁灭+高估)",
       "reason": "ROIC 7.4-9.9%<WACC12% 毁灭 + PE 89x",
       "price_source": "stock_zh_a_daily新浪verified",
-      "as_of": "2026-06-13"
+      "as_of": "2026-06-13",
+      "net_income_growth_pct": 30.7
     }
   },
   "dcf_intrinsic": null

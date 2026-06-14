@@ -71,7 +71,18 @@
   },
   "industry_weight_pct": 2.5,
   "valuation_basis": "高成长光模块PE法: 目标价700元=2026E EPS约20元 × forward PE 35x(1.6T放量,低于中际旭创); 买点480-540=forward PE 24-27x(20%安全边际); 破480=forward PE<24盈利下修→清仓。2025净利+236%高基数,2026增速放缓需警惕。",
-  "credibility": null,
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 88,
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥(主agent合成)"
+    ],
+    "note": "★三维全优,第一优先建仓正确(critic78已认可)",
+    "data_status": "synthesized_by_main_agent"
+  },
   "expectation_gap": "正(中等):2025 高增已被 price-in,2Q26 起 1.6T 产能释放是新一轮预期差催化;但中际旭创经验显示一年涨 11 倍后可能进入收敛期,需精选时间窗",
   "chokepoint_score": "中-高(光模块 1.6T 卡位,与中际旭创并列第二梯队但增速更快)",
   "discovery_level": "🟡半发现(2025 已大涨,2026 需要新催化)",
@@ -236,7 +247,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 88,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "★三维全优,第一优先建仓正确(critic78已认可)",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 50.09-66.79% → 价值创造之王(ROIC远超WACC)",
     "actionable_verdict": {

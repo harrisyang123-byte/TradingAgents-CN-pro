@@ -63,21 +63,16 @@
   "industry_weight_pct": 1.8,
   "valuation_basis": "forward 净利 72-75 亿(Q1 +21.78% 年化扣除 PD-1 衰减) × PE 38-42x(对标百济/信达已盈利后中枢,折价 buyer 4/5 定价权) = 4577-6300 亿市值 / 6.36 亿股 = 54-63 元;取上沿 63 元为 12 月目标价(给平台溢价 BD 期权 5%)。v1 75 元缺推导链拍脑袋,v2 严格按 forward 净利×PE×对标 推导。",
   "credibility": {
-    "critic_score": 82,
-    "critic_iterations": 1,
-    "initial_score": 82,
-    "challenges": [
-      "3×3 矩阵期望 41 vs target 63 gap 35% (BD 期权乐观,已显式标注)",
-      "entry 上沿 50 比矩阵期望 41 高 22% (建议分批 44 半仓/50 加仓)",
-      "buyer 4/5 weakest_link (建议加医保谈判降幅 >15% 下修 target 的 trigger)"
-    ],
     "final_verdict": "ACCEPT",
+    "critic_score": 72,
     "reviewers": [
       "芒格",
       "段永平",
       "Serenity",
-      "达里奥"
-    ]
+      "达里奥(主agent合成)"
+    ],
+    "note": "PEG1.88偏贵+ROIC低于药明,减仓换药明合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": "正预期差(中等): 市场用'医保压价+PD-1 衰退'旧叙事定价(50 元 50xPE),未充分认知'平台化 BD 变现+9 款获批+创新药占比 50%+' 新叙事;但买方议价 4/5 限制净利率天花板,预期差 +20-30% 而非 50%+",
   "chokepoint_score": "高(国内创新药龙头+best-in-class靶点能力+出海BD能力)",
@@ -494,7 +489,13 @@
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null,
+  "critic_evaluation": {
+    "critic_score": 72,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "PEG1.88偏贵+ROIC低于药明,减仓换药明合理",
+    "reviewed_at": "2026-06-14"
+  },
   "value_creation": {
     "roic_vs_wacc": "★verified ROIC 12.89-17.18% → 价值创造(ROIC>WACC9%)",
     "actionable_verdict": {

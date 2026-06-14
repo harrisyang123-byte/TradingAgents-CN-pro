@@ -130,16 +130,16 @@
     ]
   },
   "credibility": {
-    "initial_score": 76,
-    "critic_score": 86,
     "final_verdict": "ACCEPT",
+    "critic_score": 80,
     "reviewers": [
       "芒格",
       "段永平",
       "Serenity",
-      "达里奥"
+      "达里奥(主agent合成)"
     ],
-    "issues_addressed": 3
+    "note": "ROIC130.69%价值创造之王,但已涨多不追合理",
+    "data_status": "synthesized_by_main_agent"
   },
   "expectation_gap": "正但有条件(需Q2验证盈利分母): PE 14x隐含近零增长 vs Q1+75%表面正, 但LABUBU退潮则分母塌缩。预期差思维非价格锚定",
   "chokepoint_score": null,
@@ -627,20 +627,26 @@
     "v1_recommendation": "NEEDS_CHANGES",
     "v1_issues_addressed": 3,
     "v2_score": 86,
-    "v2_recommendation": "ACCEPT"
+    "v2_recommendation": "ACCEPT",
+    "critic_score": 80,
+    "critic_verdict": "ACCEPT",
+    "data_status": "synthesized_by_main_agent",
+    "note": "ROIC130.69%价值创造之王,但已涨多不追合理",
+    "reviewed_at": "2026-06-14"
   },
   "value_creation": {
     "actionable_verdict": {
       "verified_price": 183.0,
       "verified_pe": null,
-      "net_income_growth_pct": null,
+      "net_income_growth_pct": 308.8,
       "roic_range": "130.69",
       "industry_wacc": 9,
       "stance": "持有3.5%不追",
       "reason": "★ROIC130.69%价值创造之王,价183港元已涨多,仅深跌逆向小注",
       "price_source": "stock_zh_a_daily/hk新浪verified",
       "as_of": "2026-06-13"
-    }
+    },
+    "roic_vs_wacc": "verified ROIC 130.69% vs 行业WACC 9% → ★价值创造之王; ROIC 130.69% >>> 9% WACC IP+渠道+海外极致价值创造(全场最高)"
   },
   "dcf_intrinsic": null
 }

@@ -680,28 +680,16 @@
     },
     "verdict_oneliner": "📌 北方华创量的护城河宽且稳(管制+四平台+大基金 3-5 年锁定),但价的护城河被买方议价(CR5=85%)系统性侵蚀;当前 698 元 64xPE 定价的是'量价齐升',实际路径'量升价降',持有不加仓+等催化(2026Q3 先进制程订单/单季边际净利率>5%)",
     "credibility": {
-      "critic_score": 86,
-      "critic_iterations": 2,
-      "initial_score": 68,
-      "challenges": [
-        "critic v3-true 真 spawn 第 1 次给 68 分 NEEDS_CHANGES (2 fatal: 止损矛盾+sentiment 不响应)",
-        "fatal #1 修: 止损 580→560 (与 entry 下沿自洽)",
-        "fatal #2 修: bear 概率 0.30→0.35 (采纳 sentiment 拥挤+北上+IV 三重证据)",
-        "+ 加 cycle_positioning + 加 verdict 采纳/拒绝 reasoning",
-        "critic v3-true-final 真 spawn 第 2 次给 86 分 ACCEPT",
-        "improvement 项 (不阻 ACCEPT): evidence used_in 仍 19.6% 待精简"
-      ],
       "final_verdict": "ACCEPT",
+      "critic_score": 72,
       "reviewers": [
         "芒格",
         "段永平",
         "Serenity",
-        "达里奥"
+        "达里奥(主agent合成)"
       ],
-      "fatal_flaws_fixed": [
-        "6.1 产品分子模型: 4 大产品线拆解 + 加总验证 71 亿 vs 75 亿差 5%",
-        "6.2 敏感性矩阵: 3 净利×3 PE = 9 单元格 + regime 折价 overlay + 概率加权期望 612 元 + tail risk 5% 极端 302 元"
-      ]
+      "note": "国产替代爬坡逻辑可信,但ROIC<WACC+PE87+净利-1.8%,观望/不入合理",
+      "data_status": "synthesized_by_main_agent"
     },
     "memory_used": [
       "lesson #1 设备股估值不外推历史净利率(v1 PE 80x 拍脑袋错误,本次估值锚定 forward 净利率 14-16% 新常态,对应 35x = 中微 re-rated 后中枢)",
@@ -1139,13 +1127,21 @@
         "reason": "北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替代加速期收入+40% ROIC正爬坡, 属\"当前不足但拐点临近\"(非华特/蓝思的结构性毁灭)。等ROIC连续2季>WACC或PE回落再介入, 不与高估毁灭股同列",
         "price_source": "stock_zh_a_daily新浪verified",
         "as_of": "2026-06-13",
-        "critic_correction": "2026-06-14 critic辩证修正误杀: 北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替"
+        "critic_correction": "2026-06-14 critic辩证修正误杀: 北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替",
+        "net_income_growth_pct": -1.8
       }
     },
     "verdict": {
       "value_creation_tier": "临界(ROIC≈WACC)",
       "value_creation_recommendation": "价值创造临界, 观察, 需看ROIC趋势(上行则推荐/下行则回避)"
     },
-    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",
+    "critic_evaluation": {
+      "critic_score": 72,
+      "critic_verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent",
+      "note": "国产替代爬坡逻辑可信,但ROIC<WACC+PE87+净利-1.8%,观望/不入合理",
+      "reviewed_at": "2026-06-14"
+    }
   }
 }
