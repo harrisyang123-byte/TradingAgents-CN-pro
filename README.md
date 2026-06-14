@@ -24,7 +24,8 @@
 把投研拆成常驻的「**分析单元**」：每个单元有稳定 `unit_id`、独立产物 JSON、独立五色状态与 TTL，触发只跑命中单元，绝不连带重跑。约束从上到下硬传递，上游变更只置黄软提醒、不强制重跑。
 
 ```
-宏观 data-desk（唯一联网取数台：22 宏观指标 + A股个股硬数据）
+宏观 data-desk（唯一联网取数台：22 宏观指标 + A股/港股个股硬数据 + 价值创造 verified 数据）
+   │  价格走新浪源 stock_zh_a_daily(稳定); 财务/ROIC/FCF/EPS/增速 走 stock_financial_abstract
    │（全局共享）
 七大类研究部门 ×7（权益/固收/现金/大宗/贵金属/房地产/另类）
    每类：3 视角分析师(macro/flow/policy) → 多空 3 轮 → 总监拍板(reflection+反骑墙)
@@ -33,14 +34,20 @@
    Σ=100% 目标配比 + 下传 equity_quota（权益额度）
    │（equity_quota 约束）
 权益深链（gated by equity_quota>0）
-   ├ 行业研究部门 ×N   industry:<name>
+   ├ 行业研究部门 ×N   industry:<canonical_name>     ★行业按"终端驱动+一荣俱荣"归并到 11 大行业
+   │    （半导体产业链 / AI算力数据中心 / 互联网平台 / 创新药+CXO / 消费电子+IoT
+   │     / 新能源车 EV / AIoT安防 / 有色金属资源 / 化工必需消费 / 可选消费 / 电力公用事业）
    │    景气多空 + 产业链瓶颈分析师(Chokepoint) → 总监整合 chokepoint_map
    ├ 行业间配比         alloc:equity_industries  (Σ ≤ equity_quota)
    ├ 个股研究部门 ×M   stock:<code>
-   │    3 分析师(财务/竞争/估值) → 多空 → 总监预期差拍板
+   │    4 分析师(财务/竞争/估值/舆情) → 多空 → 3 方风险辩论 → 总监三维拍板
+   │    ★三维选股框架：好公司(ROIC>WACC) × 好价格(PE) × 好未来(PEG/增速可持续)
+   │    ★expert_valuation 目标价：TAM×市占率→forward EPS→目标价(标假设)
    └ 行业内配比 ×K      alloc:industry:<name>  (Σ ≤ 行业权重)
 
 非权益方案部门 ×6   plan:<class>（固收/现金/大宗/贵金属/房地产/另类执行方案）
+
+基金穿透说明：基金作整体标的管理(主题基金→对应行业作推荐 / 宽基QDII债基→大类底仓)
 ```
 
 独立集合 `v4_units`、独立目录 `data/v4/`、独立编排器 `scripts/workflow-v4-advisor.js`、独立只读路由 `app/routers/portfolio_v4.py`、独立前端三层 Tab。完整规格见 `.kiro/specs/v4/`，主 Agent 指南见 [AGENTS.md](AGENTS.md)。
@@ -117,6 +124,9 @@
 │  Step 5 🎩 director 综合拍板 (消费 Step 1-4 全部 + memory)                 │
 │  • thesis 融会贯通核心论述                                                  │
 │  • 四维质量闸门 (芒格/段永平/Serenity/达里奥)                                │
+│  • ★三维选股框架 (好公司ROIC>WACC × 好价格PE × 好未来PEG/增速可持续)         │
+│  • ★价值创造四问: TAM 天花板 / ROIC vs WACC / 资本配置 / 正向 DCF 三角验证 │
+│  • ★expert_valuation 目标价推导链 (TAM×市占率→forward EPS×目标PE, 标假设)  │
 │  • valuation_basis 估值推导链 (forward EPS×PE×对标谁, 禁拍脑袋)             │
 │  • forward_view 6 维多维推演 (market_regime/liquidity/cycle/β/comparable/ │
 │    pricing_power) — 不只 PE 一维                                           │
@@ -127,9 +137,11 @@
                                    │ director verdict
                                    ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  Step 6 🎓 v4-investor-critic 评审 (4 视角 + 6 必查项)                    │
+│  Step 6 🎓 v4-investor-critic 评审 (4 视角 + 8 必查项)                    │
 │  芒格/段永平/Serenity/达里奥 拷问 → ACCEPT (≥85) / NEEDS_CHANGES          │
-│  6 必查: 产品分子/敏感性矩阵/可比路径/forward_view 6 维/数据追溯/辩论深度    │
+│  8 必查: 产品分子/敏感性矩阵/可比路径/forward_view 6 维/数据追溯/辩论深度   │
+│         + ★价值创造四问 + ★未来维度+PEG五大陷阱(后视镜/低基数/周期伪装/   │
+│           增速质量/久期)                                                   │
 │  接入 v4_unit_cli.py write 编排: NEEDS_CHANGES 直接 exit=4 拦截不让落盘   │
 └──────────────────────────────────┬──────────────────────────────────────┘
                                    │ ACCEPT

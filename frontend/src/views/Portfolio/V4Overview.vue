@@ -10,17 +10,12 @@
     </div>
 
     <el-tabs v-model="activeTab" class="v4-tabs" type="border-card">
-      <!-- Tab0 我的持仓（首页，D0-7）-->
+      <!-- Tab0 我的持仓（首页，唯一入口：大类→行业→持仓 全在这一页, 大类首行点"大类分析→"进 Tab2）-->
       <el-tab-pane label="我的持仓" name="holdings">
         <HoldingsReviewTab @open-stock="openStock" @open-asset="openAsset" @open-industry="openIndustry" />
       </el-tab-pane>
 
-      <!-- Tab1 资产配置 -->
-      <el-tab-pane label="资产配置" name="allocation">
-        <AssetAllocationTab ref="allocTabRef" @open-asset="openAsset" />
-      </el-tab-pane>
-
-      <!-- Tab2 大类详情（动态） -->
+      <!-- Tab2 大类详情（动态, 从持仓页大类首行点击进入） -->
       <el-tab-pane :disabled="!currentAsset" name="asset">
         <template #label>
           <span>{{ currentAsset ? `大类：${currentAssetLabel}` : '大类详情' }}</span>
@@ -57,7 +52,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import AssetAllocationTab from './v4/AssetAllocationTab.vue'
 import AssetDetailTab from './v4/AssetDetailTab.vue'
 import IndustryDetailTab from './v4/IndustryDetailTab.vue'
 import StockDetailTab from './v4/StockDetailTab.vue'

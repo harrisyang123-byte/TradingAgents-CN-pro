@@ -11,29 +11,8 @@
       </div>
 
       <!-- 资金流向：同一笔钱怎么动 -->
-      <div class="dt-flow">
-        <div class="dt-flow-title">💰 这笔钱怎么动（配比是全局的，超配/减仓腾出 → 补到低配处）</div>
-        <div class="dt-flow-cols">
-          <div class="dt-flow-col">
-            <div class="dt-flow-h src">资金来源（卖出/超配/合并释放）</div>
-            <div v-for="(s, i) in review.capital_flow.sources" :key="i" class="dt-flow-item">
-              <span class="dt-flow-desc">{{ s.desc }}</span>
-              <span v-if="s.amount" class="dt-flow-amt src">¥{{ fmt(s.amount) }}</span>
-              <span v-else-if="s.note" class="dt-flow-note">{{ s.note }}</span>
-            </div>
-          </div>
-          <div class="dt-flow-col">
-            <div class="dt-flow-h use">资金去向（加仓/低配补齐）</div>
-            <div v-for="(u, i) in review.capital_flow.uses" :key="i" class="dt-flow-item">
-              <span class="dt-flow-desc">{{ u.desc }}</span>
-              <span v-if="u.amount" class="dt-flow-amt use">¥{{ fmt(u.amount) }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 大类决策树 -->
-      <div class="dt-tree-title">📊 大类 → 行业 → 持仓（点行名展开；右侧可看各层分析）</div>
+      <!-- 大类决策树(资金动向已由各大类首行 gap_value + 个股 stance 直接展示, 不再单独列资金流向区块) -->
+      <div class="dt-tree-title">📊 大类 → 行业 → 持仓（点击大类展开行业, 右侧"分析→"进各层详情）</div>
       <div class="dt-tree">
         <div v-for="node in review.asset_tree" :key="node.key" class="dt-class">
           <!-- 大类行 -->
