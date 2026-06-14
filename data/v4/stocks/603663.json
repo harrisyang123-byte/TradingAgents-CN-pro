@@ -131,7 +131,8 @@
       "what_changed": "B4 简化升级 forward_view 框架",
       "why_changed": "B 阶段 数据一致性",
       "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)",
-      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+      "actionable_what_changed": "2026-06-14 补verified价格72.6+PE259.3: ROIC×估值交叉 → 强烈回避"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -152,7 +153,18 @@
       "roic_vs_wacc9_verdict": "ROIC中值 7.4% vs WACC~9% → 临界"
     },
     "value_creation": {
-      "roic_vs_wacc": "★verified ROIC 6.34-8.46% → 临界(ROIC≈WACC)"
+      "roic_vs_wacc": "★verified ROIC 6.34-8.46% → 临界(ROIC≈WACC)",
+      "actionable_verdict": {
+        "verified_price": 72.6,
+        "verified_pe": 259.3,
+        "eps": 0.28,
+        "roic_pct": "6.3-8.5",
+        "industry_wacc": 11,
+        "stance": "强烈回避",
+        "reason": "ROIC 6.3-8.5%临界 + PE 259x 离谱",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }

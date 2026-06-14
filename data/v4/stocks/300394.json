@@ -140,7 +140,8 @@
       "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业人工智能算力龙头)",
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch",
-      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造之王(ROIC远超WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造之王(ROIC远超WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+      "actionable_what_changed": "2026-06-14 补verified价格280.95+PE108.2: ROIC×估值交叉 → 观望(透支)"
     },
     "price_at_judgment": 325.0,
     "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。",
@@ -163,7 +164,18 @@
       "roic_vs_wacc9_verdict": "ROIC中值 42.1% vs WACC~9% → 价值创造"
     },
     "value_creation": {
-      "roic_vs_wacc": "★verified ROIC 36.1-48.13% → 价值创造之王(ROIC远超WACC)"
+      "roic_vs_wacc": "★verified ROIC 36.1-48.13% → 价值创造之王(ROIC远超WACC)",
+      "actionable_verdict": {
+        "verified_price": 280.95,
+        "verified_pe": 108.2,
+        "eps": 2.5958,
+        "roic_pct": "36-48",
+        "industry_wacc": 11.5,
+        "stance": "观望(透支)",
+        "reason": "ROIC 36-48%价值创造之王 + PE 108x 已严重透支, 等大回调",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "verdict": {
       "value_creation_tier": "价值创造之王(ROIC远超WACC)",

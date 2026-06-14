@@ -138,7 +138,8 @@
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch",
       "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
-      "wacc_industrialized": "2026-06-14 F2: 用半导体行业WACC 12.0%(非一刀切9%)重判 — 华特气体: ROIC 4.78-6.38% vs WACC 12% → 价值毁灭"
+      "wacc_industrialized": "2026-06-14 F2: 用半导体行业WACC 12.0%(非一刀切9%)重判 — 华特气体: ROIC 4.78-6.38% vs WACC 12% → 价值毁灭",
+      "actionable_what_changed": "2026-06-14 补verified价格188.5+PE166.8: ROIC×估值交叉 → 强烈回避"
     },
     "price_at_judgment": 55.0,
     "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
@@ -162,7 +163,18 @@
     },
     "value_creation": {
       "roic_vs_wacc": "★verified ROIC 4.78-6.38% → 价值创造不足(ROIC<WACC)",
-      "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 华特气体: ROIC 4.78-6.38% vs WACC 12% → 价值毁灭"
+      "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 华特气体: ROIC 4.78-6.38% vs WACC 12% → 价值毁灭",
+      "actionable_verdict": {
+        "verified_price": 188.5,
+        "verified_pe": 166.8,
+        "eps": 1.13,
+        "roic_pct": "4.8-6.4",
+        "industry_wacc": 12,
+        "stance": "强烈回避",
+        "reason": "ROIC 4.8-6.4%<WACC12% 价值毁灭 + PE 166.8x 离谱",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "verdict": {
       "value_creation_tier": "价值创造不足(ROIC<WACC)",

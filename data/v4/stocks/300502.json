@@ -147,7 +147,8 @@
       "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业人工智能算力龙头)",
       "why_changed": "B 阶段个股下钻补全",
       "self_check": "first_run_new_arch",
-      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造之王(ROIC远超WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造之王(ROIC远超WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+      "actionable_what_changed": "2026-06-14 补verified价格506.46+PE52.7: ROIC×估值交叉 → 回调买(价值创造之王但贵)"
     },
     "historical_alpha": {
       "evaluated_at": "2026-06-13",
@@ -187,7 +188,18 @@
       "roic_vs_wacc9_verdict": "ROIC中值 58.4% vs WACC~9% → 价值创造"
     },
     "value_creation": {
-      "roic_vs_wacc": "★verified ROIC 50.09-66.79% → 价值创造之王(ROIC远超WACC)"
+      "roic_vs_wacc": "★verified ROIC 50.09-66.79% → 价值创造之王(ROIC远超WACC)",
+      "actionable_verdict": {
+        "verified_price": 506.46,
+        "verified_pe": 52.7,
+        "eps": 9.61,
+        "roic_pct": "50-66",
+        "industry_wacc": 11.5,
+        "stance": "回调买(价值创造之王但贵)",
+        "reason": "ROIC 50-66%极致价值创造 + PE 52.7x 成长溢价, 好公司但不便宜, 回调买",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "verdict": {
       "value_creation_tier": "价值创造之王(ROIC远超WACC)",

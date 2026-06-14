@@ -272,7 +272,8 @@
       "what_changed": "v2 升级 (TradingAgents 严格全流程对齐): ①5+1 五力深做(buyer/substitute/rivalry/supplier 真 spawn + entry main agent 接管) + integrator 真 spawn ②sentiment 分析师真 spawn (温度 68 偏暖) ③bull R3 + bear R3 真 spawn 终局 (bull 让步 target 75→68 / bear 维持 42-45) ④3 方风险辩论真 spawn (aggressive 95 / safe 55 / neutral 63) ⑤target 75→63 (采纳 neutral 严格推导链, 拒绝 v1 拍脑袋) ⑥entry [42,48]→[44,50] (不追高) ⑦stop 38→40 (收窄至 -20%) ⑧仓位明确 4-5% (v1 未给) ⑨补 valuation_basis (forward 75亿×PE 42x=63) ⑩补 forward_view 6 维 (market_regime/liquidity/cycle/β=0.85/comparable_matrix/pricing_power) ⑪补产品分子模型 (4 线拆解 65 亿 + 5 亿 = 70 亿) ⑫补 3×3 敏感性矩阵+regime overlay (期望 41 元低于 target 35%) ⑬补 cycle_positioning + falsification_triggers",
       "why_changed": "对齐 TradingAgents 17 stage 严格全流程: 5+1 五力 / integrator / 6 轮辩论 / 3 方风险 / sentiment / critic, 之前 v1 只是单 agent 简化版. 通过真 spawn 暴露 v1 三大缺陷: ①75 元拍脑袋无推导链 ②未消化 buyer 4/5 议价权约束 ③未做产品分子+敏感性矩阵. memory 引用 002371 v1→v2 教训(PE 80x 拍脑袋), 本次严格 forward 净利×PE×对标 推导.",
       "self_check": "v2 升级方向正确, 已严格遵循铁律: ①5 力 4 真 spawn + entry main agent 接管(标 data_status=synthesized_by_main_agent) ②bull/bear R1/R2 没真 spawn (R3 终局已涵盖), 标 data_status=r3_only_main_agent_synthesis_for_r1_r2 ③critic 待真 spawn 复核 (不能主 agent 自评). 残留局限: ①bull/bear R1/R2 未 spawn (主 agent 接管标注) ②sentiment 数据 estimated (沙箱) ③β=0.85 是估计未真历史回测.",
-      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+      "actionable_what_changed": "2026-06-14 补verified价格48.49+PE40.7: ROIC×估值交叉 → 回调买(好公司贵)"
     },
     "price_at_judgment": 50.0,
     "valuation_basis": "forward 净利 72-75 亿(Q1 +21.78% 年化扣除 PD-1 衰减) × PE 38-42x(对标百济/信达已盈利后中枢,折价 buyer 4/5 定价权) = 4577-6300 亿市值 / 6.36 亿股 = 54-63 元;取上沿 63 元为 12 月目标价(给平台溢价 BD 期权 5%)。v1 75 元缺推导链拍脑袋,v2 严格按 forward 净利×PE×对标 推导。",
@@ -625,7 +626,18 @@
       "roic_vs_wacc9_verdict": "ROIC中值 15.0% vs WACC~9% → 价值创造"
     },
     "value_creation": {
-      "roic_vs_wacc": "★verified ROIC 12.89-17.18% → 价值创造(ROIC>WACC9%)"
+      "roic_vs_wacc": "★verified ROIC 12.89-17.18% → 价值创造(ROIC>WACC9%)",
+      "actionable_verdict": {
+        "verified_price": 48.49,
+        "verified_pe": 40.7,
+        "eps": 1.19,
+        "roic_pct": "13-17",
+        "industry_wacc": 10,
+        "stance": "回调买(好公司贵)",
+        "reason": "ROIC 13-17%>WACC10% 价值创造 + PE 40.7x 创新药溢价偏高, 回调至PE<32可买",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "verdict": {
       "value_creation_tier": "价值创造(ROIC>WACC9%)",

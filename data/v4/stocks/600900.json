@@ -142,7 +142,8 @@
       "why_changed": "红利底仓首选",
       "self_check": "first_run_new_arch",
       "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
-      "wacc_industrialized": "2026-06-14 F2: 用电力行业WACC 5.5%(非一刀切9%)重判 — 长江电力: ROIC 7.9-10.53% vs 电力WACC 5.5% → 强"
+      "wacc_industrialized": "2026-06-14 F2: 用电力行业WACC 5.5%(非一刀切9%)重判 — 长江电力: ROIC 7.9-10.53% vs 电力WACC 5.5% → 强",
+      "actionable_what_changed": "2026-06-14 补verified价格28.28+PE20.1: ROIC×估值交叉 → 推荐(防御价值创造)"
     },
     "price_at_judgment": 26.81,
     "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
@@ -166,7 +167,18 @@
     },
     "value_creation": {
       "roic_vs_wacc": "★verified ROIC 7.9-10.53% → 价值创造(ROIC>WACC9%)",
-      "roic_vs_wacc_industrialized": "★WACC行业化(电力 5.5%): 长江电力: ROIC 7.9-10.53% vs 电力WACC 5.5% → 强价值创造(此前9%误判临界); 低beta防御低资本成本"
+      "roic_vs_wacc_industrialized": "★WACC行业化(电力 5.5%): 长江电力: ROIC 7.9-10.53% vs 电力WACC 5.5% → 强价值创造(此前9%误判临界); 低beta防御低资本成本",
+      "actionable_verdict": {
+        "verified_price": 28.28,
+        "verified_pe": 20.1,
+        "eps": 1.4101,
+        "roic_pct": "7.9-10.5",
+        "industry_wacc": 5.5,
+        "stance": "推荐(防御价值创造)",
+        "reason": "ROIC 7.9-10.5%>电力WACC5.5% 强价值创造 + PE 20x(电力偏高但现金流稳) = 防御配置",
+        "price_source": "stock_zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     },
     "verdict": {
       "value_creation_tier": "价值创造(ROIC>WACC9%)",

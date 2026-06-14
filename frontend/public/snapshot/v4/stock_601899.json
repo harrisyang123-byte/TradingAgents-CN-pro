@@ -159,7 +159,8 @@
     "what_changed": "首次v4完整新架构(B1.9)",
     "why_changed": "有色资源行业首选龙头",
     "self_check": "first_run_new_arch",
-    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+    "actionable_what_changed": "2026-06-14 补verified价格29.09+PE14.9: ROIC×估值交叉 → ★强推荐(好公司+好价格)"
   },
   "historical_alpha": null,
   "evidence": [
@@ -197,7 +198,18 @@
   "data_status_overall": null,
   "critic_evaluation": null,
   "value_creation": {
-    "roic_vs_wacc": "★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)"
+    "roic_vs_wacc": "★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)",
+    "actionable_verdict": {
+      "verified_price": 29.09,
+      "verified_pe": 14.9,
+      "eps": 1.95,
+      "roic_pct": "15-20",
+      "industry_wacc": 11,
+      "stance": "★强推荐(好公司+好价格)",
+      "reason": "ROIC 15-20%>WACC11% 价值创造 + PE仅14.9x 估值合理 = 罕见低估价值创造, 明天可建仓",
+      "price_source": "stock_zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }

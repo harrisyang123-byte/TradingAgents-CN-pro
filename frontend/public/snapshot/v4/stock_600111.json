@@ -159,7 +159,8 @@
     "what_changed": "首次v4完整新架构(B1.10)",
     "why_changed": "稀土战略资产龙头",
     "self_check": "first_run_new_arch",
-    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+    "actionable_what_changed": "2026-06-14 补verified价格49.43+PE79.4: ROIC×估值交叉 → 回避"
   },
   "historical_alpha": null,
   "evidence": [
@@ -197,7 +198,18 @@
   "data_status_overall": null,
   "critic_evaluation": null,
   "value_creation": {
-    "roic_vs_wacc": "★verified ROIC 6.65-8.87% → 临界(ROIC≈WACC)"
+    "roic_vs_wacc": "★verified ROIC 6.65-8.87% → 临界(ROIC≈WACC)",
+    "actionable_verdict": {
+      "verified_price": 49.43,
+      "verified_pe": 79.4,
+      "eps": 0.6227,
+      "roic_pct": "6.7-8.9",
+      "industry_wacc": 11,
+      "stance": "回避",
+      "reason": "ROIC 6.7-8.9%临界 + PE 79x 高估",
+      "price_source": "stock_zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }
