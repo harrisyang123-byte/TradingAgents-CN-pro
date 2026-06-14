@@ -587,11 +587,26 @@
         "target_price": "合理目标价 HK$160-220 = 2026E EPS 5.2 × 合理PE 30-42x(高成长消费股区间); 当前HK$183处中部",
         "target_verdict": "现价HK$183对应目标HK$160-220区间内,持有3.5%不追高;深跌至HK$140以下逆向小注",
         "assumptions": "假设:2026增速80%(海外+国内均放缓但仍高速)、目标PE 35x。海外5倍增速的可持续性是核心变量,新IP孵化是关键",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "spawn_subagent_ask_v2",
         "derived_from_industry": "可选消费",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:可选消费 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:可选消费 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:可选消费 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "target_price": {
+            "bear": 156,
+            "base": 182,
+            "bull": 260
+          },
+          "pe": [
+            30,
+            35,
+            50
+          ],
+          "eps_2026E": 5.2,
+          "verdict": "★HOLD 当前HK$183 ≈ base HK$182 充分定价. 不追高, 深跌HK$140以下逆向小注. 止损HK$120(23x).监控海外占比+新IP",
+          "peg_traps": "低基数+增速久期≤3年风险"
+        }
       }
     },
     "credibility": {

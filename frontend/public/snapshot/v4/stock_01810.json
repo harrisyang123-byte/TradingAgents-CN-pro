@@ -274,11 +274,21 @@
       "target_price": "合理目标价 HK$24-32 = 2026E核心EPS×合理PE分部估值(手机IoT 15x + EV给2027盈亏平衡时2x PS); 当前HK$26.2处中下沿",
       "target_verdict": "现价HK$26.2处目标区间中下沿,持有观望;EV单季盈亏平衡信号是右侧加仓催化, 跌破HK$22止损",
       "assumptions": "假设:手机IoT增速10-15%、EV 2027H1单季盈亏平衡。若SU7月销跌破1万辆或EV亏损扩大,目标下修至HK$20",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "消费电子+IoT",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:消费电子+IoT 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:消费电子+IoT v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:消费电子+IoT v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 25,
+          "base": 28,
+          "bull": 32
+        },
+        "method": "SOTP分部(手机IoT 15x + EV PS 2x)",
+        "eps_2027E": 1.5,
+        "verdict": "HOLD HK$26.2 ≈ base HK$28, 安全边际6%不足. EV单季盈亏平衡是加仓催化. 止损HK$22"
+      }
     }
   },
   "dcf_intrinsic": null

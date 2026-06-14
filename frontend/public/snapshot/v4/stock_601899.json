@@ -228,11 +228,39 @@
       "target_price": "中性¥27-32(不追高);金价回调至$2100或股价¥25以下再左侧建仓",
       "target_verdict": "现价¥29.09已price-in金铜高位,追高赔率差;周期高点低PE是卖出信号非买入",
       "assumptions": "周期股估值锚=商品价中枢+产能周期,非PEG。金铜价均值回归是核心下行风险",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "有色金属资源",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "method": "PB+产能周期(周期股禁PEG)",
+        "target_price_weighted": "¥28-35 中枢¥31",
+        "scenarios": {
+          "保守": {
+            "金铜跌20%": [
+              22,
+              25
+            ],
+            "prob": 0.25
+          },
+          "中性": {
+            "价稳量+10%": [
+              28,
+              32
+            ],
+            "prob": 0.5
+          },
+          "乐观": {
+            "继续上行": [
+              40,
+              50
+            ],
+            "prob": 0.25
+          }
+        },
+        "verdict": "当前¥29处中性中段无安全边际, 持有不追高, 金跌$2100/¥25左侧分批, PB>3.5x/金>$2800见顶卖出, 止损¥22"
+      }
     }
   },
   "dcf_intrinsic": null

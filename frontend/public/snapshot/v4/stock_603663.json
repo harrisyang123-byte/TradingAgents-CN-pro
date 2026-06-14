@@ -197,11 +197,25 @@
       "target_price": "合理目标价 ¥18-25 = 2026E EPS 0.36 × 合理PE 50-70x(给小盘+材料溢价); 当前¥72.6高估190-300%",
       "target_verdict": "现价¥72.6离谱;强烈回避, 等PE回落至80x以下(¥22)或ROIC突破12%再评估",
       "assumptions": "假设:常态化增速30%、目标PE 60x。核聚变/铪半导体若订单落地, 上修至¥35(届时仍非加仓)",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "有色金属资源",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 18,
+          "base": 22,
+          "bull": 25
+        },
+        "pe": [
+          50,
+          60,
+          70
+        ],
+        "eps_2027E": 0.36,
+        "verdict": "★强烈回避! 当前¥72.6 vs base¥22 透支230%! PE259x离谱+ROIC<WACC+小盘概念泡沫+TAM$30B天花板. 持有清仓"
+      }
     }
   },
   "dcf_intrinsic": null

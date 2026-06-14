@@ -189,11 +189,26 @@
         "target_price": "合理目标价 ¥7.5-11 = 2026E EPS 0.58 × 合理PE 13-19x(公用事业债券化估值); 当前¥9.24处中部",
         "target_verdict": "现价¥9.24处目标区间中部,防御底仓可选(非优选);回调至¥7.7(PE 13x)防御性价比显著提升",
         "assumptions": "假设:增速6%稳定、目标PE 16x。新机组投产时点提前或电价政策锁定上修, 资本开支超预期则下修",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "spawn_subagent_ask_v2",
         "derived_from_industry": "电力公用事业",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:电力公用事业 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:电力公用事业 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:电力公用事业 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "target_price": {
+            "bear": 7.5,
+            "base": 11,
+            "bull": 13
+          },
+          "pe": [
+            13,
+            17,
+            19
+          ],
+          "eps_2027E": 0.58,
+          "method": "Gordon类债模型(WACC核电4-4.5%非电力5.5%)",
+          "verdict": "cautious_buy防御3-5%可选. 当前¥9.24 vs base¥11偏低16%. ROIC临界非毁灭. ¥7.7以下显著加配"
+        }
       }
     },
     "verdict": {

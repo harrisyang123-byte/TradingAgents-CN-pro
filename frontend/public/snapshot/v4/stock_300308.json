@@ -233,11 +233,27 @@
       "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
       "target_verdict": "现价¥1149处目标区间中部,分批建仓2-3%;等回调至PE60-65x(¥850-900)更优",
       "assumptions": "假设:2026增速60%(从108%回落)、目标PE 32x。CSP capex见顶或CPO颠覆则下修",
-      "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "AI算力数据中心",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 625,
+          "base": 750,
+          "bull": 875
+        },
+        "pe": [
+          50,
+          60,
+          70
+        ],
+        "eps_2026E": 12.5,
+        "verdict": "★REDUCE 当前¥1149 vs base¥750 严重透支53%! 89x已price-in 2027E, 减仓至标配以下(从超配减), 等回调¥700-800 PE56-64x买入. 止损¥600",
+        "peg_corrected": "89/常态50%×(3/3)=1.78偏贵",
+        "sources": "TAM多源派生自AI算力数据中心行业层"
+      }
     }
   },
   "dcf_intrinsic": null

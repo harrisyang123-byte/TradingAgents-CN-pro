@@ -265,11 +265,35 @@
         "target_price": "合理目标价 A股¥40-55 / H股 HK$22-30 = 2026E EPS 0.93 × 合理PE 45-60x(国产替代溢价但要打折ROIC毁灭); A股当前¥124.88高估127-212%, H股相对合理",
         "target_verdict": "A股¥124.88严重高估坚决不入;H股35x可关注, 设港股PE>45x止损;产能利用率突破85%+毛利率>22%是右侧确认信号",
         "assumptions": "假设:产能利用率2026H2突破85%、目标PE 50x。若先进制程突破或地缘缓和, A股目标可上修至¥80(仍非买点)",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "spawn_subagent_ask_v2",
         "derived_from_industry": "半导体产业链",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "target_price_A": {
+            "bear": 28,
+            "base": 38,
+            "bull": 47
+          },
+          "target_price_H": {
+            "bear": 22,
+            "base": 28,
+            "bull": 34
+          },
+          "pe_A": [
+            30,
+            40,
+            50
+          ],
+          "pe_H": [
+            20,
+            25,
+            30
+          ],
+          "eps_2027E": 0.94,
+          "verdict": "★A股¥124.88 vs base¥38 透支229%坚决不入! H股HK$35 vs base HK$28透支25%可关注 HK$28以下分批 HK$22以下重仓. H股止损HK$20"
+        }
       }
     },
     "debate_rounds": [

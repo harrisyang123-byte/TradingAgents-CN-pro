@@ -501,11 +501,27 @@
       "target_price": "合理目标价 ¥40-46 = 2026E EPS 1.33 × 合理PE 30-35x(创新药龙头但低于药明); 当前¥48.49已price-in 22%增速",
       "target_verdict": "现价¥48.49已超合理上沿;减仓换药明(同医药ROIC更高+PE更低), 或回调至¥40再考虑",
       "assumptions": "假设:增速22%、目标PE 33x。若海外BD大额里程碑兑现(单笔>20亿美元),目标上修至¥55",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "创新药+CXO",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 30,
+          "base": 40,
+          "bull": 50
+        },
+        "pe": [
+          30,
+          40,
+          50
+        ],
+        "eps_2027E": 1.0,
+        "comparable": "药明22x/Lilly50x/Pfizer12x → 30-40x",
+        "peg_correction": "21.7%含BMS BD一次性, 常态15-18%, 修正PEG=40.7/17=2.4更贵",
+        "verdict": "★REDUCE 现价¥48.49超base¥40 21%, 换药明(同医药ROIC更高+PE低)。回调¥40再考虑, 止损¥30"
+      }
     }
   },
   "dcf_intrinsic": null

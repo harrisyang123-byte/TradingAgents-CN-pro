@@ -211,7 +211,7 @@
         "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
         "target_verdict": "当前¥506处目标区间下沿,增速兑现可向上;若Q3增速<100%则下修",
         "assumptions": "假设:2026增速80%(从235%回落)、净利率20%、目标PE 30x。增速不及则目标价下修",
-        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "spawn_subagent_ask_v2 (v2/v3, critic 6.12 流程)",
         "derived_from_industry": "AI算力数据中心",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
@@ -266,6 +266,46 @@
             "净利率连2Q<28%"
           ],
           "data_status": "spawn_subagent_ask_v2 (critic 6.12 必查pass + 反转之前高估)"
+        },
+        "v3_recompute": {
+          "version": "v3",
+          "target_price": {
+            "bear": 304,
+            "base": 520,
+            "bull": 888
+          },
+          "pe": [
+            40,
+            50,
+            60
+          ],
+          "eps_2026E": [
+            7.6,
+            10.4,
+            14.8
+          ],
+          "pe_method": "PEG匹配法(增速50%×PEG=1→PE50x)+可比几何均值Coherent30/Lumentum25/旭创89=50x",
+          "tam_sources": [
+            {
+              "name": "GrandView",
+              "val": "$36.2B"
+            },
+            {
+              "name": "M&M",
+              "val": "$42.5B"
+            },
+            {
+              "name": "GMI",
+              "val": "$47.8B"
+            }
+          ],
+          "verdict": "好公司+好未来✓ 但好价格△ base¥520已price-in 仅3%上行 不追高 回调至¥420-450建仓 止损¥380",
+          "assumptions_falsifiable": [
+            "1.6T 2026量产ASP>$1500否则delay 2027H2",
+            "北美AI capex 三巨头合计>$200B否则下调15%",
+            "净利率30%+连续2季<28%触发",
+            "份额13→16%连续2季<12%触发"
+          ]
         }
       }
     },

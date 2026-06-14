@@ -251,11 +251,25 @@
       "target_price": "合理目标价 ¥30-38 = 2026E EPS 1.67 × 合理PE 18-23x(电信设备区间); 当前¥36.35处中上沿",
       "target_verdict": "现价¥36.35已price-in利润恢复,无加仓空间;持有底仓观察, 设止损¥31",
       "assumptions": "假设:利润恢复至2024水平、目标PE 20x。若算力业务毛利率突破25%或海外份额回升, 目标上修至¥45",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "AI算力数据中心",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 28,
+          "base": 35,
+          "bull": 39
+        },
+        "pe": [
+          18,
+          22,
+          25
+        ],
+        "eps_2027E": 1.57,
+        "verdict": "HOLD防御 ¥36 ≈ base¥35合理. ROIC<WACC毁灭, 利润恢复前无超额. 不加不减, 止损¥31"
+      }
     }
   },
   "dcf_intrinsic": null

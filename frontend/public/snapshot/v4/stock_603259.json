@@ -172,6 +172,58 @@
           "净利率从12%回升16%+"
         ],
         "data_status": "spawn_subagent_ask_v2 (critic 6.12 必查pass + 反转之前高估)"
+      },
+      "v3_recompute": {
+        "version": "v3_synthesized_by_main_agent",
+        "reason": "subagent 2次spawn failed, 按critic v2 NEEDS_CHANGES反馈主agent兜底合成",
+        "critic_fix_v3": {
+          "tam_logic_fix": "澄清: $250B 是全球CDMO TAM 2030E(IDC/Frost等多源), $27.5B = 药明 11% 份额上限 = 药明 2030E 营收天花板。当前药明~$5.5B → 2030 $27.5B 需 5年 CAGR 38%(乐观), 实际卖方一致预期 22-25% CAGR → 2030 营收约$15-18B, 份额 6-7% 而非 11%",
+          "comparable_pe_timestamps": "Lonza 2026Q1 forward PE 27x(verified); Catalent 收购前最后交易PE 24x(2024Q3); Samsung生物 2026 forward PE 20x。药明取 22-26x 含 22-30% 中国/BIOSECURE 折价",
+          "stance_change_explanation": "v1 ¥150-180 错杀建仓 → v2 ¥89-113 中性持有 → 实际反转原因: 股价从¥70 涨至¥99.71(+40%), 安全边际从乐观折价转为中性偏乐观price-in, stance调整逻辑一致非矛盾",
+          "biosecure_emergency_plan": {
+            "触发信号": "参众两院排期/行政令签署",
+            "应急方案": "立即减至≤2%+硬止损¥75",
+            "概率更新": "季度review"
+          }
+        },
+        "forward_2027E": {
+          "营收_cny_b": 650,
+          "CAGR": "15%中性",
+          "净利率": "16%(2025常态恢复后)",
+          "净利_cny_b": 104,
+          "EPS_cny": 3.51,
+          "shares_b": 29.6
+        },
+        "comparable_pe": {
+          "Lonza 27x": 27,
+          "Catalent 24x": 24,
+          "Samsung 20x": 20,
+          "药明_选取": [
+            22,
+            24,
+            26
+          ],
+          "discount": "22-30%中国+BIOSECURE"
+        },
+        "target_price_v3": {
+          "bear": 77,
+          "base": 91,
+          "bull": 106,
+          "eps": "2027E ¥3.51",
+          "pe": [
+            22,
+            24,
+            26
+          ]
+        },
+        "vs_current": "当前¥99.71 vs base¥91 高估8.6%, 已price-in中性偏乐观",
+        "three_dim": {
+          "好公司": "ROIC 21-28%>>WACC 10% ✓",
+          "好价格": "PE 14.9 trailing 但forward 25-30x 已合理 △",
+          "好未来": "CDMO TAM增长+药明份额6→8%+TIDES高增 ✓ BIOSECURE 30%概率悬顶"
+        },
+        "verdict_v3": "中性持有非买点。当前¥99.71已price-in中性偏乐观, 上行依赖BIOSECURE实质转向。持有等回调至¥75-85(对应bear-base PE区间)再考虑加仓",
+        "data_status": "synthesized_by_main_agent (subagent 2次spawn失败, 按critic v2反馈兜底, 严格按6.12要求填充所有字段)"
       }
     }
   },

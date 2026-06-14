@@ -188,11 +188,26 @@
         "target_price": "合理目标价 ¥25-32 = 2026E EPS 1.40 × 合理PE 18-23x(公用事业+股息溢价); 当前¥28.28处中部",
         "target_verdict": "现价¥28.28处合理区间中部,防御底仓3-5%;十年期国债破2.3%下行(利好)或电价市场化竞价压制(利空)是关键变量",
         "assumptions": "假设:增速6%稳定、目标PE 20x、十年期国债≤2.0%。利率反弹至2.5%+则估值回撤15-20%",
-        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "spawn_subagent_ask_v2",
         "derived_from_industry": "电力公用事业",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:电力公用事业 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:电力公用事业 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:电力公用事业 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "target_price": {
+            "bear": 25,
+            "base": 30,
+            "bull": 34
+          },
+          "pe": [
+            17,
+            19,
+            22
+          ],
+          "eps_2027E": 1.55,
+          "method": "股息贴现+total return(类债资产禁PEG)",
+          "verdict": "防御底仓3-5%, 当前¥28.28 vs base¥30 偏低7%合理. ROIC>WACC类债创造价值, 股息4%+利差230bp. 国债>2.3%触发减仓"
+        }
       }
     },
     "verdict": {

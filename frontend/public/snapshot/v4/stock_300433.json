@@ -236,11 +236,25 @@
       "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
       "target_verdict": "现价¥41严重高估;回避, 等PE回落至30x以下(¥30)或ROIC突破WACC再评估",
       "assumptions": "假设:增速15%、目标PE 22x。AR/VR或汽车业务量产则可能上修至¥35-40",
-      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
+      "data_status": "spawn_subagent_ask_v2",
       "derived_from_industry": "消费电子+IoT",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:消费电子+IoT 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:消费电子+IoT v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:消费电子+IoT v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "target_price": {
+          "bear": 18,
+          "base": 22,
+          "bull": 25
+        },
+        "pe": [
+          18,
+          22,
+          25
+        ],
+        "eps_2027E": 1.0,
+        "verdict": "★SELL极严重透支! 当前¥41.14 vs base¥22下行46%. ROIC<WACC+PE52+PEG4.8. ¥38减半/¥35清仓. 留观¥25下"
+      }
     }
   },
   "dcf_intrinsic": null
