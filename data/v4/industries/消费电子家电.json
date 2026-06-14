@@ -178,6 +178,24 @@
       }
     },
     "data_quality": "行业层骨架升级,具体数据由后续 data-desk 联网核实",
-    "evidence": []
+    "evidence": [],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分层(verified): 海康价值创造(11-15%>WACC, AI安防) / 小米价值创造(10.9%) / 蓝思不足(5.2-6.9%<WACC, 重资产代工)",
+      "caveat": "海康/小米生态价值创造; 蓝思玻璃盖板重资产ROIC不足"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "005063",
+          "name": "广发家用电器ETF联接A",
+          "role": "家电龙头分散"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 海康价值创造(11-15%>WACC, AI安防)"
+    }
   }
 }

@@ -357,6 +357,36 @@
         "why": "AI算力封装瓶颈,但中国厂商与台积电差距大,待深析",
         "rating": "待分析"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★价值创造之王集群(verified AKShare): 新易盛 ROIC 50-66% / 天孚 36-48% / 中际旭创 31-41% — 光模块龙头轻资产高回报, 远超 WACC 9%, 全行业 ROIC 最高梯队之一",
+      "interpretation": "AI算力光模块是'好赛道+好回报'罕见组合: TAM 高增(全球数通光模块 +30-40%) + ROIC 极高(资本回报远超成本) + 瓶颈卡位(CoWoS/光模块)。价值创造维度强烈支持 go。",
+      "caveat": "估值已高(中际 PE 89x), 价值创造强但买点需等回调; ROIC 高是 verified 事实, 但 CPO 替代是 2028+ 中期风险"
+    },
+    "fund_recommendation": {
+      "method": "看好 AI算力 → 个股(高 conviction)+ 基金(分散不押单一)",
+      "individual_stocks": "新易盛/天孚/中际旭创(价值创造之王, 但估值高需买点; 见个股单元)",
+      "theme_funds": [
+        {
+          "code": "024245",
+          "name": "广发科创板AI ETF联接A",
+          "role": "科创板AI主题分散, 不押单一光模块"
+        },
+        {
+          "code": "012733/012734",
+          "name": "易方达中证AI主题ETF联接A/C",
+          "role": "AI主题宽覆盖(算力+应用)"
+        }
+      ],
+      "guidance": "估值高位+CPO中期风险下, 基金(024245/012733)比单押个股更稳; 想要弹性则配光模块龙头个股"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: 加 verified 行业 ROIC 分层(光模块龙头 ROIC 31-66% 价值创造之王集群)+ 基金二分推荐(个股高conviction+基金024245分散)。行业 go 判断从'景气高'升级为'景气高+ROIC验证价值创造+瓶颈卡位'三重支撑"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 85,
+      "note": "阶段B行业价值创造增强: verified ROIC分层+基金推荐, go判断三重支撑(景气+ROIC+瓶颈)"
+    }
   }
 }

@@ -184,6 +184,24 @@
       }
     },
     "data_quality": "行业层骨架升级,具体数据由后续 data-desk 联网核实",
-    "evidence": []
+    "evidence": [],
+    "value_creation_industry": {
+      "industry_roic_tier": "★verified: 三花智控价值创造(10-13%>WACC, 热管理) — 但Q1增速崩需观察",
+      "caveat": "三花ROIC价值创造但Q1+2.68%增速崩+PE46x高估(见个股减仓)"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "013180",
+          "name": "广发新能源车电池ETF联接C",
+          "role": "电池产业链分散"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★verified: 三花智控价值创造(10-13%>WACC, 热管理) — "
+    }
   }
 }

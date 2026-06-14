@@ -383,6 +383,24 @@
         "why": "壁垒最高+发现度最低,长坡厚雪需3-5年耐心,待深析",
         "rating": "待分析"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分化(verified): 设备临界(北方华创7.3-9.7%/中微7.4-9.9%) + 材料不足(华特4.8-6.4%) + 代工价值毁灭(中芯A股2.7-3.7%<WACC)",
+      "caveat": "国产替代景气 vs ROIC普遍低(重资产+设备投入期), 中芯典型价值毁灭; 设备龙头临界需看ROIC改善"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "012629",
+          "name": "广发半导体芯片ETF联接A",
+          "role": "国产替代分散, 避开单一代工"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分化(verified): 设备临界(北方华创7.3-9.7%/中微7.4-9"
+    }
   }
 }

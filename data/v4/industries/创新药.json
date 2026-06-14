@@ -292,6 +292,24 @@
         "why": "ADC出海标杆+3款入医保+ASCO数据催化,但商业化早期波动大",
         "rating": "增持·目标520港"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分层(verified): 恒瑞价值创造(13-17%>WACC) / 百济临界(8.28%) / 科伦博泰未盈利(-13.46%,管线期需PS估值)",
+      "caveat": "恒瑞已盈利价值创造稳; 百济/科伦研发烧钱期ROIC低/负是正常, 用PS/管线NPV不用ROIC"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "009881",
+          "name": "广发中证医疗ETF联接C",
+          "role": "创新药+器械分散, 对冲单一管线风险"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 恒瑞价值创造(13-17%>WACC) / 百济临"
+    }
   }
 }

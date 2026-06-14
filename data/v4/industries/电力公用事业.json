@@ -211,6 +211,24 @@
         "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累",
         "rating": "增持·目标12"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分层(verified): 长江电力价值创造(7.9-10.5%, 电力WACC低5-6%下更显著) / 中国核电不足(3.5-4.6%+FCF负, 重资产)",
+      "caveat": "长江电力稳定现金牛价值创造(注: 电力WACC应5-6%非9%, 修正后长江更强/核电仍不足)"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "019058",
+          "name": "易方达绿色电力ETF联接A",
+          "role": "绿电分散, 政策受益"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 长江电力价值创造(7.9-10.5%, 电力WAC"
+    }
   }
 }

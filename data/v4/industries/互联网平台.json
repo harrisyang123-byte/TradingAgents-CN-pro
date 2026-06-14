@@ -214,6 +214,24 @@
         "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
         "rating": "增持·目标62港"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分层(verified): 腾讯价值创造(ROIC 15.25%>WACC) / 阿里不足(6.26%<WACC, 战略投入期有回升路径)",
+      "caveat": "腾讯生态高ROIC价值创造稳; 阿里云AI+闪购投入期ROIC暂低"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [
+        {
+          "code": "006327",
+          "name": "易方达海外中国互联网50ETF联接(QDII)",
+          "role": "互联网龙头分散, 含腾讯阿里美团等"
+        }
+      ],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 腾讯价值创造(ROIC 15.25%>WACC) "
+    }
   }
 }

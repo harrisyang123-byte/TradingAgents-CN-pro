@@ -220,6 +220,18 @@
         "why": "中国稀土战略资产(全球90%)+Q1+113%+张建平34.5亿入股,弹性大",
         "rating": "增持·目标80"
       }
-    ]
+    ],
+    "value_creation_industry": {
+      "industry_roic_tier": "★分层(verified): 紫金价值创造之列(15-20%>WACC) / 北方稀土临界(6.7-8.9%) / 三祥临界(6.3-8.5%)",
+      "caveat": "紫金ROIC高+资源禀赋, 价值创造强; 稀土/三祥临界看周期"
+    },
+    "fund_recommendation": {
+      "method": "看好行业→个股(conviction)+基金(分散)",
+      "theme_funds": [],
+      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
+    },
+    "reflection": {
+      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 紫金价值创造之列(15-20%>WACC) / 北"
+    }
   }
 }
