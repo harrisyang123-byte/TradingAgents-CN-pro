@@ -19,9 +19,9 @@
       "label": "权益",
       "current_value": 521092.0,
       "current_pct": 49.5,
-      "target_pct": 44,
-      "action": "reduce",
-      "gap_value": -57867.0,
+      "target_pct": 56,
+      "action": "add",
+      "gap_value": 68468.0,
       "has_class_analysis": true,
       "industries": [
         {
@@ -949,9 +949,9 @@
       "label": "待穿透",
       "current_value": 0,
       "current_pct": 0.0,
-      "target_pct": 12,
-      "action": "add",
-      "gap_value": 126334.0,
+      "target_pct": 0,
+      "action": "hold",
+      "gap_value": 0.0,
       "has_class_analysis": true,
       "industries": [],
       "direct_holdings": [],
@@ -960,10 +960,6 @@
   ],
   "capital_flow": {
     "sources": [
-      {
-        "desc": "权益 当前 49.5% 高于目标 44%",
-        "amount": 57867.0
-      },
       {
         "desc": "现金及等价物 当前 32.2% 高于目标 19%",
         "amount": 138490.0
@@ -985,6 +981,10 @@
     ],
     "uses": [
       {
+        "desc": "权益 当前 49.5% 低于目标 56%，需加仓",
+        "amount": 68468.0
+      },
+      {
         "desc": "固定收益 当前 14.2% 低于目标 15%，需加仓",
         "amount": 7972.0
       },
@@ -999,10 +999,6 @@
       {
         "desc": "房地产 当前 0.0% 低于目标 3%，需加仓",
         "amount": 31584.0
-      },
-      {
-        "desc": "待穿透 当前 0.0% 低于目标 12%，需加仓",
-        "amount": 126334.0
       },
       {
         "desc": "Pop Mart International Group Limited 持有观望(不主动加仓, 仅深跌逆向小注)",
@@ -1427,10 +1423,10 @@
   ],
   "equity_quota_v4": 44.0,
   "asset_class_targets": {
-    "equity": 44,
+    "equity": 56,
     "cash": 19,
     "fixed_income": 15,
-    "unclassified": 12,
+    "unclassified": 0,
     "precious_metal": 4.5,
     "real_estate": 3,
     "commodity": 2.5,

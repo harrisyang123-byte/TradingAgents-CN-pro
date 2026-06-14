@@ -12,13 +12,13 @@
   "error": null,
   "payload": {
     "alloc_type": "portfolio",
-    "version": 7,
-    "stance": "moderate_aggressive_balanced (价值创造维度校准后)",
+    "version": 8,
+    "stance": "moderate_aggressive_balanced (v8: unclassified 12% 合并到 equity 56%, 海外配置纳入权益)",
     "target_weights": {
-      "equity": 44,
+      "equity": 56,
       "cash": 19,
       "fixed_income": 15,
-      "unclassified": 12,
+      "unclassified": 0,
       "precious_metal": 4.5,
       "real_estate": 3,
       "commodity": 2.5,
@@ -60,6 +60,8 @@
     "reflection": {
       "what_changed": "v6→v7: 大类配比维持(已基于完整分析), 核心新增'权益内部按 verified ROIC 价值创造校准'。移远从加仓→持有谨慎、阿里建仓降级是价值创造维度的直接影响。",
       "value_creation_impact": "价值创造维度让配比从'单看估值折价'升级为'估值折价×ROIC创造价值'双标准, 避免买入'便宜的价值毁灭股'(中芯/中国核电/华特/蓝思陷阱)。"
-    }
+    },
+    "changes_vs_v7": "v8 修复 v7 的 'unclassified=12%' 历史遗留 bug:\n- 实际持仓 unclassified=0%(36只全部成功归类), v3 时代 12% 含义='海外配置预留'已过时\n- 海外配置已通过 QDII 基金实现 ¥48114=4.57%(纳指100/海外中国互联网50/全球精选/纳斯达克100), 全归 equity\n- 12% target 重新分配方案 A: 合并到 equity 44%→56%(用户拍板, 承认海外是权益的子类)\n- 大类首行决策反转: equity 从'当前49.5%>目标44%超配reduce' → '当前49.5%<目标56%低配add 4.5%'\n- 实际行动建议: 海外仓位 4.57% 应加至 ~12% 目标(增 QDII 多元化), 或保持现 49.5% 而调整 56% target 到合理水平\n",
+    "v8_caveat": "大类决策反转: 权益从减仓信号变加仓信号. 用户应重新审视: 是真要加权益至56%, 还是接受49.5%而把目标下调?"
   }
 }
