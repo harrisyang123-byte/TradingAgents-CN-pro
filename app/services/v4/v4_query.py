@@ -561,4 +561,7 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "tail_risk": p.get("tail_risk_joint_scenario_modeling"),
         "data_status_overall": p.get("data_status_overall"),
         "critic_evaluation": p.get("critic_evaluation"),
+        # 价值创造维度(2026-06-14 用户拍板补全): TAM/渗透率 + ROIC vs WACC + 管理层资本配置 + 正向DCF
+        "value_creation": p.get("value_creation"),
+        "dcf_intrinsic": p.get("dcf_intrinsic") or (p.get("valuation_basis") or {}).get("dcf_intrinsic") if isinstance(p.get("valuation_basis"), dict) else p.get("dcf_intrinsic"),
     }

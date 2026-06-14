@@ -66,6 +66,9 @@
           <li v-if="whyChain"><span class="sdt-why-tag sdt-tag-chain">🎯 投什么</span>{{ whyChain }}</li>
           <li v-if="whyMoat"><span class="sdt-why-tag sdt-tag-moat">🏰 凭什么</span>{{ whyMoat }}</li>
           <li v-if="whyValuation"><span class="sdt-why-tag sdt-tag-val">💰 估值</span>{{ whyValuation }}</li>
+          <li v-if="whyTam"><span class="sdt-why-tag sdt-tag-chain">📈 成长空间</span>{{ whyTam }}</li>
+          <li v-if="whyRoic"><span class="sdt-why-tag sdt-tag-moat">🏭 价值创造</span>{{ whyRoic }}</li>
+          <li v-if="whyDcf"><span class="sdt-why-tag sdt-tag-val">📐 内在值</span>{{ whyDcf }}</li>
           <li v-if="whyWorst"><span class="sdt-why-tag sdt-tag-worst">⚠️ 最坏</span>{{ whyWorst }}</li>
           <li v-if="whyExpGap"><span class="sdt-why-tag sdt-tag-gap">🎲 预期差</span>{{ whyExpGap }}</li>
         </ul>
@@ -571,6 +574,17 @@ const whyWorst = computed(() => {
 })
 const whyExpGap = computed(() => {
   return _safeStr(detail.value?.expectation_gap, 100)
+})
+const whyTam = computed(() => {
+  const vc = (detail.value as any)?.value_creation
+  return vc?.tam_penetration ? _safeStr(vc.tam_penetration, 110) : ''
+})
+const whyRoic = computed(() => {
+  const vc = (detail.value as any)?.value_creation
+  return vc?.roic_vs_wacc ? _safeStr(vc.roic_vs_wacc, 110) : ''
+})
+const whyDcf = computed(() => {
+  return _safeStr((detail.value as any)?.dcf_intrinsic, 110)
 })
 
 // evidence 按 group 分组(数据采集 Step 1 用)
