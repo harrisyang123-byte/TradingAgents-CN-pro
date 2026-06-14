@@ -62,13 +62,14 @@ tools:
   - 取不到的字段 → 标 missing,sentiment agent 自动降 confidence。
 
 - **`stock:<code>` 数据契约必查**（2026-06-13 D0-8 用户'缺数据接着查/通盘完善'指令落地, 永久）:
-  跑 stock 取数后必须调 `app.services.v4.stock_data_contract.check_data_contract()` 校验 18 MUST 字段 + 10 SHOULD 字段:
-  - **MUST 字段(18)**: 财务硬数据 8(营收/净利/毛利率/净利率/ROE/经营现金流/股价/市值) + 业务结构 6(主营/分部营收/地区/Top客户/同业/行业空间) + 估值锚 4(PE-TTM/PE历史中枢/同业PE/卖方一致EPS未来2年)
+  跑 stock 取数后必须调 `app.services.v4.stock_data_contract.check_data_contract()` 校验 24 MUST 字段 + 10 SHOULD 字段:
+  - **MUST 字段(24)**: 财务硬数据 8(营收/净利/毛利率/净利率/ROE/经营现金流/股价/市值) + 业务结构 6(主营/分部营收/地区/Top客户/同业/行业空间) + 估值锚 4(PE-TTM/PE历史中枢/同业PE/卖方一致EPS未来2年) + **价值创造组 6(roic/wacc_estimate/tam_size/penetration_rate/capital_allocation_5y/fcf_latest，2026-06-14 用户拍板补全)**
   - **SHOULD 字段(10)**: 季度营收/季度净利/应收周转/存货周转/D-E/股本/股东变动/沽空融资/北上资金/分析师目标价
+  - **★价值创造组取数（2026-06-14 AKShare 外网恢复后）**: ROIC/FCF/ROE/净利率等**计算密集项必须用 AKShare verified 精算**(`stock_source.build_stock_fundamentals(code)` 自动返回 `value_creation_verified`含 roic_low/roic_adj/fcf/roe/净利率)，**严禁主 agent 凭感觉估精确点值**(A/B 测试: 估算法35 vs 计算法85)。A股直接取；港股待测 stock_hk 接口，取不到才给区间+稳健性检验。TAM/渗透率/管理层资本配置(定性)由主 agent 联网+industry层判断。
   - 缺 MUST → `collect_v4.py` 自动 exit=4 阻断, 输出 `fetch_tasks` 数组(每条含 search_query/source_hints/usage), 主 agent 必须用 web_search/web_fetch 真去取, 取到回填 inputs/stock_<code>.json, 重跑 collect 直至契约通过才能进 spawn analysts → director → critic
   - 缺 SHOULD → 自动扣 confidence(每项 -0.02 上限 -0.20), 不阻断
-  - **真取不到的(沙箱无外网/公司未披露/付费数据)**: 必须诚实标 `unattainable: 原因` + 给替代假设区间(如行业平均/同业代理), critic 评审降级 confidence 但不阻断
-  - critic 6.8 必查: `data_contract_check.must_satisfied = 18`(否则 fatal_flaw 装作通过), 抽查 fetch_tasks ≥3 条对应来源是否真在 evidence 中
+  - **真取不到的(公司未披露/付费数据/港股细科目)**: 必须诚实标 `unattainable: 原因` + 给替代假设区间(如行业平均/同业代理), critic 评审降级 confidence 但不阻断。注: AKShare 外网现已可用("沙箱无外网"已过时), 财务比率优先程序化取 verified。
+  - critic 6.8 必查: `data_contract_check.must_satisfied = 24`(否则 fatal_flaw 装作通过), 抽查 fetch_tasks ≥3 条对应来源是否真在 evidence 中; critic 6.9 价值创造四问必查(TAM/ROIC vs WACC/管理层/正向DCF)
 
 - **基金穿透取数**（2026-06-13 D0-6 加,服务 v4-fund-passthrough Level 1）：用户持仓中的基金/ETF (instrument_type=fund/etf) 必须穿透到底层股票/行业,否则组合分析瞎眼一半。
   - 优先级: holdings.json `_fund_passthrough` 字段 → `data/v4/_funds/<code>.json` 缓存(7 天有效) → AKShare 程序化(`fund_portfolio_hold_em`/`fund_individual_basic_info_xq`/`fund_portfolio_industry_allocation_em`) → fallback 占位 schema

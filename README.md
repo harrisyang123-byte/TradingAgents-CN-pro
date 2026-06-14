@@ -51,7 +51,7 @@
 
 | 层 | 角色 | 职责 |
 |----|------|------|
-| 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅) |
+| 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**) |
 | 大类 | `v4-asset-analyst-macro/flow/policy` + `v4-asset-bull/bear` + `v4-asset-director` | 3 视角分析师打底 → 多空 3 轮 → 总监拍板(reflection+反骑墙) |
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
@@ -161,6 +161,8 @@
 - **四维质量闸门 + 反骑墙**：每层 director 内化芒格/段永平/Serenity/达里奥四视角（生意质量10年/逆向最坏/赔率周期/可执行止损/不确定性诚实）；证据势均力敌才中性，否则必须站队。
 
 **数据铁律**：分析 Agent 严禁自产价格/PE/市值/目标价数字，唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）；无则标 missing，绝不编造。
+
+**价值创造维度（2026-06-14 补全）**：判断"公司未来值多少钱"必答四问 — TAM 天花板+渗透率阶段 / ROIC vs WACC(创造还是毁灭价值,用 ROIC 不用被杠杆污染的 ROE) / 管理层资本配置 / 正向 DCF 三角验证。ROIC/FCF 等计算密集项用 AKShare verified 精算(A/B 测试证明主 agent 估算=拍脑袋),禁伪精确点值。
 
 ---
 
