@@ -25,10 +25,10 @@
       "has_class_analysis": true,
       "industries": [
         {
-          "name": "半导体封测/advanced packaging",
+          "name": "半导体产业链",
           "direct_value": 114440.0,
-          "indirect_value": 0,
-          "total_value": 114440.0,
+          "indirect_value": 2362.0,
+          "total_value": 116802.0,
           "has_industry_analysis": false,
           "holdings": [
             {
@@ -47,20 +47,99 @@
             }
           ],
           "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 0
+          "recommendations": [
+            {
+              "code": "002371",
+              "name": "北方华创",
+              "stance": "观望/回调关注(ROIC爬坡)",
+              "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
+              "pe": 87.3,
+              "roic": "7.3-9.7",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "半导体"
+            },
+            {
+              "code": "688012",
+              "name": "中微公司",
+              "stance": "回避(毁灭+高估)",
+              "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
+              "pe": 89.4,
+              "roic": "7.4-9.9",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "半导体"
+            },
+            {
+              "code": "688268",
+              "name": "华特气体",
+              "stance": "强烈回避",
+              "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
+              "pe": 166.8,
+              "roic": "4.8-6.4",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "半导体"
+            },
+            {
+              "code": "688981",
+              "name": "中芯国际",
+              "stance": "观望(A股不入/H股关注)",
+              "target_price": "合理目标价 A股¥40-55 / H股 HK$22-30 = 2026E EPS 0.93 × 合理PE 45-60x(国产替代溢价但要打折ROIC毁灭); A股当前¥124.88高估127-212%, H股相对合理",
+              "pe": null,
+              "roic": "2.7-3.7",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "半导体/晶圆代工/国产替代"
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "012629",
+              "name": "广发国证半导体芯片ETF联接A",
+              "market_value": 10000.0,
+              "weight": 0.95,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 10000.0,
+          "rec_count": 4
         },
         {
-          "name": "人工智能算力",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
+          "name": "AI算力/数据中心",
+          "direct_value": 14540.0,
+          "indirect_value": 3306.0,
+          "total_value": 17846.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "000063",
+              "name": "中兴通讯",
+              "market_value": 14540.0,
+              "weight": 1.38,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有偏防御 (现价无安全边际+利润严重下滑)",
+              "action": "维持现仓 1.38%(¥14540) 不动, 等 Q2 财报 + 价格回踩",
+              "confidence": 0.65,
+              "summary": "中兴 2025 营收 +10.4% 但归母 -33.3% / 2026Q1 -46.58% 利润严重塌方, 净利率 4.2%→3.7% 持续压缩. 现价 ¥36.72 PE 30.89x (forward 23.32x) 在 R3 共识区 ¥32-38 中位无安全边际. 大摩调降目标至 ¥31.5(-14%). 用户现仓 1.38%(¥14540), 维持不动等 Q2 利润企稳信号 + 价格回踩 ¥28-32 价值派买点. 反骑墙: 证据偏空(利润+估值)但 AI 算力期权+回购托底, 站队'持有偏防御'非'减仓'.",
+              "stop_loss": "¥28 (-24%, R3 共识下沿+大摩目标价)",
+              "direction": "中性偏空 — 短期利润 -47% 加速下滑, 中长期 AI 算力布局有期权但未兑现"
+            }
+          ],
           "indirect": [],
           "recommendations": [
+            {
+              "code": "300308",
+              "name": "中际旭创",
+              "stance": "建仓观察2-3%",
+              "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
+              "pe": null,
+              "roic": "31-41",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "人工智能算力/光模块"
+            },
             {
               "code": "300394",
               "name": "天孚通信",
@@ -69,7 +148,8 @@
               "pe": 108.2,
               "roic": "36-48",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "人工智能算力"
             },
             {
               "code": "300502",
@@ -79,7 +159,8 @@
               "pe": 52.7,
               "roic": "50-66",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "人工智能算力"
             }
           ],
           "fund_holdings": [
@@ -106,10 +187,69 @@
             }
           ],
           "fund_value": 51033.0,
+          "rec_count": 3
+        },
+        {
+          "name": "互联网平台",
+          "direct_value": 29460.0,
+          "indirect_value": 5688.0,
+          "total_value": 35148.0,
+          "has_industry_analysis": true,
+          "holdings": [
+            {
+              "code": "002517",
+              "name": "恺英网络",
+              "market_value": 29460.0,
+              "weight": 2.8,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有观望(Q2 信号确认门控, 估值 preliminary)",
+              "action": "维持 3.0%(¥29460) 不动. 主 agent 后续按 data_gaps_to_fetch 补 4 项数据, 数据齐后 confidence 上修, 估值校准",
+              "confidence": 0.55,
+              "summary": "PE 10x 隐含 CAGR -3%~+1% vs Q1+50.65% 强正预期差; 但 critic 警示: 4 项核心数据(毛利率/经营现金流/分部营收/一致预期)缺失, 当前估值标 preliminary。维持 3% 仓位等 Q2 财报(2026-08) + 数据补齐。",
+              "stop_loss": "¥13(-29%, 跌破=bear case 兑现); 极端三重叠合 ¥3-4(组合最大冲击 3%×85%=2.5%)",
+              "direction": "中性偏多 — 逆向预期差线索强但需 Q2 验证 + 4 项数据缺口补齐"
+            }
+          ],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "00700",
+              "name": "腾讯控股",
+              "stance": "建仓6-7%",
+              "target_price": "目标价 HK$550-620 = 2026E EPS 36 × 合理PE 16-18x(仍低于海外同行)",
+              "pe": 14.91,
+              "roic": "15.25",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "互联网平台/AI"
+            },
+            {
+              "code": "09988",
+              "name": "阿里巴巴",
+              "stance": "建仓降级谨慎+信号门控",
+              "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
+              "pe": null,
+              "roic": "6.26",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "互联网平台/AI/云"
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "006327",
+              "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
+              "market_value": 8499.0,
+              "weight": 0.81,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8499.0,
           "rec_count": 2
         },
         {
-          "name": "潮玩/IP消费",
+          "name": "可选消费",
           "direct_value": 36600.0,
           "indirect_value": 0,
           "total_value": 36600.0,
@@ -137,32 +277,66 @@
           "rec_count": 0
         },
         {
-          "name": "游戏",
-          "direct_value": 29460.0,
-          "indirect_value": 0,
-          "total_value": 29460.0,
+          "name": "消费电子+IoT",
+          "direct_value": 26020.0,
+          "indirect_value": 702.0,
+          "total_value": 26722.0,
           "has_industry_analysis": false,
           "holdings": [
             {
-              "code": "002517",
-              "name": "恺英网络",
-              "market_value": 29460.0,
-              "weight": 2.8,
+              "code": "603236",
+              "name": "移远通信",
+              "market_value": 15540.0,
+              "weight": 1.48,
               "instrument_type": "stock",
               "analyzed": true,
-              "stance": "持有观望(Q2 信号确认门控, 估值 preliminary)",
-              "action": "维持 3.0%(¥29460) 不动. 主 agent 后续按 data_gaps_to_fetch 补 4 项数据, 数据齐后 confidence 上修, 估值校准",
-              "confidence": 0.55,
-              "summary": "PE 10x 隐含 CAGR -3%~+1% vs Q1+50.65% 强正预期差; 但 critic 警示: 4 项核心数据(毛利率/经营现金流/分部营收/一致预期)缺失, 当前估值标 preliminary。维持 3% 仓位等 Q2 财报(2026-08) + 数据补齐。",
-              "stop_loss": "¥13(-29%, 跌破=bear case 兑现); 极端三重叠合 ¥3-4(组合最大冲击 3%×85%=2.5%)",
-              "direction": "中性偏多 — 逆向预期差线索强但需 Q2 验证 + 4 项数据缺口补齐"
+              "stance": "持有偏谨慎(价值创造存疑,ROIC<WACC, 等改善信号再加)",
+              "action": "加仓 0.5-1.0% 至 2.0-2.5% (现价 ¥55.50 进入价值派买点+共识 33.9% upside)",
+              "confidence": 0.62,
+              "summary": "【价值创造维度重审】移远虽是全球 IoT 模组龙头(TAM大+共识目标+33.9%), 但 verified ROIC 5.92-7.89%<WACC 9% + FCF/股-5.96(烧钱) = '增长但不创造价值'。之前'加仓2.0-2.5%'仅看 PE 折价+共识 upside, 未看 ROIC, 现下调为'持有偏谨慎'。加仓门槛: ROIC 改善信号(净利率提升/capex收敛/FCF转正)出现才加。",
+              "stop_loss": "¥40 (-28%, bear 极端兑现)",
+              "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定"
+            },
+            {
+              "code": "01810",
+              "name": "Xiaomi Corporation",
+              "market_value": 10480.0,
+              "weight": 1.0,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "持有偏观望(SOTP 公允, 1% 现仓不动等 EV 信号)",
+              "action": "维持 1.0%(¥10480) 不动, 价格回踩 HK$28-30 加 0.5% 至 1.5-2.0%",
+              "confidence": 0.62,
+              "summary": "小米 2025 营收 4573 亿(+25%) 归母 416 亿(+76%) 但 Q1 经调整净利 60.72 亿(-43.1%) — EV 亏损扩大. 现价 HK$32 (52周 28.80-61.45) 已大幅回调, PE 17.61x / forward 21.91x. SOTP 公允 HK$28-33 中枢 HK$30. 用户现仓 1.0%(¥10480) 接近建议中性区. 反骑墙: 短期利润下滑+EV 烧钱真实, 长期生态飞轮+SU7 30 万+交付+回购 1.44% 真信心. 持有等 Q2 中报(2026-08) EV 毛利率转正信号.",
+              "stop_loss": "HK$22 (-31%, SOTP 中枢-25% 安全边际, bear 兑现)",
+              "direction": "中性偏观望 — SOTP 公允, EV 期权价值未充分定价"
             }
           ],
           "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 0
+          "recommendations": [
+            {
+              "code": "300433",
+              "name": "蓝思科技",
+              "stance": "回避(毁灭+高估)",
+              "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
+              "pe": 52.1,
+              "roic": "5.2-6.9",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "消费电子家电"
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "005063",
+              "name": "广发中证全指家用电器ETF联接A",
+              "market_value": 8500.0,
+              "weight": 0.81,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8500.0,
+          "rec_count": 1
         },
         {
           "name": "电力公用事业",
@@ -181,7 +355,8 @@
               "pe": 20.1,
               "roic": "7.9-10.5",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": null
             },
             {
               "code": "601985",
@@ -191,7 +366,8 @@
               "pe": 20.4,
               "roic": "3.5-4.6",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": null
             }
           ],
           "fund_holdings": [
@@ -207,63 +383,7 @@
           "rec_count": 2
         },
         {
-          "name": "半导体/物联网模组",
-          "direct_value": 15540.0,
-          "indirect_value": 0,
-          "total_value": 15540.0,
-          "has_industry_analysis": false,
-          "holdings": [
-            {
-              "code": "603236",
-              "name": "移远通信",
-              "market_value": 15540.0,
-              "weight": 1.48,
-              "instrument_type": "stock",
-              "analyzed": true,
-              "stance": "持有偏谨慎(价值创造存疑,ROIC<WACC, 等改善信号再加)",
-              "action": "加仓 0.5-1.0% 至 2.0-2.5% (现价 ¥55.50 进入价值派买点+共识 33.9% upside)",
-              "confidence": 0.62,
-              "summary": "【价值创造维度重审】移远虽是全球 IoT 模组龙头(TAM大+共识目标+33.9%), 但 verified ROIC 5.92-7.89%<WACC 9% + FCF/股-5.96(烧钱) = '增长但不创造价值'。之前'加仓2.0-2.5%'仅看 PE 折价+共识 upside, 未看 ROIC, 现下调为'持有偏谨慎'。加仓门槛: ROIC 改善信号(净利率提升/capex收敛/FCF转正)出现才加。",
-              "stop_loss": "¥40 (-28%, bear 极端兑现)",
-              "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定"
-            }
-          ],
-          "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 0
-        },
-        {
-          "name": "通信设备/5G/AI 算力",
-          "direct_value": 14540.0,
-          "indirect_value": 0,
-          "total_value": 14540.0,
-          "has_industry_analysis": false,
-          "holdings": [
-            {
-              "code": "000063",
-              "name": "中兴通讯",
-              "market_value": 14540.0,
-              "weight": 1.38,
-              "instrument_type": "stock",
-              "analyzed": true,
-              "stance": "持有偏防御 (现价无安全边际+利润严重下滑)",
-              "action": "维持现仓 1.38%(¥14540) 不动, 等 Q2 财报 + 价格回踩",
-              "confidence": 0.65,
-              "summary": "中兴 2025 营收 +10.4% 但归母 -33.3% / 2026Q1 -46.58% 利润严重塌方, 净利率 4.2%→3.7% 持续压缩. 现价 ¥36.72 PE 30.89x (forward 23.32x) 在 R3 共识区 ¥32-38 中位无安全边际. 大摩调降目标至 ¥31.5(-14%). 用户现仓 1.38%(¥14540), 维持不动等 Q2 利润企稳信号 + 价格回踩 ¥28-32 价值派买点. 反骑墙: 证据偏空(利润+估值)但 AI 算力期权+回购托底, 站队'持有偏防御'非'减仓'.",
-              "stop_loss": "¥28 (-24%, R3 共识下沿+大摩目标价)",
-              "direction": "中性偏空 — 短期利润 -47% 加速下滑, 中长期 AI 算力布局有期权但未兑现"
-            }
-          ],
-          "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 0
-        },
-        {
-          "name": "人工智能/AIoT/安防",
+          "name": "AIoT/安防",
           "direct_value": 12096.0,
           "indirect_value": 1771.0,
           "total_value": 13867.0,
@@ -291,123 +411,47 @@
           "rec_count": 0
         },
         {
-          "name": "消费电子/智能 EV/IoT",
-          "direct_value": 10480.0,
-          "indirect_value": 702.0,
-          "total_value": 11182.0,
+          "name": "新能源车/EV供应链",
+          "direct_value": 4481.0,
+          "indirect_value": 1225.0,
+          "total_value": 5706.0,
           "has_industry_analysis": false,
           "holdings": [
             {
-              "code": "01810",
-              "name": "Xiaomi Corporation",
-              "market_value": 10480.0,
-              "weight": 1.0,
+              "code": "002050",
+              "name": "三花智控",
+              "market_value": 4481.0,
+              "weight": 0.43,
               "instrument_type": "stock",
               "analyzed": true,
-              "stance": "持有偏观望(SOTP 公允, 1% 现仓不动等 EV 信号)",
-              "action": "维持 1.0%(¥10480) 不动, 价格回踩 HK$28-30 加 0.5% 至 1.5-2.0%",
-              "confidence": 0.62,
-              "summary": "小米 2025 营收 4573 亿(+25%) 归母 416 亿(+76%) 但 Q1 经调整净利 60.72 亿(-43.1%) — EV 亏损扩大. 现价 HK$32 (52周 28.80-61.45) 已大幅回调, PE 17.61x / forward 21.91x. SOTP 公允 HK$28-33 中枢 HK$30. 用户现仓 1.0%(¥10480) 接近建议中性区. 反骑墙: 短期利润下滑+EV 烧钱真实, 长期生态飞轮+SU7 30 万+交付+回购 1.44% 真信心. 持有等 Q2 中报(2026-08) EV 毛利率转正信号.",
-              "stop_loss": "HK$22 (-31%, SOTP 中枢-25% 安全边际, bear 兑现)",
-              "direction": "中性偏观望 — SOTP 公允, EV 期权价值未充分定价"
+              "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
+              "action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
+              "confidence": 0.65,
+              "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
+              "stop_loss": "¥38 (-17%)",
+              "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估"
             }
           ],
           "indirect": [],
           "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
+          "fund_holdings": [
+            {
+              "code": "013180",
+              "name": "广发国证新能源车电池ETF发起联接C",
+              "market_value": 8150.0,
+              "weight": 0.77,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8150.0,
           "rec_count": 0
         },
         {
-          "name": "半导体",
+          "name": "创新药+CXO",
           "direct_value": 0,
           "indirect_value": 0,
           "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "002371",
-              "name": "北方华创",
-              "stance": "观望/回调关注(ROIC爬坡)",
-              "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
-              "pe": 87.3,
-              "roic": "7.3-9.7",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            },
-            {
-              "code": "688012",
-              "name": "中微公司",
-              "stance": "回避(毁灭+高估)",
-              "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
-              "pe": 89.4,
-              "roic": "7.4-9.9",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            },
-            {
-              "code": "688268",
-              "name": "华特气体",
-              "stance": "强烈回避",
-              "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
-              "pe": 166.8,
-              "roic": "4.8-6.4",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [
-            {
-              "code": "012629",
-              "name": "广发国证半导体芯片ETF联接A",
-              "market_value": 10000.0,
-              "weight": 0.95,
-              "instrument_type": "fund"
-            }
-          ],
-          "fund_value": 10000.0,
-          "rec_count": 3
-        },
-        {
-          "name": "消费电子家电",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "300433",
-              "name": "蓝思科技",
-              "stance": "回避(毁灭+高估)",
-              "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
-              "pe": 52.1,
-              "roic": "5.2-6.9",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [
-            {
-              "code": "005063",
-              "name": "广发中证全指家用电器ETF联接A",
-              "market_value": 8500.0,
-              "weight": 0.81,
-              "instrument_type": "fund"
-            }
-          ],
-          "fund_value": 8500.0,
-          "rec_count": 1
-        },
-        {
-          "name": "创新药",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
+          "has_industry_analysis": false,
           "holdings": [],
           "indirect": [],
           "recommendations": [
@@ -419,7 +463,8 @@
               "pe": null,
               "roic": "≈WACC",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "创新药"
             },
             {
               "code": "06990",
@@ -429,7 +474,8 @@
               "pe": null,
               "roic": "负",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "创新药"
             },
             {
               "code": "600276",
@@ -439,7 +485,19 @@
               "pe": 40.7,
               "roic": "13-17",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "创新药"
+            },
+            {
+              "code": "603259",
+              "name": "药明康德",
+              "stance": "★建仓5-8%",
+              "target_price": "目标价 ¥150-180 = 2026E EPS 8.2 × 合理PE 18-22x(CXO龙头)",
+              "pe": 14.9,
+              "roic": "21-28%",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "创新药/CXO"
             }
           ],
           "fund_holdings": [
@@ -452,10 +510,10 @@
             }
           ],
           "fund_value": 8150.0,
-          "rec_count": 3
+          "rec_count": 4
         },
         {
-          "name": "创新药/化工/维生素/香精香料",
+          "name": "化工/必需消费",
           "direct_value": 6018.0,
           "indirect_value": 0,
           "total_value": 6018.0,
@@ -483,111 +541,11 @@
           "rec_count": 0
         },
         {
-          "name": "新能源车/汽车热管理/制冷",
-          "direct_value": 4481.0,
-          "indirect_value": 1225.0,
-          "total_value": 5706.0,
-          "has_industry_analysis": false,
-          "holdings": [
-            {
-              "code": "002050",
-              "name": "三花智控",
-              "market_value": 4481.0,
-              "weight": 0.43,
-              "instrument_type": "stock",
-              "analyzed": true,
-              "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
-              "action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
-              "confidence": 0.65,
-              "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
-              "stop_loss": "¥38 (-17%)",
-              "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估"
-            }
-          ],
-          "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 0
-        },
-        {
-          "name": "互联网平台/AI",
+          "name": "有色金属/资源",
           "direct_value": 0,
           "indirect_value": 0,
           "total_value": 0,
           "has_industry_analysis": false,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "00700",
-              "name": "腾讯控股",
-              "stance": "建仓6-7%",
-              "target_price": "目标价 HK$550-620 = 2026E EPS 36 × 合理PE 16-18x(仍低于海外同行)",
-              "pe": 14.91,
-              "roic": "15.25",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 1
-        },
-        {
-          "name": "互联网平台/AI/云",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": false,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "09988",
-              "name": "阿里巴巴",
-              "stance": "建仓降级谨慎+信号门控",
-              "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
-              "pe": null,
-              "roic": "6.26",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 1
-        },
-        {
-          "name": "人工智能算力/光模块",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": false,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "300308",
-              "name": "中际旭创",
-              "stance": "建仓观察2-3%",
-              "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
-              "pe": null,
-              "roic": "31-41",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 1
-        },
-        {
-          "name": "有色资源",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
           "holdings": [],
           "indirect": [],
           "recommendations": [
@@ -599,7 +557,8 @@
               "pe": 79.4,
               "roic": "6.7-8.9",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "有色资源"
             },
             {
               "code": "601899",
@@ -609,7 +568,8 @@
               "pe": 14.9,
               "roic": "15-20",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "有色资源"
             },
             {
               "code": "603663",
@@ -619,60 +579,13 @@
               "pe": 259.3,
               "roic": "6.3-8.5",
               "instrument_type": "stock",
-              "is_recommendation": true
+              "is_recommendation": true,
+              "sub_industry": "有色资源"
             }
           ],
           "fund_holdings": [],
           "fund_value": 0,
           "rec_count": 3
-        },
-        {
-          "name": "创新药/CXO",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": false,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "603259",
-              "name": "药明康德",
-              "stance": "★建仓5-8%",
-              "target_price": "目标价 ¥150-180 = 2026E EPS 8.2 × 合理PE 18-22x(CXO龙头)",
-              "pe": 14.9,
-              "roic": "21-28%",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 1
-        },
-        {
-          "name": "半导体/晶圆代工/国产替代",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": false,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "688981",
-              "name": "中芯国际",
-              "stance": "观望(A股不入/H股关注)",
-              "target_price": "合理目标价 A股¥40-55 / H股 HK$22-30 = 2026E EPS 0.93 × 合理PE 45-60x(国产替代溢价但要打折ROIC毁灭); A股当前¥124.88高估127-212%, H股相对合理",
-              "pe": null,
-              "roic": "2.7-3.7",
-              "instrument_type": "stock",
-              "is_recommendation": true
-            }
-          ],
-          "fund_holdings": [],
-          "fund_value": 0,
-          "rec_count": 1
         }
       ],
       "direct_holdings": [],

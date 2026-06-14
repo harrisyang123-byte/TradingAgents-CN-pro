@@ -95,13 +95,34 @@ def build_holdings_review(repo: Path, units: dict):
 
     classified = classify_holdings(positions)
     by_class = classified.get("by_class", {}) or {}
+
+    # 行业归并映射(细分→canonical, 用户拍板"分太细看不清") — 提前加载, 让聚合也用 canonical
+    canonical_path = repo / "data/v4/_inputs/industry_canonical.json"
+    member_to_canonical = {}
+    if canonical_path.exists():
+        cm = json.loads(canonical_path.read_text(encoding="utf-8"))
+        for canon, meta in (cm.get("canonical_industries") or {}).items():
+            for m in (meta.get("members") or []):
+                member_to_canonical[m] = canon
+
+    def _canon(ind):
+        """细分行业→canonical 大行业。一荣俱荣同终端的归一类"""
+        if not ind:
+            return "其他"
+        if ind in member_to_canonical:
+            return member_to_canonical[ind]
+        for m, c in member_to_canonical.items():
+            if m in ind or ind in m:
+                return c
+        return ind
+
     stock_inds = {}
     for uid, env in units.items():
         if uid.startswith("stock:"):
             pl = env.get("payload", {}) or {}
             c, ind = pl.get("code"), pl.get("industry")
             if c and ind:
-                stock_inds[c] = ind
+                stock_inds[c] = _canon(ind)  # 聚合用 canonical
     agg = aggregate_full(classified, stock_inds)
     industries = agg.get("industries", {}) or {}
     overlap = agg.get("overlap_analysis", {}) or {}
@@ -161,12 +182,14 @@ def build_holdings_review(repo: Path, units: dict):
 
     # ── 收集推荐标的(有 stock 分析单元但不在持仓) by 行业 ──
     holding_codes = {p.get("code") for p in positions if p.get("code")}
+
     rec_by_ind = {}
     for uid, env in units.items():
         if not uid.startswith("stock:"):
             continue
         pl = env.get("payload", {}) or {}
-        code, ind = pl.get("code"), (pl.get("industry") or "其他")
+        code, ind_orig = pl.get("code"), (pl.get("industry") or "其他")
+        ind = _canon(ind_orig)
         if not code or code in holding_codes:
             continue  # 只收非持仓的推荐标的
         vc = pl.get("value_creation", {}) or {}
@@ -179,15 +202,16 @@ def build_holdings_review(repo: Path, units: dict):
             "target_price": ev.get("target_price"),
             "pe": av.get("verified_pe"), "roic": av.get("roic_range") or av.get("roic_pct"),
             "instrument_type": "stock", "is_recommendation": True,
+            "sub_industry": ind_orig if ind_orig != ind else None,
         })
 
     # ── 基金分类(主题→行业, 融入对应行业作为持仓基金; 宽基/债基→大类底仓) ──
     fund_class_path = repo / "data/v4/_inputs/fund_classification.json"
-    fund_to_industry = {}  # code -> industry name
+    fund_to_industry = {}  # code -> canonical industry name
     if fund_class_path.exists():
         fc = json.loads(fund_class_path.read_text(encoding="utf-8"))
         for ind_key, funds in (fc.get("theme_industry_funds") or {}).items():
-            ind_name = ind_key.replace("industry:", "")
+            ind_name = _canon(ind_key.replace("industry:", ""))
             for f in funds:
                 fund_to_industry[f.get("code")] = ind_name
 
