@@ -299,6 +299,16 @@
         "price_source": "stock_hk_daily/zh_a_daily新浪verified",
         "as_of": "2026-06-13",
         "net_income_growth_pct": -20.4
+      },
+      "expert_valuation": {
+        "now_judgment": "建仓降级谨慎,信号门控。原因:ROIC 6.26%<WACC 10%每投1元毁灭0.37元价值,电商主业被拼多多/抖音双面夹击份额流失不可逆。云+AI虽是修复价值创造的唯一路径但尚未兑现,百亿补贴是被迫应战而非主动进攻",
+        "future_tam": "全球云计算 2030E ~$1.5万亿;中国电商存量博弈~12万亿GMV",
+        "future_share": "阿里云中国市占35%+(规模优势),全球~6%;淘宝天猫国内电商份额~30%(从40%下行中)",
+        "future_forward": "2026E 净利乐观假设恢复至1700亿(剔除百亿补贴极端值)→EPS~7(当前243亿股, 港股美股)",
+        "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
+        "target_verdict": "现价HK$110.2处目标下沿, 建仓但小仓位+信号门控;ROIC季度环比改善+云收入占比破15%才右侧加仓",
+        "assumptions": "假设:云+AI带ROIC 2-3年内修复+电商份额企稳。若云增速持续放缓或竞品继续蚕食,目标下修至HK$80",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
       }
     },
     "debate_rounds": [

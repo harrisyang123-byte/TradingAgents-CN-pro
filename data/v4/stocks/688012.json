@@ -185,6 +185,16 @@
         "price_source": "stock_zh_a_daily新浪verified",
         "as_of": "2026-06-13",
         "net_income_growth_pct": 30.7
+      },
+      "expert_valuation": {
+        "now_judgment": "回避。原因:虽然CCP刻蚀设备国内龙头+5nm制程能与Lam/TEL竞争,但ROIC 7.4-9.9% < WACC 12%典型价值毁灭。PE 89x隐含未来3年35%+CAGR才能消化, 客户集中(前5占70%)+研发资本开支率25-30%+出口管制升级风险三重压力",
+        "future_tam": "全球半导体设备(刻蚀+MOCVD) 2030E ~$1500亿;中国设备国产化率15%→50%",
+        "future_share": "中微国内CCP刻蚀份额第一(~30%);MOCVD全球份额65%+(Mini-LED);全球综合份额~3%",
+        "future_forward": "2026E 增速维持30%→净利~30亿,EPS~5(当前6亿股);常态化25%→EPS~4",
+        "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
+        "target_verdict": "现价¥303.92高估;回避, 等PE回落至50-60x(¥170-210)且ROIC突破WACC再介入",
+        "assumptions": "假设:常态化增速25%、目标PE 50x。若海外份额突破5%或ROIC转正, 上修至¥280",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
       }
     },
     "verdict": {

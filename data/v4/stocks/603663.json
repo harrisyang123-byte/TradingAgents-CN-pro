@@ -166,6 +166,16 @@
         "price_source": "stock_zh_a_daily新浪verified",
         "as_of": "2026-06-13",
         "net_income_growth_pct": 55.2
+      },
+      "expert_valuation": {
+        "now_judgment": "强烈回避。原因:PE 259倍是核心硬伤——即使增速55.2%全兑现, PEG 4.7倍, 透支3年以上。ROIC 6.3-8.5% < WACC 8-10%价值毁灭。增速系2024低基数恢复(净利不足1亿)绝对体量小, 概念炒作(核聚变/铪半导体)股价随时退潮",
+        "future_tam": "全球锆铪(核电控制棒+航空热障涂层) 2030E ~$30亿;军工/核电双驱动小众市场",
+        "future_share": "三祥国内核级铪份额领先(民企稀缺), 但行业小+订单可见度低",
+        "future_forward": "2026E 增速回落至30%(去掉低基数恢复)→净利~1.3亿,EPS~0.36(当前3.6亿股)",
+        "target_price": "合理目标价 ¥18-25 = 2026E EPS 0.36 × 合理PE 50-70x(给小盘+材料溢价); 当前¥72.6高估190-300%",
+        "target_verdict": "现价¥72.6离谱;强烈回避, 等PE回落至80x以下(¥22)或ROIC突破12%再评估",
+        "assumptions": "假设:常态化增速30%、目标PE 60x。核聚变/铪半导体若订单落地, 上修至¥35(届时仍非加仓)",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
       }
     },
     "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",

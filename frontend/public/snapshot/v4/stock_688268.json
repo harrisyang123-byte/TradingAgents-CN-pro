@@ -269,6 +269,16 @@
       "price_source": "stock_zh_a_daily新浪verified",
       "as_of": "2026-06-13",
       "net_income_growth_pct": -26.7
+    },
+    "expert_valuation": {
+      "now_judgment": "强烈回避。原因:ROIC 4.8-6.4% << WACC 12%价值毁灭, PE 166.8x + 增速-26.7%, PEG为负无法用成长逻辑定价。即便乐观假设2027净利恢复+50%, forward PE仍>110x, 相比金宏(PE 45x)/杭氧(PE 22x)溢价3-7倍",
+      "future_tam": "全球电子特种气体 2030E ~$80亿(国产化率15%→40%驱动);新能源NF₃打开第二曲线",
+      "future_share": "华特国内电子特气份额第一(~25%);全球份额仅~3%但中国国产替代空间大",
+      "future_forward": "2026E 增速恢复至30%(乐观)→净利~2亿,EPS~0.60(当前3.4亿股); 常态化15%→EPS~0.45",
+      "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
+      "target_verdict": "现价¥188.5严重透支;强烈回避, 等PE回落至50x以下(¥55-60)再重新评估",
+      "assumptions": "假设:增速30%恢复、目标PE 70x。福建/成都新基地放量+毛利率改善是关键, 失败则股价腰斩",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

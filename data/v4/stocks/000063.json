@@ -310,7 +310,17 @@
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
       },
-      "roic_vs_wacc": "verified ROIC 4.4-5.8% vs 行业WACC 9% → 价值不足; ROIC 4.4-5.8% < 9% WACC 价值不足,主因利润崩(-33.3%)"
+      "roic_vs_wacc": "verified ROIC 4.4-5.8% vs 行业WACC 9% → 价值不足; ROIC 4.4-5.8% < 9% WACC 价值不足,主因利润崩(-33.3%)",
+      "expert_valuation": {
+        "now_judgment": "持有偏防御,不加仓。原因:净利-33.3%是真伤——研发投入加大+汇兑损失双杀,但ROIC 4.4-5.8% < WACC 9%是连续3年的结构性问题不是阶段性。PE 31.1x的\"利润恢复\"乐观定价缺乏基本面支撑,实体清单+集采压力+海外被爱立信/诺基亚蚕食三重顶",
+        "future_tam": "全球通信设备(5G+5G-A) 2030E ~$1500亿;算力服务器 ~$3000亿",
+        "future_share": "中兴通信设备全球第4(~10%),国内第二(~30%);算力服务器份额仅~5%",
+        "future_forward": "2026E 净利恢复假设回到80亿(2024水平)→EPS~1.67(当前478亿股);恢复+1年才到合理",
+        "target_price": "合理目标价 ¥30-38 = 2026E EPS 1.67 × 合理PE 18-23x(电信设备区间); 当前¥36.35处中上沿",
+        "target_verdict": "现价¥36.35已price-in利润恢复,无加仓空间;持有底仓观察, 设止损¥31",
+        "assumptions": "假设:利润恢复至2024水平、目标PE 20x。若算力业务毛利率突破25%或海外份额回升, 目标上修至¥45",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      }
     },
     "debate_rounds": [
       {

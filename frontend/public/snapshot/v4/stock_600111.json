@@ -244,6 +244,16 @@
       "price_source": "stock_zh_a_daily新浪verified",
       "as_of": "2026-06-13",
       "net_income_growth_pct": 124.2
+    },
+    "expert_valuation": {
+      "now_judgment": "回避。原因:ROIC 6.7-8.9% < WACC 11%重资产周期品价值毁灭。124.2%增速含资产减值回冲+低基数,扣非真实仅40-60%。PE 79x隐含未来3年30%+复合,但稀土大宗商品历史上从未兑现持续3年高增, 氧化镨钕仍在历史中位偏下",
+      "future_tam": "全球稀土(钕铁硼) 2030E需求 ~50万吨(EV电机+风电+机器人驱动)",
+      "future_share": "北方稀土全球轻稀土份额第一(~35%, 控制国内60%+配额)",
+      "future_forward": "2026E 扣非增速50%(剔除一次性)→净利~25亿,EPS~0.69(当前36亿股);周期股看价格不外推",
+      "target_price": "合理目标价 ¥25-32 = 2026E EPS 0.69 × 合理PE 35-45x(稀土资源溢价); 当前¥49.43高估55-98%",
+      "target_verdict": "现价¥49.43已透支;回避等待氧化镨钕价格突破¥60万/吨或股价回落至¥25-32再评估",
+      "assumptions": "假设:扣非增速50%、目标PE 40x。周期股估值锚=商品价中枢+量增, 若稀土价突破¥60万/吨则上修至¥40+",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

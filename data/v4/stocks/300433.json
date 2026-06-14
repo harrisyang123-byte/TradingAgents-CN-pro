@@ -187,6 +187,16 @@
         "price_source": "stock_zh_a_daily新浪verified",
         "as_of": "2026-06-13",
         "net_income_growth_pct": 10.9
+      },
+      "expert_valuation": {
+        "now_judgment": "回避。原因:ROIC 5.2-6.9% < WACC 9%每投1元只创造0.6元,本质是替苹果打工的重资产代工厂,毛利率15-18%锁死。PE 52x对10.9%增速PEG 4.8x无安全边际,横向对比伯恩光学/比亚迪电子15-25x溢价3倍毫无道理",
+        "future_tam": "全球消费电子玻璃盖板+金属结构件+AR/VR光学 2030E ~$1500亿",
+        "future_share": "蓝思苹果玻璃盖板份额第一; AR/VR光学早期布局; 大型压铸新进入者",
+        "future_forward": "2026E 增速维持15%乐观→净利~50亿,EPS~1.0(当前50亿股)",
+        "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
+        "target_verdict": "现价¥41严重高估;回避, 等PE回落至30x以下(¥30)或ROIC突破WACC再评估",
+        "assumptions": "假设:增速15%、目标PE 22x。AR/VR或汽车业务量产则可能上修至¥35-40",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
       }
     },
     "verdict": {

@@ -178,8 +178,27 @@ def build_holdings_review(repo: Path, units: dict):
             "stance": av.get("stance") or (vd.get("stance") if isinstance(vd, dict) else None),
             "target_price": ev.get("target_price"),
             "pe": av.get("verified_pe"), "roic": av.get("roic_range") or av.get("roic_pct"),
-            "is_recommendation": True,
+            "instrument_type": "stock", "is_recommendation": True,
         })
+
+    # ── 基金分类(主题→行业, 融入对应行业作为持仓基金; 宽基/债基→大类底仓) ──
+    fund_class_path = repo / "data/v4/_inputs/fund_classification.json"
+    fund_to_industry = {}  # code -> industry name
+    if fund_class_path.exists():
+        fc = json.loads(fund_class_path.read_text(encoding="utf-8"))
+        for ind_key, funds in (fc.get("theme_industry_funds") or {}).items():
+            ind_name = ind_key.replace("industry:", "")
+            for f in funds:
+                fund_to_industry[f.get("code")] = ind_name
+
+    # 持仓基金按行业归集(用于"已持仓基金"展示)
+    fund_holdings_by_ind = {}
+    for p in positions:
+        if p.get("instrument_type") in ("fund", "etf"):
+            code = p.get("code")
+            ind = fund_to_industry.get(code)
+            if ind:
+                fund_holdings_by_ind.setdefault(ind, []).append(p)
 
     # ── 构建大类树 ──────────────────────────────────────────
     asset_tree = []
@@ -226,20 +245,39 @@ def build_holdings_review(repo: Path, units: dict):
                                   "indirect_value": s.get("contribution_yi") or s.get("indirect_value")}
                                  for s in (ind_data.get("indirect_top") or [])][:3],
                 })
-            # 给持仓行业节点挂推荐标的 + 补充纯推荐行业(持仓未覆盖)
+            # 给持仓行业节点挂推荐标的 + 持仓基金 + 补充纯推荐行业
             covered = set()
             for n in ind_nodes:
-                n["recommendations"] = rec_by_ind.get(n["name"], [])
-                covered.add(n["name"])
+                ind_name = n["name"]
+                n["recommendations"] = rec_by_ind.get(ind_name, [])
+                # 行业内已持仓基金(从主题→行业映射来)
+                fhs = fund_holdings_by_ind.get(ind_name, [])
+                n["fund_holdings"] = [{
+                    "code": f.get("code"), "name": f.get("name"),
+                    "market_value": round(f.get("market_value", 0) or 0, 0),
+                    "weight": f.get("weight", 0), "instrument_type": f.get("instrument_type"),
+                } for f in fhs]
+                n["fund_value"] = round(sum(f.get("market_value", 0) or 0 for f in fhs), 0)
+                n["rec_count"] = len(n["recommendations"])
+                covered.add(ind_name)
             for ind_name, recs in rec_by_ind.items():
                 if ind_name in covered:
                     continue
+                fhs = fund_holdings_by_ind.get(ind_name, [])
                 ind_nodes.append({
                     "name": ind_name, "direct_value": 0, "indirect_value": 0, "total_value": 0,
                     "has_industry_analysis": units.get(f"industry:{ind_name}") is not None,
-                    "holdings": [], "indirect": [], "recommendations": recs, "is_rec_only": True,
+                    "holdings": [], "indirect": [], "recommendations": recs,
+                    "fund_holdings": [{
+                        "code": f.get("code"), "name": f.get("name"),
+                        "market_value": round(f.get("market_value", 0) or 0, 0),
+                        "weight": f.get("weight", 0), "instrument_type": f.get("instrument_type"),
+                    } for f in fhs],
+                    "fund_value": round(sum(f.get("market_value", 0) or 0 for f in fhs), 0),
+                    "rec_count": len(recs),
                 })
-            ind_nodes.sort(key=lambda x: -(x.get("total_value", 0) or 0))
+            # 行业按"持仓+基金值"总额排序
+            ind_nodes.sort(key=lambda x: -((x.get("total_value", 0) or 0) + (x.get("fund_value", 0) or 0)))
             node["industries"] = ind_nodes
             # 权益基金主题
             node["fund_themes"] = [g for g in fund_groups

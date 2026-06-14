@@ -255,6 +255,16 @@
       "price_source": "stock_hk_daily/zh_a_daily新浪verified",
       "as_of": "2026-06-13",
       "net_income_growth_pct": -43.2
+    },
+    "expert_valuation": {
+      "now_judgment": "回避。原因:ROIC负+未盈利创新药+现金流依赖融资, 里程碑历史兑现率<30%, 本质是pipeline公司非平台。ADC赛道竞争白热化(第一三共/Pfizer/AZ等),股价已透支2-3年预期",
+      "future_tam": "全球ADC(抗体偶联药物) 2030E ~$300亿(从$120亿翻倍, 重磅潜力)",
+      "future_share": "科伦博泰ADC平台中国领先, MSD $14亿BD验证;国内ADC份额尚未确立",
+      "future_forward": "2026E 仍亏损约10亿;盈利时点至少2027-2028; SKB264等核心管线NDA是关键",
+      "target_price": "合理目标价 HK$280-400 = 给MSD BD$14亿打折+管线NPV估值; 当前HK$415.2处区间上沿",
+      "target_verdict": "现价HK$415.2偏高;回避, 等SKB264关键数据/NDA等里程碑落地后以confirmed milestone重新定价",
+      "assumptions": "假设:SKB264 2026Q4-2027Q1 NDA获批, 单品销售峰值$5-8亿。若关键数据失败, 股价腰斩至HK$200",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

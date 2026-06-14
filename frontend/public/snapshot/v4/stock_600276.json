@@ -528,6 +528,16 @@
       "future_market_correction": "PEG 1.88 + ROIC 13-17%低于药明28%; 同医药药明三维更优(ROIC高+PE低14.9+PEG低), 恒瑞无明显优势",
       "net_income_growth_pct": 21.7,
       "revenue_growth_pct": 13.0
+    },
+    "expert_valuation": {
+      "now_judgment": "减仓或换药明康德。原因:PEG 1.88偏贵+ROIC 13-17%低于药明28%,集采每年切仿制药基本盘5-8%且未见底。同为医药核心,药明三维(ROIC高+PE低14.9+PEG 0.5)更优,资金有更优选择。恒瑞创新药多但峰值有限(me-too居多),BD不确定",
+      "future_tam": "全球创新药 2030E ~$1.6万亿;中国创新药~$3000亿",
+      "future_share": "恒瑞中国创新药龙头(~6-8%);全球share<1%;Pipeline 50+创新药",
+      "future_forward": "2026E 增速维持22%→净利~85亿,EPS~1.33(当前64亿股);海外BD里程碑增量未计入",
+      "target_price": "合理目标价 ¥40-46 = 2026E EPS 1.33 × 合理PE 30-35x(创新药龙头但低于药明); 当前¥48.49已price-in 22%增速",
+      "target_verdict": "现价¥48.49已超合理上沿;减仓换药明(同医药ROIC更高+PE更低), 或回调至¥40再考虑",
+      "assumptions": "假设:增速22%、目标PE 33x。若海外BD大额里程碑兑现(单笔>20亿美元),目标上修至¥55",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

@@ -66,20 +66,7 @@
 
       <!-- 基金不穿透(用户拍板): 基金作为整体标的展示 — 主题基金归对应行业作推荐标的、宽基/债基归大类底仓, 不再拆解穿透到本行业 -->
 
-      <!-- 个股表格 + 行业内配比（AC8.3） -->
-      <div class="card idt-body">
-        <div class="idt-stocks-head">
-          行业内个股分析 + 资金配比
-          <UnitStatusBadge
-            v-if="detail.intra_alloc_unit"
-            :status="detail.intra_alloc_unit.status"
-            :stale-reason="detail.intra_alloc_unit.stale_reason"
-            :cli-hint="detail.intra_alloc_unit.cli_hint"
-            :meta="detail.intra_alloc_unit"
-          />
-        </div>
-        <StockTable :stocks="detail.stocks || []" :stock-weights="detail.stock_weights || []" />
-      </div>
+      <!-- 行业内个股分析+资金配比已在「我的持仓」页表格展示, 此处不再渲染(用户拍板, 避免重复) -->
 
       <!-- 产业链瓶颈地图 Chokepoint Map（折叠收起 - 支撑分析） -->
       <div v-if="detail.chokepoint_map?.length" class="card idt-chokepoint">
@@ -160,7 +147,6 @@ import { computed, watch } from 'vue'
 import { Refresh } from '@element-plus/icons-vue'
 import UnitStatusBadge from './UnitStatusBadge.vue'
 import EmptyUnitState from './EmptyUnitState.vue'
-import StockTable from './StockTable.vue'
 import { useIndustryDetail } from './useV4Units'
 
 const props = defineProps<{ industry: string }>()

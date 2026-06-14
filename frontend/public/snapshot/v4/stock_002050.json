@@ -186,7 +186,17 @@
       "price_source": "stock_zh_a_daily/hk新浪verified",
       "as_of": "2026-06-13"
     },
-    "roic_vs_wacc": "verified ROIC 9.9-13% vs 行业WACC 9% → 创造但脆弱; ROIC 9.9-13% > 9% WACC 价值创造,但Q1增速崩需观察"
+    "roic_vs_wacc": "verified ROIC 9.9-13% vs 行业WACC 9% → 创造但脆弱; ROIC 9.9-13% > 9% WACC 价值创造,但Q1增速崩需观察",
+    "expert_valuation": {
+      "now_judgment": "减仓,止损¥38。原因:Q1业绩严重低于预期(扣非个位数增长),暴露汽车价格战+家电需求疲软双杀,31.1%是去年高基数后的幻觉。T项目(机器人)2025营收贡献<1%,商业化至少2027-2028,PE 43.5x完全靠\"机器人叙事\"撑,基本面消化不了",
+      "future_tam": "全球热管理 2030E ~$700亿(EV渗透50%驱动);人形机器人执行器 2030E ~$200亿(假设量产)",
+      "future_share": "三花全球热管理份额30%+(龙头);单车价值量燃油车200元→EV 3000-5000元;机器人执行器若量产可拿20-30%份额",
+      "future_forward": "2026E 增速回落至20%(去掉Q1 miss修正)→净利~38亿,EPS~1.05(当前36亿股)",
+      "target_price": "合理目标价 ¥35-45 = 2026E EPS 1.05 × 合理PE 35-45x(给机器人期权适度溢价); 当前¥44.81已透支",
+      "target_verdict": "现价¥44.81处目标上沿,减仓;止损¥38(对应PE 36x合理估值锚);破¥38则机器人叙事退潮",
+      "assumptions": "假设:常态化增速20%、目标PE 40x。若T项目2026Q3订单落地,目标上修至¥55(届时再评估加仓)",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+    }
   },
   "dcf_intrinsic": null
 }

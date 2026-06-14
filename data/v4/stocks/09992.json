@@ -578,7 +578,17 @@
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
       },
-      "roic_vs_wacc": "verified ROIC 130.69% vs 行业WACC 9% → ★价值创造之王; ROIC 130.69% >>> 9% WACC IP+渠道+海外极致价值创造(全场最高)"
+      "roic_vs_wacc": "verified ROIC 130.69% vs 行业WACC 9% → ★价值创造之王; ROIC 130.69% >>> 9% WACC IP+渠道+海外极致价值创造(全场最高)",
+      "expert_valuation": {
+        "now_judgment": "持有3.5%不追加。原因:ROIC 130.69%是消费品现象级数字,商业模式优秀(轻资产IP+高复购)无可争议;但HK$183对应PE~70x隐含的308%增速永续是物理不可能的——含2024低基数+海外从0到1的爆发,常态增速必然回落。当前价位已经price-in未来2-3年最乐观情景",
+        "future_tam": "全球潮玩+IP衍生 2030E ~$500亿(CAGR 12%);中国成熟市场+东南亚/欧美海外渗透",
+        "future_share": "泡泡玛特国内潮玩份额20-25%(领先),海外份额仅2-3%(扩张窗口);全球IP衍生份额<3%但抢占中端价位带",
+        "future_forward": "2026E 增速回落至80%(从308%)→净利~70亿,EPS~5.2(当前13.5亿股);2027E增速50%→EPS~7.8",
+        "target_price": "合理目标价 HK$160-220 = 2026E EPS 5.2 × 合理PE 30-42x(高成长消费股区间); 当前HK$183处中部",
+        "target_verdict": "现价HK$183对应目标HK$160-220区间内,持有3.5%不追高;深跌至HK$140以下逆向小注",
+        "assumptions": "假设:2026增速80%(海外+国内均放缓但仍高速)、目标PE 35x。海外5倍增速的可持续性是核心变量,新IP孵化是关键",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
+      }
     },
     "credibility": {
       "final_verdict": "ACCEPT",

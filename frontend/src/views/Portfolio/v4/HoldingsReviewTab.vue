@@ -54,44 +54,62 @@
           <div v-show="open[node.key]" class="dt-class-body">
             <!-- 行业（权益） -->
             <div v-for="ind in node.industries" :key="ind.name" class="dt-ind">
+              <!-- 行业首行: 名+持仓金额+基金金额+推荐数量 -->
               <div class="dt-ind-row">
                 <span class="dt-ind-name">🏭 {{ ind.name }}</span>
-                <span v-if="ind.is_rec_only" class="dt-ind-val dt-rec-only">推荐关注（未持仓）</span>
-                <span v-else class="dt-ind-val">持仓 ¥{{ fmt(ind.direct_value) }}</span>
+                <span class="dt-ind-stats">
+                  <template v-if="ind.direct_value > 0">持股 ¥{{ fmt(ind.direct_value) }}</template>
+                  <template v-if="(ind.fund_value || 0) > 0"><span v-if="ind.direct_value > 0"> · </span>持基金 ¥{{ fmt(ind.fund_value) }}</template>
+                  <template v-if="(ind.rec_count || 0) > 0"><span v-if="ind.direct_value > 0 || (ind.fund_value || 0) > 0"> · </span>推荐 {{ ind.rec_count }}只</template>
+                  <span v-if="!ind.direct_value && !(ind.fund_value || 0) && !(ind.rec_count || 0)" class="dt-rec-only">未持仓</span>
+                </span>
                 <a v-if="ind.has_industry_analysis" class="dt-link" @click="$emit('open-industry', ind.name)">行业分析→</a>
               </div>
-              <div v-for="hh in ind.holdings" :key="hh.code" class="dt-hold">
-                <span class="dt-tag-own">持仓</span>
-                <span class="dt-h-code">{{ hh.code }}</span>
-                <span class="dt-h-name">{{ shortName(hh.name) }}</span>
-                <span class="dt-h-wt">{{ hh.weight }}%</span>
-                <span v-if="hh.analyzed" class="dt-stance" :class="stanceCls(hh.stance)">{{ hh.stance }}</span>
-                <span v-else class="dt-pending">待分析</span>
-                <a v-if="hh.analyzed" class="dt-link sm" @click="$emit('open-stock', hh.code)">分析→</a>
-                <span v-if="hh.action" class="dt-h-action">{{ hh.action }}</span>
-              </div>
-              <!-- 推荐标的(未持仓, 建议买入) -->
-              <div v-for="rc in (ind.recommendations || [])" :key="'rec'+rc.code" class="dt-hold dt-rec">
-                <span class="dt-tag-rec">推荐</span>
-                <span class="dt-h-code">{{ rc.code }}</span>
-                <span class="dt-h-name">{{ shortName(rc.name) }}</span>
-                <span v-if="rc.stance" class="dt-stance" :class="stanceCls(rc.stance)">{{ rc.stance }}</span>
-                <span v-if="rc.target_price" class="dt-rec-target">🎯 {{ rc.target_price }}</span>
-                <a class="dt-link sm" @click="$emit('open-stock', rc.code)">分析→</a>
-              </div>
-            </div>
-
-            <!-- 基金主题（作为整体标的管理：同主题去重，不穿透到底层个股） -->
-            <div v-for="(ft, i) in node.fund_themes" :key="'ft'+i" class="dt-fund">
-              <div class="dt-fund-head">
-                🪙 {{ ft.theme }} · {{ ft.fund_count }}只 ¥{{ fmt(ft.total_mv) }}
-                <span v-if="ft.release_mv > 0" class="dt-release">可释放 ¥{{ fmt(ft.release_mv) }}</span>
-              </div>
-              <div class="dt-fund-action">💡 {{ ft.action }}</div>
-              <div class="dt-fund-pills">
-                <span v-for="f in ft.keep" :key="f.code" class="pill keep">留 {{ shortName(f.name) }}</span>
-                <span v-for="f in ft.sell" :key="f.code" class="pill sell">卖 {{ shortName(f.name) }}</span>
-              </div>
+              <!-- 表格: 类型/代码/名称/持仓/比例/stance/目标/动作 -->
+              <table v-if="ind.holdings.length || (ind.fund_holdings && ind.fund_holdings.length) || (ind.recommendations && ind.recommendations.length)" class="dt-table">
+                <thead>
+                  <tr>
+                    <th>类型</th><th>代码</th><th>名称</th><th>市值/比例</th><th>判断/目标</th><th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 持仓股 -->
+                  <tr v-for="hh in ind.holdings" :key="'h'+hh.code" class="dt-tr-own">
+                    <td><span class="dt-pill-own">持股</span></td>
+                    <td class="dt-mono">{{ hh.code }}</td>
+                    <td>{{ shortName(hh.name) }}</td>
+                    <td>¥{{ fmt(hh.market_value) }} · {{ hh.weight }}%</td>
+                    <td>
+                      <span v-if="hh.analyzed && hh.stance" class="dt-stance" :class="stanceCls(hh.stance)">{{ hh.stance }}</span>
+                      <span v-else class="dt-pending">待分析</span>
+                    </td>
+                    <td>
+                      <a v-if="hh.analyzed" class="dt-link sm" @click="$emit('open-stock', hh.code)">分析→</a>
+                    </td>
+                  </tr>
+                  <!-- 持仓基金(行业相关主题基金) -->
+                  <tr v-for="fh in (ind.fund_holdings || [])" :key="'fh'+fh.code" class="dt-tr-fund">
+                    <td><span class="dt-pill-fund">持基金</span></td>
+                    <td class="dt-mono">{{ fh.code }}</td>
+                    <td>{{ shortName(fh.name) }}</td>
+                    <td>¥{{ fmt(fh.market_value) }} · {{ fh.weight }}%</td>
+                    <td><span class="dt-stance hold">主题暴露</span></td>
+                    <td>—</td>
+                  </tr>
+                  <!-- 推荐股(未持仓) -->
+                  <tr v-for="rc in (ind.recommendations || [])" :key="'rc'+rc.code" class="dt-tr-rec">
+                    <td><span class="dt-pill-rec">推荐</span></td>
+                    <td class="dt-mono">{{ rc.code }}</td>
+                    <td>{{ shortName(rc.name) }}</td>
+                    <td><span class="dt-rec-meta">PE {{ rc.pe || '?' }}x · ROIC {{ rc.roic || '?' }}%</span></td>
+                    <td>
+                      <span v-if="rc.stance" class="dt-stance" :class="stanceCls(rc.stance)">{{ rc.stance }}</span>
+                      <div v-if="rc.target_price" class="dt-rec-target">🎯 {{ rc.target_price }}</div>
+                    </td>
+                    <td><a class="dt-link sm" @click="$emit('open-stock', rc.code)">分析→</a></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
             <!-- 非权益直接持仓 -->
@@ -200,35 +218,34 @@ function actLabel(a?: string | null): string {
 .dt-link:hover { text-decoration: underline; }
 
 .dt-class-body { padding: 4px 14px 12px 30px; background: #fff; }
-.dt-ind { margin: 8px 0; }
-.dt-ind-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; border-bottom: 1px dashed #f0f2f5; }
-.dt-ind-name { font-weight: 600; color: #4e5969; font-size: 13px; }
-.dt-ind-val { font-size: 12px; color: #909399; }
-.dt-hold { display: flex; align-items: center; gap: 10px; padding: 5px 0 5px 16px; font-size: 12.5px; color: #4e5969; flex-wrap: wrap; }
-.dt-hold.plain { padding-left: 0; }
-.dt-h-code { font-family: monospace; color: #303133; }
-.dt-h-name { color: #303133; min-width: 110px; }
-.dt-h-wt { color: #909399; font-size: 12px; }
+.dt-ind { margin: 12px 0; }
+.dt-ind-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; margin-bottom: 4px; }
+.dt-ind-name { font-weight: 700; color: #303133; font-size: 13.5px; }
+.dt-ind-stats { font-size: 12px; color: #606266; }
+.dt-rec-only { color: #fa8c16 !important; font-weight: 600; }
+
+/* 表格化展示 */
+.dt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 8px; }
+.dt-table thead th { background: #fafbfc; padding: 6px 8px; text-align: left; font-weight: 600; color: #909399; font-size: 11.5px; border-bottom: 1px solid #ebeef5; }
+.dt-table tbody td { padding: 7px 8px; border-bottom: 1px solid #f5f7fa; vertical-align: middle; color: #4e5969; }
+.dt-table tbody tr:hover { background: #fafbfc; }
+.dt-tr-own { background: #fff; }
+.dt-tr-fund { background: #fafdff; }
+.dt-tr-rec { background: #fffdf7; }
+.dt-mono { font-family: monospace; color: #303133; }
+.dt-pill-own, .dt-pill-fund, .dt-pill-rec { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10.5px; font-weight: 700; }
+.dt-pill-own { background: #ecf5ff; color: #409eff; }
+.dt-pill-fund { background: #f0f9ff; color: #0958d9; }
+.dt-pill-rec { background: #fff7e6; color: #fa8c16; }
+.dt-rec-meta { font-size: 11.5px; color: #909399; font-family: monospace; }
+.dt-rec-target { font-size: 11.5px; color: #389e0d; font-weight: 600; margin-top: 2px; }
 .dt-stance { font-size: 11.5px; font-weight: 700; padding: 1px 7px; border-radius: 4px; }
 .dt-stance.reduce { background: #fef0f0; color: #f56c6c; }
 .dt-stance.add { background: #f0f9eb; color: #67c23a; }
 .dt-stance.hold { background: #fdf6ec; color: #e6a23c; }
 .dt-pending { font-size: 11px; color: #c0c4cc; }
-/* 持仓 / 推荐 区分标签 */
-.dt-tag-own { font-size: 10px; font-weight: 700; color: #409eff; background: #ecf5ff; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
-.dt-tag-rec { font-size: 10px; font-weight: 700; color: #fa8c16; background: #fff7e6; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
-.dt-rec { background: #fffdf7; }
-.dt-rec-target { font-size: 11.5px; font-weight: 600; color: #389e0d; }
-.dt-rec-only { color: #fa8c16 !important; font-weight: 600; }
-.dt-h-action { font-size: 11.5px; color: #909399; flex-basis: 100%; padding-left: 16px; line-height: 1.4; }
-.dt-indirect { font-size: 11.5px; color: #909399; padding: 4px 0 4px 16px; }
-.dt-fund { background: #fafafa; border-radius: 6px; padding: 8px 10px; margin: 8px 0; border-left: 3px solid #faad14; }
-.dt-fund-head { font-size: 12.5px; font-weight: 600; color: #303133; }
-.dt-release { font-size: 11px; color: #d46b08; background: #fff7e6; padding: 1px 7px; border-radius: 10px; margin-left: 6px; }
-.dt-fund-action { font-size: 12px; color: #c45656; margin: 4px 0 6px; }
-.dt-fund-pills { display: flex; flex-wrap: wrap; gap: 5px; }
-.pill { font-size: 11px; padding: 1px 7px; border-radius: 4px; }
-.pill.keep { background: #f0f9eb; color: #67c23a; }
-.pill.sell { background: #fef0f0; color: #f56c6c; }
+.dt-hold.plain { display: flex; gap: 10px; padding: 5px 0; font-size: 12.5px; color: #4e5969; }
+.dt-h-name { color: #303133; min-width: 110px; }
+.dt-h-wt { color: #909399; font-size: 12px; }
 .dt-note { font-size: 11px; color: #c0c4cc; margin-top: 12px; }
 </style>

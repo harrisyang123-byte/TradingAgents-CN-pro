@@ -47,7 +47,66 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
+        },
+        {
+          "name": "人工智能算力",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "300394",
+              "name": "天孚通信",
+              "stance": "减仓至半仓(透支)",
+              "target_price": "合理目标价 ¥150-220 = 2026E EPS 3.5 × 合理PE 43-63x(光器件高成长溢价); 当前¥280.95高估28-87%",
+              "pe": 108.2,
+              "roic": "36-48",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "300502",
+              "name": "新易盛",
+              "stance": "★第一优先建仓(三维全优)",
+              "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
+              "pe": 52.7,
+              "roic": "50-66",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "024245",
+              "name": "广发上证科创板人工智能ETF发起式联接A",
+              "market_value": 22048.0,
+              "weight": 2.09,
+              "instrument_type": "fund"
+            },
+            {
+              "code": "012733",
+              "name": "易方达中证人工智能主题ETF联接A",
+              "market_value": 14952.0,
+              "weight": 1.42,
+              "instrument_type": "fund"
+            },
+            {
+              "code": "012734",
+              "name": "易方达中证人工智能主题ETF联接C",
+              "market_value": 14033.0,
+              "weight": 1.33,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 51033.0,
+          "rec_count": 2
         },
         {
           "name": "潮玩/IP消费",
@@ -72,7 +131,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "游戏",
@@ -97,7 +159,52 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
+        },
+        {
+          "name": "电力公用事业",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "600900",
+              "name": "长江电力",
+              "stance": "推荐(防御价值创造)",
+              "target_price": "合理目标价 ¥25-32 = 2026E EPS 1.40 × 合理PE 18-23x(公用事业+股息溢价); 当前¥28.28处中部",
+              "pe": 20.1,
+              "roic": "7.9-10.5",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "601985",
+              "name": "中国核电",
+              "stance": "中性/防御可选(WACC校准)",
+              "target_price": "合理目标价 ¥7.5-11 = 2026E EPS 0.58 × 合理PE 13-19x(公用事业债券化估值); 当前¥9.24处中部",
+              "pe": 20.4,
+              "roic": "3.5-4.6",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "019058",
+              "name": "易方达中证绿色电力ETF联接发起式A",
+              "market_value": 21698.0,
+              "weight": 2.06,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 21698.0,
+          "rec_count": 2
         },
         {
           "name": "半导体/物联网模组",
@@ -122,7 +229,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "通信设备/5G/AI 算力",
@@ -147,7 +257,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "人工智能/AIoT/安防",
@@ -172,7 +285,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "消费电子/智能 EV/IoT",
@@ -197,7 +313,146 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
+        },
+        {
+          "name": "半导体",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "002371",
+              "name": "北方华创",
+              "stance": "观望/回调关注(ROIC爬坡)",
+              "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
+              "pe": 87.3,
+              "roic": "7.3-9.7",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "688012",
+              "name": "中微公司",
+              "stance": "回避(毁灭+高估)",
+              "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
+              "pe": 89.4,
+              "roic": "7.4-9.9",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "688268",
+              "name": "华特气体",
+              "stance": "强烈回避",
+              "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
+              "pe": 166.8,
+              "roic": "4.8-6.4",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "012629",
+              "name": "广发国证半导体芯片ETF联接A",
+              "market_value": 10000.0,
+              "weight": 0.95,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 10000.0,
+          "rec_count": 3
+        },
+        {
+          "name": "消费电子家电",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "300433",
+              "name": "蓝思科技",
+              "stance": "回避(毁灭+高估)",
+              "target_price": "合理目标价 ¥18-26 = 2026E EPS 1.0 × 合理PE 18-26x(苹果代工同业); 当前¥41.14高估58-128%",
+              "pe": 52.1,
+              "roic": "5.2-6.9",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "005063",
+              "name": "广发中证全指家用电器ETF联接A",
+              "market_value": 8500.0,
+              "weight": 0.81,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8500.0,
+          "rec_count": 1
+        },
+        {
+          "name": "创新药",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "06160",
+              "name": "百济神州",
+              "stance": "临界观望",
+              "target_price": "合理目标价 HK$140-200 = 2026E PS~6x(已盈利biotech估值); 当前HK$158.9处区间下沿",
+              "pe": null,
+              "roic": "≈WACC",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "06990",
+              "name": "科伦博泰生物",
+              "stance": "回避(未盈利)",
+              "target_price": "合理目标价 HK$280-400 = 给MSD BD$14亿打折+管线NPV估值; 当前HK$415.2处区间上沿",
+              "pe": null,
+              "roic": "负",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            },
+            {
+              "code": "600276",
+              "name": "恒瑞医药",
+              "stance": "减仓或换药明(PEG偏高)",
+              "target_price": "合理目标价 ¥40-46 = 2026E EPS 1.33 × 合理PE 30-35x(创新药龙头但低于药明); 当前¥48.49已price-in 22%增速",
+              "pe": 40.7,
+              "roic": "13-17",
+              "instrument_type": "stock",
+              "is_recommendation": true
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "009881",
+              "name": "广发中证医疗ETF联接C",
+              "market_value": 8150.0,
+              "weight": 0.77,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8150.0,
+          "rec_count": 3
         },
         {
           "name": "创新药/化工/维生素/香精香料",
@@ -222,7 +477,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "新能源车/汽车热管理/制冷",
@@ -247,46 +505,10 @@
             }
           ],
           "indirect": [],
-          "recommendations": []
-        },
-        {
-          "name": "半导体",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "002371",
-              "name": "北方华创",
-              "stance": "观望/回调关注(ROIC爬坡)",
-              "target_price": null,
-              "pe": 87.3,
-              "roic": "7.3-9.7",
-              "is_recommendation": true
-            },
-            {
-              "code": "688012",
-              "name": "中微公司",
-              "stance": "回避(毁灭+高估)",
-              "target_price": null,
-              "pe": 89.4,
-              "roic": "7.4-9.9",
-              "is_recommendation": true
-            },
-            {
-              "code": "688268",
-              "name": "华特气体",
-              "stance": "强烈回避",
-              "target_price": null,
-              "pe": 166.8,
-              "roic": "4.8-6.4",
-              "is_recommendation": true
-            }
-          ],
-          "is_rec_only": true
+          "recommendations": [],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 0
         },
         {
           "name": "互联网平台/AI",
@@ -304,49 +526,13 @@
               "target_price": "目标价 HK$550-620 = 2026E EPS 36 × 合理PE 16-18x(仍低于海外同行)",
               "pe": 14.91,
               "roic": "15.25",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
-        },
-        {
-          "name": "创新药",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "06160",
-              "name": "百济神州",
-              "stance": "临界观望",
-              "target_price": null,
-              "pe": null,
-              "roic": "≈WACC",
-              "is_recommendation": true
-            },
-            {
-              "code": "06990",
-              "name": "科伦博泰生物",
-              "stance": "回避(未盈利)",
-              "target_price": null,
-              "pe": null,
-              "roic": "负",
-              "is_recommendation": true
-            },
-            {
-              "code": "600276",
-              "name": "恒瑞医药",
-              "stance": "减仓或换药明(PEG偏高)",
-              "target_price": null,
-              "pe": 40.7,
-              "roic": "13-17",
-              "is_recommendation": true
-            }
-          ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 1
         },
         {
           "name": "互联网平台/AI/云",
@@ -361,13 +547,16 @@
               "code": "09988",
               "name": "阿里巴巴",
               "stance": "建仓降级谨慎+信号门控",
-              "target_price": null,
+              "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
               "pe": null,
               "roic": "6.26",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 1
         },
         {
           "name": "人工智能算力/光模块",
@@ -385,61 +574,13 @@
               "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
               "pe": null,
               "roic": "31-41",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
-        },
-        {
-          "name": "人工智能算力",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "300394",
-              "name": "天孚通信",
-              "stance": "减仓至半仓(透支)",
-              "target_price": null,
-              "pe": 108.2,
-              "roic": "36-48",
-              "is_recommendation": true
-            },
-            {
-              "code": "300502",
-              "name": "新易盛",
-              "stance": "★第一优先建仓(三维全优)",
-              "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
-              "pe": 52.7,
-              "roic": "50-66",
-              "is_recommendation": true
-            }
-          ],
-          "is_rec_only": true
-        },
-        {
-          "name": "消费电子家电",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "300433",
-              "name": "蓝思科技",
-              "stance": "回避(毁灭+高估)",
-              "target_price": null,
-              "pe": 52.1,
-              "roic": "5.2-6.9",
-              "is_recommendation": true
-            }
-          ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 1
         },
         {
           "name": "有色资源",
@@ -454,9 +595,10 @@
               "code": "600111",
               "name": "北方稀土",
               "stance": "回避",
-              "target_price": null,
+              "target_price": "合理目标价 ¥25-32 = 2026E EPS 0.69 × 合理PE 35-45x(稀土资源溢价); 当前¥49.43高估55-98%",
               "pe": 79.4,
               "roic": "6.7-8.9",
+              "instrument_type": "stock",
               "is_recommendation": true
             },
             {
@@ -466,49 +608,23 @@
               "target_price": "中性¥27-32(不追高);金价回调至$2100或股价¥25以下再左侧建仓",
               "pe": 14.9,
               "roic": "15-20",
+              "instrument_type": "stock",
               "is_recommendation": true
             },
             {
               "code": "603663",
               "name": "三祥新材",
               "stance": "强烈回避",
-              "target_price": null,
+              "target_price": "合理目标价 ¥18-25 = 2026E EPS 0.36 × 合理PE 50-70x(给小盘+材料溢价); 当前¥72.6高估190-300%",
               "pe": 259.3,
               "roic": "6.3-8.5",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
-        },
-        {
-          "name": "电力公用事业",
-          "direct_value": 0,
-          "indirect_value": 0,
-          "total_value": 0,
-          "has_industry_analysis": true,
-          "holdings": [],
-          "indirect": [],
-          "recommendations": [
-            {
-              "code": "600900",
-              "name": "长江电力",
-              "stance": "推荐(防御价值创造)",
-              "target_price": null,
-              "pe": 20.1,
-              "roic": "7.9-10.5",
-              "is_recommendation": true
-            },
-            {
-              "code": "601985",
-              "name": "中国核电",
-              "stance": "中性/防御可选(WACC校准)",
-              "target_price": null,
-              "pe": 20.4,
-              "roic": "3.5-4.6",
-              "is_recommendation": true
-            }
-          ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 3
         },
         {
           "name": "创新药/CXO",
@@ -526,10 +642,13 @@
               "target_price": "目标价 ¥150-180 = 2026E EPS 8.2 × 合理PE 18-22x(CXO龙头)",
               "pe": 14.9,
               "roic": "21-28%",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 1
         },
         {
           "name": "半导体/晶圆代工/国产替代",
@@ -544,13 +663,16 @@
               "code": "688981",
               "name": "中芯国际",
               "stance": "观望(A股不入/H股关注)",
-              "target_price": null,
+              "target_price": "合理目标价 A股¥40-55 / H股 HK$22-30 = 2026E EPS 0.93 × 合理PE 45-60x(国产替代溢价但要打折ROIC毁灭); A股当前¥124.88高估127-212%, H股相对合理",
               "pe": null,
               "roic": "2.7-3.7",
+              "instrument_type": "stock",
               "is_recommendation": true
             }
           ],
-          "is_rec_only": true
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 1
         }
       ],
       "direct_holdings": [],

@@ -986,6 +986,16 @@
       "as_of": "2026-06-13",
       "critic_correction": "2026-06-14 critic辩证修正误杀: 北方华创: ROIC 7.3-9.7%<半导WACC12% 当前不足, 但国产替",
       "net_income_growth_pct": -1.8
+    },
+    "expert_valuation": {
+      "now_judgment": "观望,回调关注。原因:虽然国产替代核心标的+在手订单300亿+,但ROIC 7.3-9.7% < WACC 12%是连续3年价值毁灭事实, 增速-1.8%与PE 87x极度乐观定价严重背离。中微/拓荆追赶+晶圆厂2026扩产放缓双重压力,当前价透支3年以上预期",
+      "future_tam": "全球半导体设备 2030E ~$1500亿(CAGR 8%);中国设备国产化率从15%→2030E 50%",
+      "future_share": "北方华创国内综合份额第一(~25%, 平台化布局);全球份额仅~3%但中国份额提升空间大",
+      "future_forward": "2026E 增速恢复至25%(乐观)→净利~75亿,EPS~14(当前5.3亿股); 常态化15%→EPS~12",
+      "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
+      "target_verdict": "现价¥667严重高估;回调至PE 50-60x(¥380-460区间)且ROIC季度环比改善才介入",
+      "assumptions": "假设:常态化增速15%、目标PE 40x。若ROIC转正突破WACC 12%,目标上修至¥700+(届时重估)",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null

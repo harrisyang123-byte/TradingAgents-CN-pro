@@ -627,6 +627,16 @@
         "reason": "ROIC4.4-5.9%<半导WACC12%价值毁灭+PE71.5(增速79.9%含封测周期,PEG0.89但ROIC毁灭不配溢价)→减仓",
         "price_source": "stock_zh_a_daily/hk新浪verified",
         "as_of": "2026-06-13"
+      },
+      "expert_valuation": {
+        "now_judgment": "减仓至7%以下。原因:虽然封测周期回暖让净利+79.9%,但ROIC 4.4-5.9%仍远低于半导体WACC 12%——意味着公司每投1元资本只赚5分钱却付12分钱资本成本,本质是替AMD打工的重资产代工,规模越大毁灭股东价值越多。PE 71.5x隐含市场期待这家\"价值毁灭企业\"未来3年复合增速30%+,这极不合理",
+        "future_tam": "全球先进封装(Chiplet/CoWoS) 2030E TAM ~$157B(CAGR 25%);全球封测2030 ~$650亿",
+        "future_share": "通富全球封测份额第4-5(~7-8%),AMD CPU/GPU独家封测(占AMD 80%订单);理论上Chiplet放量市占率可至10-12%,但份额提升不改ROIC<WACC的资本效率硬伤",
+        "future_forward": "2026E 净利乐观假设维持60%增速→26亿,EPS~1.5(当前7.6亿股);常态化30%增速→18亿,EPS~1.05",
+        "target_price": "合理目标价 ¥35-45 = 2026E EPS 1.05 × 合理PE 35-43x(给封测中性溢价); 当前¥57.22已超合理区间, 减仓信号",
+        "target_verdict": "现价¥57.22对合理¥35-45高估27-63%; 减仓至7%以下, 设止损¥48",
+        "assumptions": "假设:常态化增速30%、目标PE 40x。若AMD订单超预期或Chiplet渗透远超预期,目标可上修至¥55(仍非加仓买点)",
+        "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
       }
     },
     "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)",

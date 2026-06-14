@@ -263,6 +263,16 @@
       "future_market_correction": "ROIC 36-48%优秀但 PE108/增速50%=PEG 2.16严重透支, 估值已price-in 3年预期, 安全边际极薄",
       "net_income_growth_pct": 50.1,
       "revenue_growth_pct": 58.8
+    },
+    "expert_valuation": {
+      "now_judgment": "减仓至半仓。原因:ROIC 36-48%确实优秀,但PE 108x对50%增速=PEG 2.16严重透支3年以上预期。器件类公司历史从未持续50%+增速, 中际旭创垂直整合无源器件=大客户变竞争者结构性风险",
+      "future_tam": "光器件(光纤/隔离器/连接器) 2030E ~$200亿(从$80亿翻倍, AI驱动)",
+      "future_share": "天孚全球光器件份额~10-12%(无源器件领先);CPO渗透下单模组器件用量增加,理论份额可至15%",
+      "future_forward": "2026E 增速回落至40%(去掉低基数+ASP红利)→净利~22亿,EPS~3.5(当前6.3亿股)",
+      "target_price": "合理目标价 ¥150-220 = 2026E EPS 3.5 × 合理PE 43-63x(光器件高成长溢价); 当前¥280.95高估28-87%",
+      "target_verdict": "现价¥280.95严重透支;减仓至半仓, 等PE回落至60-70x(¥210-245)再考虑",
+      "assumptions": "假设:常态化增速40%、目标PE 55x。若CPO/CoWoS订单超预期, 目标上修至¥260",
+      "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)"
     }
   },
   "dcf_intrinsic": null
