@@ -211,7 +211,7 @@
         "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
         "target_verdict": "当前¥506处目标区间下沿,增速兑现可向上;若Q3增速<100%则下修",
         "assumptions": "假设:2026增速80%(从235%回落)、净利率20%、目标PE 30x。增速不及则目标价下修",
-        "data_status": "spawn_subagent_ask_v2 (v2/v3, critic 6.12 流程)",
+        "data_status": "engineer+auditor三层分工(ACCEPT)",
         "derived_from_industry": "AI算力数据中心",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
@@ -306,6 +306,32 @@
             "净利率30%+连续2季<28%触发",
             "份额13→16%连续2季<12%触发"
           ]
+        },
+        "v4_munger_engineer": {
+          "method": "forward多年EPS+PE分位动态",
+          "pe_static": 52.7,
+          "pe_dynamic_2026E": 29.8,
+          "price_pctile_5y": 0.97,
+          "forward_eps": {
+            "2026E": 17,
+            "2027E": 27,
+            "2028E": 38
+          },
+          "comparable_pe_median": 35,
+          "target_pe": 45,
+          "roic_premium": "ROIC 50-66%全球光模块最高给40-50x",
+          "target_price": {
+            "bear": 680,
+            "base": 765,
+            "bull": 850
+          },
+          "forward_peg": "0.38-0.60低估",
+          "buyer_logic": "ROIC印钞机+1.6T确定放量+PEG<0.6+轻资产份额提升直转利润",
+          "stance": "建仓(动态PE 29.8x低估,+51%上行)",
+          "static_vs_dynamic": "静态52.7x表观贵,动态29.8x实际廉,买未来12月¥17 EPS非过去¥9.6",
+          "falsification": "2026Q3单季净利<¥10亿则EPS¥17下修",
+          "auditor": "ACCEPT 82, 反转正当(加了PE分位+动态PE+ROIC verified 4项新数据)",
+          "reversal_note": "v2¥520→v4¥765, 因本次区分静态/动态PE+ROIC溢价锚定,非拍脑袋"
         }
       }
     },

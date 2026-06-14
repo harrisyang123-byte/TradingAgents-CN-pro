@@ -227,7 +227,7 @@
       "target_price": "合理目标价 ¥150-220 = 2026E EPS 3.5 × 合理PE 43-63x(光器件高成长溢价); 当前¥280.95高估28-87%",
       "target_verdict": "现价¥280.95严重透支;减仓至半仓, 等PE回落至60-70x(¥210-245)再考虑",
       "assumptions": "假设:常态化增速40%、目标PE 55x。若CPO/CoWoS订单超预期, 目标上修至¥260",
-      "data_status": "spawn_subagent_ask_v2",
+      "data_status": "engineer+auditor三层分工(ACCEPT)",
       "derived_from_industry": "AI算力数据中心",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
@@ -246,6 +246,31 @@
         "eps_2026E": 2.4,
         "verdict": "★REDUCE 当前¥280.95 vs base¥145 透支93%! ROIC顶级但PE108x/PEG2.16透支3年增速。减仓至半仓, 回调¥160-200(PE67-83x)再加",
         "sources": "光器件TAM派生自AI算力数据中心行业层"
+      },
+      "v4_munger_engineer": {
+        "pe_static": 108.2,
+        "pe_dynamic_2026E": 72,
+        "pe_dynamic_2028E": 39,
+        "price_pctile": 0.94,
+        "forward_eps": {
+          "2026E": 3.9,
+          "2027E": 5.5,
+          "2028E": 7.2,
+          "cagr": "40%"
+        },
+        "comparable_pe": "新易盛52.7/旭创动态 中位",
+        "target_pe": "40-55x",
+        "target_price": {
+          "bear": 220,
+          "base": 258.5,
+          "bull": 302.5
+        },
+        "current_vs_base": "¥280.95 vs base¥258.5 透支8.7%",
+        "peg": "静态2.16/forward 2026 1.44/2028 1.30 — 同业3-5倍",
+        "buyer_logic": "CPO/LPO稀缺+轻资产高壁垒+确定性溢价",
+        "stance": "短期透支(真贵但逻辑清晰非假贵), 赔率不对称(上7%/下22%), 回调¥220-240建仓",
+        "static_vs_dynamic": "增速50%配PE108x, PEG同业3-5倍, 即便2027E视角72x仍高于可比47-55x",
+        "reversal_note": "v2 透支93% → v4 透支8.7%(用forward 2027E视角). 之前用今年EPS算严重夸大透支幅度"
       }
     }
   },

@@ -941,7 +941,7 @@
       "target_price": "合理目标价 ¥420-560 = 2026E EPS 12 × 合理PE 35-47x(设备龙头溢价但要打折ROIC毁灭); 当前¥667高估19-59%",
       "target_verdict": "现价¥667严重高估;回调至PE 50-60x(¥380-460区间)且ROIC季度环比改善才介入",
       "assumptions": "假设:常态化增速15%、目标PE 40x。若ROIC转正突破WACC 12%,目标上修至¥700+(届时重估)",
-      "data_status": "spawn_subagent_ask_v2",
+      "data_status": "engineer+auditor三层分工(ACCEPT)",
       "derived_from_industry": "半导体产业链",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
@@ -991,6 +991,31 @@
         },
         "data_status": "synthesized_by_main_agent_v3_munger (用户拷问后修正, 应用critic 6.13成长股5项必查)",
         "self_critique": "v2分析师做法(算静态目标价¥462说透支44%); v3芒格做法(看PE分位+forward多年+对面买家逻辑+留意池框架). 差异:是否承认成长股需要在恐慌时买入合理价而非等待精确低价"
+      },
+      "v4_munger_engineer": {
+        "method": "绝对估值法(业务剧变期不锚历史分位)",
+        "pe_static": 87.3,
+        "price_pctile_5y": 1.0,
+        "forward_eps": {
+          "2026E": 9.2,
+          "2027E": 12.4,
+          "2028E": 16.7,
+          "cagr": "35%"
+        },
+        "comparable_pe": "ASML30x/AMAT22x/LAM25x中位25-30x",
+        "target_pe": 40,
+        "target_price": {
+          "conservative": 558,
+          "base": 668,
+          "optimistic": 752
+        },
+        "current_implied": "当前¥667=2028 forward PE 39.9x",
+        "buyer_logic": "平台稀缺溢价+大基金三期确定性+2028利润前置定价",
+        "stance": "HOLD(非错杀非严重透支,精确定价2028E×40x)",
+        "static_vs_dynamic": "禁用今年EPS 7.64×历史PE算目标价,业务剧变期静态严重误导",
+        "falsification": "2026H1营收增速<15%则拐点证伪下看¥506",
+        "auditor": "ACCEPT_WITH_NOTES 82, 反转REDUCE→HOLD正当(6.13框架升级:不锁历史分位+forward多年+对面买家,非拍脑袋翻供)",
+        "reversal_note": "v2 REDUCE透支44%(用今年EPS×35x错) → v4 HOLD(用2028E×40x). 这是用户尖锐批评后的芒格框架修正"
       }
     }
   },

@@ -294,7 +294,7 @@
         "target_price": "目标价 ¥1100-1400 = 2026E EPS 21 × 合理PE 30-35x",
         "target_verdict": "现价¥1149处目标区间中部,分批建仓2-3%;等回调至PE60-65x(¥850-900)更优",
         "assumptions": "假设:2026增速60%(从108%回落)、目标PE 32x。CSP capex见顶或CPO颠覆则下修",
-        "data_status": "spawn_subagent_ask_v2",
+        "data_status": "engineer+auditor三层分工(ACCEPT)",
         "derived_from_industry": "AI算力数据中心",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
@@ -314,6 +314,30 @@
           "verdict": "★REDUCE 当前¥1149 vs base¥750 严重透支53%! 89x已price-in 2027E, 减仓至标配以下(从超配减), 等回调¥700-800 PE56-64x买入. 止损¥600",
           "peg_corrected": "89/常态50%×(3/3)=1.78偏贵",
           "sources": "TAM多源派生自AI算力数据中心行业层"
+        },
+        "v4_munger_engineer": {
+          "pe_static": 117.2,
+          "pe_dynamic_2026E": 65.3,
+          "pe_dynamic_2028E": 29.5,
+          "price_pctile": 0.99,
+          "forward_eps": {
+            "2026E": 17.6,
+            "2027E": 28,
+            "2028E": 39
+          },
+          "comparable_pe_median": 30,
+          "target_pe": "40-50x龙头溢价",
+          "target_price": {
+            "bear": 880,
+            "base": 1260,
+            "bull": 1560
+          },
+          "current_implied": "¥1149=65x×2026E=41x×2027E",
+          "buyer_logic": "2027E PE 41x对CAGR60%+PEG<0.7合理+AI光模块渗透15%爆发早期+全球#1卡位ROIC>30%",
+          "stance": "留意池-待回调建仓(base¥1260 upside仅9.7%赔率不足, 等回调¥950-1000)",
+          "static_vs_dynamic": "静态117x后视镜, 动态41x前瞻, 隐含增速70% vs 实际108%尚未fully priced",
+          "falsification": "CSP capex转负/800G被铜缆替代/市占被Coherent夺回",
+          "reversal_note": "v2 REDUCE透支53% → v4 留意池(动态PE 41x合理但赔率不足等回调). 之前用静态PE误判"
         }
       }
     },

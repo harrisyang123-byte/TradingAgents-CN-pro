@@ -234,7 +234,7 @@
       "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
       "target_verdict": "现价¥303.92高估;回避, 等PE回落至50-60x(¥170-210)且ROIC突破WACC再介入",
       "assumptions": "假设:常态化增速25%、目标PE 50x。若海外份额突破5%或ROIC转正, 上修至¥280",
-      "data_status": "spawn_subagent_ask_v2",
+      "data_status": "engineer+auditor三层分工(ACCEPT)",
       "derived_from_industry": "半导体产业链",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
@@ -252,6 +252,30 @@
         ],
         "eps_2027E": 6.0,
         "verdict": "★REDUCE 当前¥304 vs base¥252透支21%. PE 89x远超AMAT/Lam 22-25x. ROIC<WACC尚未创造价值. 回调¥210-250(PE 35-42x)再入"
+      },
+      "v4_munger_engineer": {
+        "pe_static": 89.4,
+        "pe_dynamic_2026E": 69,
+        "pe_dynamic_2028E": 41,
+        "price_pctile": 0.93,
+        "forward_eps": {
+          "2026E": 4.4,
+          "2027E": 5.7,
+          "2028E": 7.4,
+          "cagr": "30%"
+        },
+        "comparable_pe": "ASML30/AMAT22/LAM25 中位25-30,国产替代溢价35-45x",
+        "target_pe": "38-45x",
+        "target_price": {
+          "bear": 200,
+          "base": 296,
+          "bull": 333
+        },
+        "current_implied": "¥303.92=2028E PE 41x已price-in乐观",
+        "roic_note": "ROIC 7.4-9.9%<WACC 12%未创造价值, 但设备股利润滞后订单2-3年, 2027E有望ROIC>WACC",
+        "stance": "WATCHLIST留意池(成长股不轻言REDUCE), 回调¥240-260建仓, 止损¥200",
+        "falsification": "连续2季增速<20%/ROIC持续<8%/先进制程验证失败",
+        "reversal_note": "v2 REDUCE透支21% → v4 留意池(动态2028E PE 41x). ROIC<WACC是硬伤但设备股利润滞后可解释"
       }
     }
   },

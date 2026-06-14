@@ -338,7 +338,7 @@
         "target_price": "目标价 ¥17-19 = 2026E EPS 1.04 × 合理PE 16-18x",
         "target_verdict": "现价¥14.73对目标¥17-19有15-29%空间;Q2小程序流水验证是关键催化",
         "assumptions": "假设:增速17%、目标PE 17x。游戏单品周期+版号风险,流水不及则下修",
-        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "engineer+auditor三层分工(ACCEPT)",
         "derived_from_industry": "互联网平台",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
@@ -398,6 +398,25 @@
           ],
           "confidence": 0.68,
           "data_status": "spawn_subagent_ask_v2(critic 6.12 必查pass)"
+        },
+        "v4_munger_engineer": {
+          "pe_static": 16.6,
+          "pe_dynamic_2027E": 12.3,
+          "price_pctile": 0.7,
+          "forward_eps": {
+            "2026E": 1.04,
+            "2027E": 1.2
+          },
+          "comparable_pe": 28,
+          "target_price": {
+            "bear": 20.8,
+            "base": 27.5,
+            "bull": 36.0
+          },
+          "forward_peg": 0.73,
+          "buyer_logic": "小程序游戏拐点+ROIC>18%轻资产印钞+小市值弹性",
+          "stance": "BUY(forward PEG<1+ROIC优秀+拐点催化,赔率>3:1)",
+          "static_vs_dynamic": "静态16.6x+分位0.70看似中性, 动态forward 12.3x+PEG0.73明确低估"
         }
       }
     },

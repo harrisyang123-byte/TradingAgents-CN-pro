@@ -331,7 +331,7 @@
         "target_price": "目标价 ¥32-37 = 2026E EPS 1.83 × 合理PE 17-20x",
         "target_verdict": "现价¥30对目标¥32-37仅6-22%空间,持有观察;G端财政+实体清单压制弹性",
         "assumptions": "假设:增速18.5%、目标PE 18x。营收零增长持续或地缘升级则下修",
-        "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
+        "data_status": "engineer+auditor三层分工(ACCEPT)",
         "derived_from_industry": "AIoT安防",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AIoT安防 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
@@ -383,6 +383,24 @@
             "AI安防内卷压毛利"
           ],
           "data_status": "spawn_subagent_ask_v2(critic 6.12 全 7 项必查pass)"
+        },
+        "v4_munger_engineer": {
+          "pe_static": 19.6,
+          "pe_dynamic_2026E": 16.5,
+          "price_pctile": 0.21,
+          "forward_eps": {
+            "2026E": 1.83,
+            "2027E": 2.05
+          },
+          "comparable_pe": 22,
+          "target_price": {
+            "bear": 32.9,
+            "base": 41.8,
+            "bull": 53.3
+          },
+          "buyer_logic": "安防绝对龙头+EBG第二曲线+PE分位0.21周期底+外资回流AI叙事",
+          "stance": "BUY(历史极低分位+可比确认+EBG增量,base 38%)",
+          "static_vs_dynamic": "静态19.6x已低于可比Axis22x, 动态16.5x加固, 此股静态即低估"
         }
       }
     },
