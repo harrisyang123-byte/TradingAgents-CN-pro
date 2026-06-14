@@ -2,12 +2,12 @@
   "unit_id": "stock:09988",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 2,
   "fingerprint": "",
   "upstream": [],
   "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-14T04:52:44Z",
+  "generated_at": "2026-06-14T01:11:05Z",
   "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
@@ -16,12 +16,11 @@
     "industry": "互联网平台/AI/云",
     "market": "港股+ADR(BABA)",
     "verdict": {
-      "stance": "建仓但降级谨慎(ROIC 6.26%<WACC, 分批+信号门控)",
+      "stance": "建仓 (推荐池 5%, 分批: HK$130 入 30% / HK$115 加 30% / HK$100 加 40%)",
       "direction": "看多偏谨慎 — PE 11x 已 price-in 衰退 vs 云+34% 实际高增长, 反向预期差大",
-      "summary": "【价值创造维度重审】阿里 verified ROIC 6.26%<WACC 9% = 当前价值创造不足(AI+电商+闪购重投入期)。但与移远(结构性ROIC低)不同: 阿里是战略投入期主动选择, 云已盈利+回购托底, ROIC 有回升路径。维持建仓但更谨慎: 分批(HK$130/115/100)+ 信号门控(FY2027Q1利润恢复250亿+ + 云利润率15%+ = ROIC 回升信号才加满)。confidence 降。",
-      "confidence": 0.58,
-      "confidence_reason": "数据契约 18/18 + 反向预期差大 → 0.70; AI 变现时间表+闪购成败不确定 -0.05",
-      "stance_revised_from": "建仓 (推荐池 5%, 分批: HK$130 入 30% / HK$115 加 30% / HK$100 加 40%)"
+      "summary": "阿里 FY2026 营收 1.02万亿(+2.74%) 净利 1059亿(-18.20%) 但云智能 +34% AI 11季三位数. 现价 HK$130 PE 11x 同业 PDD/JD 水平, 全球同业(Amazon 35x/Meta 28x) 折价 60%+. 利润下行+AI capex 烧钱期+闪购补贴是已知 price-in. 建仓 5% 分 3 批, 等 FY2027Q1(2026-08) 利润恢复信号.",
+      "confidence": 0.65,
+      "confidence_reason": "数据契约 18/18 + 反向预期差大 → 0.70; AI 变现时间表+闪购成败不确定 -0.05"
     },
     "thesis": "阿里 = 中国电商+全球云+AI(通义千问)+菜鸟+国际(Lazada/Trendyol). 关键张力: bull 看 'PE 11x 衰退定价 vs 云+34%/AI 11季三位数实际高增' vs bear 看 '利润 -18% Q4 归零+闪购烧钱+PDD 挤压'. R3 共识 HK$130-170, 现价 HK$130 在共识下沿. 反骑墙: 数据偏多 (PE 11x 极端低估+云高增长+共识 HK$170-200), 但分批降低利润恢复时间成本.",
     "product_subdivision_deep": {
@@ -232,8 +231,7 @@
         "腾讯 P7 经验: 中概折价是常态不需消失",
         "Meta 2022 反弹: 11x → 25x 12 月路径",
         "AWS 2017-2019 re-rating: 利润率验证 25x → 40x"
-      ],
-      "value_creation_what_changed": "★价值创造维度重审: stance 建仓5% → 建仓但降级谨慎+信号门控。verified ROIC 6.26%<WACC 揭示当前价值创造不足。区别于移远(结构性): 阿里是战略投入期(云AI+闪购), ROIC 有回升路径, 故不下调到'持有'而是'建仓但加严信号门控'。ROIC 回升(云利润率15%+)是加满仓的前置信号"
+      ]
     },
     "critic_evaluation": {
       "critic_v1_score": 82,
@@ -255,15 +253,11 @@
         "duan": "PASS",
         "serenity": "PASS",
         "dalio": "PASS"
-      },
-      "value_creation_recheck": "ACCEPT",
-      "value_creation_recheck_score": 76,
-      "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀"
+      }
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 76,
-      "note": "价值创造重审 ROIC 6.26%<WACC, 建仓降级谨慎+信号门控, critic 76 ACCEPT"
+      "score": 86
     },
     "value_creation_verified": {
       "as_of": "2026-03-31",
@@ -275,9 +269,6 @@
       "debt_ratio_pct": 41.02,
       "per_op_cashflow": 3.98,
       "roic_vs_wacc9_verdict": "ROIC 6.26% vs WACC~9% → 价值毁灭/不足"
-    },
-    "value_creation": {
-      "roic_vs_wacc": "★verified(AKShare FY2026): ROIC 6.26% < WACC≈9% = 价值毁灭/不足。ROE 9.91%/净利率9.98% 也偏低。AI+电商重投入期资本回报被摊薄。但区别于移远(结构性): 阿里 ROIC 低是云AI capex+淘宝闪购战略投入期(主动选择), 若投入兑现 ROIC 可回升; 云智能已盈利+回购150亿美元提供底。属'暂时性价值创造不足'非'结构性毁灭'"
     }
   }
 }
