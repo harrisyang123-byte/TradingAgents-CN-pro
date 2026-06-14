@@ -436,11 +436,11 @@
     "stock:09988": {
       "unit_id": "stock:09988",
       "unit_type": "stock",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T15:18:55Z",
+      "generated_at": "2026-06-14T01:11:05Z",
       "upstream": [],
       "error": null,
       "path": "stocks/09988.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T01:00:34Z"
+  "updated_at": "2026-06-14T01:11:05Z"
 }
