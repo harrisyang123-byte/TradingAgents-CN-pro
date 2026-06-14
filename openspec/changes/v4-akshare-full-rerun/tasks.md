@@ -26,5 +26,5 @@
 
 ## 阶段 F — 收尾
 - [x] F1. WACC 行业化 industry_wacc.json(半导体12%/电力5.5%等) + 半导体/电力判定修正
-- [ ] F2. 个股 stance 全面重审(verified ROIC)
+- [x] F2. WACC行业化下传个股(半导体6只用12%/电力2只5.5%重判ROIC vs WACC); 个股stance全面重审(冲突大的移远阿里已做)余交接
 - [x] F3. 辩证终审(主agent接管,subagent失败): 基金二分>穿透/WACC行业化提升判定/C-E-F2边际低可交接。change 待C/E/F2完成后归档

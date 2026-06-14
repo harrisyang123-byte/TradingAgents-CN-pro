@@ -141,7 +141,8 @@
       "what_changed": "首次v4完整新架构(B1.12)",
       "why_changed": "核电双寡头之一",
       "self_check": "first_run_new_arch",
-      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+      "wacc_industrialized": "2026-06-14 F2: 用电力行业WACC 5.5%(非一刀切9%)重判 — 中国核电: ROIC 3.48-4.64% vs 电力WACC 5.5% → 价"
     },
     "price_at_judgment": 8.69,
     "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
@@ -164,7 +165,8 @@
       "roic_vs_wacc9_verdict": "ROIC中值 4.1% vs WACC~9% → 价值毁灭/不足"
     },
     "value_creation": {
-      "roic_vs_wacc": "★verified ROIC 3.48-4.64% → 价值创造不足(ROIC<WACC)"
+      "roic_vs_wacc": "★verified ROIC 3.48-4.64% → 价值创造不足(ROIC<WACC)",
+      "roic_vs_wacc_industrialized": "★WACC行业化(电力 5.5%): 中国核电: ROIC 3.48-4.64% vs 电力WACC 5.5% → 价值毁灭(即使低WACC仍不足)"
     },
     "verdict": {
       "value_creation_tier": "价值创造不足(ROIC<WACC)",

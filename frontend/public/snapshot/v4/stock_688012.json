@@ -187,7 +187,8 @@
     "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业半导体龙头)",
     "why_changed": "B 阶段个股下钻补全",
     "self_check": "first_run_new_arch",
-    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。",
+    "wacc_industrialized": "2026-06-14 F2: 用半导体行业WACC 12.0%(非一刀切9%)重判 — 中微: ROIC 7.43-9.91% vs WACC 12% → 价值毁灭/不"
   },
   "historical_alpha": null,
   "evidence": [
@@ -230,7 +231,8 @@
   "data_status_overall": null,
   "critic_evaluation": null,
   "value_creation": {
-    "roic_vs_wacc": "★verified ROIC 7.43-9.91% → 临界(ROIC≈WACC)"
+    "roic_vs_wacc": "★verified ROIC 7.43-9.91% → 临界(ROIC≈WACC)",
+    "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中微: ROIC 7.43-9.91% vs WACC 12% → 价值毁灭/不足"
   },
   "dcf_intrinsic": null
 }

@@ -193,7 +193,8 @@
         "P1-P9 经验",
         "京东方反向案例: 重资产长期低 ROE 估值下移",
         "中际旭创 v8 教训: 不用 PE 分位锚"
-      ]
+      ],
+      "wacc_industrialized": "2026-06-14 F2: 用半导体行业WACC 12.0%(非一刀切9%)重判 — 中芯A股: ROIC 2.74-3.65% vs WACC 12% → 严重价值"
     },
     "critic_evaluation": {
       "critic_v1_score": 87,
@@ -230,6 +231,9 @@
       "net_margin_pct": 10.71,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 3.2% vs WACC~9% → 价值毁灭/不足"
+    },
+    "value_creation": {
+      "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中芯A股: ROIC 2.74-3.65% vs WACC 12% → 严重价值毁灭(确认)"
     }
   }
 }
