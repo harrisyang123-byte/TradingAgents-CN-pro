@@ -11,6 +11,23 @@
       </div>
 
       <!-- 资金流向：同一笔钱怎么动 -->
+      <!-- 11 canonical 行业配比总览(权益 equity_quota 下11大行业目标分配) -->
+      <div v-if="(review as any).industry_allocations?.length" class="dt-ind-alloc">
+        <div class="dt-ind-alloc-title">
+          🎯 权益 11 大行业目标配比（equity_quota {{ (review as any).equity_quota_v4 }}%）
+        </div>
+        <div class="dt-ind-alloc-grid">
+          <div v-for="a in (review as any).industry_allocations" :key="a.industry" class="dt-ind-alloc-card" :class="a.direction">
+            <div class="dt-ind-alloc-head">
+              <span class="dt-ind-alloc-name">{{ a.industry }}</span>
+              <span class="dt-ind-alloc-w">{{ a.target_weight }}%</span>
+            </div>
+            <div class="dt-ind-alloc-stance">{{ a.stance || a.direction }}</div>
+            <div v-if="a.value_creation_roic" class="dt-ind-alloc-roic">{{ a.value_creation_roic }}</div>
+          </div>
+        </div>
+      </div>
+
       <!-- 大类决策树(资金动向已由各大类首行 gap_value + 个股 stance 直接展示, 不再单独列资金流向区块) -->
       <div class="dt-tree-title">📊 大类 → 行业 → 持仓（点击大类展开行业, 右侧"分析→"进各层详情）</div>
       <div class="dt-tree">
@@ -33,9 +50,13 @@
           <div v-show="open[node.key]" class="dt-class-body">
             <!-- 行业（权益） -->
             <div v-for="ind in node.industries" :key="ind.name" class="dt-ind">
-              <!-- 行业首行: 名+持仓金额+基金金额+推荐数量 -->
+              <!-- 行业首行: 名+目标配比+持仓金额+基金金额+推荐数量 -->
               <div class="dt-ind-row">
                 <span class="dt-ind-name">🏭 {{ ind.name }}</span>
+                <span v-if="industryAllocMap[ind.name]?.target_weight != null" class="dt-ind-target">
+                  目标 {{ industryAllocMap[ind.name].target_weight }}%
+                  <span class="dt-ind-direction" :class="industryAllocMap[ind.name].direction">{{ industryAllocMap[ind.name].direction }}</span>
+                </span>
                 <span class="dt-ind-stats">
                   <template v-if="ind.direct_value > 0">持股 ¥{{ fmt(ind.direct_value) }}</template>
                   <template v-if="(ind.fund_value || 0) > 0"><span v-if="ind.direct_value > 0"> · </span>持基金 ¥{{ fmt(ind.fund_value) }}</template>
@@ -107,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { portfolioV4Api, type HoldingsReview } from '@/api/portfolioV4'
 
 defineEmits<{
@@ -118,6 +139,14 @@ defineEmits<{
 
 const review = ref<HoldingsReview | null>(null)
 const open = reactive<Record<string, boolean>>({})
+
+// 11 canonical 行业配比映射(供行业行显示 target_weight + direction)
+const industryAllocMap = computed(() => {
+  const m: Record<string, any> = {}
+  const list = (review.value as any)?.industry_allocations || []
+  for (const a of list) m[a.industry] = a
+  return m
+})
 
 async function load() {
   try {
@@ -177,6 +206,26 @@ function actLabel(a?: string | null): string {
 .dt-flow-note { font-size: 11px; color: #909399; max-width: 50%; text-align: right; }
 
 .dt-tree-title { font-size: 14px; font-weight: 600; color: #303133; margin: 8px 0 10px; }
+/* 11 canonical 行业配比总览 */
+.dt-ind-alloc { background: #fafbff; border: 1px solid #d6e4ff; border-radius: 8px; padding: 12px; margin: 14px 0; }
+.dt-ind-alloc-title { font-size: 13px; font-weight: 700; color: #1d3a8e; margin-bottom: 10px; }
+.dt-ind-alloc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
+.dt-ind-alloc-card { padding: 8px 10px; background: #fff; border-left: 3px solid #ccc; border-radius: 4px; }
+.dt-ind-alloc-card.go { border-left-color: #389e0d; }
+.dt-ind-alloc-card.bullish, .dt-ind-alloc-card.bullish_value_pick, .dt-ind-alloc-card.bullish_high_conviction { border-left-color: #389e0d; }
+.dt-ind-alloc-card.cautious_bullish, .dt-ind-alloc-card.go_with_cautions, .dt-ind-alloc-card.cautious_bullish_cycle, .dt-ind-alloc-card.bullish_industry_cautious_stock { border-left-color: #faad14; }
+.dt-ind-alloc-card.defensive_value_creator { border-left-color: #1d39c4; }
+.dt-ind-alloc-head { display: flex; justify-content: space-between; align-items: center; }
+.dt-ind-alloc-name { font-size: 12.5px; font-weight: 600; color: #303133; }
+.dt-ind-alloc-w { font-size: 14px; font-weight: 700; color: #fa8c16; }
+.dt-ind-alloc-stance { font-size: 11px; color: #595959; margin: 3px 0 2px; }
+.dt-ind-alloc-roic { font-size: 11px; color: #909399; line-height: 1.4; }
+/* 行业行 target_weight 标签 */
+.dt-ind-target { font-size: 12px; color: #fa8c16; font-weight: 600; }
+.dt-ind-direction { font-size: 10.5px; padding: 1px 5px; border-radius: 3px; margin-left: 4px; background: #f5f5f5; color: #606266; }
+.dt-ind-direction.go, .dt-ind-direction.bullish, .dt-ind-direction.bullish_value_pick, .dt-ind-direction.bullish_high_conviction { background: #f6ffed; color: #389e0d; }
+.dt-ind-direction.cautious_bullish, .dt-ind-direction.go_with_cautions, .dt-ind-direction.cautious_bullish_cycle, .dt-ind-direction.bullish_industry_cautious_stock { background: #fff7e6; color: #d46b08; }
+.dt-ind-direction.defensive_value_creator { background: #f0f5ff; color: #1d39c4; }
 .dt-tree { border: 1px solid #ebeef5; border-radius: 8px; overflow: hidden; }
 .dt-class { border-bottom: 1px solid #f0f2f5; }
 .dt-class-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; cursor: pointer; background: #fafbfc; }

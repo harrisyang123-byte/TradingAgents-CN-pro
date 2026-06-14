@@ -128,12 +128,26 @@ def build_holdings_review(repo: Path, units: dict):
     overlap = agg.get("overlap_analysis", {}) or {}
     style = agg.get("style_factors", {}) or {}
 
-    # 大类目标配比（从 overview asset_cards 取 target/action）
+    # 大类目标配比（从 alloc:portfolio target_weights 直接读 + overview asset_cards 取 action）
+    portfolio_path = repo / "data/v4/allocation/portfolio.json"
+    target_weights = {}
+    if portfolio_path.exists():
+        pf = json.loads(portfolio_path.read_text(encoding="utf-8"))
+        target_weights = (pf.get("payload", {}) or {}).get("target_weights", {}) or {}
     try:
         ov = v4_query.build_overview(units)
         card_map = {c.get("asset_class"): c for c in ov.get("asset_cards", []) or []}
     except Exception:
         card_map = {}
+    # 11 canonical 行业配比(暴露给前端)
+    eq_ind_path = repo / "data/v4/allocation/equity_industries.json"
+    industry_allocations = []
+    equity_quota_v4 = None
+    if eq_ind_path.exists():
+        eq = json.loads(eq_ind_path.read_text(encoding="utf-8"))
+        eqp = eq.get("payload", {}) or {}
+        industry_allocations = eqp.get("allocations", []) or []
+        equity_quota_v4 = eqp.get("equity_quota")
 
     CLASS_LABELS = {
         "equity": "权益", "fixed_income": "固定收益", "cash": "现金及等价物",
@@ -236,7 +250,12 @@ def build_holdings_review(repo: Path, units: dict):
         card = card_map.get(key, {})
         current_pct = round(cls_val / total * 100, 1)
         target = card.get("target_weight")
+        if target is None and key in target_weights:
+            target = target_weights[key]
         action = card.get("action")
+        if action is None and target is not None:
+            diff = current_pct - target
+            action = "reduce" if diff > 1 else ("add" if diff < -1 else "hold")
         gap_value = round((target / 100 * total - cls_val), 0) if target is not None else None
 
         node = {
@@ -369,6 +388,9 @@ def build_holdings_review(repo: Path, units: dict):
         "capital_flow": {"sources": sources, "uses": uses},
         "fund_groups": fund_groups,
         "indirect_holdings": indirect,
+        "industry_allocations": industry_allocations,
+        "equity_quota_v4": equity_quota_v4,
+        "asset_class_targets": target_weights,
     }
 
 
