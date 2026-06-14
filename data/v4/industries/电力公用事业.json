@@ -214,7 +214,8 @@
     ],
     "value_creation_industry": {
       "industry_roic_tier": "★分层(verified): 长江电力价值创造(7.9-10.5%, 电力WACC低5-6%下更显著) / 中国核电不足(3.5-4.6%+FCF负, 重资产)",
-      "caveat": "长江电力稳定现金牛价值创造(注: 电力WACC应5-6%非9%, 修正后长江更强/核电仍不足)"
+      "caveat": "长江电力稳定现金牛价值创造(注: 电力WACC应5-6%非9%, 修正后长江更强/核电仍不足)",
+      "wacc_industrialized": "★行业WACC修正(5.5% 非9%): 长江电力 ROIC 7.9-10.5% >> WACC 5.5% → 强价值创造(此前9%误判临界)。电力低beta防御+低资本成本。但中国核电 3.5-4.6% < 5.5% 仍价值毁灭。"
     },
     "fund_recommendation": {
       "method": "看好行业→个股(conviction)+基金(分散)",

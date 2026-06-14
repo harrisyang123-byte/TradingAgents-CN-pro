@@ -25,6 +25,6 @@
 - [ ] E1-E6: fixed_income/cash/commodity/precious_metal/real_estate/alternative
 
 ## 阶段 F — 收尾
-- [ ] F1. WACC 行业化(stock_source/director)
+- [x] F1. WACC 行业化 industry_wacc.json(半导体12%/电力5.5%等) + 半导体/电力判定修正
 - [ ] F2. 个股 stance 全面重审(verified ROIC)
 - [ ] F3. 辩证横向终审 + 最终 commit + change 归档

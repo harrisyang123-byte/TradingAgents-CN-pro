@@ -386,7 +386,8 @@
     ],
     "value_creation_industry": {
       "industry_roic_tier": "★分化(verified): 设备临界(北方华创7.3-9.7%/中微7.4-9.9%) + 材料不足(华特4.8-6.4%) + 代工价值毁灭(中芯A股2.7-3.7%<WACC)",
-      "caveat": "国产替代景气 vs ROIC普遍低(重资产+设备投入期), 中芯典型价值毁灭; 设备龙头临界需看ROIC改善"
+      "caveat": "国产替代景气 vs ROIC普遍低(重资产+设备投入期), 中芯典型价值毁灭; 设备龙头临界需看ROIC改善",
+      "wacc_industrialized": "★行业WACC修正(12% 非9%): 设备龙头 ROIC 7.3-9.7% < WACC 12% → 价值毁灭/不足(此前统一9%误判临界)。半导体高beta+资本密集应要求更高回报。国产替代景气≠创造价值。"
     },
     "fund_recommendation": {
       "method": "看好行业→个股(conviction)+基金(分散)",
