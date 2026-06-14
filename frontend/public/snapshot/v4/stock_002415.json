@@ -251,7 +251,7 @@
     "roic_vs_wacc": "verified ROIC 11.6-15.4% vs 行业WACC 9% → 价值创造; ROIC 11.6-15.4% > 9% WACC 价值创造,现金流1.79x优质",
     "expert_valuation": {
       "now_judgment": "现价¥30.24 / PE 19.6x / PEG 1.06 — 合理(没想象便宜)。ROIC 11.6-15.4%价值创造,现金流1.79x优质",
-      "future_tam": "全球安防(存量博弈)+ EBG企业数字化(工业视觉/机器人)第二曲线 + AI大模型",
+      "future_tam": "【verified 派生自行业层 industry:AIoT安防】当前TAM: 视频监控 2024 $50.5-72.3B(rb.gy/market.us多源) / AIoT 2024 $171.4B(grandview) | 2030E天花板: 视频监控 2030 $135-148B(straits/grandview/fortune) / AIoT 2030 $896.8B(grandview高估区间) | CAGR: 视频监控 9.6-13.5%(4源) / AIoT 31.7%(grandview单源,未三角验证可能高估) | 渗透阶段: 传统安防成熟期(国内G端饱和) / AI赋能渗透爆发期(<30%渗透AI) | 龙头瓜分: 海康全球安防#1 25%+/大华15%+/宇视8% CN3 50%+ / Axis(瑞典)/Bosch海外份额下降 | 数据源(≥3独立验证): Grandview AIoT 2030, market.us视频监控2035, straits research, fortune business insights, 技术导航",
       "future_share": "全球安防份额第一,EBG收入占比提升中(目标突破25%)",
       "future_forward": "当前EPS~1.54(30.24/19.6);2026E EPS~1.83(增速18.5%,EBG驱动)",
       "target_price": "目标价 ¥32-37 = 2026E EPS 1.83 × 合理PE 17-20x",
@@ -259,7 +259,9 @@
       "assumptions": "假设:增速18.5%、目标PE 18x。营收零增长持续或地缘升级则下修",
       "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "AIoT安防",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AIoT安防 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AIoT安防 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:AIoT安防 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

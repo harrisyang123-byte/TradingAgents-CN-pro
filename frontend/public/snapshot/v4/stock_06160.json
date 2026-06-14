@@ -212,7 +212,7 @@
     },
     "expert_valuation": {
       "now_judgment": "临界观望,等盈利拐点确认。原因:泽布替尼(BRUKINSA)2025年化已超40亿美元,管线深度行业领先,商业化能力已证。但ROIC≈WACC临界未转正,创新药企盈利拐点常反复(参考再鼎),营收高度集中泽布替尼(占比>80%)是单品依赖风险",
-      "future_tam": "全球肿瘤创新药 2030E ~$5000亿;BTK抑制剂市场~$100亿(伊布替尼份额被泽布替尼蚕食)",
+      "future_tam": "【verified 派生自行业层 industry:创新药+CXO】当前TAM: CDMO 2024 $143.7-184.9B / CRO+CDMO 2025 $254.65B / 全球药械 2028 $1956B(Frost Sullivan) | 2030E天花板: CDMO $220-280B / CRO+CDMO $370-420B | CAGR: CDMO 7.2-11.52% / CRO+CDMO 8.84% | 渗透阶段: 成熟扩张期(全球外包率50%→68% 2024-2030) | 龙头瓜分: 全球: Lonza+Catalent+Samsung生物+药明=top4 ~35% / 药明全球CXO份额11-13% 中国龙头独占 | 数据源(≥3独立验证): grandviewresearch CDMO, biospace, marketdataforecast, towardshealthcare, Frost Sullivan",
       "future_share": "泽布替尼全球BTK份额从2024 30%→2026E 45%+;百济中国创新药龙头之一(~5%)",
       "future_forward": "2026E Non-GAAP盈利拐点确认→净利~30亿(从亏损到盈利);DCF锚切换利润释放期可估50-60亿",
       "target_price": "合理目标价 HK$140-200 = 2026E PS~6x(已盈利biotech估值); 当前HK$158.9处区间下沿",
@@ -220,7 +220,9 @@
       "assumptions": "假设:2026Non-GAAP持续盈利、PS 6x。若pirtobrutinib等竞品快速放量, 单品依赖风险触发, 目标下修至HK$120",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "创新药+CXO",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

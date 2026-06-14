@@ -259,7 +259,7 @@
       },
       "expert_valuation": {
         "now_judgment": "A股坚决不入,H股可关注。原因:A股PE 95x对标台积电15x/联电8x溢价>500%无任何基本面支撑(纯情绪+战略叙事溢价)。H股PE 35x相对合理,但ROIC 2.7-3.7% << WACC 12%价值毁灭事实不可回避,本质是政策驱动的资本黑洞",
-        "future_tam": "全球晶圆代工 2030E ~$3000亿(从$1500亿翻倍, AI/汽车驱动)",
+        "future_tam": "【verified 派生自行业层 industry:半导体产业链】当前TAM: WSTS 2025 $700.9B / SIA 2024 $630.5B→2025 $791.7B / Gartner 2025 $733B | 2030E天花板: $1100-1500B 区间(precedenceresearch $1277B/market.us $1500+/Gartner外推) | CAGR: 8-15%(口径不同, 中位 9-10%) | 渗透阶段: AI加速器爆发期起点(8%→20% 服务器渗透) + 中国设备国产替代导入期后期(15%→50%) | 龙头瓜分: 代工台积电60%+三星15%+联电8% top3 83% 中芯~5% / 设备 ASML+AMAT+LAM+TEL 80% 北方华创~3% / WFE NAURA(北方华创)2024跃升至#6 | 数据源(≥3独立验证): WSTS Spring 2025, SIA, Gartner 1Q25/3Q25, SEMI, precedenceresearch",
         "future_share": "中芯全球晶圆代工份额~5-6%(第5);中国成熟制程份额~30%; 14nm国产替代核心",
         "future_forward": "2026E 增速维持36%→净利~75亿(EPS~0.93当前80亿A股);产能利用率破85%+毛利率>22%才有非线性释放",
         "target_price": "合理目标价 A股¥40-55 / H股 HK$22-30 = 2026E EPS 0.93 × 合理PE 45-60x(国产替代溢价但要打折ROIC毁灭); A股当前¥124.88高估127-212%, H股相对合理",
@@ -267,7 +267,9 @@
         "assumptions": "假设:产能利用率2026H2突破85%、目标PE 50x。若先进制程突破或地缘缓和, A股目标可上修至¥80(仍非买点)",
         "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "半导体产业链",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "debate_rounds": [

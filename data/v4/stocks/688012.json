@@ -188,7 +188,7 @@
       },
       "expert_valuation": {
         "now_judgment": "回避。原因:虽然CCP刻蚀设备国内龙头+5nm制程能与Lam/TEL竞争,但ROIC 7.4-9.9% < WACC 12%典型价值毁灭。PE 89x隐含未来3年35%+CAGR才能消化, 客户集中(前5占70%)+研发资本开支率25-30%+出口管制升级风险三重压力",
-        "future_tam": "全球半导体设备(刻蚀+MOCVD) 2030E ~$1500亿;中国设备国产化率15%→50%",
+        "future_tam": "【verified 派生自行业层 industry:半导体产业链】当前TAM: WSTS 2025 $700.9B / SIA 2024 $630.5B→2025 $791.7B / Gartner 2025 $733B | 2030E天花板: $1100-1500B 区间(precedenceresearch $1277B/market.us $1500+/Gartner外推) | CAGR: 8-15%(口径不同, 中位 9-10%) | 渗透阶段: AI加速器爆发期起点(8%→20% 服务器渗透) + 中国设备国产替代导入期后期(15%→50%) | 龙头瓜分: 代工台积电60%+三星15%+联电8% top3 83% 中芯~5% / 设备 ASML+AMAT+LAM+TEL 80% 北方华创~3% / WFE NAURA(北方华创)2024跃升至#6 | 数据源(≥3独立验证): WSTS Spring 2025, SIA, Gartner 1Q25/3Q25, SEMI, precedenceresearch",
         "future_share": "中微国内CCP刻蚀份额第一(~30%);MOCVD全球份额65%+(Mini-LED);全球综合份额~3%",
         "future_forward": "2026E 增速维持30%→净利~30亿,EPS~5(当前6亿股);常态化25%→EPS~4",
         "target_price": "合理目标价 ¥160-240 = 2026E EPS 4 × 合理PE 40-60x(设备龙头溢价但ROIC毁灭打折); 当前¥303.92高估27-90%",
@@ -196,7 +196,9 @@
         "assumptions": "假设:常态化增速25%、目标PE 50x。若海外份额突破5%或ROIC转正, 上修至¥280",
         "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "半导体产业链",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "verdict": {

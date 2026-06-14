@@ -244,7 +244,7 @@
     "roic_vs_wacc": "verified ROIC 16-21% vs 行业WACC 10% → ★价值创造; ROIC 16-21% > 10% WACC 强价值创造(净利率27.5%顶级,VA寡头)",
     "expert_valuation": {
       "now_judgment": "现价¥30.09 / PE 13.6x / PEG 0.89 — 低估。ROIC 16-21%价值创造,净利率27.5%顶级,VA周期底部",
-      "future_tam": "维生素(VA/VE)全球寡头CR3>80% + 新材料(PPS/PPA)第二曲线",
+      "future_tam": "【verified 派生自行业层 industry:化工必需消费】当前TAM: 全球维生素 2024 $25.9B(IMARC) / 维生素+膳食补充剂 2024 $138.2B(globaldata) / 维生素E 2024 $1.43B(grandview) | 2030E天花板: 维生素 2034 $25.9B / 膳食补充剂 2029 $188.7B / 维生素E 2033 $2.82B | CAGR: 维生素 5.07-6.80%(IMARC/markwide) / 维生素E 8% / 膳食补充剂 6.4% | 渗透阶段: 成熟稳定+老龄化驱动(亚太占41.7%份额, 中国老龄化加速) | 龙头瓜分: VA全球寡头CR3>80%(DSM+新和成+巴斯夫 三足鼎立) / 中国维生素全球50%+产能 / 新和成+海普瑞+花园生物国内三强 | 数据源(≥3独立验证): IMARC vitamins 2034, globaldata vitamins+supplements, grandview维生素E, markwide, skyquest nutrition chemicals",
       "future_share": "VA全球前三,新材料占比提升至25%+",
       "future_forward": "当前EPS~2.21(30.09/13.6);2026E EPS~2.55(增速15%+VA涨价弹性)",
       "target_price": "目标价 ¥35-43 = 2026E EPS 2.55 × 合理PE 14-17x(VA涨价则上修)",
@@ -252,7 +252,9 @@
       "assumptions": "假设:增速15%、目标PE 15x。VA价格继续低迷或净利率<22%则下修(周期风险)",
       "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "化工必需消费",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:化工必需消费 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:化工必需消费 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:化工必需消费 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

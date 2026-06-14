@@ -218,7 +218,7 @@
     },
     "expert_valuation": {
       "now_judgment": "强烈回避。原因:ROIC 4.8-6.4% << WACC 12%价值毁灭, PE 166.8x + 增速-26.7%, PEG为负无法用成长逻辑定价。即便乐观假设2027净利恢复+50%, forward PE仍>110x, 相比金宏(PE 45x)/杭氧(PE 22x)溢价3-7倍",
-      "future_tam": "全球电子特种气体 2030E ~$80亿(国产化率15%→40%驱动);新能源NF₃打开第二曲线",
+      "future_tam": "【verified 派生自行业层 industry:半导体产业链】当前TAM: WSTS 2025 $700.9B / SIA 2024 $630.5B→2025 $791.7B / Gartner 2025 $733B | 2030E天花板: $1100-1500B 区间(precedenceresearch $1277B/market.us $1500+/Gartner外推) | CAGR: 8-15%(口径不同, 中位 9-10%) | 渗透阶段: AI加速器爆发期起点(8%→20% 服务器渗透) + 中国设备国产替代导入期后期(15%→50%) | 龙头瓜分: 代工台积电60%+三星15%+联电8% top3 83% 中芯~5% / 设备 ASML+AMAT+LAM+TEL 80% 北方华创~3% / WFE NAURA(北方华创)2024跃升至#6 | 数据源(≥3独立验证): WSTS Spring 2025, SIA, Gartner 1Q25/3Q25, SEMI, precedenceresearch",
       "future_share": "华特国内电子特气份额第一(~25%);全球份额仅~3%但中国国产替代空间大",
       "future_forward": "2026E 增速恢复至30%(乐观)→净利~2亿,EPS~0.60(当前3.4亿股); 常态化15%→EPS~0.45",
       "target_price": "合理目标价 ¥30-50 = 2026E EPS 0.60 × 合理PE 50-83x(给国产替代溢价); 当前¥188.5高估277-528%",
@@ -226,7 +226,9 @@
       "assumptions": "假设:增速30%恢复、目标PE 70x。福建/成都新基地放量+毛利率改善是关键, 失败则股价腰斩",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "半导体产业链",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:半导体产业链 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

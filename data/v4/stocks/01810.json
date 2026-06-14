@@ -369,7 +369,7 @@
       "roic_vs_wacc": "verified ROIC 10.9% vs 行业WACC 11% → 临界; ROIC 10.9% ≈ 11% EV/手机混合WACC 临界,EV业务投入期拖累",
       "expert_valuation": {
         "now_judgment": "持有观望,不加仓。原因:ROIC 10.9% ≈ WACC 11%临界,EV业务每年烧150亿+研发持续压低集团ROIC 2-3年,76%净利增速含低基数+一次性投资收益不可外推。SU7定价中高端避开红海是亮点,但EV亏损收窄要等2026H2-2027H1才单季盈亏平衡",
-        "future_tam": "EV(中高端) 2030E ~3000万辆全球;手机IoT存量博弈;AIoT生态~$1万亿",
+        "future_tam": "【verified 派生自行业层 industry:消费电子+IoT】当前TAM: Consumer IoT 2025 $295.5B / 智能机2024 12亿台(Counterpoint) / 智能机2026 -13.9%(IDC内存危机) ASP $550(+$100) | 2030E天花板: Consumer IoT 2035 $895B / 全球IoT连接数 20亿→75亿 | CAGR: IoT 11.72%(Spherical) / IoT MCU 14.4%(Grandview) / 智能机存量博弈 0% | 渗透阶段: 智能机成熟期80%+(换机周期40月+) / IoT爆发<30% / EV手机互连初期 | 龙头瓜分: 苹果+三星占智能机利润70%+ / 小米全球#3 14% / 移远IoT模组全球#1 25% | 数据源(≥3独立验证): IDC智能机2026, Counterpoint Q1, Spherical Insights IoT, Grandview MCU, industry verified",
         "future_share": "手机全球第三(~14%);EV国内2026E份额~3%(前5);AIoT国内份额第一",
         "future_forward": "2026E 净利剔除EV亏损(约-100亿)后核心约250亿;EV单季盈亏平衡时点(2027H1)前forward EPS增长约25%",
         "target_price": "合理目标价 HK$24-32 = 2026E核心EPS×合理PE分部估值(手机IoT 15x + EV给2027盈亏平衡时2x PS); 当前HK$26.2处中下沿",
@@ -377,7 +377,9 @@
         "assumptions": "假设:手机IoT增速10-15%、EV 2027H1单季盈亏平衡。若SU7月销跌破1万辆或EV亏损扩大,目标下修至HK$20",
         "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "消费电子+IoT",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:消费电子+IoT 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:消费电子+IoT 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:消费电子+IoT v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "debate_rounds": [

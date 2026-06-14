@@ -220,7 +220,7 @@
     },
     "expert_valuation": {
       "now_judgment": "回避。原因:ROIC 6.7-8.9% < WACC 11%重资产周期品价值毁灭。124.2%增速含资产减值回冲+低基数,扣非真实仅40-60%。PE 79x隐含未来3年30%+复合,但稀土大宗商品历史上从未兑现持续3年高增, 氧化镨钕仍在历史中位偏下",
-      "future_tam": "全球稀土(钕铁硼) 2030E需求 ~50万吨(EV电机+风电+机器人驱动)",
+      "future_tam": "【verified 派生自行业层 industry:有色金属资源】当前TAM: 稀土金属 2024 $5.14-6.37B(marketsandmarkets/marketresearchfuture多源) / 基本金属采矿 2024 $1247B(emergen) | 2030E天花板: 稀土 2030 $7.39B(marketsandmarkets) / 基本金属 2034 $1843B | CAGR: 稀土 6.2%(marketsandmarkets) / 铜需求2024-2035 +30%(IEA) / 钴+稀土2040 +50-60%(IEA) | 渗透阶段: 商品周期(铜金价高位+稀土价历史中位偏下不同步) | 龙头瓜分: 稀土:中国2030 31% IEA(全球唯一主导) / 北方稀土国内60%+配额/全球轻稀土#1 35% / 紫金全球前十矿企/三祥锆铪小众 | 数据源(≥3独立验证): marketsandmarkets稀土, marketresearchfuture, BHP铜, IEA Critical Minerals 2025, clcouncil",
       "future_share": "北方稀土全球轻稀土份额第一(~35%, 控制国内60%+配额)",
       "future_forward": "2026E 扣非增速50%(剔除一次性)→净利~25亿,EPS~0.69(当前36亿股);周期股看价格不外推",
       "target_price": "合理目标价 ¥25-32 = 2026E EPS 0.69 × 合理PE 35-45x(稀土资源溢价); 当前¥49.43高估55-98%",
@@ -228,7 +228,9 @@
       "assumptions": "假设:扣非增速50%、目标PE 40x。周期股估值锚=商品价中枢+量增, 若稀土价突破¥60万/吨则上修至¥40+",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "有色金属资源",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

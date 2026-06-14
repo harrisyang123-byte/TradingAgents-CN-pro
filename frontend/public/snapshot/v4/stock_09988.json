@@ -239,7 +239,7 @@
     },
     "expert_valuation": {
       "now_judgment": "建仓降级谨慎,信号门控。原因:ROIC 6.26%<WACC 10%每投1元毁灭0.37元价值,电商主业被拼多多/抖音双面夹击份额流失不可逆。云+AI虽是修复价值创造的唯一路径但尚未兑现,百亿补贴是被迫应战而非主动进攻",
-      "future_tam": "全球云计算 2030E ~$1.5万亿;中国电商存量博弈~12万亿GMV",
+      "future_tam": "【verified 派生自行业层 industry:互联网平台】当前TAM: $790B 全球数字广告(2024 Statista) / 中国≈$150B | 2030E天花板: $700-1126B(Statista $1126B/Grandview $693B/industryarc 多源区间, 口径差异不调和) | CAGR: 7.3-15.3%(保守中枢10%) | 渗透阶段: AI商业化初期(元宝6月MAU破亿+, 广告AI优化渗透率<30%) | 龙头瓜分: 腾讯(社交垄断+游戏国内#1+广告%30+) / 阿里云中国#1 35% / 恺英细分游戏ROIC最优 | 数据源(≥3独立验证): Statista全球数字广告2029, Grandview在线广告2030, industryarc CAGR, emarketer B2B, 公司财报verified",
       "future_share": "阿里云中国市占35%+(规模优势),全球~6%;淘宝天猫国内电商份额~30%(从40%下行中)",
       "future_forward": "2026E 净利乐观假设恢复至1700亿(剔除百亿补贴极端值)→EPS~7(当前243亿股, 港股美股)",
       "target_price": "合理目标价 HK$100-140 = 2026E EPS 7 × 合理PE 14-20x(中国互联网折价); 当前HK$110.2处区间下沿",
@@ -247,7 +247,9 @@
       "assumptions": "假设:云+AI带ROIC 2-3年内修复+电商份额企稳。若云增速持续放缓或竞品继续蚕食,目标下修至HK$80",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "互联网平台",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

@@ -169,7 +169,7 @@
       },
       "expert_valuation": {
         "now_judgment": "强烈回避。原因:PE 259倍是核心硬伤——即使增速55.2%全兑现, PEG 4.7倍, 透支3年以上。ROIC 6.3-8.5% < WACC 8-10%价值毁灭。增速系2024低基数恢复(净利不足1亿)绝对体量小, 概念炒作(核聚变/铪半导体)股价随时退潮",
-        "future_tam": "全球锆铪(核电控制棒+航空热障涂层) 2030E ~$30亿;军工/核电双驱动小众市场",
+        "future_tam": "【verified 派生自行业层 industry:有色金属资源】当前TAM: 稀土金属 2024 $5.14-6.37B(marketsandmarkets/marketresearchfuture多源) / 基本金属采矿 2024 $1247B(emergen) | 2030E天花板: 稀土 2030 $7.39B(marketsandmarkets) / 基本金属 2034 $1843B | CAGR: 稀土 6.2%(marketsandmarkets) / 铜需求2024-2035 +30%(IEA) / 钴+稀土2040 +50-60%(IEA) | 渗透阶段: 商品周期(铜金价高位+稀土价历史中位偏下不同步) | 龙头瓜分: 稀土:中国2030 31% IEA(全球唯一主导) / 北方稀土国内60%+配额/全球轻稀土#1 35% / 紫金全球前十矿企/三祥锆铪小众 | 数据源(≥3独立验证): marketsandmarkets稀土, marketresearchfuture, BHP铜, IEA Critical Minerals 2025, clcouncil",
         "future_share": "三祥国内核级铪份额领先(民企稀缺), 但行业小+订单可见度低",
         "future_forward": "2026E 增速回落至30%(去掉低基数恢复)→净利~1.3亿,EPS~0.36(当前3.6亿股)",
         "target_price": "合理目标价 ¥18-25 = 2026E EPS 0.36 × 合理PE 50-70x(给小盘+材料溢价); 当前¥72.6高估190-300%",
@@ -177,7 +177,9 @@
         "assumptions": "假设:常态化增速30%、目标PE 60x。核聚变/铪半导体若订单落地, 上修至¥35(届时仍非加仓)",
         "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "有色金属资源",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)",

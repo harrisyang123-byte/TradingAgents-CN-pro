@@ -245,7 +245,7 @@
     "roic_vs_wacc": "verified ROIC 4.4-5.8% vs 行业WACC 9% → 价值不足; ROIC 4.4-5.8% < 9% WACC 价值不足,主因利润崩(-33.3%)",
     "expert_valuation": {
       "now_judgment": "持有偏防御,不加仓。原因:净利-33.3%是真伤——研发投入加大+汇兑损失双杀,但ROIC 4.4-5.8% < WACC 9%是连续3年的结构性问题不是阶段性。PE 31.1x的\"利润恢复\"乐观定价缺乏基本面支撑,实体清单+集采压力+海外被爱立信/诺基亚蚕食三重顶",
-      "future_tam": "全球通信设备(5G+5G-A) 2030E ~$1500亿;算力服务器 ~$3000亿",
+      "future_tam": "【verified 派生自行业层 industry:AI算力数据中心】当前TAM: 光模块2024 $13.6B / AI服务器2024 $135-143B | 2030E天花板: 光模块2033 $36-48B / AI服务器2030 $394-838B(多源冲突标分歧) | CAGR: 光模块11-13.5%(3源一致) / AI服务器19.4-34.3%(口径分歧) | 渗透阶段: 800G爆发期上半段(20%→60%); 1.6T导入期(2026量产) | 龙头瓜分: CN3: 中际旭创(全球#1, ~20%)/新易盛(#3, ~12%)/天孚(无源器件#1, ~8%) | 海外: Coherent/Lumentum/Innolight ~50% | 数据源(≥3独立验证): marketsandmarkets(AI server), IDC, Gartner, grandviewresearch(光模块), LightCounting",
       "future_share": "中兴通信设备全球第4(~10%),国内第二(~30%);算力服务器份额仅~5%",
       "future_forward": "2026E 净利恢复假设回到80亿(2024水平)→EPS~1.67(当前478亿股);恢复+1年才到合理",
       "target_price": "合理目标价 ¥30-38 = 2026E EPS 1.67 × 合理PE 18-23x(电信设备区间); 当前¥36.35处中上沿",
@@ -253,7 +253,9 @@
       "assumptions": "假设:利润恢复至2024水平、目标PE 20x。若算力业务毛利率突破25%或海外份额回升, 目标上修至¥45",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "AI算力数据中心",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

@@ -110,7 +110,7 @@
     "roic_vs_wacc": "verified ROIC 21-28% vs 行业WACC 10% → ★价值创造; ROIC 21-28% >> 10% WACC 价值创造之王(CXO一体化客户黏性)",
     "expert_valuation": {
       "now_judgment": "现价¥99.71 / PE 14.9x — 明确低估。ROIC 21-28% 价值创造之王 vs PE仅14.9x,被创新药寒冬+BIOSECURE错杀",
-      "future_tam": "全球医药研发外包(CXO) 2024~$850亿 → 2027E ~$1150亿(CAGR~10%)",
+      "future_tam": "【verified 派生自行业层 industry:创新药+CXO】当前TAM: CDMO 2024 $143.7-184.9B / CRO+CDMO 2025 $254.65B / 全球药械 2028 $1956B(Frost Sullivan) | 2030E天花板: CDMO $220-280B / CRO+CDMO $370-420B | CAGR: CDMO 7.2-11.52% / CRO+CDMO 8.84% | 渗透阶段: 成熟扩张期(全球外包率50%→68% 2024-2030) | 龙头瓜分: 全球: Lonza+Catalent+Samsung生物+药明=top4 ~35% / 药明全球CXO份额11-13% 中国龙头独占 | 数据源(≥3独立验证): grandviewresearch CDMO, biospace, marketdataforecast, towardshealthcare, Frost Sullivan",
       "future_share": "药明康德全球CXO份额~11-13%(CRDMO一体化龙头),份额随管线增长稳步提升",
       "future_forward": "当前EPS~6.69(99.71/14.9);2026E EPS~8.2(常态增速22%,剔除低基数);2027E~10",
       "target_price": "目标价 ¥150-180 = 2026E EPS 8.2 × 合理PE 18-22x(CXO龙头)",
@@ -118,7 +118,9 @@
       "assumptions": "假设:常态增速22%(剔除102%低基数)、目标PE 20x。BIOSECURE落地则美国业务(~60%)冲击,目标下修30%",
       "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "创新药+CXO",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

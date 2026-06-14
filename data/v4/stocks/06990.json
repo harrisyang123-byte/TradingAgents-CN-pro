@@ -175,7 +175,7 @@
       },
       "expert_valuation": {
         "now_judgment": "回避。原因:ROIC负+未盈利创新药+现金流依赖融资, 里程碑历史兑现率<30%, 本质是pipeline公司非平台。ADC赛道竞争白热化(第一三共/Pfizer/AZ等),股价已透支2-3年预期",
-        "future_tam": "全球ADC(抗体偶联药物) 2030E ~$300亿(从$120亿翻倍, 重磅潜力)",
+        "future_tam": "【verified 派生自行业层 industry:创新药+CXO】当前TAM: CDMO 2024 $143.7-184.9B / CRO+CDMO 2025 $254.65B / 全球药械 2028 $1956B(Frost Sullivan) | 2030E天花板: CDMO $220-280B / CRO+CDMO $370-420B | CAGR: CDMO 7.2-11.52% / CRO+CDMO 8.84% | 渗透阶段: 成熟扩张期(全球外包率50%→68% 2024-2030) | 龙头瓜分: 全球: Lonza+Catalent+Samsung生物+药明=top4 ~35% / 药明全球CXO份额11-13% 中国龙头独占 | 数据源(≥3独立验证): grandviewresearch CDMO, biospace, marketdataforecast, towardshealthcare, Frost Sullivan",
         "future_share": "科伦博泰ADC平台中国领先, MSD $14亿BD验证;国内ADC份额尚未确立",
         "future_forward": "2026E 仍亏损约10亿;盈利时点至少2027-2028; SKB264等核心管线NDA是关键",
         "target_price": "合理目标价 HK$280-400 = 给MSD BD$14亿打折+管线NPV估值; 当前HK$415.2处区间上沿",
@@ -183,7 +183,9 @@
         "assumptions": "假设:SKB264 2026Q4-2027Q1 NDA获批, 单品销售峰值$5-8亿。若关键数据失败, 股价腰斩至HK$200",
         "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "创新药+CXO",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "verdict": {

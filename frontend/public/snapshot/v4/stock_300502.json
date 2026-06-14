@@ -244,7 +244,7 @@
     },
     "expert_valuation": {
       "now_judgment": "现价¥506 / PE 52.7x — 看似贵,但 forward PEG<0.6(增速远超PE)。ROIC 50-66% 全场最高=极致价值创造。结论:合理偏低,贵在\"赌增速兑现\"而非估值泡沫",
-      "future_tam": "全球高速光模块(800G/1.6T) 2024~110亿美元 → 2027E ~350亿美元(AI算力capex驱动,CAGR~47%)",
+      "future_tam": "【verified 派生自行业层 industry:AI算力数据中心】当前TAM: 光模块2024 $13.6B / AI服务器2024 $135-143B | 2030E天花板: 光模块2033 $36-48B / AI服务器2030 $394-838B(多源冲突标分歧) | CAGR: 光模块11-13.5%(3源一致) / AI服务器19.4-34.3%(口径分歧) | 渗透阶段: 800G爆发期上半段(20%→60%); 1.6T导入期(2026量产) | 龙头瓜分: CN3: 中际旭创(全球#1, ~20%)/新易盛(#3, ~12%)/天孚(无源器件#1, ~8%) | 海外: Coherent/Lumentum/Innolight ~50% | 数据源(≥3独立验证): marketsandmarkets(AI server), IDC, Gartner, grandviewresearch(光模块), LightCounting",
       "future_share": "新易盛全球份额 2024~13% → 2027E 16-18%(北美CSP核心供应商,1.6T卡位)",
       "future_forward": "2026E 营收~340亿(+90%),净利率20%→净利~68亿;按7.1亿股 forward EPS~9.6→2026E~17(增速从235%回落至80%假设)",
       "target_price": "目标价 ¥480-600 = 2026E EPS 17 × 合理PE 28-35x(AI成长股)",
@@ -252,7 +252,9 @@
       "assumptions": "假设:2026增速80%(从235%回落)、净利率20%、目标PE 30x。增速不及则目标价下修",
       "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "AI算力数据中心",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

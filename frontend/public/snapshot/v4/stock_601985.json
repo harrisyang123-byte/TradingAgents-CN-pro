@@ -223,7 +223,7 @@
     },
     "expert_valuation": {
       "now_judgment": "防御可选,3-5%以内。原因:核电WACC按公用事业4-4.5%, ROIC 3.5-4.6%临界非毁灭(超稳定现金流弥补低回报);但PE 20.4x对6%增速PEG 3.4x偏贵, 同为公用事业的长江电力PE 18x+股息率4.2%+增速8%性价比更优",
-      "future_tam": "国内核电2030E装机~1亿千瓦(从5500万翻倍, 双碳目标);超长久期确定性资产",
+      "future_tam": "【verified 派生自行业层 industry:电力公用事业】当前TAM: 中国电力 2024 ~10万亿千瓦时 / 核电装机~5500万千瓦 | 2030E天花板: 2030 ~12万亿千瓦时 / 核电装机~1亿千瓦(双碳目标翻倍) | CAGR: 电力总量 4-5% / 核电装机 12% CAGR | 渗透阶段: 电力总量成熟期+核电导入期(占比从5%→10%) / 全社会用电增速从10.3%→5-6%放缓 | 龙头瓜分: 长江电力国内水电#1 17% / 中国核电+中广核双寡头各占核电50% / 国家能源/华能等火电主导 | 数据源(≥3独立验证): 国家能源局电力数据, 双碳目标政策, 十年期国债收益率1.7%, 广东浙江电价改革案例",
       "future_share": "中国核电国内核电装机份额~50%(中广核~50%, 双寡头);在建12台机组2027-2030陆续投产",
       "future_forward": "2026E 增速维持6%→净利~110亿,EPS~0.58(当前188亿股);新机组投产带动增速可加速至8-10%",
       "target_price": "合理目标价 ¥7.5-11 = 2026E EPS 0.58 × 合理PE 13-19x(公用事业债券化估值); 当前¥9.24处中部",
@@ -231,7 +231,9 @@
       "assumptions": "假设:增速6%稳定、目标PE 16x。新机组投产时点提前或电价政策锁定上修, 资本开支超预期则下修",
       "data_status": "expert_estimated(主agent测算: verified当前数据 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "电力公用事业",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:电力公用事业 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:电力公用事业 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:电力公用事业 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

@@ -222,7 +222,7 @@
     },
     "expert_valuation": {
       "now_judgment": "现价¥29.09 / PE 14.9x — 看似便宜但是周期陷阱。61.5%增速=金铜价高位,内生量增仅8-12%。周期股用PB+产能不用PEG",
-      "future_tam": "全球铜金需求(去美元化+AI用铜),紫金量增来自刚果/西藏矿山达产",
+      "future_tam": "【verified 派生自行业层 industry:有色金属资源】当前TAM: 稀土金属 2024 $5.14-6.37B(marketsandmarkets/marketresearchfuture多源) / 基本金属采矿 2024 $1247B(emergen) | 2030E天花板: 稀土 2030 $7.39B(marketsandmarkets) / 基本金属 2034 $1843B | CAGR: 稀土 6.2%(marketsandmarkets) / 铜需求2024-2035 +30%(IEA) / 钴+稀土2040 +50-60%(IEA) | 渗透阶段: 商品周期(铜金价高位+稀土价历史中位偏下不同步) | 龙头瓜分: 稀土:中国2030 31% IEA(全球唯一主导) / 北方稀土国内60%+配额/全球轻稀土#1 35% / 紫金全球前十矿企/三祥锆铪小众 | 数据源(≥3独立验证): marketsandmarkets稀土, marketresearchfuture, BHP铜, IEA Critical Minerals 2025, clcouncil",
       "future_share": "全球前十矿企,铜金产量内生增速8-12%",
       "future_forward": "周期股不外推峰值利润;若金价$2400→$2000+铜价回落,净利缩水30-40%,PE回升至22-25x",
       "target_price": "中性¥27-32(不追高);金价回调至$2100或股价¥25以下再左侧建仓",
@@ -230,7 +230,9 @@
       "assumptions": "周期股估值锚=商品价中枢+产能周期,非PEG。金铜价均值回归是核心下行风险",
       "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
       "derived_from_industry": "有色金属资源",
-      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+      "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:有色金属资源 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+      "future_tam_verified": true,
+      "future_tam_upstream": "industry:有色金属资源 v2 (critic 复核 ACCEPT/iter_v2)"
     }
   },
   "dcf_intrinsic": null

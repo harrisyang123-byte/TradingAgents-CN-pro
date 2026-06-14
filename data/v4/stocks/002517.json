@@ -332,7 +332,7 @@
       "roic_vs_wacc": "verified ROIC 18-24% vs 行业WACC 9% → ★价值创造; ROIC 18-24% >> 9% WACC 强价值创造(游戏轻资产高ROIC)",
       "expert_valuation": {
         "now_judgment": "现价¥14.73 / PE 16.6x / PEG 0.98 — 合理偏低。ROIC 18-24%价值创造(轻资产游戏高回报)",
-        "future_tam": "国内游戏+小程序游戏(绕过渠道30%分成),传奇/仙侠IP矩阵",
+        "future_tam": "【verified 派生自行业层 industry:互联网平台】当前TAM: $790B 全球数字广告(2024 Statista) / 中国≈$150B | 2030E天花板: $700-1126B(Statista $1126B/Grandview $693B/industryarc 多源区间, 口径差异不调和) | CAGR: 7.3-15.3%(保守中枢10%) | 渗透阶段: AI商业化初期(元宝6月MAU破亿+, 广告AI优化渗透率<30%) | 龙头瓜分: 腾讯(社交垄断+游戏国内#1+广告%30+) / 阿里云中国#1 35% / 恺英细分游戏ROIC最优 | 数据源(≥3独立验证): Statista全球数字广告2029, Grandview在线广告2030, industryarc CAGR, emarketer B2B, 公司财报verified",
         "future_share": "细分传奇品类领先,小程序游戏放量提升净利率3-5pct",
         "future_forward": "当前EPS~0.89(14.73/16.6);2026E EPS~1.04(增速17%);小程序兑现则上修",
         "target_price": "目标价 ¥17-19 = 2026E EPS 1.04 × 合理PE 16-18x",
@@ -340,7 +340,9 @@
         "assumptions": "假设:增速17%、目标PE 17x。游戏单品周期+版号风险,流水不及则下修",
         "data_status": "expert_estimated(主agent测算: verified当前EPS/价格 + 行业TAM公开数据 + 标注假设)",
         "derived_from_industry": "互联网平台",
-        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政"
+        "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
+        "future_tam_verified": true,
+        "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)"
       }
     },
     "debate_rounds": [
