@@ -9,165 +9,18 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:precious_metal」，或运行：./scripts/run_v4.sh analyze asset:precious_metal",
-    "version": 3,
-    "generated_at": "2026-06-11T01:11:54Z",
+    "version": 4,
+    "generated_at": "2026-06-14T11:13:00Z",
     "ttl_days": 14,
     "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
-  "verdict": {
-    "stance": "bullish",
-    "situation": "黄金当前占比 2.89%（两只黄金ETF联接）。金价 $4350、同比 +81% 处历史高位，存在核心张力：美国10年期实际利率 2.07%（远超历史均值0.99%）按传统框架是黄金大逆风，但金价仍创新高——因为央行购金（Q1 净244吨、连续17个月）+ 地缘避险（Israel-Iran）+ 去美元化这三股结构性力量已压过实际利率逻辑。3分析师 2 favorable（flow/policy）+ 1 neutral（macro），偏多。多空辩论最终在 4.0-4.5% 收敛——双方都认同：2.89% 对冲 44% 权益的尾部风险确实偏低，央行购金是真实结构性需求（非投机），但 +81% 后追高赔率差、应分批低吸而非一步到位。",
-    "direction": "战略看多，小幅增配。从 2.89% 分批增至约 4.0-4.5%（而非 v1 激进的 5-8%）。执行：分2-3批、逢回调低吸，不在 $4350 历史高位一次性追高；设成本-10% 为止损参考。黄金的核心价值是对冲已偏高的 44% 权益 + 地缘尾部风险——它是组合里唯一与股债同时负相关的大类，即便实际利率逆风也不宜低于当前仓位。",
-    "risks": [
-      "金价+81%历史极端高位，若Fed鹰派超预期或地缘缓和，可回撤8-12%",
-      "美国实际利率2.07%处十年高位，持金机会成本高，传统框架逆风",
-      "西方ETF Q1已现流出、金饰需求受高价压制，需求结构有边际裂痕",
-      "美元DXY 99.5偏强压制美元计价金价，人民币6.765对国内ETF有汇率扰动",
-      "追高风险：一次性加仓在高位易套，必须分批"
-    ],
-    "trend": "increase — 反骑墙站队：flow+policy favorable + 多空都认同2.89%偏低且央行购金结构性支撑，证据偏多，故站队 increase；但反骑墙地约束执行为'小幅(4-4.5%)+分批低吸'，不追高、不激进到v1的5-8%。",
-    "confidence": "medium",
-    "reflection": {
-      "prev_stance": "bullish",
-      "prev_date": "2026-06-09T15:06:03Z",
-      "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-      "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-      "self_check": "level_2_cascade_upgrade"
-    },
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-06-12",
-          "event": "美 5 月 CPI",
-          "consensus": "4.2%",
-          "our_view": "4.2-4.4% inline_but_hawkish_path",
-          "gap": "inline_but_hawkish_path"
-        },
-        {
-          "date": "2026-06-13",
-          "event": "中国 5 月社融",
-          "consensus": "7.6-7.8%",
-          "our_view": "7.5-7.7% 边际走弱",
-          "gap": "slight_dovish"
-        },
-        {
-          "date": "2026-06-18",
-          "event": "FOMC+点阵图",
-          "consensus": "维持 3.50-3.75%",
-          "our_view": "维持但点阵图 hawkish drift",
-          "gap": "hawkish_drift"
-        },
-        {
-          "date": "2026-06-27",
-          "event": "中 5 月规上工业利润",
-          "consensus": "+5-7%",
-          "our_view": "PPI转正传导可能上修",
-          "gap": "slight_inline"
-        }
-      ],
-      "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-      "key_assumptions": [
-        {
-          "assumption": "中国社融维持7.5%+",
-          "falsification_signal": "6/13公布<7.0%即推翻"
-        },
-        {
-          "assumption": "美CPI不破4.5%",
-          "falsification_signal": "6/12≥4.5%触发风险资产降配"
-        }
-      ],
-      "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "央行购金延续+地缘溢价",
-          "macro_outcome": "金价4000-4500震荡",
-          "asset_impact": "维持4-4.5%分批加"
-        },
-        {
-          "name": "bull",
-          "prob": 0.3,
-          "trigger": "Fed降息+实际利率下行+地缘升级",
-          "macro_outcome": "金价突破4800",
-          "asset_impact": "加至5-6%"
-        },
-        {
-          "name": "bear",
-          "prob": 0.15,
-          "trigger": "实际利率飙升+美元强势",
-          "macro_outcome": "金价回落至3600",
-          "asset_impact": "分批补仓至4.5%(逆向加仓)"
-        }
-      ],
-      "tail_risks": [
-        {
-          "event": "美元体系信任危机",
-          "prob": 0.05,
-          "hedge_action": "加仓黄金至8%(战略对冲)"
-        }
-      ],
-      "trigger_monitor": [
-        "金价跌破3800→分批补仓至4.5%",
-        "美10Y突破4.8%→暂停加仓",
-        "央行购金月度<150t→减速节奏"
-      ],
-      "positioning_view": "(本大类自身周期+组合内位置)",
-      "iv_skew_view": "(参考全市场VIX~20正常)"
-    }
-  },
-  "tradable": [
-    {
-      "code": "008987",
-      "name": "广发上海金ETF联接C",
-      "weight": 1.51
-    },
-    {
-      "code": "000307",
-      "name": "易方达黄金ETF联接A",
-      "weight": 1.38
-    }
-  ],
-  "holding_only_exposure": 0.0,
-  "debate_rounds": [
-    {
-      "round": 1,
-      "bull": "结构性牛市加速：央行购金17月连续(Q1 244t)+地缘避险常态化+亚洲实物买盘底部支撑。实际利率2.07%是传统逆风但金价已突破利率框架——定价权从美债实际利率转移至央行储备需求。组合2.89%严重偏低，对冲44%权益不足。suggested_tilt=increase到5-8%。",
-      "bear": "金价+81%处历史极端高位，实际利率2.07%(远超均值0.99%)与金价背离不可持续、历史无先例；西方ETF流出+金饰萎缩+央行边际卖出=需求裂痕；美元强+Fed鹰派逆风。suggested_tilt=hold(2.89%已够，不追高)。"
-    },
-    {
-      "round": "final",
-      "bull": "让步：承认+81%后短期追高赔率下降，接受分批建仓(3月分3批)+设止损成本-10%。但实际利率框架对央行结构性购金解释力永久下降，仓位应高于2.89%。final_tilt=increase, target 4.0-5.5%。",
-      "bear": "让步：承认2.89%偏低、央行购金是真实结构性支撑、对冲逻辑成立。但当前高位追高赔率差，应等回调低吸、当前仅小幅补到4%。final_tilt=slight_increase, target 3.5-4.5%。"
-    }
-  ],
-  "analysts": {
-    "macro": {
-      "role": "macro",
-      "macro_regime": "晚周期/类滞胀",
-      "rate_sensitivity": "neutral",
-      "macro_tilt": "neutral",
-      "reasoning": "金价历史高位+实际利率2.07%逆风，但央行购金结构性需求压过利率逻辑；不构成加仓理由但提供下行支撑不宜减仓",
-      "inflation_view": "美CPI 3.8%+实际利率2.07%传统应承压，但央行购金打破实际利率-金价负相关范式"
-    },
-    "flow": {
-      "role": "flow",
-      "flow_direction": "inflow",
-      "crowding": "medium",
-      "sentiment": "greedy",
-      "flow_tilt": "favorable",
-      "reasoning": "央行+亚洲ETF结构性净流入(Q1央行244t/亚洲ETF+84t)，西方减持纸黄金、亚洲接物理金；拥挤medium非high(买盘集中央行+实物非投机杠杆)"
-    },
-    "policy": {
-      "role": "policy",
-      "policy_stance": "supportive",
-      "geopolitical_impact": "Israel-Iran冲突推避险溢价+去美元化加速+中美博弈强化黄金非主权储备战略定位",
-      "policy_tilt": "favorable",
-      "reasoning": "地缘+去美元化(波兰/中国/乌兹别克斯坦央行连续增持)+中国鼓励居民配金，三重利好共振；唯一对冲是Fed鹰派高利率"
-    }
-  },
+  "verdict": null,
+  "tradable": [],
+  "holding_only_exposure": 0,
+  "debate_rounds": [],
+  "analysts": {},
   "plan_unit": {
     "unit_id": "plan:precious_metal",
     "status": "green",
@@ -181,25 +34,5 @@
     "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "plan": {
-    "instrument_mix": [
-      {
-        "instrument": "黄金ETF(上海金/黄金ETF联接)",
-        "tradable": true,
-        "suggest_pct": 90,
-        "reasoning": "低成本、流动性好、跟踪现货金，是A股投资者配黄金的主力工具；当前持仓即此类"
-      },
-      {
-        "instrument": "实物金/银行积金",
-        "tradable": false,
-        "suggest_pct": 10,
-        "reasoning": "极端避险的实物底仓，但流动性差、有溢价，仅小比例"
-      }
-    ],
-    "risk_flags": [
-      "金价历史高位追高风险",
-      "美国实际利率逆风",
-      "高波动(地缘事件驱动)"
-    ]
-  }
+  "plan": null
 }

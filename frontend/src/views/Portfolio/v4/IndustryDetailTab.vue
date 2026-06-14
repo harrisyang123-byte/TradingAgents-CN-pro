@@ -21,14 +21,58 @@
         </div>
 
         <div v-if="detail.verdict" class="idt-verdict">
+          <p v-if="detail.verdict.summary"><b>📌 结论：</b>{{ detail.verdict.summary }}</p>
           <p v-if="detail.verdict.situation"><b>景气/形势：</b>{{ detail.verdict.situation }}</p>
           <p v-if="detail.verdict.direction"><b>方向/空间：</b>{{ detail.verdict.direction }}</p>
           <div v-if="detail.verdict.risks?.length" class="idt-risks">
             <b>风险：</b>
             <el-tag v-for="(r, i) in detail.verdict.risks" :key="i" type="danger" size="small" effect="plain">{{ r }}</el-tag>
           </div>
+          <div v-if="(detail as any).credibility?.critic_score" class="idt-critic">
+            🎩 critic 评审：<b>{{ (detail as any).credibility.critic_score }}/100</b>
+            <el-tag :type="(detail as any).credibility.final_verdict==='ACCEPT'?'success':'warning'" size="small">
+              {{ (detail as any).credibility.final_verdict }}
+            </el-tag>
+            <span v-if="(detail as any).credibility.rulers_used"> · 用了 {{ (detail as any).credibility.rulers_used }}/7 把辩证尺</span>
+          </div>
         </div>
         <EmptyUnitState v-else title="尚未深辩此行业" :cli-hint="detail.industry_unit.cli_hint" />
+      </div>
+
+      <!-- ★行业未来市场必查模块(2026-06-14 加, TAM+CAGR+渗透率+forward PEG+龙头瓜分+7把尺) -->
+      <div v-if="(detail as any).industry_future_market && Object.keys((detail as any).industry_future_market).length" class="card idt-future">
+        <div class="idt-section-title">🔮 行业未来市场（TAM × CAGR × 渗透率 × 龙头瓜分 — 7 把辩证尺验证）</div>
+        <ul class="idt-future-list">
+          <li v-if="(detail as any).industry_future_market.tam_now_usd_b"><b>当前 TAM</b><span>{{ (detail as any).industry_future_market.tam_now_usd_b }}</span></li>
+          <li v-if="(detail as any).industry_future_market.tam_2030E_usd_b"><b>2030E 天花板</b><span>{{ (detail as any).industry_future_market.tam_2030E_usd_b }}</span></li>
+          <li v-if="(detail as any).industry_future_market.cagr_pct"><b>CAGR 增速</b><span>{{ (detail as any).industry_future_market.cagr_pct }}</span></li>
+          <li v-if="(detail as any).industry_future_market.penetration_stage"><b>渗透率阶段</b><span>{{ (detail as any).industry_future_market.penetration_stage }}</span></li>
+          <li v-if="(detail as any).industry_future_market.industry_forward_peg"><b>forward PEG</b><span>{{ (detail as any).industry_future_market.industry_forward_peg }}</span></li>
+          <li v-if="(detail as any).industry_future_market.leaders_share_distribution"><b>龙头瓜分</b><span>{{ (detail as any).industry_future_market.leaders_share_distribution }}</span></li>
+        </ul>
+        <div v-if="(detail as any).industry_future_market.key_drivers_5yr?.length" class="idt-drivers">
+          <b>未来 5 年关键变量：</b>
+          <ul>
+            <li v-for="(d, i) in (detail as any).industry_future_market.key_drivers_5yr" :key="'d'+i">{{ d }}</li>
+          </ul>
+        </div>
+        <details v-if="(detail as any).industry_future_market.methodology_used?.length" class="idt-methodology">
+          <summary>7 把辩证尺应用详情</summary>
+          <ul>
+            <li v-for="(m, i) in (detail as any).industry_future_market.methodology_used" :key="'m'+i">{{ m }}</li>
+          </ul>
+        </details>
+        <p v-if="(detail as any).industry_future_market.data_sources?.length" class="idt-sources">
+          📚 数据源 ({{ (detail as any).industry_future_market.data_sources.length }} 独立源): {{ (detail as any).industry_future_market.data_sources.slice(0,5).join(' / ') }}
+        </p>
+      </div>
+
+      <!-- 价值创造维度 ROIC 分层 + 基金推荐 -->
+      <div v-if="(detail as any).value_creation_industry && Object.keys((detail as any).value_creation_industry).length" class="card idt-vc">
+        <div class="idt-section-title">🏭 行业价值创造维度（ROIC 分层）</div>
+        <p v-if="(detail as any).value_creation_industry.industry_roic_tier"><b>ROIC 分层：</b>{{ (detail as any).value_creation_industry.industry_roic_tier }}</p>
+        <p v-if="(detail as any).value_creation_industry.interpretation"><b>解读：</b>{{ (detail as any).value_creation_industry.interpretation }}</p>
+        <p v-if="(detail as any).value_creation_industry.caveat" class="idt-caveat">⚠️ {{ (detail as any).value_creation_industry.caveat }}</p>
       </div>
 
       <!-- D0-2 投资地图：产业链瓶颈 → 推荐个股（置顶,一进页面就看"买什么"） -->
@@ -251,6 +295,23 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
 /* D0-2 投资地图 */
 .idt-invmap { border: 1px solid #ebeef5; border-radius: 8px; background: #fff; padding: 16px; margin-bottom: 14px; }
 .idt-section-title { font-weight: 600; color: #2f4f8f; margin-bottom: 8px; font-size: 14px; }
+/* 行业未来市场+价值创造+critic */
+.idt-future { background: linear-gradient(135deg, #fff7e6 0%, #fff 100%); border-left: 4px solid #fa8c16; }
+.idt-future-list { list-style: none; padding: 0; margin: 8px 0; }
+.idt-future-list li { font-size: 13px; padding: 4px 0; display: flex; gap: 10px; line-height: 1.7; }
+.idt-future-list li b { color: #fa8c16; min-width: 90px; flex-shrink: 0; }
+.idt-drivers { margin-top: 10px; font-size: 13px; color: #595959; }
+.idt-drivers ul { margin: 4px 0 0 18px; padding: 0; }
+.idt-drivers li { padding: 2px 0; line-height: 1.6; }
+.idt-methodology { margin-top: 10px; }
+.idt-methodology summary { font-size: 12.5px; color: #909399; cursor: pointer; padding: 4px 0; }
+.idt-methodology ul { margin: 6px 0 0 18px; padding: 0; }
+.idt-methodology li { font-size: 12px; color: #4e5969; padding: 2px 0; line-height: 1.5; }
+.idt-sources { font-size: 11.5px; color: #909399; margin-top: 8px; line-height: 1.5; }
+.idt-vc { background: #f0f5ff; border-left: 4px solid #1d39c4; }
+.idt-vc p { margin: 6px 0; font-size: 13px; color: #595959; line-height: 1.6; }
+.idt-caveat { color: #cf1322 !important; }
+.idt-critic { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #f0f0f0; font-size: 12.5px; color: #595959; }
 .idt-inv-concl { font-size: 13px; background: #f0f9eb; padding: 8px; border-radius: 4px; margin-bottom: 10px; color: #5a6a4f; }
 .idt-inv-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .idt-inv-table th, .idt-inv-table td { border: 1px solid #ebeef5; padding: 6px 8px; text-align: left; vertical-align: top; }

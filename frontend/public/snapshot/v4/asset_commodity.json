@@ -9,149 +9,18 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 asset:commodity」，或运行：./scripts/run_v4.sh analyze asset:commodity",
-    "version": 3,
-    "generated_at": "2026-06-11T01:11:54Z",
+    "version": 4,
+    "generated_at": "2026-06-14T11:13:00Z",
     "ttl_days": 14,
     "upstream": [],
     "run_mode": "ai_proxy",
     "exists": true
   },
-  "verdict": {
-    "stance": "neutral",
-    "situation": "大宗商品当前零持仓。3分析师 1 favorable(policy:地缘+OPEC+中国稳增长拉铜) + 2 neutral(macro/flow:内部分化、高位+强美元逆风)。多空分歧明显：bull 主张建仓3-5%(零持仓对通胀/地缘尾部完全裸露是真实缺口)，bear 主张维持0%(油价含$8-10地缘溢价易回落、铜$13600历史高位需求未兑现、强美元+持有成本年化7-8%、高位接飞刀)。这是一个'配置价值真实存在但建仓时机不佳'的典型张力——两方证据都强。",
-    "direction": "维持零持仓为主，但认可小仓位配置价值。建议：择机、分批、小幅建仓 2-3%（不到 bull 的3-5%），品种以铜ETF为主（新能源需求结构性支撑+与A股相关性低），原油ETF极小比例(≤1%)作地缘尾部对冲。建仓时机等回调——油价回落至 $82-85 或铜跌破 $12500 再右侧介入，不在 $91.77/$13600 的高位追。当前可先0%或试探1%，不急于打满。",
-    "risks": [
-      "油价地缘溢价脆弱：冲突缓和5日内可回落$82-85(-10%)",
-      "铜$13600历史高位，中国PMI50需求证伪则回撤空间大",
-      "强美元DXY99.5+Fed高利率压制大宗金融属性",
-      "大宗无票息+仓储/融资成本，持有年化成本7-8%(价格不跌也亏)",
-      "建仓时机错位风险：高位建仓易套"
-    ],
-    "trend": "hold — 不骑墙地说明：这不是'数据不足的中性'，而是'配置价值(对冲缺口)与建仓时机(高位逆风)势均力敌'的真中性。反骑墙地给出可执行方向——维持低仓/零仓，但明确建仓路径(回调到位则小幅建铜ETF 2-3%)，而非模糊的'看情况'。",
-    "confidence": "medium",
-    "reflection": {
-      "prev_stance": "neutral",
-      "prev_date": "2026-06-09T15:11:12Z",
-      "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-      "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-      "self_check": "level_2_cascade_upgrade"
-    },
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-06-12",
-          "event": "美 5 月 CPI",
-          "consensus": "4.2%",
-          "our_view": "4.2-4.4% inline_but_hawkish_path",
-          "gap": "inline_but_hawkish_path"
-        },
-        {
-          "date": "2026-06-13",
-          "event": "中国 5 月社融",
-          "consensus": "7.6-7.8%",
-          "our_view": "7.5-7.7% 边际走弱",
-          "gap": "slight_dovish"
-        },
-        {
-          "date": "2026-06-18",
-          "event": "FOMC+点阵图",
-          "consensus": "维持 3.50-3.75%",
-          "our_view": "维持但点阵图 hawkish drift",
-          "gap": "hawkish_drift"
-        },
-        {
-          "date": "2026-06-27",
-          "event": "中 5 月规上工业利润",
-          "consensus": "+5-7%",
-          "our_view": "PPI转正传导可能上修",
-          "gap": "slight_inline"
-        }
-      ],
-      "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-      "key_assumptions": [
-        {
-          "assumption": "中国社融维持7.5%+",
-          "falsification_signal": "6/13公布<7.0%即推翻"
-        },
-        {
-          "assumption": "美CPI不破4.5%",
-          "falsification_signal": "6/12≥4.5%触发风险资产降配"
-        }
-      ],
-      "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.5,
-          "trigger": "中美需求错位+铜金比走弱",
-          "macro_outcome": "工业景气趋缓",
-          "asset_impact": "维持小仓2-3%铜ETF逢低吸"
-        },
-        {
-          "name": "bull",
-          "prob": 0.25,
-          "trigger": "中国需求脉冲+全球补库",
-          "macro_outcome": "铜+15-20%",
-          "asset_impact": "加仓至5%"
-        },
-        {
-          "name": "bear",
-          "prob": 0.25,
-          "trigger": "全球衰退+capex回落",
-          "macro_outcome": "铜-15%",
-          "asset_impact": "清零或保持0%"
-        }
-      ],
-      "tail_risks": [
-        {
-          "event": "霍尔木兹冲突→油价飙升",
-          "prob": 0.1,
-          "hedge_action": "买原油ETF 5%(独立于铜配置)"
-        }
-      ],
-      "trigger_monitor": [
-        "铜金比连续2月-3%以上→暂停加仓",
-        "Brent突破85→加原油ETF 3-5%",
-        "2s10s重新倒挂→工业品减仓"
-      ],
-      "positioning_view": "(本大类自身周期+组合内位置)",
-      "iv_skew_view": "(参考全市场VIX~20正常)"
-    }
-  },
+  "verdict": null,
   "tradable": [],
-  "holding_only_exposure": 0.0,
-  "debate_rounds": [
-    {
-      "round": 1,
-      "bull": "零持仓是结构性缺口——组合对通胀超预期/地缘黑天鹅完全裸露。铜供给刚性(矿capex连5年不足)+新能源需求结构增长；油价含地缘溢价但中枢难回$70s。建仓3-5%(铜为主3%+原油1-2%尾部对冲)，铜优于油(需求双引擎+与A股相关性低)。suggested_tilt=increase。",
-      "bear": "多重利空共振接飞刀：油价$91.77含$8-10地缘溢价(冲突缓和5日回落$82-85)、铜$13600历史高位但中国PMI50需求证伪、强美元DXY99.5+Fed高利率压制、大宗无票息+持有成本年化7-8%。suggested_tilt=avoid 0%(等油<$82或铜<$12000再评估)。"
-    }
-  ],
-  "analysts": {
-    "macro": {
-      "role": "macro",
-      "macro_regime": "滞胀风险",
-      "rate_sensitivity": "negative",
-      "macro_tilt": "neutral",
-      "reasoning": "内部严重分化不宜一刀切：能源地缘风险收益不对称、工业金属高位+弱需求压制；可小仓位2-3%能源ETF做通胀对冲，工业金属等PMI>50.5再介入",
-      "inflation_view": "能源驱动成本推升型通胀(PPI+2.8%主因油价)，非需求拉动"
-    },
-    "flow": {
-      "role": "flow",
-      "flow_direction": "inflow",
-      "crowding": "medium",
-      "sentiment": "neutral",
-      "flow_tilt": "neutral",
-      "reasoning": "能源地缘驱动inflow但波动大、工业金属受弱内需压制资金中性；强美元压制；零敞口边际配置有分散价值但追高风险大"
-    },
-    "policy": {
-      "role": "policy",
-      "policy_stance": "supportive",
-      "geopolitical_impact": "Israel-Iran冲突抬升原油风险溢价(霍尔木兹海峡风险)，若封锁可冲$110-120",
-      "policy_tilt": "favorable",
-      "reasoning": "地缘供给冲击+OPEC+减产+中国稳增长拉铜需求(新能源/电网)，供给侧驱动强于货币紧缩逆风"
-    }
-  },
+  "holding_only_exposure": 0,
+  "debate_rounds": [],
+  "analysts": {},
   "plan_unit": {
     "unit_id": "plan:commodity",
     "status": "green",
@@ -165,33 +34,5 @@
     "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "plan": {
-    "instrument_mix": [
-      {
-        "instrument": "铜ETF/有色金属ETF",
-        "tradable": true,
-        "suggest_pct": 65,
-        "reasoning": "新能源(光伏/电车/电网)需求结构性增长+铜矿capex连5年不足供给刚性+与A股权益相关性低于原油，是大宗内首选；但等回调至$12500再建"
-      },
-      {
-        "instrument": "原油ETF/能源ETF",
-        "tradable": true,
-        "suggest_pct": 25,
-        "reasoning": "地缘尾部对冲(Israel-Iran/霍尔木兹)，但溢价脆弱、波动大，仅极小比例"
-      },
-      {
-        "instrument": "农产品/综合商品ETF",
-        "tradable": true,
-        "suggest_pct": 10,
-        "reasoning": "进一步分散，无重大供给冲击时中性"
-      }
-    ],
-    "note": "零持仓大类，建仓非紧迫。suggest_pct是大宗类内品种结构(若建仓)，全组合大宗仓位建议≤2-3%且择机回调建仓。",
-    "risk_flags": [
-      "高波动(地缘事件驱动)",
-      "无票息+持有成本年化7-8%",
-      "高位追涨风险",
-      "强美元压制"
-    ]
-  }
+  "plan": null
 }

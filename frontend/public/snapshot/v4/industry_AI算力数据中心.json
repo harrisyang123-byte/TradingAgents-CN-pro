@@ -26,6 +26,59 @@
     "bull_thesis": "见上 industry_future_market 详解",
     "bear_thesis": "多源TAM冲突2.1倍/CAGR久期2027回落/CN3被Coherent良率追+Broadcom CPO威胁/中兴ROIC毁灭"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "光模块2024 $13.6B / AI服务器2024 $135-143B",
+    "tam_2030E_usd_b": "光模块2033 $36-48B / AI服务器2030 $394-838B(多源冲突标分歧)",
+    "cagr_pct": "光模块11-13.5%(3源一致) / AI服务器19.4-34.3%(口径分歧)",
+    "penetration_stage": "800G爆发期上半段(20%→60%); 1.6T导入期(2026量产)",
+    "industry_forward_peg": "行业CAGR口径4-7x高估 / 龙头自身增速口径0.2-0.8合理偏低(中际108%/新易盛235%)",
+    "leaders_share_distribution": "CN3: 中际旭创(全球#1, ~20%)/新易盛(#3, ~12%)/天孚(无源器件#1, ~8%) | 海外: Coherent/Lumentum/Innolight ~50%",
+    "key_drivers_5yr": [
+      "Hyperscaler capex 2026 $700B+(IEEE/Datacenter Knowledge)",
+      "800G→1.6T代际切换",
+      "AI训练→推理比重转移拉动互连密度",
+      "CPO/硅光技术替代风险"
+    ],
+    "data_sources": [
+      "marketsandmarkets(AI server)",
+      "IDC",
+      "Gartner",
+      "grandviewresearch(光模块)",
+      "LightCounting",
+      "TrendForce(800G渗透)",
+      "Goldman Sachs hyperscaler capex",
+      "SEMI"
+    ],
+    "methodology_used": [
+      "尺①TAM三角(2030 AI server $400-840B口径分歧)",
+      "尺②TAM拆解还原($700B×65%×4%≈$18B验证$15.4B)",
+      "尺③CAGR久期(类比智能机+1.6T续接=6-8年)",
+      "尺④渗透阶段(20%→60%爆发上半段)",
+      "尺⑤forward PEG跨期(用龙头自身增速)",
+      "尺⑥龙头瓜分(CN3 40%+)",
+      "尺⑦先行指标三同向"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 7,
+    "rulers_used": 7,
+    "key_concerns": "AI server 2030 口径2.1倍差异未明确conf对应情景",
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "go(2026-06-12 v3已存在)",
+    "what_changed": "本轮加 industry_future_market 完整模块(TAM/CAGR/渗透率/forward PEG/龙头瓜分/3独立源/7把尺), 旧版仅 ROIC分层+chokepoint",
+    "why_changed": "用户拍板\"行业层结合未来市场考虑了吗\"后落地, 成为下游个股 expert_valuation 的统一上游锚定"
+  },
+  "data_status": "synthesized_by_main_agent_with_subagent_debate(verified TAM≥3源 + 7把辩证尺)",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:AI算力数据中心",
     "status": "gray",

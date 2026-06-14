@@ -26,6 +26,65 @@
     "bull_thesis": "全球去美元+央行购金+AI用铜+EV电机钕铁硼+中国稀土主导+紫金量增8-12%",
     "bear_thesis": "商品价均值回归+紫金周期伪装(剔除价格内生仅8-12%)+稀土124%含资产减值+三祥PE 259离谱"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "稀土金属 2024 $5.14-6.37B(marketsandmarkets/marketresearchfuture多源) / 基本金属采矿 2024 $1247B(emergen)",
+    "tam_2030E_usd_b": "稀土 2030 $7.39B(marketsandmarkets) / 基本金属 2034 $1843B",
+    "cagr_pct": "稀土 6.2%(marketsandmarkets) / 铜需求2024-2035 +30%(IEA) / 钴+稀土2040 +50-60%(IEA)",
+    "penetration_stage": "商品周期(铜金价高位+稀土价历史中位偏下不同步)",
+    "industry_forward_peg": "★周期股禁用PEG! 紫金PEG 0.24陷阱(金铜价高位伪装成长) / 稀土PEG 0.65亦周期 / 改用PB+产能周期",
+    "leaders_share_distribution": "稀土:中国2030 31% IEA(全球唯一主导) / 北方稀土国内60%+配额/全球轻稀土#1 35% / 紫金全球前十矿企/三祥锆铪小众",
+    "key_drivers_5yr": [
+      "全球去美元化+央行购金(尺⑦先行)",
+      "AI算力用铜+EV电机/风电/机器人钕铁硼",
+      "缅甸稀土进口受限+国内总量控制",
+      "商品价均值回归风险(尺③久期警惕)"
+    ],
+    "data_sources": [
+      "marketsandmarkets稀土",
+      "marketresearchfuture",
+      "BHP铜",
+      "IEA Critical Minerals 2025",
+      "clcouncil",
+      "emergen base metal"
+    ],
+    "methodology_used": [
+      "尺①三角(稀土 $5-7B 2030一致 / 铜需求IEA+30%)",
+      "尺②紫金拆解=量增8-12%×价格弹性 vs 增速61.5%(★价格高位伪装成长)",
+      "尺③久期(商品价均值回归风险)",
+      "尺④周期高点不外推",
+      "尺⑤★周期股禁PEG陷阱③",
+      "尺⑥北方稀土国内60%+配额",
+      "尺⑦央行购金+AI用铜先行"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 7,
+    "rulers_used": 5,
+    "critic_caveats": [
+      "尺②TAM拆解未做(应铜=2800万吨×$9500=$266B)",
+      "尺⑦景气先行未列(LME库存/TC加工费/矿企capex/订单)",
+      "可证伪信号未显式配对(金<$2100=央行购金证伪/铜<$8000=AI证伪/稀土<¥40万=缅甸恢复)",
+      "基本金属TAM目标年2034与稀土2030E口径不一"
+    ],
+    "data_status": "真critic spawn 复核",
+    "critic_fatal_flaws": [
+      "核心亮点:周期股禁PEG陷阱③教科书级避开(紫金0.24=伪装成长)"
+    ]
+  },
+  "reflection": {
+    "prev_stance": "bullish",
+    "what_changed": "本轮明确周期股禁PEG+紫金从强推荐降谨慎(尺⑤陷阱③)",
+    "why_changed": "7把尺纠错+critic 78分修正"
+  },
+  "data_status": "synthesized_by_main_agent_with_websearch_verified",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:有色金属资源",
     "status": "gray",

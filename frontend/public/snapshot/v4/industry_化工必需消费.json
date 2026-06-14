@@ -26,6 +26,61 @@
     "bull_thesis": "VA寡头CR3>80%+新和成净利率27.5%顶级+ROIC价值创造+新材料25%+第二曲线+亚太老龄化",
     "bear_thesis": "VA周期品景气顶部利润(尺⑤陷阱③风险)+营收增速仅3%+环保限产政策松紧+周期回归风险"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "全球维生素 2024 $25.9B(IMARC) / 维生素+膳食补充剂 2024 $138.2B(globaldata) / 维生素E 2024 $1.43B(grandview)",
+    "tam_2030E_usd_b": "维生素 2034 $25.9B / 膳食补充剂 2029 $188.7B / 维生素E 2033 $2.82B",
+    "cagr_pct": "维生素 5.07-6.80%(IMARC/markwide) / 维生素E 8% / 膳食补充剂 6.4%",
+    "penetration_stage": "成熟稳定+老龄化驱动(亚太占41.7%份额, 中国老龄化加速)",
+    "industry_forward_peg": "新和成 PEG 0.89合理偏低(PE 13.6/增速15.3%, VA底部弹性大)",
+    "leaders_share_distribution": "VA全球寡头CR3>80%(DSM+新和成+巴斯夫 三足鼎立) / 中国维生素全球50%+产能 / 新和成+海普瑞+花园生物国内三强",
+    "key_drivers_5yr": [
+      "全球老龄化+亚太份额41.7%(IMARC)",
+      "环保限产托VA价格底",
+      "中国维生素出口主导地位",
+      "新材料(PPS/PPA)第二曲线占新和成25%+"
+    ],
+    "data_sources": [
+      "IMARC vitamins 2034",
+      "globaldata vitamins+supplements",
+      "grandview维生素E",
+      "markwide",
+      "skyquest nutrition chemicals"
+    ],
+    "methodology_used": [
+      "尺①三角(VA市场寡头CR3>80%多源一致)",
+      "尺②新和成拆解=VA寡头红利+新材料第二曲线+净利率27.5%顶级",
+      "尺③久期(老龄化10年+长趋势)",
+      "尺④成熟稳定+老龄化驱动",
+      "尺⑤PEG 0.89合理偏低",
+      "尺⑥CR3 80%+不可逆寡头",
+      "尺⑦VA库存去化+价格底+量回升"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 7,
+    "rulers_used": 6,
+    "critic_caveats": [
+      "VA现货价/库存天数未引具体数据点",
+      "15.3%增速需标forward vs trailing来源",
+      "贸易风险情景(反倾销+10%对净利率影响)未量化",
+      "PEG陷阱②低基数检查需明确(15.3%是否含周期恢复)"
+    ],
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "bullish",
+    "what_changed": "本轮加未来市场+VA寡头壁垒量化+周期成长双属性辩证",
+    "why_changed": "三维框架对齐"
+  },
+  "data_status": "synthesized_by_main_agent_with_websearch_verified",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:化工必需消费",
     "status": "gray",

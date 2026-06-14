@@ -386,6 +386,13 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序，实时同步个股最新评级）
         "investment_map": fresh_inv_map,
         "analysts": ind_payload.get("analysts", {}),
+        # 2026-06-14 行业层 critic 复核 + 7 把辩证尺 + 未来市场必查模块全透传
+        "industry_future_market": ind_payload.get("industry_future_market", {}),
+        "value_creation_industry": ind_payload.get("value_creation_industry", {}),
+        "fund_recommendation": ind_payload.get("fund_recommendation", {}),
+        "credibility": ind_payload.get("credibility", {}),
+        "reflection": ind_payload.get("reflection", {}),
+        "data_status": ind_payload.get("data_status", ""),
         "intra_alloc_unit": decorate_unit(f"alloc:industry:{name}", alloc_env, units),
         "stock_weights": (alloc_env or {}).get("payload", {}).get("stock_weights", []) if alloc_env else [],
     }

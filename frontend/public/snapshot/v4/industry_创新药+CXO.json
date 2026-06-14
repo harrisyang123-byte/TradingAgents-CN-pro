@@ -26,6 +26,62 @@
     "bull_thesis": "药明ROIC 21-28% PEG 0.68错杀/CXO 50%→68%结构性外包/CDMO 2030 $250B 5倍空间",
     "bear_thesis": "BIOSECURE 30%概率/低基数幻觉(102.6%含寒冬恢复)/恒瑞PEG 1.85偏贵/板块分化(科伦烧钱)"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "CDMO 2024 $143.7-184.9B / CRO+CDMO 2025 $254.65B / 全球药械 2028 $1956B(Frost Sullivan)",
+    "tam_2030E_usd_b": "CDMO $220-280B / CRO+CDMO $370-420B",
+    "cagr_pct": "CDMO 7.2-11.52% / CRO+CDMO 8.84%",
+    "penetration_stage": "成熟扩张期(全球外包率50%→68% 2024-2030)",
+    "industry_forward_peg": "药明 PE 14.9 / 常态CAGR 22%=0.68严重错杀; 恒瑞 PE 40.7/22%=1.85偏贵; 百济临界; 科伦未盈利",
+    "leaders_share_distribution": "全球: Lonza+Catalent+Samsung生物+药明=top4 ~35% / 药明全球CXO份额11-13% 中国龙头独占",
+    "key_drivers_5yr": [
+      "全球管线复杂度+ADC/核酸/多肽放量倒逼外包(尺②药企裁员内部产能)",
+      "BIOSECURE法案地缘风险(基准30%概率非主线)",
+      "创新药VC融资+15%/季回温",
+      "TIDES产能利用率55%→85%结构验证"
+    ],
+    "data_sources": [
+      "grandviewresearch CDMO",
+      "biospace",
+      "marketdataforecast",
+      "towardshealthcare",
+      "Frost Sullivan",
+      "IDC亚太biotech outsourcing"
+    ],
+    "methodology_used": [
+      "尺①三角(CDMO 2030 $220-280B; CRO+CDMO $370-420B)",
+      "尺②拆解(中国CXO=亚太$30B×60%≈$18B 药明占11%)",
+      "尺③久期(老龄化+管线刚需 8-10年可见)",
+      "尺④渗透成熟扩张(外包率50%→68%)",
+      "尺⑤forward PEG药明0.68错杀/恒瑞1.85偏贵",
+      "尺⑥龙头瓜分(全球top4 35%药明独占中国)",
+      "尺⑦景气先行(VC回温+订单可见度6→12月+TIDES利用率)"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 6,
+    "rulers_used": 6,
+    "critic_caveats": [
+      "尺⑤PEG陷阱②低基数未量化(102%含寒冬恢复, 应剔除给forward常态22%而非用102%)",
+      "尺⑤久期未折算(修正PEG应=14.9/22%×3/5=0.78仍<1结论不变)",
+      "BIOSECURE 30%概率需明确trigger阈值+应急方案",
+      "缺正向DCF验证目标价仅空间倍数法"
+    ],
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "bullish(2026-06-12)",
+    "what_changed": "本轮加 industry_future_market 完整模块 + 7把尺 + 中国份额量化(11%)",
+    "why_changed": "对齐三维框架成为药明个股 expert_valuation 上游锚点"
+  },
+  "data_status": "synthesized_by_main_agent_with_subagent_debate",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:创新药+CXO",
     "status": "gray",

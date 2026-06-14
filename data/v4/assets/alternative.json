@@ -2,200 +2,30 @@
   "unit_id": "asset:alternative",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 3,
+  "version": 4,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-11T01:11:54Z",
+  "generated_at": "2026-06-14T11:13:00Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "asset_class": "alternative",
-    "label": "另类投资",
-    "current_weight": 0.0,
-    "holding_only_exposure": 0.0,
-    "tradable": [],
-    "zero_holding": true,
-    "debate_rounds": [
-      {
-        "round": 1,
-        "bull": "BTC $63K回调企稳、多空均衡、清算放缓杠杆去化近尾声；ETH ETF资金转正机构合规建仓；与纳指high相关下risk-on顺风。但拥挤medium、当前是观察窗口非追高点。suggested_tilt=小幅观察。",
-        "bear": "三重不利：①Fed鹰派hold 3.50-3.75%+US10Y 4.55%高利率压无现金流资产(BTC与实际利率强负相关)；②与纳指相关0.7，纳指上周-4.2%拖累BTC回调，risk-off传导快；③中国大陆全面禁止加密交易=合规红线。suggested_tilt=avoid 0%。"
-      }
+    "stance": "bullish",
+    "summary": "另类(海外QDII)当前0%→5%。A股与美股相关0.15-0.3提供真分散; 美股AI七巨头PEG 1.1合理非泡沫; QDII $50k/年通道稳定。场外定投分3月建仓",
+    "situation": "A股美股低相关0.15-0.3/纳指forward PE 28x对应25%增速 PEG 1.1合理/QDII场内溢价3-5%需走场外/外管局未收紧",
+    "direction": "场外定投分3月建仓至5%(每月≈1.7%, 遇美股单月跌>10%前置加速)。华夏纳指(513300)/博时标普500(050025)/天弘越南(008763)",
+    "risks": [
+      "汇率(USD/CNY 7.1-7.2, 破6.9暂停)",
+      "场内溢价3-5%, 严格走场外申购T+2",
+      "美股PE 28x若AI不达预期-15-20%, 5%仓位最大-1%组合"
     ],
-    "analysts": {
-      "macro": {
-        "role": "macro",
-        "macro_regime": "限制性鹰派",
-        "rate_sensitivity": "negative",
-        "macro_tilt": "unfavorable",
-        "reasoning": "高利率压无现金流资产(BTC与实际利率强负相关)+与纳指相关0.7风险联动+合规硬约束；维持零配置直至利率转向+合规松绑",
-        "inflation_view": "粘性通胀+Fed高位不动，实际利率偏高压制加密估值"
-      },
-      "flow": {
-        "role": "flow",
-        "flow_direction": "inflow",
-        "crowding": "medium",
-        "sentiment": "neutral",
-        "flow_tilt": "favorable",
-        "reasoning": "BTC$63K回调企稳、ETH ETF机构流入、risk-on顺风；但这是从加密资产本身看，未计入对中国境内投资者的合规约束"
-      },
-      "policy": {
-        "role": "policy",
-        "policy_stance": "restrictive",
-        "geopolitical_impact": "中美监管分化:美国2024批现货BTC/ETH ETF、香港跟进合规ETF；但中国大陆2021起全面禁止",
-        "policy_tilt": "unfavorable",
-        "compliance_risk": "high",
-        "reasoning": "对中国A股投资者合规红线极明确:2021年924十部委通知定性非法金融活动、银行切断资金通道、外汇管制使港股加密ETF无合法申购路径;零合规渠道+高执法风险=不可配置"
-      }
+    "confidence": 0.72,
+    "reflection": {
+      "what_changed": "首次建仓, 无上版对比",
+      "key_debate": "bear PE 28x+汇率, bull低相关+PEG 1.1合理+5%小仓位三重保护"
     },
-    "verdict": {
-      "stance": "bearish",
-      "situation": "另类投资（加密货币 BTC/ETH 为主）当前零持仓。3分析师意见分裂但有决定性因素：flow favorable（BTC $63K企稳、ETH ETF机构流入）是从加密资产本身看；但 macro unfavorable（高利率压制+与纳指相关0.7的风险联动）+ policy restrictive 且 compliance_risk=HIGH 才是对'中国A股投资者'这个特定主体的真实约束。核心：你是境内投资者，2021年924十部委通知全面禁止境内加密交易、银行切断资金通道、外汇管制使港股/美股合规加密ETF也无合法申购路径——零合规渠道。这是 override 一切市场层面判断的硬约束。",
-      "direction": "维持零配置（0%）。这个结论不是基于看空加密市场本身（市场层面 flow 甚至偏多），而是基于合规红线：对中国境内 A股投资者，加密资产没有合法可执行的配置通道，境内参与面临账户冻结、涉嫌非法经营/洗钱的司法风险。除非未来出现①境内合规松绑 或 ②用户具备合法的境外身份/账户与跨境通道，否则不配置。若用户确有合法境外渠道且能承受归零，也仅限极小投机仓位(≤1%)，不作为战略配置。",
-      "risks": [
-        "合规风险(最高):中国大陆禁止加密交易,境内参与违法、账户冻结、司法追诉",
-        "无合法申购渠道:外汇管制下境内资金无法合法申购港股/美股加密ETF",
-        "高波动:BTC/ETH年化波动率极高,可短期腰斩",
-        "高利率压制:Fed鹰派+US10Y 4.55%,无现金流资产估值承压",
-        "与纳指高相关(0.7):risk-off时与权益同跌,分散价值打折"
-      ],
-      "trend": "hold(0%) — 反骑墙站队:明确不配置,但理由是合规红线(确定性硬约束)而非市场看空。这不是骑墙中性——而是对'中国境内投资者不可合法配置加密'的果断结论。flow的favorable对本用户不可执行,故被policy的合规约束override。",
-      "confidence": "high",
-      "reflection": {
-        "prev_stance": "bearish",
-        "prev_date": "2026-06-09T15:20:05Z",
-        "what_changed": "新增完整 forward_view (asset 层升级 v5 后级联到本大类),含 calendar+三情景+key_assumptions+tail_risks+trigger_monitor",
-        "why_changed": "forward_view 在 asset:equity 层 A/B 测试证实有效(89 vs 52),全大类级联升级",
-        "self_check": "level_2_cascade_upgrade"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-12",
-            "event": "美 5 月 CPI",
-            "consensus": "4.2%",
-            "our_view": "4.2-4.4% inline_but_hawkish_path",
-            "gap": "inline_but_hawkish_path"
-          },
-          {
-            "date": "2026-06-13",
-            "event": "中国 5 月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7% 边际走弱",
-            "gap": "slight_dovish"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持 3.50-3.75%",
-            "our_view": "维持但点阵图 hawkish drift",
-            "gap": "hawkish_drift"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中 5 月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline"
-          }
-        ],
-        "mid_term_path": "Fed 9月降息25bp概率45%(consensus 60%)→hawkish drift; PBoC 7月政治局+9月降准窗口; 2s10s已正常化(衰退后置6-12月)",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13公布<7.0%即推翻"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%触发风险资产降配"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp(已正常化但<长期均值85bp,衰退后置6-12月);HY OAS 3.0-3.3%(健康未到3.8%警戒);铜金比走弱(工业景气趋缓)",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.95,
-            "trigger": "中国境内合规无变",
-            "macro_outcome": "持续禁止",
-            "asset_impact": "维持0%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.03,
-            "trigger": "政策出现QDII加密通道",
-            "macro_outcome": "合规变化",
-            "asset_impact": "研究但不立即配置"
-          },
-          {
-            "name": "bear",
-            "prob": 0.02,
-            "trigger": "市场崩盘但无影响",
-            "macro_outcome": "已0%无敞口",
-            "asset_impact": "无变化"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "无",
-            "prob": 0.0,
-            "hedge_action": "已0%无需对冲"
-          }
-        ],
-        "trigger_monitor": [
-          "监管政策变化(暂无)→持续监控",
-          "保持0%不动"
-        ],
-        "positioning_view": "(本大类自身周期+组合内位置)",
-        "iv_skew_view": "(参考全市场VIX~20正常)"
-      }
-    },
-    "plan": {
-      "instrument_mix": [
-        {
-          "instrument": "加密货币(BTC/ETH)",
-          "tradable": false,
-          "suggest_pct": 0,
-          "reasoning": "中国境内无合法配置通道,合规红线,不可配置"
-        }
-      ],
-      "note": "零持仓且建议维持0%。核心是合规不可行性而非市场判断。若用户有合法境外身份/账户+可承受归零,仅极小投机仓(≤1%),非战略配置。",
-      "risk_flags": [
-        "合规/监管风险(最高,境内禁止)",
-        "无合法申购渠道",
-        "极高波动",
-        "与纳指高相关",
-        "高利率逆风"
-      ]
-    },
-    "data_quality": "充分。BTC$63K/ETH$1670、中国2021禁令、港美合规ETF进展、利率环境均联网核实(2026-06-09)。零持仓大类，核心结论由合规红线决定。",
-    "evidence": [
-      {
-        "claim": "alternative 零持仓",
-        "source": "holdings.json/v4_classifier",
-        "status": "verified"
-      },
-      {
-        "claim": "BTC $63,000, ETH $1,670 (回调中)",
-        "source": "coindesk/binance 2026-06-09",
-        "status": "verified"
-      },
-      {
-        "claim": "中国2021年924十部委通知全面禁止境内虚拟货币交易,至今有效",
-        "source": "中国人民银行 pbc.gov.cn",
-        "status": "verified"
-      },
-      {
-        "claim": "香港2024批准合规BTC/ETH现货ETF,但内地资金受外汇管制无合法申购路径",
-        "source": "香港证监会/国家外汇管理局",
-        "status": "verified"
-      },
-      {
-        "claim": "Fed hold 3.50-3.75%, US10Y 4.55% 高利率压风险资产",
-        "source": "FOMC/morningstar 2026-06",
-        "status": "verified"
-      }
-    ]
+    "data_status": "spawn_subagent_ask_v2 director真辩证(macro/flow/policy 三视角)"
   }
 }

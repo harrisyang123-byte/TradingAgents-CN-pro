@@ -26,6 +26,62 @@
     "bull_thesis": "全球安防#1 25%份额+ROIC 11.6-15.4%价值创造+AI大模型赋能+EBG第二曲线+现金流1.79x优质",
     "bear_thesis": "营收近零增长+实体清单未解除+G端财政紧+大华/宇视价格战+AIoT 31.7%增速单源高估"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "视频监控 2024 $50.5-72.3B(rb.gy/market.us多源) / AIoT 2024 $171.4B(grandview)",
+    "tam_2030E_usd_b": "视频监控 2030 $135-148B(straits/grandview/fortune) / AIoT 2030 $896.8B(grandview高估区间)",
+    "cagr_pct": "视频监控 9.6-13.5%(4源) / AIoT 31.7%(grandview单源,未三角验证可能高估)",
+    "penetration_stage": "传统安防成熟期(国内G端饱和) / AI赋能渗透爆发期(<30%渗透AI)",
+    "industry_forward_peg": "海康 PE 19.6/增速18.5%=PEG 1.06合理",
+    "leaders_share_distribution": "海康全球安防#1 25%+/大华15%+/宇视8% CN3 50%+ / Axis(瑞典)/Bosch海外份额下降",
+    "key_drivers_5yr": [
+      "G端财政承压(中国地方政府)→EBG企业数字化转型成功率",
+      "AI大模型赋能(观澜)单客户ASP提升",
+      "美国实体清单未解除海外份额受限",
+      "工业视觉/机器人/智慧仓储非安防场景"
+    ],
+    "data_sources": [
+      "Grandview AIoT 2030",
+      "market.us视频监控2035",
+      "straits research",
+      "fortune business insights",
+      "技术导航"
+    ],
+    "methodology_used": [
+      "尺①三角$135-148B(2030视频监控3源相对一致)",
+      "尺②拆解海康TAM=全球$135B×25%份额=$33B vs 当前营收$13B空间2.5x",
+      "尺③久期5-7年(AI渗透+EBG转型)",
+      "尺④双速分化(传统成熟+AI赋能爆发)",
+      "尺⑤PEG 1.06合理",
+      "尺⑥CN3垄断50%+",
+      "尺⑦Q1营收零增+AI项目签约+实体清单监控"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 6,
+    "rulers_used": 7,
+    "critic_caveats": [
+      "AIoT TAM单源未三角验证",
+      "AIoT 31.7%CAGR单源可能高估",
+      "缺量化景气先行指标(订单/库存/产能)",
+      "PBG/EBG/SMBG增速混合18.5%未拆分",
+      "实体清单影响未量化"
+    ],
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "cautious_bullish",
+    "what_changed": "本轮加industry_future_market+尺①AIoT 31.7%标单源未三角验证",
+    "why_changed": "三维框架对齐"
+  },
+  "data_status": "synthesized_by_main_agent_with_websearch_verified(≥3独立源+7把尺)",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:AIoT安防",
     "status": "gray",

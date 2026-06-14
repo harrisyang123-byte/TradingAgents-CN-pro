@@ -26,6 +26,63 @@
     "bull_thesis": "WSTS/SIA/Gartner多源一致+WFE连续3年+8.6%/8.2%/7.2%上行+AI capex扩张+国产替代导入后期",
     "bear_thesis": "forward PEG 3-11倍透支/龙头瓜分中国<5%空间/2028周期拐点/ROIC<WACC价值毁灭"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "WSTS 2025 $700.9B / SIA 2024 $630.5B→2025 $791.7B / Gartner 2025 $733B",
+    "tam_2030E_usd_b": "$1100-1500B 区间(precedenceresearch $1277B/market.us $1500+/Gartner外推)",
+    "cagr_pct": "8-15%(口径不同, 中位 9-10%)",
+    "penetration_stage": "AI加速器爆发期起点(8%→20% 服务器渗透) + 中国设备国产替代导入期后期(15%→50%)",
+    "industry_forward_peg": "北方华创 PE 87x/CAGR 8%=PEG 11(透支); 中微 PE 89x/30.7%=2.9偏贵; 华特 PE 166.8x/-26.7%=负(无意义); 移远 PE 17.3x/42%=0.41(低估); A股普遍透支3-5年",
+    "leaders_share_distribution": "代工台积电60%+三星15%+联电8% top3 83% 中芯~5% / 设备 ASML+AMAT+LAM+TEL 80% 北方华创~3% / WFE NAURA(北方华创)2024跃升至#6",
+    "key_drivers_5yr": [
+      "AI/GPU加速器渗透率 8%→20%(2024-2028)",
+      "中国WFE国产化率15%→50%",
+      "2028存储周期拐点预警(Gartner)",
+      "地缘制裁中国WFE份额从36%(2024)降至31%(2025)"
+    ],
+    "data_sources": [
+      "WSTS Spring 2025",
+      "SIA",
+      "Gartner 1Q25/3Q25",
+      "SEMI",
+      "precedenceresearch",
+      "market.us",
+      "grandviewresearch"
+    ],
+    "methodology_used": [
+      "尺①三角验证(全球$1100-1500B/WFE 2026 $139B多源一致)",
+      "尺②拆解(GPU $280B 2029=AI商业化×服务器×AI占比70%×GPU单价)",
+      "尺③久期(半导体4年周期+AI高增速3-5年窗口2024-2027)",
+      "尺④渗透阶段(AI爆发起点+国产替代导入后期)",
+      "尺⑤forward PEG(全面透支3-5年)",
+      "尺⑥龙头瓜分(top3/4 80%+ 中国份额<5%)",
+      "尺⑦先行3同向(WFE+/库存去化/AI capex)"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 82,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 7,
+    "rulers_used": 5,
+    "critic_caveats": [
+      "尺②TAM拆解未做(机构总数未反推)",
+      "尺⑦景气先行仅WFE一个(缺DRAM/fab利用率/B/B ratio≥3交叉)",
+      "PEG陷阱未显式排雷(移远42%是否IoT周期高点)",
+      "ROIC<WACC缺拐点时间锚"
+    ],
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "cautious_bullish(2026-06-12)",
+    "what_changed": "本轮加 industry_future_market 完整模块, 7把尺论证, 中国份额天花板量化(<5%代工/<3%设备)",
+    "why_changed": "对齐三维框架, 让下游个股expert_valuation有统一锚点"
+  },
+  "data_status": "synthesized_by_main_agent_with_subagent_debate",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:半导体产业链",
     "status": "gray",

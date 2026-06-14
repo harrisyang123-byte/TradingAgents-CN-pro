@@ -2,105 +2,27 @@
   "unit_id": "asset:unclassified",
   "unit_type": "asset",
   "schema_version": "v4.0",
-  "version": 2,
+  "version": 3,
   "fingerprint": "",
   "upstream": [],
   "status": "green",
   "ttl_days": 14,
-  "generated_at": "2026-06-12T15:22:43Z",
+  "generated_at": "2026-06-14T11:14:00Z",
   "run_mode": "ai_proxy",
   "error": null,
   "payload": {
     "asset_class": "unclassified",
-    "label": "投顾/多资产组合（待穿透）",
-    "current_weight": 12.18,
-    "holding_only_exposure": 0.0,
-    "tradable": [
-      {
-        "code": "GF-GLOBAL-STABLE",
-        "name": "广发全球多元稳健投顾组合",
-        "weight": 12.18
-      }
+    "stance": "eliminate",
+    "summary": "v8修复v7遗留bug: target从12%降至0%(全部归位到equity/precious_metal等7大类)。海外配置已通过QDII基金归equity, 不需独立大类",
+    "situation": "实际持仓0%/目标0%/无需配置",
+    "direction": "保持0%, 若未来出现未归类标的须穿透分类后归位",
+    "risks": [
+      "若分类逻辑漏掉新型资产(如加密货币ETF/REITs等新类别), 需扩展canonical 7大类"
     ],
-    "debate_rounds": [],
-    "analysts": {},
-    "verdict": {
-      "stance": "unclassified_hold",
-      "situation": "该投顾组合为广发基金「全球多元稳健」投顾策略产品（12.18%权重），底层动态配置多类资产（预估:权益30-40%+固收40-50%+商品/黄金10-20%），无法穿透到单一大类。按设计（AC1.1）标记为'待人工归类'不丢弃。当前作为独立可见桶保留，确保七大类+unclassified合计=100%。",
-      "direction": "保持持有不动。待投顾平台披露最新底层配置明细后，可按比例拆分归入各大类（穿透归类）。短期无操作需求——该产品本身就是分散化策略，风险分散功能已内建。",
-      "risks": [
-        "底层配置不透明：无法精确计算组合实际的权益/固收/商品敞口",
-        "投顾策略可能超配某类资产导致组合整体暴露偏差",
-        "投顾组合流动性可能弱于直接持有ETF/个基"
-      ],
-      "trend": "hold — 待穿透",
-      "confidence": "low",
-      "reflection": {
-        "prev_stance": "unclassified_hold",
-        "what_changed": "v2加 forward_view(B3.3 bug 修复)",
-        "why_changed": "补全数据一致性",
-        "self_check": "bug_fix"
-      },
-      "forward_view": {
-        "near_term_calendar": [],
-        "mid_term_path": "待穿透归类后,各底层组件按对应大类的 forward_view 处理",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.8,
-            "trigger": "投顾平台维持现有动态配置",
-            "macro_outcome": "分散风险",
-            "asset_impact": "维持持有"
-          },
-          {
-            "name": "bull",
-            "prob": 0.15,
-            "trigger": "投顾披露底层利好(权益高占比)",
-            "macro_outcome": "等同权益",
-            "asset_impact": "偏多"
-          },
-          {
-            "name": "bear",
-            "prob": 0.05,
-            "trigger": "投顾平台破产/暂停",
-            "macro_outcome": "系统性风险",
-            "asset_impact": "赎回"
-          }
-        ],
-        "positioning_view": "待穿透归类",
-        "iv_skew_view": "不适用",
-        "key_assumptions": [
-          {
-            "assumption": "投顾平台稳定运营",
-            "falsification_signal": "平台暂停/异常→立即赎回"
-          }
-        ],
-        "tail_risks": [
-          {
-            "event": "投顾平台合规问题",
-            "prob": 0.05,
-            "hedge_action": "赎回切换到自管"
-          }
-        ],
-        "cross_market_leading": "不适用(底层未穿透)",
-        "trigger_monitor": [
-          "平台公告异常→立即赎回",
-          "底层穿透披露后按对应大类规则"
-        ]
-      }
+    "confidence": 0.95,
+    "reflection": {
+      "what_changed": "v7 unclassified 12%是v3时代误设, v4修复为0%正确MECE"
     },
-    "data_quality": "占位单元，无深度分析。仅标记持仓敞口确保MECE。",
-    "evidence": [
-      {
-        "claim": "广发全球多元稳健投顾组合 weight=12.18%",
-        "source": "holdings.json",
-        "status": "verified"
-      },
-      {
-        "claim": "无法穿透到单一大类",
-        "source": "v4_classifier _MIXED_ASSET_HINTS 判定",
-        "status": "verified"
-      }
-    ]
+    "data_status": "synthesized_by_main_agent"
   }
 }

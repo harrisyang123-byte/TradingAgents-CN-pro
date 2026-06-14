@@ -162,6 +162,7 @@ export interface AssetVerdict {
   stance?: string
   situation?: string
   direction?: string
+  summary?: string
   risks?: string[]
   trend?: string
   confidence?: string

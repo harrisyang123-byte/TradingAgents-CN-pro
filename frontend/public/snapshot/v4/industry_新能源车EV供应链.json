@@ -26,6 +26,62 @@
     "bull_thesis": "EV渗透爆发+热管理ASP 200→3000-5000元+三花全球30%+机器人期权",
     "bear_thesis": "PEG 1.40偏高+Q1扣非警示+价格战传导+ROIC不突出+机器人5年远"
   },
+  "industry_future_market": {
+    "tam_now_usd_b": "BTMS 2024 $3.2-3.75B(marketsandmarkets/gminsights/emergen 多源)",
+    "tam_2030E_usd_b": "$7-9B(4源中位; grandview $29B离群弃用)",
+    "cagr_pct": "14-16%(4源中位)",
+    "penetration_stage": "EV爆发期上半段(20%→50%, 5-7年窗口)",
+    "industry_forward_peg": "三花 PEG 1.40偏高(剔除机器人期权后真实>1.7)",
+    "leaders_share_distribution": "三花全球热管理#1 30% / 盾安/翰昂/银轮追赶",
+    "key_drivers_5yr": [
+      "EV销量1700万→4500万辆(2024-2030)",
+      "单车热管理价值量燃油车200→EV 3000-5000元",
+      "机器人T项目期权",
+      "价格战传导"
+    ],
+    "data_sources": [
+      "marketsandmarkets BTMS",
+      "gminsights EV TMS",
+      "emergen",
+      "thebusinessresearchcompany",
+      "alliedmarketresearch"
+    ],
+    "methodology_used": [
+      "尺①三角$7-9B 4源一致",
+      "尺②三花拆解4500万×$300×30%≈$40亿",
+      "尺③久期5-7年",
+      "尺④爆发上半段",
+      "尺⑤PEG 1.40偏高",
+      "尺⑥三花30%龙头",
+      "尺⑦Q1扣非+价格战警示"
+    ]
+  },
+  "value_creation_industry": {},
+  "fund_recommendation": {},
+  "credibility": {
+    "final_verdict": "ACCEPT",
+    "critic_score": 78,
+    "reviewers": [
+      "v4-investor-critic"
+    ],
+    "review_method": "spawn_subagent_ask_v2 真复核",
+    "7_items_pass": 6,
+    "rulers_used": 5,
+    "critic_caveats": [
+      "尺②TAM拆解未做(应4500万×$150-200=$6.75-9B反推)",
+      "尺⑦景气先行指标缺3+量化交叉(订单/产能/价格)",
+      "6.11.6关键变量缺可证伪信号阈值",
+      "龙头瓜分缺top3累计%",
+      "EV销量笔误风险"
+    ],
+    "data_status": "真critic spawn 复核"
+  },
+  "reflection": {
+    "prev_stance": "bullish",
+    "what_changed": "本轮加未来市场+grandview $29B离群剔除",
+    "why_changed": "三维框架对齐+区分行业β与个股α"
+  },
+  "data_status": "synthesized_by_main_agent_with_subagent_debate",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:新能源车EV供应链",
     "status": "gray",
