@@ -240,6 +240,24 @@
         "verified_pe": 14.91
       },
       "roic_vs_wacc": "verified ROIC 15.25% vs 行业WACC 8.5% → 价值创造; ROIC 15.25% > 8.5% 互联网WACC 价值创造,vs海外Meta/Alphabet ROIC可比但PE折价50%"
-    }
+    },
+    "debate_rounds": [
+      {
+        "round": 1,
+        "side": "bull",
+        "thesis": "ROIC 15.25%>WACC 8.5%三引擎: ①广告(视频号+小程序闭环,加载率提升空间)稳定现金流 ②游戏DNF手游+全球化pipeline周期回暖 ③AI(元宝DAU破亿+混元大模型)第二增长曲线。PE 14.91x vs Meta/Alphabet 25-30x折价50%, 中国互联网过度风险溢价。FCF 1500亿+/年, 2024-2025累计回购分红超2000亿港元股东回报确定。修正PEG=14.91/15.9≈0.94<1增长未充分定价",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": 1,
+        "side": "bear",
+        "thesis": "高增长阶段已过: 微信MAU 13.4亿天花板, 净利增速从30%+回落15-16%, 边际放缓明确。监管悬顶: 游戏版号/未成年/反垄断政策β无法对冲。AI重资本开支拐点: 2025-2026 capex翻倍1500-1800亿, 回报周期3-5年, 短期侵蚀FCF和分红。游戏依赖领航作品周期, pipeline可见度低单季波动大。折价50%部分反映治理折价(VIE+Prosus减持)非纯错误定价",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": "consensus",
+        "thesis": "ROIC>WACC价值创造无争议, 分歧=AI capex回报周期+监管β定价。PE 14.91x安全边际, 建仓6-7%合理, 跌破HK$400或capex/FCF>80%触发减仓, AI商业化季度进展作加仓催化"
+      }
+    ]
   }
 }

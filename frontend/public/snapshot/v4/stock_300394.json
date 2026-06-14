@@ -179,7 +179,24 @@
       "破 280 元 → 清仓"
     ]
   },
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "ROIC 36-48%远超WACC为A股稀缺价值创造者, 800G/1.6T升级周期确定性强, 无源器件物理刚需量价齐升。港股上市开南向资金通道, CPO趋势下单模组器件用量增加反而受益。净利率30%+无有息负债财务极健康。卡位光器件套索+隔离器, 进入英伟达/博通生态深度",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "PEG 2.16已透支未来2年增长, 108x PE隐含持续50%+增速历史从未有器件公司做到。CPO渗透节奏反复震荡订单能见度≠长期确定性。中际旭创垂直整合无源器件=大客户变竞争者结构性风险。季度增速<40%即触发杀估值, PEG回归1.5意味30%下行",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "基本面一流无争议, 分歧在估值透支程度。减仓至半仓, 保留底仓享受周期β, 等PEG回落1.2-1.5再加仓。trigger: 季度增速<40%即杀估值信号"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "prev_rating": null,

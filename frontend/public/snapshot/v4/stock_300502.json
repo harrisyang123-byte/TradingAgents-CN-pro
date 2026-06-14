@@ -181,7 +181,24 @@
       "破 480 元 → 清仓"
     ]
   },
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "①价值创造碾压级:ROIC 50-66%远超WACC 11.5%,1元再投资创4-6元超额回报,A股科技硬件全场最高;②AI光互联结构性需求爆发:800G→1.6T→3.2T→30T代际升级,北美CSP+国内算力竞赛驱动光模块量价齐升,新易盛海外CSP核心供应商份额持续;③PEG极度低估:当期0.22,forward 0.4-0.6 < 1.0合理线;④英伟达/博通生态绑定,1.6T硅光+CPO双路线,share从challenger升primary supplier",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "①PE 52.7x历史高分位,单季业绩miss可回撤20-30%,安全边际薄;②235.9%增速不可持续,800G低基数+ASP红利,2027大概率回落50-80%,PEG将抬升;③CSP capex拐点风险,北美四大CSP连续6季超预期,18-24个月后必现消化期;④技术路线颠覆风险,CPO加速+硅光集成方案被自研内化,需持续证明新路线卡位",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "短期目标¥450-600,核心变量1.6T订单+CSP下半年capex指引。Q3维持150%+可看¥650; capex放缓支撑¥380-420。建仓:首仓当前价,加仓¥430-450,止损¥370(增长逻辑证伪)"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "prev_rating": null,

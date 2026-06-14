@@ -141,7 +141,24 @@
   ],
   "confidence": 0.62,
   "forward_view": null,
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "手机+IoT双引擎年贡献经营现金流>300亿, 为EV输血安全垫。SU7定价21.59-29.99万锚定中高端, 月交付破万验证产品力, 避开10万以下红海。生态闭环护城河深: 4亿MIUI月活+600+SKU IoT形成飞轮, 车机互联天然延伸非从零起步。全球化手机份额稳居前三(印度/欧洲/拉美), 海外占比近50%对冲国内内卷。76%增速虽含低基数但手机ASP持续提升(高端占比破20%)+IoT毛利改善确认盈利拐点。EV亏损收窄路径清晰: 2026H2有望单季盈亏平衡",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "ROIC 10.9% vs WACC 11%——每投入1元资本实际毁灭价值, EV重资产投入(工厂+研发年烧150亿+)将持续压制ROIC至少2-3年。汽车价格战白热化: BYD/吉利/零跑下探, SU7 20-30万段竞品密度最高(Model 3/汉/P7+), 补贴退坡后需求存疑。手机IoT增速放缓至个位数(国内换机周期40个月+), IoT大家电渗透见顶, '现金牛'实际增量有限。76%不可持续: 低基数+一次性投资收益, forward常态25-30%, HK$26.2对应forward PE约25x不便宜。补贴退出SU7月销或回落20-30%",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "核心矛盾=EV烧钱对集团ROIC拖累vs规模爬坡盈利拐点时点。手机IoT稳健但增量有限不足以支撑估值向上突破。持有观望, 等EV单季盈亏平衡信号(2026H2-2027H1)再加仓; 下行守HK$22(剔除EV后核心业务15xPE)止损"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "what_changed": "v1 首次 8 step. 旧 v2 是 B4 简化版.",

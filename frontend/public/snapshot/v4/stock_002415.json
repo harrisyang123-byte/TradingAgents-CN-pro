@@ -134,7 +134,24 @@
   ],
   "confidence": 0.7,
   "forward_view": null,
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "ROIC 11.6-15.4%>WACC 9%连续多年价值创造确认。经营CF/净利1.79x盈利含金量极高, 利润真实可分配。EBG企业数字化第二增长极, 工业视觉/机器人/智慧仓储非安防场景打开天花板。观澜大模型落地行业垂直场景, 从卖硬件升级为卖AI解决方案单客户价值量提升。PE 19.6x对应18.5%增速, PEG 1.06未透支, 安全边际充足。EBG+AI持续兑现则forward PE可压缩至16-17x",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "2025年营收几乎零增长, G端财政约束持续收紧, 国内政府业务缩量风险。美国实体清单未解除, 海外高端芯片受限产品竞争力天花板存在。全球安防进入存量博弈, 宇视/大华追赶压缩利润空间。EBG转型尚未规模拐点, AI大模型变现不确定。ROIC从15.4%下滑至11.6%警惕, 若增速进一步放缓<15%则PE 19.6x不便宜。地缘升级则估值系统性重定价",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "价值创造者确认但营收增长乏力+地缘风险压制估值弹性。PEG 1.06合理非低估, 持有观察合理。关键信号: 下季EBG收入占比突破25%, 海外增速恢复双位数"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "what_changed": "v1 首次 8 step 真验闭环. 旧 v2 是 B4 简化版.",

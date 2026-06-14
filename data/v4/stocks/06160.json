@@ -187,6 +187,24 @@
       ],
       "note": "临界观望,创新药拐点未稳,合理",
       "data_status": "synthesized_by_main_agent"
-    }
+    },
+    "debate_rounds": [
+      {
+        "round": 1,
+        "side": "bull",
+        "thesis": "泽布替尼(BRUKINSA)全球销售突破: 2025年化已超40亿美元, 持续抢占伊布替尼份额, 北美+欧洲放量逻辑清晰。管线深度行业领先: 替雷利珠单抗(PD-1)、奥布替尼后线、BCL-2抑制剂sonrotoclax进入III期, 多款FIC/BIC候选。商业化能力已证: 从零建成覆盖40+国家自有销售团队, 不依赖大药企授权, 利润率提升空间大。143.5%净利增速标志首次触及盈利拐点, 2026H2有望Non-GAAP持续盈利, DCF锚从'烧钱期'切'利润释放期'重估",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": 1,
+        "side": "bear",
+        "thesis": "ROIC≈WACC临界意味当前每投1元仅创造1元回报, 未证明持续价值创造——创新药企'盈利拐点'常反复(参考再鼎)。营收高度集中泽布替尼单品(占比>80%), 非共价BTK抑制剂(Lilly pirtobrutinib)或LOXO-305放量则核心壁垒受威胁。研发烧钱未止: 2025费用仍>15亿美元, 后续管线III期失败则沉没成本巨大。美股ADR+港股双重上市, BIOSECURE延伸效应构成估值折价。PS约6倍对标已盈利大型biotech(Vertex/Regeneron)仍有溢价, 已包含乐观预期",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": "consensus",
+        "thesis": "已从纯烧钱biotech进化为具备全球商业化能力的创新药平台, 泽布替尼竞争力确认。但ROIC临界+单品依赖+政策尾部风险, 当前risk/reward对称, 等连续2季Non-GAAP盈利确认或第二曲线(sonrotoclax数据)催化后右侧介入更优, 维持临界观望"
+      }
+    ]
   }
 }

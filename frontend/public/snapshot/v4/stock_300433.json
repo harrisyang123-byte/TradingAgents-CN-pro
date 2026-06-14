@@ -140,7 +140,24 @@
       "破 24 元(去年低点) → 清仓"
     ]
   },
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "苹果供应链核心卡位: 蓝思是iPhone/Apple Watch玻璃盖板全球最大供应商, 客户粘性极强, 钛合金中框已拿到量产份额, 单机ASP从30元→120元+。转型: 从纯玻璃向'玻璃+金属+蓝宝石+陶瓷'多材料精密制造, 新能源车外观件(特斯拉/理想供应商)打开第二曲线。AR/VR光学(Meta Quest/Apple Vision Pro光学模组供应商), MicroLED/Pancake光学下一代硬件周期卡位。大型压铸(Giga Casting)布局一体化车身结构件, 对标拓普/文灿远期想象空间大。52x按2027净利增速20%+, PEG回落合理",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "价值毁灭铁证: ROIC 5.2-6.9%持续低于WACC 9%, 每投1元只创造0.6元, 本质是替苹果打工的重资产代工厂, 规模越大毁灭越多。苹果议价权碾压: 占营收50%+每年压价3-5%, 毛利率锁死15-18%无法突破, 净利率仅5-7%。PE 52x严重高估: 增速仅10.9%, PEG=4.8x, 即使给20%增速仍2.6x, 横向对比伯恩光学/比亚迪电子仅15-25xPE。劳动密集本质未变: 14万员工人均产值偏低, 自动化替代受玻璃工艺限制。中美关税升级期出口受冲击, 越南产能转移增加管理成本。新业务(车/AR)仍亏损培育期",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "客户卡位优质但商业模式结构性缺陷——ROIC<WACC意味增长不创造股东价值, 52xPE对10.9%增速定价过高。AR/VR和汽车为远期期权未贡献利润。维持回避, 等PE回落至30x以下或ROIC突破WACC再评估"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "prev_rating": null,

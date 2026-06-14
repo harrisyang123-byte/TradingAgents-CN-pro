@@ -46,6 +46,24 @@
       ],
       "note": "★深挖发现,三维全优,建仓5-8%合理(critic78已认可)",
       "data_status": "synthesized_by_main_agent"
-    }
+    },
+    "debate_rounds": [
+      {
+        "round": 1,
+        "side": "bull",
+        "thesis": "价值创造确认: ROIC 21-28%远超WACC 10%, 每1元再投资创造2倍以上超额回报, CRDMO一体化平台+30000+科学家规模壁垒+客户转换成本极高(FDA申报绑定)。估值错杀: PE 14.9x对应forward PEG 0.5-0.65, 隐含市场定价仅7-10%增速实际22-30%巨大预期差。结构性恢复: 2025H2全球biotech融资拐点, 管线分子3400→4100+, TIDES产能利用率55%→85%, GLP-1供应链外溢订单。客户黏性: 前十大客户留存98%, Follow-the-molecule单客户LTV持续提升",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": 1,
+        "side": "bear",
+        "thesis": "BIOSECURE未消: 2026中期选举前仍有重启窗口, 落地则美国政府合同(8-12%)18个月切换, 信号效应致MNC预防性分散订单。增速含水: 102.6%中40-50pct来自2024寒冬低基数, 剔除后22-30%对PE 14.9x非极度低估。Capex压FCF: 2023-2025累计180-200亿, 产能爬坡折旧吞噬利润率2-3pct。投融资恢复斜率慢: 全球VC仍低于2021峰值40%, 中小biotech订单能见度仅6-9个月",
+        "data_status": "spawn_subagent_ask_v2"
+      },
+      {
+        "round": "consensus",
+        "thesis": "ROIC>WACC价值创造无争议, PE 14.9x已部分反映悲观。分歧=BIOSECURE概率定价+融资恢复斜率。建仓5-8%合理, 设¥85止损(对应12.7x破坏性情景), 催化剂2026Q3法案窗口关闭+TIDES产能验证订单"
+      }
+    ]
   }
 }

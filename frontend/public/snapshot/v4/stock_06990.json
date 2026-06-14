@@ -171,7 +171,24 @@
       "破320港元 → 清仓"
     ]
   },
-  "debate_rounds": [],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "ADC平台技术领先, MSD $14亿BD验证, 管线丰富进入关键阶段, 港股未盈利创新药热门标的, SKB264等核心管线临床数据持续披露",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "ROIC负/现金流负依赖融资, 里程碑历史兑现率<30%, 本质pipeline公司非平台, ADC赛道竞争白热化(第一三共/Pfizer/AZ等), 股价已透支2-3年预期",
+      "data_status": "spawn_subagent_ask_v2"
+    },
+    {
+      "round": "consensus",
+      "thesis": "技术平台能力真实但'技术→商业化'鸿沟未跨越, 已price-in乐观情景, 未盈利硬约束下回避, 等SKB264关键数据/NDA等催化落地后以confirmed milestone重新定价"
+    }
+  ],
   "analysts": {},
   "reflection": {
     "prev_rating": null,
