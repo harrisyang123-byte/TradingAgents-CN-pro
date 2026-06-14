@@ -2,12 +2,12 @@
   "unit_id": "stock:603236",
   "unit_type": "stock",
   "schema_version": "v4.0",
-  "version": 5,
+  "version": 4,
   "fingerprint": "",
   "upstream": [],
   "status": "ok",
   "ttl_days": 5,
-  "generated_at": "2026-06-14T04:38:07Z",
+  "generated_at": "2026-06-13T17:36:39Z",
   "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
@@ -15,10 +15,10 @@
     "name": "移远通信",
     "industry": "半导体/物联网模组",
     "verdict": {
-      "stance": "持有偏谨慎(价值创造存疑,ROIC<WACC, 等改善信号再加)",
+      "stance": "加仓(分批至 2.5-3%)",
       "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定",
-      "summary": "【价值创造维度重审】移远虽是全球 IoT 模组龙头(TAM大+共识目标+33.9%), 但 verified ROIC 5.92-7.89%<WACC 9% + FCF/股-5.96(烧钱) = '增长但不创造价值'。之前'加仓2.0-2.5%'仅看 PE 折价+共识 upside, 未看 ROIC, 现下调为'持有偏谨慎'。加仓门槛: ROIC 改善信号(净利率提升/capex收敛/FCF转正)出现才加。",
-      "confidence": 0.62,
+      "summary": "全球 IoT 模组绝对龙头(34%市占), 现价 ¥55.50 (verified 2026-06-12) 接近 52 周低点 ¥50.75. 反向 DCF: PE 27.2x 隐含 5 年 CAGR ~13% vs 实际 2025+30%/+42% 形成正预期差. 共识目标 ¥74.33 (Buy +33.9%) + 敏感性矩阵加权 ¥68.4 (+23%) 双重独立锚定. 反骑墙铁律: 证据明确向上必须站队, 用户现仓 1.48% 低配, 加至 2.5-3% (¥27000-32400). Q2 财报(2026-08-11)三信号确认后加至 4%.",
+      "confidence": 0.72,
       "confidence_reason": "v2 0.62 → v3 0.72: 价格冲突已消解 + 6 项数据齐全 + 共识目标价独立锚定 + 反骑墙站队 → +0.10. 仍保留 0.10-0.20 不确定性源于 supplier_threat 中高 + 净利率天花板 4% + 地缘. critic 已认可'数据齐全时 confidence 应 ≥0.70'.",
       "confidence_breakdown": {
         "value": 0.72,
@@ -28,8 +28,7 @@
         "execution_uncertainty": "-0.10 (Q2 净利率拐点未验证 + 加仓时机选择)",
         "tail_risk_uncertainty": "-0.08 (高通/展锐 turnkey + 地缘 + 价格战不可控)",
         "memory_drag": "-0.05 (002371 自评偏差教训, 物联网模组缺历史成功案例参照)"
-      },
-      "stance_revised_from": "加仓(分批至 2.5-3%)"
+      }
     },
     "thesis": "移远 = 全球 IoT 蜂窝模组绝对龙头(34%市占, IoT Analytics 2025), 主营 4G/LPWA(50%) + 5G(25%) + 智能模组车载(15%) + 解决方案(10%); 海外 55-60% 客户分散. 2025 营收 243亿(+30.83%) 归母 8.37亿(+42%) 经营杠杆释放. **现价 ¥55.50 是入场价**: PE 27.2x 隐含 CAGR 13% 与行业平均吻合, 但 forward PE 20.43x 已 price-in 增速温和回落; 共识目标 ¥74.33 + 敏感性加权 ¥68.4 + bull 情景 ¥80-100 共同支撑增持判断. **关键约束**: supplier_threat 中高(高通/展锐 turnkey 威胁) + 净利率天花板 4% + 海外汇兑+地缘 — 这些已被现价折价反映 (52 周低点 ¥50.75 横盘). Q2 财报 2026-08-11 是验证拐点的关键窗口.",
     "debate_synthesis": {
@@ -219,8 +218,7 @@
         "critic v3 反骑墙铁律强化: 数据全面向上必须站队, v2 持有观望被 critic 判怯判, v3 已纠正",
         "u-blox 反向 valuetrap (国际 IoT 模组龙头 PE 12-15x 横盘 5 年): 移远差异点 = 高市占+RedCap+车规增量, 但需 12 月观察期",
         "002371 v3 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版强制真 critic 复核 v1+v2+v3 三轮"
-      ],
-      "value_creation_what_changed": "★价值创造维度改判: stance 加仓→持有偏谨慎。之前只看 PE 14.91x 折价+共识+33.9%, 没看 ROIC。AKShare verified ROIC 5.92-7.89%<WACC 9% + FCF/股-5.96 揭示移远是'好赛道烂回报'资本密集陷阱(ROE 18.76%是杠杆假象)。这是价值创造维度的实战价值——纠正了'看估值折价就加仓'的片面判断"
+      ]
     },
     "critic_evaluation": {
       "critic_v1_score": 62,
@@ -236,15 +234,12 @@
         "duan": "CONDITIONAL_PASS — 安全边际 30% 合理, 止损 ¥40 (-28%) 可接受最坏情景",
         "serenity": "PASS — 瓶颈/赔率逻辑成立 + u-blox 反向案例诚实",
         "dalio": "CONDITIONAL_PASS — beta 0.79 防御 + IoT 周期上行, 但人民币汇率/高通垂直整合 tail risk 需补"
-      },
-      "value_creation_recheck": "ACCEPT",
-      "value_creation_recheck_score": 79,
-      "value_creation_recheck_note": "critic: 原版86高估(漏判价值创造),重审79更贴合事实; ROIC<WACC=价值毁灭,PE折价是陷阱非边际,下调加仓→持有正确,reconcile诚实"
+      }
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 79,
-      "note": "价值创造维度重审暴露 ROIC<WACC 短板, 真实分从86降至79(更诚实), stance 加仓→持有偏谨慎"
+      "score": 82,
+      "note": "critic v3 82 分接近 ACCEPT 阈值 85, 4 视角全 PASS/CONDITIONAL_PASS, 残余 issues v4 已补"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -263,9 +258,6 @@
       "net_margin_pct": 3.4,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 6.9% vs WACC~9% → 价值毁灭/不足"
-    },
-    "value_creation": {
-      "roic_vs_wacc": "★verified(AKShare): ROIC 5.92-7.89% < WACC≈9% = 价值毁灭/不足。FCF/股 -5.958(负,重资产模组烧钱严重)。ROE 18.76% 是杠杆撑的假象(资产负债率高)——ROIC 才6-8%揭示真实资本回报不足。**好赛道(IoT模组TAM大)但烂回报(ROIC<WACC),类似通富/中芯资本密集陷阱**"
     }
   }
 }

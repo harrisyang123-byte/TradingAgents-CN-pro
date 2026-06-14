@@ -5,7 +5,7 @@
     "analyzed_count": 9,
     "total_stocks": 9,
     "total_funds": 26,
-    "pending_actions": 10,
+    "pending_actions": 9,
     "style_region": {
       "A股": 450172.88999999996,
       "美国": 19415.815,
@@ -110,10 +110,10 @@
               "weight": 1.48,
               "instrument_type": "stock",
               "analyzed": true,
-              "stance": "加仓(分批至 2.5-3%)",
+              "stance": "持有偏谨慎(价值创造存疑,ROIC<WACC, 等改善信号再加)",
               "action": "加仓 0.5-1.0% 至 2.0-2.5% (现价 ¥55.50 进入价值派买点+共识 33.9% upside)",
-              "confidence": 0.72,
-              "summary": "全球 IoT 模组绝对龙头(34%市占), 现价 ¥55.50 (verified 2026-06-12) 接近 52 周低点 ¥50.75. 反向 DCF: PE 27.2x 隐含 5 年 CAGR ~13% vs 实际 2025+30%/+42% 形成正预期差. 共识目标 ¥74.33 (Buy +33.9%) + 敏感性矩阵加权 ¥68.4 (+23%) 双重独立锚定. 反骑墙铁律: 证据明确向上必须站队, 用户现仓 1.48% 低配, 加至 2.5-3% (¥27000-32400). Q2 财报(2026-08-11)三信号确认后加至 4%.",
+              "confidence": 0.62,
+              "summary": "【价值创造维度重审】移远虽是全球 IoT 模组龙头(TAM大+共识目标+33.9%), 但 verified ROIC 5.92-7.89%<WACC 9% + FCF/股-5.96(烧钱) = '增长但不创造价值'。之前'加仓2.0-2.5%'仅看 PE 折价+共识 upside, 未看 ROIC, 现下调为'持有偏谨慎'。加仓门槛: ROIC 改善信号(净利率提升/capex收敛/FCF转正)出现才加。",
               "stop_loss": "¥40 (-28%, bear 极端兑现)",
               "direction": "看多 — 现价 ¥55.50 已 price-in 衰退, 共识 +33.9% upside + 加权 +23% upside 双重锚定"
             }
@@ -582,7 +582,7 @@
         "amount": null
       },
       {
-        "desc": "移远通信 加仓(分批至 2.5-3%)",
+        "desc": "移远通信 持有偏谨慎(价值创造存疑,ROIC<WACC, 等改善信号再加)",
         "amount": null
       },
       {
