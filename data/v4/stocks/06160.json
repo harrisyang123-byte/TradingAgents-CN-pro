@@ -138,6 +138,17 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 280.0,
-    "valuation_basis": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。"
+    "valuation_basis": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。",
+    "value_creation_verified": {
+      "as_of": "2025-12-31",
+      "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+      "roic_pct": 8.28,
+      "roe_pct": 7.46,
+      "net_margin_pct": 5.37,
+      "gross_margin_pct": 87.49,
+      "debt_ratio_pct": 46.74,
+      "per_op_cashflow": 5.14,
+      "roic_vs_wacc9_verdict": "ROIC 8.28% vs WACC~9% → 临界"
+    }
   }
 }

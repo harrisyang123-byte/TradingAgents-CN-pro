@@ -331,6 +331,17 @@
         }
       },
       "key_finding": "EV 盈亏平衡时间是核心变量, 每延迟 6 月对应 -10% 估值压力"
+    },
+    "value_creation_verified": {
+      "as_of": "2025-12-31",
+      "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+      "roic_pct": 10.92,
+      "roe_pct": 18.31,
+      "net_margin_pct": 9.09,
+      "gross_margin_pct": 22.26,
+      "debt_ratio_pct": 47.58,
+      "per_op_cashflow": 1.31,
+      "roic_vs_wacc9_verdict": "ROIC 10.92% vs WACC~9% → 价值创造"
     }
   }
 }

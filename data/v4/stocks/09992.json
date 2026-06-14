@@ -548,6 +548,17 @@
     },
     "risks": [
       "🚨 关键新数据(2026-04 Bloomberg): 美国销售 3 月 -45% YoY 反转(vs 2月+41%/1月+130%) — 海外放缓不只是亚太,美洲也开始失速,Bloomberg Second Measure 信用卡数据"
-    ]
+    ],
+    "value_creation_verified": {
+      "as_of": "2025-12-31",
+      "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+      "roic_pct": 130.69,
+      "roe_pct": 77.52,
+      "net_margin_pct": 35.05,
+      "gross_margin_pct": 72.1,
+      "debt_ratio_pct": 29.43,
+      "per_op_cashflow": 8.09,
+      "roic_vs_wacc9_verdict": "ROIC 130.69% vs WACC~9% → 价值创造"
+    }
   }
 }

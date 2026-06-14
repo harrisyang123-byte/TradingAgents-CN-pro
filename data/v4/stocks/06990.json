@@ -148,6 +148,17 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 440.0,
-    "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。"
+    "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
+    "value_creation_verified": {
+      "as_of": "2025-12-31",
+      "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+      "roic_pct": -13.46,
+      "roe_pct": -9.34,
+      "net_margin_pct": -18.56,
+      "gross_margin_pct": 71.86,
+      "debt_ratio_pct": 18.73,
+      "per_op_cashflow": -0.77,
+      "roic_vs_wacc9_verdict": "ROIC -13.46% vs WACC~9% → 价值毁灭/不足"
+    }
   }
 }

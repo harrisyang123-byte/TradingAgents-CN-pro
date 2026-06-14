@@ -258,6 +258,17 @@
     "credibility": {
       "final_verdict": "ACCEPT",
       "score": 86
+    },
+    "value_creation_verified": {
+      "as_of": "2026-03-31",
+      "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+      "roic_pct": 6.26,
+      "roe_pct": 9.91,
+      "net_margin_pct": 9.98,
+      "gross_margin_pct": 39.81,
+      "debt_ratio_pct": 41.02,
+      "per_op_cashflow": 3.98,
+      "roic_vs_wacc9_verdict": "ROIC 6.26% vs WACC~9% → 价值毁灭/不足"
     }
   }
 }
