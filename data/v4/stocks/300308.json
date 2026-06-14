@@ -260,6 +260,17 @@
       "net_margin_pct": 30.28,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 36.6% vs WACC~9% → 价值创造"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 1149.0,
+        "roic_range": "31-41",
+        "industry_wacc": 11.5,
+        "stance": "建仓观察2-3%",
+        "reason": "★ROIC31-41%价值创造之王(光模块),但PE~89x高位需回调/分批观察,AI算力结构性",
+        "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }

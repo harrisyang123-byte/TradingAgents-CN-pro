@@ -167,6 +167,16 @@
     },
     "summary": "腾讯 PE 14.91x vs 同业 25-30x 低估逻辑成立, 3% 仓位+HK$380 止损纪律到位, 多派别估值路径完整 ACCEPT 87"
   },
-  "value_creation": null,
+  "value_creation": {
+    "actionable_verdict": {
+      "verified_price": 463.60001,
+      "roic_range": "15.25",
+      "industry_wacc": 8.5,
+      "stance": "建仓6-7%",
+      "reason": "ROIC15.25%>WACC8.5%价值创造+PE~14.9x(港股)vs海外Meta/Alphabet 25-30x折价50%=好公司+好价格",
+      "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
+  },
   "dcf_intrinsic": null
 }

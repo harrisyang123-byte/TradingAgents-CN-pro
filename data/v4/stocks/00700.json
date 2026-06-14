@@ -213,6 +213,17 @@
       "debt_ratio_pct": 39.13,
       "per_op_cashflow": 33.23,
       "roic_vs_wacc9_verdict": "ROIC 15.25% vs WACC~9% → 价值创造"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 463.60001,
+        "roic_range": "15.25",
+        "industry_wacc": 8.5,
+        "stance": "建仓6-7%",
+        "reason": "ROIC15.25%>WACC8.5%价值创造+PE~14.9x(港股)vs海外Meta/Alphabet 25-30x折价50%=好公司+好价格",
+        "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }

@@ -164,7 +164,16 @@
     "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理"
   },
   "value_creation": {
-    "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中芯A股: ROIC 2.74-3.65% vs WACC 12% → 严重价值毁灭(确认)"
+    "roic_vs_wacc_industrialized": "★WACC行业化(半导体 12.0%): 中芯A股: ROIC 2.74-3.65% vs WACC 12% → 严重价值毁灭(确认)",
+    "actionable_verdict": {
+      "verified_price": 124.88,
+      "roic_range": "2.7-3.7",
+      "industry_wacc": 12,
+      "stance": "观望(A股不入/H股关注)",
+      "reason": "ROIC2.7-3.7%<半导WACC12%价值毁灭,A股PE95x严重高估不入,H股35x相对合理可关注",
+      "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }

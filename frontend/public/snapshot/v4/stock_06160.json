@@ -201,7 +201,16 @@
   "data_status_overall": null,
   "critic_evaluation": null,
   "value_creation": {
-    "roic_vs_wacc": "★verified ROIC 8.28% → 临界(ROIC≈WACC)"
+    "roic_vs_wacc": "★verified ROIC 8.28% → 临界(ROIC≈WACC)",
+    "actionable_verdict": {
+      "verified_price": 158.89999,
+      "roic_range": "≈WACC",
+      "industry_wacc": 10,
+      "stance": "临界观望",
+      "reason": "ROIC≈WACC临界(百济神州),创新药龙头但盈利拐点未稳,观望待ROIC转正",
+      "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }

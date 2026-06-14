@@ -197,7 +197,16 @@
     "value_creation_recheck_note": "critic: ROIC低归类暂时性战略投入有据(云盈利+回购+历史ROIC>15%支撑), 建仓+门控优于直接降级, 建议补时间约束安全阀"
   },
   "value_creation": {
-    "roic_vs_wacc": "★verified(AKShare FY2026): ROIC 6.26% < WACC≈9% = 价值毁灭/不足。ROE 9.91%/净利率9.98% 也偏低。AI+电商重投入期资本回报被摊薄。但区别于移远(结构性): 阿里 ROIC 低是云AI capex+淘宝闪购战略投入期(主动选择), 若投入兑现 ROIC 可回升; 云智能已盈利+回购150亿美元提供底。属'暂时性价值创造不足'非'结构性毁灭'"
+    "roic_vs_wacc": "★verified(AKShare FY2026): ROIC 6.26% < WACC≈9% = 价值毁灭/不足。ROE 9.91%/净利率9.98% 也偏低。AI+电商重投入期资本回报被摊薄。但区别于移远(结构性): 阿里 ROIC 低是云AI capex+淘宝闪购战略投入期(主动选择), 若投入兑现 ROIC 可回升; 云智能已盈利+回购150亿美元提供底。属'暂时性价值创造不足'非'结构性毁灭'",
+    "actionable_verdict": {
+      "verified_price": 110.2,
+      "roic_range": "6.26",
+      "industry_wacc": 10,
+      "stance": "建仓降级谨慎+信号门控",
+      "reason": "ROIC6.26%<WACC战略投入期,云+AI回升路径但当前价值创造不足,信号确认前控仓",
+      "price_source": "stock_hk_daily/zh_a_daily新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }
