@@ -388,11 +388,11 @@
     "stock:00700": {
       "unit_id": "stock:00700",
       "unit_type": "stock",
-      "version": 1,
+      "version": 2,
       "fingerprint": "",
-      "status": "green",
+      "status": "ok",
       "ttl_days": 5,
-      "generated_at": "2026-06-12T15:18:16Z",
+      "generated_at": "2026-06-14T01:00:34Z",
       "upstream": [],
       "error": null,
       "path": "stocks/00700.json"
@@ -746,5 +746,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-13T18:33:08Z"
+  "updated_at": "2026-06-14T01:00:34Z"
 }
