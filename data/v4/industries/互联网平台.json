@@ -1,237 +1,56 @@
 {
   "unit_id": "industry:互联网平台",
-  "unit_type": "industry",
-  "schema_version": "v4.0",
-  "version": 5,
-  "fingerprint": "",
-  "upstream": [],
-  "status": "green",
-  "ttl_days": 7,
-  "generated_at": "2026-06-13T00:37:10Z",
-  "run_mode": "ai_proxy",
-  "error": null,
+  "as_of": "2026-06-14",
+  "version": 2,
   "payload": {
     "industry": "互联网平台",
-    "direction": "看多(政策友好+AI变现+港股估值修复)",
-    "vitality_level": "medium-high",
-    "related_holdings": [],
-    "chokepoint_map": [
-      {
-        "layer": "应用-AI入口",
-        "node": "AI 应用入口/分发",
-        "irreplaceability": "中",
-        "supply_concentration": "高(腾讯/阿里/百度三家覆盖80%+用户)",
-        "capacity_rigidity": "弱(可由新进者抢)",
-        "value_capture": "中",
-        "substitution_risk": "OpenAI/Google等海外巨头在华受限,字节跳动豆包+阿里通义千问竞争,2-3年格局未定",
-        "beneficiaries_a": [],
-        "beneficiaries_qdii": [
-          "腾讯00700",
-          "阿里09988",
-          "百度09888"
-        ],
-        "is_top": true,
-        "evidence_status": "verified"
-      },
-      {
-        "layer": "基础设施-算力",
-        "node": "算力(GPU+云)",
-        "irreplaceability": "高",
-        "supply_concentration": "高(阿里云/腾讯云/华为云3家)",
-        "capacity_rigidity": "强(GPU紧张+建设周期12-18月)",
-        "value_capture": "中",
-        "substitution_risk": "GPU受美管制+国产芯片(寒武纪/海光)2026替代率10-20%",
-        "beneficiaries_a": [
-          "寒武纪688256",
-          "海光信息688041"
-        ],
-        "beneficiaries_qdii": [
-          "阿里09988(阿里云)",
-          "腾讯00700(腾讯云)"
-        ],
-        "is_top": true,
-        "evidence_status": "verified",
-        "five_forces": {
-          "entry_threat": "中",
-          "substitute_threat": "低",
-          "buyer_power": "中",
-          "supplier_power": "高(GPU受管制)",
-          "internal_rivalry": "高(阿里云/腾讯云/华为云)",
-          "moat_verdict": "云护城河+AI变现,GPU供给是供方约束"
-        }
-      },
-      {
-        "layer": "业务-广告",
-        "node": "广告主回流(消费复苏)",
-        "irreplaceability": "低",
-        "supply_concentration": "中",
-        "capacity_rigidity": "弱",
-        "value_capture": "低",
-        "substitution_risk": "宏观面驱动,无技术替代风险,等消费传导",
-        "beneficiaries_a": [],
-        "beneficiaries_qdii": [
-          "腾讯00700",
-          "快手01024",
-          "美团03690"
-        ],
-        "is_top": false,
-        "evidence_status": "estimated"
-      }
-    ],
-    "top_chokepoints": [
-      "AI 应用入口/分发",
-      "算力(GPU+云)"
-    ],
+    "direction": "bullish",
+    "confidence": 0.82,
+    "industry_future_market": {
+      "tam_now_usd_b": "$790B 全球数字广告(2024 Statista) / 中国≈$150B",
+      "tam_2030E_usd_b": "$700-1126B(Statista $1126B/Grandview $693B/industryarc 多源区间, 口径差异不调和)",
+      "cagr_pct": "7.3-15.3%(保守中枢10%)",
+      "penetration_stage": "AI商业化初期(元宝6月MAU破亿+, 广告AI优化渗透率<30%)",
+      "industry_forward_peg": "腾讯 PE 14.91/16%=0.93合理偏低; 恺英 PE 16.6/16.9%=0.98合理; 阿里负无意义看云+AI拐点",
+      "leaders_share_distribution": "腾讯(社交垄断+游戏国内#1+广告%30+) / 阿里云中国#1 35% / 恺英细分游戏ROIC最优",
+      "key_drivers_5yr": [
+        "AI商业化(广告精准+企业服务)",
+        "视频号变现加速",
+        "全球数字广告结构性迁移",
+        "回购+分红托底",
+        "MAU见顶+AI capex压力(风险)"
+      ],
+      "data_sources": [
+        "Statista全球数字广告2029",
+        "Grandview在线广告2030",
+        "industryarc CAGR",
+        "emarketer B2B",
+        "公司财报verified"
+      ],
+      "methodology_used": [
+        "尺①三角$700-1126B",
+        "尺②拆解(中国$150B×腾讯35%≈$52B验证)",
+        "尺③久期10年+",
+        "尺④AI渗透初期",
+        "尺⑤forward PEG腾讯0.93合理偏低",
+        "尺⑥腾讯社交垄断",
+        "尺⑦AI capex+元宝MAU+视频号 3同向"
+      ]
+    },
     "verdict": {
       "stance": "bullish",
-      "situation": "互联网2026政策友好(反垄断阶段性结束+鼓励平台经济)+AI变现初现+港股估值仍偏低,腾讯/阿里/美团/京东/拼多多/小米2026Q1业绩兑现回暖。",
-      "direction": "看多(政策友好+AI变现+港股估值修复)",
-      "vitality_level": "medium-high",
-      "track_quality": "好生意(零售/广告/支付/云,10年护城河强,但被国内消费弱影响中期增长)",
-      "worst_case": "政策再次反垄断收紧+消费复苏失速+AI变现不及预期→板块杀30-40%",
-      "cycle_position": "政策周期底→上行段(反垄断结束+鼓励发展);估值底部+业绩拐点共振",
-      "downgrade_trigger": "消费数据连续2月负增长/政策不利变化/AI变现里程碑延后6月+ → go→watch",
-      "chokepoint_conclusion": "景气兑现时钱流向: AI 应用入口/分发, 算力(GPU+云), 广告主回流(消费复苏)",
-      "risks": [],
-      "allocation_advice": "go",
-      "trend": "increase",
-      "confidence": "medium-high",
-      "reflection": {
-        "prev_stance": "bullish",
-        "prev_date": "2026-06-11T01:18:13Z",
-        "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
-        "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
-        "self_check": "chokepoint_schema_normalize"
-      },
-      "forward_view": {
-        "near_term_calendar": [
-          {
-            "date": "2026-06-13",
-            "event": "中5月社融",
-            "consensus": "7.6-7.8%",
-            "our_view": "7.5-7.7%",
-            "gap": "slight_dovish",
-            "impact_on_industry": "宏观信用面"
-          },
-          {
-            "date": "2026-06-27",
-            "event": "中5月规上工业利润",
-            "consensus": "+5-7%",
-            "our_view": "PPI转正传导可能上修",
-            "gap": "slight_inline",
-            "impact_on_industry": "利润底回升"
-          },
-          {
-            "date": "2026-06-18",
-            "event": "FOMC+点阵图",
-            "consensus": "维持3.50-3.75%",
-            "our_view": "hawkish drift",
-            "gap": "hawkish",
-            "impact_on_industry": "成长性承压"
-          }
-        ],
-        "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
-        "key_assumptions": [
-          {
-            "assumption": "中国社融维持7.5%+",
-            "falsification_signal": "6/13<7.0%→行业景气下修"
-          },
-          {
-            "assumption": "美CPI不破4.5%",
-            "falsification_signal": "6/12≥4.5%→风险资产承压"
-          }
-        ],
-        "mid_term_path": "2026 政策友好+AI 变现初现;2027-28 AI规模化变现兑现;2030+ 平台型公司转型为 AI Tier1 玩家",
-        "path_scenarios": [
-          {
-            "name": "base",
-            "prob": 0.55,
-            "trigger": "消费温和复苏+政策友好",
-            "industry_outcome": "+15-20%",
-            "asset_impact": "龙头+25-35%"
-          },
-          {
-            "name": "bull",
-            "prob": 0.3,
-            "trigger": "消费强复苏+AI规模变现",
-            "industry_outcome": "+30%",
-            "asset_impact": "+50%+"
-          },
-          {
-            "name": "bear",
-            "prob": 0.15,
-            "trigger": "消费走弱+AI不及预期",
-            "industry_outcome": "-15%",
-            "asset_impact": "-25%"
-          }
-        ],
-        "supply_demand_signals": "广告/电商/支付/云全面回暖;Q1业绩端温和复苏",
-        "competitive_landscape": "腾讯/阿里/美团稳;拼多多增速领先;字节跳动IPO悬而未决",
-        "tail_risks": [
-          {
-            "event": "反垄断重启",
-            "prob": 0.1,
-            "hedge_action": "减龙头/换次龙头"
-          },
-          {
-            "event": "消费失速",
-            "prob": 0.2,
-            "hedge_action": "减消费场景重的标的"
-          }
-        ],
-        "trigger_monitor": [
-          "腾讯/阿里季度广告增速<5%→减仓",
-          "平台公司EPS下修>10%→止盈",
-          "政策不利公告→单日清仓50%"
-        ]
-      },
-      "investment_conclusion": "产业链瓶颈兑现时,钱流向: 腾讯控股(增持·目标680港) > 阿里巴巴(增持·目标200港) > 小米集团(增持·目标62港)。首选 rank1=00700 腾讯控股"
+      "summary": "看多高信心(0.82)。①TAM三角$700-1126B久期10年+(尺①③); ②腾讯forward PEG 0.93+ROIC 15%>WACC=价值创造+估值合理偏低(尺⑤⑥); ③AI渗透初期元宝MAU破亿变现刚起步(尺④⑦)。Bear MAU见顶+capex压力已price-in(PE 15x)。腾讯为核心持仓+恺英卫星+阿里期权(严格止损)",
+      "confidence": 0.82
     },
-    "data_quality": "行业层骨架升级,具体数据由后续 data-desk 联网核实",
-    "evidence": [],
-    "investment_map": [
-      {
-        "chokepoint": "AI应用入口+算力",
-        "recommended": "00700 腾讯控股",
-        "analyzed": true,
-        "rank": 1,
-        "why": "微信13亿用户分发+AI Agent 6月备案最大催化+游戏广告稳健,生态护城河最深",
-        "rating": "增持·目标680港"
-      },
-      {
-        "chokepoint": "算力+AI模型(云)",
-        "recommended": "09988 阿里巴巴",
-        "analyzed": true,
-        "rank": 2,
-        "why": "中国AI首选(花旗)+阿里云外部+40%+千问全栈,云AI变现拐点",
-        "rating": "增持·目标200港"
-      },
-      {
-        "chokepoint": "AI硬件入口",
-        "recommended": "01810 小米集团",
-        "analyzed": true,
-        "rank": 3,
-        "why": "汽车放量+AI硬件+IoT生态,但跨行业属性混合,小仓",
-        "rating": "增持·目标62港"
-      }
-    ],
-    "value_creation_industry": {
-      "industry_roic_tier": "★分层(verified): 腾讯价值创造(ROIC 15.25%>WACC) / 阿里不足(6.26%<WACC, 战略投入期有回升路径)",
-      "caveat": "腾讯生态高ROIC价值创造稳; 阿里云AI+闪购投入期ROIC暂低"
+    "analysts": {
+      "bull_thesis": "三引擎+腾讯PEG 0.93+AI变现+现金流1500亿+回购分红托底",
+      "bear_thesis": "MAU见顶+拼多多/抖音侵蚀+AI capex 2000亿压利润+监管常态化+开源模型软化护城河"
     },
-    "fund_recommendation": {
-      "method": "看好行业→个股(conviction)+基金(分散)",
-      "theme_funds": [
-        {
-          "code": "006327",
-          "name": "易方达海外中国互联网50ETF联接(QDII)",
-          "role": "互联网龙头分散, 含腾讯阿里美团等"
-        }
-      ],
-      "guidance": "高ROIC个股给弹性, 基金分散单一公司风险"
-    },
+    "data_status": "synthesized_by_main_agent_with_subagent_debate",
     "reflection": {
-      "value_creation_what_changed": "2026-06-14 阶段B: verified 行业ROIC分层 + 基金推荐。★分层(verified): 腾讯价值创造(ROIC 15.25%>WACC) "
+      "prev_stance": "bullish",
+      "what_changed": "本轮加industry_future_market+7把尺",
+      "why_changed": "三维框架对齐"
     }
   }
 }

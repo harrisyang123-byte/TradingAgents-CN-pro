@@ -1,0 +1,60 @@
+{
+  "industry": "半导体产业链",
+  "industry_unit": {
+    "unit_id": "industry:半导体产业链",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:半导体产业链」，或运行：./scripts/run_v4.sh analyze industry:半导体产业链",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "cautious_bullish",
+    "summary": "行业景气确认上行(尺⑦三同向+尺①多源一致), 但中国标的估值严重透支(尺⑤PEG 3-11倍)且ROIC全面<WACC(价值毁灭)。结构性看多(选股>选行业): 除移远(PE17.3x/PEG0.4)外其余5只'好赛道坏价格'。配置: 移远>通富(封装稀缺性)>>其余(等回调PEG<2)。久期警告: 2028周期拐点前需兑现",
+    "confidence": 0.72
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "WSTS/SIA/Gartner多源一致+WFE连续3年+8.6%/8.2%/7.2%上行+AI capex扩张+国产替代导入后期",
+    "bear_thesis": "forward PEG 3-11倍透支/龙头瓜分中国<5%空间/2028周期拐点/ROIC<WACC价值毁灭"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:半导体产业链",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:半导体产业链」，或运行：./scripts/run_v4.sh analyze alloc:industry:半导体产业链",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

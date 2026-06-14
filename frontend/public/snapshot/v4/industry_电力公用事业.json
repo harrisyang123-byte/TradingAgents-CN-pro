@@ -6,214 +6,26 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 industry:电力公用事业」，或运行：./scripts/run_v4.sh analyze industry:电力公用事业",
-    "version": 5,
-    "generated_at": "2026-06-13T00:37:10Z",
-    "ttl_days": 7,
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
     "upstream": [],
-    "run_mode": "ai_proxy",
+    "run_mode": null,
     "exists": true
   },
   "verdict": {
-    "stance": "bullish",
-    "situation": "电力公用事业受益电力化提速(AI数据中心+新能源汽车+电采暖)+长江电力等大水电稳定派息+核电核准加速。",
-    "direction": "看多(电力化+新能源消纳+稳定现金流)",
-    "vitality_level": "medium",
-    "track_quality": "好生意(电力是基础设施长期需求,大水电+核电具备稀缺性)",
-    "worst_case": "经济衰退+电价管制+水电来水偏少 → -15%",
-    "cycle_position": "红利周期延续+电力化加速早中段",
-    "downgrade_trigger": "长江电力分红率下降/水电来水偏少>20%/核电核准延后 → 减仓",
-    "chokepoint_conclusion": "景气兑现时钱流向: 大水电(长电/华能水电), 核电, 特高压/电网升级",
-    "risks": [],
-    "allocation_advice": "go",
-    "trend": "increase",
-    "confidence": "medium-high",
-    "reflection": {
-      "prev_stance": "bullish",
-      "prev_date": "2026-06-11T01:18:13Z",
-      "what_changed": "chokepoint schema 升级到精细版(11字段:layer/node/irreplaceability/supply_concentration/capacity_rigidity/value_capture/substitution_risk/beneficiaries_a/beneficiaries_qdii/is_top/evidence_status)",
-      "why_changed": "统一 8 行业 chokepoint schema(原 AI算力是精细版,其他7个简化版),为个股下钻提供一致的标准化数据",
-      "self_check": "chokepoint_schema_normalize"
-    },
-    "forward_view": {
-      "near_term_calendar": [
-        {
-          "date": "2026-06-13",
-          "event": "中5月社融",
-          "consensus": "7.6-7.8%",
-          "our_view": "7.5-7.7%",
-          "gap": "slight_dovish",
-          "impact_on_industry": "宏观信用面"
-        },
-        {
-          "date": "2026-06-27",
-          "event": "中5月规上工业利润",
-          "consensus": "+5-7%",
-          "our_view": "PPI转正传导可能上修",
-          "gap": "slight_inline",
-          "impact_on_industry": "利润底回升"
-        },
-        {
-          "date": "2026-06-18",
-          "event": "FOMC+点阵图",
-          "consensus": "维持3.50-3.75%",
-          "our_view": "hawkish drift",
-          "gap": "hawkish",
-          "impact_on_industry": "成长性承压"
-        }
-      ],
-      "cross_market_leading": "2s10s+47bp已正常化(衰退后置6-12月);HY OAS 3.0-3.3%健康;铜金比走弱",
-      "key_assumptions": [
-        {
-          "assumption": "中国社融维持7.5%+",
-          "falsification_signal": "6/13<7.0%→行业景气下修"
-        },
-        {
-          "assumption": "美CPI不破4.5%",
-          "falsification_signal": "6/12≥4.5%→风险资产承压"
-        }
-      ],
-      "mid_term_path": "2026-2027 电力化提速(AI/EV/电采暖);2028+ 核电规模化投运;2030+ 新能源消纳成为关键",
-      "path_scenarios": [
-        {
-          "name": "base",
-          "prob": 0.55,
-          "trigger": "电力化稳健+大水电稳定派息",
-          "industry_outcome": "+10%(稳健)",
-          "asset_impact": "龙头+15-20%"
-        },
-        {
-          "name": "bull",
-          "prob": 0.25,
-          "trigger": "利率下行+红利配置+核电加速",
-          "industry_outcome": "+20%",
-          "asset_impact": "+30%"
-        },
-        {
-          "name": "bear",
-          "prob": 0.2,
-          "trigger": "水电偏枯+电价管制",
-          "industry_outcome": "-10%",
-          "asset_impact": "-15%"
-        }
-      ],
-      "supply_demand_signals": "AI数据中心耗电指数级增长;长江电力来水正常;核电核准加速",
-      "competitive_landscape": "长江电力大水电龙头;中核中广核两大核电集团;特高压国电南瑞主导",
-      "tail_risks": [
-        {
-          "event": "水电连续来水偏枯>20%",
-          "prob": 0.15,
-          "hedge_action": "减水电+加核电"
-        },
-        {
-          "event": "电价管制收紧",
-          "prob": 0.1,
-          "hedge_action": "减火电+加可再生"
-        }
-      ],
-      "trigger_monitor": [
-        "长江电力分红率下降>10%→减仓",
-        "水电来水偏少>20%→警惕",
-        "核电核准延后>6月→暂停加仓"
-      ]
-    },
-    "investment_conclusion": "产业链瓶颈兑现时,钱流向: 长江电力(增持·目标33) > 中国核电(增持·目标12)。首选 rank1=600900 长江电力"
+    "stance": "defensive_value_creator",
+    "summary": "防御价值创造首选。①长电ROIC 7.9-10.5%>电力WACC 5.5%是稀缺真价值创造者(尺⑤); ②水电零燃料+折旧后现金流近纯利润+股息率4%+利率下行重估; ③双碳核电装机翻倍是β确定性来源; ④长电¥25-32底仓3-5%, 中国核电¥7.7以下防御性价比显著, 二者性价比长电>核电(增速8% vs 6%, 股息率4.2% vs 3.2%)",
+    "confidence": 0.78
   },
   "debate_rounds": [],
-  "chokepoint_map": [
-    {
-      "layer": "水电-稀缺",
-      "node": "大水电(长电/华能水电)",
-      "irreplaceability": "极高",
-      "supply_concentration": "极高",
-      "capacity_rigidity": "强(资源稀缺)",
-      "value_capture": "极高",
-      "substitution_risk": "无替代,资源稀缺+长期现金流",
-      "beneficiaries_a": [
-        "长江电力600900",
-        "华能水电600025",
-        "川投能源600674"
-      ],
-      "beneficiaries_qdii": [],
-      "is_top": true,
-      "evidence_status": "verified",
-      "five_forces": {
-        "entry_threat": "极低(水电资源稀缺无法复制)",
-        "substitute_threat": "低",
-        "buyer_power": "低(电网统购)",
-        "supplier_power": "低(无燃料成本)",
-        "internal_rivalry": "低(区域垄断)",
-        "moat_verdict": "最强护城河(资源永续+无原料成本),公用事业典范"
-      }
-    },
-    {
-      "layer": "核电-基荷",
-      "node": "核电",
-      "irreplaceability": "高",
-      "supply_concentration": "高(中核+中广核两家)",
-      "capacity_rigidity": "强(投产5-7年)",
-      "value_capture": "高",
-      "substitution_risk": "低碳基荷不可替代,2025-26核准加速",
-      "beneficiaries_a": [
-        "中国核电601985",
-        "中国广核003816"
-      ],
-      "beneficiaries_qdii": [],
-      "is_top": true,
-      "evidence_status": "verified",
-      "five_forces": {
-        "entry_threat": "极低(牌照+技术+资本三重壁垒)",
-        "substitute_threat": "低",
-        "buyer_power": "低",
-        "supplier_power": "中",
-        "internal_rivalry": "低(双寡头)",
-        "moat_verdict": "牌照型护城河,核准节奏是成长变量"
-      }
-    },
-    {
-      "layer": "电网-基础设施",
-      "node": "特高压/电网升级",
-      "irreplaceability": "高",
-      "supply_concentration": "高(国电南瑞主导)",
-      "capacity_rigidity": "中",
-      "value_capture": "中",
-      "substitution_risk": "电力化基础设施,投资周期2026-2030加速",
-      "beneficiaries_a": [
-        "国电南瑞600406",
-        "平高电气600312",
-        "许继电气000400"
-      ],
-      "beneficiaries_qdii": [],
-      "is_top": false,
-      "evidence_status": "verified"
-    }
-  ],
-  "top_chokepoints": [
-    "大水电(长电/华能水电)",
-    "核电"
-  ],
-  "investment_map": [
-    {
-      "chokepoint": "大水电(稀缺资源)",
-      "recommended": "600900 长江电力",
-      "analyzed": true,
-      "rank": 1,
-      "why": "中国最大水电+稀缺无法复制+红利底仓(股息5%)+Beta0.12防御,确定性最强",
-      "rating": "增持(红利底仓+电力化受益+战略稀缺)",
-      "target_price_live": 33,
-      "rating_source": "stock_unit_latest"
-    },
-    {
-      "chokepoint": "核电(低碳基荷)",
-      "recommended": "601985 中国核电",
-      "analyzed": true,
-      "rank": 2,
-      "why": "核电双寡头+核准加速窗口,成长性高于水电但Q1检修成本拖累",
-      "rating": "增持(核电核准加速+低碳基荷+成长性)",
-      "target_price_live": 12,
-      "rating_source": "stock_unit_latest"
-    }
-  ],
-  "analysts": {},
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "水电零燃料+反周期+股息防御+双碳核电翻倍β+利率下行重估+长电ROIC>WACC价值创造",
+    "bear_thesis": "PE 20历史上沿+增速天花板(六库满装无大型注入)+电价市场化下压+国债反弹估值回撤"
+  },
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:电力公用事业",
     "status": "green",

@@ -1,0 +1,60 @@
+{
+  "industry": "消费电子+IoT",
+  "industry_unit": {
+    "unit_id": "industry:消费电子+IoT",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:消费电子+IoT」，或运行：./scripts/run_v4.sh analyze industry:消费电子+IoT",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "cautious_bullish",
+    "summary": "双速分化(智能机成熟+IoT爆发)。移远 PEG 0.41 + IoT全球#1 = 核心(50%权重); 小米生态飞轮+ROIC>WACC+EV期权(35%); 蓝思 PEG 4.8透支+ROIC<WACC=价值毁灭(15%观察等PE<30x)。最大预期差: 市场把消费电子整体看衰未分离IoT爆发期",
+    "confidence": 0.72
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "IoT TAM确定性+智能机量减价增+小米生态飞轮+移远 PEG 0.41错杀",
+    "bear_thesis": "智能机成熟期+利润向苹果集中+移远 FCF 负+蓝思 PEG 4.8价值毁灭+地缘"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:消费电子+IoT",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:消费电子+IoT」，或运行：./scripts/run_v4.sh analyze alloc:industry:消费电子+IoT",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

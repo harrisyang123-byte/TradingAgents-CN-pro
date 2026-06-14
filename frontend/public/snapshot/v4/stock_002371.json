@@ -23,61 +23,7 @@
   ],
   "price_at_judgment": 698.0,
   "verdict_oneliner": "📌 北方华创量的护城河宽且稳(管制+四平台+大基金 3-5 年锁定),但价的护城河被买方议价(CR5=85%)系统性侵蚀;当前 698 元 64xPE 定价的是'量价齐升',实际路径'量升价降',持有不加仓+等催化(2026Q3 先进制程订单/单季边际净利率>5%)",
-  "chain_positioning": {
-    "industry": "半导体",
-    "chokepoint": "半导体设备(刻蚀/CVD/CMP)",
-    "my_rank": 1,
-    "my_why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)",
-    "industry_top": [
-      {
-        "rank": 1,
-        "recommended": "002371 北方华创",
-        "chokepoint": "半导体设备(刻蚀/CVD/CMP)",
-        "is_self": true,
-        "rating": "增持·目标850",
-        "target_price_live": null,
-        "why": "设备龙头+大基金三期最大获益+订单可见度高,确定性最强(卖铲人逻辑)"
-      },
-      {
-        "rank": 2,
-        "recommended": "688012 中微公司",
-        "chokepoint": "刻蚀机",
-        "is_self": false,
-        "rating": "增持·目标260",
-        "target_price_live": null,
-        "why": "刻蚀龙头+国产替代核心,但估值溢价224%偏高,小仓"
-      },
-      {
-        "rank": 2,
-        "recommended": "688981 中芯国际",
-        "chokepoint": "晶圆制造",
-        "is_self": false,
-        "rating": "增持·目标140",
-        "target_price_live": null,
-        "why": "中国唯一12寸成熟+先进制程代工厂战略稀缺,成熟制程涨价兑现"
-      },
-      {
-        "rank": 3,
-        "recommended": "688268 华特气体",
-        "chokepoint": "电子特气(材料)",
-        "is_self": false,
-        "rating": "增持·小仓",
-        "target_price_live": null,
-        "why": "国产化率10-30%空间最大,但估值溢价625%极高,严格小仓试探≤1%"
-      },
-      {
-        "rank": 5,
-        "recommended": "(华大九天,未深析)",
-        "chokepoint": "EDA软件",
-        "is_self": false,
-        "rating": "待分析",
-        "target_price_live": null,
-        "why": "壁垒最高+发现度最低,长坡厚雪需3-5年耐心,待深析"
-      }
-    ],
-    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 北方华创(增持·目标850) > 中微公司(增持·目标260) > 中芯国际(增持·目标140)。首选 rank1=002371 北方华创",
-    "data_source": "industry_unit_investment_map"
-  },
+  "chain_positioning": null,
   "industry_weight_pct": 2.0,
   "valuation_basis": "5+1 五力深做下修估值: 2027E 净利中性 75 亿(扣非 70+大基金补贴 5)×forward PE 35x=2625 亿市值≈620 元;叠加先进制程期权 +5%=650 元目标价。买点 560-620(安全边际 10-13%,跌破 560 验证 bear 路径)。v1 850 元基于 PE 80x+战略溢价的拍脑袋,未消化 5 力 weakest_link=买方议价(CR5=85%+二供分流+客户垂直整合)对净利率天花板的硬约束。",
   "credibility": {

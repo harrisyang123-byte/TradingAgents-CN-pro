@@ -1,0 +1,60 @@
+{
+  "industry": "可选消费",
+  "industry_unit": {
+    "unit_id": "industry:可选消费",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:可选消费」，或运行：./scripts/run_v4.sh analyze industry:可选消费",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "bullish_high_conviction",
+    "summary": "高信心看多但已涨多。①ROIC 130.69%消费品现象级(尺⑤价值创造之王); ②商业模式优秀=轻资产IP+高复购+海外打开第二曲线; ③但HK$183已price-in未来2-3年最乐观, 持有3.5%不追高。监控:海外增速<40%/单IP占比>35%回升/复购率环比下滑作减仓信号",
+    "confidence": 0.72
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "ROIC 130%价值创造之王+IP多元化+海外5倍增+东南亚欧美验证可复制+TAM未触顶",
+    "bear_thesis": "308%含低基数+智商税周期(日本扭蛋/Beanie Babies前车)+IP生命周期3-5年+海外天花板低+本地化成本侵蚀"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:可选消费",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:可选消费」，或运行：./scripts/run_v4.sh analyze alloc:industry:可选消费",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

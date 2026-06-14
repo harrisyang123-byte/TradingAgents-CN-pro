@@ -23,43 +23,7 @@
   ],
   "price_at_judgment": 440.0,
   "verdict_oneliner": null,
-  "chain_positioning": {
-    "industry": "创新药",
-    "chokepoint": "ADC出海",
-    "my_rank": 3,
-    "my_why": "ADC出海标杆+3款入医保+ASCO数据催化,但商业化早期波动大",
-    "industry_top": [
-      {
-        "rank": 1,
-        "recommended": "06160 百济神州",
-        "chokepoint": "出海BD变现能力",
-        "is_self": false,
-        "rating": "增持·目标460港",
-        "target_price_live": null,
-        "why": "出海最深+扭亏拐点+净利+178倍,全球化标杆,卡位最强"
-      },
-      {
-        "rank": 2,
-        "recommended": "600276 恒瑞医药",
-        "chokepoint": "first-in-class靶点+BD",
-        "is_self": false,
-        "rating": "增持·目标75",
-        "target_price_live": null,
-        "why": "国内龙头+管线最厚+BMS 9.5亿美元BD兑现+9款获批催化"
-      },
-      {
-        "rank": 3,
-        "recommended": "06990 科伦博泰",
-        "chokepoint": "ADC出海",
-        "is_self": true,
-        "rating": "增持·目标520港",
-        "target_price_live": null,
-        "why": "ADC出海标杆+3款入医保+ASCO数据催化,但商业化早期波动大"
-      }
-    ],
-    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 百济神州(增持·目标460港) > 恒瑞医药(增持·目标75) > 科伦博泰(增持·目标520港)。首选 rank1=06160 百济神州",
-    "data_source": "industry_unit_investment_map"
-  },
+  "chain_positioning": null,
   "industry_weight_pct": 1.2,
   "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
   "credibility": {

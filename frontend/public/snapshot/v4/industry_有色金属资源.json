@@ -1,0 +1,60 @@
+{
+  "industry": "有色金属资源",
+  "industry_unit": {
+    "unit_id": "industry:有色金属资源",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:有色金属资源」，或运行：./scripts/run_v4.sh analyze industry:有色金属资源",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "cautious_bullish_cycle",
+    "summary": "周期股谨慎看多。①IEA铜需求+30%(2024-2035)/稀土+50-60%(2040)结构性增长(尺⑦); ②但商品价高位+紫金61.5%增速含价格红利(尺⑤PEG陷阱③周期伪装成长); ③禁追高, 紫金回调¥25或金价$2100以下左侧建仓 / 稀土等价格突破¥60万/吨/三祥PE 259x强烈回避",
+    "confidence": 0.7
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "全球去美元+央行购金+AI用铜+EV电机钕铁硼+中国稀土主导+紫金量增8-12%",
+    "bear_thesis": "商品价均值回归+紫金周期伪装(剔除价格内生仅8-12%)+稀土124%含资产减值+三祥PE 259离谱"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:有色金属资源",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:有色金属资源」，或运行：./scripts/run_v4.sh analyze alloc:industry:有色金属资源",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

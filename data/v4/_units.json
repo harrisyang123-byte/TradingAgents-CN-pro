@@ -169,98 +169,134 @@
       "error": null,
       "path": "plans/real_estate.json"
     },
+    "industry:AIoT安防": {
+      "unit_id": "industry:AIoT安防",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
+      "upstream": [],
+      "error": null,
+      "path": "industries/AIoT安防.json"
+    },
+    "industry:AI算力数据中心": {
+      "unit_id": "industry:AI算力数据中心",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
+      "upstream": [],
+      "error": null,
+      "path": "industries/AI算力数据中心.json"
+    },
     "industry:互联网平台": {
       "unit_id": "industry:互联网平台",
-      "unit_type": "industry",
-      "version": 5,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
       "path": "industries/互联网平台.json"
     },
-    "industry:人工智能算力": {
-      "unit_id": "industry:人工智能算力",
-      "unit_type": "industry",
-      "version": 9,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+    "industry:创新药+CXO": {
+      "unit_id": "industry:创新药+CXO",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/人工智能算力.json"
+      "path": "industries/创新药+CXO.json"
     },
-    "industry:创新药": {
-      "unit_id": "industry:创新药",
-      "unit_type": "industry",
-      "version": 8,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+    "industry:化工必需消费": {
+      "unit_id": "industry:化工必需消费",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/创新药.json"
+      "path": "industries/化工必需消费.json"
     },
-    "industry:半导体": {
-      "unit_id": "industry:半导体",
-      "unit_type": "industry",
-      "version": 8,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+    "industry:半导体产业链": {
+      "unit_id": "industry:半导体产业链",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/半导体.json"
+      "path": "industries/半导体产业链.json"
     },
-    "industry:新能源车": {
-      "unit_id": "industry:新能源车",
-      "unit_type": "industry",
-      "version": 3,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+    "industry:可选消费": {
+      "unit_id": "industry:可选消费",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/新能源车.json"
+      "path": "industries/可选消费.json"
     },
-    "industry:有色资源": {
-      "unit_id": "industry:有色资源",
-      "unit_type": "industry",
-      "version": 5,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+    "industry:新能源车EV供应链": {
+      "unit_id": "industry:新能源车EV供应链",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/有色资源.json"
+      "path": "industries/新能源车EV供应链.json"
     },
-    "industry:消费电子家电": {
-      "unit_id": "industry:消费电子家电",
-      "unit_type": "industry",
-      "version": 3,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-12T09:37:14Z",
+    "industry:有色金属资源": {
+      "unit_id": "industry:有色金属资源",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
-      "path": "industries/消费电子家电.json"
+      "path": "industries/有色金属资源.json"
+    },
+    "industry:消费电子+IoT": {
+      "unit_id": "industry:消费电子+IoT",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
+      "upstream": [],
+      "error": null,
+      "path": "industries/消费电子+IoT.json"
     },
     "industry:电力公用事业": {
       "unit_id": "industry:电力公用事业",
-      "unit_type": "industry",
-      "version": 5,
-      "fingerprint": "",
-      "status": "green",
-      "ttl_days": 7,
-      "generated_at": "2026-06-13T00:37:10Z",
+      "unit_type": null,
+      "version": 2,
+      "fingerprint": null,
+      "status": null,
+      "ttl_days": null,
+      "generated_at": null,
       "upstream": [],
       "error": null,
       "path": "industries/电力公用事业.json"
@@ -722,5 +758,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T09:19:19Z"
+  "updated_at": "2026-06-14T09:54:40Z"
 }

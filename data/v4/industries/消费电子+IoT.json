@@ -1,0 +1,56 @@
+{
+  "unit_id": "industry:消费电子+IoT",
+  "as_of": "2026-06-14",
+  "version": 2,
+  "payload": {
+    "industry": "消费电子+IoT",
+    "direction": "cautious_bullish",
+    "confidence": 0.72,
+    "industry_future_market": {
+      "tam_now_usd_b": "Consumer IoT 2025 $295.5B / 智能机2024 12亿台(Counterpoint) / 智能机2026 -13.9%(IDC内存危机) ASP $550(+$100)",
+      "tam_2030E_usd_b": "Consumer IoT 2035 $895B / 全球IoT连接数 20亿→75亿",
+      "cagr_pct": "IoT 11.72%(Spherical) / IoT MCU 14.4%(Grandview) / 智能机存量博弈 0%",
+      "penetration_stage": "智能机成熟期80%+(换机周期40月+) / IoT爆发<30% / EV手机互连初期",
+      "industry_forward_peg": "小米分部估值中性(EV烧钱) / 蓝思 PEG 4.8透支(PE52/增速10.9%) / 移远 PEG 0.41低估(PE17.3/增速42%, FCF负需监控)",
+      "leaders_share_distribution": "苹果+三星占智能机利润70%+ / 小米全球#3 14% / 移远IoT模组全球#1 25%",
+      "key_drivers_5yr": [
+        "IoT连接数20→75亿",
+        "智能机ASP记录$550+(量减价增)",
+        "EV手机互连初期",
+        "SoC -8%先行指标",
+        "内存危机+地缘"
+      ],
+      "data_sources": [
+        "IDC智能机2026",
+        "Counterpoint Q1",
+        "Spherical Insights IoT",
+        "Grandview MCU",
+        "industry verified"
+      ],
+      "methodology_used": [
+        "尺①三角(IoT $500B多源一致 / 智能机量减价增)",
+        "尺②移远拆解(50亿连接×30%×$10≈$15B验证)",
+        "尺③久期(智能机0-2年成熟 / IoT 3-5年)",
+        "尺④渗透分化",
+        "尺⑤PEG分化(移远0.41/蓝思4.8)",
+        "尺⑥利润集中苹果/三星",
+        "尺⑦SoC-8% vs IoT+ 趋势分化"
+      ]
+    },
+    "verdict": {
+      "stance": "cautious_bullish",
+      "summary": "双速分化(智能机成熟+IoT爆发)。移远 PEG 0.41 + IoT全球#1 = 核心(50%权重); 小米生态飞轮+ROIC>WACC+EV期权(35%); 蓝思 PEG 4.8透支+ROIC<WACC=价值毁灭(15%观察等PE<30x)。最大预期差: 市场把消费电子整体看衰未分离IoT爆发期",
+      "confidence": 0.72
+    },
+    "analysts": {
+      "bull_thesis": "IoT TAM确定性+智能机量减价增+小米生态飞轮+移远 PEG 0.41错杀",
+      "bear_thesis": "智能机成熟期+利润向苹果集中+移远 FCF 负+蓝思 PEG 4.8价值毁灭+地缘"
+    },
+    "data_status": "synthesized_by_main_agent_with_subagent_debate",
+    "reflection": {
+      "prev_stance": "cautious_bullish",
+      "what_changed": "本轮加未来市场+7把尺+双速分化判定",
+      "why_changed": "三维框架对齐"
+    }
+  }
+}

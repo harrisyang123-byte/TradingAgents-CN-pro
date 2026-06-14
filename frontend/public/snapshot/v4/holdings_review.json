@@ -29,7 +29,7 @@
           "direct_value": 114440.0,
           "indirect_value": 2362.0,
           "total_value": 116802.0,
-          "has_industry_analysis": false,
+          "has_industry_analysis": true,
           "holdings": [
             {
               "code": "002156",
@@ -253,7 +253,7 @@
           "direct_value": 36600.0,
           "indirect_value": 0,
           "total_value": 36600.0,
-          "has_industry_analysis": false,
+          "has_industry_analysis": true,
           "holdings": [
             {
               "code": "09992",
@@ -281,7 +281,7 @@
           "direct_value": 26020.0,
           "indirect_value": 702.0,
           "total_value": 26722.0,
-          "has_industry_analysis": false,
+          "has_industry_analysis": true,
           "holdings": [
             {
               "code": "603236",
@@ -451,7 +451,7 @@
           "direct_value": 0,
           "indirect_value": 0,
           "total_value": 0,
-          "has_industry_analysis": false,
+          "has_industry_analysis": true,
           "holdings": [],
           "indirect": [],
           "recommendations": [

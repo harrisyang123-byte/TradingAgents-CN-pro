@@ -1,0 +1,60 @@
+{
+  "industry": "新能源车EV供应链",
+  "industry_unit": {
+    "unit_id": "industry:新能源车EV供应链",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:新能源车EV供应链」，或运行：./scripts/run_v4.sh analyze industry:新能源车EV供应链",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "bullish_industry_cautious_stock",
+    "summary": "行业看多+个股谨慎。EV热管理 CAGR 14-16% 5-7年爆发期窗口β确定; 但三花 PEG 1.40偏高+ROIC仅微>WACC; Q1扣非黄灯。等PE回落至30x或Q2扣非>25%再加仓, EV行业β通过主题基金获取",
+    "confidence": 0.78
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "EV渗透爆发+热管理ASP 200→3000-5000元+三花全球30%+机器人期权",
+    "bear_thesis": "PEG 1.40偏高+Q1扣非警示+价格战传导+ROIC不突出+机器人5年远"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:新能源车EV供应链",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:新能源车EV供应链」，或运行：./scripts/run_v4.sh analyze alloc:industry:新能源车EV供应链",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

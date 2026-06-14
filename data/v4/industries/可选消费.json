@@ -1,0 +1,54 @@
+{
+  "unit_id": "industry:可选消费",
+  "as_of": "2026-06-14",
+  "version": 2,
+  "payload": {
+    "industry": "可选消费",
+    "direction": "bullish_high_conviction",
+    "confidence": 0.72,
+    "industry_future_market": {
+      "tam_now_usd_b": "全球潮玩+IP衍生 估算 ~$300B(口径分散) / 中国潮玩成熟市场~$50B",
+      "tam_2030E_usd_b": "$500B 估算(CAGR 12% 估算)",
+      "cagr_pct": "12-15% 估算(基于消费升级+海外渗透)",
+      "penetration_stage": "国内成熟+海外从0到1爆发期(泡泡玛特海外占比从10%→30%+)",
+      "industry_forward_peg": "泡泡玛特 PEG 0.22(增速308%含低基数) 剔除常态后 PEG 0.85合理",
+      "leaders_share_distribution": "泡泡玛特国内潮玩#1 20-25% / 海外仅2-3%扩张窗口 / 国际竞品Funko/乐高占欧美",
+      "key_drivers_5yr": [
+        "IP多元化(SKULLPANDA/The Monsters非Molly贡献>50%)",
+        "海外5倍增(东南亚/欧美渗透)",
+        "抽盒机+门店+线上渠道密度+复购率",
+        "IP生命周期管理(3-5年需爆款填充)"
+      ],
+      "data_sources": [
+        "公司财报verified",
+        "行业估算+消费升级研究",
+        "海外扩张verified进展",
+        "IP生命周期可比行业(迪士尼/万代)"
+      ],
+      "methodology_used": [
+        "尺①三角(潮玩单源估算需多源补充, 标 estimated)",
+        "尺②泡泡玛特拆解=国内$50B×20%份额+海外$250B×3%=$17.5B vs 当前营收$1B空间17x(estimated偏激进)",
+        "尺③久期3-5年(IP生命周期+海外扩张)",
+        "尺④国内成熟+海外爆发",
+        "尺⑤PEG 0.22陷阱②低基数→修正后0.85合理",
+        "尺⑥国内龙头20-25%/海外早期",
+        "尺⑦海外5倍增+IP多元化复购率"
+      ]
+    },
+    "verdict": {
+      "stance": "bullish_high_conviction",
+      "summary": "高信心看多但已涨多。①ROIC 130.69%消费品现象级(尺⑤价值创造之王); ②商业模式优秀=轻资产IP+高复购+海外打开第二曲线; ③但HK$183已price-in未来2-3年最乐观, 持有3.5%不追高。监控:海外增速<40%/单IP占比>35%回升/复购率环比下滑作减仓信号",
+      "confidence": 0.72
+    },
+    "analysts": {
+      "bull_thesis": "ROIC 130%价值创造之王+IP多元化+海外5倍增+东南亚欧美验证可复制+TAM未触顶",
+      "bear_thesis": "308%含低基数+智商税周期(日本扭蛋/Beanie Babies前车)+IP生命周期3-5年+海外天花板低+本地化成本侵蚀"
+    },
+    "data_status": "synthesized_by_main_agent_with_websearch_verified(部分TAM需多源补充)",
+    "reflection": {
+      "prev_stance": "bullish",
+      "what_changed": "本轮加未来市场+海外份额拐点量化(2-3%扩张窗口)",
+      "why_changed": "三维框架对齐"
+    }
+  }
+}

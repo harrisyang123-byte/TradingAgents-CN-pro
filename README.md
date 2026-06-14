@@ -61,7 +61,7 @@
 | 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**) |
 | 大类 | `v4-asset-analyst-macro/flow/policy` + `v4-asset-bull/bear` + `v4-asset-director` | 3 视角分析师打底 → 多空 3 轮 → 总监拍板(reflection+反骑墙) |
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
-| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) → 总监整合 chokepoint_map |
+| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) + **★未来市场必查模块**(2026-06-14 加: TAM 2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 关键变量) → 总监整合 chokepoint_map + industry_future_market(下游个股 expert_valuation 上游锚定) |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
 | 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情** 2026-06-13 加) → 多空 → **3 方风险辩论**(2026-06-13 加,TradingAgents 对齐) → 总监预期差拍板。**competitive 升级为五力整合者**,消费下方 5 力专项 agent 产出 |
 | 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
@@ -177,6 +177,20 @@
 **价值创造维度（2026-06-14 补全）**：判断"公司未来值多少钱"必答四问 — TAM 天花板+渗透率阶段 / ROIC vs WACC(创造还是毁灭价值,用 ROIC 不用被杠杆污染的 ROE) / 管理层资本配置 / 正向 DCF 三角验证。ROIC/FCF 等计算密集项用 AKShare verified 精算(A/B 测试证明主 agent 估算=拍脑袋),禁伪精确点值。
 
 **三维选股框架（2026-06-14 用户纠错"漏未来市场"后补全,永久铁律）**：买股票买的是未来,单维度会骗人 → **好公司(ROIC>WACC 价值创造) × 好价格(PE 合理) × 好未来(PEG/增速可持续/TAM 天花板)**,三维缺一不可。只看 ROIC+PE 是回看/当下,漏了未来市场会严重误判(实战中新易盛 ROIC50-66%+PE52.7 单看PE误判"贵",加未来维度 forward PEG<0.6 实为错杀;天孚 PEG2.16 实为透支)。
+
+**行业层 7 把辩证分析尺(2026-06-14 用户拍板"除了网上取数也要有自己分析方法论"后固化,永久铁律)**：光有 verified 数字还不够, director/bull/bear 必须用方法论戳穿水分, verdict.summary 必须显式应用 ≥3 把尺, critic 6.11.x 必查:
+- ① **TAM 三角验证**:同一指标 ≥3 独立来源(IDC/marketsandmarkets/Gartner/工信部),差异>30% 标分歧不调和(避免单源偏差)
+- ② **TAM 拆解还原**:把 TAM 拆成可验证因子(用户数×ARPU×渗透率/设备×单价×替换周期),反推合理性(如 AI光模块=$700B capex×65%服务器×4%光互连≈$18B 验证 $15.4B)
+- ③ **CAGR 久期检验**:用历史可比行业判断高增速持续年数(智能机 2008-2014 渗透 5%→50% 高增 6 年; EV 2018-2025 1%→25% 高增 7 年)
+- ④ **渗透率阶段类比**:导入<10% / 爆发 10-50% / 成熟 50-80% / 衰退>80%,用历史可比行业映射(AI 算力当前类比 2010 智能机)
+- ⑤ **forward PEG 跨期对比**:当前估值 vs 同类成长股+同期渗透率阶段历史估值(AI 算力 PE 50x vs 2018 新能源车 PE 60x)
+- ⑥ **龙头瓜分检验**:top3/top5/top10 集中度判二三线空间(台积电60%+三星15%+联电8%=top3 83%,中芯仅5%空间有限)
+- ⑦ **景气先行指标交叉**:库存周期/订单可见度/价格趋势/产能利用率/龙头资本开支,≥3 个先行指标同向才确认景气方向
+
+**计算密集 vs 综合判断铁律(永久,详 `planning/v4/project-master-prompt.md §7-bis`)**:
+- **第一类(必须 verified)**:财务比率 ROIC/ROE/FCF/EPS → AKShare; 价格/PE/PB → AKShare; **TAM 当前/2030E/CAGR/渗透率%** → web_search ≥3 独立来源标 URL+status; 宏观 22 指标 → AKShare/官方源
+- **第二类(综合判断改 .md 即可)**:多空辩论/风险辩论/chokepoint/forward_view/stance/方向/仓位/渗透率阶段判定/forward PEG 解读 → 让 subagent 用 verified 数据辩论, 禁止编造数据范围内的数字
+- **何时新增 subagent**:仅当现有 agent 阵容无法承载的全新视角才新增。已有视角覆盖 → 改 .md(本次未来市场属此类)
 - **PEG 五大陷阱（critic 沉淀）**：①后视镜增速(历史≠未来,用 forward 常态增速) ②低基数幻觉(上年塌陷→本年恢复=虚高,如药明102%含创新药寒冬低基数) ③**周期伪装成长**(商品/周期品景气高点利润暴增→PEG极低→实为卖出信号,如紫金61.5%=金铜价高位,内生量增仅8-12%) ④增速质量不分(营收≠利润≠FCF,如工业富联增收不增利毛利3-5%) ⑤增速久期(PEG隐含增速永续,实际高增速仅2-3年,需久期折算)。
 - **修正公式**：修正PEG = PE / min(forward_2yr_CAGR, 行业天花板增速) × (3年/高增速持续年数)。周期股禁用 PEG,改用 PB+产能周期。
 - **数据源（2026-06-14 根治）**：价格走新浪源 `stock_zh_a_daily`(sh/sz前缀,稳定;东财 push2 实时端点间歇 RemoteDisconnected 反爬),财务/ROIC 走 `stock_financial_abstract`(新浪源稳定),净利/营收增速用财报 verified 算 PEG。

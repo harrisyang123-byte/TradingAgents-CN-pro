@@ -1,0 +1,60 @@
+{
+  "industry": "AIoT安防",
+  "industry_unit": {
+    "unit_id": "industry:AIoT安防",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:AIoT安防」，或运行：./scripts/run_v4.sh analyze industry:AIoT安防",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "cautious_bullish",
+    "summary": "双速分化(传统饱和+AI赋能爆发)。海康ROIC>WACC价值创造确认+PEG 1.06合理但非低估。AI大模型(观澜)+EBG企业转型是核心变量。地缘+G端财政是最大风险。持有观察, 等EBG收入占比突破25%或海外双位数恢复加仓",
+    "confidence": 0.7
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "全球安防#1 25%份额+ROIC 11.6-15.4%价值创造+AI大模型赋能+EBG第二曲线+现金流1.79x优质",
+    "bear_thesis": "营收近零增长+实体清单未解除+G端财政紧+大华/宇视价格战+AIoT 31.7%增速单源高估"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:AIoT安防",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:AIoT安防」，或运行：./scripts/run_v4.sh analyze alloc:industry:AIoT安防",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

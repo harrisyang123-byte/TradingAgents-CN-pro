@@ -1,0 +1,60 @@
+{
+  "industry": "创新药+CXO",
+  "industry_unit": {
+    "unit_id": "industry:创新药+CXO",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 industry:创新药+CXO」，或运行：./scripts/run_v4.sh analyze industry:创新药+CXO",
+    "version": 2,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "verdict": {
+    "stance": "bullish",
+    "summary": "看多行业景气, 但严格分化选股。①价值创造尺—药明ROIC 21-28%全球CXO最优, PEG 0.68严重错杀; ②先行指标—VC+15%/季+TIDES利用率55→85%验证真实复苏非死猫跳; ③三角验证—CDMO 2030 $250B中位, 药明11%份额=$27B vs 当前$5B=5倍空间未定价。BIOSECURE 30%概率非基准, 已通过欧洲产能+非美客户对冲。恒瑞PEG 1.85偏贵需等回调, 科伦/百济未过价值创造门槛暂不配",
+    "confidence": 0.72
+  },
+  "debate_rounds": [],
+  "chokepoint_map": [],
+  "top_chokepoints": [],
+  "investment_map": [],
+  "analysts": {
+    "bull_thesis": "药明ROIC 21-28% PEG 0.68错杀/CXO 50%→68%结构性外包/CDMO 2030 $250B 5倍空间",
+    "bear_thesis": "BIOSECURE 30%概率/低基数幻觉(102.6%含寒冬恢复)/恒瑞PEG 1.85偏贵/板块分化(科伦烧钱)"
+  },
+  "intra_alloc_unit": {
+    "unit_id": "alloc:industry:创新药+CXO",
+    "status": "gray",
+    "status_label": "未运行",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 alloc:industry:创新药+CXO」，或运行：./scripts/run_v4.sh analyze alloc:industry:创新药+CXO",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": false
+  },
+  "stock_weights": [],
+  "stocks": [],
+  "indirect_holdings": {
+    "direct_yi": 0,
+    "indirect_yi": 0,
+    "total_yi": 0,
+    "contributing_funds": [],
+    "summary": {
+      "total_market_value": 714265.59,
+      "direct_market_value": 243655.0,
+      "indirect_market_value": 470610.59,
+      "industries_count": 35,
+      "funds_with_passthrough": 26,
+      "funds_without_passthrough": 0,
+      "passthrough_coverage_pct": 100.0,
+      "method": "top_holdings_v4_industry_lookup_first_then_gics_fallback"
+    }
+  }
+}

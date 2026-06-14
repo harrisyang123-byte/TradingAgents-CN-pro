@@ -23,34 +23,7 @@
   ],
   "price_at_judgment": 62.0,
   "verdict_oneliner": null,
-  "chain_positioning": {
-    "industry": "有色资源",
-    "chokepoint": "稀土+磁材",
-    "my_rank": 2,
-    "my_why": "中国稀土战略资产(全球90%)+Q1+113%+张建平34.5亿入股,弹性大",
-    "industry_top": [
-      {
-        "rank": 1,
-        "recommended": "601899 紫金矿业",
-        "chokepoint": "铜矿+金矿",
-        "is_self": false,
-        "rating": "增持·目标42",
-        "target_price_live": null,
-        "why": "铜+金双轮+Q1净利+97.5%+多金属分散,龙头地位+员工持股托底"
-      },
-      {
-        "rank": 2,
-        "recommended": "600111 北方稀土",
-        "chokepoint": "稀土+磁材",
-        "is_self": true,
-        "rating": "增持·目标80",
-        "target_price_live": null,
-        "why": "中国稀土战略资产(全球90%)+Q1+113%+张建平34.5亿入股,弹性大"
-      }
-    ],
-    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 紫金矿业(增持·目标42) > 北方稀土(增持·目标80)。首选 rank1=601899 紫金矿业",
-    "data_source": "industry_unit_investment_map"
-  },
+  "chain_positioning": null,
   "industry_weight_pct": 2.0,
   "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
   "credibility": {
