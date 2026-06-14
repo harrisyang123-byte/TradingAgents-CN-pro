@@ -565,6 +565,8 @@ export interface IndustryNode {
   has_industry_analysis: boolean
   holdings: HoldingRow[]
   indirect: Array<{ code: string; name: string; indirect_value: number | null }>
+  recommendations?: Array<{ code: string; name: string; stance: string | null; target_price: string | null; pe: number | null; roic: string | null; is_recommendation: boolean }>
+  is_rec_only?: boolean
 }
 export interface AssetNode {
   key: string; label: string

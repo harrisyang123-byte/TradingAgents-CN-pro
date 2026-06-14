@@ -56,10 +56,12 @@
             <div v-for="ind in node.industries" :key="ind.name" class="dt-ind">
               <div class="dt-ind-row">
                 <span class="dt-ind-name">🏭 {{ ind.name }}</span>
-                <span class="dt-ind-val">直 ¥{{ fmt(ind.direct_value) }}<template v-if="ind.indirect_value > 0"> + 间 ¥{{ fmt(ind.indirect_value) }}</template></span>
+                <span v-if="ind.is_rec_only" class="dt-ind-val dt-rec-only">推荐关注（未持仓）</span>
+                <span v-else class="dt-ind-val">持仓 ¥{{ fmt(ind.direct_value) }}<template v-if="ind.indirect_value > 0"> + 间 ¥{{ fmt(ind.indirect_value) }}</template></span>
                 <a v-if="ind.has_industry_analysis" class="dt-link" @click="$emit('open-industry', ind.name)">行业分析→</a>
               </div>
               <div v-for="hh in ind.holdings" :key="hh.code" class="dt-hold">
+                <span class="dt-tag-own">持仓</span>
                 <span class="dt-h-code">{{ hh.code }}</span>
                 <span class="dt-h-name">{{ shortName(hh.name) }}</span>
                 <span class="dt-h-wt">{{ hh.weight }}%</span>
@@ -67,6 +69,15 @@
                 <span v-else class="dt-pending">待分析</span>
                 <a v-if="hh.analyzed" class="dt-link sm" @click="$emit('open-stock', hh.code)">分析→</a>
                 <span v-if="hh.action" class="dt-h-action">{{ hh.action }}</span>
+              </div>
+              <!-- 推荐标的(未持仓, 建议买入) -->
+              <div v-for="rc in (ind.recommendations || [])" :key="'rec'+rc.code" class="dt-hold dt-rec">
+                <span class="dt-tag-rec">推荐</span>
+                <span class="dt-h-code">{{ rc.code }}</span>
+                <span class="dt-h-name">{{ shortName(rc.name) }}</span>
+                <span v-if="rc.stance" class="dt-stance" :class="stanceCls(rc.stance)">{{ rc.stance }}</span>
+                <span v-if="rc.target_price" class="dt-rec-target">🎯 {{ rc.target_price }}</span>
+                <a class="dt-link sm" @click="$emit('open-stock', rc.code)">分析→</a>
               </div>
               <div v-if="ind.indirect.length" class="dt-indirect">
                 🔗 间接持有：<span v-for="s in ind.indirect" :key="s.code">{{ s.name }} </span>（经基金，加仓前算总暴露）
@@ -206,6 +217,12 @@ function actLabel(a?: string | null): string {
 .dt-stance.add { background: #f0f9eb; color: #67c23a; }
 .dt-stance.hold { background: #fdf6ec; color: #e6a23c; }
 .dt-pending { font-size: 11px; color: #c0c4cc; }
+/* 持仓 / 推荐 区分标签 */
+.dt-tag-own { font-size: 10px; font-weight: 700; color: #409eff; background: #ecf5ff; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
+.dt-tag-rec { font-size: 10px; font-weight: 700; color: #fa8c16; background: #fff7e6; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
+.dt-rec { background: #fffdf7; }
+.dt-rec-target { font-size: 11.5px; font-weight: 600; color: #389e0d; }
+.dt-rec-only { color: #fa8c16 !important; font-weight: 600; }
 .dt-h-action { font-size: 11.5px; color: #909399; flex-basis: 100%; padding-left: 16px; line-height: 1.4; }
 .dt-indirect { font-size: 11.5px; color: #909399; padding: 4px 0 4px 16px; }
 .dt-fund { background: #fafafa; border-radius: 6px; padding: 8px 10px; margin: 8px 0; border-left: 3px solid #faad14; }

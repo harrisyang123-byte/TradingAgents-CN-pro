@@ -159,6 +159,28 @@ def build_holdings_review(repo: Path, units: dict):
             row.update({"analyzed": True, **v})
         return row
 
+    # ── 收集推荐标的(有 stock 分析单元但不在持仓) by 行业 ──
+    holding_codes = {p.get("code") for p in positions if p.get("code")}
+    rec_by_ind = {}
+    for uid, env in units.items():
+        if not uid.startswith("stock:"):
+            continue
+        pl = env.get("payload", {}) or {}
+        code, ind = pl.get("code"), (pl.get("industry") or "其他")
+        if not code or code in holding_codes:
+            continue  # 只收非持仓的推荐标的
+        vc = pl.get("value_creation", {}) or {}
+        av = vc.get("actionable_verdict", {}) or {}
+        ev = vc.get("expert_valuation", {}) or {}
+        vd = pl.get("verdict", {}) or {}
+        rec_by_ind.setdefault(ind, []).append({
+            "code": code, "name": pl.get("name", ""),
+            "stance": av.get("stance") or (vd.get("stance") if isinstance(vd, dict) else None),
+            "target_price": ev.get("target_price"),
+            "pe": av.get("verified_pe"), "roic": av.get("roic_range") or av.get("roic_pct"),
+            "is_recommendation": True,
+        })
+
     # ── 构建大类树 ──────────────────────────────────────────
     asset_tree = []
     for key, label in CLASS_LABELS.items():
@@ -203,6 +225,19 @@ def build_holdings_review(repo: Path, units: dict):
                     "indirect": [{"code": s.get("code"), "name": s.get("name"),
                                   "indirect_value": s.get("contribution_yi") or s.get("indirect_value")}
                                  for s in (ind_data.get("indirect_top") or [])][:3],
+                })
+            # 给持仓行业节点挂推荐标的 + 补充纯推荐行业(持仓未覆盖)
+            covered = set()
+            for n in ind_nodes:
+                n["recommendations"] = rec_by_ind.get(n["name"], [])
+                covered.add(n["name"])
+            for ind_name, recs in rec_by_ind.items():
+                if ind_name in covered:
+                    continue
+                ind_nodes.append({
+                    "name": ind_name, "direct_value": 0, "indirect_value": 0, "total_value": 0,
+                    "has_industry_analysis": units.get(f"industry:{ind_name}") is not None,
+                    "holdings": [], "indirect": [], "recommendations": recs, "is_rec_only": True,
                 })
             ind_nodes.sort(key=lambda x: -(x.get("total_value", 0) or 0))
             node["industries"] = ind_nodes
