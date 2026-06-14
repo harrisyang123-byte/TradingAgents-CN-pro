@@ -61,14 +61,16 @@
 | 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**) |
 | 大类 | `v4-asset-analyst-macro/flow/policy` + `v4-asset-bull/bear` + `v4-asset-director` | 3 视角分析师打底 → 多空 3 轮 → 总监拍板(reflection+反骑墙) |
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
-| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) + **★未来市场必查模块**(2026-06-14 加: TAM 2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 关键变量) → 总监整合 chokepoint_map + industry_future_market(下游个股 expert_valuation 上游锚定) |
+| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + **`v4-industry-future-market-analyst`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) + **★未来市场专职分析师**(2026-06-14 拆分独立 agent: TAM 当前/2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 7 把辩证尺) → 总监整合 chokepoint_map + 引用 industry_future_market(下游个股 expert_valuation 上游锚定) |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
-| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情** 2026-06-13 加) → 多空 → **3 方风险辩论**(2026-06-13 加,TradingAgents 对齐) → 总监预期差拍板。**competitive 升级为五力整合者**,消费下方 5 力专项 agent 产出 |
+| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + **`v4-stock-valuation-engineer`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情**) → **估值工程师**(2026-06-14 拆分: forward 2-3年 EPS 推导链 + PE 分位计算 + 可比 PE 锚定 + 对面买家逻辑, 防目标价反复反转) → 多空 → **3 方风险辩论** → 总监预期差拍板 |
+| 个股·估值审计 | **`v4-stock-valuation-auditor`**(2026-06-14 拆分, 独立于 critic) | 专职审计 expert_valuation 推导链(6.12 推导链 7 项 + 6.13 成长股 5 项 + **反复反转检查**), 防 director 自我合理化 |
+| 进攻·选股 | **`v4-market-scanner`** + **`v4-alpha-hunter`**(2026-06-14 新建) | scanner 全市场硬指标扫描(ROIC>WACC+5pct / PE分位<30% / 增速>20%)出候选池 → hunter 深挖 alpha(预期差≥30% + 可证伪触发器 + 赔率≥3:1)出 3-5 只未识别 alpha |
 | 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
 | 个股·风险辩论 | **`v4-stock-risk-aggressive/safe/neutral`**（3 方风险辩论，2026-06-13 加 D0-5）| **TradingAgents `risk_debaters` 对齐**: aggressive 攻保守/safe 攻激进/neutral 协调; 维度=仓位+止损+tail risk 不是方向(与 bull/bear 互补) |
 | 个股·舆情 | **`v4-stock-analyst-sentiment`**（新闻舆情分析师，2026-06-13 加 D0-5）| **TradingAgents `news_analyst+social_media_analyst` 对齐**: 5 维度(温度/新闻/一致预期偏差/资金面/情绪vs基本面背离); 是 director 的输入之一(非产物) |
 | 跨次记忆 | **memory 系统** `data/v4/_memory/<agent_id>.json` (2026-06-13 加 D0-5)| **TradingAgents `agent.memory` 对齐**: 跨股累积过往判断/错误模式/行为校准; bull/bear/director/critic 开辩前必读, 写 reflection 时追加 |
-| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES; **接入 v4_unit_cli.py write 编排** (NEEDS_CHANGES 直接 exit=4 拦截不让落盘); 6 项深度必查(产品分子/敏感性矩阵/可比路径/forward_view 6维/数据追溯/辩论深度) |
+| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES; **接入 v4_unit_cli.py write 编排** (NEEDS_CHANGES 直接 exit=4 拦截不让落盘); 必查项: 8 项深度 + 6.9 价值创造四问 + 6.10 PEG五大陷阱 + 6.11 行业未来市场 + 6.11.x 7 把辩证尺 + 6.12 个股推导链 + **6.13 成长股估值方法论(PE 分位/forward 多年/对面买家/错杀vs留意池/静态vs动态)** |
 | 元指导 | **`v4-chief-investment-officer`** | **首席投资官+投委会**视角，以"用户持久盈利"为锚审视整个系统方向(五维:可信/能用/连得上/会学/值得)，识别"假专业"与过度工程，给开发明确优先级 |
 
 > 全部分析角色 `tools:[Read]`、**只消费 data-desk 产出的输入包、绝不自己联网取数**；唯一带 `web_search`/`web_fetch` 的是 `v4-data-desk`。
