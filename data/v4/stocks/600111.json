@@ -143,6 +143,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 62.0,
-    "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。"
+    "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 6.65,
+      "roic_adj_pct": 8.87,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 9.56,
+      "roa_pct": 7.76,
+      "debt_ratio_pct": 35.89,
+      "equity_yi": 308.57,
+      "ocf_yi": 11.15,
+      "fcf_per_share": 0.681,
+      "fcf_sign": "正",
+      "op_margin_pct": 8.03,
+      "net_margin_pct": 6.72,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 7.8% vs WACC~9% → 临界"
+    }
   }
 }

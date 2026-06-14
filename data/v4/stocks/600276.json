@@ -604,6 +604,24 @@
       ]
     },
     "verdict_oneliner": "📌 恒瑞量护城河强(管线+销售+BD)但价护城河弱(医保单一 4/5),50元/50xPE 已 price-in 转型乐观情景,target 63 严格推导(forward 75亿×PE 42x),entry [44,50] 不追高,持有 4-5% 等回调加仓",
-    "industry_weight_pct": 5.0
+    "industry_weight_pct": 5.0,
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 12.89,
+      "roic_adj_pct": 17.18,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 14.26,
+      "roa_pct": 14.54,
+      "debt_ratio_pct": 11.55,
+      "equity_yi": 617.97,
+      "ocf_yi": 112.35,
+      "fcf_per_share": -1.168,
+      "fcf_sign": "负(capex吞噬)",
+      "op_margin_pct": 28.42,
+      "net_margin_pct": 24.4,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 15.0% vs WACC~9% → 价值创造"
+    }
   }
 }

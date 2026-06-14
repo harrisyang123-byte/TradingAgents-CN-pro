@@ -142,6 +142,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 325.0,
-    "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。"
+    "valuation_basis": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 36.1,
+      "roic_adj_pct": 48.13,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 41.91,
+      "roa_pct": 41.93,
+      "debt_ratio_pct": 14.52,
+      "equity_yi": 55.13,
+      "ocf_yi": 18.68,
+      "fcf_per_share": 0.823,
+      "fcf_sign": "正",
+      "op_margin_pct": 45.55,
+      "net_margin_pct": 39.08,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 42.1% vs WACC~9% → 价值创造"
+    }
   }
 }

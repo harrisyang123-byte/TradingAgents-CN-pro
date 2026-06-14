@@ -143,6 +143,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 26.81,
-    "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。"
+    "valuation_basis": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 7.9,
+      "roic_adj_pct": 10.53,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 15.9,
+      "roa_pct": 9.1,
+      "debt_ratio_pct": 58.27,
+      "equity_yi": 2333.61,
+      "ocf_yi": 605.63,
+      "fcf_per_share": 0.328,
+      "fcf_sign": "正",
+      "op_margin_pct": 49.4,
+      "net_margin_pct": 40.52,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 9.2% vs WACC~9% → 价值创造"
+    }
   }
 }

@@ -139,6 +139,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 55.0,
-    "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。"
+    "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 4.78,
+      "roic_adj_pct": 6.38,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 6.81,
+      "roa_pct": 5.74,
+      "debt_ratio_pct": 42.37,
+      "equity_yi": 20.65,
+      "ocf_yi": 2.61,
+      "fcf_per_share": 0.52,
+      "fcf_sign": "正",
+      "op_margin_pct": 10.73,
+      "net_margin_pct": 9.05,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 5.6% vs WACC~9% → 价值毁灭/不足"
+    }
   }
 }

@@ -143,6 +143,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 8.69,
-    "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。"
+    "valuation_basis": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 3.48,
+      "roic_adj_pct": 4.64,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 8.21,
+      "roa_pct": 4.23,
+      "debt_ratio_pct": 69.01,
+      "equity_yi": 2322.26,
+      "ocf_yi": 374.08,
+      "fcf_per_share": -2.246,
+      "fcf_sign": "负(capex吞噬)",
+      "op_margin_pct": 28.17,
+      "net_margin_pct": 21.9,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 4.1% vs WACC~9% → 价值毁灭/不足"
+    }
   }
 }

@@ -273,6 +273,24 @@
     "credibility": {
       "final_verdict": "ACCEPT",
       "score": 86
+    },
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 15.86,
+      "roic_adj_pct": 21.15,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 21.87,
+      "roa_pct": 18.22,
+      "debt_ratio_pct": 27.73,
+      "equity_yi": 329.61,
+      "ocf_yi": 87.97,
+      "fcf_per_share": 1.802,
+      "fcf_sign": "正",
+      "op_margin_pct": 35.3,
+      "net_margin_pct": 30.57,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 18.5% vs WACC~9% → 价值创造"
     }
   }
 }

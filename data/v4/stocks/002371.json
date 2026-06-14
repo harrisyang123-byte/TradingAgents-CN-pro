@@ -1104,6 +1104,24 @@
       "key_signal": "公募拥挤 90%+ 分位 + 共识偏乐观 7-12% = 估值已充分反映即期景气",
       "h2_dynamics": "进入证伪期 — 大基金 Q3 落地+ALD 验证是最后明确催化, 之后无新故事",
       "策略含义": "持有不加仓; 等 Q2 中报或大基金 Q3 落地后再判断; 拥挤度+sentiment 偏热情境下慎追"
+    },
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 7.29,
+      "roic_adj_pct": 9.72,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 16.41,
+      "roa_pct": 7.85,
+      "debt_ratio_pct": 51.08,
+      "equity_yi": 439.28,
+      "ocf_yi": 21.33,
+      "fcf_per_share": -6.216,
+      "fcf_sign": "负(capex吞噬)",
+      "op_margin_pct": 14.74,
+      "net_margin_pct": 13.74,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 8.5% vs WACC~9% → 临界"
     }
   }
 }

@@ -143,6 +143,24 @@
       "self_check": "first_run_new_arch"
     },
     "price_at_judgment": 32.0,
-    "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。"
+    "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
+    "value_creation_verified": {
+      "as_of": "20251231",
+      "source": "akshare stock_financial_abstract (verified)",
+      "roic_low_pct": 15.09,
+      "roic_adj_pct": 20.11,
+      "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+      "roe_pct": 33.04,
+      "roa_pct": 18.59,
+      "debt_ratio_pct": 51.56,
+      "equity_yi": 2480.23,
+      "ocf_yi": 754.3,
+      "fcf_per_share": 1.268,
+      "fcf_sign": "正",
+      "op_margin_pct": 23.52,
+      "net_margin_pct": 18.28,
+      "minority_interest_yi": 0.0,
+      "roic_vs_wacc9_verdict": "ROIC中值 17.6% vs WACC~9% → 价值创造"
+    }
   }
 }
