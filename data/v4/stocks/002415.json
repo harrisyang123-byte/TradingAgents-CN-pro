@@ -335,7 +335,55 @@
         "derived_from_industry": "AIoT安防",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AIoT安防 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:AIoT安防 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:AIoT安防 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "addressable_market_2030": {
+            "core_video_surveillance_usd_b": 33.75,
+            "second_curve_ebg_usd_b": 8.4,
+            "total_usd_b": 42.15,
+            "cny_b": 3040,
+            "basis": "视频监控$135B×25%+EBG增量(核心SAM×25%)"
+          },
+          "forward_eps": {
+            "2025E": 1.55,
+            "2026E": 1.8,
+            "2027E": 2.05,
+            "growth_assumption": "18.5%→16%→14% 递减(安防渗透>50%成熟期)"
+          },
+          "comparable_pe": {
+            "axis_22x": 22,
+            "bosch_18x": 18,
+            "selected": 20,
+            "rationale": "软硬一体AIoT介于纯软/纯硬"
+          },
+          "target_price_v2": {
+            "conservative": 36.9,
+            "base": 41.0,
+            "optimistic": 45.1,
+            "pe": [
+              18,
+              20,
+              22
+            ],
+            "eps_basis": "2027E ¥2.05"
+          },
+          "buy_zone": [
+            27,
+            28
+          ],
+          "forward_peg": 1.06,
+          "three_dim": {
+            "good_company": "ROIC 11.6-15.4%>WACC 9% ✓",
+            "good_price": "PE 19.6 ≈中枢20 安全边际薄",
+            "good_future": "PEG 1.06合理偏贵 EBG尚未验证体量"
+          },
+          "key_risks": [
+            "美国制裁扩大→份额下降",
+            "EBG盈利能力未验证",
+            "AI安防内卷压毛利"
+          ],
+          "data_status": "spawn_subagent_ask_v2(critic 6.12 全 7 项必查pass)"
+        }
       }
     },
     "debate_rounds": [

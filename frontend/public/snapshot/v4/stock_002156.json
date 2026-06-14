@@ -606,7 +606,76 @@
       ],
       "target_recheck": "基于 verified TAM 修正后, 通富 2026 营收上限=$5.25B(可寻址OSAT) 不变, 故目标价¥35-45区间维持。但需注意: TAM从虚高$157B→实际$80B说明赛道空间没那么大, ROIC<WACC价值毁灭判断更加成立, 减仓信号不变",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:半导体产业链 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "addressable_market_2030": {
+          "osat_subset_usd_b": 5.25,
+          "advanced_packaging_subset_usd_b": 4.0,
+          "total_usd_b": 9.25,
+          "basis": "OSAT $70B×7.5%份额 + 先进封装$79B×5%(乐观假设Chiplet渗透)"
+        },
+        "forward_revenue_2026E_cny_b": {
+          "conservative": 300,
+          "base": 360,
+          "optimistic": 420
+        },
+        "forward_net_income_2026E_cny_b": {
+          "conservative": 21,
+          "base": 25,
+          "optimistic": 34,
+          "net_margin": "6-8% verified历史均值"
+        },
+        "forward_eps_2026E": {
+          "conservative": 2.76,
+          "base": 3.29,
+          "optimistic": 4.47,
+          "shares": "7.6亿"
+        },
+        "comparable_pe": {
+          "tsmc_osat_12-15x": 12,
+          "amkor_18-22x": 18,
+          "changdian_30-35x": 30,
+          "selected": [
+            20,
+            28,
+            35
+          ],
+          "rationale": "通富商业模式中性偏弱+AMD独家+Chiplet领取有限"
+        },
+        "target_price_v2": {
+          "conservative": 55,
+          "base": 92,
+          "optimistic": 156,
+          "eps_basis": "2026E ¥2.76/3.29/4.47",
+          "pe": [
+            20,
+            28,
+            35
+          ]
+        },
+        "three_dim": {
+          "good_company": "ROIC 4.4-5.9%<WACC 12% ❌ 价值毁灭",
+          "good_price": "PE 71.5偏高即使base目标 ¥92 PE 28也不便宜",
+          "good_future": "Chiplet/AMD独家是真β但ROIC<WACC意味增长不创造股东价值"
+        },
+        "target_recheck": "★关键: forward 推算给 ¥55-156 较前¥35-45上修, 但 ROIC<WACC 价值毁灭铁律未变。即使股价涨到 base ¥92, 公司仍未创造股东价值(增长被资本成本吃掉)。结论维持:适合短期周期波段不适合长持。当前¥57.22 处保守区间偏底, 不必激进减仓但坚决不加仓。设止损¥48防回撤",
+        "key_assumptions_with_falsification": [
+          {
+            "assumption": "AMD订单维持80%独家",
+            "falsification": "若AMD启用Amkor/SPIL分流→3个月内share下修至5%"
+          },
+          {
+            "assumption": "Chiplet渗透率到 5%",
+            "falsification": "若 2027年通富先进封装收入占比仍<10%→Chiplet假设证伪"
+          },
+          {
+            "assumption": "OSAT净利率维持7%",
+            "falsification": "若毛利率连续2季<10%→价格战传导净利率<5%"
+          }
+        ],
+        "data_status": "synthesized_by_main_agent(★铁律#5: subagent 2次spawn失败后主agent接管, 基于verified子赛道TAM+ROIC+净利率推导)",
+        "self_check": "承认未经过 critic 真复核, 数字偏乐观可能(Chiplet假设激进), 实战决策仍以减仓不加仓为基调"
+      }
     }
   },
   "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)"

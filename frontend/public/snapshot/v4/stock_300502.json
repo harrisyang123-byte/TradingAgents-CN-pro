@@ -254,7 +254,58 @@
       "derived_from_industry": "AI算力数据中心",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:AI算力数据中心 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:AI算力数据中心 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "addressable_market_2030": {
+          "光模块_usd_b": "$36-48B",
+          "新易盛份额": "13%→16%",
+          "可寻址_cny_b": "¥41-55B"
+        },
+        "forward_eps_2026E": {
+          "保守": 7.6,
+          "base": 10.4,
+          "乐观": 14.8,
+          "净利率": "30-35%",
+          "营收_cny_b": "180-300"
+        },
+        "comparable_pe": {
+          "旭创89x": 89,
+          "Coherent30x": 30,
+          "Lumentum25x": 25,
+          "选取": [
+            35,
+            40,
+            50
+          ],
+          "rationale": "ROIC 50-66%全场最高给溢价"
+        },
+        "target_price_v2": {
+          "保守": 266,
+          "base": 416,
+          "乐观": 740,
+          "eps_basis": "2026E ¥10.4",
+          "pe": [
+            35,
+            40,
+            50
+          ]
+        },
+        "三维": {
+          "好公司": "ROIC 50-66%>>WACC 11.5% 价值创造之王 ✓",
+          "好价格": "当前¥506≈乐观场景上沿, base目标¥416 透支22%",
+          "好未来": "800G→1.6T代际+渗透20→60% ✓"
+        },
+        "PEG_traps": "TTM PEG 0.22表面极低但陷阱①后视镜(常态40-60%)+陷阱⑤久期(2-3年窗口), 修正PEG 3.9x偏贵",
+        "verdict_v2": "★关键反转: 之前target ¥480-600 → 严肃重算 ¥266-740 base 416. 当前¥506已price-in乐观, 安全边际不足。合理买点 ¥360-420 (PE 35-40x 2026E EPS 10.4)",
+        "key_risks": [
+          "800G价格战ASP季度跌>20%",
+          "CSP capex缩减",
+          "1.6T量产延迟",
+          "份额被旭创/华工侵蚀",
+          "净利率连2Q<28%"
+        ],
+        "data_status": "spawn_subagent_ask_v2 (critic 6.12 必查pass + 反转之前高估)"
+      }
     }
   },
   "dcf_intrinsic": null

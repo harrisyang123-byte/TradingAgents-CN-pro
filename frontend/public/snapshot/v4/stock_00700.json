@@ -222,7 +222,60 @@
       "derived_from_industry": "互联网平台",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "addressable_market_2030": {
+          "数字广告_usd_b": 150,
+          "游戏_usd_b": 60,
+          "云_usd_b": 80,
+          "金融科技TPV": "¥6500亿",
+          "腾讯加权可触达_usd_b": "78+"
+        },
+        "forward_eps": {
+          "2026E_HKD": 32,
+          "2027E_HKD": 37,
+          "增速": "15-16%"
+        },
+        "comparable_pe": {
+          "Meta25x": 25,
+          "Alphabet20x": 20,
+          "选取": [
+            16,
+            18,
+            22
+          ],
+          "rationale": "港股流动性折价+监管+地缘 vs 美股同业打折"
+        },
+        "target_price_v2": {
+          "保守_HKD": 592,
+          "base_HKD": 666,
+          "乐观_HKD": 814,
+          "eps_basis": "2027E HK$37",
+          "pe": [
+            16,
+            18,
+            22
+          ]
+        },
+        "upside_vs_HK463": {
+          "保守": "+27.7%",
+          "base": "+43.6%",
+          "乐观": "+75.6%"
+        },
+        "三维": {
+          "好公司": "ROIC 15.25%>WACC 8.5% 价差6.75%价值创造 ✓",
+          "好价格": "PE 14.91x处5年低位, 隐含增速7%远低于实际15.9% ✓",
+          "好未来": "PEG 0.94<1, 云+AI+国际化第二曲线 ✓"
+        },
+        "verdict_v2": "★三维全通过. 当前价格隐含增速仅7%vs实际15.9%明显预期差。base目标HK$666 (+43.6%). AI capex是短期压制不改长期价值",
+        "key_risks": [
+          "AI capex 2025-27压利润(高概率EPS下修5-8%)",
+          "监管反复(中)",
+          "地缘折价扩大(中)",
+          "字节抢广告份额35→32%(中)"
+        ],
+        "data_status": "spawn_subagent_ask_v2 (critic 6.12 必查pass)"
+      }
     }
   },
   "dcf_intrinsic": null

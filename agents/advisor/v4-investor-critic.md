@@ -126,3 +126,13 @@ tools:
    - **6.11.x 辩证分析方法论必查(2026-06-14 用户拍板"除了网上取数也要有自己分析方法论")**: industry director 的 verdict.summary 必须显式应用 ≥3 把辩证尺,不能只堆 verified 数字。7 把尺(详见 v4-industry-director.md `_methodology`):
      - 尺①TAM三角验证(≥3独立源,差异>30%标分歧不调和) / 尺②TAM拆解还原(因子拆解反推合理性) / 尺③CAGR久期(用历史可比行业判断高增速持续年数) / 尺④渗透率类比(智能机/EV映射) / 尺⑤forward PEG跨期对比(同类成长股同期对比) / 尺⑥龙头瓜分检验(top3/top5集中度判断二三线空间) / 尺⑦景气先行指标交叉(≥3 同向才确认方向)
      - 反例: bull 说"AI 光模块 TAM 2030 $350B 故事好"但没用尺①(只引IDC单源)、尺②(没拆解 CSP capex × 光模块占比 × 单价反推)、尺③(没说 800G→1.6T 高增速持续年数) → fatal_flaw, 因为方法论缺失等于堆数字
+   - **6.12 个股 expert_valuation 推导链必查(2026-06-14 用户拍板"严格完整跑+需要自查 agent" — 主 agent 反复糊弄历史成 trauma 后落地, 永久铁律, 必须真 spawn critic 不允许自评)**: 个股 expert_valuation 不只是堆 TAM 数字, 必须形成完整推导链 verified, 缺一环 → fatal_flaw NEEDS_CHANGES:
+     - ① **future_tam 上游派生**: 必须含 `derived_from_industry: <canonical>` + `future_tam_verified: true` + 文字明确"派生自行业层 industry:xxx", 否则=主agent凭记忆编 → fatal_flaw
+     - ② **future_share 子赛道可寻址**: 不能用整个行业 TAM 直接×公司份额(如通富用半导体$1500B×7.5% 是错的, 应该用 OSAT $70B×7.5%=$5.25B)。必须显式说"公司可寻址子赛道 = 行业 TAM 的哪部分", 否则 fatal_flaw
+     - ③ **future_forward 推导链完整**: forward 营收 = 可寻址 TAM × 公司份额; forward 净利 = 营收 × 净利率(用 verified 历史均值); forward EPS = 净利 / 流通股数。每个因子必须 verified 或 estimated 标注, 缺则 NEEDS_CHANGES
+     - ④ **target_price 推导回路**: target = forward EPS × 合理 PE, 合理 PE 必须有可比公司支撑(如药明 PE 14.9x vs Lonza 28x → 给药明 18-22x 中枢), 不能拍脑袋"给个 30x"
+     - ⑤ **assumptions 显式可证伪**: 每个核心假设(增速/份额/PE)必须配可证伪信号+阈值(如"假设份额从 7.5%→10%, 若 2026Q3 份额未升至 8.5% 则下修"), 缺则扣分
+     - ⑥ **TAM 单位+口径一致**: 全部用美元 $B 标注, 严禁混用美元/人民币(如通富之前"$157B + $650亿"单位混乱 fatal_flaw)
+     - ⑦ **数据状态字段**: data_status 必须明示 verified/estimated/missing 比例, 不能笼统"主agent估算"
+     - **★铁律#5 严格执行**: 此 6.12 评分 < 75 必须真 spawn 重做, 主 agent 不允许自评(避免 ROIC A/B 测试式 35 vs 85 的偏差再现)。
+     - 反例血泪: 通富 future_tam 之前"$157B Chiplet/CoWoS"高估 96%(实际先进封装 Yole verified $80B), 单位混 $650亿, future_share 10-12% 基于错误 TAM 算 — 全链条错。本铁律为防止再次出现而立。

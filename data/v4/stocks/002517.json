@@ -342,7 +342,63 @@
         "derived_from_industry": "互联网平台",
         "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:互联网平台 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
         "future_tam_verified": true,
-        "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)"
+        "future_tam_upstream": "industry:互联网平台 v2 (critic 复核 ACCEPT/iter_v2)",
+        "v2_recompute": {
+          "addressable_market_2030": {
+            "primary_china_game_usd_b": 60,
+            "high_growth_subprogram_usd_b": 25,
+            "total_usd_b": 85,
+            "basis": "中国游戏$60B+小程序游戏$25B(高增子赛道)"
+          },
+          "share_assumptions": {
+            "primary_2027E": "1.8-2.8%",
+            "sub_2027E": "2-4%"
+          },
+          "forward_revenue_2027E": {
+            "conservative_cny_b": 75,
+            "base_cny_b": 99,
+            "optimistic_cny_b": 131
+          },
+          "forward_eps_2027E": {
+            "conservative": 0.67,
+            "base": 0.97,
+            "optimistic": 1.46,
+            "net_margin": "20-25%",
+            "shares": "22.4亿"
+          },
+          "comparable_pe": {
+            "anchor": "世纪华通25-35x",
+            "applied": [
+              22,
+              30
+            ],
+            "selected": 25,
+            "rationale": "游戏ROIC高+小程序拐点"
+          },
+          "target_price_v2": {
+            "conservative": 14.7,
+            "base": 24.3,
+            "optimistic": 43.8,
+            "eps_basis": "2027E ¥0.67/0.97/1.46"
+          },
+          "upside": {
+            "conservative": "0%",
+            "base": "+65%",
+            "optimistic": "+197%"
+          },
+          "three_dim": {
+            "good_company": "ROIC 18-24%>>WACC 9% ✓",
+            "good_price": "PE 16.6 PEG 0.98合理偏低 ✓",
+            "good_future": "小程序CAGR22%但传奇IP老化是天花板风险"
+          },
+          "key_risks": [
+            "传奇IP生命周期衰减",
+            "小程序竞争白热化(腾讯/字节)",
+            "游戏版号政策风险"
+          ],
+          "confidence": 0.68,
+          "data_status": "spawn_subagent_ask_v2(critic 6.12 必查pass)"
+        }
       }
     },
     "debate_rounds": [

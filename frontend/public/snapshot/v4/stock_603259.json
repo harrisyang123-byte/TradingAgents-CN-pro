@@ -120,7 +120,59 @@
       "derived_from_industry": "创新药+CXO",
       "upstream_anchor_note": "本股 TAM/CAGR/渗透率派生自行业层 industry:创新药+CXO 的 industry_future_market 模块, 形成上下游闭环。下游引用上游 verified 数据, 不再各自为政",
       "future_tam_verified": true,
-      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)"
+      "future_tam_upstream": "industry:创新药+CXO v2 (critic 复核 ACCEPT/iter_v2)",
+      "v2_recompute": {
+        "addressable_market_2030": {
+          "CDMO_usd_b": "$220-280B",
+          "药明份额": "11%",
+          "可寻址_cny_b": "¥200亿(仅CDMO)+CRO+全平台 ¥650-750亿(2028E)"
+        },
+        "forward_eps_2027E": {
+          "保守": 2.55,
+          "base": 3.34,
+          "乐观": 4.31,
+          "营收_cny_b": "580-750",
+          "净利率": "13-17% verified历史均值"
+        },
+        "comparable_pe": {
+          "Lonza25-30x": 28,
+          "Catalent22x": 22,
+          "Samsung生物20x": 20,
+          "选取": [
+            18,
+            22,
+            25
+          ],
+          "rationale": "中国折价+BIOSECURE风险"
+        },
+        "target_price_v2": {
+          "保守": 46,
+          "base_2027E": 74,
+          "乐观_2027E": 108,
+          "forward_2028E_base": 89,
+          "forward_2028E_optimistic": 113,
+          "eps_basis": "2027E ¥3.34 / 2028E ¥4.05",
+          "pe": [
+            18,
+            22,
+            25,
+            28
+          ]
+        },
+        "三维": {
+          "好公司": "ROIC 21-28%>>WACC 10% CXO之王 ✓",
+          "好价格": "当前¥99.71已price-in中性偏乐观, forward PE实际25-30x并不低估",
+          "好未来": "CDMO 50→68%结构外包+管线复杂度倒逼 ✓ BIOSECURE悬顶"
+        },
+        "PEG_traps": "TTM 102.6%含低基数(2024药明净利大降)→陷阱②低基数幻觉。forward常态增速22-30%才是真锚",
+        "verdict_v2": "★关键反转: 之前target ¥150-180 → 严肃重算 ¥89-113 base. 当前¥99.71未被错杀, 已price-in中性偏乐观预期。\"中性持有\"非买点。上行依赖BIOSECURE实质转向",
+        "key_risks": [
+          "BIOSECURE执行力度核心",
+          "大分子CDMO订单回流",
+          "净利率从12%回升16%+"
+        ],
+        "data_status": "spawn_subagent_ask_v2 (critic 6.12 必查pass + 反转之前高估)"
+      }
     }
   },
   "dcf_intrinsic": null
