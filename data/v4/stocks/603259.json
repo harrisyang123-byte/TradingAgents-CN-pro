@@ -1,0 +1,42 @@
+{
+  "unit_id": "stock:603259",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent(供应链深挖发现+verified+critic78)",
+  "payload": {
+    "code": "603259",
+    "name": "药明康德",
+    "industry": "创新药/CXO",
+    "discovery": "供应链深挖(2026-06-14): chokepoint定位CXO为创新药供应链咽喉 → verified ROIC×PE×PEG三维筛出",
+    "verdict": {
+      "stance": "★建仓5-8%(好公司+好价格+好未来, 地缘风险监控)",
+      "summary": "全球创新药CRDMO龙头, 卡位创新药外包咽喉。verified ROIC 21-28%价值创造之王 + PE 14.9x + 净利增速102.6%(含寒冬低基数,常态22-30%)→ forward PEG 0.5-0.65。三维全优但地缘(美国BIOSECURE法案)是悬顶剑,已大幅price-in。",
+      "confidence": 0.66
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 99.71,
+        "verified_pe": 14.9,
+        "roic_range": "21-28%",
+        "net_income_growth_pct": 102.6,
+        "revenue_growth_pct": 15.8,
+        "forward_peg": "0.5-0.65(常态22-30%增速)",
+        "stance": "★建仓5-8%",
+        "industry_wacc": 10,
+        "reason": "ROIC28%价值创造之王+PE14.9低估+CXO结构性恢复; 预期差=板块情绪(BIOSECURE+创新药寒冬)vs verified商业模式护城河",
+        "price_source": "stock_zh_a_daily新浪verified"
+      },
+      "future_market": "全球医药研发外包TAM ~$1000亿 CAGR 8-10%; 创新药管线增长驱动外包渗透率; CRDMO一体化客户黏性强",
+      "risk": "美国BIOSECURE法案(美国业务~60%)是真实地缘风险, 已price-in(PE14.9), 落地则减半"
+    },
+    "critic_evaluation": {
+      "critic_score": 78,
+      "verdict": "ACCEPT_WITH_CAVEATS",
+      "note": "三维全优, forward PEG修正0.5-0.65, 地缘风险悬顶"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 82
+    }
+  }
+}

@@ -633,10 +633,13 @@
         "eps": 1.19,
         "roic_pct": "13-17",
         "industry_wacc": 10,
-        "stance": "回调买(好公司贵)",
+        "stance": "减仓或换药明(PEG偏高)",
         "reason": "ROIC 13-17%>WACC10% 价值创造 + PE 40.7x 创新药溢价偏高, 回调至PE<32可买",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "future_market_correction": "PEG 1.88 + ROIC 13-17%低于药明28%; 同医药药明三维更优(ROIC高+PE低14.9+PEG低), 恒瑞无明显优势",
+        "net_income_growth_pct": 21.7,
+        "revenue_growth_pct": 13.0
       }
     },
     "verdict": {

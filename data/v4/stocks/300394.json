@@ -171,10 +171,13 @@
         "eps": 2.5958,
         "roic_pct": "36-48",
         "industry_wacc": 11.5,
-        "stance": "观望(透支)",
+        "stance": "减仓至半仓(透支)",
         "reason": "ROIC 36-48%价值创造之王 + PE 108x 已严重透支, 等大回调",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "future_market_correction": "ROIC 36-48%优秀但 PE108/增速50%=PEG 2.16严重透支, 估值已price-in 3年预期, 安全边际极薄",
+        "net_income_growth_pct": 50.1,
+        "revenue_growth_pct": 58.8
       }
     },
     "verdict": {

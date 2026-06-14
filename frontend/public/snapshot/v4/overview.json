@@ -209,7 +209,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 34,
+      "industries_count": 35,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
@@ -1510,8 +1510,8 @@
         "未分类",
         {
           "direct_yi": 0.0,
-          "indirect_yi": 88905.92,
-          "total_yi": 88905.92,
+          "indirect_yi": 87941.77,
+          "total_yi": 87941.77,
           "direct_holdings": [],
           "contributing_funds": [
             {
@@ -1671,8 +1671,8 @@
               "code": "009881",
               "name": "广发中证医疗ETF联接C",
               "market_value": 8150.07,
-              "industry_weight_pct": 53.910000000000004,
-              "indirect_yi": 4393.702737,
+              "industry_weight_pct": 42.08,
+              "indirect_yi": 3429.5494559999997,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             }

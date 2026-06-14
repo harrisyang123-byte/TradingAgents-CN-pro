@@ -172,10 +172,13 @@
         "eps": 1.95,
         "roic_pct": "15-20",
         "industry_wacc": 11,
-        "stance": "★强推荐(好公司+好价格)",
+        "stance": "谨慎/不追高(周期伪装成长)",
         "reason": "ROIC 15-20%>WACC11% 价值创造 + PE仅14.9x 估值合理 = 罕见低估价值创造, 明天可建仓",
         "price_source": "stock_zh_a_daily新浪verified",
-        "as_of": "2026-06-13"
+        "as_of": "2026-06-13",
+        "future_market_correction": "★上一轮误推强买更正: 61.5%增速核心=金铜价高位(周期非能力), 剔除价格内生量增仅8-12%, forward PEG 1.5-2.5, 周期陷阱; 金铜价回落20%净利可能归零。持有者设止盈, 不新建仓",
+        "net_income_growth_pct": 61.5,
+        "revenue_growth_pct": 15.0
       }
     },
     "verdict": {
