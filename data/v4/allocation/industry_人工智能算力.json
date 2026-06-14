@@ -36,6 +36,24 @@
     "sum_weight": 7.5,
     "input_warnings": [],
     "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。人工智能算力 target 8.0% / 实际分配 7.5%; 未跑分析的标的占位 0% 等后续补全。",
-    "evidence": []
+    "evidence": [],
+    "fund_in_industry": [
+      {
+        "code": "024245",
+        "name": "广发上证科创板AI ETF联接A",
+        "weight": 2.09
+      },
+      {
+        "code": "012733",
+        "name": "易方达中证AI主题ETF联接A",
+        "weight": 1.42
+      },
+      {
+        "code": "012734",
+        "name": "易方达中证AI主题ETF联接C",
+        "weight": 1.33
+      }
+    ],
+    "fund_method": "行业内配比: 个股权重(高ROIC价值创造者优先)+ 基金权重(主题ETF被动敞口分散)"
   }
 }

@@ -17,9 +17,9 @@
 - [ ] C1-C8: equity/fixed_income/cash/commodity/precious_metal/real_estate/alternative/unclassified
 
 ## 阶段 D — 配比重跑
-- [ ] D1. alloc:equity_industries(行业间)
-- [ ] D2. alloc:industry ×8(行业内,含基金)
-- [ ] D3. alloc:portfolio(大类)
+- [x] D1. alloc:equity_industries 价值创造+基金二分
+- [x] D2. alloc:industry ×8 加基金维度(个股+基金配比)
+- [x] D3. alloc:portfolio v7 价值创造双标准(上轮已完成)
 
 ## 阶段 E — plan:* ×6
 - [ ] E1-E6: fixed_income/cash/commodity/precious_metal/real_estate/alternative

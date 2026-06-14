@@ -42,6 +42,14 @@
     "sum_weight": 7.0,
     "input_warnings": [],
     "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。半导体 target 7.0% / 实际分配 7.0%; 未跑分析的标的占位 0% 等后续补全。",
-    "evidence": []
+    "evidence": [],
+    "fund_in_industry": [
+      {
+        "code": "012629",
+        "name": "广发国证半导体芯片ETF联接A",
+        "weight": 0.95
+      }
+    ],
+    "fund_method": "行业内配比: 个股权重(高ROIC价值创造者优先)+ 基金权重(主题ETF被动敞口分散)"
   }
 }

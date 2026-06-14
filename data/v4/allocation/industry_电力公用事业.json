@@ -30,6 +30,14 @@
     "sum_weight": 4.0,
     "input_warnings": [],
     "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。电力公用事业 target 4.0% / 实际分配 4.0%; 未跑分析的标的占位 0% 等后续补全。",
-    "evidence": []
+    "evidence": [],
+    "fund_in_industry": [
+      {
+        "code": "019058",
+        "name": "易方达中证绿色电力ETF联接A",
+        "weight": 2.06
+      }
+    ],
+    "fund_method": "行业内配比: 个股权重(高ROIC价值创造者优先)+ 基金权重(主题ETF被动敞口分散)"
   }
 }

@@ -36,6 +36,14 @@
     "sum_weight": 4.0,
     "input_warnings": [],
     "logic": "基于行业 verdict (含 forward_view) + 已跑 v4 个股龙头分配。互联网平台 target 4.0% / 实际分配 4.0%; 未跑分析的标的占位 0% 等后续补全。",
-    "evidence": []
+    "evidence": [],
+    "fund_in_industry": [
+      {
+        "code": "006327",
+        "name": "易方达中证海外中国互联网50ETF联接(QDII)",
+        "weight": 0.81
+      }
+    ],
+    "fund_method": "行业内配比: 个股权重(高ROIC价值创造者优先)+ 基金权重(主题ETF被动敞口分散)"
   }
 }
