@@ -61,19 +61,24 @@ def _fetch_spot(ak, code: str, out: dict) -> None:
         out["_spot_ok"] = True
     except Exception as e:
         out.setdefault("_errors", []).append(f"spot:{type(e).__name__}")
-        # 降级: stock_zh_a_hist 取最近收盘价(verified, 历史日线端点通)
-        try:
-            import datetime
-            end = datetime.date.today().strftime("%Y%m%d")
-            start = (datetime.date.today() - datetime.timedelta(days=20)).strftime("%Y%m%d")
-            h = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=start, end_date=end, adjust="")
-            if h is not None and not h.empty:
-                out["price"] = _safe_float(h.iloc[-1]["收盘"])
-                out["price_date"] = str(h.iloc[-1]["日期"])
-                out["price_source"] = "stock_zh_a_hist(收盘价,东财push2阻断后降级)"
-                out["_spot_ok"] = True
-        except Exception as e2:
-            out.setdefault("_errors", []).append(f"hist:{type(e2).__name__}")
+        # 降级: stock_zh_a_hist 取最近收盘价(verified, 东财接口间歇性阻断需重试)
+        import time as _t
+        for _attempt in range(3):
+            try:
+                import datetime
+                end = datetime.date.today().strftime("%Y%m%d")
+                start = (datetime.date.today() - datetime.timedelta(days=20)).strftime("%Y%m%d")
+                h = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=start, end_date=end, adjust="")
+                if h is not None and not h.empty:
+                    out["price"] = _safe_float(h.iloc[-1]["收盘"])
+                    out["price_date"] = str(h.iloc[-1]["日期"])
+                    out["price_source"] = "stock_zh_a_hist(收盘价,东财间歇阻断降级)"
+                    out["_spot_ok"] = True
+                    break
+            except Exception as e2:
+                if _attempt == 2:
+                    out.setdefault("_errors", []).append(f"hist:{type(e2).__name__}(retry3)")
+                _t.sleep(1.5)
 
 
 def _fetch_valuation(ak, code: str, out: dict) -> None:

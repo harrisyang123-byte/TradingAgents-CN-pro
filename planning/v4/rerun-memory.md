@@ -325,3 +325,10 @@
     2. **WACC 行业化**: 当前硬编 9% 一刀切, 应按 beta 分档(半导体11-13%/制造9%/消费7-8%) — 影响临界判定(北方华创 ROIC 7.29-9.72% 用9%临界, 用11%则毁灭)。
     3. **港股 verified 确认**: 泡泡/阿里/腾讯/小米 ROIC 经核实是 akshare stock_financial_hk_analysis_indicator_em 的 ROIC_YEARLY (真verified, 非估算)。
   - **价值创造维度全链路打通**: 契约24MUST + stock_source verified取数 + director四问 + critic6.9 + 前端展示 + 27只verified数据 + alloc双标准 + 辩证终审。这是 D 阶段以来最有实质的质量跃升(段永平: 不创造价值的公司再便宜也不买, 现在系统能 verified 判断了)。
+
+- **2026-06-14 启动 v4-akshare-full-rerun (用户认可 test plan, 全量重跑)**：
+  - **openspec 流程**: 归档 v4-value-creation-augment + d-plan → archive/; 新建 change v4-akshare-full-rerun(proposal+tasks: 前置修复/A基金改造/B行业×8/C大类×8/D配比/E plan×6/F收尾)。
+  - **东财接口诊断结论(核实, 非限流)**: push2 实时端点(stock_individual_info_em/stock_zh_a_spot_em)+ 历史日线(stock_zh_a_hist)都是**间歇性 RemoteDisconnected 阻断**(几分钟前通现在断, 反爬/网络); **财务接口(新浪源 stock_financial_abstract/analysis)稳定可用**。→ ROIC/财务 verified 稳定; 价格(东财)需重试(已加3次重试降级)。
+  - **前置修复**: stock_source `_fetch_spot` 东财push2失败→降级 stock_zh_a_hist(3次重试)取 verified 收盘价。
+  - **基金新方式(用户拍板, 待实现)**: 不穿透底层; 二分=① 主题/行业基金→算作行业内一个 instrument 与个股并列(看好行业→推荐公司+基金) ② 宽基/多资产→大类底仓。持仓 akshare fund_portfolio_hold_em 联网查定行业。
+  - **进度**: 阶段0(openspec+前置修复)完成。阶段A-F(基金改造/行业/大类/配比/plan/收尾)待续——巨型工程, 按 test plan 顺序: 前置✓→A基金→B行业→D配比→C大类→E plan→F优化。每阶段 critic 真复核 + verified 数据 + 价值创造(ROIC vs WACC, WACC待行业化)。
