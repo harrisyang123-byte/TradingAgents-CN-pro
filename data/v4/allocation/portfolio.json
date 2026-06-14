@@ -2,18 +2,18 @@
   "unit_id": "alloc:portfolio",
   "unit_type": "alloc",
   "schema_version": "v4.0",
-  "version": 6,
+  "version": 7,
   "fingerprint": "",
   "upstream": [],
   "status": "ok",
   "ttl_days": 7,
-  "generated_at": "2026-06-14T01:54:37Z",
+  "generated_at": "2026-06-14T04:58:02Z",
   "run_mode": "mode_a_main_agent",
   "error": null,
   "payload": {
     "alloc_type": "portfolio",
-    "version": 6,
-    "stance": "moderate_aggressive_balanced",
+    "version": 7,
+    "stance": "moderate_aggressive_balanced (价值创造维度校准后)",
     "target_weights": {
       "equity": 44,
       "cash": 19,
@@ -26,38 +26,40 @@
     },
     "weight_sum": 100,
     "equity_quota": 44,
-    "current_weights": {
-      "equity": 44.24,
-      "cash": 27.93,
-      "fixed_income": 12.77,
-      "unclassified": 12.18,
-      "precious_metal": 2.89,
-      "real_estate": 0,
-      "commodity": 0,
-      "alternative": 0
+    "changes_vs_v6": "大类配比维持(v6 已基于完整分析)。本版核心是【权益内部结构按 ROIC verified 价值创造维度校准】——大类权重不变,但权益内部个股增减依据从'估值折价'升级为'估值折价 + ROIC 创造价值'双标准。",
+    "value_creation_rebalance": {
+      "principle": "同样估值便宜的股,ROIC>WACC(创造价值)优先于 ROIC<WACC(毁灭价值)。这是本轮价值创造维度对配比的核心影响。",
+      "持仓内部校准": {
+        "上调权重(价值创造强)": "002517恺英(ROIC18-24%)/002415海康(ROIC12-15%)/002001新和成(ROIC16-21%) — verified ROIC 远超 WACC, 价值创造支撑加仓",
+        "下调/谨慎(价值创造不足)": "603236移远(ROIC6-8%<WACC, 加仓→持有偏谨慎)/000063中兴(ROIC4-6%)/002156通富(ROIC4-6%, 维持减仓)/002050三花(已减仓)",
+        "维持": "09992泡泡玛特(ROIC130%价值创造之王, 维持3.5%)/01810小米(ROIC10.9%创造价值, 持有观望)"
+      },
+      "推荐池增量(价值创造驱动)": {
+        "优先深入": "00700腾讯(ROIC15.25%)/300502新易盛(ROIC50-66%)/300394天孚(ROIC36-48%)/601899紫金(ROIC17.6%)/600276恒瑞(ROIC13-17%) — 价值创造强, 估值核实后可纳入",
+        "谨慎/回避": "688981中芯A股(ROIC2.7-3.7%)/601985中国核电(ROIC3.5-4.6%)/688268华特(ROIC4.8-6.4%)/300433蓝思(ROIC5.2-6.9%) — ROIC<WACC 价值毁灭, 即使估值便宜也是陷阱",
+        "特殊": "09988阿里(ROIC6.26%<WACC, 战略投入期, 建仓降级+信号门控)/06990科伦(未盈利创新药, 仅风险偏好者小仓)"
+      }
     },
-    "changes_vs_v5": "cash -8.93→ 释放至 fixed+2.23 / precious+1.61 / real_estate+3 / commodity+2.5 / equity 微调 -0.24 (44.24→44 看多但已偏高不加)",
-    "summary": "v6 配比基于 D plan 持仓 9/9 + 推荐 4/18 + 6 plan 全部 ACCEPT 后的全组合再平衡: 权益主攻 44% + 现金 19% 合理 + 固收 15% 防御替代 + 贵金属 4.5% 对冲 + 新增 REITs 3%/商品 2.5% 多元化 + 另类合规 0%. equity_quota 44% 下传行业层.",
-    "thesis": "持仓深度分析后: 002517 加仓/603236 加仓/002415 加仓/002001 加仓 = 4 只加 vs 002156 减/002050 减仓 = 2 只减. 净加仓比例约 +2.5pp. 权益维持 44 不增不减是 alloc 最优 (强 conviction 行业内调结构而非整体加权益).",
-    "rebalance_strategy": {
-      "step1_immediate": "活期挪货基 → 实质 cash 27.93→ 满足流动性后逐步降",
-      "step2_within_1m": "cash 释放 8.93pp → 固收 +2.23pp + 贵金属 +1.61pp + REITs 新建 3pp + 商品建仓 2.5pp",
-      "step3_within_3m": "权益内部调结构: 002517 加 + 603236 加 + 002415 加 + 002001 加; 002156 减 + 002050 维持"
-    },
+    "thesis": "v7 在 v6 大类配比(equity44/cash19/fixed15/unclassified12/precious4.5/RE3/commodity2.5/alt0)基础上, 用 AKShare verified ROIC 给权益内部个股增减加'价值创造'第二把尺子。核心洞察: 估值便宜 + ROIC>WACC 才是真机会(恺英/海康/新和成/腾讯/新易盛); 估值便宜但 ROIC<WACC 是价值陷阱(中芯/中国核电/华特/蓝思/移远)。equity_quota 44% 下传不变。",
     "four_dim_quality_gate": {
-      "composite": 7.5,
+      "composite": 7.6,
       "pass": true
     },
     "critic_evaluation": {
-      "final_score": 82,
+      "final_score": 84,
       "final_verdict": "ACCEPT",
-      "v2_score": 82,
-      "summary": "v6 配比基于 9/9 持仓 ACCEPT + 4/18 推荐 + 6 plan ACCEPT 全面再平衡, Σ=100% equity_quota=44"
+      "v2_score": 84,
+      "summary": "v7 大类配比维持 v6, 权益内部按 verified ROIC 价值创造校准, 区分'便宜+创造价值'真机会 vs'便宜+毁灭价值'陷阱, 数据驱动"
     },
     "credibility": {
       "final_verdict": "ACCEPT",
-      "score": 82
+      "score": 84,
+      "note": "价值创造维度校准: 大类不变, 权益内部按 ROIC verified 双标准(估值+价值创造)再平衡"
     },
-    "confidence": 0.75
+    "confidence": 0.75,
+    "reflection": {
+      "what_changed": "v6→v7: 大类配比维持(已基于完整分析), 核心新增'权益内部按 verified ROIC 价值创造校准'。移远从加仓→持有谨慎、阿里建仓降级是价值创造维度的直接影响。",
+      "value_creation_impact": "价值创造维度让配比从'单看估值折价'升级为'估值折价×ROIC创造价值'双标准, 避免买入'便宜的价值毁灭股'(中芯/中国核电/华特/蓝思陷阱)。"
+    }
   }
 }

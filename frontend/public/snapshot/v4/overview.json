@@ -5,8 +5,8 @@
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 alloc:portfolio」，或运行：./scripts/run_v4.sh analyze alloc:portfolio",
-    "version": 6,
-    "generated_at": "2026-06-14T01:54:37Z",
+    "version": 7,
+    "generated_at": "2026-06-14T04:58:02Z",
     "ttl_days": 7,
     "upstream": [],
     "run_mode": "mode_a_main_agent",
@@ -14,7 +14,7 @@
     "equity_quota": 44,
     "sum_check": null,
     "input_warnings": [],
-    "summary": "v6 配比基于 D plan 持仓 9/9 + 推荐 4/18 + 6 plan 全部 ACCEPT 后的全组合再平衡: 权益主攻 44% + 现金 19% 合理 + 固收 15% 防御替代 + 贵金属 4.5% 对冲 + 新增 REITs 3%/商品 2.5% 多元化 + 另类合规 0%. equity_quota 44% 下传行业层."
+    "summary": ""
   },
   "asset_cards": [
     {

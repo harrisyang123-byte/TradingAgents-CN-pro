@@ -700,15 +700,15 @@
     "alloc:portfolio": {
       "unit_id": "alloc:portfolio",
       "unit_type": "alloc",
-      "version": 6,
+      "version": 7,
       "fingerprint": "",
       "status": "ok",
       "ttl_days": 7,
-      "generated_at": "2026-06-14T01:54:37Z",
+      "generated_at": "2026-06-14T04:58:02Z",
       "upstream": [],
       "error": null,
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T04:52:44Z"
+  "updated_at": "2026-06-14T04:58:02Z"
 }
