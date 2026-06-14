@@ -206,6 +206,11 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 
 5. **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`。**严禁用 0/中性/示例数字伪装真实读数**（这是 v3 时代的病根）。
 6. **MECE**：每一分钱落进恰好一个大类（含 `unclassified` 待穿透桶），不漏不重；Σ 校验含归零类。
+
+7. **MECE 反偷懒铁律(2026-06-14 用户拍板防止借'少开 agent'偷懒)**: "少开 agent"原则不得作为偷懒借口。当某分析维度在现有 agent 阵容中无对应职责,**必须新建专门 subagent**, 而不是让现有 agent 凑合做(否则=草草敷衍)。
+   - 判定**必须新建**: ① 某维度在现有阵容(allocator/bear/bull/chokepoint/director+critic+5力+sentiment+3风险辩论)中无 agent 职责对应; ② 现有 agent 兼做但质量明显不足(如 critic 兼 6.12 自查暴露 NEEDS_CHANGES 反复); ③ 主 agent 想为省时间兼做 → 触发本铁律禁主 agent 接管,必须 spawn
+   - 当前应新建(本会话暴露的): `v4-stock-valuation-auditor.md`(expert_valuation 推导链独立审计)/`v4-market-scanner.md`(全市场 ROIC/PE/增速筛选)/`v4-alpha-hunter.md`(未识别 alpha 深挖)
+   - 详见 `planning/v4/project-master-prompt.md §3 反偷懒铁律`
 7. 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005）；约束链不满足只软提醒。
 8. 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4）。
 9. 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发。

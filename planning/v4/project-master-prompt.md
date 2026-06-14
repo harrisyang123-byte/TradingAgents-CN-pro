@@ -37,6 +37,25 @@
 
 **设计铁律**：MECE 优先于"少开 agent"——完全穷尽 + 相互独立 + 职责单一 + 能力打满。约束硬传递（宏观→equity_quota→行业配比→个股配比）。上游变更只置黄软提醒不强制重跑。
 
+**MECE 反偷懒铁律(2026-06-14 用户拍板"防止借少开agent偷懒"后落地, 永久)**:
+"少开 agent"原则**不得作为偷懒借口**。当 MECE 分析显示**现有 agent 阵容职责覆盖不到某个分析维度**,**必须新建专门 subagent 而不是让现有 agent 凑合做**——否则就是草草敷衍。
+
+判定何时**必须**新建:
+1. **某分析维度**(如 expert_valuation 自查/全市场扫描/PE 分位计算)在现有 agent 阵容(allocator/bear/bull/chokepoint/director + critic + 5 力专项 + sentiment + 3 风险辩论)中**无任何 agent 职责对应** → 必须新建
+2. 现有 agent 兼做该维度 → 该维度**质量明显不足**(如 critic 兼做 6.12 expert_valuation 自查暴露 NEEDS_CHANGES 太多) → 应该拆分独立 subagent
+3. 主 agent 因"省时间/省 context"想兼做 → 触发本铁律,**禁止主 agent 接管**,必须 spawn 新 agent
+
+血泪教训(本会话):
+- expert_valuation 自查我让 critic 兼做(critic 6.12) → 检测出 NEEDS_CHANGES 但无独立纠错agent → 自己又当裁判又当选手, 反复反转
+- 全市场扫描我说"主 agent 用 collect_v4.py" → 实际需要专门 scanner agent + screener agent 才不会草草敷衍
+
+正确做法:
+- **新建 v4-stock-valuation-auditor.md** 专门做 expert_valuation 推导链审计(独立于 critic)
+- **新建 v4-market-scanner.md** 专门做全市场 ROIC/PE/增速 筛选
+- **新建 v4-alpha-hunter.md** 专门做未识别 alpha 标的深挖
+
+新建 subagent 不增加 .md 注册难度(平台 subagent 角色固定,实际 spawn 仍走 ask-agent-v2,但 prompt 指向不同 .md 文件),但**职责清晰=输出更深**。
+
 ## 4. 运行模式 A（当前主流，2026-06-07 用户拍板）
 
 无 claude CLI 时，本会话主 agent 直接驱动 v4 子 Agent。
