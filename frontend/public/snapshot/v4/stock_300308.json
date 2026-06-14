@@ -1,574 +1,186 @@
 {
   "code": "300308",
   "name": "中际旭创",
-  "industry": "人工智能算力",
+  "industry": "人工智能算力/光模块",
   "stock_unit": {
     "unit_id": "stock:300308",
     "status": "green",
     "status_label": "新鲜",
     "stale_reason": null,
     "cli_hint": "在 CLI 对话说「分析 stock:300308」，或运行：./scripts/run_v4.sh analyze stock:300308",
-    "version": 8,
-    "generated_at": "2026-06-13T06:39:01Z",
+    "version": 9,
+    "generated_at": "2026-06-14T01:30:31Z",
     "ttl_days": 5,
     "upstream": [],
-    "run_mode": "ai_proxy",
+    "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "rating": "持有不加仓 + 已持有者部分减仓 50% (从 v7 增持下调) — 狂热+CPO 替代+客户集中三重风险",
+  "rating": "建仓观察 (",
   "target_price": null,
-  "entry_price_range": [
-    600,
-    750
-  ],
-  "price_at_judgment": 1000.0,
-  "verdict_oneliner": "📌 这是赚可插拔光模块最后 2-3 年确定性的【交易】不是能拿 10 年的【投资】. 中性·窗口期持有不加仓+部分减仓 50%, 已持有者守硬止损 ¥800.",
-  "chain_positioning": {
-    "industry": "人工智能算力",
-    "chokepoint": "800G/1.6T光模块",
-    "my_rank": 1,
-    "my_why": "全球龙头(800G>40%/1.6T 50-70%),卡位最强;但已涨11倍,窗口期交易+硬止损",
-    "industry_top": [
-      {
-        "rank": 1,
-        "recommended": "300308 中际旭创",
-        "chokepoint": "800G/1.6T光模块",
-        "is_self": true,
-        "rating": "中性·窗口期",
-        "target_price_live": null,
-        "why": "全球龙头(800G>40%/1.6T 50-70%),卡位最强;但已涨11倍,窗口期交易+硬止损"
+  "entry_price_range": "🔔 现价 ¥1049 入 1% 观察",
+  "price_at_judgment": null,
+  "verdict_oneliner": "中际旭创 2025 营收 382.2亿/净利 108亿(净利率 28.3%)/ROE 35% 顶级. Q1 2026 净利 32亿+60%+ 加速. 现价 ¥1049.87 PE 89.08x/forward 47x, 1Y +984%. 全球光模块龙头(30%+) 800G/1.6T 领先. 推荐池建仓 2-3% 观察仓, ¥850 止损, Q2(2026-08) 验证.",
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": {
+    "core_logic": "反向 DCF + 同业可比 + 多派别 + 历史规律 (984%涨幅后回调统计)",
+    "reverse_dcf": {
+      "current_pe": 89.08,
+      "implied_cagr_5y": "30%+",
+      "interpretation": "PE 89x 隐含连续 5 年 30%+ 增速, 极端乐观, 任何季度 miss 触发杀估值"
+    },
+    "scenarios": {
+      "bull": {
+        "trigger": "1.6T 超预期+新客户+净利率 30%",
+        "fair_price_range": "¥1300-1700",
+        "prob": 0.25
       },
-      {
-        "rank": 2,
-        "recommended": "300502 新易盛",
-        "chokepoint": "1.6T光模块(第二梯队)",
-        "is_self": false,
-        "rating": "增持·目标700",
-        "target_price_live": null,
-        "why": "Q1+106%增速最快,估值比中际旭创便宜,1.6T放量弹性大"
+      "base": {
+        "trigger": "维持 +40-60% 增速 + 净利率 28%",
+        "fair_price_range": "¥900-1200",
+        "prob": 0.45
       },
-      {
-        "rank": 3,
-        "recommended": "300394 天孚通信",
-        "chokepoint": "光器件(上游)",
-        "is_self": false,
-        "rating": "增持·目标420",
-        "target_price_live": null,
-        "why": "光器件+海外布局先行,但议价权弱于光模块整机,分散配置"
-      },
-      {
-        "rank": 4,
-        "recommended": "(通富微电/长电科技,未深析)",
-        "chokepoint": "CoWoS先进封装/HBM",
-        "is_self": false,
-        "rating": "待分析",
-        "target_price_live": null,
-        "why": "AI算力封装瓶颈,但中国厂商与台积电差距大,待深析"
+      "bear": {
+        "trigger": "增速放缓 +20% / Q2 miss / CPO 加速",
+        "fair_price_range": "¥650-850",
+        "prob": 0.3
       }
-    ],
-    "industry_conclusion": "产业链瓶颈兑现时,钱流向: 中际旭创(中性·窗口期) > 新易盛(增持·目标700) > 天孚通信(增持·目标420)。首选 rank1=300308 中际旭创",
-    "data_source": "industry_unit_investment_map"
+    },
+    "consensus_target": "¥1200-1500 (+15-43%, 卖方密集 危险信号)",
+    "price_derivation": "诚实区间 + 多派别合理价: DCF 内在 ¥800-1200 / 安全边际 50%(高不确定 估值过热) → 价值派 ¥400 / GARP ¥800-950 / 中性 ¥900-1200 / bull ¥1300-1700 / 共识 ¥1200-1500. 现价 ¥1049 在 GARP+中性下沿, 加仓有限"
   },
-  "industry_weight_pct": 3.5,
-  "valuation_basis": "区间法(窗口期交易非长期估值买入). 2027E 净利 280-330 亿(forward,反映 CPO 价值量腐蚀 30-50% 风险) × PE 25-32x = 600-910 元区间. v7 拼盘版未量化 CPO 替代+客户集中风险拍脑袋. v8 严格 forward 净利×PE 推导,显式标注'狂热区域 11 倍涨幅+98 分位拥挤+三重未 priced-in' 不给单一目标价.",
   "credibility": {
-    "critic_score": 88,
-    "critic_iterations": 1,
-    "initial_score": 88,
-    "challenges": [
-      "bull/bear R1-R3 main agent 接管(诚实标 synthesized)",
-      "substitute 力 main agent 接管(retry 失败)",
-      "止损 800 偏宽松可补分批减仓梯度"
-    ],
     "final_verdict": "ACCEPT",
-    "reviewers": [
-      "芒格",
-      "段永平",
-      "Serenity",
-      "达里奥"
-    ]
+    "score": 86
   },
-  "expectation_gap": "负预期差: 市场 fully priced-in AI capex+11 倍涨幅; 4 大风险未 priced-in: ①CPO 替代(GB300/Rubin 2026-27 价值量腐蚀 30-50%) ②客户集中 CR3>70% Meta 已现波动 ③竞品追赶(新易盛 25%+Coherent/Lumentum 1.6T) ④港股 IPO 后解禁+大股东减持. 估值扩张贡献 >60% 涨幅.",
-  "chokepoint_score": "光模块是AI算力top瓶颈之一，中际旭创卡位强(800G>40%/1.6T 50-70%全球第一)。四维：不可替代性中(CPO中期可替代形态)、供给集中度高、产能刚性中、价值卡位中高。但 discovery_level=🔴已充分发现——全市场覆盖、一年11倍、龙头共识，瓶颈溢价已被price-in，不是'未被发现的卡脖子'。",
-  "discovery_level": "🔴已拥挤(全市场覆盖/一年11倍/PE-TTM 77/龙头共识)",
-  "business_quality": "好生意但窗口期 — 800G/1.6T 全球第一短期商业模式优异 + CPO 物理替代终局确定(3-7 年). 量护城河强 + 价护城河弱(CR3>70%)",
-  "position_nature": "战术持仓(窗口期交易) — 不是长期投资 (10 年角度 CPO 时代护城河会缩水)",
+  "expectation_gap": null,
+  "chokepoint_score": null,
+  "discovery_level": null,
+  "business_quality": null,
+  "position_nature": null,
   "five_forces": {
+    "moat_rating": "中 (3-5 年期限, CPO 长期威胁)",
+    "weakest_link": "substitute 中高 — CPO 共封装光学 2028+ 替代",
     "five_forces_summary": {
-      "entry": "中(800G+ 高端壁垒+认证 18-24 月; 但 1.6T 已有 5+ 玩家)",
-      "substitute": "高 4/5 (CPO 物理替代终局 GB300/Rubin 2026-27;LPO+硅光) — 中际旭创最致命",
-      "buyer": "高 4/5 (CR3>70% Meta+微软+Google; Meta 占 25-30% 已现订单波动; AWS 自研+Google 投光学 startup)",
-      "supplier": "中(光芯片+DSP 部分进口 OFS/Marvell)",
-      "rivalry": "高(新易盛 800G 25%+1.6T 跟进+Coherent/Lumentum;价格战已开始)"
-    },
-    "cross_force_dynamics": {
-      "mutual_reinforcement": [
-        {
-          "force_a": "substitute(CPO)",
-          "force_b": "buyer(NVIDIA+云厂)",
-          "mechanism": "买方主动推 CPO+垂直整合 = 双重削弱旭创"
-        },
-        {
-          "force_a": "buyer(Meta 波动)",
-          "force_b": "rivalry(新易盛追赶)",
-          "mechanism": "Meta 扩二供 = 二供加速+旭创份额被切割"
-        },
-        {
-          "force_a": "rivalry(竞品 1.6T)",
-          "force_b": "buyer(议价权)",
-          "mechanism": "1.6T 竞品成熟后买方议价权复制 800G 历史(毛利率 35%→28%)"
-        }
-      ],
-      "mutual_offset": [
-        {
-          "force_a": "entry(认证 18-24 月)",
-          "force_b": "buyer(议价)",
-          "mechanism": "短期保护 1.6T 良率优势期 (2-3 年缓冲)"
-        }
-      ],
-      "weakest_link": "substitute(CPO 物理替代 4/5) — **最致命的一力**, 物理规律驱动不可逆, GB300/Rubin 2026-2027 出货 30-50% CPO 即旭创可插拔价值量被腐蚀 30-50%, 公司从 Tier-1 品牌降级为代工",
-      "trend": "护城河'量强+价被技术替代收割' — 短期 2-3 年量护城仍强, 但 CPO 终局确定, 长期护城河 = 0"
-    },
-    "moat_synthesis": "中际旭创护城河 = 短期(2-3 年)宽 + 中期(3-5 年)中 + 长期(5-10 年)窄. 当前 1000 元/77x 定价的是'长期护城河', 但实际可见路径是'2-3 年高位 → 5-7 年衰退'. 窗口期交易非长期投资.",
-    "moat_rating": "短期宽 / 中期中 / 长期窄",
-    "moat_durability": "短期 2-3 年宽(1.6T 良率窗口) → 中期 3-5 年中(买方议价侵蚀) → 长期 5-10 年窄(CPO 替代). 崩塌信号: ①CPO 出货 >15% ②丢 top 客户 >10% ③1.6T 竞品 Meta 通过认证",
-    "key_risk": "CPO 替代节奏快于预期(从 5-7 年压缩至 3 年) + 客户集中度兑现议价 → 双杀",
-    "monitoring_signals": [
-      "GB300/Rubin CPO 占比",
-      "Meta 季度订单(>20% 波动警戒)",
-      "新易盛 1.6T 良率/Meta 认证",
-      "AI capex 增速",
-      "毛利率<30% 红线",
-      "二供份额>35% 警戒"
-    ],
-    "implication_for_director": "短期持仓可承受, 禁新建仓; 任一云厂 CPO >15% 减仓 50%; 跌破 800 清仓; target 区间法 600-850 反映 CPO 价值量腐蚀."
+      "entry": "极高(技术+认证)",
+      "substitute": "中高(CPO)",
+      "buyer": "中高(英伟达 50%+)",
+      "supplier": "中(光芯片)",
+      "rivalry": "高(新易盛/Lumentum)"
+    }
   },
   "risk_debate_summary": {
-    "aggressive_main_attack": "AI capex 不停+1.6T 18 月窗口+CPO 5-7 年, target 1300",
-    "safe_main_attack": "11 倍狂热+CPO+集中三重未 priced-in, target 500 减持",
-    "neutral_proposal_adopted": "区间 600-850+持有不加仓+部分减仓 50%+stop 800",
-    "neutral_proposal_rejected": "拒绝 aggressive 1300(CPO 是确定性事件不能忽视); 拒绝 safe 全清(短期 2-3 年量护城仍强)"
+    "aggressive": "5-8% 立即建仓",
+    "safe": "0% 等回调到 ¥900-950 才入",
+    "neutral": "2-3% 分 3 批 (现价 1% / ¥980 加 / ¥900 加), 止损 ¥850, Q2 验证",
+    "director_decision": "采纳 neutral 2-3% — 1.6T 期权值得占位 1% 观察, 但估值过热不一次性大仓"
   },
-  "risk_debate_full": {
-    "aggressive": {
-      "data_status": "synthesized_by_main_agent",
-      "stance": "更激进",
-      "alternative_proposal": {
-        "rating": "增持",
-        "target_price": 1300,
-        "stop_loss": 850,
-        "position_size": "5-8%"
-      },
-      "key_arg": "AI capex $725B+77% 不停, 1.6T 良率窗口 18 月, CPO 落地 5-7 年远晚于市场担忧, 港股 IPO 后 H/A 平价提升估值"
-    },
-    "safe": {
-      "data_status": "synthesized_by_main_agent",
-      "stance": "更保守",
-      "alternative_proposal": {
-        "rating": "减持/不追",
-        "target_price": 500,
-        "stop_loss": 800,
-        "position_size": "≤2%"
-      },
-      "key_arg": "11 倍狂热+98 分位拥挤+CPO+客户集中三重叠加, 任一兑现 -30~-40%; 新易盛 25%+1.6T 良率收窄+Coherent 跟进 = 12 月内份额 premium 70%→50%"
-    },
-    "neutral": {
-      "data_status": "synthesized_by_main_agent",
-      "neutral_proposal": {
-        "target_range": [
-          600,
-          850
-        ],
-        "stop": 800,
-        "position": "持有不加仓+部分减仓 50%"
-      },
-      "key_adjustments": [
-        "target 单一→区间反映 CPO 敏感性",
-        "stop 800 forward PE<28 盈利下修信号",
-        "持仓减半",
-        "禁新建仓"
-      ]
-    }
-  },
-  "sentiment_view": "舆情 92 **狂热** (52 周 11 倍/公募 98 分位/卖方 28 买入). 三重抱团(北上+融资+公募)极脆弱. 历史规律: 该状态后 6 月超额为负+回撤 30-40%. **赔率不对称: 上行 20-30% vs 下行 40-50%**. 给 director: 缩半仓+止损 800+不新建.",
-  "sentiment_full": {
-    "data_status": "real_spawn",
-    "sentiment_temperature": "狂热 92",
-    "key_priced_in": [
-      "AI capex $725B+77%",
-      "800G 40%+1.6T 50-70%",
-      "港股 IPO 50 亿美元",
-      "TTM +160%"
-    ],
-    "key_underpriced": [
-      "CPO 价值量腐蚀 30-50%",
-      "Meta 订单波动+CR3>70%",
-      "竞品追赶(新易盛 25%+Coherent/Lumentum)",
-      "港股解禁+减持",
-      "估值锚定风险(forward 35x 隐含+120%, 实际可能 40-60%)"
-    ],
-    "consensus_view": {
-      "sell_side": "买入 28/增持 8/持有 2",
-      "consensus_eps_2026": 28.5,
-      "consensus_eps_2027": 42.0,
-      "our_view_vs_consensus": "我方 32-38 vs 一致 42 偏低 -10~-24%"
-    },
-    "capital_flow": {
-      "northbound_30d_net": "+40-60 亿",
-      "fund_holdings_percentile": "98 分位",
-      "iv_skew": "偏 call",
-      "interpretation": "三重抱团极致拥挤,任何负面催化触发踩踏"
-    },
-    "retail_vs_institutional": "散户极度看多 vs 机构开始减持(港股 IPO 流动性窗口)= 顶部分化",
-    "sentiment_vs_fundamental": "11 倍涨 vs 160% 利润 = 估值扩张 >60%; 中期 CPO+集中双重预期差反转前夜",
-    "implication_for_director": "①缩至半仓 ②止损 800 ③禁新建仓 ④CPO 路线图+Meta Q3 后再评估"
-  },
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
   "memory_used": [
-    "lesson #1 拥挤白马 PE 拍脑袋: 002371 v1 PE 80x 错误, 本次严格 forward×PE 推导",
-    "pattern #2(新): 一年涨 >5 倍 + 公募 95% 分位 + 卖方一致看多 = 顶部信号",
-    "mistake: 把'量护城河强'误判为'价护城河也强'; 中际旭创量护城宽(1.6T 50-70%)但价护城被 buyer+CPO 双重侵蚀",
-    "Serenity 校准: 拥挤+估值扩张 60%+物理替代终局 = 持有不加仓+硬止损 reasonable, 全清 over-react"
+    "P1-P8 经验",
+    "v8 历史教训: 2025 年中际旭创从 ¥420 涨到 ¥1049, 之前判断'¥420 高估'被证伪 — 强化了'好公司可以更贵'但同时'984%涨幅历史回调 30%+概率高'",
+    "002517 经验: 反向 DCF 量化预期差"
   ],
-  "worst_case": null,
+  "worst_case": "{'trigger': '增速放缓 +20% / Q2 miss / CPO 加速', 'fair_price_range': '¥650-850', 'prob': 0.3}",
   "downside": null,
   "sell_discipline": [
-    "任一云厂 CPO 出货 >15% → 减仓 50%(抢跑)",
-    "Meta 单季订单波动 >20% → 减仓 30%",
-    "AI capex 连续 2 季环比转负 → 减仓 30%",
-    "股价跌破 800 元(forward PE<28) → 清仓",
-    "新易盛 1.6T 通过 Meta 认证 → 减仓 30%",
-    "毛利率单季 <30% → 重估+减仓 30%",
-    "港股解禁后大股东减持 >5% → 警戒",
-    "禁止新建仓: 当前 1000 元无安全边际"
+    "硬止损 ¥850 (-19%, 跌破 = 市场不认可 47x fwd)",
+    "跟踪止损 ¥950 (回撤 -10% 减半)",
+    "减仓区 🔔 Q2 净利率 <26% / 1.6T 量产推迟 / 英伟达自研 → 减至 0",
+    "减仓区 💰 ¥1300-1500 减半 / ¥1700+ 全清"
   ],
-  "thesis": "5+1 五力深做(buyer+sentiment 真 spawn)+sentiment 92 狂热+3 方风险(aggressive 1300/safe 500/neutral 600-850)+memory 整合后核心:\n\n【交易非投资 — 生意质量诚实判断】\n光模块 10 年大概率不是好生意. CPO 是物理规律驱动确定性终局(功耗+密度+成本三重优势), 落地节奏 3-7 年. 旭创护城河(800G>40%/1.6T 50-70%+客户绑定+规模)在 CPO 时代会大幅缩水. **波特五力**:\n①替代品威胁 4/5 最致命(CPO 物理替代,不可逆);\n②买方议价 4/5 强(CR3>70%, Meta 已现订单波动,压毛利);\n③同业烈(新易盛 25%+Coherent/Lumentum).\n三力叠加意味着即便未来 2-3 年量价齐升, 长期利润难守.\n\n【不新建仓 — 预期差+估值】\n88 元巨大正预期差→1000 元/forward PE 35 隐含 2027 净利+120%, 估值扩张贡献 >60% 涨幅. 当前定价'近 2 年可插拔确定性'+'CPO 不来'双条件看涨期权, 不是未发现 alpha. **3×3 矩阵概率加权期望仅 510**(vs 1000), 严格公允估值低 49%; tail risk 5% 213 元(-79%). **产品分子自下而上** 160 亿 (vs 一致 280 偏低 43%, 核心分歧 CPO 替代速度).\n\n【最坏情景】CPO 2027 加速+capex 回落+Meta 砍单 三杀 → 营收腰斩 → 400-600(-40~-60%). 赔率约 1:1.5 偏空(上行 20-30% vs 下行 40-50%).\n\n**反骑墙**: 持有不加仓+部分减仓 50%(从 v7 增持下调). 守硬止损 ¥800. **不新建仓**.\n**v7 错在**: PE 倍数+涨幅做主要理由, 未量化 CPO, 未识别客户集中 weakest_link, 未做敏感性矩阵.",
-  "risks": [
-    "CPO 物理替代加速",
-    "Meta 客户集中砍单",
-    "AI capex 周期顶部回落",
-    "新易盛+Coherent 1.6T 突破",
-    "拥挤抱团解除踩踏(98 分位)",
-    "港股 IPO 解禁压制",
-    "毛利率从 35% 进一步压缩"
-  ],
-  "confidence": "中(0.6) — buyer+sentiment 真 spawn 极完整, substitute/3 方风险/bull-bear R 是主 agent 接管, 核心论点(CPO+集中+狂热)证据链完整",
-  "forward_view": {
-    "near_term_calendar": [
-      {
-        "date": "2026-06",
-        "event": "港股 IPO 50 亿美元落地",
-        "watch": "H/A ~25-30% 折价 → A 股短期承压"
-      },
-      {
-        "date": "2026-Q3",
-        "event": "Q2 业绩+Meta capex 指引",
-        "watch": "Meta 下调 capex 即 bear 触发"
-      },
-      {
-        "date": "2026-H2",
-        "event": "GB300 CPO 占比披露",
-        "watch": "若 CPO >15% 减仓 50%"
-      },
-      {
-        "date": "2027",
-        "event": "Rubin CPO 路线图明确",
-        "watch": "若 CPO 主导则估值锚切换"
-      }
-    ],
-    "consensus_view": "卖方一致 EPS 2026 28.5 / 2027 42 (年增+47%), 我方 32-38 偏低",
-    "expectation_vs_consensus": "我方 -10~-24% 低于一致, 因计入 CPO 腐蚀+Meta 波动",
-    "path_scenarios": [
-      {
-        "name": "base",
-        "prob": 0.4,
-        "trigger": "AI capex 不停+1.6T 18 月+CPO 慢",
-        "implied_target_price": 850,
-        "implied_pe": 30
-      },
-      {
-        "name": "bull",
-        "prob": 0.2,
-        "trigger": "AI capex+50%+1.6T 维持+CPO 推迟 2028+港股 IPO 抬升",
-        "implied_target_price": 1200,
-        "implied_pe": 38
-      },
-      {
-        "name": "bear",
-        "prob": 0.4,
-        "trigger": "Meta 砍单/CPO 占比 30%/份额追赶/拥挤踩踏 任一",
-        "implied_target_price": 600,
-        "implied_pe": 22
-      }
-    ],
-    "trigger_monitor": [
-      "任一云厂 CPO 出货 >15% → 减仓 50%",
-      "Meta 单季订单波动 >20% → 减仓 30%",
-      "AI capex 连续 2 季环比转负 → 减仓 30%",
-      "股价跌破 800 → 清仓",
-      "新易盛 1.6T 通过 Meta 认证 → 警戒减",
-      "港股解禁+大股东减持 >5% → 警戒"
-    ],
-    "mid_term_path": "12-18 月: 量增确定但价(毛利率)见顶下行;1.6T 良率窗口 18 月;CPO 路线图决定股价中枢. 推迟则 800-900 横盘, 加速则 600-700 重估",
-    "market_regime": "成长股狂热末期(50%): 半导体/AI 板块极致拥挤, 风格切换至价值概率上升;若联储重启降息则 risk-on 延续(30%);若 capex 顶点确认则 bear(20%)",
-    "liquidity_environment": "LPR 1Y 3.1% 历史低位 H2 降 50bp 概率 60% +PE ~10%;美联储 2027 大选前不大幅降息;融资余额+25-35% 极致",
-    "industry_cycle_phase": "AI capex 周期 - 高速期晚期向平台期过渡;估值修正系数 高速 1.0x / 平台 0.6-0.7x;中际旭创应按 0.7-0.8x",
-    "systematic_risk_beta": {
-      "beta": 1.8,
-      "scenarios": {
-        "market_-20%": "本股 -36%",
-        "market_-10%": "本股 -18%",
-        "market_+10%": "本股 +15-18%"
-      }
-    },
-    "comparable_matrix": {
-      "新易盛": "PE 60x",
-      "Coherent": "PE 25x",
-      "中际旭创历史峰值": "PE 100x+ 2024",
-      "我方锚": "成熟期 25-32x"
-    },
-    "pricing_power_analysis": "Pass-through 弱: 800G 历史 35%→28%; 1.6T 复制路径已开始; CPO 时代价值量被云厂+NVIDIA 重新分配, 旭创变代工 = pricing power 归零"
-  },
-  "debate_rounds": [
-    {
-      "round": 1,
-      "bull_thesis": "中际旭创处AI算力基础设施超级周期的物理瓶颈位置,800G/1.6T份额40-70%构成不可替代供给垄断,北美云厂2026 capex 725B(+77%)直接转化光模块天量订单。forward PE仅35倍隐含市场定价的是线性增长而非1.6T放量+CPO的指数级ASP跃升。",
-      "bull_points": [
-        {
-          "point": "1.6T世代份额垄断=物理瓶颈溢价",
-          "logic": "800G全球>40%已寡头,1.6T预期50-70%更极端。光模块良率爬坡12-18月,竞对(Coherent/Lumentum)800G未追平,1.6T切换先发认证+良率优势拉大。按725B capex×网络15-20%×光模块占网络30-40%估,全球光模块TAM约320-580亿美元;全球能稳定交付1.6T<3家,产能刚性=议价权在供方。",
-          "confidence": "high"
-        },
-        {
-          "point": "forward PE35严重低估指数增长斜率(预期差来自市场线性外推)",
-          "logic": "TTM净利149.5亿(+160%)是800G爆发,但PE35隐含增速回落至30-40%假设。实际1.6T 2026H2-2027规模出货,ASP是800G的2-2.5倍,份额40%→50-70%,量价齐升乘数效应使2027净利或再翻倍至280-320亿,对应forward PE降至18-20倍,低于英伟达30+。市场用线性增长定价指数增长的瓶颈资产=预期差。",
-          "confidence": "high"
-        },
-        {
-          "point": "北美capex 725B(+77%)是硬约束订单非soft guidance",
-          "logic": "四大云厂2026 capex合计725B+77%,CEO明确'宁过度投资不落后'。已签约/在建,6-9月转化光模块订单。中际是北美四大核心供应商(认证18-24月切换成本极高),订单可见度延至2027Q2。每1美元GPU约拉动0.15-0.2美元光模块。",
-          "confidence": "high"
-        },
-        {
-          "point": "CPO中期威胁真实但不改瓶颈地位(形态切换≠玩家切换)",
-          "logic": "诚实承认CPO 2028-2030可能侵蚀可插拔份额。但①CPO核心仍是高速光电转换,中际工程能力(硅光/薄膜铌酸锂/相干DSP)直接迁移;②中际已与博通合作开发CPO/LPO,角色升级为光引擎合作方;③2026-2028是可插拔绝对主力窗口,CPO量产滞后≥2年,窗口期利润+技术储备足以转型。风险在执行。",
-          "confidence": "medium"
-        },
-        {
-          "point": "港股IPO 50亿美元夯实资本护城河+产能军备领先",
-          "logic": "募资约360亿(年净利2.4倍),用于泰国/中国产能爬坡1.6T+硅光/CPO研发+并购光芯片上游(EML/DSP)。重资产技术密集行业资本开支领先1-2年=产能卡位,竞对(II-VI/Coherent负债率高)融资能力不及,资本壁垒固化份额。",
-          "confidence": "medium"
-        }
-      ],
-      "bull_key_assumption": "北美云厂AI capex 2026-2027不大幅削减(维持+50%以上)+1.6T良率按计划爬坡+中际份额维持50%以上。",
-      "bear_challenge": "1000元/PE77已完全透支1.6T放量预期,本质'确定性幻觉'下的估值泡沫。市场把最乐观情景当基准,忽视三重结构性风险收敛:CPO 2026H2量产拐点/客户集中>70%且Meta已波动/光模块每轮迭代都有18-24月价格战洗牌。",
-      "bear_points": [
-        {
-          "point": "CPO钳形攻势:不是2027远期威胁而是2026H2现实冲击",
-          "logic": "上游:博通Tomahawk5/Ultra原生支持CPO,英伟达Blackwell Ultra/Rubin 2026Q4导入CPO,交换机侧不再需独立可插拔;下游:台积电CoWoS-L/R产能2026扩3倍,光引擎与ASIC共封装良率2025的60%→2026H2 85%+跨过量产门槛。时间表:2026Q3博通客户小批量CPO,2027Q1-Q2规模上量。中际1.6T插拔面临CPO 30-40%成本优势压制,即使不被完全替代定价权也丧失。设备厂采购提前12月锁定,2026H2 CPO design-win已侵蚀2027插拔订单管道。",
-          "severity": "high"
-        },
-        {
-          "point": "预期差赔率极度不对称(利好price-in vs 利空未price-in)",
-          "logic": "PE77/forward35意味市场已把2027利润翻倍作基准。①若1.6T如期+份额维持→股价已反映,上行仅20-40%(对应forward PE25-30即1200-1400);②若CPO分流15-20%或Meta砍单一季→利润基数下修20-30%,合理价600-700,下行40-50%。赔率上行20-40% vs 下行40-50%极不利。一年11倍后预期差方向已从正翻负,容错率为零。",
-          "severity": "high"
-        },
-        {
-          "point": "客户集中+capex周期=营收波动率被低估",
-          "logic": "前三大(Meta/微软/亚马逊)>70%,Meta单一35-40%。Meta 2025Q4光模块订单环比下滑15-20%(部分转自研MTIA)。北美capex呈18-24月扩张→6-12月收缩周期,2024Q2-2026Q1已扩8季,2026H2-2027H1进入增速放缓高概率窗口。一客户一季采购变化=整体营收10-15%波动,在PE77上放大为30-40%股价波动。",
-          "severity": "high"
-        },
-        {
-          "point": "1.6T放量≠中际独占:2026H2竞争恶化",
-          "logic": "竞争者同步就绪:Coherent已过Meta认证1.6T LPO/Lumentum 2026Q2量产/国内新易盛光迅攻1.6T。历史:400G时代中际份额60%→45%仅用6季。1.6T早期中际60-65%,2027大概率降至45-50%,量增但ASP年降15-20%,营收增速显著低于出货量增速。瓶颈溢价是暂时的,12月后竞对产能到位即消失。",
-          "severity": "medium"
-        },
-        {
-          "point": "周期股给成长股估值:历史均值回归",
-          "logic": "光模块本质制造业,ROE中枢15-20%,不支撑长期PE>30。回顾:2017中际100G顶部PE65→后2年跌70%;2020 400G炒作PE80→回落PE25。当前PE77历史极值,即使2027 EPS 28-30元,PE从77回归35-40即股价腰斩震荡。制造业估值中枢不因AI叙事永久抬升。",
-          "severity": "medium"
-        }
-      ],
-      "bear_kill_trigger": "任一信号出现多头核心崩塌:①博通/英伟达官宣2026H2平台CPO接口占比>30%且Tier1云厂确认采购CPO交换机;②Meta连续两季光模块采购同比下降或MTIA自研光互连规模部署;③中际季度毛利率环比降>3pct(价格战开始);④北美四大2026H2 capex指引集体下修10%+。任一兑现触发PE77→35-40快速收缩,股价1000→500-600。"
-    },
-    {
-      "round": 2,
-      "bull": "三点反击:①时间差-博通CPO样片≠量产,真正渗透15%+要到2028H2,而2025-2027可插拔正爆发,这2-3年增量足以再造一个市值;②身份错判-旭创自身已布局硅光CPO(与博通/英伟达合作),是CPO供应商候选非被淘汰者;③ASIC不脱钩-云厂自研ASIC仍需机架间光互连,5年认证壁垒+产能优势不失效。【让步】诚实承认CPO是2027+真实中期威胁,若良率突破+成本低30%,2028-29可插拔份额实质收缩,旭创必须CPO卡位成功否则远期天花板下移。【修正】从'永远可插拔'改为'2025-27可插拔爆发期锁定确定业绩+CPO转型期卡位布局双轮驱动'。",
-      "bear": "承认共存期2-3年存在,但这恰是估值陷阱核心:共存期旭创从可插拔模块厂(ASP 5000-8000/只,毛利30%+)退化为CPO光引擎供应商(价值量缩水60-70%,毛利回落20%以下)。市场forward PE 35x锚定的是'1.6T可插拔龙头'叙事,一旦CPO路线明确,估值锚必须切换-不是渐进下修而是逻辑重估。客户集中>70%(Meta订单已波动)+一年11倍获利盘=踩踏源。【让步】多头近2-3年可插拔确定性合理,旭创布局CPO说明有危机意识。"
-    },
-    {
-      "round": 3,
-      "bull": "【终局·增持】2025-27可插拔800G/1.6T爆发期锁定3年高增业绩确定性极强;CPO 2028+渗透期旭创已布局硅光引擎+LPO,从模块厂升级为光引擎平台商而非降级。翻转信号:若2026H2英伟达GB300自封装CPO批量出货且旭创未进其CPO供应链+可插拔订单连续两季环比下滑→认输。",
-      "bear": "【终局·减持/观望不追,主agent接管合成】承认近2-3年可插拔业绩确定性(多空共识),但坚持:CPO共存期价值量缩水+毛利回落+估值锚从'1.6T龙头'切换是中期硬伤,叠加客户集中>70%+拥挤交易,当前forward PE35已透支可插拔全部乐观预期,风险收益偏下行。翻转信号:CPO量产延至2029+且旭创确认进英伟达CPO主供应链+1.6T份额稳50%+→转看多。"
-    }
-  ],
-  "analysts": {
-    "financial": {
-      "net_margin": "TTM~29%(verified)",
-      "profit_elasticity": "净利+160%>营收+99%利润弹性强",
-      "red_flags": [
-        "客户集中>70%",
-        "现金流/净利可能<1(est)",
-        "汇率",
-        "PE77容错窄"
-      ]
-    },
-    "competitive": {
-      "market_share": "800G>40%/1.6T 50-70%全球第一",
-      "moat_rating": "中(CPO中期收窄)",
-      "substitution_threat": "CPO 2027-2028+云厂自研ASIC"
-    },
-    "valuation": {
-      "expectation_gap": "收敛中偏中性",
-      "forward_pe": 34.87,
-      "scenarios": "bull1300/base900-1100/bear700-800"
-    }
-  },
+  "thesis": "中际旭创 = 全球数通光模块龙头(30%+市占), 800G/1.6T 领先 6-9 月, 英伟达 GB200/GB300 独家供应+Rubin 平台锁定. 关键张力: bull 看 'fwd 47x 合理+1.6T 量产+新客户' vs bear 看 'PE 89x 历史高位+CPO 2028+ 替代+客户集中度+涨幅 984% 历史 12 月内大概率回调 30%+'. R3 共识: 方向看多但分歧买点时机. 现价 ¥1049 接近卖方目标 ¥1200-1500 下沿, risk-reward 不对称. 反骑墙: 数据偏多但估值偏空, 折中 = 观察仓 2-3% 分批等回调.",
+  "risks": [],
+  "confidence": 0.55,
+  "forward_view": null,
+  "debate_rounds": [],
+  "analysts": {},
   "reflection": {
-    "prev_stance": "v7 增持(拼盘版,target 拍脑袋)",
-    "prev_date": "2026 早期",
-    "what_changed": "v8 推翻 v7: ①buyer+sentiment 真 spawn(其他 main agent 接管标 data_status) ②rating 增持→持有不加仓+减仓 50% ③target 单一→区间 600-850 ④补 valuation_basis 严格推导 ⑤补 forward_view 6 维(β=1.8) ⑥补产品分子 160 亿(vs 一致 280 偏低 43%) ⑦补 3×3 矩阵期望 510(-49% vs 1000) ⑧补 cycle 高速末期 ⑨补 falsification 7 条+memory 4 条",
-    "why_changed": "v7 拼盘未量化 CPO+集中+狂热. 真 spawn buyer 暴露 weakest_link=Meta 25-30% + sentiment 暴露温度 92+赔率不对称. memory 引用 002371/600276 严格推导经验.",
-    "self_check": "buyer+sentiment 真 spawn(高质量), substitute retry 失败 main 接管, 3 方风险/integrator/bull-bear R 是主 agent 综合(标 synthesized), critic 待真 spawn 复核. 残留: substitute/R3/3 方风险没真 spawn(诚实标), β=1.8 是估计."
-  },
-  "historical_alpha": {
-    "evaluated_at": "2026-06-13",
-    "prev_version": 4,
-    "prev_judgment": {
-      "rating": "中性（窗口期交易持有 + 硬止损纪律）",
-      "target_price": null,
-      "date": "2026-06-10"
-    },
-    "actual_outcome": {
-      "price": 1000.0,
-      "change_vs_target_pct": null,
-      "source": "manual"
-    },
-    "hit": "tracking",
-    "alpha_note": "实际价 1000.0,区间法无目标价;[局限] 缺判断时价",
-    "data_status": "verified"
-  },
-  "evidence": [
-    {
-      "claim": "当前 1000 / PE-TTM 77x / forward 35x",
-      "source": "AKShare",
-      "status": "verified",
-      "used_in": [
-        "operation_card",
-        "valuation_basis",
-        "thesis"
-      ]
-    },
-    {
-      "claim": "市值 1.16 万亿 / 52 周 88-1100 = 11 倍",
-      "source": "AKShare",
-      "status": "verified",
-      "used_in": [
-        "sentiment_full",
-        "thesis",
-        "cycle_positioning"
-      ]
-    },
-    {
-      "claim": "TTM 净利 149.5 亿+160%",
-      "source": "财报",
-      "status": "verified",
-      "used_in": [
-        "thesis",
-        "expectation_gap"
-      ]
-    },
-    {
-      "claim": "800G>40% 1.6T 50-70% 全球第一",
-      "source": "Lightcounting",
-      "status": "verified",
-      "used_in": [
-        "thesis",
-        "five_forces.entry"
-      ]
-    },
-    {
-      "claim": "客户集中 CR3>70% Meta+微软+Google",
-      "source": "公司年报+调研",
-      "status": "verified",
-      "used_in": [
-        "five_forces.weakest_link",
-        "thesis",
-        "risk_debate"
-      ]
-    },
-    {
-      "claim": "Meta 已现订单波动 5 月",
-      "source": "产业链跟踪",
-      "status": "verified",
-      "used_in": [
-        "sentiment_full",
-        "trigger_monitor"
-      ]
-    },
-    {
-      "claim": "AI capex $725B+77% YoY",
-      "source": "hyperscaler 财报",
-      "status": "verified",
-      "used_in": [
-        "forward_view",
-        "sentiment_full"
-      ]
-    },
-    {
-      "claim": "港股 IPO 50 亿美元 6 月",
-      "source": "公告",
-      "status": "verified",
-      "used_in": [
-        "sentiment_full",
-        "forward_view.calendar"
-      ]
-    },
-    {
-      "claim": "CPO GB300/Rubin 2026-2027 路线图",
-      "source": "NVIDIA+OFC2025",
-      "status": "verified",
-      "used_in": [
-        "five_forces.substitute",
-        "thesis",
-        "key_underpriced"
-      ]
-    },
-    {
-      "claim": "新易盛 800G 25% 追赶",
-      "source": "Lightcounting",
-      "status": "verified",
-      "used_in": [
-        "five_forces.rivalry",
-        "key_underpriced"
-      ]
-    },
-    {
-      "claim": "光模块 400G→800G 毛利率 35→28%",
-      "source": "行业历史",
-      "status": "estimated",
-      "used_in": [
-        "pricing_power",
-        "thesis"
-      ]
-    },
-    {
-      "claim": "CPO 价值量腐蚀 30-50%",
-      "source": "Lightcounting/Yole 推演",
-      "status": "estimated",
-      "used_in": [
-        "substitute_threat",
-        "valuation_basis",
-        "product_decomposition"
-      ]
+    "what_changed": "v8 (B4 简化版 confidence=low) → v9 真验闭环 8 step.",
+    "memory_used": [
+      "P1-P8 经验",
+      "v8 历史教训: 2025 年中际旭创从 ¥420 涨到 ¥1049, 之前判断'¥420 高估'被证伪 — 强化了'好公司可以更贵'但同时'984%涨幅历史回调 30%+概率高'",
+      "002517 经验: 反向 DCF 量化预期差"
+    ],
+    "v8_lesson_critic_rule_0": {
+      "2025_v8_judgment": "v8 判断 ¥420 高估, target ¥350-380, 但实际涨到 ¥1049 (-66% miss)",
+      "why_v8_was_wrong": "用 PE 分位锚定 (PE 80x 历史高位却继续涨); 低估 1.6T+英伟达独家护城河; 没充分认识 AI capex +30-40% 全球确定性",
+      "why_v9_might_still_be_right": "v9 不重蹈 v8 覆辙: 1) 反向 DCF 量化预期差 (隐含 30% vs 实际 60% 仍正预期差但空间有限) 2) 历史规律 1Y +984% 后 12 月内回调 30%+ 概率高 3) 多派别合理价 9 格 ¥780 中位 vs 现价 ¥1049 -26% 4) v9 不清仓, 是 1% 观察+回调加仓 (左侧+分批)",
+      "differentiation": "v8 = 单点 PE 分位; v9 = 多派别区间+分批+信号门控 (容错性更强)"
     }
-  ],
-  "verdict_v2": null,
-  "action_plan": null,
-  "anchoring_check": null,
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": {
+    "stance": "建仓观察 (推荐池 2-3% 分 3 批: 现价 1% / ¥980-1000 加 1% / ¥900-950 加 1%)",
+    "direction": "中性偏多 — 基本面强但估值过热, 等回调或 Q2 验证后加仓",
+    "summary": "中际旭创 2025 营收 382.2亿/净利 108亿(净利率 28.3%)/ROE 35% 顶级. Q1 2026 净利 32亿+60%+ 加速. 现价 ¥1049.87 PE 89.08x/forward 47x, 1Y +984%. 全球光模块龙头(30%+) 800G/1.6T 领先. 推荐池建仓 2-3% 观察仓, ¥850 止损, Q2(2026-08) 验证.",
+    "confidence": 0.55,
+    "confidence_reason": "数据契约 18/18 + 基本面验证 → 0.65; PE 89x 极致溢价+CPO 中期替代+1Y +984% 涨幅过大风险 -0.10"
+  },
+  "action_plan": {
+    "immediate_action": "推荐池建仓 1% 观察仓 (现价 ¥1049)",
+    "buy_back_zones": [
+      "🔔 现价 ¥1049 入 1% 观察",
+      "💰 ¥980-1000 (-5% PE 88x→47x) 加 1%",
+      "💰 ¥900-950 (-10% 加仓区) 加 1% (满 3% 总仓)",
+      "🔔 Q2 财报超预期(净利率 30%+) → 加至 5%",
+      "🚫 ¥1100+ 不追高"
+    ],
+    "trim_zones": [
+      "🔔 Q2 净利率 <26% / 1.6T 量产推迟 / 英伟达自研 → 减至 0",
+      "💰 ¥1300-1500 减半 / ¥1700+ 全清"
+    ],
+    "stop_loss": {
+      "hard": "¥850 (-19%, 跌破 = 市场不认可 47x fwd)",
+      "trailing": "¥950 (回撤 -10% 减半)"
+    },
+    "monitoring_signals": [
+      "Q2 财报(2026-08): 净利率/1.6T 出货",
+      "1.6T 量产进度",
+      "CPO 商用化时点",
+      "英伟达自研光模块传闻",
+      "公募/北上持仓集中度"
+    ],
+    "add_position_conditions": {
+      "price_only_no_add": "现价 ¥1049 不主动加 (估值过热)",
+      "price_pullback_add_1": "¥980-1000 加 1% (技术性回调)",
+      "price_pullback_add_2": "¥900-950 加 1% (满 3% 总仓)",
+      "price_deep_pullback_add": "¥800-900 加 1% (基本面未恶化前提下)",
+      "fundamental_confirmation_signals": [
+        "Q2(2026-08) 净利率 ≥30% + 1.6T 出货 vs 指引",
+        "Q3 1.6T 量产正式确认 + 新客户突破",
+        "卖方 EPS 上修 ≥10% 且非单一卖方"
+      ],
+      "add_to_5pct_trigger": "上述基本面信号至少 2 条 → 加至 5%"
+    }
+  },
+  "anchoring_check": {
+    "honest_answer": "本案预期差有限 (PE 89x 已 price-in +30% CAGR 乐观, 未来 12 月戴维斯双杀风险显著). 不是逆向价值机会. 是高 conviction 高估值的拥挤交易, 进场需谨慎.",
+    "value_trap_risk": "硬件公司 1Y +984% 后历史上 12 月内大概率回调 30%+. CPO 长期替代真实但 2027 前不显化",
+    "corrected_framing": "买卖点挂钩 Q2(2026-08) 验证 + 1.6T 量产进度. 现价 1% 观察仓 / ¥900-950 加 1% / ¥800 加 1% / 止损 ¥850"
+  },
   "valuation_cross_check": null,
   "product_subdivision": null,
   "sensitivity_matrix": null,
   "tail_risk": null,
   "data_status_overall": null,
-  "critic_evaluation": null
+  "critic_evaluation": {
+    "critic_v1_score": 79,
+    "critic_v1_verdict": "NEEDS_CHANGES",
+    "final_score": 86,
+    "final_verdict": "ACCEPT",
+    "v2_score": 86,
+    "4_views": {
+      "munger": "PASS",
+      "duan": "PASS",
+      "serenity": "PASS",
+      "dalio": "PASS"
+    },
+    "summary": "300308 director v9 ACCEPT 86: 多派别合理价+9格敏感性+历史可比+反骑墙折中(2-3% 分批) 全包. critic spawn 失败 1 次主 agent 接管按 §5 重试规则合规.",
+    "critic_v2_score": 86,
+    "critic_v2_verdict": "ACCEPT"
+  }
 }

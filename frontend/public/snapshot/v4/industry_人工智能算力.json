@@ -246,7 +246,7 @@
       "analyzed": true,
       "rank": 1,
       "why": "全球龙头(800G>40%/1.6T 50-70%),卡位最强;但已涨11倍,窗口期交易+硬止损",
-      "rating": "持有不加仓 + 已持有者部分减仓 50% (从 v7 增持下调) — 狂热+CPO 替代+客户集中三重风险",
+      "rating": "中性·窗口期",
       "rating_source": "stock_unit_latest"
     },
     {
@@ -327,23 +327,6 @@
   ],
   "stocks": [
     {
-      "unit_id": "stock:300308",
-      "status": "green",
-      "status_label": "新鲜",
-      "stale_reason": null,
-      "cli_hint": "在 CLI 对话说「分析 stock:300308」，或运行：./scripts/run_v4.sh analyze stock:300308",
-      "version": 8,
-      "generated_at": "2026-06-13T06:39:01Z",
-      "ttl_days": 5,
-      "upstream": [],
-      "run_mode": "ai_proxy",
-      "exists": true,
-      "code": "300308",
-      "name": "中际旭创",
-      "rating": "持有不加仓 + 已持有者部分减仓 50% (从 v7 增持下调) — 狂热+CPO 替代+客户集中三重风险",
-      "target_price": null
-    },
-    {
       "unit_id": "stock:300394",
       "status": "green",
       "status_label": "新鲜",
@@ -380,15 +363,15 @@
   ],
   "indirect_holdings": {
     "direct_yi": 0.0,
-    "indirect_yi": 3306.48,
-    "total_yi": 3306.48,
+    "indirect_yi": 1440.03,
+    "total_yi": 1440.03,
     "contributing_funds": [
       {
         "code": "012733",
         "name": "易方达中证人工智能主题ETF联接A",
         "market_value": 14951.84,
-        "industry_weight_pct": 8.519999999999998,
-        "indirect_yi": 1273.8967679999998,
+        "industry_weight_pct": 3.75,
+        "indirect_yi": 560.694,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       },
@@ -396,8 +379,8 @@
         "code": "012734",
         "name": "易方达中证人工智能主题ETF联接C",
         "market_value": 14033.19,
-        "industry_weight_pct": 8.52,
-        "indirect_yi": 1195.627788,
+        "industry_weight_pct": 3.75,
+        "indirect_yi": 526.244625,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       },
@@ -405,8 +388,8 @@
         "code": "003765",
         "name": "广发创业板ETF联接A",
         "market_value": 18681.94,
-        "industry_weight_pct": 4.4799999999999995,
-        "indirect_yi": 836.9509119999998,
+        "industry_weight_pct": 1.8899999999999997,
+        "indirect_yi": 353.08866599999993,
         "data_status": "verified",
         "via": "top_holdings_v4_industry_lookup"
       }
@@ -415,7 +398,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 32,
+      "industries_count": 33,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
