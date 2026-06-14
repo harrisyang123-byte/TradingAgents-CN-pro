@@ -60,7 +60,16 @@ tools:
       "industry_forward_peg": "行业整体估值是否合理: 行业代表 PE 中位数 / 常态化 CAGR 增速 → forward PEG。<1 低估; 1-1.5 合理; >2 透支。注意周期股不用 PEG",
       "leaders_share_distribution": "龙头瓜分 TAM: top3-5 龙头当前份额% + 2030E 份额% 预期(如台积电60%+三星15%+中芯3% / 字节30%+阿里20%+腾讯15%)",
       "key_drivers_5yr": ["未来 3-5 年关键变量 (政策/技术/需求拐点 各2-3条, 标可证伪信号)"],
-      "data_sources": ["来源URL/报告 至少3个独立来源, status: verified|estimated|missing"]
+      "data_sources": ["来源URL/报告 至少3个独立来源, status: verified|estimated|missing"],
+      "_methodology": "★director 必用 7 把辩证分析尺(2026-06-14 用户拍板'除了网上取数你也有自己分析方法论吧'后固化, 不是空说), 每条都要在 verdict.summary 里体现:",
+      "methodology_1_tam_triangulation": "TAM 三角验证: 同一指标 ≥3 个独立来源, 差异 >30% 视为多源冲突标分歧不调和(如 IDC $350B vs Gartner $280B vs Omdia $310B → 区间 $280-350B, 不平均)",
+      "methodology_2_tam_decomposition": "TAM 拆解还原法: 把 TAM 拆成可验证因子(用户数 × ARPU × 渗透率 / 设备保有量 × 单价 × 替换周期), 反推合理性。如AI光模块 = 全球数据中心capex × 光模块占比 × 800G单价, 用底层数据反推 verified TAM 是否站得住",
+      "methodology_3_cagr_duration": "CAGR 久期检验(产业 S 曲线): 高 CAGR 能持续多少年? 借鉴历史可比行业, 如智能机 2008-2014 渗透 5%→50% 高增速 6 年, EV 2018-2025 渗透 1%→25% 高增速 7 年。判断当前行业处 S 曲线哪段, 高增速可外推年数",
+      "methodology_4_penetration_analogy": "渗透率阶段对比法: 用历史可比行业映射当前阶段。导入期(<10%)/爆发期(10-50%)/成熟期(50-80%)/衰退期(>80%)。AI算力当前类比 2010 智能机(渗透 30%, 爆发期上半段)",
+      "methodology_5_forward_peg_cross_period": "行业 forward PEG 跨期对比: 当前估值 PE 中位数 vs 同类成长股+同期渗透率阶段历史估值。如 AI 算力当前 PE 50x vs 2018 年新能源车 PE 60x(同处爆发期上半段) → 估值水平相对合理",
+      "methodology_6_leaders_concentration_check": "龙头瓜分天花板检验: 全球 top3 + top5 + top10 份额合计, 余下市场结构。如台积电60%+三星15%+格罗方德6%+联电5% = top4 已占86%, 二三线空间仅14%, 中芯国际想从3%升至10%必须抢台积电份额(困难)。判断龙头集中度是否给二三线留空间",
+      "methodology_7_leading_indicators": "景气先行指标交叉验证: 库存周期(制造业半年领先) / 订单可见度(科技季度领先) / 价格趋势(大宗1-2月领先) / 产能利用率(月度同步) / 龙头资本开支(年度领先)。≥3 个先行指标同向才确认景气方向, 单一指标不站队",
+      "_application_rule": "应用规则: ① 取 verified 数字时必用方法论 1+2 戳穿水分 ② 判定渗透率阶段必用方法论 4 类比 ③ 判定 forward PEG 必用方法论 5 跨期对比 ④ 判定龙头空间必用方法论 6 ⑤ 判定景气方向必用方法论 7 多指标 ⑥ verdict.summary 必含 ≥3 把尺的应用结果"
     },
     "forward_view": {
       "near_term_calendar": [

@@ -123,3 +123,6 @@ tools:
      - ⑥ **关键变量+可证伪信号**: 未来 3-5 年 2-3 个关键变量(政策/技术/需求拐点)各配可证伪信号, 缺 → NEEDS_CHANGES
      - ⑦ **数据源 ≥3**: 至少3个独立来源(IDC/marketsandmarkets/工信部/Gartner 等), 全 estimated 无 verified → 扣分
      - 反例: 行业说"AI算力光模块未来增速好"却没TAM 2030E数字 → fatal_flaw, 因为下游个股 expert_valuation 无法引用统一锚点
+   - **6.11.x 辩证分析方法论必查(2026-06-14 用户拍板"除了网上取数也要有自己分析方法论")**: industry director 的 verdict.summary 必须显式应用 ≥3 把辩证尺,不能只堆 verified 数字。7 把尺(详见 v4-industry-director.md `_methodology`):
+     - 尺①TAM三角验证(≥3独立源,差异>30%标分歧不调和) / 尺②TAM拆解还原(因子拆解反推合理性) / 尺③CAGR久期(用历史可比行业判断高增速持续年数) / 尺④渗透率类比(智能机/EV映射) / 尺⑤forward PEG跨期对比(同类成长股同期对比) / 尺⑥龙头瓜分检验(top3/top5集中度判断二三线空间) / 尺⑦景气先行指标交叉(≥3 同向才确认方向)
+     - 反例: bull 说"AI 光模块 TAM 2030 $350B 故事好"但没用尺①(只引IDC单源)、尺②(没拆解 CSP capex × 光模块占比 × 单价反推)、尺③(没说 800G→1.6T 高增速持续年数) → fatal_flaw, 因为方法论缺失等于堆数字

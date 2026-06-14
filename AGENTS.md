@@ -172,6 +172,9 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
    - **第二类(综合判断,改 .md 即可不新增 agent)**: 多空辩论/风险辩论/chokepoint 卡位/forward_view 多维/stance/方向/仓位/渗透率阶段判定/forward PEG 解读 → 让 subagent 用 verified 数据辩论, 禁止编造数据范围内的数字
    - **何时真要新增 subagent**: 仅当现有 agent 阵容(allocator/bear/bull/chokepoint/director + 个股 5 力专项+sentiment+3 方风险) 无法承载的全新分析视角才新增。已有视角覆盖 → 改 .md(本次未来市场属此类: bull/bear/director/critic 分别加必辩/必查项)
    - **正确做法**: ① 优先找 verified 接口/源 ② 取不到则联网 web_search ③ 实在取不到才标 missing 或 estimated+区间(不给伪精确点值) ④ 绝不让主 agent/subagent 凭训练记忆编数字
+   - **★7 把辩证分析尺(2026-06-14 用户拍板"除了网上取数也要有自己分析方法论")**: 光有 verified 数字还不够, subagent 必须用方法论戳穿水分。详见 `v4-industry-director.md` 的 `_methodology` 字段:
+     - ①TAM三角验证(≥3 独立源, 差异>30% 标分歧不调和) ②TAM拆解还原(用户数×ARPU×渗透率反推合理性) ③CAGR久期(历史可比行业判高增速持续年数) ④渗透率类比(智能机/EV S曲线映射) ⑤forward PEG跨期对比(同类成长股同期估值) ⑥龙头瓜分检验(top3/top5 集中度判二三线空间) ⑦景气先行指标交叉(≥3 同向才确认方向)
+     - **应用规则**: verdict.summary 必须显式用 ≥3 把尺, 不能只堆数字。critic 6.11.x 必查
    - 详见 `planning/v4/project-master-prompt.md §7-bis` 完整 cheat sheet
 
 5. **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`。**严禁用 0/中性/示例数字伪装真实读数**（这是 v3 时代的病根）。
