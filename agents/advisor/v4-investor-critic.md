@@ -92,7 +92,7 @@ tools:
      - 必查 **`data_fetched_in_loop`** 字段: 主 agent 是否真去取过缺数据, 取到的关键数据是否回填重跑了 valuation. 装作"已查"实际数据没动 = fatal_flaw (用户D0-8'缺数据接着查'指令)
    - **6.8 数据契约必查 (D0-8 用户'通盘完善'指令落地, 永久)**: stock 输入包必须通过 `app.services.v4.stock_data_contract.check_data_contract()` 18 MUST 字段检查 (财务8 + 业务6 + 估值4):
      - MUST 缺 → collect_v4 阶段已 exit=4 阻断, 主 agent 必须用 web_search/web_fetch 补齐后重跑 collect, 然后才能进 spawn analysts → director → critic
-     - critic 必查 `data_contract_check.must_satisfied` 数 = 18, 否则 fatal_flaw "契约未达标却跑了 agent"
+     - critic 必查 `data_contract_check.must_satisfied` 数 = 24, 否则 fatal_flaw "契约未达标却跑了 agent"
      - SHOULD 缺 → confidence 自动扣分 (max -0.20), critic 检查实际 confidence 是否反映了 should_missing 数量
      - 取数审计: critic 抽查 fetch_tasks 里 ≥3 条 MUST 的 search_query 是否在 evidence 字段里有对应来源, 装作"已查"实际没用 = fatal_flaw
      - 三态对照判定:
@@ -101,3 +101,9 @@ tools:
        · ❌ 安全边际随手填(-10% 给周期股) → fatal_flaw (基本功错)
        · ✅ 诚实区间 + 档位安全边际 + 多派别合理价 + missing 显式
      - 血泪教训: 用户三次反馈终极版 — "¥45 = forward EPS×PE 算出来"看起来专业, 但盈利预测模型未建+反向凑数+安全边际随手 -10% 都是浮于表面. 真实分析师承认估值是不确定性区间, 安全边际按档位, 不同投资者合理买点不同.
+   - **6.9 价值创造四问必查（2026-06-14 用户拍板"想未来市场多大"后落地, 任一缺失/敷衍直接 NEEDS_CHANGES, 统一标准不豁免旧版）**: director 的 `value_creation` + `dcf_intrinsic` 必须扎实回答"这家公司未来值多少钱"的根基四问:
+     - ① **TAM/渗透率**: 是否给了赛道 2030E 绝对天花板 + 当前渗透率%与阶段? 成长股(中际/阿里云/恺英小程序/创新药)的 target 上限若脱离 TAM 拍脑袋 → fatal_flaw. 缺 `value_creation.tam_penetration` → NEEDS_CHANGES.
+     - ② **ROIC vs WACC**: 是否用 ROIC(非被杠杆污染的 ROE)对比 WACC 判断创造/毁灭价值? ROIC<WACC 却给"加仓/估值溢价"而未 reconcile → fatal_flaw(中芯重资产/京东方式价值毁灭警惕). 缺 `value_creation.roic_vs_wacc` → NEEDS_CHANGES.
+     - ③ **管理层资本配置**: 是否评估近5年钱花得好不好(再投资ROIC/并购成败/回购分红)+ 坦诚执行力? 缺 `value_creation.capital_allocation` → NEEDS_CHANGES.
+     - ④ **正向 DCF 三角验证**: `dcf_intrinsic` 正向 DCF 内在值是否与反向 DCF(隐含增速)+ 多派别合理价做了三角验证? 三者背离未说明采信哪个 → NEEDS_CHANGES.
+     - 必查 `data_contract_check.must_satisfied` 含价值创造组 6 项(roic/wacc/tam/penetration/capital_allocation/fcf); 取不到标 unattainable(诚实降级)可接受, 但 director 必须基于 estimated 值给出判断而非跳过.

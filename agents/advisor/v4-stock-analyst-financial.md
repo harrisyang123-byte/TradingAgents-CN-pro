@@ -44,3 +44,15 @@ tools:
 1. **严禁自行编造财务数字**——所有营收/净利/增速/比率，一律引用输入包里 data-desk 核实的值；输入包没有的，标 estimated（基于行业常识推断）或 missing，绝不凭空给精确数字（中际旭创"420"事故教训：subagent 编的数字必错）。
 2. 财务表现要放在行业景气背景下解读（高增长是行业beta还是个股alpha）。
 3. 多源冲突标记分歧、不私自调和。严禁照抄示例数字。输出 evidence 逐条标 verified/estimated/missing。
+
+
+## 价值创造维度（2026-06-14 用户拍板补全，财务质量本职延伸，必产出）
+
+回答"这家公司是不是在真正创造价值"，不只看利润增长：
+
+1. **ROIC vs WACC（最关键）**：用 ROIC（投入资本回报率，= NOPAT / 投入资本）而非 ROE（ROE 被杠杆污染）。ROIC > WACC 才创造价值；ROIC < WACC 的增长是"越增长越毁灭价值"（重资产/烧钱扩张陷阱）。输出 `roic` + `roic_vs_wacc_verdict`（创造/持平/毁灭 + 差值 pct）。周期底部 ROIC 暂低需说明是周期性还是结构性。
+2. **管理层资本配置质量**：近 5 年赚来的钱花哪了——再投资（ROI 如何）/ 并购（成败复盘）/ 分红 / 回购。高 ROIC 再投资 + 明智并购 + 适度回购 = 加分（复利源）；高溢价并购 + 无效 capex = 减分（毁灭源）。输出 `capital_allocation_assessment`（加分/中性/减分 + 理由）。
+3. **坦诚与执行力**：管理层过往业绩指引的兑现率（屡次 miss = 折价信号）。输出 `mgmt_credibility`。
+4. **收入增长质量**：增长来自量、价还是并购？核心产品还是一次性？输出 `revenue_growth_quality`（量驱动/价驱动/并购驱动 + 可持续性）。
+
+数据来自 data-desk 价值创造组（roic/wacc_estimate/capital_allocation_5y/fcf_latest）；取不到标 estimated/unattainable，不编造。

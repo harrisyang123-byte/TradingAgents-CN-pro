@@ -134,6 +134,43 @@ MUST_FIELDS: Dict[str, Dict[str, Any]] = {
         "source_hints": ["choice/wind 一致预期", "Bloomberg consensus", "stockanalysis forward"],
         "usage": "forward PE 推算 / 预期差判断基准",
     },
+    # —— 价值创造组(6) — 判断"公司未来值多少钱"的必须输入(2026-06-14 用户拍板补全) ——
+    "roic": {
+        "label": "ROIC 投入资本回报率(%) 或 NOPAT+投入资本(可让 agent 算)",
+        "search_query_template": "{name} {code} ROIC 投入资本回报率 NOPAT {fy_year}",
+        "source_hints": ["stockanalysis.com ROIC", "wind 财务比率", "年报推算 NOPAT/(净债务+权益)"],
+        "usage": "★最关键价值创造指标 — ROIC>WACC 才创造价值; ROE 被杠杆污染,ROIC 才干净",
+    },
+    "wacc_estimate": {
+        "label": "WACC 加权平均资本成本(%)(无风险利率+beta+风险溢价估算,允许 estimated)",
+        "search_query_template": "{name} {code} WACC 加权平均资本成本 beta",
+        "source_hints": ["cn10y 无风险利率 + beta×股权风险溢价(5-6%) 估算", "卖方 DCF 报告 WACC 假设"],
+        "usage": "ROIC 对比基准 / 正向 DCF 折现率 — 取不到精确值时按行业+beta 估算并标 estimated",
+    },
+    "tam_size": {
+        "label": "所在赛道 TAM 绝对天花板(2030E 市场规模, 亿/万亿级)",
+        "search_query_template": "{name_or_industry} 行业 市场规模 TAM 2030 天花板 测算",
+        "source_hints": ["Gartner/IDC/Frost&Sullivan/灼识", "卖方行业深度报告 TAM 测算", "公司投资者交流市场空间"],
+        "usage": "★成长上限 — 市场多大决定公司成长天花板; 配合渗透率判断还能涨多少",
+    },
+    "penetration_rate": {
+        "label": "当前渗透率(%) + 行业阶段(导入/爆发/成熟/衰退)(允许 estimated)",
+        "search_query_template": "{name_or_industry} 渗透率 行业阶段 {fy_year} 导入 爆发 成熟",
+        "source_hints": ["卖方行业研报渗透率曲线", "行业协会数据"],
+        "usage": "★成长弹性 — 渗透率 5-30% 高速成长期股价弹性最大; 取不到精确值时按阶段定性",
+    },
+    "capital_allocation_5y": {
+        "label": "近 5 年资本配置去向(回购/分红/并购/capex 金额 + ROI 成败)",
+        "search_query_template": "{name} {code} 回购 分红 并购 资本开支 历史 近5年",
+        "source_hints": ["年报现金流量表筹资/投资活动", "回购分红公告历史", "并购案例复盘"],
+        "usage": "★管理层水平(段永平/巴菲特核心) — 钱花得好不好是长期价值创造/毁灭的最大变量之一",
+    },
+    "fcf_latest": {
+        "label": "最近年度自由现金流(亿元 = 经营现金流 - 资本开支)",
+        "search_query_template": "{name} {code} 自由现金流 FCF 资本开支 {fy_year}",
+        "source_hints": ["年报现金流量表(经营 - capex)", "stockanalysis FCF"],
+        "usage": "★正向 DCF 内在价值锚的输入 — 预测未来 FCF 折现出内在价值,与反向 DCF 三角验证",
+    },
 }
 
 
@@ -189,6 +226,12 @@ def _is_unattainable(d: Dict, key: str, alias_paths: List[str]) -> bool:
 
 # 字段别名映射: 契约 key → 输入包里可能的实际路径(支持嵌套点号)
 FIELD_ALIASES: Dict[str, List[str]] = {
+    "roic": ["roic", "value_creation.roic", "financials.fy2025.roic", "fundamentals.data.roic"],
+    "wacc_estimate": ["wacc_estimate", "value_creation.wacc", "valuation.wacc"],
+    "tam_size": ["tam_size", "value_creation.tam_size", "industry_context.tam_size", "industry_context.market_size"],
+    "penetration_rate": ["penetration_rate", "value_creation.penetration_rate", "industry_context.penetration_rate"],
+    "capital_allocation_5y": ["capital_allocation_5y", "value_creation.capital_allocation", "business.capital_allocation"],
+    "fcf_latest": ["fcf_latest", "value_creation.fcf", "financials.fy2025.fcf_yi", "fy2025.fcf"],
     "fy_latest_revenue": [
         "financials.fy2025.revenue_yi", "financials.fy2024.revenue_yi",
         "fundamentals.data.revenue", "fy2025.revenue_yi", "fy_latest_revenue",
