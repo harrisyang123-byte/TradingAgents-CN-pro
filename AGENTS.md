@@ -166,13 +166,21 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 2. **数据铁律（强制，10 个分析角色已写入）**：分析 Agent **严禁自产价格/PE/市值/目标价数字**——唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）；无则标 missing，绝不编造（中际旭创"420 vs 真实1000"事故根治）。director 落盘前须剔除/核实 subagent 产出的数字。
 
 3. **价值创造维度铁律（2026-06-14 用户拍板补全，回答"公司未来值多少钱"）**：个股分析必含价值创造四维——①TAM 天花板+渗透率阶段(成长上限) ②ROIC vs WACC(创造/毁灭价值，用 ROIC 不用被杠杆污染的 ROE) ③管理层资本配置(再投资/并购/分红回购质量) ④正向 DCF 与反向 DCF+多派别三角验证。**ROIC/FCF 计算密集项用 AKShare `stock_source` verified 精算**(A/B 测试: 估算法35 vs 计算法85，主 agent 估精确点值=拍脑袋)；取不到才给区间+稳健性检验。数据契约 24 MUST(加价值创造组 6)；critic 6.9 价值创造四问必查。
-3. **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`。**严禁用 0/中性/示例数字伪装真实读数**（这是 v3 时代的病根）。
-4. **MECE**：每一分钱落进恰好一个大类（含 `unclassified` 待穿透桶），不漏不重；Σ 校验含归零类。
-5. 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005）；约束链不满足只软提醒。
-6. 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4）。
-7. 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发。
-8. **景气度 × 安全边际 × 预期差**：景气定行业、瓶颈定环节、预期差定个股买卖、安全边际把关买点；估值约束只调权重/买点，不做准入否决（避免错过 AI 等成长赛道）。
-9. **市场覆盖分层**：A股个股直接（stock_source）、港股直接可投、海外（美股/欧股/台股）物理瓶颈标的通过 QDII/主题基金获取敞口；大类层把海外作为「全球配置」一整块敞口。
+
+4. **★计算密集 vs 综合判断铁律（2026-06-14 用户拍板"未来市场分析要经过计算的，原 subagent 计算或者主 agent 计算可能拍脑袋"，永久铁律）**：判定何时该新增 verified 数据源 / 何时只改 .md 提示词,**避免 ROIC A/B 测试式拍脑袋偏差(主 agent 估算 35 vs verified 85,偏差 50)再次发生**:
+   - **第一类(必须 verified,主 agent 严禁自产)**: 财务比率(ROIC/ROE/FCF/EPS/净利率) → AKShare `stock_financial_abstract`; 价格/市值/PE/PB → AKShare `stock_zh_a_daily`; **TAM 当前/2030E/CAGR/渗透率%** → web_search ≥3 个独立来源(IDC/marketsandmarkets/Gartner/工信部)+标 URL+status verified; 宏观 22 指标 → AKShare/官方源
+   - **第二类(综合判断,改 .md 即可不新增 agent)**: 多空辩论/风险辩论/chokepoint 卡位/forward_view 多维/stance/方向/仓位/渗透率阶段判定/forward PEG 解读 → 让 subagent 用 verified 数据辩论, 禁止编造数据范围内的数字
+   - **何时真要新增 subagent**: 仅当现有 agent 阵容(allocator/bear/bull/chokepoint/director + 个股 5 力专项+sentiment+3 方风险) 无法承载的全新分析视角才新增。已有视角覆盖 → 改 .md(本次未来市场属此类: bull/bear/director/critic 分别加必辩/必查项)
+   - **正确做法**: ① 优先找 verified 接口/源 ② 取不到则联网 web_search ③ 实在取不到才标 missing 或 estimated+区间(不给伪精确点值) ④ 绝不让主 agent/subagent 凭训练记忆编数字
+   - 详见 `planning/v4/project-master-prompt.md §7-bis` 完整 cheat sheet
+
+5. **数据不静默降级**：环境缺数据源（AKShare 等）时，agent 直跑须用联网（web 搜索/抓取）补齐宏观/行情/估值，`evidence` 标 `verified`+来源；联网也取不到才标 `estimated/missing`。**严禁用 0/中性/示例数字伪装真实读数**（这是 v3 时代的病根）。
+6. **MECE**：每一分钱落进恰好一个大类（含 `unclassified` 待穿透桶），不漏不重；Σ 校验含归零类。
+7. 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005）；约束链不满足只软提醒。
+8. 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4）。
+9. 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发。
+10. **景气度 × 安全边际 × 预期差**：景气定行业、瓶颈定环节、预期差定个股买卖、安全边际把关买点；估值约束只调权重/买点，不做准入否决（避免错过 AI 等成长赛道）。
+11. **市场覆盖分层**：A股个股直接（stock_source）、港股直接可投、海外（美股/欧股/台股）物理瓶颈标的通过 QDII/主题基金获取敞口；大类层把海外作为「全球配置」一整块敞口。
 
 ---
 

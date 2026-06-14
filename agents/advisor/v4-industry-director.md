@@ -51,6 +51,17 @@ tools:
     "allocation_advice": "配置建议：go|watch|avoid + 简述",
     "confidence": "high|medium|low",
     "reflection": {"prev_stance": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."},
+    "industry_future_market": {
+      "_doc": "★行业未来市场必查模块(2026-06-14 用户拍板'行业层结合未来市场考虑了吗?'后落地, 永久铁律, 缺则 NEEDS_CHANGES)。是个股层 expert_valuation 的上游来源 — 个股 TAM/市占率必须基于本字段派生, 不得各自为政",
+      "tam_now_usd_b": "行业当前 TAM 规模(单位:亿美元), 标年份(如 2024A) + 数据源(IDC/marketsandmarkets/Gartner/工信部 等)",
+      "tam_2030e_usd_b": "行业 2030E 绝对天花板规模, 标核心驱动假设(如 AI capex 维持/EV 渗透率 50%/老龄化加速)",
+      "cagr_pct": "2024-2030E 复合增速, 用'区间'非点值(如 12-15% CAGR)",
+      "penetration_stage": "导入期|爆发期|成熟期|衰退期 + 阶段判定理由(渗透率%/降价曲线/巨头进入态势)",
+      "industry_forward_peg": "行业整体估值是否合理: 行业代表 PE 中位数 / 常态化 CAGR 增速 → forward PEG。<1 低估; 1-1.5 合理; >2 透支。注意周期股不用 PEG",
+      "leaders_share_distribution": "龙头瓜分 TAM: top3-5 龙头当前份额% + 2030E 份额% 预期(如台积电60%+三星15%+中芯3% / 字节30%+阿里20%+腾讯15%)",
+      "key_drivers_5yr": ["未来 3-5 年关键变量 (政策/技术/需求拐点 各2-3条, 标可证伪信号)"],
+      "data_sources": ["来源URL/报告 至少3个独立来源, status: verified|estimated|missing"]
+    },
     "forward_view": {
       "near_term_calendar": [
         {"date": "YYYY-MM-DD", "event": "行业景气数据发布/重大公告/政策窗口/财报季", "consensus": "...", "our_view": "...", "gap": "hawkish|dovish|inline", "impact_on_industry": "..."}

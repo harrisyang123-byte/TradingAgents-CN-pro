@@ -80,6 +80,63 @@
 - **反骑墙**：证据势均力敌才中性，否则必须站队并说明采信哪方；数据盲区只降 confidence + 缩幅度，不默认中性
 - **结果闭环**：director 开辩前读上一版 verdict 出 reflection；critic 铁律 0：上次 miss 必须答"这次为何对"，不能换说法重复同一逻辑
 
+## 7-bis. 计算密集 vs 综合判断 — 何时该新增 verified 数据源 / 何时只改 .md 提示词（永久铁律，2026-06-14 用户拍板"未来市场分析要经过计算的，原 subagent 计算或者主 agent 计算可能拍脑袋吗"）
+
+血泪沉淀:个股层 ROIC A/B 测试:**主 agent 估算 ROIC** 盲评 35 分 vs **AKShare verified 精算** 盲评 85 分 — 偏差 50 分。教训永久固化。
+
+**判定原则:数据/字段分两类**
+
+### 第一类:计算密集 + 基础锚定型 ⇒ 必须 verified 数据源,主 agent 严禁自产
+特征:
+- 客观可计算(从财报/行业报告/官方数据可还原出唯一答案)
+- 是下游所有判断的**锚定数据**(错了一切下游全错)
+- 主 agent 凭训练记忆产出 = 编造(且训练数据可能 ≥1 年滞后)
+
+具体字段(全部必须 verified,**禁主 agent 自产**):
+- **个股层**: ROIC / FCF / ROE / 净利率 / 营收增速 / 净利增速 / **股价** / **PE/PB** / 目标价推导用的 **EPS** → 走 AKShare `stock_financial_abstract` + `stock_zh_a_daily` 等 verified 接口
+- **行业层(2026-06-14 加)**: **TAM 当前规模 / TAM 2030E / CAGR / 渗透率%** → 走 web_search/web_fetch 真取 IDC/marketsandmarkets/Gartner/工信部 公开报告,**≥3 个独立来源标 URL**,主 agent 不得凭记忆产出"AI算力 2030 大概 350 亿美元"这类数字
+- **宏观层**: 22 宏观指标(GDP/CPI/M2/PMI 等) → 走 macro_source.py(AKShare) 或 web_search 实时取
+- **资金层**: 北上资金/融资融券/ETF 申赎 → web_search 实时取
+
+正确做法:
+1. 优先找 verified 接口/源(AKShare / 公开报告 + URL)
+2. 取不到则**联网 web_search**,引用 ≥3 个独立来源,标 status: verified
+3. 实在取不到 → 标 missing 或 status: estimated + 区间(不给伪精确点值) + reflection.self_check 显式说明
+4. **绝不**让主 agent/subagent 凭记忆"估算"具体数字塞进 verdict
+
+### 第二类:综合判断 + 多视角辩论型 ⇒ 改 .md 提示词即可,不新增 agent
+特征:
+- 主观综合(没有唯一答案,不同视角给不同结论才是价值)
+- 是上游 verified 数据的**消费者**(综合数据后的拍板)
+- 让 subagent 用 verified 数据辩论才是价值,不是产出新数字
+
+具体字段:
+- 多空辩论 / 风险辩论 / chokepoint 卡位判定 / forward_view 多维推演 / valuation_basis 推导(对标谁) / stance/buy_zones/stop_loss / **产业渗透率阶段判定**(verified 渗透率% 已有,主 agent 判"导入/爆发/成熟"是综合判断) / **行业 forward PEG 解读**(verified PE+CAGR 已有,主 agent 解读"低估/合理/透支"是综合判断)
+
+正确做法:
+1. 改对应 .md 提示词加必查项(如本次 director.md 加 industry_future_market schema, bull/bear.md 加未来市场必辩, critic.md 加 6.11 必查)
+2. spawn subagent 时把 **verified 数据完整塞入 task**(信息全量铁律,不手写精简)
+3. subagent 输出综合判断,但**禁止编造 verified 数据范围内的数字**(verified 取数没给的字段才允许 estimated 标注)
+
+### 判定 cheat sheet
+| 字段类型 | 主agent能否凭记忆产? | 怎么办 |
+|---|---|---|
+| 财务比率(ROIC/ROE/FCF/EPS/净利率) | ❌ 严禁 | AKShare verified 接口 |
+| 价格/市值/PE/PB | ❌ 严禁 | AKShare 实时/收盘价 verified |
+| TAM/CAGR/渗透率% | ❌ 严禁 | web_search 公开报告 ≥3 源 |
+| 宏观指标(GDP/CPI 等) | ❌ 严禁 | AKShare/官方源 |
+| 渗透率阶段判定(导入/爆发) | ✅ 综合判断 | 用 verified 渗透率% + 行业知识综合 |
+| 多空 thesis/卖点/止损 | ✅ 综合判断 | subagent 用 verified 数据辩论 |
+| chokepoint 四维评分 | ✅ 综合判断 | subagent 用 verified 数据评分 |
+| stance/方向/仓位 | ✅ 综合判断 | director 综合 verified+辩论后拍板 |
+
+### 何时真要新增 subagent
+仅当出现**全新分析视角**且现有 5 个行业 agent (allocator/bear/bull/chokepoint/director) 无法承载时才新增。如:
+- 已有视角覆盖 → 改 .md (本次未来市场属此类: bull/bear/director/critic 分别加必辩/必查项)
+- 全新独立视角 + 高频复用 → 才新增 (如个股层 D0-5 加 sentiment/3 方风险辩论 是因为 TradingAgents 验证的独立视角)
+
+**铁律:违反任一条 = 简化跑 = 伪改造 = 欺骗用户(同 §5)**
+
 ## 8. 长期物理约束（环境/平台限制，不会随实施变化）
 
 - **AKShare 联网可用（2026-06-14 实测纠正，原"沙箱无外网"已过时）**：外网可达(status 200)，akshare 1.18.64 装好可用，`stock_financial_abstract` 取 80 项 verified 财务指标(ROE/总资产报酬率/息前税后总资产报酬率/净资产/资产负债率/每股自由现金流/经营现金流等)+2012-2026 时间序列。**ROIC/FCF/ROE/净利率等计算密集项从"主agent估算/区间"升级为 AKShare verified 精算**。A股直接可取；港股待测 `stock_hk_*` 接口。宏观/实时行情仍可 web_search 补。生产/沙箱环境均通。

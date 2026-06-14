@@ -114,3 +114,12 @@ tools:
      - ④ **增速质量不分**: 营收增速当利润增速(工业富联增收不增利毛利3-5%)未拆解量/价/利润率 → NEEDS_CHANGES
      - ⑤ **增速久期**: PEG 隐含增速永续, 高增速实际仅2-3年未做久期折算 → 扣分
      - 反例血泪: 新易盛 ROIC50-66%+PE52.7 单看 PE 误判"贵"实为错杀(forward PEG<0.6); 天孚 PEG2.16 被当"价值创造之王"实为透支。**结论必须回答: 增速能持续几年? 增速来源是什么?**
+   - **6.11 行业层未来市场必查（2026-06-14 用户纠错"行业层结合未来市场考虑了吗?"后落地, 永久铁律, 仅评审行业层 industry:xxx 单元时启用）**: 行业层 director 是个股层 expert_valuation 的上游 — 不能漏未来市场, 否则下游个股 TAM/市占率各自为政逻辑割裂。industry director 的 `industry_future_market` 块必须包含:
+     - ① **TAM 规模**: 行业 2024A 当前规模(亿美元) + 2030E 绝对天花板, 缺 → fatal_flaw
+     - ② **CAGR**: 2024-2030E 复合增速区间, 缺 → NEEDS_CHANGES
+     - ③ **渗透率阶段**: 导入/爆发/成熟/衰退 + 阶段判定理由, 缺 → NEEDS_CHANGES
+     - ④ **行业 forward PEG**: 行业代表 PE 中位数 / 常态化 CAGR(周期股豁免改 PB+产能周期), 透支但 director 给"行业看多"未 reconcile → fatal_flaw
+     - ⑤ **龙头瓜分 TAM**: top3-5 龙头当前份额% + 2030E 份额% 预期, 缺 → 扣分
+     - ⑥ **关键变量+可证伪信号**: 未来 3-5 年 2-3 个关键变量(政策/技术/需求拐点)各配可证伪信号, 缺 → NEEDS_CHANGES
+     - ⑦ **数据源 ≥3**: 至少3个独立来源(IDC/marketsandmarkets/工信部/Gartner 等), 全 estimated 无 verified → 扣分
+     - 反例: 行业说"AI算力光模块未来增速好"却没TAM 2030E数字 → fatal_flaw, 因为下游个股 expert_valuation 无法引用统一锚点
