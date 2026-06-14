@@ -959,6 +959,38 @@
         ],
         "eps_2027E": 11.3,
         "verdict": "★REDUCE 当前¥667 vs base¥462 透支44%! 国产替代溢价过度, ROIC<WACC价值未创造. 减半仓回调¥400-450(PE35-40x)再入. 止损¥350"
+      },
+      "v3_munger_framework": {
+        "reflection_user_critique": "用户尖锐批评 v2 用静态 PE 给高成长设备股估值是分析师做法,本v3按芒格框架重做",
+        "pe_percentile_check": {
+          "current_pe": 87,
+          "historical_pe_5yr_median": "55-65x",
+          "historical_pe_5yr_range": "30-110x",
+          "percentile_now": "分位约65-70% 中枢偏上",
+          "classification": "非高安全边际,但也未到极端高估(>85%分位)"
+        },
+        "forward_multi_year_eps": {
+          "2026E": 7.6,
+          "2027E": 11,
+          "2028E": 16,
+          "2029E": 20,
+          "note": "若信2028 EPS=16, 今天¥667 = 2028 forward PE 41.7x — 对成长设备股不算高"
+        },
+        "why_market_pays_667": {
+          "原因1": "平台稀缺溢价 — A股唯一同时做刻蚀+沉积+清洗+热处理平台公司",
+          "原因2": "2028利润前置定价 — 用 2028E 净利~100亿 × 40x = 4000亿合理化",
+          "原因3": "2026-2027 大基金三期+AI capex 拉动订单超预期押注"
+        },
+        "cycle_position": "设备公司利润滞后订单 2-3 年,主动让利换份额是正和博弈期,ROIC 临时低不是结构性毁灭",
+        "verdict_v3": {
+          "stance_revised": "进入留意池 (非REDUCE)",
+          "reason": "PE分位65-70%中枢偏上,非低估也非极端泡沫。成长逻辑成立但当前价已price-in 2028加速预期",
+          "real_undervalued_signal": "PE分位<20%(对应PE<35x即股价跌至¥270-300) + 大基金三期落地不及预期 + ROIC季度改善 三条件齐发=真错杀入场点",
+          "falsification": "2026H2大基金三期订单增速<30% 或 ROIC持续<5% → 当前定价证伪,才是真恐慌入场点",
+          "action": "已持有: 持有不动(卖出可能错过2027-2028加速); 未持有: 不追高,留意池跟踪基本面拐点"
+        },
+        "data_status": "synthesized_by_main_agent_v3_munger (用户拷问后修正, 应用critic 6.13成长股5项必查)",
+        "self_critique": "v2分析师做法(算静态目标价¥462说透支44%); v3芒格做法(看PE分位+forward多年+对面买家逻辑+留意池框架). 差异:是否承认成长股需要在恐慌时买入合理价而非等待精确低价"
       }
     }
   },
