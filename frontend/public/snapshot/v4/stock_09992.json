@@ -629,6 +629,18 @@
     "v2_score": 86,
     "v2_recommendation": "ACCEPT"
   },
-  "value_creation": null,
+  "value_creation": {
+    "actionable_verdict": {
+      "verified_price": 183.0,
+      "verified_pe": null,
+      "net_income_growth_pct": null,
+      "roic_range": "130.69",
+      "industry_wacc": 9,
+      "stance": "持有3.5%不追",
+      "reason": "★ROIC130.69%价值创造之王,价183港元已涨多,仅深跌逆向小注",
+      "price_source": "stock_zh_a_daily/hk新浪verified",
+      "as_of": "2026-06-13"
+    }
+  },
   "dcf_intrinsic": null
 }

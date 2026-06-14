@@ -303,6 +303,19 @@
       "net_margin_pct": 35.72,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 21.1% vs WACC~9% → 价值创造"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 14.73,
+        "verified_pe": 16.6,
+        "net_income_growth_pct": 16.9,
+        "roic_range": "18-24",
+        "industry_wacc": 9,
+        "stance": "持有3%,Q2信号→加4%",
+        "reason": "★ROIC18-24%>WACC9%+PE16.6+增速16.9%(PEG0.98合理)=好公司+合理价+稳健,信号确认后加",
+        "price_source": "stock_zh_a_daily/hk新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }

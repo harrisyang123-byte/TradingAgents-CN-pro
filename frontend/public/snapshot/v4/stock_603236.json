@@ -219,7 +219,18 @@
     "value_creation_recheck_note": "critic: 原版86高估(漏判价值创造),重审79更贴合事实; ROIC<WACC=价值毁灭,PE折价是陷阱非边际,下调加仓→持有正确,reconcile诚实"
   },
   "value_creation": {
-    "roic_vs_wacc": "★verified(AKShare): ROIC 5.92-7.89% < WACC≈9% = 价值毁灭/不足。FCF/股 -5.958(负,重资产模组烧钱严重)。ROE 18.76% 是杠杆撑的假象(资产负债率高)——ROIC 才6-8%揭示真实资本回报不足。**好赛道(IoT模组TAM大)但烂回报(ROIC<WACC),类似通富/中芯资本密集陷阱**"
+    "roic_vs_wacc": "★verified(AKShare): ROIC 5.92-7.89% < WACC≈9% = 价值毁灭/不足。FCF/股 -5.958(负,重资产模组烧钱严重)。ROE 18.76% 是杠杆撑的假象(资产负债率高)——ROIC 才6-8%揭示真实资本回报不足。**好赛道(IoT模组TAM大)但烂回报(ROIC<WACC),类似通富/中芯资本密集陷阱**",
+    "actionable_verdict": {
+      "verified_price": 55.5,
+      "verified_pe": 17.3,
+      "net_income_growth_pct": 42.3,
+      "roic_range": "5.9-7.9",
+      "industry_wacc": 12,
+      "stance": "持有偏谨慎",
+      "reason": "ROIC5.9-7.9%<WACC价值不足+PE17.3(增速42.3%含低基数恢复,FCF/股负)→不加仓",
+      "price_source": "stock_zh_a_daily/hk新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": null
 }

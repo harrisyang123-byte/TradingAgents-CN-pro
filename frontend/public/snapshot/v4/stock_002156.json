@@ -558,7 +558,18 @@
     "tam_penetration": "Chiplet/先进封装 TAM 2030E $157B (CAGR 24.8%, marketsandmarkets) / 全球半导体 2030 $1.5万亿(大摩,AI 占半). 通富全球封测第 4-5、AMD 先进封装核心代工,赛道天花板大且高增——但TAM大≠公司赚钱(见ROIC)",
     "roic_vs_wacc": "★verified(AKShare 2025年报): ROIC 4.39-5.85% (息前税后总资产报酬率 4.39% 为下界/投入资本口径调整 5.85% 上界; ROE 8.08% verified; 总净利13.77亿 vs 归母12.19亿差1.59亿少数股东) vs WACC≈9%. ★稳健性: ROIC 区间两端(4.39%/5.85%)均 < WACC 9% → 价值毁灭结论 verified 稳健, 对口径不敏感。即使净利+79.86%仍是资本密集扩张非高回报",
     "capital_allocation": "减分: 持续大额capex(年~50亿)被动跟随AMD扩先进封装产能,资本配置自主性弱;capex ROI 完全绑定AMD订单持续性。无分红空间(FCF≈0),非股东友好型",
-    "business_model": "重资产代工(封测): 资产负债率 63.7%(verified)高杠杆 + 高capex。★FCF 纠错: 经营现金流 69.66亿(verified), 每股自由现金流 +0.80(正,非此前estimated的≈0) — 先进封装放量使经营现金流覆盖capex后仍有正FCF, 但ROIC<WACC说明回报仍不足"
+    "business_model": "重资产代工(封测): 资产负债率 63.7%(verified)高杠杆 + 高capex。★FCF 纠错: 经营现金流 69.66亿(verified), 每股自由现金流 +0.80(正,非此前estimated的≈0) — 先进封装放量使经营现金流覆盖capex后仍有正FCF, 但ROIC<WACC说明回报仍不足",
+    "actionable_verdict": {
+      "verified_price": 57.22,
+      "verified_pe": 71.5,
+      "net_income_growth_pct": 79.9,
+      "roic_range": "4.4-5.9",
+      "industry_wacc": 12,
+      "stance": "减仓至7%",
+      "reason": "ROIC4.4-5.9%<半导WACC12%价值毁灭+PE71.5(增速79.9%含封测周期,PEG0.89但ROIC毁灭不配溢价)→减仓",
+      "price_source": "stock_zh_a_daily/hk新浪verified",
+      "as_of": "2026-06-13"
+    }
   },
   "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)"
 }

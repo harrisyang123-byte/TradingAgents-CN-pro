@@ -559,6 +559,19 @@
       "debt_ratio_pct": 29.43,
       "per_op_cashflow": 8.09,
       "roic_vs_wacc9_verdict": "ROIC 130.69% vs WACC~9% → 价值创造"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 183.0,
+        "verified_pe": null,
+        "net_income_growth_pct": null,
+        "roic_range": "130.69",
+        "industry_wacc": 9,
+        "stance": "持有3.5%不追",
+        "reason": "★ROIC130.69%价值创造之王,价183港元已涨多,仅深跌逆向小注",
+        "price_source": "stock_zh_a_daily/hk新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }

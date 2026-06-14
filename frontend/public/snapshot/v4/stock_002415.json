@@ -206,6 +206,18 @@
     },
     "summary": "002415 director v1 一次过 86 ACCEPT, 4 视角全 PASS, 加仓 1.15→2.5%"
   },
-  "value_creation": null,
+  "value_creation": {
+    "actionable_verdict": {
+      "verified_price": 30.24,
+      "verified_pe": 19.6,
+      "net_income_growth_pct": 18.5,
+      "roic_range": "11.6-15.4",
+      "industry_wacc": 9,
+      "stance": "持有观察",
+      "reason": "ROIC11.6-15.4%>WACC9%价值创造+PE19.6+增速18.5%(PEG1.06合理估值)→不再列加仓首选",
+      "price_source": "stock_zh_a_daily/hk新浪verified",
+      "as_of": "2026-06-13"
+    }
+  },
   "dcf_intrinsic": null
 }

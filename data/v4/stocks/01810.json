@@ -342,6 +342,19 @@
       "debt_ratio_pct": 47.58,
       "per_op_cashflow": 1.31,
       "roic_vs_wacc9_verdict": "ROIC 10.92% vs WACC~9% → 价值创造"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 26.2,
+        "verified_pe": null,
+        "net_income_growth_pct": null,
+        "roic_range": "10.9",
+        "industry_wacc": 11,
+        "stance": "持有观望",
+        "reason": "ROIC10.9%>WACC价值创造,价26.2港元,EV业务烧钱期→观望",
+        "price_source": "stock_zh_a_daily/hk新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }

@@ -284,6 +284,19 @@
       "net_margin_pct": 4.16,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 5.1% vs WACC~9% → 价值毁灭/不足"
+    },
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 36.35,
+        "verified_pe": 31.1,
+        "net_income_growth_pct": -33.3,
+        "roic_range": "4.4-5.8",
+        "industry_wacc": 9,
+        "stance": "持有偏防御",
+        "reason": "ROIC4.4-5.8%不足+PE31.1+净利增速-33.3%(负增长PEG无意义)利润下滑→防御",
+        "price_source": "stock_zh_a_daily/hk新浪verified",
+        "as_of": "2026-06-13"
+      }
     }
   }
 }
