@@ -61,7 +61,8 @@ tools:
     "tam_penetration": "★成长上限: 赛道 TAM 2030E X 亿/万亿 + 当前渗透率 Y% + 阶段(导入/爆发/成熟/衰退) + 公司当前份额 Z% → 还能吃多少。成长股估值上限的根,缺则成长假设是空中楼阁",
     "roic_vs_wacc": "★价值创造判断: ROIC X% vs WACC Y% → 差值>0 创造价值(配得上估值溢价)/<0 毁灭价值(增长越多越亏)。ROE 会被杠杆污染,必须用 ROIC。周期底部 ROIC 暂低需说明",
     "capital_allocation": "★管理层水平(段永平/巴菲特核心): 近5年钱花哪了(再投资ROIC/并购成败/分红回购)+ 指引兑现率(坦诚执行力) → 加分还是减分,影响 confidence 和长期持有意愿",
-    "business_model": "商业模式: 怎么赚钱(高周转/高利润/高杠杆)+ 现金流特征(是否事前收钱/重复客户)+ 收入质量(增长来自量/价/并购)"
+    "business_model": "商业模式: 怎么赚钱(高周转/高利润/高杠杆)+ 现金流特征(是否事前收钱/重复客户)+ 收入质量(增长来自量/价/并购)",
+    "actionable_verdict": "★三维可操作结论(2026-06-14 用户纠错'漏未来市场'后落地,前端③区直接展示): {verified_price 新浪源, verified_pe 价/EPS, roic_range, net_income_growth_pct 财报verified, forward_peg=PE/常态增速, industry_wacc, stance 明确买卖+仓位, reason}。三维=好公司(ROIC>WACC)×好价格(PE合理)×好未来(PEG/增速可持续)。⚠️PEG五大陷阱必辨: ①后视镜增速用forward常态 ②低基数幻觉(寒冬后恢复虚高) ③周期伪装成长(周期股景气高点低PEG=卖出信号,如紫金,周期股禁用PEG改PB+产能周期) ④增速质量(营收≠利润≠FCF) ⑤增速久期(高增速仅2-3年)。结论必答:增速能持续几年?来源是什么?"
   },
   "dcf_intrinsic": "★正向 DCF 内在价值: 基于 FCF X 亿 + 增长假设 g% + WACC Y% → 内在价值 Z 元/股。与反向 DCF(隐含增速) + 多派别合理价 做三角验证,三者一致则结论稳; 背离则说明采信哪个",
   "expectation_gap": "正|负|收敛中 + 三锚综合理由",

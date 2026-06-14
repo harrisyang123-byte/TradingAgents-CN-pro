@@ -107,3 +107,10 @@ tools:
      - ③ **管理层资本配置**: 是否评估近5年钱花得好不好(再投资ROIC/并购成败/回购分红)+ 坦诚执行力? 缺 `value_creation.capital_allocation` → NEEDS_CHANGES.
      - ④ **正向 DCF 三角验证**: `dcf_intrinsic` 正向 DCF 内在值是否与反向 DCF(隐含增速)+ 多派别合理价做了三角验证? 三者背离未说明采信哪个 → NEEDS_CHANGES.
      - 必查 `data_contract_check.must_satisfied` 含价值创造组 6 项(roic/wacc/tam/penetration/capital_allocation/fcf); 取不到标 unattainable(诚实降级)可接受, 但 director 必须基于 estimated 值给出判断而非跳过.
+   - **6.10 未来市场维度 + PEG 五大陷阱必查（2026-06-14 用户纠错"漏未来市场"后落地, 永久铁律, 统一标准不豁免）**: 买股票买的是未来, 只用 ROIC(回看)+PE(当下)= 漏未来市场会严重误判。director 必须用**三维**判断: **好公司(ROIC>WACC) × 好价格(PE合理) × 好未来(PEG/增速可持续/TAM)**, 缺未来维度直接 NEEDS_CHANGES。重点拷问 PEG 五大陷阱:
+     - ① **后视镜增速**: 用了历史 TTM 峰值增速算 PEG 而非 forward 常态增速 → fatal_flaw
+     - ② **低基数幻觉**: 上年塌陷→本年恢复的虚高增速(如创新药寒冬后 CXO 102%)未对比正常年份 CAGR → NEEDS_CHANGES
+     - ③ **周期伪装成长**(最危险): 周期/商品股景气高点利润暴增→PEG 极低被当"便宜"(如紫金 61.5% 增速=金铜价高位, 内生仅8-12%), 低 PEG 实为卖出信号。周期股用 PEG 而非 PB+产能周期 → fatal_flaw
+     - ④ **增速质量不分**: 营收增速当利润增速(工业富联增收不增利毛利3-5%)未拆解量/价/利润率 → NEEDS_CHANGES
+     - ⑤ **增速久期**: PEG 隐含增速永续, 高增速实际仅2-3年未做久期折算 → 扣分
+     - 反例血泪: 新易盛 ROIC50-66%+PE52.7 单看 PE 误判"贵"实为错杀(forward PEG<0.6); 天孚 PEG2.16 被当"价值创造之王"实为透支。**结论必须回答: 增速能持续几年? 增速来源是什么?**

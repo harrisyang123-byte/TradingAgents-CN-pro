@@ -72,6 +72,17 @@
           <li v-if="whyWorst"><span class="sdt-why-tag sdt-tag-worst">⚠️ 最坏</span>{{ whyWorst }}</li>
           <li v-if="whyExpGap"><span class="sdt-why-tag sdt-tag-gap">🎲 预期差</span>{{ whyExpGap }}</li>
         </ul>
+        <!-- 🎯 可操作结论(2026-06-14 三维: 好公司ROIC × 好价格PE × 好未来PEG, 全 verified) -->
+        <div v-if="actionableVerdict" class="sdt-actionable">
+          <div class="sdt-actionable-head">
+            <span class="sdt-actionable-tag">🎯 明天可操作</span>
+            <b class="sdt-actionable-stance">{{ actionableVerdict.stance }}</b>
+          </div>
+          <div v-if="actionableText" class="sdt-actionable-data">{{ actionableText }}</div>
+          <p v-if="actionableVerdict.reason" class="sdt-actionable-reason">{{ actionableVerdict.reason }}</p>
+          <p v-if="actionableVerdict.future_market_correction" class="sdt-actionable-correction">🔮 未来维度修正：{{ actionableVerdict.future_market_correction }}</p>
+          <p v-if="actionableVerdict.critic_correction" class="sdt-actionable-correction">🎓 critic修正：{{ actionableVerdict.critic_correction }}</p>
+        </div>
         <!-- 辅助标签栏: 较上次自检 + 可信度 + 历史准确率 -->
         <div class="sdt-why-aux">
           <div v-if="detail.reflection?.what_changed" class="sdt-aux-card sdt-aux-reflection">
@@ -586,6 +597,23 @@ const whyRoic = computed(() => {
 const whyDcf = computed(() => {
   return _safeStr((detail.value as any)?.dcf_intrinsic, 110)
 })
+// 🎯 可操作结论(2026-06-14 三维: 好公司ROIC × 好价格PE × 好未来PEG/增速) — verified 数据驱动
+const actionableVerdict = computed(() => {
+  const vc = (detail.value as any)?.value_creation
+  return vc?.actionable_verdict || null
+})
+const actionableText = computed(() => {
+  const av = actionableVerdict.value
+  if (!av) return ''
+  const parts: string[] = []
+  if (av.verified_price != null) parts.push(`现价¥${av.verified_price}`)
+  if (av.verified_pe != null) parts.push(`PE ${av.verified_pe}x`)
+  if (av.roic_range || av.roic_pct) parts.push(`ROIC ${av.roic_range || av.roic_pct}%`)
+  if (av.net_income_growth_pct != null) parts.push(`净利增速 ${av.net_income_growth_pct}%`)
+  if (av.forward_peg) parts.push(`forward PEG ${av.forward_peg}`)
+  if (av.industry_wacc != null) parts.push(`行业WACC ${av.industry_wacc}%`)
+  return parts.join(' · ')
+})
 
 // evidence 按 group 分组(数据采集 Step 1 用)
 const groupedEvidence = computed(() => {
@@ -727,6 +755,14 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-tag-gap { background: #ecf5ff; color: #2f54eb; }
 /* 辅助标签栏 */
 .sdt-why-aux { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+/* 🎯 可操作结论(三维 verified) */
+.sdt-actionable { margin-top: 14px; padding: 12px 14px; background: linear-gradient(135deg, #fff7e6 0%, #fff 100%); border: 1px solid #ffd591; border-radius: 8px; }
+.sdt-actionable-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sdt-actionable-tag { font-size: 12px; font-weight: 700; color: #fff; background: #fa8c16; padding: 2px 8px; border-radius: 4px; }
+.sdt-actionable-stance { font-size: 15px; color: #d46b08; }
+.sdt-actionable-data { margin-top: 8px; font-size: 13px; color: #595959; font-family: monospace; }
+.sdt-actionable-reason { margin: 8px 0 0; font-size: 13px; color: #434343; line-height: 1.6; }
+.sdt-actionable-correction { margin: 6px 0 0; font-size: 12.5px; color: #c41d7f; line-height: 1.6; }
 .sdt-aux-card { padding: 10px; border-radius: 6px; }
 .sdt-aux-reflection { background: #ecf5ff; border-left: 3px solid #409eff; }
 .sdt-aux-cred { background: #eef2ff; border-left: 3px solid #4f46e5; }
