@@ -82,7 +82,8 @@
 
 ## 8. 长期物理约束（环境/平台限制，不会随实施变化）
 
-- **沙箱无外网**：AKShare 取数在沙箱失败，data-desk 联网由主 agent web_search/web_fetch 完成；生产环境才能跑真数据
+- **AKShare 联网可用（2026-06-14 实测纠正，原"沙箱无外网"已过时）**：外网可达(status 200)，akshare 1.18.64 装好可用，`stock_financial_abstract` 取 80 项 verified 财务指标(ROE/总资产报酬率/息前税后总资产报酬率/净资产/资产负债率/每股自由现金流/经营现金流等)+2012-2026 时间序列。**ROIC/FCF/ROE/净利率等计算密集项从"主agent估算/区间"升级为 AKShare verified 精算**。A股直接可取；港股待测 `stock_hk_*` 接口。宏观/实时行情仍可 web_search 补。生产/沙箱环境均通。
+- **价值创造维度计算铁律（2026-06-14 A/B 测试 + AKShare 落地）**：ROIC/WACC/正向DCF 是计算密集项，主agent估算精确点值=拍脑袋(A/B 盲评 估算法35 vs 计算法85)。正确做法：**AKShare 取 verified 财务比率精算 ROIC/FCF + 主agent做 TAM/管理层定性判断**；AKShare 取不到才给区间+稳健性检验，禁伪精确点值。
 - **当前真实日期超训练数据**（2026+）：宏观/行情必须联网取，禁止凭记忆编造
 - **subagent 工具只回传终端 stage 输出**：多 stage 串行时，中间轮需主 agent 据已核实数据合成，或拆短调用单独捞
 - **平台 subagent 角色固定枚举**：无法注册仓库内 `.md` 为可 spawn；`.md` 的 `tools` frontmatter 只在 claude-CLI 运行时授予，模式 A 下由主 agent 代调

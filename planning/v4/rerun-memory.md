@@ -293,3 +293,9 @@
   - **采纳方法: 混合法(不是纯主agent也不是必spawn subagent)**: 主agent用可得数据(ROE/净利率/杠杆)反推ROIC**区间**+标注口径不确定性+结论层**稳健性检验**(区间两端是否翻转创造/毁灭结论); 精确ROIC/DCF待生产环境AKShare细科目后由计算subagent补算,**补算前不给伪精确点值**。
   - **落地**: ① financial prompt 加"ROIC计算铁律"(区间不伪精确+稳健性+标missing,缺科目禁拍脑袋点值)。② 修正002156: ROIC 5.4%伪精确点值→区间4-7%+稳健性检验(两端均<WACC 9%=价值毁灭结论稳健)+标missing。
   - **方法论价值**: 这个A/B把"价值创造维度怎么算才不流于表面"定了调——计算密集项给区间+稳健性是诚实可信的,伪精确点值是新的"中际旭创420"事故。subagent 2次spawn失败也验证了"不能强依赖计算subagent",混合法(主agent区间+生产环境AKShare精算)更稳健。
+
+- **2026-06-14 ★AKShare 外网恢复重大突破 (用户"试试akshare")**：
+  - **实测纠正过时约束**: 外网可达(status 200), `pip install akshare`(1.18.64)成功, `stock_financial_abstract(symbol)` 取 80 项 verified 财务指标 + 2012-2026 时间序列。**"沙箱无外网"是过时认知,已在 project-master-prompt §8 纠正为"AKShare 联网可用,哪都通"**。
+  - **价值创造维度从 estimated → verified**: ROIC/FCF/ROE/净利率/净资产/资产负债率 全部 AKShare 真实财报值。新建 `scripts/v4_roic_akshare.py` 精算 ROIC(息前税后总资产报酬率为下界+投入资本调整上界)。
+  - **验证 + 纠错**: 通富002156 ROIC verified 4.39-5.85%(命中之前估算区间4-7%, 区间法方向对) < WACC 9% 价值毁灭稳健; 但纠正了拍脑袋错误——FCF 此前v3说"≈0"实际 verified 经营现金流69.66亿/每股FCF+0.80(正); ROE 8.08% verified; 新和成 ROE 21.87%(非估的18%)/净利率30.57%(非27.5%)。中芯总净利72.09亿vs归母50.41亿(少数股东21.68亿)坐实A/B盲评推测。
+  - **价值创造最终实现形态(3次迭代收敛)**: ①主agent估精确点值(拍脑袋,A/B证伪) → ②只给区间(够用不够精) → ③**AKShare verified 精算 ROIC/FCF + 主agent TAM/管理层定性** (最终)。
