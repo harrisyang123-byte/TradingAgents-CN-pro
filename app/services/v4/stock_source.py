@@ -113,11 +113,11 @@ def _fetch_financials(ak, code: str, out: dict) -> None:
         if df is None or df.empty:
             return
         # stock_financial_abstract 为宽表：行=指标，列=各报告期。取最近列。
-        idx_col = df.columns[0]
-        period_cols = [c for c in df.columns if c != idx_col]
+        idx_col = "指标" if "指标" in df.columns else df.columns[0]
+        period_cols = [c for c in df.columns if c not in ("指标", "选项")]
         if not period_cols:
             return
-        latest = period_cols[0]  # 通常最新在前
+        latest = next((c for c in period_cols if str(c).endswith("1231")), period_cols[0])
         rows = dict(zip(df[idx_col], df[latest]))
         out["report_period"] = str(latest)
         # 关键科目（名称随接口版本可能不同，best-effort 模糊匹配）
@@ -132,6 +132,74 @@ def _fetch_financials(ak, code: str, out: dict) -> None:
         out["_fin_ok"] = True
     except Exception as e:
         out.setdefault("_errors", []).append(f"fin:{type(e).__name__}")
+
+
+def _fetch_value_creation(ak, code: str, out: dict) -> None:
+    """★价值创造维度 verified 精算（2026-06-14 外网恢复后落地）。
+
+    取 AKShare verified 财务比率精算 ROIC/FCF — 解决"主agent估算ROIC=拍脑袋"问题
+    (A/B 测试: 计算法85 完胜 估算法35)。ROIC 口径见 scripts/v4_roic_akshare.py。
+    """
+    try:
+        df = ak.stock_financial_abstract(symbol=code)
+        if df is None or df.empty:
+            return
+        idx_col = "指标" if "指标" in df.columns else df.columns[0]
+        cols = [c for c in df.columns if c not in ("指标", "选项")]
+        # 取最近年报列(优先 1231 年报, 否则最新)
+        col = next((c for c in cols if str(c).endswith("1231")), cols[0] if cols else None)
+        if not col:
+            return
+        rows = dict(zip(df[idx_col], df[col]))
+
+        def _g(name):
+            for k in rows:
+                if name in str(k):
+                    return _safe_float(rows[k])
+            return None
+
+        equity = _g("股东权益合计")        # 净资产(含少数股权)
+        ebit_aftertax_roa = _g("息前税后总资产报酬率")  # EBIT(1-t)/总资产 = ROIC 下界
+        roe = _g("净资产收益率(ROE)") or _g("净资产收益率")
+        roa = _g("总资产报酬率")
+        debt_ratio = _g("资产负债率")
+        equity_mult = _g("权益乘数")
+        ocf = _g("经营现金流量净额")
+        fcf_ps = _g("每股企业自由现金流量")
+        ni_parent = _g("归母净利润")
+        ni_total = _g("净利润")
+        op_margin = _g("营业利润率")
+        net_margin = _g("销售净利率")
+
+        vc: dict[str, Any] = {"as_of": str(col), "source": "akshare stock_financial_abstract (verified)"}
+        if ebit_aftertax_roa is not None:
+            # ROIC 区间: 下界=息前税后总资产报酬率(分母全部总资产), 上界=投入资本调整(投入资本≈75%总资产)
+            vc["roic_low_pct"] = round(ebit_aftertax_roa, 2)
+            vc["roic_adj_pct"] = round(ebit_aftertax_roa / 0.75, 2)
+            vc["roic_note"] = "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整"
+        if roe is not None:
+            vc["roe_pct"] = round(roe, 2)
+        if roa is not None:
+            vc["roa_pct"] = round(roa, 2)
+        if debt_ratio is not None:
+            vc["debt_ratio_pct"] = round(debt_ratio, 2)
+        if equity is not None:
+            vc["equity_yi"] = round(equity / 1e8, 2)
+        if ocf is not None:
+            vc["ocf_yi"] = round(ocf / 1e8, 2)
+        if fcf_ps is not None:
+            vc["fcf_per_share"] = round(fcf_ps, 3)
+            vc["fcf_sign"] = "负(capex吞噬)" if fcf_ps < 0 else "正"
+        if op_margin is not None:
+            vc["op_margin_pct"] = round(op_margin, 2)
+        if net_margin is not None:
+            vc["net_margin_pct"] = round(net_margin, 2)
+        if ni_parent is not None and ni_total is not None:
+            vc["minority_interest_yi"] = round((ni_total - ni_parent) / 1e8, 2)
+        if len(vc) > 2:
+            out["value_creation_verified"] = vc
+    except Exception as e:
+        out.setdefault("_errors", []).append(f"vc:{type(e).__name__}")
 
 
 def _fetch_change(ak, code: str, out: dict) -> None:
@@ -234,6 +302,7 @@ def build_stock_fundamentals(code: str) -> dict[str, Any]:
     _fetch_spot(ak, code, data)
     _fetch_valuation(ak, code, data)
     _fetch_financials(ak, code, data)
+    _fetch_value_creation(ak, code, data)  # ★价值创造 verified ROIC/FCF (2026-06-14)
     _fetch_change(ak, code, data)
     _fetch_competitive_data(ak, code, data)  # 5+1 五力深做必需字段(声明 schema, 当前需主 agent 联网补)
 
