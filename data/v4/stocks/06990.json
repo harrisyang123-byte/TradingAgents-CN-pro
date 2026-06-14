@@ -145,7 +145,8 @@
       "prev_date": null,
       "what_changed": "首次v4完整新架构(B1.8)",
       "why_changed": "创新药ADC出海标杆",
-      "self_check": "first_run_new_arch"
+      "self_check": "first_run_new_arch",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 未盈利创新药(ROIC负)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "price_at_judgment": 440.0,
     "valuation_basis": "ADC商业化早期PS法: 目标价520港元=2026E 收入约18亿 × PS高估值(商业化启航,招银507/野村544); 买点380-440(大行目标价80%安全边际); 破320→清仓。ASCO数据+商业化爬坡是估值核心,小市值波动大。",
@@ -159,6 +160,14 @@
       "debt_ratio_pct": 18.73,
       "per_op_cashflow": -0.77,
       "roic_vs_wacc9_verdict": "ROIC -13.46% vs WACC~9% → 价值毁灭/不足"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC -13.46% → 未盈利创新药(ROIC负)"
+    },
+    "verdict": {
+      "value_creation_tier": "未盈利创新药(ROIC负)",
+      "value_creation_recommendation": "不适用ROIC, 需PS/管线NPV估值; 管线期烧钱研发, 高风险高赔率, 仅适合风险偏好者小仓"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

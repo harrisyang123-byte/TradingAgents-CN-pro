@@ -158,7 +158,8 @@
     "prev_date": null,
     "what_changed": "首次v4完整新架构(B1.9)",
     "why_changed": "有色资源行业首选龙头",
-    "self_check": "first_run_new_arch"
+    "self_check": "first_run_new_arch",
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
   },
   "historical_alpha": null,
   "evidence": [
@@ -183,7 +184,10 @@
       "status": "verified"
     }
   ],
-  "verdict_v2": null,
+  "verdict_v2": {
+    "value_creation_tier": "价值创造(ROIC>WACC9%)",
+    "value_creation_recommendation": "价值创造良好, 推荐(待估值核实买点/安全边际)"
+  },
   "action_plan": null,
   "anchoring_check": null,
   "valuation_cross_check": null,
@@ -192,6 +196,8 @@
   "tail_risk": null,
   "data_status_overall": null,
   "critic_evaluation": null,
-  "value_creation": null,
+  "value_creation": {
+    "roic_vs_wacc": "★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)"
+  },
   "dcf_intrinsic": null
 }

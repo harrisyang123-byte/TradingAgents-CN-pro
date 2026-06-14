@@ -167,7 +167,8 @@
     "prev_date": null,
     "what_changed": "首次v4完整新架构(B1.8)",
     "why_changed": "创新药ADC出海标杆",
-    "self_check": "first_run_new_arch"
+    "self_check": "first_run_new_arch",
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 未盈利创新药(ROIC负)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
   },
   "historical_alpha": null,
   "evidence": [
@@ -197,7 +198,10 @@
       "status": "verified"
     }
   ],
-  "verdict_v2": null,
+  "verdict_v2": {
+    "value_creation_tier": "未盈利创新药(ROIC负)",
+    "value_creation_recommendation": "不适用ROIC, 需PS/管线NPV估值; 管线期烧钱研发, 高风险高赔率, 仅适合风险偏好者小仓"
+  },
   "action_plan": null,
   "anchoring_check": null,
   "valuation_cross_check": null,
@@ -206,6 +210,8 @@
   "tail_risk": null,
   "data_status_overall": null,
   "critic_evaluation": null,
-  "value_creation": null,
+  "value_creation": {
+    "roic_vs_wacc": "★verified ROIC -13.46% → 未盈利创新药(ROIC负)"
+  },
   "dcf_intrinsic": null
 }

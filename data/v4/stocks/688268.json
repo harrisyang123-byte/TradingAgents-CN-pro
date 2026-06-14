@@ -136,7 +136,8 @@
       "prev_date": null,
       "what_changed": "首次 v4 完整新架构分析(B 阶段 B1 子任务,推荐行业半导体龙头)",
       "why_changed": "B 阶段个股下钻补全",
-      "self_check": "first_run_new_arch"
+      "self_check": "first_run_new_arch",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "price_at_judgment": 55.0,
     "valuation_basis": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
@@ -157,6 +158,14 @@
       "net_margin_pct": 9.05,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 5.6% vs WACC~9% → 价值毁灭/不足"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC 4.78-6.38% → 价值创造不足(ROIC<WACC)"
+    },
+    "verdict": {
+      "value_creation_tier": "价值创造不足(ROIC<WACC)",
+      "value_creation_recommendation": "价值创造不足, 谨慎/回避; 除非ROIC有明确改善路径"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

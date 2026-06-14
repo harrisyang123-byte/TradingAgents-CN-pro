@@ -36,7 +36,9 @@
       "thesis": "锆系材料龙头+新能源材料(镁铝合金/固态电池材料)布局，小盘高弹性；受益资源涨价与新材料放量。",
       "entry_approach": "小盘波动大，回调分批、控制单一仓位",
       "target_price": "needs_fetch(当前价未核实)",
-      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造"
+      "target_price_note": "当前价/估值需data-desk联网核实后定具体目标价，未核实不编造",
+      "value_creation_tier": "临界(ROIC≈WACC)",
+      "value_creation_recommendation": "价值创造临界, 观察, 需看ROIC趋势(上行则推荐/下行则回避)"
     },
     "evidence": [
       {
@@ -128,7 +130,8 @@
       "prev_date": "2026-06-07T07:42:50Z",
       "what_changed": "B4 简化升级 forward_view 框架",
       "why_changed": "B 阶段 数据一致性",
-      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)"
+      "self_check": "v1_to_v2_simplified_upgrade(下次需重跑深度)",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "value_creation_verified": {
       "as_of": "20251231",
@@ -147,6 +150,10 @@
       "net_margin_pct": 10.58,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 7.4% vs WACC~9% → 临界"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC 6.34-8.46% → 临界(ROIC≈WACC)"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

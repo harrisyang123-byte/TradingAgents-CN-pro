@@ -140,7 +140,8 @@
       "prev_date": null,
       "what_changed": "首次v4完整新架构(B1.10)",
       "why_changed": "稀土战略资产龙头",
-      "self_check": "first_run_new_arch"
+      "self_check": "first_run_new_arch",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 临界(ROIC≈WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "price_at_judgment": 62.0,
     "valuation_basis": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
@@ -161,6 +162,14 @@
       "net_margin_pct": 6.72,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 7.8% vs WACC~9% → 临界"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC 6.65-8.87% → 临界(ROIC≈WACC)"
+    },
+    "verdict": {
+      "value_creation_tier": "临界(ROIC≈WACC)",
+      "value_creation_recommendation": "价值创造临界, 观察, 需看ROIC趋势(上行则推荐/下行则回避)"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

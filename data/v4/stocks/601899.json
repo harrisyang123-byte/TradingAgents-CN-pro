@@ -140,7 +140,8 @@
       "prev_date": null,
       "what_changed": "首次v4完整新架构(B1.9)",
       "why_changed": "有色资源行业首选龙头",
-      "self_check": "first_run_new_arch"
+      "self_check": "first_run_new_arch",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造(ROIC>WACC9%)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "price_at_judgment": 32.0,
     "valuation_basis": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
@@ -161,6 +162,14 @@
       "net_margin_pct": 18.28,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 17.6% vs WACC~9% → 价值创造"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)"
+    },
+    "verdict": {
+      "value_creation_tier": "价值创造(ROIC>WACC9%)",
+      "value_creation_recommendation": "价值创造良好, 推荐(待估值核实买点/安全边际)"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

@@ -150,7 +150,8 @@
       "prev_date": null,
       "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
       "why_changed": "用户要求蓝思科技深度分析",
-      "self_check": "first_run_new_arch"
+      "self_check": "first_run_new_arch",
+      "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
     },
     "price_at_judgment": 30.0,
     "valuation_basis": "周期成长股PE法: 目标价32元=2026E EPS约1.3元 × PE 25x(消费电子中枢,Q2扭亏后); 买点24-28=PE 18-22x(去年低点24.94一线); 破24=跌破去年低点趋势反转→清仓。注:Q1亏损,2026E EPS依赖Q2扭亏假设,故偏谨慎。",
@@ -171,6 +172,14 @@
       "net_margin_pct": 5.43,
       "minority_interest_yi": 0.0,
       "roic_vs_wacc9_verdict": "ROIC中值 6.1% vs WACC~9% → 价值毁灭/不足"
-    }
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified ROIC 5.21-6.94% → 价值创造不足(ROIC<WACC)"
+    },
+    "verdict": {
+      "value_creation_tier": "价值创造不足(ROIC<WACC)",
+      "value_creation_recommendation": "价值创造不足, 谨慎/回避; 除非ROIC有明确改善路径"
+    },
+    "data_status": " | 价值创造 verified ROIC 分层评级(推荐池速览)"
   }
 }

@@ -136,7 +136,8 @@
     "prev_date": null,
     "what_changed": "首次 v4 完整新架构分析(含 chokepoint_score+四维+forward_view)",
     "why_changed": "用户要求蓝思科技深度分析",
-    "self_check": "first_run_new_arch"
+    "self_check": "first_run_new_arch",
+    "value_creation_screen": "2026-06-14 verified ROIC 分层(数据驱动): 价值创造不足(ROIC<WACC)。买点/估值待实时行情接口恢复或web_search补, 完整8step多空辩论待后续。"
   },
   "historical_alpha": null,
   "evidence": [
@@ -166,7 +167,10 @@
       "status": "verified"
     }
   ],
-  "verdict_v2": null,
+  "verdict_v2": {
+    "value_creation_tier": "价值创造不足(ROIC<WACC)",
+    "value_creation_recommendation": "价值创造不足, 谨慎/回避; 除非ROIC有明确改善路径"
+  },
   "action_plan": null,
   "anchoring_check": null,
   "valuation_cross_check": null,
@@ -175,6 +179,8 @@
   "tail_risk": null,
   "data_status_overall": null,
   "critic_evaluation": null,
-  "value_creation": null,
+  "value_creation": {
+    "roic_vs_wacc": "★verified ROIC 5.21-6.94% → 价值创造不足(ROIC<WACC)"
+  },
   "dcf_intrinsic": null
 }
