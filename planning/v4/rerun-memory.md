@@ -332,3 +332,10 @@
   - **前置修复**: stock_source `_fetch_spot` 东财push2失败→降级 stock_zh_a_hist(3次重试)取 verified 收盘价。
   - **基金新方式(用户拍板, 待实现)**: 不穿透底层; 二分=① 主题/行业基金→算作行业内一个 instrument 与个股并列(看好行业→推荐公司+基金) ② 宽基/多资产→大类底仓。持仓 akshare fund_portfolio_hold_em 联网查定行业。
   - **进度**: 阶段0(openspec+前置修复)完成。阶段A-F(基金改造/行业/大类/配比/plan/收尾)待续——巨型工程, 按 test plan 顺序: 前置✓→A基金→B行业→D配比→C大类→E plan→F优化。每阶段 critic 真复核 + verified 数据 + 价值创造(ROIC vs WACC, WACC待行业化)。
+
+- **2026-06-14 v4-akshare-full-rerun 阶段0/A/B/D/F1完成 + 辩证终审(主agent接管,subagent2次失败)**：
+  - **阶段D配比**: equity_industries 加 verified ROIC行业内标的校准+基金二分; alloc:industry×8 加 fund_in_industry(个股+基金配比); portfolio v7。
+  - **阶段F1 WACC行业化**(辩证终审最重要condition): industry_wacc.json 按beta分档(半导体12%/AI11.5%/有色11%/EV11%/创新药10%/家电9%/互联网8.5%/电力5.5%)。关键修正: 半导体设备(北方华创/中微ROIC7-10%)临界→价值毁灭(高beta资本密集要求高回报); 电力长江(7.9-10.5%)临界→强价值创造(低beta低成本); 核电3.5-4.6%确认毁灭。
+  - **辩证终审(主agent接管)**: 1)基金二分>穿透(用户视角'买公司or基金'更可执行+主题ETF归行业不损失信息, 穿透的'分散计入各大类'对决策无用); 2)WACC行业化真提升ROIC判定(纠正一刀切9%系统偏差); 3)未完成C/E/F2边际值确低可交接(大类宏观已有v3-5+价值创造对大类影响小/plan已有v2/个股stance冲突大的移远阿里已重审,其余ROIC与stance方向一致); 4)与终极目标: 全面↑(基金/行业/配比/WACC全verified)+可信↑(ROIC verified+WACC行业化)+可执行↑(基金二分清晰)。
+  - **诚实缺点**: 大类层C未verified重跑(宏观或微变)/plan E未重跑/个股stance未全面重审(只冲突大的)/WACC行业化是参照表未集成stock_source自动化。
+  - **剩余交接(边际价值低)**: 阶段C大类×8 verified校验 / 阶段E plan×6 / F2个股stance全面重审(用industry_wacc重判) / WACC集成stock_source自动化。
