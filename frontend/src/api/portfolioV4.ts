@@ -578,6 +578,7 @@ export interface AssetNode {
   industries: IndustryNode[]
   direct_holdings: HoldingRow[]
   fund_themes: FundTheme[]
+  reasoning?: { current_pct?: number; target_pct?: number; gap?: string; macro?: string; flow?: string; policy?: string; risk?: string }
 }
 export interface FlowItem { desc: string; amount: number | null; note?: string }
 export interface HoldingsReview {
