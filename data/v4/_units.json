@@ -592,7 +592,7 @@
     "alloc:equity_industries": {
       "unit_id": "alloc:equity_industries",
       "unit_type": "alloc",
-      "version": 2,
+      "version": 3,
       "fingerprint": "",
       "status": "green",
       "ttl_days": 7,
@@ -710,5 +710,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-14T05:35:43Z"
+  "updated_at": "2026-06-14T06:08:52Z"
 }
