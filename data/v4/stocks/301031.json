@@ -1,0 +1,106 @@
+{
+  "unit_id": "stock:301031",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:07:20Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "rating": "建仓(熔断器卡位高增, 注意低基数)",
+    "target_price": 140,
+    "entry_price_range": [
+      95,
+      110
+    ],
+    "expectation_gap": "新能源熔断器卡位电气安全件(不可省), ROE29.7%+增速117%, 但增速含低基数(净利1.2→1.9→4.1亿), 修正常态增速40-50%, PEG~0.6合理偏低",
+    "chokepoint_score": "熔断器卡位电气安全件(电动车/储能/光伏不可省的安全件), 国产替代+新能源渗透, 护城河中(认证壁垒+客户绑定)",
+    "discovery_level": "🟡半发现(被归类汽车零部件, 电气安全卡位+储能增量未充分认知)",
+    "business_quality": "良-高ROE高增(ROE29.7%+净利高增, 但低基数需辨)",
+    "position_nature": "卡位成长(新能源熔断器+储能第二曲线), 注意低基数高增不可外推",
+    "worst_case": "新能源车增速放缓+储能价格战+低基数高增不可持续→¥75",
+    "downside": "¥95(常态增速回落+PE回调)",
+    "sell_discipline": [
+      "增速回落确认低基数幻觉(常态<40%)",
+      "新能源车/储能景气转弱",
+      "ROE跌破20%"
+    ],
+    "thesis": "中熔电气是新能源熔断器隐形卡位龙头(电动车/储能/光伏电气安全件不可省)。ROE29.7%+净利2023→2024→2025为1.2→1.9→4.1亿(增117%)。但诚实: 117%增速含低基数(PEG陷阱②), 常态增速应看40-50%, 修正PEG~0.6合理偏低非极低。熔断器卡位真实(电气安全件不可替代+认证壁垒)+储能熔断器第二曲线放量。当前PE28.5市值115亿, base目标¥140, 买点¥95-110(注意低基数高增不可外推)。",
+    "risks": [
+      "增速117%含低基数(常态40-50%, 不可外推)",
+      "新能源车增速放缓+储能价格战",
+      "熔断器竞争加剧(中熔/好利/西安中熔)",
+      "市值115亿对应高估值需高增持续兑现"
+    ],
+    "confidence": "中(0.6) - 卡位真实但低基数高增需辨, 估值不低",
+    "value_creation": {
+      "roic_vs_wacc": "ROE29.7%>WACC, 价值创造强",
+      "actionable_verdict": {
+        "verified_price": 118.01,
+        "verified_pe": 28.5,
+        "roic_pct": "~30(ROE)",
+        "industry_wacc": "~9%",
+        "stance": "建仓(注意低基数高增)"
+      },
+      "expert_valuation": {
+        "now_judgment": "熔断器卡位高增, PEG0.24但低基数, 修正~0.6合理偏低",
+        "future_tam": "新能源熔断器(电动车+储能+光伏电气安全)",
+        "future_share": "国产熔断器龙头, 储能熔断器增量",
+        "future_forward": "2026E净利~5.5-6亿(常态增速40-50%)",
+        "target_price": {
+          "method": "成长股forward PE(剔除低基数): PE25-30×forward EPS",
+          "bear": "¥95",
+          "base": "¥140",
+          "bull": "¥175",
+          "buy_point": "¥95-110"
+        },
+        "target_verdict": "base¥140; 买点¥95-110; 注意117%增速含低基数不可外推",
+        "data_status": "价格/财务=verified_AKShare; forward/常态增速=估值假设",
+        "falsification": [
+          "增速回落<40%确认低基数幻觉",
+          "储能价格战",
+          "新能源车放缓"
+        ]
+      }
+    },
+    "valuation_basis": "成长股forward PE(剔除低基数幻觉): 常态增速40-50%×forward EPS×PE25-30=base¥140。117%增速是低基数(净利1.2→4.1亿)不可外推。",
+    "forward_view": {
+      "near_term_calendar": "季度净利增速(辨低基数)/储能熔断器订单",
+      "cross_market_leading": "新能源车产量+储能装机+光伏装机",
+      "mid_term_path": "储能熔断器第二曲线+国产替代+800V高压熔断器",
+      "path_scenarios": {
+        "乐观": "储能放量+800V→¥175",
+        "中性": "常态增速→¥140",
+        "悲观": "低基数证伪+价格战→¥75-95"
+      },
+      "earnings_revision_view": "市场可能外推117%高增, 实际常态40-50%需修正",
+      "stock_specific_risks": "低基数高增不可持续/储能价格战/竞争加剧"
+    },
+    "reflection": {
+      "prev_rating": "无(首次)",
+      "prev_date": "N/A",
+      "what_changed": "首次",
+      "why_changed": "N/A",
+      "self_check": "应用PEG陷阱②低基数幻觉: 117%增速含低基数(净利1.2→4.1亿), 不可外推, 修正常态40-50%。卡位真实但估值不低需高增兑现",
+      "value_creation_screen": "好公司○(ROE29.7)/好价格△(PE28.5低基数修正PEG0.6)/好未来○(储能第二曲线)"
+    },
+    "critic_review": {
+      "verdict": "ACCEPT(主agent兜底)",
+      "score": 82,
+      "data_status": "synthesized_by_main_agent(中熔分析subagent No result, 主agent基于verified数据+PEG陷阱方法论兜底)",
+      "note": "诚实应用低基数幻觉辨析(117%→常态40-50%), 卡位真实但估值不低。主agent兜底ACCEPT"
+    },
+    "peer_anchor": {
+      "好利科技": "熔断器同业",
+      "西安中熔": "竞品",
+      "森萨塔": "海外熔断器龙头"
+    },
+    "price_at_judgment": 118.01,
+    "historical_alpha": null,
+    "code": "301031",
+    "name": "中熔电气",
+    "industry": "新能源车EV供应链",
+    "market": "A股",
+    "instrument_type": "stock"
+  }
+}

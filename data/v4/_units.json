@@ -349,6 +349,18 @@
       "error": null,
       "path": "stocks/002156.json"
     },
+    "stock:002241": {
+      "unit_id": "stock:002241",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/002241.json"
+    },
     "stock:002326": {
       "unit_id": "stock:002326",
       "unit_type": null,
@@ -469,6 +481,18 @@
       "error": null,
       "path": "stocks/09992.json"
     },
+    "stock:300033": {
+      "unit_id": "stock:300033",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300033.json"
+    },
     "stock:300308": {
       "unit_id": "stock:300308",
       "unit_type": "stock",
@@ -492,6 +516,18 @@
       "upstream": [],
       "error": null,
       "path": "stocks/300394.json"
+    },
+    "stock:300428": {
+      "unit_id": "stock:300428",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300428.json"
     },
     "stock:300433": {
       "unit_id": "stock:300433",
@@ -529,6 +565,42 @@
       "error": null,
       "path": "stocks/300750.json"
     },
+    "stock:301031": {
+      "unit_id": "stock:301031",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:07:20Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/301031.json"
+    },
+    "stock:301393": {
+      "unit_id": "stock:301393",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:12:17Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/301393.json"
+    },
+    "stock:301608": {
+      "unit_id": "stock:301608",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:02:09Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/301608.json"
+    },
     "stock:600111": {
       "unit_id": "stock:600111",
       "unit_type": "stock",
@@ -540,6 +612,18 @@
       "upstream": [],
       "error": null,
       "path": "stocks/600111.json"
+    },
+    "stock:600183": {
+      "unit_id": "stock:600183",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/600183.json"
     },
     "stock:600276": {
       "unit_id": "stock:600276",
@@ -637,6 +721,30 @@
       "error": null,
       "path": "stocks/603663.json"
     },
+    "stock:603979": {
+      "unit_id": "stock:603979",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/603979.json"
+    },
+    "stock:605499": {
+      "unit_id": "stock:605499",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:07:20Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/605499.json"
+    },
     "stock:688012": {
       "unit_id": "stock:688012",
       "unit_type": "stock",
@@ -649,6 +757,18 @@
       "error": null,
       "path": "stocks/688012.json"
     },
+    "stock:688092": {
+      "unit_id": "stock:688092",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:12:17Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688092.json"
+    },
     "stock:688268": {
       "unit_id": "stock:688268",
       "unit_type": "stock",
@@ -660,6 +780,30 @@
       "upstream": [],
       "error": null,
       "path": "stocks/688268.json"
+    },
+    "stock:688379": {
+      "unit_id": "stock:688379",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688379.json"
+    },
+    "stock:688578": {
+      "unit_id": "stock:688578",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:07:20Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688578.json"
     },
     "stock:688981": {
       "unit_id": "stock:688981",
@@ -698,5 +842,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-15T02:47:36Z"
+  "updated_at": "2026-06-15T03:12:17Z"
 }

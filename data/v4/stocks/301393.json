@@ -1,0 +1,43 @@
+{
+  "unit_id": "stock:301393",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:12:17Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "301393",
+    "name": "昊帆生物",
+    "industry": "创新药+CXO",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "观察/降级(卡位真但业绩下滑+估值不低)",
+    "thesis": "多肽固相合成缩合剂+Fmoc氨基酸卡位(GLP-1上游), 之前瓶颈链作紫苏叶候选(conf0.72)。但verified基本面下滑: ROE5.0+净利1.0→1.3→1.1亿(增速-14%)+PE46.7不低。GLP-1放量逻辑在但当前订单未兑现+业绩下滑+估值偏高。区别于演绎预期(当时假设GLP-1拉动), verified后业绩走弱。观察, 待GLP-1国产上市潮拉动多肽原料放量确认。",
+    "three_dimension": {
+      "好公司": "✗(ROE5.0低+净利下滑)",
+      "好价格": "✗(PE46.7对下滑业绩偏高)",
+      "好未来": "△(GLP-1拉动期权未兑现)"
+    },
+    "risks": [
+      "净利下滑(1.3→1.1亿)+ROE5.0低",
+      "PE46.7对下滑业绩偏高",
+      "GLP-1拉动未兑现到订单",
+      "多肽试剂竞争"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 49.96,
+        "verified_pe": 46.7,
+        "roic_pct": "~5.0(ROE)",
+        "stance": "观察/降级(卡位真但业绩下滑+估值不低)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified数据: 基本面下滑是关键诚实信号, 紫苏叶演绎站不住)"
+    },
+    "price_at_judgment": 49.96,
+    "historical_alpha": null
+  }
+}

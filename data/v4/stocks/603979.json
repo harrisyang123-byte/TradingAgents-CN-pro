@@ -1,0 +1,49 @@
+{
+  "unit_id": "stock:603979",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:11:31Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "603979",
+    "name": "金诚信",
+    "industry": "有色金属资源",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "持有/不追高(基本面好但高位)",
+    "target_price": null,
+    "entry_price_range": [
+      55,
+      62
+    ],
+    "thesis": "矿山工程服务龙头+海外矿山资源(铜/金)+施工转运营业务质变。ROE23.3+净利10.3→15.8→23.4亿(增48%)+海外绿地项目3-5年锁定订单+工程转采矿运营=一次性变持续性收入。但5年分位0.96历史高位+回撤仅-19%, 大部分已price-in。海外矿山扩张确定但金铜价高位回落是风险。持有可, 当前¥70.76高位不追, 回调¥55-62分批。",
+    "three_dimension": {
+      "好公司": "○(ROE23.3+工程转运营质变)",
+      "好价格": "△(分位0.96高位已price-in)",
+      "好未来": "○(海外矿山扩张+运营转型)"
+    },
+    "position_nature": "海外扩张+业务质变(基本面好但高位, 持有不追)",
+    "risks": [
+      "分位0.96高位已price-in",
+      "金铜价高位回落风险",
+      "海外矿山地缘政治",
+      "工程业务周期性"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 70.76,
+        "verified_pe": 18.9,
+        "roic_pct": "~23(ROE)",
+        "stance": "持有/不追高(基本面好但高位)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(subagent No result或高效批量, 主agent基于verified数据+成熟方法论兜底)"
+    },
+    "price_at_judgment": 70.76,
+    "historical_alpha": null
+  }
+}

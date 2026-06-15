@@ -1,0 +1,121 @@
+{
+  "code": "688578",
+  "name": "艾力斯",
+  "industry": "创新药+CXO",
+  "stock_unit": {
+    "unit_id": "stock:688578",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:688578」，或运行：./scripts/run_v4.sh analyze stock:688578",
+    "version": 1,
+    "generated_at": "2026-06-15T03:07:20Z",
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": "ai_direct",
+    "exists": true
+  },
+  "rating": "买入(低估的高成长, 当前即买点)",
+  "target_price": 180,
+  "entry_price_range": [
+    75,
+    83
+  ],
+  "price_at_judgment": 83.05,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": "创新药forward盈利法: 2026E净利29.6亿×创新药盈利期PE25-30x(对标恒瑞/百济)=740-888亿=¥164-197。当前PE17.1是传统药估值, 与53%增速+ROE35.4%不匹配。",
+  "credibility": null,
+  "expectation_gap": "市场用传统药企PE17定价创新药53%增速(PEG0.32), price-in了'增速快速下滑到15-20%', 但海外授权+一线渗透支撑实际35-50%增速=正预期差>20pct; 分位0.78非恐慌错杀而是市场有意折价(单品依赖+医保降价担忧)",
+  "chokepoint_score": "护城河B+(强单品+弱梯队): 伏美替尼三代EGFR-TKI Best-in-class(脑转移ORR85%碾压奥希替尼60%+一线联合PFS优), 单品依赖>95%是核心风险, 管线梯队尚早期",
+  "discovery_level": "🟡半发现(被误定价为传统药企, 创新药成长属性未充分认知)",
+  "business_quality": "优-创新药罕见已盈利高ROE(ROE35.4%+净利6.4→14.3→21.9亿CAGR85%, 创新药企多数亏损)",
+  "position_nature": "低估的高成长(非错杀): 市场有意折价的高成长创新药, 预期差来源=低估增速持续性",
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": "四代TKI颠覆+单品安全性事件+医保大幅降价→¥62(PE12x市场彻底否认增速)",
+  "downside": "¥75(PE15x安全边际)",
+  "sell_discipline": [
+    "跌破¥62(PE12x=市场彻底否认增速)",
+    "单品安全性黑天鹅→灾难性即清",
+    "医保谈判降价>30%+四代TKI数据优异颠覆三代"
+  ],
+  "thesis": "艾力斯是被误定价为传统药企的高成长创新药。伏美替尼三代EGFR-TKI Best-in-class(脑转移ORR85%碾压奥希替尼), ROE35.4%(创新药罕见已盈利)+净利6.4→14.3→21.9亿(CAGR85%)+PE仅17.1(PEG0.32创新药罕见低估)。分位0.78+回撤-30%非恐慌错杀, 而是市场有意折价(担忧单品依赖>95%+医保降价)。但预期差: 市场price-in增速下滑15-20%, 实际海外授权+一线渗透支撑35-50%。base目标¥180(2026E净利29.6亿×PE25-30x创新药盈利期)。当前¥83即买点附近。核心风险=单品依赖>95%。",
+  "risks": [
+    "单品依赖>95%(伏美替尼, 竞品突破或安全性事件则灾难性)",
+    "医保谈判每2年降价15-30%",
+    "四代TKI(如BLU-945)若数据优异颠覆三代格局",
+    "分位0.78非底部动量偏弱"
+  ],
+  "confidence": "中高(0.7) - 高成长+低估确定, 单品依赖是主风险",
+  "forward_view": {
+    "near_term_calendar": "海外License-out里程碑/一线联合III期数据/医保续约",
+    "cross_market_leading": "创新药板块情绪/EGFR突变肺癌患者数",
+    "mid_term_path": "海外授权打开天花板+适应症拓展(脑转移/一线)+管线梯队",
+    "path_scenarios": {
+      "乐观": "海外授权+适应症放量→¥197",
+      "中性": "国内放量+稳步→¥180",
+      "悲观": "单品天花板+医保降价→¥62-120"
+    },
+    "earnings_revision_view": "市场低估增速持续性(担忧单品+医保), 海外授权落地将催化重估",
+    "stock_specific_risks": "单品依赖>95%/医保降价/四代TKI竞争"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "无(首次)",
+    "prev_date": "N/A",
+    "what_changed": "首次",
+    "why_changed": "N/A",
+    "self_check": "区分'低估的高成长'(艾力斯分位0.78市场有意折价)vs'健康错杀'(东鹏分位0.03恐慌杀)vs'困境博弈'(永太)。艾力斯是被误定价为传统药企的创新药, 预期差在增速持续性",
+    "value_creation_screen": "好公司○○(ROE35.4)/好价格○(PE17.1 PEG0.32)/好未来○(海外+适应症, 单品依赖风险)"
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": null,
+  "action_plan": null,
+  "anchoring_check": null,
+  "valuation_cross_check": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null,
+  "value_creation": {
+    "roic_vs_wacc": "ROE35.4%>>WACC(创新药~10%), 强价值创造",
+    "actionable_verdict": {
+      "verified_price": 83.05,
+      "verified_pe": 17.1,
+      "roic_pct": ">30(ROE35.4)",
+      "industry_wacc": "~10%",
+      "stance": "买入(中仓5-8%, 当前即买点)"
+    },
+    "expert_valuation": {
+      "now_judgment": "低估的高成长, PEG0.32创新药罕见, 被误定价为传统药企",
+      "future_tam": "肺癌EGFR-TKI(国内+海外授权)+适应症拓展(脑转移/一线联合)",
+      "future_share": "伏美替尼三代TKI国产领先, 脑转移BIC差异化",
+      "future_forward": "2026E净利~29.6亿(海外+适应症), forward常态增速35%",
+      "target_price": {
+        "method": "创新药forward盈利×可比PE(恒瑞/百济25-30x)",
+        "bear": "¥120(PE20)",
+        "base": "¥180(PE25-30×2026E29.6亿=740-888亿)",
+        "bull": "¥197(PE30)",
+        "buy_point": "¥75-80(PE15x安全边际)"
+      },
+      "target_verdict": "base¥180(+117%); 当前¥83即买点附近; 市场以传统药PE17定价创新药成长存认知差",
+      "data_status": "价格/财务=verified_AKShare; forward/海外授权=估值假设(可证伪)",
+      "falsification": [
+        "医保谈判降价>30%",
+        "四代TKI数据颠覆",
+        "海外授权落空",
+        "单季增速<20%"
+      ]
+    }
+  },
+  "dcf_intrinsic": null
+}

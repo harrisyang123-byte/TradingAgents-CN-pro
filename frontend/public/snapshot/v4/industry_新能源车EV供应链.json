@@ -98,6 +98,23 @@
   "stock_weights": [],
   "stocks": [
     {
+      "unit_id": "stock:300428",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:300428」，或运行：./scripts/run_v4.sh analyze stock:300428",
+      "version": 1,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "300428",
+      "name": "立中集团",
+      "rating": "谨慎看多(免热铝压铸期权, 观察仓)",
+      "target_price": 26
+    },
+    {
       "unit_id": "stock:300750",
       "status": "green",
       "status_label": "新鲜",
@@ -113,6 +130,23 @@
       "name": "宁德时代",
       "rating": "建仓(优质龙头合理偏低估值, 稳健配置)",
       "target_price": 475
+    },
+    {
+      "unit_id": "stock:301031",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:301031」，或运行：./scripts/run_v4.sh analyze stock:301031",
+      "version": 1,
+      "generated_at": "2026-06-15T03:07:20Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "301031",
+      "name": "中熔电气",
+      "rating": "建仓(熔断器卡位高增, 注意低基数)",
+      "target_price": 140
     }
   ],
   "indirect_holdings": {

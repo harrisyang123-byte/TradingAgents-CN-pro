@@ -96,7 +96,42 @@
     "exists": false
   },
   "stock_weights": [],
-  "stocks": [],
+  "stocks": [
+    {
+      "unit_id": "stock:301393",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:301393」，或运行：./scripts/run_v4.sh analyze stock:301393",
+      "version": 1,
+      "generated_at": "2026-06-15T03:12:17Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "301393",
+      "name": "昊帆生物",
+      "rating": "观察/降级(卡位真但业绩下滑+估值不低)",
+      "target_price": null
+    },
+    {
+      "unit_id": "stock:688578",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:688578」，或运行：./scripts/run_v4.sh analyze stock:688578",
+      "version": 1,
+      "generated_at": "2026-06-15T03:07:20Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "688578",
+      "name": "艾力斯",
+      "rating": "买入(低估的高成长, 当前即买点)",
+      "target_price": 180
+    }
+  ],
   "indirect_holdings": {
     "direct_yi": 0,
     "indirect_yi": 0,

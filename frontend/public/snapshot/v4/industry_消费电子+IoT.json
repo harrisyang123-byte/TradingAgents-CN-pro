@@ -96,7 +96,25 @@
     "exists": false
   },
   "stock_weights": [],
-  "stocks": [],
+  "stocks": [
+    {
+      "unit_id": "stock:002241",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002241」，或运行：./scripts/run_v4.sh analyze stock:002241",
+      "version": 1,
+      "generated_at": "2026-06-15T03:11:31Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "002241",
+      "name": "歌尔股份",
+      "rating": "观察(AR/VR期权待催化, 代工价值捕获弱)",
+      "target_price": null
+    }
+  ],
   "indirect_holdings": {
     "direct_yi": 0,
     "indirect_yi": 0,

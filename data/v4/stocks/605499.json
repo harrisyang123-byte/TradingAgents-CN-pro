@@ -1,0 +1,113 @@
+{
+  "unit_id": "stock:605499",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:07:20Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "rating": "建仓(健康错杀典范, 核心仓位)",
+    "target_price": 190,
+    "entry_price_range": [
+      115,
+      131
+    ],
+    "expectation_gap": "基本面零瑕疵(ROE51.6%+净利3年47%CAGR无中断)但价格5年分位0.03+回撤-61%, 系消费板块系统性杀估值+机构仓位调整+量化踩踏的情绪杀, 非基本面恶化=极典型健康错杀(比韦尔更干净)",
+    "chokepoint_score": "渠道+品牌护城河强: 400万终端网点+功能饮料第二心智(困了累了喝东鹏)+3.5元价格带锁死(红牛6元无法下探)+第二曲线(电解质水/茶/咖啡复用渠道占比>15%)",
+    "discovery_level": "🟡半发现(消费板块失宠被系统性杀估值, 基本面优质被掩盖)",
+    "business_quality": "优-A股消费前1%(ROE51.6%轻资产+高净利率+高周转三力共振, 净利3年CAGR47%无中断)",
+    "position_nature": "健康错杀典范(基本面零瑕疵+价格极端低估): 三维同时满足极罕见, 可建核心仓",
+    "worst_case": "功能饮料天花板提前+消费板块长期失宠→¥100(PE10.5x极端悲观)",
+    "downside": "¥155(bear: PE20x×EPS7.75)",
+    "sell_discipline": [
+      "基本面止损: 单季净利增速<10%连续2季",
+      "价格止损: 跌破¥100(PE10.5x极端悲观)",
+      "天花板信号: 功能饮料份额>30%+全国化完成"
+    ],
+    "thesis": "东鹏饮料是本轮最干净的健康错杀: ROE51.6%(A股前1%)+归母净利2023→2024→2025为20.4→33.3→44.2亿(3年CAGR47%无中断)+PE仅15.5(PEG0.47)+5年分位0.03(历史97%时间比现在贵)。回撤-61%纯由消费板块系统性杀估值+机构减仓+量化踩踏导致, 基本面零瑕疵(无暴雷/无食安/无政策打击)=典型'优质公司被板块β拖累'错杀。三维同时满足: 好公司(ROE51.6远超WACC)×好价格(PE15.5 PEG0.47分位0.03)×好未来(全国化60→90%+第二曲线0→30%+品类自然增长, 3年CAGR25-30%)。当前¥131.84即在买入区间, ¥130以下加仓。",
+    "risks": [
+      "功能饮料天花板(中国600-800亿东鹏已占25%+, 3年内概率低)",
+      "食品安全黑天鹅(行业通病概率极低)",
+      "消费板块持续失宠估值长期压制",
+      "新品投入拖累短期利润率"
+    ],
+    "confidence": "高(0.8) - 基本面零争议, 价格极端低估",
+    "value_creation": {
+      "roic_vs_wacc": "ROIC>40%(扣杠杆)远超WACC, 价值创造A股前1%",
+      "actionable_verdict": {
+        "verified_price": 131.84,
+        "verified_pe": 15.5,
+        "roic_pct": ">40",
+        "industry_wacc": "~8%",
+        "stance": "建仓(核心仓8-12%, 当前即买点)"
+      },
+      "expert_valuation": {
+        "now_judgment": "健康错杀典范, PE15.5 PEG0.47分位0.03极端低估",
+        "future_tam": "功能饮料(中国600-800亿)+电解质水/无糖茶/咖啡第二曲线",
+        "future_share": "功能饮料销量第一(超红牛), 全国化渗透~60%",
+        "future_forward": "2026E净利~55-60亿(全国化+第二曲线), 3年CAGR25-30%",
+        "target_price": {
+          "method": "消费成长龙头PE(剔除板块β错杀)",
+          "bear": "¥155(PE20)",
+          "base": "¥190(PE24×EPS7.75)",
+          "bull": "¥235(PE28)",
+          "buy_point": "当前¥131即买点, ¥130以下加仓, ¥115极端底(PE12)"
+        },
+        "target_verdict": "base¥190(+44%); 当前¥131.84即买入区间; 消费龙头合理PE22-28x vs当前15.5x严重不匹配成长",
+        "data_status": "价格/财务=verified_AKShare; forward EPS/合理PE=估值假设(可证伪)",
+        "falsification": [
+          "单季净利增速<10%连续2季→成长证伪",
+          "全国化渗透停滞",
+          "第二曲线收入占比不及15%"
+        ]
+      }
+    },
+    "valuation_basis": "消费成长龙头PE法: 目标=forward EPS 7.75×合理PE24(茅台30/伊利20/海天25中枢)=¥190。当前PE15.5x低于周期股估值, 严重不匹配ROE51.6%成长属性。",
+    "forward_view": {
+      "near_term_calendar": "季度净利增速/全国化渗透数据/第二曲线收入占比",
+      "cross_market_leading": "消费板块资金风格/社零数据",
+      "mid_term_path": "全国化60→90%+第二曲线0→30%占比+功能饮料品类自然增长",
+      "path_scenarios": {
+        "乐观": "全国化加速+第二曲线放量→¥235",
+        "中性": "稳步渗透→¥190",
+        "悲观": "消费失宠+天花板→¥100-155"
+      },
+      "earnings_revision_view": "市场低估增速持续性(给周期股PE), 业绩持续兑现将驱动估值修复",
+      "stock_specific_risks": "功能饮料天花板/食安/消费板块失宠/新品投入"
+    },
+    "reflection": {
+      "prev_rating": "无(首次)",
+      "prev_date": "N/A",
+      "what_changed": "首次",
+      "why_changed": "N/A",
+      "self_check": "东鹏是三维同时满足的罕见健康错杀, 区别于维峰(周期回归)/永太(困境博弈), 基本面verified零瑕疵+价格极端低估(分位0.03)是真错杀",
+      "value_creation_screen": "好公司○○(ROE51.6前1%)/好价格○○(PE15.5分位0.03)/好未来○(全国化+第二曲线)"
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "score": 88,
+      "reviewer": "v4-investor-critic四视角",
+      "blocking_issues": [],
+      "key_praise": "三维框架完整满足+健康错杀判定诚实(净利3年无中断排除双杀)+PEG用forward 25-30%非历史47%峰值避后视镜陷阱",
+      "suggestions": [
+        "补功能饮料TAM天花板(中国800亿→渗透率vs日泰)",
+        "补FCF/净利>80%验证",
+        "PE24可比锚(Monster/红牛泰国)"
+      ]
+    },
+    "peer_anchor": {
+      "红牛": "功能饮料原龙头(商标纠纷+高价格带萎缩)",
+      "贵州茅台": "消费龙头PE30x",
+      "伊利": "PE20x",
+      "海天": "PE25x"
+    },
+    "price_at_judgment": 131.84,
+    "historical_alpha": null,
+    "code": "605499",
+    "name": "东鹏饮料",
+    "industry": "可选消费",
+    "market": "A股",
+    "instrument_type": "stock"
+  }
+}

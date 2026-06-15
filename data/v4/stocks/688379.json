@@ -1,0 +1,49 @@
+{
+  "unit_id": "stock:688379",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:11:31Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "688379",
+    "name": "华光新材",
+    "industry": "AI算力数据中心",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "观察(HBM概念已炒满历史最高位, 追高风险)",
+    "target_price": null,
+    "entry_price_range": [
+      55,
+      65
+    ],
+    "thesis": "HBM混合键合高纯钎焊料卡位真实(全球仅Indium/Alpha/华光达HBM级), ROE17.4健康。但5年分位1.0(历史最高位!)+回撤仅-4%(几乎在顶)+增速133%是低基数(净利0.4→0.8→1.9亿)+HBM概念已炒满。卡位虽真但当前估值已充分price-in甚至透支(分位1.0+PE35.8对低基数高增)。区别于紫苏叶'低关注未定价'——华光已被市场充分发现并炒到历史最高。观察, 不追高, 等回调¥55-65(HBM放量兑现验证)。",
+    "three_dimension": {
+      "好公司": "○(ROE17.4+HBM钎焊卡位)",
+      "好价格": "✗(分位1.0历史最高位+低基数133%, 已price-in甚至透支)",
+      "好未来": "○(HBM放量但已被市场发现)"
+    },
+    "position_nature": "HBM钎焊卡位真实但已炒满历史最高位(追高风险, 观察)",
+    "risks": [
+      "分位1.0历史最高位+回撤仅-4%已price-in",
+      "增速133%是低基数(0.4→1.9亿)不可外推",
+      "HBM概念已被市场充分发现炒满",
+      "小市值67亿高波动"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 78.13,
+        "verified_pe": 35.8,
+        "roic_pct": "~17.4(ROE)",
+        "stance": "观察(HBM概念已炒满历史最高位, 追高风险)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified数据: 分位1.0历史最高位是关键诚实信号, 紫苏叶已被市场发现)"
+    },
+    "price_at_judgment": 78.13,
+    "historical_alpha": null
+  }
+}

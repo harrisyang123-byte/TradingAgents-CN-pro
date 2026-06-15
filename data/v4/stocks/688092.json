@@ -1,0 +1,43 @@
+{
+  "unit_id": "stock:688092",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:12:17Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "688092",
+    "name": "爱科赛博",
+    "industry": "AI算力数据中心",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "观察/降级(卡位真但业绩下滑)",
+    "thesis": "TSV深孔电镀脉冲电源卡位(HBM设备国产), 之前瓶颈链作紫苏叶候选。但verified基本面下滑: ROE7.9+净利0.8→0.7→0.5亿(增速-24%)。卡位真实但当前业绩下行(半导体设备订单波动), 不符'健康'标准。区别于演绎预期: verified后基本面走弱。观察, 待半导体设备订单回暖+TSV设备配套放量确认。",
+    "three_dimension": {
+      "好公司": "✗(ROE7.9偏低+净利下滑)",
+      "好价格": "△(PE37.5对下滑业绩偏高)",
+      "好未来": "△(TSV配套期权但业绩未兑现)"
+    },
+    "risks": [
+      "净利连续下滑(0.8→0.5亿)半导体设备订单波动",
+      "ROE7.9偏低",
+      "TSV配套未兑现",
+      "小市值19亿高波动"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 22.88,
+        "verified_pe": 37.5,
+        "roic_pct": "~7.9(ROE)",
+        "stance": "观察/降级(卡位真但业绩下滑)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified数据: 基本面下滑是关键诚实信号, 紫苏叶演绎站不住)"
+    },
+    "price_at_judgment": 22.88,
+    "historical_alpha": null
+  }
+}

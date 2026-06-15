@@ -1,0 +1,50 @@
+{
+  "unit_id": "stock:300033",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:11:31Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "300033",
+    "name": "同花顺",
+    "industry": "互联网平台",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "中性偏多(优质但估值偏高, 等回调¥170以下重仓)",
+    "target_price": 255,
+    "entry_price_range": [
+      165,
+      175
+    ],
+    "thesis": "ROE38.5%顶级商业模式(轻资产+毛利85%+订阅模式+零负债净现金), iFinD券商渗透60%+(中国版Bloomberg转换成本高)+C端3亿用户数据飞轮+问财AI金融大模型先发。但76%增速含牛市β放大(熊市利润可腰斩, 2018仅4亿vs2024 32亿=8倍波动), 常态增速应回归25-35%。PE34.8分位0.7偏高, 若回归常态增速30%则forward PEG~1.2偏贵。非错杀(从2024牛市泡沫PE70+回落到合理区间但非低估)。target¥240-270(AI期权溢价)买点¥165-175(牛市退潮后合理底)。当前¥207不追高。",
+    "three_dimension": {
+      "好公司": "○○(ROIC远超WACC, A股顶级商业模式)",
+      "好价格": "△(PE34.8分位0.7偏高+76%含牛市β, forward PEG~1.2)",
+      "好未来": "○(AI金融确定, iFinD→AI投研SaaS TAM扩张)"
+    },
+    "position_nature": "优质赛道优质公司但价格已反映AI预期(中性偏多55%, 回调¥170以下重仓)",
+    "risks": [
+      "牛市β极强(熊市利润可腰斩8倍波动)",
+      "AI金融商业化节奏不确定(免费转付费阻力)",
+      "监管AI投顾合规",
+      "市值1116亿上行受限",
+      "PEG陷阱76%含牛市峰值不可外推"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 207.46,
+        "verified_pe": 34.8,
+        "roic_pct": "~38.5(ROE)",
+        "stance": "中性偏多(优质但估值偏高, 等回调¥170以下重仓)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(subagent No result或高效批量, 主agent基于verified数据+成熟方法论兜底)"
+    },
+    "price_at_judgment": 207.46,
+    "historical_alpha": null
+  }
+}

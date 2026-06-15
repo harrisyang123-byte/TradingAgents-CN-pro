@@ -1,0 +1,121 @@
+{
+  "code": "301608",
+  "name": "维峰电子",
+  "industry": "AI算力数据中心",
+  "stock_unit": {
+    "unit_id": "stock:301608",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:301608」，或运行：./scripts/run_v4.sh analyze stock:301608",
+    "version": 1,
+    "generated_at": "2026-06-15T03:02:09Z",
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": "ai_direct",
+    "exists": true
+  },
+  "rating": "观察(周期股+算力远期期权, 当前无安全边际)",
+  "target_price": 45,
+  "entry_price_range": [
+    35,
+    38
+  ],
+  "price_at_judgment": 48.89,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": "SOTP分部估值: 传统工业连接器2.2亿净利×15-18x=33-40亿 + 算力期权(成功率20-25%×全值13.5-30亿×折现)=2-6亿, 合计35-46亿=base¥45。当前¥48.89无安全边际。",
+  "credibility": null,
+  "expectation_gap": "5年分位0.01看似极低错杀, 但实为IPO上市初泡沫消化+传统工业连接器周期下行的估值回归, 非健康错杀(区别于韦尔基本面已恢复)",
+  "chokepoint_score": "护城河2.5偏弱: 传统工业/汽车连接器认证壁垒中等但非技术垄断(客户'懒得换'非'换不了'), 算力高速连接器仅<5%营收+样品阶段+落后华丰/瑞可达",
+  "discovery_level": "🟡半发现(算力连接器概念有关注但未兑现)",
+  "business_quality": "中-周期股(ROE11.2中等+护城河弱+传统连接器周期属性)",
+  "position_nature": "周期股+算力远期期权(成功率20-25%): 非健康错杀, 当前价无安全边际",
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": "传统连接器周期继续恶化+算力期权归零→¥30(传统业务33亿)",
+  "downside": "¥35-39(传统业务价值下沿)",
+  "sell_discipline": [
+    "不在当前价¥48.89买入(>base¥45无安全边际)",
+    "等买点¥35-38或算力大客户定点催化",
+    "算力营收2026全年<1亿→期权归零仅值传统33-40亿",
+    "ROE持续<10%两季→价值毁灭"
+  ],
+  "thesis": "维峰电子是小市值连接器厂(44亿), 初筛因5年分位0.01极低+回撤57%疑似健康错杀, 但完整分析后诚实降级: 这是IPO估值回归+传统工业连接器周期下行, 非健康错杀。主体传统工业/汽车连接器是周期品+护城河弱(2.5), 被市场炒作的'算力高速连接器'仅<5%营收+还在样品阶段+落后华丰科技/瑞可达, 被TE/安费诺/Molex垄断224G, 是成功率20-25%的远期期权非近期驱动。SOTP估值: 传统业务33-40亿+算力期权现值2-6亿=base¥45。当前¥48.89已略高于base无安全边际, 不追高。",
+  "risks": [
+    "算力高速连接器仅概念未兑现(<5%营收样品阶段)",
+    "传统工业连接器周期下行+下游工业自动化/新能源放缓",
+    "护城河弱被立讯/中航光电大厂降维打击",
+    "ROE11.2%仅略超资本成本非超额回报"
+  ],
+  "confidence": "中(0.6) - 周期股+期权定性清晰, 不构成当前买点",
+  "forward_view": {
+    "near_term_calendar": "算力连接器大客户定点公告/传统业务季度净利环比",
+    "cross_market_leading": "工业自动化景气+新能源车产量+AI服务器出货",
+    "mid_term_path": "算力高速连接器若进Tier-1 AI服务器供应链则期权兑现, 否则停留样品",
+    "path_scenarios": {
+      "乐观": "算力定点突破→¥55",
+      "中性": "传统周期底+期权未兑现→¥45",
+      "悲观": "周期恶化+期权归零→¥30-35"
+    },
+    "earnings_revision_view": "市场对算力期权有预期但未兑现, 传统业务周期下行制约",
+    "stock_specific_risks": "算力期权归零/传统周期/大厂降维打击/护城河弱"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "无(首次)",
+    "prev_date": "N/A",
+    "what_changed": "首次分析",
+    "why_changed": "N/A",
+    "self_check": "初筛凭分位0.01误判'最强健康错杀', 完整分析后诚实降级为'周期股+远期期权'——分位0.01是IPO估值回归非健康错杀, 算力<5%营收是远期期权非近期驱动。这是完整8-step防止凭单一指标误判的价值。",
+    "value_creation_screen": "好公司△(ROE11.2中等护城河弱)/好价格✗(当前>base无安全边际)/好未来△(算力期权未兑现)"
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": null,
+  "action_plan": null,
+  "anchoring_check": null,
+  "valuation_cross_check": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null,
+  "value_creation": {
+    "roic_vs_wacc": "ROE11.2%略超WACC(~9%), 价值创造能力一般, 非印钞机",
+    "actionable_verdict": {
+      "verified_price": 48.89,
+      "verified_pe": 18.5,
+      "roic_pct": "~11(ROE)",
+      "industry_wacc": "~9%",
+      "stance": "观察(等买点¥35-38或算力定点)"
+    },
+    "expert_valuation": {
+      "now_judgment": "周期股+算力远期期权, 当前¥48.89略高于base¥45无安全边际",
+      "future_tam": "工业/汽车连接器(成熟周期)+算力高速连接器(224G被TE/安费诺垄断CR3>85%)",
+      "future_share": "传统连接器国内二线(vs中航光电/瑞可达); 算力高速连接器样品阶段落后华丰/瑞可达",
+      "future_forward": "传统2025E净利2.2亿; 算力期权若2027放量净利0.45-0.75亿(成功率20-25%)",
+      "target_price": {
+        "method": "SOTP(传统PE15-18x+算力期权概率加权)",
+        "bear": "¥39",
+        "base": "¥45",
+        "bull": "¥51",
+        "buy_point": "¥35-38"
+      },
+      "target_verdict": "base¥45; 当前¥48.89无安全边际不追高; 等周期底部¥35-38或算力定点催化",
+      "data_status": "价格/财务=verified_AKShare; 算力期权成功率/forward=估值假设(可证伪)",
+      "falsification": [
+        "算力2026H1获大客户定点→期权概率升50%上修¥55",
+        "传统2025Q3净利环比降>15%→周期恶化下修¥35",
+        "算力2026营收<1亿→期权归零仅33-40亿"
+      ]
+    }
+  },
+  "dcf_intrinsic": null
+}

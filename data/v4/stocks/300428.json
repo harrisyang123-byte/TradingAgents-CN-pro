@@ -1,0 +1,50 @@
+{
+  "unit_id": "stock:300428",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:11:31Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "300428",
+    "name": "立中集团",
+    "industry": "新能源车EV供应链",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "谨慎看多(免热铝压铸期权, 观察仓)",
+    "target_price": 26,
+    "entry_price_range": [
+      16,
+      17
+    ],
+    "thesis": "免热处理铝合金是9000T一体化压铸物理前提(不免热处理→压铸热变形废品), 客户认证壁垒(特斯拉/小米/蔚来12-18月)。但ROE11.4偏低+传统铝锭业务毛利仅5-8%无护城河, ROIC≈WACC价值创造弱。偏错杀但有条件: 市场未对免热合金成长期权定价(一体化压铸+人形机器人结构件), 但若2026-2027压铸装机不及预期则低PE=周期股陷阱。target¥25-28(2026E净利8.9亿×PE20-22材料溢价)买点¥16-17(PE11周期底)。当前¥18.82接近买点上沿。",
+    "three_dimension": {
+      "好公司": "✗(ROIC≈WACC传统业务不创造超额)",
+      "好价格": "○(PE13.5分位0.38回撤-57%已释放)",
+      "好未来": "△有条件(免热合金期权依赖压铸装机)"
+    },
+    "position_nature": "一体化压铸材料期权(谨慎看多60%, 5%观察仓等放量拐点)",
+    "risks": [
+      "铝价波动侵蚀利润",
+      "一体化压铸渗透慢于预期",
+      "竞品配方追赶(帅翰/鸿劲)",
+      "传统业务拖累ROIC",
+      "周期股估值陷阱低PE≠便宜"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 18.82,
+        "verified_pe": 13.5,
+        "roic_pct": "~11(ROE)",
+        "stance": "谨慎看多(免热铝压铸期权, 观察仓)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(subagent No result或高效批量, 主agent基于verified数据+成熟方法论兜底)"
+    },
+    "price_at_judgment": 18.82,
+    "historical_alpha": null
+  }
+}

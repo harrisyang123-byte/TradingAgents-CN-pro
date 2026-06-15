@@ -1,0 +1,49 @@
+{
+  "unit_id": "stock:002241",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:11:31Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "002241",
+    "name": "歌尔股份",
+    "industry": "消费电子+IoT",
+    "market": "A股",
+    "instrument_type": "stock",
+    "rating": "观察(AR/VR期权待催化, 代工价值捕获弱)",
+    "target_price": null,
+    "entry_price_range": [
+      18,
+      21
+    ],
+    "thesis": "声学+AR/VR代工+智能硬件。净利10.9→26.7→39.4亿(增48%但含低基数, 2023曾因大客户砍单暴跌)。回撤-60%+分位0.41。但代工模式价值捕获弱(被苹果/Meta压价, ROE仅11.3一般), AR/VR放量是期权但依赖大客户(Meta Quest/苹果Vision)。增48%含低基数恢复非内生。观察池: AR/VR催化(Meta/苹果新品放量+份额恢复)确认后再介入, 买点¥18-21。",
+    "three_dimension": {
+      "好公司": "△(ROE11.3一般+代工价值捕获弱)",
+      "好价格": "△(PE20.2分位0.41, 增速含低基数)",
+      "好未来": "△(AR/VR期权依赖大客户)"
+    },
+    "position_nature": "AR/VR代工期权(代工价值捕获弱+低基数恢复, 观察待催化)",
+    "risks": [
+      "代工模式被苹果/Meta压价价值捕获弱",
+      "增48%含低基数(2023砍单暴跌)非内生",
+      "AR/VR放量依赖大客户新品节奏",
+      "大客户集中度风险"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 23.01,
+        "verified_pe": 20.2,
+        "roic_pct": "~11.3(ROE)",
+        "stance": "观察(AR/VR期权待催化, 代工价值捕获弱)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(subagent No result或高效批量, 主agent基于verified数据+成熟方法论兜底)"
+    },
+    "price_at_judgment": 23.01,
+    "historical_alpha": null
+  }
+}

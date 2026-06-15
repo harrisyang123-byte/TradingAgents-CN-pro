@@ -251,6 +251,17 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "互联网平台/AI/云"
+            },
+            {
+              "code": "300033",
+              "name": "同花顺",
+              "stance": "中性偏多(优质但估值偏高, 等回调¥170以下重仓)",
+              "target_price": null,
+              "pe": 34.8,
+              "roic": "~38.5(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
             }
           ],
           "fund_holdings": [
@@ -263,7 +274,7 @@
             }
           ],
           "fund_value": 8499.0,
-          "rec_count": 2
+          "rec_count": 3
         },
         {
           "name": "可选消费",
@@ -288,10 +299,28 @@
             }
           ],
           "indirect": [],
-          "recommendations": [],
+          "recommendations": [
+            {
+              "code": "605499",
+              "name": "东鹏饮料",
+              "stance": "建仓(核心仓8-12%, 当前即买点)",
+              "target_price": {
+                "method": "消费成长龙头PE(剔除板块β错杀)",
+                "bear": "¥155(PE20)",
+                "base": "¥190(PE24×EPS7.75)",
+                "bull": "¥235(PE28)",
+                "buy_point": "当前¥131即买点, ¥130以下加仓, ¥115极端底(PE12)"
+              },
+              "pe": 15.5,
+              "roic": ">40",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            }
+          ],
           "fund_holdings": [],
           "fund_value": 0,
-          "rec_count": 0
+          "rec_count": 1
         },
         {
           "name": "消费电子+IoT",
@@ -332,6 +361,17 @@
           "indirect": [],
           "recommendations": [
             {
+              "code": "002241",
+              "name": "歌尔股份",
+              "stance": "观察(AR/VR期权待催化, 代工价值捕获弱)",
+              "target_price": null,
+              "pe": 20.2,
+              "roic": "~11.3(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
               "code": "300433",
               "name": "蓝思科技",
               "stance": "回避(毁灭+高估)",
@@ -353,7 +393,7 @@
             }
           ],
           "fund_value": 8500.0,
-          "rec_count": 1
+          "rec_count": 2
         },
         {
           "name": "电力公用事业",
@@ -424,6 +464,17 @@
           "indirect": [],
           "recommendations": [
             {
+              "code": "300428",
+              "name": "立中集团",
+              "stance": "谨慎看多(免热铝压铸期权, 观察仓)",
+              "target_price": null,
+              "pe": 13.5,
+              "roic": "~11(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
+            },
+            {
               "code": "300750",
               "name": "宁德时代",
               "stance": "建仓(优质龙头, 当前可建+回调360-380加)",
@@ -439,6 +490,23 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "新能源车EV供应链"
+            },
+            {
+              "code": "301031",
+              "name": "中熔电气",
+              "stance": "建仓(注意低基数高增)",
+              "target_price": {
+                "method": "成长股forward PE(剔除低基数): PE25-30×forward EPS",
+                "bear": "¥95",
+                "base": "¥140",
+                "bull": "¥175",
+                "buy_point": "¥95-110"
+              },
+              "pe": 28.5,
+              "roic": "~30(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
             }
           ],
           "fund_holdings": [
@@ -451,7 +519,7 @@
             }
           ],
           "fund_value": 8150.0,
-          "rec_count": 1
+          "rec_count": 3
         },
         {
           "name": "AIoT/安防",
@@ -513,6 +581,17 @@
               "sub_industry": "创新药"
             },
             {
+              "code": "301393",
+              "name": "昊帆生物",
+              "stance": "观察/降级(卡位真但业绩下滑+估值不低)",
+              "target_price": null,
+              "pe": 46.7,
+              "roic": "~5.0(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
               "code": "600276",
               "name": "恒瑞医药",
               "stance": "减仓或换药明(PEG偏高)",
@@ -533,6 +612,23 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "创新药/CXO"
+            },
+            {
+              "code": "688578",
+              "name": "艾力斯",
+              "stance": "买入(中仓5-8%, 当前即买点)",
+              "target_price": {
+                "method": "创新药forward盈利×可比PE(恒瑞/百济25-30x)",
+                "bear": "¥120(PE20)",
+                "base": "¥180(PE25-30×2026E29.6亿=740-888亿)",
+                "bull": "¥197(PE30)",
+                "buy_point": "¥75-80(PE15x安全边际)"
+              },
+              "pe": 17.1,
+              "roic": ">30(ROE35.4)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
             }
           ],
           "fund_holdings": [
@@ -545,7 +641,7 @@
             }
           ],
           "fund_value": 8150.0,
-          "rec_count": 4
+          "rec_count": 6
         },
         {
           "name": "化工/必需消费",
@@ -594,6 +690,70 @@
           "rec_count": 1
         },
         {
+          "name": "AI算力数据中心",
+          "direct_value": 0,
+          "indirect_value": 0,
+          "total_value": 0,
+          "has_industry_analysis": true,
+          "holdings": [],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "301608",
+              "name": "维峰电子",
+              "stance": "观察(等买点¥35-38或算力定点)",
+              "target_price": {
+                "method": "SOTP(传统PE15-18x+算力期权概率加权)",
+                "bear": "¥39",
+                "base": "¥45",
+                "bull": "¥51",
+                "buy_point": "¥35-38"
+              },
+              "pe": 18.5,
+              "roic": "~11(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
+              "code": "600183",
+              "name": "生益科技",
+              "stance": "观察(AI高速CCL已price-in充分, 追高风险)",
+              "target_price": null,
+              "pe": 108.8,
+              "roic": "~21.2(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
+              "code": "688092",
+              "name": "爱科赛博",
+              "stance": "观察/降级(卡位真但业绩下滑)",
+              "target_price": null,
+              "pe": 37.5,
+              "roic": "~7.9(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
+              "code": "688379",
+              "name": "华光新材",
+              "stance": "观察(HBM概念已炒满历史最高位, 追高风险)",
+              "target_price": null,
+              "pe": 35.8,
+              "roic": "~17.4(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            }
+          ],
+          "fund_holdings": [],
+          "fund_value": 0,
+          "rec_count": 4
+        },
+        {
           "name": "有色金属/资源",
           "direct_value": 0,
           "indirect_value": 0,
@@ -634,11 +794,22 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "有色资源"
+            },
+            {
+              "code": "603979",
+              "name": "金诚信",
+              "stance": "持有/不追高(基本面好但高位)",
+              "target_price": null,
+              "pe": 18.9,
+              "roic": "~23(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "有色金属资源"
             }
           ],
           "fund_holdings": [],
           "fund_value": 0,
-          "rec_count": 3
+          "rec_count": 4
         }
       ],
       "direct_holdings": [],
