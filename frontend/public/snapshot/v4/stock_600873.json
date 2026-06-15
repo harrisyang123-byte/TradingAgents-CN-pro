@@ -1,0 +1,124 @@
+{
+  "code": "600873",
+  "name": "梅花生物",
+  "industry": "化工必需消费",
+  "stock_unit": {
+    "unit_id": "stock:600873",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:600873」，或运行：./scripts/run_v4.sh analyze stock:600873",
+    "version": 1,
+    "generated_at": "2026-06-15T06:49:29Z",
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": "ai_direct",
+    "exists": true
+  },
+  "rating": "建仓(低估周期成长现金牛+高股息打底, 价值底仓小仓≤2-3%)",
+  "target_price": 10.21,
+  "entry_price_range": [
+    8.0,
+    9.0
+  ],
+  "price_at_judgment": 8.95,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": "周期股估值(禁PEG): 正常化净利31.5亿(剔2022景气峰)×周期成长龙头PE9-12x(对标万华12-15/海大15-20/阜丰8-10)=base¥10.21。PB2.1x(底1.6x¥6.7)+股息率5%双底托底。当前¥8.95=正常化PE9.2x合理下沿。",
+  "credibility": null,
+  "expectation_gap": "市场按'传统周期下行'给PE7.6/分位0.27, 过度线性外推2024谷底盈利, 未充分定价正常化盈利30-33亿+高股息5%安全垫+味精CR3>70%格局稳固; 但周期股低PE有合理成分, 属温和低估非极端错杀",
+  "chokepoint_score": "护城河B+(7.2): 菌种know-how(赖氨酸转化率68%行业领先, 伊品追至85%)+玉米深加工一体化成本领先800-1000元/吨+味精CR3 85%寡头。过程型护城河5-8年领先窗口。",
+  "discovery_level": "🟡半发现(味精+饲料氨基酸传统周期赛道冷门, 机构覆盖稀疏, GLP-1/合成生物主题未被定价但证据薄弱)",
+  "business_quality": "良-周期成长现金牛(ROE常态21%>WACC+现金流1.22x含金量+负债37%改善+股息5%, 但周期波动+营收萎缩)",
+  "position_nature": "低估周期成长龙头+高股息打底(诚实: 非GLP-1卡位成长股, 特种/医用氨基酸仅3.1%营收): 价值+股息底仓小仓",
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": "玉米暴涨+氨基酸价格战+周期再探底→¥6.7(PB1.6x极端底)",
+  "downside": "¥7.78(bear: 正常化28亿×PE9x)",
+  "sell_discipline": [
+    "硬止损¥7.6(跌破PB1.7x+股息率>5.8%仍跌=基本面恶化)",
+    "ROE跌破15%持续2季→价值创造逻辑动摇重估",
+    "股息率降至3%以下(削减分红)→托底失效",
+    "赖氨酸/苏氨酸价格跌破成本线持续2季→正常化盈利下修至25亿"
+  ],
+  "thesis": "梅花生物是味精+饲料氨基酸(赖氨酸/苏氨酸)周期成长龙头(生物发酵占96%)。★诚实修正chokepoint过度乐观: 市场/瓶颈分析曾把它当'特种氨基酸菌种卡位+GLP-1拉动', 但verified主营后特种/医用氨基酸仅占3.1%营收(GLP-1是30%概率<10%估值贡献的小期权), 主体是周期性饲料氨基酸+味精。投资逻辑应是'低估的周期成长现金牛+高股息打底': PE7.6/正常化9.2x处合理区间(9-12x)下沿+5年分位0.27+ROE常态21%>WACC+菌种成本护城河B+(伊品追至85%)+负债率37%改善+股息率5%托底+现金流1.22x含金量。温和低估非深度错杀。隐忧=营收连续3年萎缩(279→242亿, 主因氨基酸价格周期下行而非量减)+玉米成本敞口55%+味精低毛利12.7%。当前¥8.95可小仓(价值底仓≤2-3%), 买点≤9.0理想≤8.0, base¥10.21(+14%)。",
+  "risks": [
+    "营收连续3年萎缩(279→242亿, 价格周期下行)顶线瓶颈",
+    "玉米成本占55%单一大宗敞口大",
+    "ROE从36%回落至21%趋势性下行需确认见底",
+    "伊品扩产价格战+护城河被追至85%",
+    "特种氨基酸/GLP-1期权小(3%)且兑现需3-5年+医药GMP认证"
+  ],
+  "confidence": "中高(0.7) - 低估+高股息+护城河确定, 周期波动+营收萎缩需容忍",
+  "forward_view": {
+    "near_term_calendar": "季度净利环比(确认周期拐点)/赖氨酸苏氨酸价格/玉米成本",
+    "cross_market_leading": "玉米价格+生猪存栏(饲料需求)+氨基酸开工率",
+    "mid_term_path": "饲料氨基酸需求稳增+味精寡头格局+特种氨基酸/GLP-1期权(小)+产能出清价格企稳",
+    "path_scenarios": {
+      "乐观": "景气回升+海外+GLP-1放量→¥12.96",
+      "中性": "正常化+格局稳→¥10.21",
+      "悲观": "玉米暴涨+价格战→¥6.7-7.78"
+    },
+    "earnings_revision_view": "市场过度悲观(外推2024谷底), 正常化盈利30亿+高股息未充分定价",
+    "stock_specific_risks": "玉米成本/氨基酸周期/营收萎缩/伊品价格战/ROE下行"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "无(首次)",
+    "prev_date": "N/A",
+    "what_changed": "首次",
+    "why_changed": "N/A",
+    "self_check": "★关键诚实修正: chokepoint瓶颈分析把梅花当'特种氨基酸菌种卡位+GLP-1拉动', 但verified主营后特种/医用氨基酸仅3.1%营收+GLP-1是30%概率小期权, 主体是味精+饲料氨基酸周期龙头。投资逻辑修正为'低估周期成长现金牛+高股息', 非'GLP-1卡位成长股'。这是verified主营数据校正演绎假设的价值。",
+    "value_creation_screen": "好公司○(ROE21%>WACC+护城河B+)/好价格○(PE正常化9.2x+股息5%)/好未来△(周期+营收萎缩+期权小)"
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": null,
+  "action_plan": null,
+  "anchoring_check": null,
+  "valuation_cross_check": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null,
+  "value_creation": {
+    "roic_vs_wacc": "ROIC>WACC(ROE常态21%>WACC~8-9%, 价值创造确认非毁灭)",
+    "actionable_verdict": {
+      "verified_price": 8.95,
+      "verified_pe": 7.6,
+      "roic_pct": "~21(ROE)",
+      "industry_wacc": "~8-9%",
+      "stance": "建仓(价值底仓小仓≤2-3%, 当前可小仓+回调≤8加)"
+    },
+    "expert_valuation": {
+      "now_judgment": "温和低估周期成长现金牛, PE正常化9.2x处合理区间下沿+股息5%托底",
+      "future_tam": "全球赖氨酸/苏氨酸饲料氨基酸(需求稳增)+味精(成熟<3%)+特种/医用氨基酸(高毛利但小, GLP-1期权)",
+      "future_share": "全球赖氨酸产能第一(50万吨)+味精CR3 85%寡头+菌种成本领先",
+      "future_forward": "正常化净利30-33亿(剔2022景气峰44亿), 2025已回升32.8亿",
+      "target_price": {
+        "method": "周期股法(正常化盈利×PE+PB+股息, 禁PEG)",
+        "bear": "¥7.78(28亿×9x)",
+        "base": "¥10.21(31.5亿×10.5x)",
+        "bull": "¥12.96(35亿×12x景气回升)",
+        "buy_point": "≤9.0(理想≤8.0, PB1.9x+股息5.5%三重安全边际)"
+      },
+      "target_verdict": "base¥10.21(+14%); 当前¥8.95可价值底仓小仓; 温和低估非深度低估; 高股息5%打底下行有限",
+      "peg_note": "周期股禁PEG; 用正常化盈利31.5亿+PB+股息率5%托底",
+      "data_status": "价格/财务/主营占比=verified_AKShare; 正常化盈利/PE锚/股息率=估值假设(可证伪)",
+      "falsification": [
+        "净利季度环比连续下滑(玉米涨+砍单)→bear",
+        "赖氨酸跌破成本线2季→正常化下修25亿",
+        "ROE跌破15%→重估",
+        "股息率<3%→托底失效"
+      ]
+    }
+  },
+  "dcf_intrinsic": null
+}

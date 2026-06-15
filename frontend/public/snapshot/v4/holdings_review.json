@@ -705,11 +705,28 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "化工必需消费"
+            },
+            {
+              "code": "600873",
+              "name": "梅花生物",
+              "stance": "建仓(价值底仓小仓≤2-3%, 当前可小仓+回调≤8加)",
+              "target_price": {
+                "method": "周期股法(正常化盈利×PE+PB+股息, 禁PEG)",
+                "bear": "¥7.78(28亿×9x)",
+                "base": "¥10.21(31.5亿×10.5x)",
+                "bull": "¥12.96(35亿×12x景气回升)",
+                "buy_point": "≤9.0(理想≤8.0, PB1.9x+股息5.5%三重安全边际)"
+              },
+              "pe": 7.6,
+              "roic": "~21(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "化工必需消费"
             }
           ],
           "fund_holdings": [],
           "fund_value": 0,
-          "rec_count": 1
+          "rec_count": 2
         },
         {
           "name": "AI算力数据中心",
