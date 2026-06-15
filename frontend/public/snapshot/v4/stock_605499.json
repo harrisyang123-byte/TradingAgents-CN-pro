@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "消费成长龙头PE法: 目标=forward EPS 7.75×合理PE24(茅台30/伊利20/海天25中枢)=¥190。当前PE15.5x低于周期股估值, 严重不匹配ROE51.6%成长属性。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 88,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "三维框架完整满足+健康错杀判定诚实(净利3年无中断排除双杀)+PEG用forward 25-30%非历史47%峰值避后视镜陷阱"
+  },
   "expectation_gap": "基本面零瑕疵(ROE51.6%+净利3年47%CAGR无中断)但价格5年分位0.03+回撤-61%, 系消费板块系统性杀估值+机构仓位调整+量化踩踏的情绪杀, 非基本面恶化=极典型健康错杀(比韦尔更干净)",
   "chokepoint_score": "渠道+品牌护城河强: 400万终端网点+功能饮料第二心智(困了累了喝东鹏)+3.5元价格带锁死(红牛6元无法下探)+第二曲线(电解质水/茶/咖啡复用渠道占比>15%)",
   "discovery_level": "🟡半发现(消费板块失宠被系统性杀估值, 基本面优质被掩盖)",

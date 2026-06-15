@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "成长股forward PE(剔除低基数幻觉): 常态增速40-50%×forward EPS×PE25-30=base¥140。117%增速是低基数(净利1.2→4.1亿)不可外推。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 82,
+    "final_verdict": "ACCEPT(主agent兜底)",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": null
+  },
   "expectation_gap": "新能源熔断器卡位电气安全件(不可省), ROE29.7%+增速117%, 但增速含低基数(净利1.2→1.9→4.1亿), 修正常态增速40-50%, PEG~0.6合理偏低",
   "chokepoint_score": "熔断器卡位电气安全件(电动车/储能/光伏不可省的安全件), 国产替代+新能源渗透, 护城河中(认证壁垒+客户绑定)",
   "discovery_level": "🟡半发现(被归类汽车零部件, 电气安全卡位+储能增量未充分认知)",

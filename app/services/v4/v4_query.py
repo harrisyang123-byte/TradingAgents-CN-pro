@@ -125,15 +125,25 @@ def _extract_entry_range(p):
 
 def _extract_credibility(p):
     ce = p.get("critic_evaluation") or {}
-    if not ce:
-        return None
-    return {
-        "initial_score": ce.get("v1_score"),
-        "critic_score": ce.get("v2_score") or ce.get("v1_score"),
-        "final_verdict": ce.get("v2_recommendation") or ce.get("recommendation") or "ACCEPT",
-        "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
-        "issues_addressed": ce.get("v1_issues_addressed"),
-    }
+    if ce:
+        return {
+            "initial_score": ce.get("v1_score"),
+            "critic_score": ce.get("v2_score") or ce.get("v1_score"),
+            "final_verdict": ce.get("v2_recommendation") or ce.get("recommendation") or "ACCEPT",
+            "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
+            "issues_addressed": ce.get("v1_issues_addressed"),
+        }
+    # D0-9 兼容(2026-06-15): 本会话个股用 critic_review 字段(verdict/score), 映射到前端读的 credibility
+    cr = p.get("critic_review") or {}
+    if cr and (cr.get("score") is not None or cr.get("verdict")):
+        return {
+            "initial_score": None,
+            "critic_score": cr.get("score"),
+            "final_verdict": cr.get("verdict") or "ACCEPT",
+            "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
+            "issues_addressed": cr.get("pending") or cr.get("key_praise"),
+        }
+    return None
 
 
 def _extract_risk_debate(p):

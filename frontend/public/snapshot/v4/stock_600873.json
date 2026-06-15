@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "周期股估值(禁PEG): 正常化净利31.5亿(剔2022景气峰)×周期成长龙头PE9-12x(对标万华12-15/海大15-20/阜丰8-10)=base¥10.21。PB2.1x(底1.6x¥6.7)+股息率5%双底托底。当前¥8.95=正常化PE9.2x合理下沿。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 86,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "诚实修正chokepoint过度乐观(GLP-1只3%非主驱动)+周期股正常化盈利估值禁PEG+温和低估非深度错杀诚实定位"
+  },
   "expectation_gap": "市场按'传统周期下行'给PE7.6/分位0.27, 过度线性外推2024谷底盈利, 未充分定价正常化盈利30-33亿+高股息5%安全垫+味精CR3>70%格局稳固; 但周期股低PE有合理成分, 属温和低估非极端错杀",
   "chokepoint_score": "护城河B+(7.2): 菌种know-how(赖氨酸转化率68%行业领先, 伊品追至85%)+玉米深加工一体化成本领先800-1000元/吨+味精CR3 85%寡头。过程型护城河5-8年领先窗口。",
   "discovery_level": "🟡半发现(味精+饲料氨基酸传统周期赛道冷门, 机构覆盖稀疏, GLP-1/合成生物主题未被定价但证据薄弱)",

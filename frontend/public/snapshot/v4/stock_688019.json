@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "成长股forward PE法: 2026E净利10亿EPS6.25×CMP国产替代龙头PE42(可比半导体材料38-48x+国产溢价)=base¥265。当前PE48.3/forward~36x, PEG~1.0-1.17合理。分位0.65未炒到极端。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 87,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "建议补top1客户(中芯)砍单20%营收敏感性矩阵"
+  },
   "expectation_gap": "市场未充分定价CMP国产替代渗透率<25%的份额提升空间+先进封装/HBM第二曲线(CMP用量×3-5); 分位0.65中位未炒到极端(区别于AI最底层多数标的已炒满)",
   "chokepoint_score": "护城河宽: CMP抛光液不可替代工艺(原子级平坦化无替代)×认证壁垒18-24月×国产唯一(14nm+先进封装), 毛利51→58%是护城河加宽铁证, 全球仅Dupont/Fujimi/AGC/安集4家",
   "discovery_level": "🟡半发现(半导体材料被归类概念, 先进封装/HBM增量弹性未单独定价)",

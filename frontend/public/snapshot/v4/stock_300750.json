@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "优质龙头forward PE法: 目标=forward EPS 19×合理PE25(全球龙头对标台积电逻辑22-28x)=¥475。买点¥360-380(forward PE22x)。剔除bull的PEG0.58错杀论(周期峰值幻觉)。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 87,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "精准剖除PEG周期陷阱(42%→17%真实量增)+拒绝bull错杀叙事诚实定位合理偏低+目标采base非bull"
+  },
   "expectation_gap": "赛道'产能过剩+价格战'负面情绪系统性压制龙头(722亿净利+ROE24%只给PE24.5), 但市场误将二三线问题归因龙头(宁德是出清受益者); 然PEG0.58是周期峰值幻觉非真低估, forward PE20-21x是合理偏低",
   "chokepoint_score": "护城河Very Wide(9.0): 全球37%份额+成本领先15-20%+技术体系化迭代+客户锁定TOP10中8家+储能38%份额第二曲线; 固态电池中期不威胁(自研凝聚态对冲)",
   "discovery_level": "🟡半发现(赛道负面情绪压制但宁德是机构重仓股, 非低关注; 储能/海外增量未充分price-in)",

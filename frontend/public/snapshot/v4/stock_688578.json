@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "创新药forward盈利法: 2026E净利29.6亿×创新药盈利期PE25-30x(对标恒瑞/百济)=740-888亿=¥164-197。当前PE17.1是传统药估值, 与53%增速+ROE35.4%不匹配。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 85,
+    "final_verdict": "ACCEPT(主agent兜底)",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": null
+  },
   "expectation_gap": "市场用传统药企PE17定价创新药53%增速(PEG0.32), price-in了'增速快速下滑到15-20%', 但海外授权+一线渗透支撑实际35-50%增速=正预期差>20pct; 分位0.78非恐慌错杀而是市场有意折价(单品依赖+医保降价担忧)",
   "chokepoint_score": "护城河B+(强单品+弱梯队): 伏美替尼三代EGFR-TKI Best-in-class(脑转移ORR85%碾压奥希替尼60%+一线联合PFS优), 单品依赖>95%是核心风险, 管线梯队尚早期",
   "discovery_level": "🟡半发现(被误定价为传统药企, 创新药成长属性未充分认知)",

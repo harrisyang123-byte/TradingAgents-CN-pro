@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "健康成长股forward PE法(非周期亏损不用SOTP): 目标=forward EPS 4.05×合理PE25(剔除2021泡沫,对标索尼20x下限+成长溢价)=¥101。买点¥75-80(forward PE18-20x留安全边际)。bull泡沫期PE55x锚不可信。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 87,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "剔除2021泡沫PE锚+坦承错杀幅度被夸大+forward EPS×合理PE推导目标+健康错杀vs困境博弈verified区分"
+  },
   "expectation_gap": "基本面verified恢复(净利40.45亿逼近2021峰值44.76+ROE15.4+负债35%健康)但价格仅峰值25%,背离3.6倍; 但价格分位0.08有迷惑性(2021高点PE89x泡沫基数), 真实是合理偏低非极度低估",
   "chokepoint_score": "CIS半护城河(moat6.5): 全球第三国产第一+车载CIS全球29%份额第二曲线, 但高端手机主摄受索尼50%垄断压制+车载受安森美40%压制",
   "discovery_level": "🟡半发现(半导体设计被AI算力主题虹吸,CIS赛道关注度低,车载CIS量价齐升未充分定价)",

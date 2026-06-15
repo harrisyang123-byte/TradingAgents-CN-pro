@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "SOTP分部估值: 传统工业连接器2.2亿净利×15-18x=33-40亿 + 算力期权(成功率20-25%×全值13.5-30亿×折现)=2-6亿, 合计35-46亿=base¥45。当前¥48.89无安全边际。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 83,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "诚实区分IPO估值回归vs健康错杀+算力期权未兑现不高估+stance不追高真站队"
+  },
   "expectation_gap": "5年分位0.01看似极低错杀, 但实为IPO上市初泡沫消化+传统工业连接器周期下行的估值回归, 非健康错杀(区别于韦尔基本面已恢复)",
   "chokepoint_score": "护城河2.5偏弱: 传统工业/汽车连接器认证壁垒中等但非技术垄断(客户'懒得换'非'换不了'), 算力高速连接器仅<5%营收+样品阶段+落后华丰/瑞可达",
   "discovery_level": "🟡半发现(算力连接器概念有关注但未兑现)",

@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": null,
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": null,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": null
+  },
   "expectation_gap": null,
   "chokepoint_score": null,
   "discovery_level": null,

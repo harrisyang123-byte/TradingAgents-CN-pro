@@ -26,7 +26,18 @@
   "chain_positioning": null,
   "industry_weight_pct": null,
   "valuation_basis": "周期股估值(禁PEG): SOTP分部(锂电PS2.5x+植保1.8x+医药CDMO3.0x+贸易0.3x-有息负债) + PB产能周期底2.0x + 正常化盈利还原(六氟修复+毛利率回25%→net~1.7亿)。target base¥24-28, 买点¥17-18。",
-  "credibility": null,
+  "credibility": {
+    "initial_score": null,
+    "critic_score": 87,
+    "final_verdict": "ACCEPT",
+    "reviewers": [
+      "芒格",
+      "段永平",
+      "Serenity",
+      "达里奥"
+    ],
+    "issues_addressed": "困境反转博弈vs健康错杀诚实区分+剔除bull六氟15万乐观数据+stance真站队+周期股估值禁PEG"
+  },
   "expectation_gap": "市场用2023-2024亏损线性外推'困境股', 未计入毛利率三连修复+六氟底部+医药CDMO期权; 但现金流转负使拐点未verified确认, 属温和逆向非严重错杀",
   "chokepoint_score": "中下(锂电是周期品+天赐自供LiFSI压制; 医药CDMO含氟中间体才真卡位但仅14.3%)",
   "discovery_level": "🟡半发现(锂电过剩叙事冷, 但GLP-1含氟/LiFSI主题未发酵)",
