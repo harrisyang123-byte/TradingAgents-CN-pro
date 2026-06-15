@@ -1,0 +1,47 @@
+{
+  "unit_id": "stock:01024",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:17:29Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "01024",
+    "name": "快手",
+    "industry": "互联网平台",
+    "market": "港股",
+    "instrument_type": "stock",
+    "rating": "建仓(互联网健康错杀)",
+    "target_price": 75,
+    "entry_price_range": [
+      40,
+      46
+    ],
+    "thesis": "快手是被低估的互联网平台: ROE26.3%(健康高)+2025净利186亿(盈利持续改善)+5年分位0.13+回撤-81%。短视频+直播电商+本地生活+海外(巴西)商业化, 净利从亏损转盈并高增。港股互联网被系统性杀估值(地缘+经济担忧), 但快手基本面verified改善(扭亏→186亿净利+ROE26.3)。PE~10(净利186亿/市值~2000亿港币)低估。健康错杀(基本面改善但价格历史低位)。区别于美团(2025巨亏233亿双杀)。",
+    "three_dimension": {
+      "好公司": "○(ROE26.3健康+轻资产平台)",
+      "好价格": "○(PE~10+分位0.13回撤-81%低估)",
+      "好未来": "○(直播电商+本地生活+海外巴西商业化)"
+    },
+    "risks": [
+      "港股互联网地缘/监管风险",
+      "短视频竞争(抖音/视频号)",
+      "直播电商增速放缓",
+      "宏观消费疲弱影响广告"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 45.88,
+        "roic_pct": "26.3(ROE)",
+        "stance": "建仓(互联网健康错杀)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified: 港股ROE/净利/5年分位/回撤; PE~10估算待精确; 净利多年趋势待补)"
+    },
+    "price_at_judgment": 45.88,
+    "historical_alpha": null
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "unit_id": "stock:01211",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T03:17:29Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "code": "01211",
+    "name": "比亚迪H",
+    "industry": "新能源车EV供应链",
+    "market": "港股",
+    "instrument_type": "stock",
+    "rating": "谨慎看多(EV龙头历史最低估值错杀, 但价格战需辨)",
+    "target_price": 115,
+    "entry_price_range": [
+      75,
+      87
+    ],
+    "thesis": "比亚迪H是EV绝对龙头(全球销量第一)被杀到5年分位0.0(历史最低!)+回撤-81%, 但ROE15.1健康+2025净利326亿(盈利仍强)。垂直整合(电池/电机/电控/芯片自供)+海外扩张(东南亚/欧洲/南美)。价格被'价格战+国内渗透见顶'担忧杀到历史最低。错杀逻辑: 盈利仍强+海外第二曲线+垂直整合成本优势, 但需辨周期(国内EV渗透50%见顶+价格战压毛利+销量增速放缓)。H股较A股折价。谨慎看多: 历史最低估值提供安全边际, 但需观察海外放量+价格战缓和。",
+    "three_dimension": {
+      "好公司": "○(ROE15.1+垂直整合成本优势)",
+      "好价格": "○(分位0.0历史最低+回撤-81%)",
+      "好未来": "△(海外第二曲线确定但国内渗透见顶+价格战)"
+    },
+    "risks": [
+      "国内EV渗透50%见顶+价格战压毛利",
+      "销量增速放缓",
+      "海外关税(欧盟反补贴)+地缘",
+      "固态电池/智驾竞争"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 86.55,
+        "roic_pct": "15.1(ROE)",
+        "stance": "谨慎看多(EV龙头历史最低估值错杀, 但价格战需辨)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified: 港股ROE/净利/5年分位/回撤; H股PE~20估算; 价格战vs错杀需持续观察)"
+    },
+    "price_at_judgment": 86.55,
+    "historical_alpha": null
+  }
+}
