@@ -1,0 +1,47 @@
+{
+  "unit_id": "stock:688786",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T07:36:28Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "rating": "观察/降级(净利停滞+ROE下滑+PE高)",
+    "target_price": null,
+    "entry_price_range": null,
+    "thesis": "悦安新材羰基铁粉+软磁粉, 但verified基本面走弱: 净利2021→2025为0.9→1.0→0.8→0.7→0.8亿(停滞)+ROE从21%降至11%(趋势下行)+PE66.4偏高。软磁粉卡位在但当前业绩停滞+估值高, 不符健康标准。观察, 待软磁粉需求(AI电源)放量+业绩回升确认。",
+    "three_dimension": {
+      "好公司": "✗(ROE从21降至11+净利停滞)",
+      "好价格": "✗(PE66.4对停滞业绩偏高)",
+      "好未来": "△(软磁粉AI电源期权但未兑现)"
+    },
+    "position_nature": "软磁粉卡位但基本面走弱(净利停滞+ROE下滑), 观察",
+    "risks": [
+      "净利停滞5年(0.7-1.0亿)",
+      "ROE趋势下行21→11",
+      "PE66.4对停滞业绩偏高",
+      "羰基铁粉竞争"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 38.49,
+        "verified_pe": 66.4,
+        "roic_pct": "~11(ROE下滑)",
+        "stance": "观察/降级"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(verified基本面走弱是关键诚实信号)",
+      "note": "净利停滞+ROE下滑+PE高=降级观察"
+    },
+    "price_at_judgment": 38.49,
+    "historical_alpha": null,
+    "code": "688786",
+    "name": "悦安新材",
+    "industry": "新能源车EV供应链",
+    "market": "A股",
+    "instrument_type": "stock"
+  }
+}

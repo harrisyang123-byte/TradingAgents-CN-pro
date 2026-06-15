@@ -589,6 +589,18 @@
       "error": null,
       "path": "stocks/300750.json"
     },
+    "stock:300811": {
+      "unit_id": "stock:300811",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T07:36:28Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300811.json"
+    },
     "stock:301031": {
       "unit_id": "stock:301031",
       "unit_type": "stock",
@@ -793,6 +805,18 @@
       "error": null,
       "path": "stocks/688012.json"
     },
+    "stock:688019": {
+      "unit_id": "stock:688019",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T07:36:28Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688019.json"
+    },
     "stock:688092": {
       "unit_id": "stock:688092",
       "unit_type": "stock",
@@ -841,6 +865,18 @@
       "error": null,
       "path": "stocks/688578.json"
     },
+    "stock:688786": {
+      "unit_id": "stock:688786",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T07:36:28Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/688786.json"
+    },
     "stock:688981": {
       "unit_id": "stock:688981",
       "unit_type": "stock",
@@ -878,5 +914,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-15T06:49:29Z"
+  "updated_at": "2026-06-15T07:36:28Z"
 }

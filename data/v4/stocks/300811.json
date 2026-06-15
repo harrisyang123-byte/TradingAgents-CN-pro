@@ -1,0 +1,49 @@
+{
+  "unit_id": "stock:300811",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T07:36:28Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "rating": "建仓-小仓(软磁粉龙头健康成长但PE偏高)",
+    "target_price": null,
+    "entry_price_range": [
+      65,
+      75
+    ],
+    "thesis": "铂科新材是金属软磁粉末龙头(芯片电感+光伏储能+AI电源), 净利2021→2025为1.2→1.9→2.6→3.8→4.2亿(持续高增)+ROE15-18%健康+毛利42%提升+负债23%低。AI电源/芯片电感高频化驱动软磁粉需求。但PE57.2偏高+5年分位0.69(已部分price-in), 非低估。建仓宜小仓+回调¥65-75加。",
+    "three_dimension": {
+      "好公司": "○(ROE15-18+净利高增+毛利42%)",
+      "好价格": "△(PE57偏高+分位0.69已price-in)",
+      "好未来": "○(AI电源+芯片电感软磁粉需求)"
+    },
+    "position_nature": "软磁粉龙头健康成长但估值偏高(小仓+回调加)",
+    "risks": [
+      "PE57偏高+分位0.69已price-in",
+      "软磁粉竞争(东睦/横店东磁)",
+      "光伏储能需求波动"
+    ],
+    "value_creation": {
+      "actionable_verdict": {
+        "verified_price": 82.92,
+        "verified_pe": 57.2,
+        "roic_pct": "~15(ROE)",
+        "stance": "建仓-小仓(回调¥65-75加)"
+      }
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "data_status": "synthesized_by_main_agent(bokeyuean subagent No result, 主agent基于verified兜底)",
+      "note": "健康成长但PE57偏高+分位0.69, 小仓+回调加"
+    },
+    "price_at_judgment": 82.92,
+    "historical_alpha": null,
+    "code": "300811",
+    "name": "铂科新材",
+    "industry": "新能源车EV供应链",
+    "market": "A股",
+    "instrument_type": "stock"
+  }
+}

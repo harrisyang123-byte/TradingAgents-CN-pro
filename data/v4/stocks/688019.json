@@ -1,0 +1,115 @@
+{
+  "unit_id": "stock:688019",
+  "unit_type": "stock",
+  "schema_version": 1,
+  "version": 1,
+  "status": "active",
+  "generated_at": "2026-06-15T07:36:28Z",
+  "run_mode": "ai_direct",
+  "payload": {
+    "rating": "建仓(优质卡位成长, CMP抛光液国产替代龙头)",
+    "target_price": 265,
+    "entry_price_range": [
+      195,
+      210
+    ],
+    "expectation_gap": "市场未充分定价CMP国产替代渗透率<25%的份额提升空间+先进封装/HBM第二曲线(CMP用量×3-5); 分位0.65中位未炒到极端(区别于AI最底层多数标的已炒满)",
+    "chokepoint_score": "护城河宽: CMP抛光液不可替代工艺(原子级平坦化无替代)×认证壁垒18-24月×国产唯一(14nm+先进封装), 毛利51→58%是护城河加宽铁证, 全球仅Dupont/Fujimi/AGC/安集4家",
+    "discovery_level": "🟡半发现(半导体材料被归类概念, 先进封装/HBM增量弹性未单独定价)",
+    "business_quality": "优-A级(财务92分: 净利CAGR56%+ROE11→25%提升+毛利58%+ROIC>>WACC 22-28%+负债30%低)",
+    "position_nature": "优质卡位成长(CMP国产替代龙头+未炒到极端): 区别于AI最底层已炒满标的, 卡位真+健康+分位0.65中位",
+    "worst_case": "客户集中度>70%大客户(中芯/长存)capex暂停+半导体周期下行→¥175",
+    "downside": "¥195(bear: PE31x+增速不及)",
+    "sell_discipline": [
+      "分批止损¥175(跌破PE28x破坏成长逻辑)",
+      "客户止损: 前5大客户capex连续2季暂停",
+      "毛利率止损: 跌破55%(定价力松动)",
+      "7nm认证失败/延迟"
+    ],
+    "thesis": "安集科技是CMP化学机械抛光液国产替代龙头(集成电路占99.8%, CMP抛光液81.5%毛利58%+湿电子化学品18%)。AI产业链最底层深挖中verified后唯一卡位真+健康+未炒到极端的标的。财务A级: 归母净利2021→2025为1.3→3.0→4.0→5.3→7.8亿(CAGR56%无中断)+ROE从11%提升至25.18%+毛利率51→58%(护城河加宽铁证)+负债率30%低+ROIC 22-28%>>WACC。护城河宽: CMP是芯片制造原子级平坦化不可替代工艺×认证壁垒18-24月×14nm+先进封装国产唯一(全球仅Dupont/Fujimi/AGC/安集)。第二曲线成立: 先进封装/HBM对CMP用量×3-5倍(多层堆叠每层需抛光), 是现有能力自然延伸×需求倍增。估值: forward PEG~1.0-1.17+5年分位0.65中位(未炒到极端), base¥265(PE42×forward EPS)。当前¥225可建仓, 买点¥195-210。核心风险=客户集中度>70%+晶圆厂capex周期。",
+    "risks": [
+      "客户集中度>70%(中芯/长存/华虹), 大客户capex暂停直接冲击(2023存储寒冬已验证)",
+      "7nm及以下尚未规模验证, 认证失败/延迟风险",
+      "湿电子化学品毛利50%<CMP 58%, 占比提升拉低mix",
+      "PE48.3非便宜+半导体周期"
+    ],
+    "confidence": "高(0.75) - 优质卡位成长确定, 客户集中度是主风险",
+    "value_creation": {
+      "roic_vs_wacc": "ROIC 22-28%>>WACC 8-9%(差+13-19pct极优), 价值创造能力A股前列",
+      "actionable_verdict": {
+        "verified_price": 225,
+        "verified_pe": 48.3,
+        "roic_pct": "22-28",
+        "industry_wacc": "~8-9%",
+        "stance": "建仓(分批¥225/¥210/¥195三档)"
+      },
+      "expert_valuation": {
+        "now_judgment": "优质卡位成长, forward PEG~1.0-1.17+分位0.65未炒到极端",
+        "future_tam": "CMP抛光液(国产化<25%替代空间大)+先进封装/HBM(用量×3-5)+湿电子化学品",
+        "future_share": "全球Dupont/Fujimi/AGC/安集4家, 安集国产唯一14nm+先进封装合格",
+        "future_forward": "2026E净利~10亿EPS6.25/2027E EPS7.98(国产替代+先进封装放量)",
+        "target_price": {
+          "method": "成长股forward PE(国产替代溢价): PE42×forward EPS",
+          "bear": "¥195(PE31x)",
+          "base": "¥265(PE42x)",
+          "bull": "¥320(PE40x on 2027E)",
+          "buy_point": "¥195-210(PEG~1.0)"
+        },
+        "target_verdict": "base¥265(+18%); 当前¥225可建仓; 分批¥225/¥210/¥195; 优质成长合理估值",
+        "data_status": "价格/财务=verified_AKShare; forward EPS/国产化率/客户集中度=估值假设+行业数据(部分estimated)",
+        "falsification": [
+          "前5大客户capex连续2季暂停",
+          "毛利率跌破55%",
+          "7nm认证失败",
+          "CMP国产化率停滞"
+        ]
+      }
+    },
+    "valuation_basis": "成长股forward PE法: 2026E净利10亿EPS6.25×CMP国产替代龙头PE42(可比半导体材料38-48x+国产溢价)=base¥265。当前PE48.3/forward~36x, PEG~1.0-1.17合理。分位0.65未炒到极端。",
+    "forward_view": {
+      "near_term_calendar": "中芯国际capex指引(领先指标)/先进封装订单占比/季度毛利率",
+      "cross_market_leading": "晶圆厂capex+半导体设备出货+先进封装产能",
+      "mid_term_path": "CMP国产替代<25%→份额提升+先进封装/HBM用量×3-5+7nm验证+湿电子第二品类",
+      "path_scenarios": {
+        "乐观": "7nm验证+HBM放量→¥320",
+        "中性": "国产替代稳步+先进封装→¥265",
+        "悲观": "大客户capex暂停+周期→¥175-195"
+      },
+      "earnings_revision_view": "市场未充分定价国产替代份额提升+先进封装弹性",
+      "stock_specific_risks": "客户集中度>70%/capex周期/7nm认证/竞争(鼎龙追赶)"
+    },
+    "reflection": {
+      "prev_rating": "无(首次)",
+      "prev_date": "N/A",
+      "what_changed": "首次",
+      "why_changed": "N/A",
+      "self_check": "AI产业链最底层深挖中, 多数瓶颈标的verified后已炒到历史高位(福晶0.98/三祥1.0/华正1.0)或基本面双杀(南玻/华海诚科), 安集是唯一卡位真+财务A级(净利CAGR56%+ROE25%)+分位0.65未炒到极端的优质成长。这验证了'真alpha在卡位真+未炒高+健康的稀缺交叉点'。",
+      "value_creation_screen": "好公司○○(财务92+护城河宽+ROIC>>WACC)/好价格○(forward PEG~1.0+分位0.65)/好未来○(国产替代+HBM第二曲线)"
+    },
+    "critic_review": {
+      "verdict": "ACCEPT",
+      "score": 87,
+      "reviewer": "v4-investor-critic四视角",
+      "blocking_issues": [],
+      "key_praise": "优质成长真实(非炒高非双杀)+forward PEG估值合理+先进封装HBM第二曲线成立+客户集中度风险充分揭示",
+      "suggestions_adopted": [
+        "客户集中度敏感性矩阵",
+        "分批建仓¥225/¥210/¥195三档",
+        "监控中芯capex指引作领先指标"
+      ]
+    },
+    "peer_anchor": {
+      "杜邦Dupont(CMC)": "CMP抛光液全球龙头",
+      "Fujimi": "日本CMP",
+      "AGC(Cabot)": "CMP",
+      "鼎龙股份300054": "国产CMP抛光垫+部分抛光液追赶"
+    },
+    "price_at_judgment": 225,
+    "historical_alpha": null,
+    "code": "688019",
+    "name": "安集科技",
+    "industry": "半导体产业链",
+    "market": "A股",
+    "instrument_type": "stock"
+  }
+}

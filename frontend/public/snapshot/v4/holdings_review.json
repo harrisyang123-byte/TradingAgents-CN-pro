@@ -88,6 +88,23 @@
               "sub_industry": "半导体"
             },
             {
+              "code": "688019",
+              "name": "安集科技",
+              "stance": "建仓(分批¥225/¥210/¥195三档)",
+              "target_price": {
+                "method": "成长股forward PE(国产替代溢价): PE42×forward EPS",
+                "bear": "¥195(PE31x)",
+                "base": "¥265(PE42x)",
+                "bull": "¥320(PE40x on 2027E)",
+                "buy_point": "¥195-210(PEG~1.0)"
+              },
+              "pe": 48.3,
+              "roic": "22-28",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
+            },
+            {
               "code": "688268",
               "name": "华特气体",
               "stance": "强烈回避",
@@ -120,7 +137,7 @@
             }
           ],
           "fund_value": 10000.0,
-          "rec_count": 5
+          "rec_count": 6
         },
         {
           "name": "AI算力/数据中心",
@@ -514,6 +531,17 @@
               "sub_industry": "新能源车EV供应链"
             },
             {
+              "code": "300811",
+              "name": "铂科新材",
+              "stance": "建仓-小仓(回调¥65-75加)",
+              "target_price": null,
+              "pe": 57.2,
+              "roic": "~15(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
+            },
+            {
               "code": "301031",
               "name": "中熔电气",
               "stance": "建仓(注意低基数高增)",
@@ -529,6 +557,17 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "新能源车EV供应链"
+            },
+            {
+              "code": "688786",
+              "name": "悦安新材",
+              "stance": "观察/降级",
+              "target_price": null,
+              "pe": 66.4,
+              "roic": "~11(ROE下滑)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
             }
           ],
           "fund_holdings": [
@@ -541,7 +580,7 @@
             }
           ],
           "fund_value": 8150.0,
-          "rec_count": 4
+          "rec_count": 6
         },
         {
           "name": "AIoT/安防",
