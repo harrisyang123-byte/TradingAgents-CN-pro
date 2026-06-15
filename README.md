@@ -38,6 +38,14 @@
    │    （半导体产业链 / AI算力数据中心 / 互联网平台 / 创新药+CXO / 消费电子+IoT
    │     / 新能源车 EV / AIoT安防 / 有色金属资源 / 化工必需消费 / 可选消费 / 电力公用事业）
    │    景气多空 + 产业链瓶颈分析师(Chokepoint) → 总监整合 chokepoint_map
+   │
+   ├🌿 瓶颈选股链 ×(go行业)  alpha:bottleneck:<industry>   ★自下而上进攻链(主agent orchestrate, N×M×K扇出)
+   │    行业判go后触发 → Step1 chokepoint拆产业链定位最短木板(🟢未发现)
+   │    → Step2 alpha-hunter 五因子模型纯演绎挖紫苏叶(小市值+技术垄断+不可或缺+市场不知道)
+   │    → Step3 data-desk verified核实(卡位真实性+市值+催化剂, 禁演绎当verified)
+   │    → Step4 critic 6.14 五因子复核 → 通过的进个股8-step
+   │    【与 market-scanner 横向财务硬筛互补: 纵向产业链 vs 横向全市场, MECE两条进攻路径】
+   │
    ├ 行业间配比         alloc:equity_industries  (Σ ≤ equity_quota)
    ├ 个股研究部门 ×M   stock:<code>
    │    4 分析师(财务/竞争/估值/舆情) → 多空 → 3 方风险辩论 → 总监三维拍板
@@ -65,7 +73,7 @@
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
 | 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + **`v4-stock-valuation-engineer`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情**) → **估值工程师**(2026-06-14 拆分: forward 2-3年 EPS 推导链 + PE 分位计算 + 可比 PE 锚定 + 对面买家逻辑, 防目标价反复反转) → 多空 → **3 方风险辩论** → 总监预期差拍板 |
 | 个股·估值审计 | **`v4-stock-valuation-auditor`**(2026-06-14 拆分, 独立于 critic) | 专职审计 expert_valuation 推导链(6.12 推导链 7 项 + 6.13 成长股 5 项 + **反复反转检查**), 防 director 自我合理化 |
-| 进攻·选股 | **`v4-market-scanner`** + **`v4-alpha-hunter`**(2026-06-14 新建) | scanner 全市场硬指标扫描(ROIC>WACC+5pct / PE分位<30% / 增速>20%)出候选池 → hunter 深挖 alpha(预期差≥30% + 可证伪触发器 + 赔率≥3:1)出 3-5 只未识别 alpha |
+| 进攻·选股 | **`v4-market-scanner`**(横向) + **`v4-alpha-hunter`**(纵向, 2026-06-15 重写为五因子模型) | **两条 MECE 进攻路径**: ① scanner 横向全市场硬指标扫描(ROIC>WACC / PE分位<30% / 增速>20%)逆向价值发现 → ② **瓶颈选股链**(alpha:bottleneck:<industry>): 景气行业→chokepoint拆产业链→hunter 用 **Serenity 五因子模型**(需求确定+供给受限+低关注度+价值可捕获+催化剂)纯演绎挖**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道) → data-desk verified核实 → critic 6.14 复核。**禁研报验证(研报=已知=高关注=反了), 靠专利/客户名单/产能地图/上游矿源碎片演绎** |
 | 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
 | 个股·风险辩论 | **`v4-stock-risk-aggressive/safe/neutral`**（3 方风险辩论，2026-06-13 加 D0-5）| **TradingAgents `risk_debaters` 对齐**: aggressive 攻保守/safe 攻激进/neutral 协调; 维度=仓位+止损+tail risk 不是方向(与 bull/bear 互补) |
 | 个股·舆情 | **`v4-stock-analyst-sentiment`**（新闻舆情分析师，2026-06-13 加 D0-5）| **TradingAgents `news_analyst+social_media_analyst` 对齐**: 5 维度(温度/新闻/一致预期偏差/资金面/情绪vs基本面背离); 是 director 的输入之一(非产物) |
@@ -170,6 +178,7 @@
 
 - **Chokepoint 供应链瓶颈框架 + 波特五力**（`planning/v4/chokepoint-framework.md`，借鉴 Serenity）：自下而上逆向工程产业链，**四维判定**（不可替代/供给集中/产能刚性/价值卡位）定位"卡不卡脖子"，**波特五力**（进入者/替代品/买方/供方/同业竞争）判定"利润能否留住"，加 **市场发现度**。A/B 测试验证加五力 85 vs 78。混合分队：瓶颈分析师出骨架 → director 整合 chokepoint_map → **investment_map（瓶颈环节→推荐个股→卡位排序→为什么是它）** 落到"买什么"。
 - **预期差选股理论 + 估值推导链**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**。三锚：隐含增速缺口/定价充分度/催化。**买点/目标价必须有 `valuation_basis` 推导链**（目标价=forward指标×目标倍数(对标谁)，买点=安全边际/PB/DCF），禁止拍脑袋。
+- **🌿 交易无人知晓的瓶颈 — Serenity 五因子模型**（`planning/v4/unknown-bottleneck-framework.md`，2026-06-15 用户拍板固化）：产业链上溯式投资，在确定性大主线(AI数据中心/人形机器人/800V直流供电)中找"缺了它整个产业链转不动"的**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道)，提早介入。**五因子同时满足**：需求确定+供给受限+低关注度+价值可捕获+催化剂。**致命铁律**：① 禁用研报验证瓶颈(研报=市场已知=高关注=价格已反映=没 alpha)，靠专利/客户名单/产能地图/上游矿源**碎片演绎推理**；② 低关注度是硬门槛(金枪鱼大腹如中际旭创降级)；③ 不因当前利润未兑现就淘汰(提早介入是灵魂，用价值可捕获+催化剂判时机)。落地为**瓶颈选股链** `alpha:bottleneck:<industry>`(主 agent orchestrate 的 N×M×K 扇出)。
 - **forward_view 前瞻视野**（A/B 测试 2 次验证 89/82 vs 52）：宏观从"回看"升级到"前瞻"——11 维（事件日历+一致预期+预期差+三情景+仓位/IV+假设证伪+尾部风险+跨市场领先+触发监控），触发监控用**绝对阈值**。三层 director 全部内化（不增 agent，A/B 测试证明）。
 - **结果闭环反思 + 回测验证**（借鉴 TradingAgents）：director 开辩前读上一版 verdict → 输出 reflection；**`v4_replay.py` 回测器 + `historical_alpha`（判断价→实际涨跌算 hit/miss）+ `v4_quarterly_review.py` 季度复盘**，让系统对自己判断负责。critic 铁律0：上次判断 miss 必须回答"这次为何对"。
 - **四维质量闸门 + 反骑墙**：每层 director 内化芒格/段永平/Serenity/达里奥四视角（生意质量10年/逆向最坏/赔率周期/可执行止损/不确定性诚实）；证据势均力敌才中性，否则必须站队。
@@ -354,6 +363,7 @@ v4 的 git 传输载体 = `data/v4/**/*.json` **单元粒度结构化文件**（
 |------|------|
 | [**AGENTS.md**](AGENTS.md) | **主 Agent 指南（唯一真源）**：v4 链路/触发/角色/方法论/铁律 |
 | [chokepoint-framework](planning/v4/chokepoint-framework.md) | Chokepoint 瓶颈框架（四维/逆向工程/混合分队/A-B实测）|
+| [**unknown-bottleneck-framework**](planning/v4/unknown-bottleneck-framework.md) | **🌿 交易无人知晓的瓶颈（Serenity 五因子模型/紫苏叶理论/禁研报靠演绎/瓶颈选股链 SOP）** |
 | [stock-selection-theory](planning/v4/stock-selection-theory.md) | 预期差选股理论（三锚/A-B验证/数据铁律）|
 | [v4 AI 代跑](docs/wiki/v4-ai-proxy-run.md) | AI 直跑落地步骤 / 各单元 payload schema |
 | [implementation-backlog](planning/v4/implementation-backlog.md) | 应改造未改造台账 |

@@ -160,6 +160,21 @@ python scripts/run_report_v4.py              # 逐单元体检
 python scripts/build_snapshot_v4.py          # （可选）前端静态快照 → frontend/public/snapshot/v4/
 ```
 
+### 4.1 🌿 瓶颈选股链（自下而上进攻链，主 agent orchestrate，2026-06-15 新增）
+
+**触发**：行业研究部门判定某行业 `go`(景气)后, 对该行业跑 `alpha:bottleneck:<industry>`。这是与"自上而下配置链"互补的**自下而上进攻链**, 嵌在行业层判 go 之后、个股层之前。
+
+**4 步流程(主 agent 必须分发 subagent, 单个 agent 研究不过来)**：
+1. **chokepoint 拆产业链** → spawn `v4-industry-chokepoint`: 逆向工程定位最短木板瓶颈环节 + discovery_level🟢未发现
+2. **alpha-hunter 挖紫苏叶** → 对**每个**瓶颈环节 spawn `v4-alpha-hunter`: 五因子模型纯演绎(禁研报), 找小市值+技术垄断+不可或缺+市场不知道的卡位标的
+3. **data-desk verified 核实** → 对**每个**候选 spawn `v4-data-desk`: 联网核实卡位真实性(真在该环节有产品/客户?)+ verified 市值(卡小市值)+ 催化剂时间窗。**禁演绎当 verified**
+4. **critic 6.14 五因子复核** → spawn `v4-investor-critic`: 五因子同时满足? 低关注度过门槛? verified_vs_inferred 诚实?
+→ 通过的紫苏叶进 `stock:<code>` 走完整 8-step。
+
+**主 agent orchestration 铁律**: 1 行业拆 5-10 瓶颈环节 × 每环节 3-5 候选 × 每候选 verified = **N×M×K 扇出**。主 agent 当 orchestrator 分批 spawn, **禁止图省事自己一把抓**(=草草敷衍)。方法论真源 `planning/v4/unknown-bottleneck-framework.md`。
+
+> 核心铁律: **禁研报验证瓶颈**(研报=已知=高关注=反了), 靠专利/客户名单/产能地图/上游矿源**碎片演绎**; 低关注度是硬门槛; 不因利润未兑现就淘汰(提早介入)。
+
 ---
 
 ## 5. v4 Agent 阵容 + 三套核心方法论
