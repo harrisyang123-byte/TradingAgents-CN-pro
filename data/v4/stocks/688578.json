@@ -127,6 +127,44 @@
       "safe_main_attack": "单品依赖>95%是灾难性尾部风险, 仓位控制+跌破¥62(PE12)清仓",
       "neutral_proposal_adopted": "中仓5-8%分批建仓, 止损¥62, 监控海外License-out里程碑+医保续约+四代TKI数据",
       "data_status": "synthesized_by_main_agent"
+    },
+    "five_forces": {
+      "moat_rating": "中上",
+      "moat_synthesis": "艾力斯护城河=Best-in-class单品壁垒+临床数据壁垒+商业化已验证。伏美替尼三代EGFR-TKI脑转移ORR 85%碾压奥希替尼60%+一线联合PFS显著优于单药, vs阿美替尼头对头数据占优+脑转移适应症差异化。ROE35.4%(创新药罕见已盈利高ROE)是商业化能力已验证的财务铁证, 单品依赖>95%是核心结构性风险。",
+      "five_forces_summary": {
+        "entry": "中(创新药专利/临床壁垒)",
+        "substitute": "中高(四代TKI研发竞争)",
+        "buyer": "中(医保谈判每2年降价)",
+        "supplier": "低(原料药供应分散)",
+        "rivalry": "中(三代TKI国产竞争+海外进口)"
+      },
+      "cross_force_dynamics": {
+        "mutual_reinforcement": [
+          {
+            "force_a": "BIC临床数据(脑转移ORR85%)",
+            "force_b": "医生处方习惯",
+            "mechanism": "脑转移数据差异化→医生倾向首选→处方惯性形成→新进入者难突破即使临床数据相当, 形成'数据壁垒×处方惯性'双锁"
+          }
+        ],
+        "mutual_offset": [
+          {
+            "force_a": "医保谈判降价压力",
+            "force_b": "放量+适应症拓展",
+            "mechanism": "医保每2年降价15-30%但伏美替尼一线渗透+脑转移+海外授权拓展使量级倍增对冲价格下行, 净利6.4→14.3→21.9亿验证量价齐升路径"
+          }
+        ],
+        "weakest_link": "单品依赖>95%(伏美替尼)—竞品突破或安全性事件则灾难性, 管线梯队尚早期对冲不足",
+        "trend": "短期护城河加深(BIC数据持续验证+海外授权)中长期面临四代TKI(BLU-945)颠覆风险"
+      },
+      "moat_durability": "中期(3-5年)—四代TKI 2027-2028若数据优异将颠覆三代格局",
+      "key_risk": "四代TKI颠覆三代 + 单品安全性黑天鹅",
+      "monitoring_signals": [
+        "BLU-945等四代TKI数据",
+        "医保续约降幅",
+        "海外License-out进展",
+        "管线梯队II/III期推进",
+        "季度增速(<25%警戒)"
+      ]
     }
   }
 }
