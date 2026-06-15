@@ -463,6 +463,30 @@ def main() -> int:
         _write(out_dir, "holdings_review.json", hr)
         n += 1
 
+    # _scan/*.json（2026-06-15：产业链瓶颈/紫苏叶/错杀龙头/全市场扫描结果同步进前端，
+    # 供前端「选股池/产业链瓶颈」Tab fetch；build_overview 不消费，纯透传 + 索引）
+    scan_src = _REPO / "data" / "v4" / "_scan"
+    if scan_src.is_dir():
+        import shutil as _sh
+        scan_dst = out_dir / "_scan"
+        scan_dst.mkdir(parents=True, exist_ok=True)
+        scan_idx = {"generated": __import__("datetime").date.today().isoformat(), "scan_files": []}
+        for sf in sorted(scan_src.glob("*.json")):
+            _sh.copy(sf, scan_dst / sf.name)
+            n += 1
+            try:
+                sd = json.loads(sf.read_text(encoding="utf-8"))
+                scan_idx["scan_files"].append({
+                    "file": sf.name,
+                    "method": sd.get("method", sd.get("scan_date", "")),
+                    "key": sd.get("final_verdict") or sd.get("final") or sd.get("key_insight", "") or "",
+                })
+            except Exception:
+                scan_idx["scan_files"].append({"file": sf.name, "method": "", "key": ""})
+        (scan_dst / "_index.json").write_text(
+            json.dumps(scan_idx, ensure_ascii=False, indent=2), encoding="utf-8")
+        n += 1
+
     print(f"✅ v4 静态快照生成完成：{n} 个文件 → {out_dir}")
     print("   前端设 VITE_STATIC_SNAPSHOT=1 即直接 fetch 这些快照（与走 API 同构）")
     return 0

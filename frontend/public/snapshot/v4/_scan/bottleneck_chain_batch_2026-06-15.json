@@ -1,0 +1,56 @@
+{
+  "scan_date": "2026-06-15",
+  "method": "瓶颈选股链 alpha:bottleneck:<industry> — Serenity五因子模型(主agent orchestrate, 纯演绎不抓研报)",
+  "framework": "planning/v4/unknown-bottleneck-framework.md",
+  "industries_scanned": ["半导体国产替代", "AI算力数据中心(HBM/CPO补充)", "固态电池", "GLP-1减肥药", "低空经济eVTOL"],
+  "data_status": "代码/价格/ROE = verified_AKShare新浪源; 市值 = verified(归母净利/EPS反推股本×价格); 五因子卡位逻辑 = 演绎(reasoning_chain多为inferred, 待data-desk核实)",
+
+  "CRITICAL_FINDING_市值红线": "本轮再次大规模验证: alpha-hunter 凭演绎估的市值系统性、大幅偏小。实测偏差: 国瓷材料 hunter估15亿/verified 554亿(37×); 侨源股份估3.5亿/verified 246亿(70×); 鹏辉能源估12亿/verified 378亿(31×); 蔚蓝锂芯估60亿/verified 222亿。结论: 紫苏叶'小市值'是硬画像, 但 hunter 无联网无法 verified 市值, 必须主 agent 用 AKShare 校正——这是 RULE-DATA-VERIFIED 红线的核心价值。经 verified 市值硬筛后, 真正合格的小市值紫苏叶远少于 hunter 初筛, 说明 A股真正'小市值+技术垄断+不可或缺+市场不知道'的紫苏叶稀缺(很多卡位股市值已大=市场其实已发现)。",
+
+  "qualified_zisu_verified": [
+    {"code":"688379","name":"华光新材","industry":"AI算力·HBM封装","mcap_b":67.4,"roe":17.37,"price":78.13,
+     "bottleneck":"HBM Die堆叠混合键合用高纯无铅钎焊料+助焊剂(Ag含量±0.1%/氧<50ppm, HBM4/5堆叠12→24层用量线性×层数)",
+     "five_factor_fit":"✅小市值67亿+ROE17.37健康+全球仅Indium/Alpha/华光达HBM级+市场归类'焊接材料/有色加工'不联想HBM",
+     "catalyst":"长电无锡HBM线2026Q3量产→焊料集中采购","confidence":0.52,
+     "verified_vs_inferred":"verified:市值/ROE/华光主营钎焊; inferred:是否已通过HBM级客户验证(最大不确定性,待data-desk核实)"},
+
+    {"code":"688092","name":"爱科赛博","industry":"AI算力·HBM设备","mcap_b":19.0,"roe":7.86,"price":22.88,
+     "bottleneck":"TSV深孔电镀用高精度脉冲电源(HBM TSV深宽比>10:1, ns级波形精度决定填孔质量)",
+     "five_factor_fit":"✅极小市值19亿+脉冲电源国产仅爱科赛博量产级+归类'工业电源'听不懂TSV+科创板低配",
+     "catalyst":"中微/盛美TSV电镀设备2026H2出货→脉冲电源配套采购","confidence":0.55,
+     "verified_vs_inferred":"verified:市值/产品线; inferred:是否确为盛美/中微配套(待设备BOM核实)"},
+
+    {"code":"301393","name":"昊帆生物","industry":"GLP-1减肥药","mcap_b":53.6,"roe":4.96,"price":49.96,
+     "bottleneck":"多肽固相合成用缩合剂(HATU/HBTU)+Fmoc保护氨基酸(司美39肽=38次偶联, 用量与多肽产能线性)",
+     "five_factor_fit":"✅小市值54亿+多肽试剂细分龙头+市场归类'精细化工试剂'不在GLP-1热门名单+客户切换成本高(DMF备案+杂质谱验证>1年)",
+     "catalyst":"2026国产GLP-1上市潮→多肽原料药放量→缩合剂/Fmoc-AA订单释放","confidence":0.72,
+     "verified_vs_inferred":"verified:市值/昊帆主营多肽试剂; inferred:GLP-1放量对其订单弹性幅度(待data-desk核实下游客户)"}
+  ],
+
+  "edge_cases_小市值但有硬伤": [
+    {"code":"688680","name":"海博思创","industry":"低空经济·BMS","mcap_b":35.8,"roe":-36.21,"reason":"小市值35.8亿符合, 但ROE-36.21巨亏(储能系统集成毛利低)+eVTOL航空BMS布局纯inferred+五因子④价值可捕获⑤催化剂偏弱。提早介入但风险高, 入观察池"},
+    {"code":"603078","name":"江化微","industry":"半导体·湿电子化学品","mcap_b":160.9,"roe":5.44,"reason":"湿电子化学品G5级卡位真+ROE偏低, 但市值161亿偏大(超紫苏叶小市值线), 降为边缘"},
+    {"code":"300821","name":"东岳硅材","industry":"固态电池·封装膜","mcap_b":159.5,"roe":-0.39,"reason":"硫化物固态隔水气封装膜技术路径成立, 但市值159亿偏大+ROE转负+封装膜布局纯推断, 边缘观察"}
+  ],
+
+  "downgraded_市值过大或亏损概念": [
+    {"code":"300285","name":"国瓷材料","mcap_b":554.5,"reason":"hunter估15亿实际554亿(37×偏差), ESC陶瓷基体卡位真但市值远超紫苏叶, 已是材料平台共识"},
+    {"code":"301286","name":"侨源股份","mcap_b":246.2,"reason":"hunter估3.5亿实际246亿(70×偏差), 电子特气C4F6布局+市值过大, 降级"},
+    {"code":"688409","name":"富创精密","mcap_b":522.4,"reason":"设备精密零部件卡位真但市值522亿+ROE-0.19, 半导体设备零部件已是共识, 非紫苏叶(注:上轮误填688826)"},
+    {"code":"688167","name":"炬光科技","mcap_b":296.5,"reason":"CPO微透镜阵列卡位真但市值296亿(hunter估100亿)+ROE-1.8, 偏大降级"},
+    {"code":"002245","name":"蔚蓝锂芯","mcap_b":222.0,"reason":"Li2S固态电解质原料布局, 但市值222亿(hunter估60亿)+提早期, 降级"},
+    {"code":"002318","name":"久立特材","mcap_b":219.2,"reason":"超薄锂箔特种合金, 市值219亿偏大, 降级"},
+    {"code":"300487","name":"蓝晓科技","mcap_b":270.2,"reason":"层析填料卡位真+ROE21.59优秀, 但市值270亿+锂提取业务高关注, 非低关注度紫苏叶"},
+    {"code":"300199","name":"翰宇药业","mcap_b":199.9,"reason":"多肽+注射笔, 但市值200亿+已被市场当多肽概念热炒, 关注度过高"},
+    {"code":"300438","name":"鹏辉能源","mcap_b":377.8,"reason":"eVTOL高倍率电池, hunter估12亿实际378亿(31×偏差), 市值远超+储能股关注度不低, 降级"}
+  ],
+
+  "missing_data": [
+    {"code":"835185","name":"德固特","industry":"固态电池·干法电极设备","reason":"北交所, AKShare新浪源daily+财务均取不到, 市值/财务 missing。hunter称~15亿干法电极设备紫苏叶, 需其他数据源核实"},
+    {"code":"832522","name":"奥加华","industry":"低空经济·航空连接器","reason":"北交所, AKShare取不到, missing。hunter称~1.5-3亿航空连接器+AS9100认证, 低关注度画像吻合但客户绑定纯推断, 需核实"}
+  ],
+
+  "key_insight": "瓶颈选股链跑通5个景气go行业, 经verified市值硬筛, 合格小市值紫苏叶仅3只(华光新材67亿/爱科赛博19亿/昊帆生物54亿) + 边缘3只。核心教训: ①hunter演绎能定位'对的瓶颈环节'(HBM钎焊/TSV脉冲电源/多肽缩合剂卡位逻辑都成立), 但市值系统性低估30-70倍, 必须verified; ②A股真紫苏叶稀缺(多数卡位股市值已大=市场已发现, 反证'低关注度'是真稀缺资源); ③北交所小市值标的(德固特/奥加华)数据源缺失是盲区。",
+
+  "next_step_诚实": "3只合格紫苏叶(华光/爱科赛博/昊帆)的卡位真实性仍是inferred(基于产品线+化学/工艺逻辑演绎, 未确认'该公司确在该环节有客户订单')。下一步必须 data-desk 联网逐只核实: ①华光新材是否真通过HBM级客户(长电/通富)验证 ②爱科赛博是否确为盛美/中微TSV设备配套 ③昊帆生物GLP-1下游客户与订单弹性。验证通过才进个股8-step。"
+}
