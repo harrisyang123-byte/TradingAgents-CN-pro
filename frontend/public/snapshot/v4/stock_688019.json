@@ -44,7 +44,12 @@
   "business_quality": "优-A级(财务92分: 净利CAGR56%+ROE11→25%提升+毛利58%+ROIC>>WACC 22-28%+负债30%低)",
   "position_nature": "优质卡位成长(CMP国产替代龙头+未炒到极端): 区别于AI最底层已炒满标的, 卡位真+健康+分位0.65中位",
   "five_forces": null,
-  "risk_debate_summary": null,
+  "risk_debate_summary": {
+    "aggressive_main_attack": "优质成长(财务92+护城河8.5宽+ROE25)现价¥225可建仓, 等极致便宜可能踏空; 赔率: base250(+11%)/bull312(+39%)",
+    "safe_main_attack": "当前PE48.3 forward PEG1.16无安全边际, 应等回调¥195-205(PEG<1.0)再建; 客户集中>70%单点故障+毛利率回落风险, 防戴维斯双杀",
+    "neutral_proposal_adopted": "分批建仓: 当前¥225小仓(≤2%试探)+回调¥195-205加仓(核心)+硬止损¥175(-22%, PE28破坏成长逻辑); 监控中芯/长存capex指引(领先)+毛利率(跌破55%警戒)+鼎龙成熟制程份额",
+    "data_status": "risk辩论subagent No result, 主agent基于多空+估值兜底(synthesized_by_main_agent)"
+  },
   "risk_debate_full": null,
   "sentiment_view": null,
   "sentiment_full": null,
@@ -77,8 +82,24 @@
     "earnings_revision_view": "市场未充分定价国产替代份额提升+先进封装弹性",
     "stock_specific_risks": "客户集中度>70%/capex周期/7nm认证/竞争(鼎龙追赶)"
   },
-  "debate_rounds": [],
-  "analysts": {},
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "CMP国产替代<25%→60%(2-3倍弹性, 中芯/长存扩产订单可见度高)+先进封装HBM用量×3-5+护城河宽(全球4家配方)+舆情被AI虹吸错杀。修正PEG=48.3/40×(3/4)=0.91<1成长未充分定价。反驳空方'PE48不便宜'=静态后视镜, 2027 forward PE仅35x; '客户集中'恰是护城河(绑定国产替代确定性需求)。base¥250/bull¥300, 达250概率65%。"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "PE48.3当前无安全边际(forward PEG1.16); 客户集中>70%单点故障(中芯/长存任一capex暂停冲击15-25%营收); 成熟制程(占40%)鼎龙已认证切入→混合毛利率向52-55%回落; AI虹吸+半导体去库周期双重压制估值修复>12月。下行base¥170/stress¥140。⚠️注: bear'低基数幻觉'论据(称2023净利1.3亿反弹)经核实为数据错误——1.3亿是2021年, 实际连续5年高增长无中断, 此论据被director驳回。"
+    }
+  ],
+  "analysts": {
+    "financial": "财务健康92分(A级): 净利2021→2025连续5年1.3/3.0/4.0/5.3/7.8亿CAGR56%无中断; ROE 11→25.18%提升(DuPont拆解=净利率15→28%主驱动, 非加杠杆); 毛利率51→58%(配方+认证壁垒支撑, 对标Cabot 52%更高); 负债率30%无有息负债+FCF为正。红旗: 客户集中度>70%(中芯/长存capex波动影响季度业绩); 毛利率长期或回落52-55%。",
+    "competitive": "护城河8.5'宽': CMP抛光液=芯片原子级平坦化不可替代工艺×认证周期18-24月×配方know-how全球仅4家(Dupont/Fujimi/AGC/安集)×国产替代刚性(地缘下晶圆厂主动导入)。波特五力: 新进入威胁2/替代1/买方议价6(客户集中但CMP占晶圆成本<3%良率敏感砍价弱)/供方3/同业4(鼎龙追赶但落后2-3年认证)。HBM第二曲线高确定: 每层堆叠需CMP, 用量×3-5。",
+    "valuation": "成长股forward PE法: 2026E净利~10亿EPS6.25/2027E~13亿EPS8(国产替代+先进封装放量), CAGR31%常态。PE历史5年分位0.65(区间28-95x), forward PEG~1.16(2026E)。可比: Dupont电子25-30x/A股半导体材料成长40-60x, 给35-45x forward。target bear¥219(35x)/base¥250(40x)/bull¥312(2027E×39x), 买点¥195-205(PEG<1.0)。健康成长非透支, 但当前¥225无安全边际。",
+    "sentiment": "舆情偏低估: 半导体材料被AI算力(光模块/GPU)主线虹吸, CMP耗材关注度低迷(市场温度偏冷)。正向预期差: 先进封装HBM增量+28nm以下国产晶圆厂扩产量价齐升拐点(2026H2-2027)未被充分price-in, 市场按'半导体材料周期股'定价而非'国产替代成长股'=定价逻辑错配。距高-37.5%套牢盘消化充分。催化: 大客户先进制程验证通过/HBM订单可见度。"
+  },
   "reflection": {
     "prev_rating": "无(首次)",
     "prev_date": "N/A",
