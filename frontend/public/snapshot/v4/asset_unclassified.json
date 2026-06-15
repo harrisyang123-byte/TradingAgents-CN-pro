@@ -16,7 +16,21 @@
     "run_mode": "ai_proxy",
     "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "eliminate",
+    "summary": "v8修复v7遗留bug: target从12%降至0%(全部归位到equity/precious_metal等7大类)。海外配置已通过QDII基金归equity, 不需独立大类",
+    "situation": "实际持仓0%/目标0%/无需配置",
+    "direction": "保持0%, 若未来出现未归类标的须穿透分类后归位",
+    "trend": null,
+    "risks": [
+      "若分类逻辑漏掉新型资产(如加密货币ETF/REITs等新类别), 需扩展canonical 7大类"
+    ],
+    "confidence": 0.95,
+    "forward_view": null,
+    "reflection": {
+      "what_changed": "v7 unclassified 12%是v3时代误设, v4修复为0%正确MECE"
+    }
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "debate_rounds": [],

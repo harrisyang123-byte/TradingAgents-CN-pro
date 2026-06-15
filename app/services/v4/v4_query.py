@@ -322,13 +322,31 @@ def build_asset_detail(units: Dict[str, Dict[str, Any]], asset_class: str) -> Di
     plan_env = units.get(f"plan:{asset_class}")
     meta = decorate_unit(f"asset:{asset_class}", asset_env, units)
     asset_payload = (asset_env or {}).get("payload", {}) if asset_env else {}
+    # D0-9 兼容(2026-06-15): 大类单元有两种 schema —
+    #   老: payload.verdict.{stance,summary,situation,...} 嵌套
+    #   新: payload.{stance,summary,situation,direction,risks,forward_view,reflection} 扁平
+    # 扁平 schema 的固收/现金/大宗等大类此前 verdict=null 导致前端 Tab2 看不到分析,
+    # 这里若无嵌套 verdict 但有扁平 stance, 用扁平字段组装 verdict, 保证 API/快照同构展示。
+    _verdict = asset_payload.get("verdict")
+    if not _verdict and asset_payload.get("stance"):
+        _verdict = {
+            "stance": asset_payload.get("stance"),
+            "summary": asset_payload.get("summary"),
+            "situation": asset_payload.get("situation"),
+            "direction": asset_payload.get("direction"),
+            "trend": asset_payload.get("trend"),
+            "risks": asset_payload.get("risks"),
+            "confidence": asset_payload.get("confidence"),
+            "forward_view": asset_payload.get("forward_view"),
+            "reflection": asset_payload.get("reflection"),
+        }
     resp: Dict[str, Any] = {
         "asset_class": asset_class,
         "label": ac.label_of(asset_class),
         "is_equity": ac.is_equity(asset_class),
         "max_drill_depth": ac.max_drill_depth(asset_class),
         "asset_unit": meta,
-        "verdict": asset_payload.get("verdict"),
+        "verdict": _verdict,
         "tradable": asset_payload.get("tradable", []),
         "holding_only_exposure": asset_payload.get("holding_only_exposure", 0),
         # §5.9 A：辩论与专项分析早已在信封里，此前被丢弃；所有大类通用（展示缺口非数据缺口）

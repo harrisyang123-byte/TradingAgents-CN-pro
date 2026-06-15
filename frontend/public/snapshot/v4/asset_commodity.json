@@ -16,7 +16,24 @@
     "run_mode": "ai_proxy",
     "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "overweight",
+    "summary": "大宗当前0%→3%, 工业金属(铜>铝)受AI数据中心电力基建拉动结构性增量(每GW=4万吨铜), 全球AI 2025-28 新增电力50-80GW对应200-320万吨铜增量。供给端铜矿capex 2020-24 低迷, 新矿2027后投产, 供需缺口2026-27峰值",
+    "situation": "工业金属(铜核心)/铝(电网+散热)/避免原油(EV替代). 铜价$9500/吨上方/有色ETF净流入/全球制造业PMI需监控",
+    "direction": "分批建仓 铜价$9000-9200分批/突破$11000或2027Q2减仓。仅有色ETF(512400)非期货控风险",
+    "trend": null,
+    "risks": [
+      "铜价vol 20%+, 3%仓位组合波动≈0.6%, 设$8500硬止损-10%",
+      "周期品禁PEG, 全球PMI跌破荣枯连2月触发减仓",
+      "国储抛铜压价(2021三轮压8%先例), 抛储信号先减半",
+      "AI capex不及预期, 跟踪北美4云厂季度guidance"
+    ],
+    "confidence": 0.72,
+    "forward_view": null,
+    "reflection": {
+      "what_changed": "v3未配, 首次纳入. AI电力需求结构增量+供给约束+政策收紧三重共振"
+    }
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "debate_rounds": [],

@@ -16,7 +16,25 @@
     "run_mode": "ai_proxy",
     "exists": true
   },
-  "verdict": null,
+  "verdict": {
+    "stance": "add_REITs_only",
+    "summary": "房地产 0%→2%。中国住宅地产仍下行出清(新开工-20% YoY)坚决不碰; 但公募REITs(产业园/物流仓/数据中心)与住宅周期脱钩, 受益AI基建。仅配产业园+数据中心REITs作收益增强, 非住宅地产暴露",
+    "situation": "住宅:新开工-20% YoY出清未结束 / REITs二级市场折价从15%→8%收窄机构进场 / REITs扩募+数据中心REITs获批政策扩容",
+    "direction": "配置 2% 全部走公募 REITs(基础设施/产业园/数据中心), 严禁住宅地产/开发商个股。流动性差需长持(>1年)",
+    "trend": null,
+    "risks": [
+      "流动性差: REITs场内成交量小, 大额买入冲击成本3-5%, 分批建仓",
+      "政策风险: 若REITs税收优惠取消, 估值下修10-20%",
+      "AI基建REITs估值已部分price-in,溢价缩窄需等回调",
+      "信用风险: 个别底层资产现金流恶化(如长租公寓出租率<85%)"
+    ],
+    "confidence": 0.65,
+    "forward_view": null,
+    "reflection": {
+      "what_changed": "v3 real_estate 0%彻底回避(只看见住宅崩)。v4纳入产业园/数据中心REITs作收益增强(2%小仓位严格非住宅)",
+      "self_check": "住宅地产坚决0% + REITs仅2%试水, 不放大风险"
+    }
+  },
   "tradable": [],
   "holding_only_exposure": 0,
   "debate_rounds": [],
