@@ -546,6 +546,27 @@ export const portfolioV4Api = {
       return ApiClient.get<HoldingsReview>('/api/portfolio/v4/holdings-review')
     }
   },
+
+  // ── 选股池 & 产业链瓶颈扫描成果（2026-06-15）─────────────────────────
+  // _scan/*.json 是 alpha 扫描/产业链瓶颈深挖产物，只在静态快照里（无后端路由），
+  // 始终走 snapshot fetch；调用方异常自行兜底（无数据时显示空态）。
+  async getScanIndex() {
+    return loadSnapshot<ScanIndex>('_scan/_index.json')
+  },
+  async getScanFile(file: string) {
+    return loadSnapshot<Record<string, unknown>>(`_scan/${file}`)
+  },
+}
+
+// ── 扫描索引类型 ──────────────────────────────────────────────────────
+export interface ScanFileMeta {
+  file: string
+  method: string
+  key: string
+}
+export interface ScanIndex {
+  generated: string
+  scan_files: ScanFileMeta[]
 }
 
 // ── D0-8 投资决策全景树（持仓挂大类/行业 + 全局配比 + 资金流向）──────

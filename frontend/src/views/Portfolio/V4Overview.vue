@@ -15,6 +15,11 @@
         <HoldingsReviewTab @open-stock="openStock" @open-asset="openAsset" @open-industry="openIndustry" />
       </el-tab-pane>
 
+      <!-- Tab1 选股池 & 产业链瓶颈（自下而上进攻链产出：alpha 清单/瓶颈深挖/错杀龙头）-->
+      <el-tab-pane label="🌿 选股池 / 产业链瓶颈" name="alpha">
+        <AlphaScanTab @open-stock="openStock" />
+      </el-tab-pane>
+
       <!-- Tab2 大类详情（动态, 从持仓页大类首行点击进入） -->
       <el-tab-pane :disabled="!currentAsset" name="asset">
         <template #label>
@@ -56,6 +61,7 @@ import AssetDetailTab from './v4/AssetDetailTab.vue'
 import IndustryDetailTab from './v4/IndustryDetailTab.vue'
 import StockDetailTab from './v4/StockDetailTab.vue'
 import HoldingsReviewTab from './v4/HoldingsReviewTab.vue'
+import AlphaScanTab from './v4/AlphaScanTab.vue'
 import { classLabel } from './v4/assetClasses'
 import { useV4Overview } from './v4/useV4Units'
 
