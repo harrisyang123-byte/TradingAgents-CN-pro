@@ -17,7 +17,7 @@
     "stance": "add",
     "summary": "贵金属 2.89→4.5% +1.61pp 加配. 金价 $4350 (2025+81%) + 央行购金 Q1 244 吨连续 17 月 + 地缘避险. 实际利率 2.07% 是逆风.",
     "valuation_basis": "金价 $4350 vs 公允 $3500-4200 (基于实际利率+央行购金模型) — 偏高但趋势完好",
-    "structure_target": "黄金 ETF 4% (518880 易方达 / 518800 广发上海金) + 实物金 0.5% 配置",
+    "structure_target": "黄金 ETF 4% (518880 黄金ETF华安 / 518800 黄金ETF国泰) + 实物金 0.5% 配置",
     "action_plan": {
       "immediate_add": "+0.7% 黄金 ETF (¥7000) 分批",
       "trigger_add": "回调至 $4200 加速 + 1.0% (满 4.5%)",
@@ -37,6 +37,7 @@
       "final_verdict": "ACCEPT",
       "score": 84
     },
-    "confidence": 0.75
+    "confidence": 0.75,
+    "correction_2026_06_15": "verified修正基金公司名: 518880黄金ETF华安(原误标易方达)/518800黄金ETF国泰(原误标广发上海金), 代码与黄金ETF标的本身正确"
   }
 }
