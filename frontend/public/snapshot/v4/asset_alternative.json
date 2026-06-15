@@ -51,5 +51,30 @@
     "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "plan": null
+  "plan": {
+    "asset_class": "alternative",
+    "current_weight": 0,
+    "target_weight": 0,
+    "stance": "zero",
+    "summary": "维持 0%. 合规红线 override: 境内禁止加密货币交易 (2021 央行禁令) + 外汇管制限制跨境另类敞口, 零合规可投标的.",
+    "compliance_override": "硬约束 — 不冒合规风险",
+    "valuation_basis": "N/A (合规不可行)",
+    "action_plan": "维持 0% 直至合规渠道开放 (短期内不会)",
+    "four_dim_quality_gate": {
+      "composite": 8.0,
+      "pass": true,
+      "note": "合规零风险"
+    },
+    "critic_evaluation": {
+      "final_score": 85,
+      "final_verdict": "ACCEPT",
+      "v2_score": 85,
+      "summary": "合规红线 override 维持 0%, 避免合规风险"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 85
+    },
+    "confidence": 0.95
+  }
 }

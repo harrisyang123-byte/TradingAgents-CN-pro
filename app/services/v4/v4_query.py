@@ -356,7 +356,16 @@ def build_asset_detail(units: Dict[str, Dict[str, Any]], asset_class: str) -> Di
     if not ac.is_equity(asset_class):
         plan_payload = (plan_env or {}).get("payload", {}) if plan_env else {}
         resp["plan_unit"] = decorate_unit(f"plan:{asset_class}", plan_env, units)
-        resp["plan"] = plan_payload.get("plan") or asset_payload.get("plan")
+        # D0-9 兼容(2026-06-15): plan 单元两种 schema —
+        #   老: payload.plan.{holding_structure,instrument_mix,...} 嵌套
+        #   新: payload.{stance,summary,action_plan,structure_target,valuation_basis,...} 扁平
+        # 扁平方案此前 plan=null 导致前端投资方案看不到, 这里无嵌套 plan 但有扁平方案字段时
+        # 直接把 plan_payload 整体作为 plan 传给前端(PlanCard 已兼容新旧 schema)。
+        _plan = plan_payload.get("plan") or asset_payload.get("plan")
+        if not _plan and (plan_payload.get("action_plan") or plan_payload.get("structure_target")
+                          or plan_payload.get("stance")):
+            _plan = plan_payload
+        resp["plan"] = _plan
     else:
         eq_alloc = units.get("alloc:equity_industries")
         resp["equity_industries_unit"] = decorate_unit("alloc:equity_industries", eq_alloc, units)

@@ -51,5 +51,32 @@
     "run_mode": "mode_a_main_agent",
     "exists": true
   },
-  "plan": null
+  "plan": {
+    "asset_class": "cash",
+    "current_weight": 27.93,
+    "target_weight": 19,
+    "stance": "reduce",
+    "summary": "现金 27.93→19% -8.93pp 减配, 活期(0.15%)→货基(1.4-1.62%) 提升 20-30bp 年化收益. 释放¥8.93pp 资金到 固收/贵金属/REITs/商品.",
+    "valuation_basis": "实际利率: 活期 0.15-1.2=-1.05% (毁灭购买力) vs 货基 1.4-1.2=+0.2% (微正)",
+    "structure_target": "活期≤7-8% / 货基为主 ~10% / 短债 ~2%",
+    "action_plan": {
+      "immediate": "活期挪货基, 优先 511990 添益/511880 银华日利",
+      "stage2": "若 cash 已降至 19% 后, 余下减仓资金分批到 fixed_income+precious_metal+real_estate+commodity"
+    },
+    "four_dim_quality_gate": {
+      "composite": 7.5,
+      "pass": true
+    },
+    "critic_evaluation": {
+      "final_score": 82,
+      "final_verdict": "ACCEPT",
+      "v2_score": 82,
+      "summary": "现金超配近28%拖累收益,减至19%仍留足安全垫"
+    },
+    "credibility": {
+      "final_verdict": "ACCEPT",
+      "score": 82
+    },
+    "confidence": 0.78
+  }
 }

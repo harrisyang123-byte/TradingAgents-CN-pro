@@ -65,15 +65,48 @@
           </el-tag>
         </div>
       </div>
+
+      <!-- 新 schema(扁平方案: 固收/现金/大宗/贵金属/房地产/另类)：立场+摘要+结构目标+行动计划 -->
+      <div v-if="anyNewSchema" class="pc-newschema">
+        <div v-if="plan.stance || plan.target_weight != null" class="pc-section">
+          <div class="pc-section-title">配置立场</div>
+          <el-tag :type="stanceTagType" effect="plain">{{ stanceZh }}</el-tag>
+          <span v-if="plan.current_weight != null || plan.target_weight != null" class="pc-weight">
+            {{ fmtPct(plan.current_weight) }} → <b>{{ fmtPct(plan.target_weight) }}</b>
+          </span>
+        </div>
+        <div v-if="plan.summary" class="pc-section">
+          <div class="pc-section-title">方案摘要</div>
+          <p class="pc-text">{{ plan.summary }}</p>
+        </div>
+        <div v-if="plan.structure_target" class="pc-section">
+          <div class="pc-section-title">结构目标（买什么）</div>
+          <p class="pc-text pc-target">{{ plan.structure_target }}</p>
+        </div>
+        <div v-if="plan.action_plan" class="pc-section">
+          <div class="pc-section-title">行动计划</div>
+          <div class="pc-actions">
+            <div v-for="(v, k) in normalizedActionPlan" :key="k" class="pc-action-row">
+              <span class="pc-action-key">{{ actionKeyZh(String(k)) }}</span>
+              <span class="pc-action-val">{{ v }}</span>
+            </div>
+          </div>
+        </div>
+        <div v-if="plan.valuation_basis" class="pc-section">
+          <div class="pc-section-title">估值依据</div>
+          <p class="pc-text">{{ plan.valuation_basis }}</p>
+        </div>
+      </div>
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import EmptyUnitState from './EmptyUnitState.vue'
 import type { AssetPlan } from '@/api/portfolioV4'
 
-defineProps<{
+const props = defineProps<{
   plan: AssetPlan | null | undefined
   assetClass: string
   label: string
@@ -83,6 +116,49 @@ function fmtPct(v: number | null | undefined): string {
   if (v == null) return '--'
   return `${Number(v).toFixed(1)}%`
 }
+
+// 新扁平 schema 检测（任一新字段存在）
+const anyNewSchema = computed(() => {
+  const p = props.plan as Record<string, unknown> | null | undefined
+  if (!p) return false
+  return !!(p.stance || p.summary || p.structure_target || p.action_plan || p.valuation_basis)
+})
+
+const STANCE_ZH: Record<string, string> = {
+  reduce: '减配', add: '加配', overweight: '超配', underweight: '低配',
+  hold: '持有', zero: '清零/不配', bullish: '看多', slight_add: '小幅加配',
+  opportunistic_build: '择机建仓', overweight_init: '超配起步', add_REITs_only: '仅配 REITs',
+}
+const stanceZh = computed(() => {
+  const s = (props.plan as Record<string, unknown> | null)?.stance as string | undefined
+  return s ? (STANCE_ZH[s] || s) : ''
+})
+const stanceTagType = computed(() => {
+  const s = (props.plan as Record<string, unknown> | null)?.stance as string | undefined
+  if (!s) return 'info'
+  if (/add|overweight|bullish|build/.test(s)) return 'success'
+  if (/reduce|underweight|zero/.test(s)) return 'warning'
+  return 'info'
+}) as unknown as () => 'success' | 'warning' | 'info'
+
+// action_plan 可能是对象或字符串，统一成 key→value
+const normalizedActionPlan = computed<Record<string, string>>(() => {
+  const ap = (props.plan as Record<string, unknown> | null)?.action_plan
+  if (!ap) return {}
+  if (typeof ap === 'string') return { plan: ap }
+  if (typeof ap === 'object') {
+    const out: Record<string, string> = {}
+    for (const [k, v] of Object.entries(ap as Record<string, unknown>)) out[k] = String(v)
+    return out
+  }
+  return {}
+})
+const ACTION_KEY_ZH: Record<string, string> = {
+  immediate: '立即', immediate_add: '立即加仓', conditional_add_batch2: '条件加仓(二批)',
+  trigger_add: '触发加仓', trigger: '触发条件', execution: '执行', stage2: '第二阶段',
+  stop_loss: '止损线',
+}
+function actionKeyZh(k: string): string { return ACTION_KEY_ZH[k] || k }
 </script>
 
 <style scoped>
@@ -117,4 +193,12 @@ function fmtPct(v: number | null | undefined): string {
   flex-wrap: wrap;
   gap: 6px;
 }
+.pc-newschema { display: flex; flex-direction: column; gap: 16px; }
+.pc-text { font-size: 13px; color: #303133; line-height: 1.7; margin: 0; }
+.pc-target { background: #f0f9eb; padding: 8px 12px; border-radius: 6px; color: #529b2e; font-weight: 600; }
+.pc-weight { margin-left: 10px; font-size: 13px; color: #606266; }
+.pc-actions { display: flex; flex-direction: column; gap: 6px; }
+.pc-action-row { display: flex; gap: 10px; font-size: 13px; line-height: 1.6; }
+.pc-action-key { flex: 0 0 96px; font-weight: 600; color: #409eff; }
+.pc-action-val { flex: 1; color: #303133; }
 </style>

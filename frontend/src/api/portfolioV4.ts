@@ -302,6 +302,14 @@ export interface AssetPlan {
   risk_flags?: string[]
   holding_only_note?: string
   note?: string
+  // 新扁平 schema(固收/现金/大宗/贵金属/房地产/另类执行方案)
+  stance?: string
+  summary?: string
+  structure_target?: string
+  action_plan?: Record<string, string> | string
+  valuation_basis?: string
+  current_weight?: number | null
+  target_weight?: number | null
 }
 
 export interface IndustryAllocationRow {
