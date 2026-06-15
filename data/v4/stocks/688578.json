@@ -103,6 +103,30 @@
     "name": "艾力斯",
     "industry": "创新药+CXO",
     "market": "A股",
-    "instrument_type": "stock"
+    "instrument_type": "stock",
+    "analysts": {
+      "financial": "ROE35.4%(创新药罕见已盈利高ROE, 同行多数亏损); 归母净利2023→2024→2025=6.4→14.3→21.9亿(CAGR85%); 单品爆款高毛利+费用率摊薄现金流健康。伏美替尼已过盈亏平衡放量凶猛。",
+      "competitive": "护城河B+(强单品+弱梯队): 伏美替尼三代EGFR-TKI Best-in-class(脑转移ORR85%碾压奥希替尼60%+一线联合PFS优)。单品依赖>95%是核心风险, 管线梯队尚早期。",
+      "valuation": "创新药forward盈利×可比PE: PE17.1 PEG0.32(创新药罕见低估)。2026E净利29.6亿×PE25-30x(对标恒瑞/百济)=740-888亿=¥164-197。当前¥83即买点附近(PE15安全边际)。被误定价为传统药企的高成长创新药。",
+      "sentiment": "分位0.78非恐慌错杀而是市场有意折价(担忧单品依赖+医保降价)。预期差: 市场price-in增速下滑15-20%, 实际海外授权+一线渗透支撑35-50%, 正预期差>20pct。创新药板块系统性杀估值误伤。"
+    },
+    "debate_rounds": [
+      {
+        "round": 1,
+        "side": "bull",
+        "thesis": "PEG0.32创新药罕见低估+脑转移BIC数据壁垒+海外License-out打开天花板+ROE35%商业化验证。市场以传统药PE17定价创新药53%增速存认知差。base¥180(+117%)。"
+      },
+      {
+        "round": 1,
+        "side": "bear",
+        "thesis": "单品依赖>95%(伏美替尼竞品突破或安全性事件则灾难); 医保谈判每2年降价15-30%; 四代TKI(BLU-945)若数据优异颠覆三代; 分位0.78非底部动量偏弱。方向看多分歧在增速持续年数(2-3年vs5年)。"
+      }
+    ],
+    "risk_debate_summary": {
+      "aggressive_main_attack": "低估高成长当前¥83即买点附近, 中仓5-8%分批",
+      "safe_main_attack": "单品依赖>95%是灾难性尾部风险, 仓位控制+跌破¥62(PE12)清仓",
+      "neutral_proposal_adopted": "中仓5-8%分批建仓, 止损¥62, 监控海外License-out里程碑+医保续约+四代TKI数据",
+      "data_status": "synthesized_by_main_agent"
+    }
   }
 }

@@ -44,7 +44,12 @@
   "business_quality": "良-周期成长现金牛(ROE常态21%>WACC+现金流1.22x含金量+负债37%改善+股息5%, 但周期波动+营收萎缩)",
   "position_nature": "低估周期成长龙头+高股息打底(诚实: 非GLP-1卡位成长股, 特种/医用氨基酸仅3.1%营收): 价值+股息底仓小仓",
   "five_forces": null,
-  "risk_debate_summary": null,
+  "risk_debate_summary": {
+    "aggressive_main_attack": "低估+高股息5%打底, 价值底仓小仓≤2-3%当前可小仓",
+    "safe_main_attack": "温和低估非深度+营收萎缩, 等≤8.0(PB1.9x股息5.5%)再加",
+    "neutral_proposal_adopted": "价值底仓≤2-3%: 当前¥8.95小仓+回调≤8加, 止损¥7.6, 监控玉米成本+氨基酸价格+ROE",
+    "data_status": "synthesized_by_main_agent"
+  },
   "risk_debate_full": null,
   "sentiment_view": null,
   "sentiment_full": null,
@@ -78,8 +83,24 @@
     "earnings_revision_view": "市场过度悲观(外推2024谷底), 正常化盈利30亿+高股息未充分定价",
     "stock_specific_risks": "玉米成本/氨基酸周期/营收萎缩/伊品价格战/ROE下行"
   },
-  "debate_rounds": [],
-  "analysts": {},
+  "debate_rounds": [
+    {
+      "round": 1,
+      "side": "bull",
+      "thesis": "低估周期成长现金牛: PE7.6/正常化9.2x处合理下沿+ROE常态21%>WACC+菌种成本护城河+股息5%托底+负债改善。市场过度悲观。base¥10.21。"
+    },
+    {
+      "round": 1,
+      "side": "bear",
+      "thesis": "营收连续3年萎缩(顶线瓶颈)+玉米成本敞口55%+ROE从36%趋势性下行+伊品价格战追赶+特种氨基酸/GLP-1期权小(3%)兑现需3-5年。周期股低PE有合理性。"
+    }
+  ],
+  "analysts": {
+    "financial": "财务78分周期成长现金牛: 归母净利2021→2025=24→44.1→31.8→27.4→32.8亿(周期波动峰谷比1.6x); ROE从36%回落21.5%仍健康; 现金流1.43>EPS1.17含金量优; 负债率49→37改善; 高股息5%。隐忧: 营收连续3年萎缩(279→242亿)。",
+    "competitive": "护城河B+(7.2过程型): 赖氨酸/苏氨酸高产菌株10年迭代壁垒(转化率68%行业领先)+玉米深加工一体化成本领先800-1000元/吨+味精CR3 85%。伊品已追至85%效率。★特种/医用氨基酸仅占3.1%(GLP-1是小期权非主驱动)。",
+    "valuation": "周期股法(禁PEG): 正常化净利31.5亿(剔2022景气峰)×PE9-12x(对标万华12-15/海大15-20/阜丰8-10)。target bear¥7.78/base¥10.21/bull¥12.96。买点≤9.0(理想≤8.0, PB1.9x+股息5.5%三重安全边际)。当前¥8.95温和低估非深度。",
+    "sentiment": "偏悲观非极端错杀: 市场过度线性外推2024谷底盈利, 未充分定价正常化30亿+高股息5%安全垫。GLP-1/合成生物主题证据薄弱未引爆。适合逆向左侧但需容忍时间成本。"
+  },
   "reflection": {
     "prev_rating": "无(首次)",
     "prev_date": "N/A",
