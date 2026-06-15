@@ -808,7 +808,7 @@
     "stock:688019": {
       "unit_id": "stock:688019",
       "unit_type": "stock",
-      "version": 1,
+      "version": 2,
       "fingerprint": null,
       "status": "active",
       "ttl_days": null,
@@ -914,5 +914,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-15T12:51:25Z"
+  "updated_at": "2026-06-15T14:17:57Z"
 }
