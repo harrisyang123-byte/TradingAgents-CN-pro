@@ -186,7 +186,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 36,
+      "industries_count": 37,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
@@ -1487,8 +1487,8 @@
         "未分类",
         {
           "direct_yi": 0.0,
-          "indirect_yi": 85403.6,
-          "total_yi": 85403.6,
+          "indirect_yi": 78849.6,
+          "total_yi": 78849.6,
           "direct_holdings": [],
           "contributing_funds": [
             {
@@ -1549,8 +1549,8 @@
               "code": "110020",
               "name": "易方达沪深300ETF联接A",
               "market_value": 13439.23,
-              "industry_weight_pct": 19.79,
-              "indirect_yi": 2659.6236169999997,
+              "industry_weight_pct": 16.54,
+              "indirect_yi": 2222.848642,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1585,8 +1585,8 @@
               "code": "270010",
               "name": "广发沪深300ETF联接A",
               "market_value": 19604.39,
-              "industry_weight_pct": 19.820000000000004,
-              "indirect_yi": 3885.5900980000006,
+              "industry_weight_pct": 16.550000000000004,
+              "indirect_yi": 3244.5265450000006,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1594,8 +1594,8 @@
               "code": "022424",
               "name": "广发中证A500ETF联接A",
               "market_value": 20607.77,
-              "industry_weight_pct": 17.98,
-              "indirect_yi": 3705.2770459999997,
+              "industry_weight_pct": 15.02,
+              "indirect_yi": 3095.287054,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1612,8 +1612,8 @@
               "code": "003765",
               "name": "广发创业板ETF联接A",
               "market_value": 18681.94,
-              "industry_weight_pct": 45.76,
-              "indirect_yi": 8548.855743999999,
+              "industry_weight_pct": 25.82,
+              "indirect_yi": 4823.6769079999995,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1639,8 +1639,8 @@
               "code": "013180",
               "name": "广发国证新能源车电池ETF发起联接C",
               "market_value": 8149.9,
-              "industry_weight_pct": 61.55,
-              "indirect_yi": 5016.2634499999995,
+              "industry_weight_pct": 47.55,
+              "indirect_yi": 3875.2774499999996,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1782,19 +1782,59 @@
         }
       ],
       [
-        "创新药/化工/维生素/香精香料",
+        "新能源车EV供应链",
         {
-          "direct_yi": 6018.0,
-          "indirect_yi": 0.0,
-          "total_yi": 6018.0,
-          "direct_holdings": [
+          "direct_yi": 0.0,
+          "indirect_yi": 6553.99,
+          "total_yi": 6553.99,
+          "direct_holdings": [],
+          "contributing_funds": [
             {
-              "code": "002001",
-              "name": "新和成",
-              "market_value": 6018.0
+              "code": "110020",
+              "name": "易方达沪深300ETF联接A",
+              "market_value": 13439.23,
+              "industry_weight_pct": 3.25,
+              "indirect_yi": 436.774975,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "270010",
+              "name": "广发沪深300ETF联接A",
+              "market_value": 19604.39,
+              "industry_weight_pct": 3.27,
+              "indirect_yi": 641.063553,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "022424",
+              "name": "广发中证A500ETF联接A",
+              "market_value": 20607.77,
+              "industry_weight_pct": 2.96,
+              "indirect_yi": 609.989992,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "003765",
+              "name": "广发创业板ETF联接A",
+              "market_value": 18681.94,
+              "industry_weight_pct": 19.94,
+              "indirect_yi": 3725.178836,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
+            },
+            {
+              "code": "013180",
+              "name": "广发国证新能源车电池ETF发起联接C",
+              "market_value": 8149.9,
+              "industry_weight_pct": 13.999999999999998,
+              "indirect_yi": 1140.9859999999999,
+              "data_status": "verified",
+              "via": "top_holdings_v4_industry_lookup"
             }
-          ],
-          "contributing_funds": []
+          ]
         }
       ]
     ],

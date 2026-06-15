@@ -400,6 +400,60 @@
           "rec_count": 2
         },
         {
+          "name": "新能源车/EV供应链",
+          "direct_value": 4481.0,
+          "indirect_value": 7779.0,
+          "total_value": 12260.0,
+          "has_industry_analysis": false,
+          "holdings": [
+            {
+              "code": "002050",
+              "name": "三花智控",
+              "market_value": 4481.0,
+              "weight": 0.43,
+              "instrument_type": "stock",
+              "analyzed": true,
+              "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
+              "action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
+              "confidence": 0.65,
+              "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
+              "stop_loss": "¥38 (-17%)",
+              "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估"
+            }
+          ],
+          "indirect": [],
+          "recommendations": [
+            {
+              "code": "300750",
+              "name": "宁德时代",
+              "stance": "建仓(优质龙头, 当前可建+回调360-380加)",
+              "target_price": {
+                "method": "forward PE(剔除周期峰值增速): PE25×forward EPS",
+                "bear": "¥320(PE16-17×常态增速)",
+                "base": "¥475(PE25×EPS19)",
+                "bull": "¥520(PE27,储能超预期)",
+                "buy_point": "¥360-380(PE~22x, 8-10%安全边际)"
+              },
+              "pe": 24.5,
+              "roic": ">>WACC(ROE24.91)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
+            }
+          ],
+          "fund_holdings": [
+            {
+              "code": "013180",
+              "name": "广发国证新能源车电池ETF发起联接C",
+              "market_value": 8150.0,
+              "weight": 0.77,
+              "instrument_type": "fund"
+            }
+          ],
+          "fund_value": 8150.0,
+          "rec_count": 1
+        },
+        {
           "name": "AIoT/安防",
           "direct_value": 12096.0,
           "indirect_value": 1771.0,
@@ -425,42 +479,6 @@
           "recommendations": [],
           "fund_holdings": [],
           "fund_value": 0,
-          "rec_count": 0
-        },
-        {
-          "name": "新能源车/EV供应链",
-          "direct_value": 4481.0,
-          "indirect_value": 1225.0,
-          "total_value": 5706.0,
-          "has_industry_analysis": false,
-          "holdings": [
-            {
-              "code": "002050",
-              "name": "三花智控",
-              "market_value": 4481.0,
-              "weight": 0.43,
-              "instrument_type": "stock",
-              "analyzed": true,
-              "stance": "减仓 (0.43% 维持 + 硬止损¥38, Q2 触发减至 0.2%)",
-              "action": "维持 0.43% (¥4481) 不动 设止损 ¥38",
-              "confidence": 0.65,
-              "summary": "三花 2025 营收 310亿(+11%) 净利 40.63亿(+31%) 但 2026Q1 营收+1.36%/净利+2.68% 增速崩. 现价 ¥46 PE 46.3x + Morningstar 157% premium + 大摩中金调降目标 ¥37-39. 用户现仓 0.43% (¥4481), 维持但设止损¥38, Q2 触发减至 0.2%.",
-              "stop_loss": "¥38 (-17%)",
-              "direction": "中性偏空 — Q1 增速崩 +2.68% + PE 46x 高估"
-            }
-          ],
-          "indirect": [],
-          "recommendations": [],
-          "fund_holdings": [
-            {
-              "code": "013180",
-              "name": "广发国证新能源车电池ETF发起联接C",
-              "market_value": 8150.0,
-              "weight": 0.77,
-              "instrument_type": "fund"
-            }
-          ],
-          "fund_value": 8150.0,
           "rec_count": 0
         },
         {

@@ -517,6 +517,18 @@
       "error": null,
       "path": "stocks/300502.json"
     },
+    "stock:300750": {
+      "unit_id": "stock:300750",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T02:47:36Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/300750.json"
+    },
     "stock:600111": {
       "unit_id": "stock:600111",
       "unit_type": "stock",
@@ -686,5 +698,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-15T02:39:58Z"
+  "updated_at": "2026-06-15T02:47:36Z"
 }
