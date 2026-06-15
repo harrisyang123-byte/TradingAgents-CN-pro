@@ -1,0 +1,123 @@
+{
+  "code": "603501",
+  "name": "韦尔股份",
+  "industry": "半导体产业链",
+  "stock_unit": {
+    "unit_id": "stock:603501",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:603501」，或运行：./scripts/run_v4.sh analyze stock:603501",
+    "version": 1,
+    "generated_at": "2026-06-15T02:39:58Z",
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": "ai_direct",
+    "exists": true
+  },
+  "rating": "建仓(逢低分批) — 健康错杀龙头",
+  "target_price": 101,
+  "entry_price_range": [
+    75,
+    80
+  ],
+  "price_at_judgment": 86.01,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": "健康成长股forward PE法(非周期亏损不用SOTP): 目标=forward EPS 4.05×合理PE25(剔除2021泡沫,对标索尼20x下限+成长溢价)=¥101。买点¥75-80(forward PE18-20x留安全边际)。bull泡沫期PE55x锚不可信。",
+  "credibility": null,
+  "expectation_gap": "基本面verified恢复(净利40.45亿逼近2021峰值44.76+ROE15.4+负债35%健康)但价格仅峰值25%,背离3.6倍; 但价格分位0.08有迷惑性(2021高点PE89x泡沫基数), 真实是合理偏低非极度低估",
+  "chokepoint_score": "CIS半护城河(moat6.5): 全球第三国产第一+车载CIS全球29%份额第二曲线, 但高端手机主摄受索尼50%垄断压制+车载受安森美40%压制",
+  "discovery_level": "🟡半发现(半导体设计被AI算力主题虹吸,CIS赛道关注度低,车载CIS量价齐升未充分定价)",
+  "business_quality": "良-健康恢复股(ROE从2.98修复至15.4,负债率35%极健康,CIS差异化半导体非纯周期品)",
+  "position_nature": "健康错杀(区别于永太困境博弈): 基本面已verified恢复, 可建仓; 但错杀幅度被2021泡沫基数夸大",
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": "消费电子周期二次探底+车载放量延迟+索尼安森美压制→¥62-68(forward PE16-18x)",
+  "downside": "¥72-78(bear: 毛利率见顶+增速回落12%,PE18-21x)",
+  "sell_discipline": [
+    "硬止损¥68(-21%, forward PE~16.5x破坏复苏逻辑)",
+    "逻辑止损: Q2净利同比转负/车载CIS大客户丢单→不等价格即止损",
+    "毛利率止损: 连续2季毛利率跌破32%→修复逻辑证伪",
+    "估值止损: forward PE突破28x且无基本面催化→减仓"
+  ],
+  "thesis": "韦尔是CIS全球第三国产第一龙头, 典型健康错杀: 净利从2023寒冬5.56亿强劲恢复至2025年40.45亿(逼近2021峰值90%)+ROE回15.4%+负债率仅35%极健康, 但价格5年8%分位距高点-74.8%。区别于永太困境博弈, 韦尔基本面已verified恢复可建仓。但诚实: 价格分位0.08被2021 PE89x泡沫基数夸大, 当前PE25.5/forward21x是合理偏低非极度低估。bull目标¥145-179用泡沫期PE55x锚不可信, 目标回归base¥101(PE25×forward EPS4.05)。车载CIS(智驾每车8-12颗摄像头)是确定第二曲线但受安森美压制。当前¥86可小仓建, 理想买点¥75-80加仓。",
+  "risks": [
+    "营收增速仅12.1%偏低(净利增速22%主由毛利修复驱动非量增),毛利率30.6%接近天花板,未来增速回落向12%",
+    "高端手机主摄受索尼50%垄断+车载CIS受安森美40%压制,份额提升空间受限",
+    "消费电子库存周期反复(2022-2023曾营收腰斩)",
+    "代理分销业务17%营收毛利仅8%结构性拖累"
+  ],
+  "confidence": "中高(0.7) - 健康错杀方向确定, 但当前价安全边际一般",
+  "forward_view": {
+    "near_term_calendar": "2025Q3车载CIS收入增速验证/手机CIS出货量环比",
+    "cross_market_leading": "全球智能手机出货量+汽车销量+ADAS渗透率",
+    "mid_term_path": "车载CIS智驾渗透(每车8-12颗)+高端手机像素升级,产品结构向高毛利车载迁移",
+    "path_scenarios": {
+      "乐观": "车载超预期+并购催化→PE30 ¥126",
+      "中性": "车载稳步放量→PE25 ¥101",
+      "悲观": "消费电子周期转弱+毛利见顶→¥72-78"
+    },
+    "earnings_revision_view": "市场一致预期滞后于基本面修复(仍锚2023寒冬),存上修空间但营收增速12%制约",
+    "stock_specific_risks": "索尼/安森美压制/消费电子周期/毛利率天花板/营收增速偏低"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "无(首次分析)",
+    "prev_date": "N/A",
+    "what_changed": "首次建立判断",
+    "why_changed": "N/A",
+    "self_check": "剔除bull泡沫期PE55x锚(目标回归¥101非¥145-179); 诚实承认价格分位0.08被2021 PE89x泡沫夸大; 区分健康错杀(韦尔可建仓)vs困境博弈(永太观察)",
+    "value_creation_screen": "好公司○(ROE15.4恢复+负债健康)/好价格△(forward21x合理偏低安全边际一般)/好未来○(车载第二曲线)"
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": null,
+  "action_plan": null,
+  "anchoring_check": null,
+  "valuation_cross_check": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null,
+  "value_creation": {
+    "roic_vs_wacc": "ROIC>WACC已恢复(ROE15.4%, Fabless轻资产负债35%), 价值创造修复",
+    "actionable_verdict": {
+      "verified_price": 86.01,
+      "verified_pe": 25.5,
+      "eps": 3.37,
+      "roic_pct": ">WACC(ROE15.4)",
+      "industry_wacc": "~9-10%",
+      "stance": "建仓(逢低分批,当前小仓+回调75-80加仓)"
+    },
+    "expert_valuation": {
+      "now_judgment": "健康错杀但错杀幅度被2021泡沫基数夸大, 当前PE25.5/forward21x合理偏低非极度低估",
+      "future_tam": "CIS全球市场+车载CIS(智驾每车8-12颗摄像头,TAM从$38亿→$72亿 CAGR17%)",
+      "future_share": "CIS全球第三(索尼50/三星18/韦尔11-12%)国产第一; 车载CIS全球第二29%(安森美40%压制); 高端手机主摄难破索尼",
+      "future_forward": "2026E净利46-50亿EPS3.9-4.2(车载放量+高端化), 2027E 51-57亿EPS4.3-4.8",
+      "target_price": {
+        "method": "forward PE(剔除2021泡沫): PE25×forward EPS",
+        "bear": "¥78(PE20)",
+        "base": "¥101(PE25×4.05)",
+        "bull": "¥126(PE30,车载超预期)",
+        "buy_point": "¥75-80(forward PE18-20x)"
+      },
+      "target_verdict": "base¥101; 当前¥86可小仓建仓; 理想买点¥75-80; bull¥145-179(泡沫期PE55x锚)不予采信",
+      "pe_percentile_note": "价格分位0.08迷惑性: 2021高点341=PE89x泡沫, 剔除后合理PE中枢25-35x, 当前25.5x合理偏低",
+      "data_status": "价格/财务/主营占比=verified_AKShare; forward EPS/可比PE=估值假设(可证伪)",
+      "falsification": [
+        "2025Q3车载CIS收入增速<15%→第二曲线证伪",
+        "2025H2毛利率跌破32%→修复证伪",
+        "韦尔CIS份额跌破25%→格局恶化"
+      ]
+    }
+  },
+  "dcf_intrinsic": null
+}

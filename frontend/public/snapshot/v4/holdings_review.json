@@ -27,8 +27,8 @@
         {
           "name": "半导体产业链",
           "direct_value": 114440.0,
-          "indirect_value": 2362.0,
-          "total_value": 116802.0,
+          "indirect_value": 4900.0,
+          "total_value": 119340.0,
           "has_industry_analysis": true,
           "holdings": [
             {
@@ -58,6 +58,23 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "半导体"
+            },
+            {
+              "code": "603501",
+              "name": "韦尔股份",
+              "stance": "建仓(逢低分批,当前小仓+回调75-80加仓)",
+              "target_price": {
+                "method": "forward PE(剔除2021泡沫): PE25×forward EPS",
+                "bear": "¥78(PE20)",
+                "base": "¥101(PE25×4.05)",
+                "bull": "¥126(PE30,车载超预期)",
+                "buy_point": "¥75-80(forward PE18-20x)"
+              },
+              "pe": 25.5,
+              "roic": ">WACC(ROE15.4)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
             },
             {
               "code": "688012",
@@ -103,7 +120,7 @@
             }
           ],
           "fund_value": 10000.0,
-          "rec_count": 4
+          "rec_count": 5
         },
         {
           "name": "AI算力/数据中心",

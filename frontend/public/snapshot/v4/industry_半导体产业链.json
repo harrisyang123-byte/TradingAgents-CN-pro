@@ -97,17 +97,63 @@
     "exists": false
   },
   "stock_weights": [],
-  "stocks": [],
+  "stocks": [
+    {
+      "unit_id": "stock:603501",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:603501」，或运行：./scripts/run_v4.sh analyze stock:603501",
+      "version": 1,
+      "generated_at": "2026-06-15T02:39:58Z",
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": "ai_direct",
+      "exists": true,
+      "code": "603501",
+      "name": "韦尔股份",
+      "rating": "建仓(逢低分批) — 健康错杀龙头",
+      "target_price": 101
+    }
+  ],
   "indirect_holdings": {
-    "direct_yi": 0,
-    "indirect_yi": 0,
-    "total_yi": 0,
-    "contributing_funds": [],
+    "direct_yi": 0.0,
+    "indirect_yi": 2538.17,
+    "total_yi": 2538.17,
+    "contributing_funds": [
+      {
+        "code": "012733",
+        "name": "易方达中证人工智能主题ETF联接A",
+        "market_value": 14951.84,
+        "industry_weight_pct": 6.09,
+        "indirect_yi": 910.567056,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "012734",
+        "name": "易方达中证人工智能主题ETF联接C",
+        "market_value": 14033.19,
+        "industry_weight_pct": 6.09,
+        "indirect_yi": 854.621271,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      },
+      {
+        "code": "012629",
+        "name": "广发国证半导体芯片ETF联接A",
+        "market_value": 9999.78,
+        "industry_weight_pct": 7.73,
+        "indirect_yi": 772.9829940000001,
+        "data_status": "verified",
+        "via": "top_holdings_v4_industry_lookup"
+      }
+    ],
     "summary": {
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 35,
+      "industries_count": 36,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,

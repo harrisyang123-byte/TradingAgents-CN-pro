@@ -186,7 +186,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 35,
+      "industries_count": 36,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
@@ -1487,8 +1487,8 @@
         "未分类",
         {
           "direct_yi": 0.0,
-          "indirect_yi": 87941.77,
-          "total_yi": 87941.77,
+          "indirect_yi": 85403.6,
+          "total_yi": 85403.6,
           "direct_holdings": [],
           "contributing_funds": [
             {
@@ -1513,8 +1513,8 @@
               "code": "012733",
               "name": "易方达中证人工智能主题ETF联接A",
               "market_value": 14951.84,
-              "industry_weight_pct": 34.99,
-              "indirect_yi": 5231.648816,
+              "industry_weight_pct": 28.9,
+              "indirect_yi": 4321.08176,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1540,8 +1540,8 @@
               "code": "012734",
               "name": "易方达中证人工智能主题ETF联接C",
               "market_value": 14033.19,
-              "industry_weight_pct": 34.99,
-              "indirect_yi": 4910.213181,
+              "industry_weight_pct": 28.9,
+              "indirect_yi": 4055.59191,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1621,8 +1621,8 @@
               "code": "012629",
               "name": "广发国证半导体芯片ETF联接A",
               "market_value": 9999.78,
-              "industry_weight_pct": 42.849999999999994,
-              "indirect_yi": 4284.9057299999995,
+              "industry_weight_pct": 35.12,
+              "indirect_yi": 3511.922736,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
