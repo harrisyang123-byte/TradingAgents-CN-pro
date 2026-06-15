@@ -95,7 +95,25 @@
     "exists": false
   },
   "stock_weights": [],
-  "stocks": [],
+  "stocks": [
+    {
+      "unit_id": "stock:002326",
+      "status": "green",
+      "status_label": "新鲜",
+      "stale_reason": null,
+      "cli_hint": "在 CLI 对话说「分析 stock:002326」，或运行：./scripts/run_v4.sh analyze stock:002326",
+      "version": null,
+      "generated_at": null,
+      "ttl_days": null,
+      "upstream": [],
+      "run_mode": null,
+      "exists": true,
+      "code": "002326",
+      "name": "永太科技",
+      "rating": "观察/留意池(困境反转博弈, NOT建仓)",
+      "target_price": 26
+    }
+  ],
   "indirect_holdings": {
     "direct_yi": 0,
     "indirect_yi": 0,

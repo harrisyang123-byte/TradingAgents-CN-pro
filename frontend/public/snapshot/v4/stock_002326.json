@@ -1,0 +1,122 @@
+{
+  "code": "002326",
+  "name": "永太科技",
+  "industry": "化工必需消费",
+  "stock_unit": {
+    "unit_id": "stock:002326",
+    "status": "green",
+    "status_label": "新鲜",
+    "stale_reason": null,
+    "cli_hint": "在 CLI 对话说「分析 stock:002326」，或运行：./scripts/run_v4.sh analyze stock:002326",
+    "version": null,
+    "generated_at": null,
+    "ttl_days": null,
+    "upstream": [],
+    "run_mode": null,
+    "exists": true
+  },
+  "rating": "观察/留意池(困境反转博弈, NOT建仓)",
+  "target_price": 26,
+  "entry_price_range": [
+    17,
+    18
+  ],
+  "price_at_judgment": 21.62,
+  "verdict_oneliner": null,
+  "chain_positioning": null,
+  "industry_weight_pct": null,
+  "valuation_basis": "周期股估值(禁PEG): SOTP分部(锂电PS2.5x+植保1.8x+医药CDMO3.0x+贸易0.3x-有息负债) + PB产能周期底2.0x + 正常化盈利还原(六氟修复+毛利率回25%→net~1.7亿)。target base¥24-28, 买点¥17-18。",
+  "credibility": null,
+  "expectation_gap": "市场用2023-2024亏损线性外推'困境股', 未计入毛利率三连修复+六氟底部+医药CDMO期权; 但现金流转负使拐点未verified确认, 属温和逆向非严重错杀",
+  "chokepoint_score": "中下(锂电是周期品+天赐自供LiFSI压制; 医药CDMO含氟中间体才真卡位但仅14.3%)",
+  "discovery_level": "🟡半发现(锂电过剩叙事冷, 但GLP-1含氟/LiFSI主题未发酵)",
+  "business_quality": "差-周期底部价值毁灭期(ROIC<WACC, 连亏3年ROE-19→-1.73, 护城河中下)",
+  "position_nature": "困境反转博弈(NOT健康龙头错杀): 基本面修复未verified确认, 需双确认催化",
+  "five_forces": null,
+  "risk_debate_summary": null,
+  "risk_debate_full": null,
+  "sentiment_view": null,
+  "sentiment_full": null,
+  "memory_used": [],
+  "worst_case": "六氟持续低迷+2026续亏触发ST+74.4%高负债偿还压力→¥9-10(-55%)",
+  "downside": "¥14-16(bear: 六氟低迷+毛利率停滞18%)",
+  "sell_discipline": [
+    "硬止损 -15%(¥18.4若已持有)",
+    "基本面止损: 连续2季经营现金流为负→清仓",
+    "事件止损: ST公告/债务违约/大股东质押强平→即日离场(ST后流动性枯竭止损线失效, 必须ST前走)",
+    "时间止损: 持仓12个月六氟均价仍<8万+未扭亏→退出"
+  ],
+  "thesis": "氟化工平台(锂电40.6%/植保20.4%/医药CDMO14.3%/贸易24.6%)处周期底部困境反转早期。亏损-6.2→-0.46亿收窄+毛利率8.26→17.83%三连修复方向对, 但经营现金流/股转负(-0.08)是最硬红旗(利润收窄靠非现金项)+负债74.4%+ST风险=容错极窄。这是困境反转博弈非健康错杀, 当前¥21.62不追高(已price-in部分修复), 等双确认(单季经营净利转正+现金流转正)才介入。",
+  "risks": [
+    "经营现金流转负=利润质量差(真拐点vs假拐点核心证伪)",
+    "资产负债率74.4%化工危险区+连亏侵蚀净资产→ST风险",
+    "六氟磷酸锂产能过剩+天赐自供LiFSI压制, 锂电板块周期底部可能持续2-3年",
+    "固态电池远期替代液态电解液整链(2027-2028量产时间表)"
+  ],
+  "confidence": "中(0.6) - 方向(困境反转)清晰但时点(双确认)未到",
+  "forward_view": {
+    "near_term_calendar": "2026半年报扭亏确认/六氟Q3-Q4价格拐点",
+    "cross_market_leading": "六氟磷酸锂现货价(当前6-8万底部)+碳酸锂价格",
+    "mid_term_path": "六氟周期反转弹性(每涨1万对应净利~0.8-1亿)+医药CDMO第二曲线放量",
+    "path_scenarios": {
+      "乐观": "六氟回12万+CDMO放量→¥35+",
+      "中性": "六氟温和修复→¥24-28",
+      "悲观": "六氟低迷+续亏ST→¥14或更低"
+    },
+    "earnings_revision_view": "市场一致预期过度悲观(线性外推亏损), 但现金流转负制约上修",
+    "stock_specific_risks": "ST风险/74.4%高负债偿还/现金流转负/固态电池远期替代"
+  },
+  "debate_rounds": [],
+  "analysts": {},
+  "reflection": {
+    "prev_rating": "无(首次分析)",
+    "prev_date": "N/A",
+    "what_changed": "首次建立判断",
+    "why_changed": "N/A",
+    "self_check": "剔除bull未verified的'六氟15万'(毛利18%反证仍6-8万底部)+'进诺和诺德/礼来'标inferred; 严格区分困境反转博弈vs健康错杀",
+    "value_creation_screen": "好公司✗(ROIC<WACC)/好价格△(部分price-in)/好未来○(期权未兑现)"
+  },
+  "historical_alpha": null,
+  "evidence": [],
+  "verdict_v2": null,
+  "action_plan": null,
+  "anchoring_check": null,
+  "valuation_cross_check": null,
+  "product_subdivision": null,
+  "sensitivity_matrix": null,
+  "tail_risk": null,
+  "data_status_overall": null,
+  "critic_evaluation": null,
+  "value_creation": {
+    "roic_vs_wacc": "ROIC<WACC, 连续3年价值毁灭(ROE-19.08→-16.46→-1.73)。需六氟修复+扭亏才回正。",
+    "actionable_verdict": {
+      "verified_price": 21.62,
+      "verified_pe": "亏损(PE无意义)",
+      "eps": -0.05,
+      "roic_pct": "<0(亏损)",
+      "industry_wacc": "~8-9%",
+      "stance": "观察/留意池, 双确认开仓"
+    },
+    "expert_valuation": {
+      "now_judgment": "周期底部困境反转, 当前¥21.62处base下沿已price-in部分修复, 安全边际有限",
+      "future_tam": "锂电电解液材料(周期品天花板受产能过剩压制) + 含氟医药CDMO(GLP-1超千亿但份额小14.3%)",
+      "future_share": "锂电非龙头(天赐/多氟多压制); LiFSI国内靠前但被天赐自供压制; 医药CDMO含氟中间体真卡位",
+      "future_forward": "正常化盈利(六氟修复+毛利率回25%): base净利~1.7亿/bull~3.5-4.5亿",
+      "target_price": {
+        "method": "周期股法SOTP+PB+正常化盈利(禁PE/PEG)",
+        "bear": "¥14-16",
+        "base": "¥24-28",
+        "bull": "¥35-45",
+        "buy_point": "¥17-18(PB~2.0x产能周期底)"
+      },
+      "target_verdict": "base¥24-28; 当前¥21.62不追高; 买点¥17-18; 双确认(单季经营净利转正+现金流转正)才建仓≤2%期权仓",
+      "data_status": "价格/财务/主营占比=verified_AKShare; 六氟价格/正常化盈利/SOTP倍数=估值假设(可证伪)",
+      "falsification": [
+        "六氟现货Q3/Q4未回升→修复证伪",
+        "连续2季毛利率<20%",
+        "经营现金流持续为负"
+      ]
+    }
+  },
+  "dcf_intrinsic": null
+}

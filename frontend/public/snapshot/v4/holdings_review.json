@@ -535,10 +535,28 @@
             }
           ],
           "indirect": [],
-          "recommendations": [],
+          "recommendations": [
+            {
+              "code": "002326",
+              "name": "永太科技",
+              "stance": "观察/留意池, 双确认开仓",
+              "target_price": {
+                "method": "周期股法SOTP+PB+正常化盈利(禁PE/PEG)",
+                "bear": "¥14-16",
+                "base": "¥24-28",
+                "bull": "¥35-45",
+                "buy_point": "¥17-18(PB~2.0x产能周期底)"
+              },
+              "pe": "亏损(PE无意义)",
+              "roic": "<0(亏损)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "化工必需消费"
+            }
+          ],
           "fund_holdings": [],
           "fund_value": 0,
-          "rec_count": 0
+          "rec_count": 1
         },
         {
           "name": "有色金属/资源",
