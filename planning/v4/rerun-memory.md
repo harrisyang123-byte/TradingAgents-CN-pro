@@ -429,3 +429,21 @@ verified市值后7只合格小市值紫苏叶:
 4只市值过大降级: 杰华特353/上海新阳298/华兴源创261/光威复材232
 诚实暴露: hunter凭推理估市值系统性偏小(杰华特估120实际verified 353)→必须verified校正
 下一步: data-desk联网核实7只瓶颈卡位真实性+催化剂时间窗后纳入8-step
+
+## 2026-06-15(续) 瓶颈选股链融入架构 + 5行业紫苏叶挖掘
+### 架构融入(4文档commit c88412d)
+新编排单元 alpha:bottleneck:<industry>(自下而上进攻链, 嵌行业go后/个股前):
+chokepoint拆解→alpha-hunter五因子→data-desk核实→critic 6.14复核。主agent orchestrate(N×M×K扇出禁一把抓)。与market-scanner横向互补。
+critic加6.14紫苏叶五因子必查6项。
+### 5行业紫苏叶(批1半导体/AI补充/固态 + 批2 GLP-1/eVTOL) → data/v4/_scan/bottleneck_chain_batch_2026-06-15.json
+verified市值硬筛后合格小市值紫苏叶仅3只:
+- 华光新材688379(67亿,HBM混合键合钎焊料,ROE17.37健康) conf0.52
+- 爱科赛博688092(19亿,TSV电镀脉冲电源,科创板) conf0.55
+- 昊帆生物301393(54亿,GLP-1多肽缩合剂+Fmoc-AA龙头) conf0.72 最佳
+边缘: 海博思创(36亿但ROE-36巨亏)/江化微161/东岳硅材159
+### 重大教训(再次验证): hunter凭演绎估市值系统性大幅低估
+国瓷估15实际554(37×)/侨源估3.5实际246(70×)/鹏辉估12实际378(31×)。
+→ 紫苏叶小市值是硬画像, hunter无联网必须主agent AKShare verified校正(RULE-DATA-VERIFIED命门)。
+→ A股真紫苏叶稀缺: 多数卡位股市值已大=市场已发现, 反证低关注度是真稀缺。
+→ 北交所(德固特/奥加华)AKShare数据缺失是盲区。
+下一步: data-desk核实3只合格紫苏叶卡位真实性(华光HBM客户验证/爱科赛博盛美中微配套/昊帆GLP-1订单)后进8-step。
