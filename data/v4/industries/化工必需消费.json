@@ -67,6 +67,8 @@
         "PEG陷阱②低基数检查需明确(15.3%是否含周期恢复)"
       ],
       "data_status": "真critic spawn 复核"
-    }
+    },
+    "chokepoint_summary": "top3卡位: 百龙创园002286(阿洛酮糖酶零卡甜渗透<5%)/梅花生物600873(特种氨基酸菌种GLP-1拉动)/星湖科技600866(I+G鲜味剂PE<15)",
+    "chokepoint_status": "已做产业链瓶颈深度(2026-06-15), 详见 data/v4/_scan/industry_chokepoint_2026-06-15.json"
   }
 }

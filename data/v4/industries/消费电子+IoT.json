@@ -68,6 +68,8 @@
         "EV互连久期未锚定"
       ],
       "data_status": "真critic spawn 复核"
-    }
+    },
+    "chokepoint_summary": "top3卡位: 奥来德688378(OLED发光材料市值低覆盖少)/国瓷材料300285(高端MLCC粉但市值大)/凯盛科技600552(折叠屏UTG三星认证)",
+    "chokepoint_status": "已做产业链瓶颈深度(2026-06-15), 详见 data/v4/_scan/industry_chokepoint_2026-06-15.json"
   }
 }

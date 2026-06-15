@@ -421,6 +421,30 @@
       "error": null,
       "path": "stocks/00700.json"
     },
+    "stock:01024": {
+      "unit_id": "stock:01024",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:17:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/01024.json"
+    },
+    "stock:01211": {
+      "unit_id": "stock:01211",
+      "unit_type": "stock",
+      "version": 1,
+      "fingerprint": null,
+      "status": "active",
+      "ttl_days": null,
+      "generated_at": "2026-06-15T03:17:29Z",
+      "upstream": [],
+      "error": null,
+      "path": "stocks/01211.json"
+    },
     "stock:01810": {
       "unit_id": "stock:01810",
       "unit_type": "stock",
@@ -842,5 +866,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-15T03:12:17Z"
+  "updated_at": "2026-06-15T03:48:10Z"
 }

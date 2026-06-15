@@ -186,7 +186,7 @@
       "total_market_value": 714265.59,
       "direct_market_value": 243655.0,
       "indirect_market_value": 470610.59,
-      "industries_count": 37,
+      "industries_count": 38,
       "funds_with_passthrough": 26,
       "funds_without_passthrough": 0,
       "passthrough_coverage_pct": 100.0,
@@ -1487,8 +1487,8 @@
         "未分类",
         {
           "direct_yi": 0.0,
-          "indirect_yi": 78849.6,
-          "total_yi": 78849.6,
+          "indirect_yi": 78535.8,
+          "total_yi": 78535.8,
           "direct_holdings": [],
           "contributing_funds": [
             {
@@ -1558,8 +1558,8 @@
               "code": "010736",
               "name": "易方达沪深300精选增强A",
               "market_value": 8054.35,
-              "industry_weight_pct": 38.339999999999996,
-              "indirect_yi": 3088.03779,
+              "industry_weight_pct": 36.09,
+              "indirect_yi": 2906.814915,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },
@@ -1567,8 +1567,8 @@
               "code": "006327",
               "name": "易方达中证海外中国互联网50ETF联接（QDII）A(人民币)",
               "market_value": 8498.74,
-              "industry_weight_pct": 30.3,
-              "indirect_yi": 2575.11822,
+              "industry_weight_pct": 28.74,
+              "indirect_yi": 2442.537876,
               "data_status": "verified",
               "via": "top_holdings_v4_industry_lookup"
             },

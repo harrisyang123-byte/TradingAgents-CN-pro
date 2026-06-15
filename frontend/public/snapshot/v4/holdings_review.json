@@ -209,8 +209,8 @@
         {
           "name": "互联网平台",
           "direct_value": 29460.0,
-          "indirect_value": 5688.0,
-          "total_value": 35148.0,
+          "indirect_value": 6002.0,
+          "total_value": 35462.0,
           "has_industry_analysis": true,
           "holdings": [
             {
@@ -240,6 +240,17 @@
               "instrument_type": "stock",
               "is_recommendation": true,
               "sub_industry": "互联网平台/AI"
+            },
+            {
+              "code": "01024",
+              "name": "快手",
+              "stance": "建仓(互联网健康错杀)",
+              "target_price": null,
+              "pe": null,
+              "roic": "26.3(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": null
             },
             {
               "code": "09988",
@@ -274,7 +285,7 @@
             }
           ],
           "fund_value": 8499.0,
-          "rec_count": 3
+          "rec_count": 4
         },
         {
           "name": "可选消费",
@@ -464,6 +475,17 @@
           "indirect": [],
           "recommendations": [
             {
+              "code": "01211",
+              "name": "比亚迪H",
+              "stance": "谨慎看多(EV龙头历史最低估值错杀, 但价格战需辨)",
+              "target_price": null,
+              "pe": null,
+              "roic": "15.1(ROE)",
+              "instrument_type": "stock",
+              "is_recommendation": true,
+              "sub_industry": "新能源车EV供应链"
+            },
+            {
               "code": "300428",
               "name": "立中集团",
               "stance": "谨慎看多(免热铝压铸期权, 观察仓)",
@@ -519,7 +541,7 @@
             }
           ],
           "fund_value": 8150.0,
-          "rec_count": 3
+          "rec_count": 4
         },
         {
           "name": "AIoT/安防",
