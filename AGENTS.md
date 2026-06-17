@@ -8,6 +8,26 @@
 
 ---
 
+## 🔁 自进化优化循环（持续把"引用投资理念"变成"执行投资理念"）
+
+> 用户颁布的整体优化方向不是死清单，而是一台**自驱动引擎**。完整协议见 **`planning/v4/self-evolving-optimization-loop.md`**。
+
+**何时跑**：用户说"跑一轮优化循环 / 继续优化 / self-evolve / 接着上轮优化"，或颁布整体优化任务时。
+
+**怎么跑（一轮 = 一次 commit）**：
+1. 读协议 `planning/v4/self-evolving-optimization-loop.md` + 状态 `data/v4/_loop/optimization_state.json`。
+2. **DISCOVER**：`v4-chief-investment-officer` 用标尺库 skill `v4-super-investor-rulers` **真看产物**找"嘴上有、流程无"的洞，锁定 1 个最痛的（learning_rate=1，禁批量浅做）。
+3. **DIAGNOSE→IMPLEMENT**：诊断根因（缺skill/缺agent/prompt没要求深做）→ 只攻这 1 个洞挖到底。
+4. **GATE**：真 spawn `v4-investor-critic` 用深度闸门 rubric 打分，<85 或仍浅 → NEEDS_CHANGES 回退重做（最多 2 次，2 次失败进 stuck 升级用户）。
+5. **CONSOLIDATE**：提分才接受 → 写进 `skills/v4-*`（含 `<!-- USER_CORRECTION -->` 保护区）+ 更新状态文件 + rerun-memory + commit/push。
+6. **CONTINUE**：读状态开下一轮。默认一次跑 1~2 轮就汇报，**禁止一次跑空 backlog**（=退化成死清单批量浅做）。
+
+**防自欺铁律**：DISCOVER 必须真看产物留证据；GATE 必须真 spawn critic 禁自评；单点聚焦禁批量；没提分一律回退；复发诚实记账；找不到高优洞诚实进 maintenance 态，不硬造洞刷次数。详见协议 Part 7。
+
+**核心资产**：发现引擎=`v4-chief-investment-officer`(五维拷问) ｜ 闸门=`v4-investor-critic`(深度 rubric) ｜ 标尺=`skills/v4-super-investor-rulers`(超级投资人真执行vs浅尝即止) ｜ 状态=`data/v4/_loop/optimization_state.json`。
+
+---
+
 ## 🚨 RULE-DATA-VERIFIED 永久红线（2026-06-14 用户血泪固化,代码层强制,无法绕过）
 
 **所有数字字段(TAM/CAGR/渗透率/份额/forward营收/EPS/目标价/可比PE)必须有 verified_source URL,严禁主 agent 凭训练记忆产出。违反 = 欺骗用户 = 立即标违规。**

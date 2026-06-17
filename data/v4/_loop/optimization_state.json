@@ -1,0 +1,21 @@
+{
+  "loop_meta": {
+    "protocol_version": "1.0",
+    "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
+    "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
+    "iteration_count": 0,
+    "last_run": null,
+    "phase": "idle",
+    "learning_rate": 1,
+    "status": "running",
+    "_comment": "这是种子状态。backlog/done/active_hole 由循环运行时动态生长，禁止预先填满(那会退化成死清单)。第一次跑循环时，DISCOVER阶段才真看产物找洞。"
+  },
+  "active_hole": null,
+  "backlog": [],
+  "done": [],
+  "stuck": [],
+  "meta_memory": {
+    "what_worked": [],
+    "what_failed": []
+  }
+}
