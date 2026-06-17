@@ -12,6 +12,11 @@
       "key": ""
     },
     {
+      "file": "ai_tam_verified_correction_2026-06-17.json",
+      "method": "2026-06-17",
+      "key": ""
+    },
+    {
       "file": "alpha_picks.json",
       "method": "v4-market-scanner(全市场4966只硬筛)→v4-alpha-hunter(三要素深挖)",
       "key": ""
