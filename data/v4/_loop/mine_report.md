@@ -1,6 +1,6 @@
 # v4 自进化循环 — DISCOVER 扫描报告
 
-生成时间: 2026-06-17T15:15:16+00:00
+生成时间: 2026-06-17T15:37:55+00:00
 扫描 stock: **49** 只 / industry: **11** 个
 
 ## 根因 1 — 标尺覆盖率
@@ -96,6 +96,17 @@
 - 无 Goodhart 占位: 0 (0.0%)
 - TAM 多源 ≥3 + 多机构 pass: 0 (0.0%)
 
+## active_hole 进度 — 财务分析 SOP (iteration 5 落地, 5 层防御纵深第 5 层)
+- agent skill cite (4 stock-analyst): **4 / 4** (100.0%)
+- agent 必读段:                      **4 / 4** (100.0%)
+- stocks 含 financial_analysis:      **0** (0.0%)
+- dupont_5y 三因子完整:              **0.0%**
+- roic_range 区间形式:               **0.0%**
+- cashflow 5 年序列:                 **0.0%**
+- product_molecule_model 字段齐:     **0.0%**
+- red_flags 5 类齐:                  **0.0%**
+- falsification_signals ≥1:         **0.0%**
+
 ## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)
 - 完全合规:       **8 / 49** (16.3%)
 - 含 fatal 违规: **41**
@@ -129,3 +140,13 @@
 - shallow_score: 4
 - 伤害: 新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)
 - 证据: ['含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%']
+### 6. [must] 60 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)
+- 违反: iter 2/3 cleanup 同型 + 协议 Part 7 #10
+- shallow_score: 4
+- 伤害: data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量
+- 证据: ['total 60 units, only 0 含 acquisition_audit (0.0%)']
+### 7. [must] 49 只 stock 缺 financial_analysis (iter 5 静态 100.0% / 产物 0.0% 落差)
+- 违反: iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约
+- shallow_score: 4
+- 伤害: iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发
+- 证据: ['49 stocks 中仅 0 含 financial_analysis (0.0%)']

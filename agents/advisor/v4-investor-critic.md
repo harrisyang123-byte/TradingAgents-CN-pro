@@ -70,7 +70,14 @@ tools:
 4. **反对骑墙也反对硬站队**：中性要看是"证据势均力敌的真中性"还是"不敢判的伪中性"；站队要看证据够不够。
 5. 不许照抄本文件示例。只输出 JSON。
 6. **深度必查项（D0-5 新增, 用户反馈"建议言之无物"后, 任一缺失直接 NEEDS_CHANGES）**：
-   - **6.1 产品分子模型**: thesis 是否给出"产品 X 营收×毛利率 = 净利贡献"的具体分子(替代"mix 改善"等空话)? 若只有定性形容词无量化分子 → fatal_flaw。
+   - **6.1 产品分子模型 + financial_analysis 字段必查 (2026-06-17 iteration 5 升级落地, skill v4-financial-analysis §6 输出契约)**: thesis 必须给"产品 X 营收×毛利率 = 净利贡献"具体分子(替代"mix 改善"等空话). 同时 stock-analyst-financial 输出必含 `financial_analysis` 字段, verify_audit ⑪ 机器审计:
+     - ① dupont_5y 数组长度=5 (净利率/周转率/权益乘数 三因子 5 年序列), 缺 = fatal_flaw
+     - ② roic_vs_wacc.roic_range 是数字区间 [low, high] + wacc_estimate 数字 + verdict (创造价值/持平/毁灭) + robustness_check, 缺 = fatal_flaw
+     - ③ cashflow_quality.ocf_to_net_income_5y + fcf_5y 数组长度=5, 缺 = fatal_flaw
+     - ④ product_molecule_model.products 数组每项含 revenue/revenue_pct/gross_margin_pct/net_contribution + growth_attribution narrative, 缺任一字段 = fatal_flaw
+     - ⑤ red_flags_check 5 类齐 (应收激增/现金流背离/商誉减值/关联交易/大股东占款), 任一类缺 = NEEDS_CHANGES
+     - ⑥ falsification_signals 数组 ≥1 个绝对阈值反向信号, 缺 = NEEDS_CHANGES (达里奥极度求真)
+     - 形式 cite 检查: 写"应用了杜邦"但 dupont_5y 全 null/数组长度<3 = fatal_flaw "Goodhart 形式 cite" (协议 Part 7 #10)
    - **6.2 敏感性矩阵**: forward_view.path_scenarios 是否做了至少 3 变量×3 档=9 单元格的敏感性矩阵? 若只有 base/bull/bear 三孤立点 → fatal_flaw。
    - **6.3 历史可比路径**: valuation_basis 或 thesis 是否引用 1-2 个相似情境的可比公司 re-rating 路径作为锚(如"X 公司从 Y 增速降至 Z 时 PE 从 W 降至 V 用 N 月")? 若纯拍脑袋"PE 35x 合理" → fatal_flaw。
    - **6.4 forward_view 多维**: 是否含 market_regime / liquidity_environment / industry_cycle_phase / systematic_risk_beta / comparable_matrix / pricing_power_analysis 6 字段? 缺 ≥3 个 → fatal_flaw(允许个别字段 N/A 但不能全空)。

@@ -413,6 +413,81 @@ def scan_data_acquisition(stocks: list[tuple[Path, dict]]) -> dict:
     }
 
 
+def scan_financial_analysis(stocks: list[tuple[Path, dict]]) -> dict:
+    """active_hole iteration 5 专项: financial-analysis 静态+产物层应用率 (5 层防御纵深第 5 层 mine 监控)
+    skill v4-financial-analysis + verify_audit ⑪"""
+    # ① agent 层: 扫 4 stock-analyst
+    AGENTS = ["v4-stock-analyst-financial.md", "v4-stock-analyst-competitive.md", "v4-stock-analyst-valuation.md", "v4-stock-analyst-sentiment.md"]
+    agents_dir = ROOT / "agents" / "advisor"
+    agent_skill_cite = agent_must_read = 0
+    for fname in AGENTS:
+        p = agents_dir / fname
+        if not p.exists():
+            continue
+        text = p.read_text(encoding="utf-8")
+        if "v4-financial-analysis" in text:
+            agent_skill_cite += 1
+        if "## 必读 skill" in text:
+            agent_must_read += 1
+    n_agents = max(len(AGENTS), 1)
+
+    # ② 产物层: 扫 stocks 是否含 financial_analysis 字段
+    n_with_field = n_dupont_full = n_roic_range = n_cashflow_full = n_products_full = n_red_flags_5 = n_falsify = 0
+    for path, d in stocks:
+        p = d.get("payload", {})
+        fa = p.get("financial_analysis")
+        if not isinstance(fa, dict) or not fa:
+            continue
+        n_with_field += 1
+        # dupont_5y 三因子 ≥3
+        dupont = fa.get("dupont_5y") or {}
+        if isinstance(dupont, dict):
+            if all(isinstance(dupont.get(k), list) and len(dupont.get(k, [])) >= 3 for k in ("net_margin", "asset_turnover", "equity_multiplier", "roe_5y")):
+                n_dupont_full += 1
+        # roic_range
+        rw = fa.get("roic_vs_wacc") or {}
+        if isinstance(rw, dict) and isinstance(rw.get("roic_range"), list) and len(rw.get("roic_range", [])) == 2:
+            n_roic_range += 1
+        # cashflow_quality 序列 ≥3
+        cf = fa.get("cashflow_quality") or {}
+        if isinstance(cf, dict) and isinstance(cf.get("ocf_to_net_income_5y"), list) and len(cf.get("ocf_to_net_income_5y", [])) >= 3:
+            n_cashflow_full += 1
+        # product_molecule_model.products 每项三字段
+        pm = fa.get("product_molecule_model") or {}
+        if isinstance(pm, dict):
+            products = pm.get("products") or []
+            if isinstance(products, list) and products and all(
+                isinstance(prod, dict) and all(k in prod for k in ("revenue", "gross_margin_pct", "net_contribution"))
+                for prod in products
+            ):
+                n_products_full += 1
+        # red_flags 5 类
+        rf = fa.get("red_flags_check") or []
+        if isinstance(rf, list) and len({item.get("type") for item in rf if isinstance(item, dict)}) >= 5:
+            n_red_flags_5 += 1
+        # falsification_signals ≥1
+        fs = fa.get("falsification_signals") or []
+        if isinstance(fs, list) and len(fs) >= 1:
+            n_falsify += 1
+    n = max(len(stocks), 1)
+    n_field = max(n_with_field, 1)
+    return {
+        "agent_count": len(AGENTS),
+        "agent_skill_cite_count": agent_skill_cite,
+        "agent_skill_cite_pct": round(agent_skill_cite / n_agents * 100, 1),
+        "agent_must_read_count": agent_must_read,
+        "agent_must_read_pct": round(agent_must_read / n_agents * 100, 1),
+        "stocks_with_financial_analysis": n_with_field,
+        "stocks_with_financial_analysis_pct": round(n_with_field / n * 100, 1),
+        "dupont_full_pct": round(n_dupont_full / n_field * 100, 1) if n_with_field else 0.0,
+        "roic_range_pct": round(n_roic_range / n_field * 100, 1) if n_with_field else 0.0,
+        "cashflow_full_pct": round(n_cashflow_full / n_field * 100, 1) if n_with_field else 0.0,
+        "products_full_pct": round(n_products_full / n_field * 100, 1) if n_with_field else 0.0,
+        "red_flags_5_pct": round(n_red_flags_5 / n_field * 100, 1) if n_with_field else 0.0,
+        "falsify_pct": round(n_falsify / n_field * 100, 1) if n_with_field else 0.0,
+    }
+
+
 def scan_director_vs_subagent_depth(stocks: list[tuple[Path, dict]]) -> dict[str, dict]:
     """根因 4: director verdict 字符长度 vs five_forces/forward_view 字符长度
     director 显著浅 = 主 agent 偷懒 (粗略代理指标)"""
@@ -520,6 +595,32 @@ def build_candidate_holes(report: dict) -> list[dict]:
             "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
             "evidence": [f"含 debate_rounds: {n_with_debate}, methodology_used 应用率仅 {dd.get('debate_methodology_used_pct', 0)}%, 派别切入 {dd.get('debate_party_cite_pct', 0)}%"],
             "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+            "shallow_score": 4,
+            "priority": "must",
+        })
+
+    # 数据采集 cleanup (iteration 4 P1 残留补 + iter 5 同型范式)
+    da = report.get("data_acquisition", {}) or {}
+    if da.get("total_units_scanned", 0) > 0 and da.get("units_with_acquisition_audit_pct", 0) < 50:
+        holes.append({
+            "id_prefix": "DATA-ACQ-CLEANUP",
+            "title": f"{da.get('total_units_scanned', 0) - da.get('units_with_acquisition_audit', 0)} 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 {da.get('units_with_acquisition_audit_pct', 0)}% 落差)",
+            "violated_practice": "iter 2/3 cleanup 同型 + 协议 Part 7 #10",
+            "evidence": [f"total {da.get('total_units_scanned', 0)} units, only {da.get('units_with_acquisition_audit', 0)} 含 acquisition_audit ({da.get('units_with_acquisition_audit_pct', 0)}%)"],
+            "harm_to_profit": "data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量",
+            "shallow_score": 4,
+            "priority": "must",
+        })
+
+    # 财务分析 cleanup (iter 5 落地, 配套范式)
+    fa_d = report.get("financial_analysis", {}) or {}
+    if fa_d.get("stocks_with_financial_analysis_pct", 0) < 50:
+        holes.append({
+            "id_prefix": "FINANCIAL-CLEANUP",
+            "title": f"{49 - fa_d.get('stocks_with_financial_analysis', 0)} 只 stock 缺 financial_analysis (iter 5 静态 {fa_d.get('agent_skill_cite_pct', 0)}% / 产物 {fa_d.get('stocks_with_financial_analysis_pct', 0)}% 落差)",
+            "violated_practice": "iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约",
+            "evidence": [f"49 stocks 中仅 {fa_d.get('stocks_with_financial_analysis', 0)} 含 financial_analysis ({fa_d.get('stocks_with_financial_analysis_pct', 0)}%)"],
+            "harm_to_profit": "iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发",
             "shallow_score": 4,
             "priority": "must",
         })
@@ -639,6 +740,19 @@ def render_md(report: dict, holes: list[dict]) -> str:
         if da.get("tier3_only_hits_sample"):
             lines.append(f"- ⚠️ 全 Tier 3 取数样本: {da['tier3_only_hits_sample']}")
         lines.append("")
+    fa_data = report.get("financial_analysis", {})
+    if fa_data:
+        lines.append("## active_hole 进度 — 财务分析 SOP (iteration 5 落地, 5 层防御纵深第 5 层)")
+        lines.append(f"- agent skill cite (4 stock-analyst): **{fa_data.get('agent_skill_cite_count', 0)} / {fa_data.get('agent_count', 0)}** ({fa_data.get('agent_skill_cite_pct', 0)}%)")
+        lines.append(f"- agent 必读段:                      **{fa_data.get('agent_must_read_count', 0)} / {fa_data.get('agent_count', 0)}** ({fa_data.get('agent_must_read_pct', 0)}%)")
+        lines.append(f"- stocks 含 financial_analysis:      **{fa_data.get('stocks_with_financial_analysis', 0)}** ({fa_data.get('stocks_with_financial_analysis_pct', 0)}%)")
+        lines.append(f"- dupont_5y 三因子完整:              **{fa_data.get('dupont_full_pct', 0)}%**")
+        lines.append(f"- roic_range 区间形式:               **{fa_data.get('roic_range_pct', 0)}%**")
+        lines.append(f"- cashflow 5 年序列:                 **{fa_data.get('cashflow_full_pct', 0)}%**")
+        lines.append(f"- product_molecule_model 字段齐:     **{fa_data.get('products_full_pct', 0)}%**")
+        lines.append(f"- red_flags 5 类齐:                  **{fa_data.get('red_flags_5_pct', 0)}%**")
+        lines.append(f"- falsification_signals ≥1:         **{fa_data.get('falsify_pct', 0)}%**")
+        lines.append("")
     va = report.get("verified_audit", {})
     if va and "compliance_pct" in va:
         lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
@@ -686,6 +800,7 @@ def main() -> int:
         "pre_mortem_field": scan_pre_mortem_field(stocks),
         "debate_discipline": scan_debate_discipline(stocks),
         "data_acquisition": scan_data_acquisition(stocks),
+        "financial_analysis": scan_financial_analysis(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
         "verified_audit": load_verify_audit(),
     }

@@ -436,6 +436,161 @@ def audit_payload(payload: dict) -> list[dict]:
                     "severity": "should",
                 })
 
+    # ⑪ financial_analysis (iteration 5 落地, skill v4-financial-analysis §6 输出契约)
+    fa = p.get("financial_analysis")
+    if fa is not None:  # 字段存在则严查; stock-analyst-financial 产物或 stock unit 透传时触发
+        if not isinstance(fa, dict):
+            violations.append({
+                "field": "financial_analysis",
+                "value": str(type(fa)),
+                "issue": "financial_analysis 应是 dict",
+                "severity": "fatal",
+            })
+        else:
+            # ② dupont_5y 三因子数组长度 = 5
+            dupont = fa.get("dupont_5y") or {}
+            if isinstance(dupont, dict):
+                for f in ("net_margin", "asset_turnover", "equity_multiplier", "roe_5y"):
+                    arr = dupont.get(f)
+                    if not isinstance(arr, list) or len(arr) < 3:
+                        violations.append({
+                            "field": f"financial_analysis.dupont_5y.{f}",
+                            "value": f"len={len(arr) if isinstance(arr, list) else 'n/a'}",
+                            "issue": f"dupont_5y.{f} 数组长度 < 3 (skill §2 杜邦三因子序列, ≥5 年最佳 ≥3 年最低)",
+                            "severity": "fatal" if not arr else "should",
+                        })
+            else:
+                violations.append({
+                    "field": "financial_analysis.dupont_5y",
+                    "value": "missing or wrong type",
+                    "issue": "dupont_5y 缺失或非 dict (skill §2 杜邦拆解必填)",
+                    "severity": "fatal",
+                })
+            # ③ roic_vs_wacc.roic_range
+            rw = fa.get("roic_vs_wacc") or {}
+            if isinstance(rw, dict):
+                rr = rw.get("roic_range")
+                if not isinstance(rr, list) or len(rr) != 2:
+                    violations.append({
+                        "field": "financial_analysis.roic_vs_wacc.roic_range",
+                        "value": str(rr)[:60],
+                        "issue": "roic_range 应是 [low, high] 数字区间长度=2 (skill §2 ROIC 区间稳健性, 防伪精确点值)",
+                        "severity": "fatal",
+                    })
+                elif not all(isinstance(x, (int, float)) for x in rr):
+                    # iter 5 GATE attempt#1 fatal 修复: 类型校验
+                    violations.append({
+                        "field": "financial_analysis.roic_vs_wacc.roic_range",
+                        "value": str(rr)[:60],
+                        "issue": "roic_range 两端必须是数字 (int/float), 字符串等非数字 = fatal (防 LLM 绕过区间检查)",
+                        "severity": "fatal",
+                    })
+                # iter 5 GATE attempt#1 fatal 1 修复: enum 检查布尔 bug
+                VALID_VERDICTS = {"创造价值", "显著创造价值", "持平", "毁灭价值"}
+                v = rw.get("verdict")
+                if v is None or v == "":
+                    violations.append({
+                        "field": "financial_analysis.roic_vs_wacc.verdict",
+                        "value": str(v)[:60],
+                        "issue": "roic_vs_wacc.verdict 必填 (4 选 1: 创造价值/显著创造价值/持平/毁灭价值)",
+                        "severity": "fatal",
+                    })
+                elif v not in VALID_VERDICTS:
+                    violations.append({
+                        "field": "financial_analysis.roic_vs_wacc.verdict",
+                        "value": str(v)[:60],
+                        "issue": f"verdict '{v}' 不在合法 enum {VALID_VERDICTS} (防 LLM 写'部分创造''边际持平'等模糊词, 反 Goodhart)",
+                        "severity": "fatal",
+                    })
+            else:
+                violations.append({
+                    "field": "financial_analysis.roic_vs_wacc",
+                    "value": "missing",
+                    "issue": "roic_vs_wacc 缺失 (critic 6.9 价值创造四问 ②)",
+                    "severity": "fatal",
+                })
+
+            # iter 5 GATE attempt#1 fatal 2 修复: verified_period 必查 (skill §1 铁律 1)
+            vp = fa.get("verified_period")
+            if not vp:
+                violations.append({
+                    "field": "financial_analysis.verified_period",
+                    "value": "missing",
+                    "issue": "verified_period 缺失 (skill §1 铁律 1: verified 数字 + as_of 报告期)",
+                    "severity": "fatal",
+                })
+            elif isinstance(vp, str):
+                import re as _re2
+                if not _re2.search(r"20\d{2}", vp):
+                    violations.append({
+                        "field": "financial_analysis.verified_period",
+                        "value": vp[:60],
+                        "issue": "verified_period 不含 4 位年份, 无法验证 as_of (skill §1 铁律 1)",
+                        "severity": "should",
+                    })
+            # ④ cashflow_quality.ocf_to_net_income_5y
+            cf = fa.get("cashflow_quality") or {}
+            if isinstance(cf, dict):
+                ocf = cf.get("ocf_to_net_income_5y")
+                if not isinstance(ocf, list) or len(ocf) < 3:
+                    violations.append({
+                        "field": "financial_analysis.cashflow_quality.ocf_to_net_income_5y",
+                        "value": f"len={len(ocf) if isinstance(ocf, list) else 'n/a'}",
+                        "issue": "ocf_to_net_income_5y 数组长度 < 3 (skill §3 现金流质量序列)",
+                        "severity": "fatal" if not ocf else "should",
+                    })
+            else:
+                violations.append({
+                    "field": "financial_analysis.cashflow_quality",
+                    "value": "missing",
+                    "issue": "cashflow_quality 缺失 (skill §3 现金流 vs 净利润 必查)",
+                    "severity": "fatal",
+                })
+            # ⑤ product_molecule_model.products 数组每项含必填字段
+            pm = fa.get("product_molecule_model") or {}
+            if isinstance(pm, dict):
+                products = pm.get("products") or []
+                if not isinstance(products, list) or len(products) == 0:
+                    violations.append({
+                        "field": "financial_analysis.product_molecule_model.products",
+                        "value": "empty",
+                        "issue": "products 数组空 (skill §1 铁律 2 + critic 6.1 产品分子模型必填)",
+                        "severity": "fatal",
+                    })
+                for i, prod in enumerate(products):
+                    if not isinstance(prod, dict):
+                        continue
+                    for f in ("revenue", "gross_margin_pct", "net_contribution"):
+                        if f not in prod:
+                            violations.append({
+                                "field": f"financial_analysis.product_molecule_model.products[{i}].{f}",
+                                "value": "missing",
+                                "issue": f"产品分子项缺 {f} 字段",
+                                "severity": "fatal",
+                            })
+            # ⑥ red_flags_check 5 类齐
+            rf = fa.get("red_flags_check") or []
+            if isinstance(rf, list):
+                REQUIRED_FLAGS = {"应收激增", "现金流背离", "商誉减值", "关联交易", "大股东占款"}
+                seen_flags = {item.get("type") for item in rf if isinstance(item, dict)}
+                missing_flags = REQUIRED_FLAGS - seen_flags
+                if missing_flags:
+                    violations.append({
+                        "field": "financial_analysis.red_flags_check",
+                        "value": f"missing {missing_flags}",
+                        "issue": f"red_flags_check 缺 {len(missing_flags)} 类: {missing_flags} (skill §4 5 类红旗清单, 必齐对照)",
+                        "severity": "should",
+                    })
+            # ⑦ falsification_signals ≥1
+            fs = fa.get("falsification_signals") or []
+            if not isinstance(fs, list) or len(fs) < 1:
+                violations.append({
+                    "field": "financial_analysis.falsification_signals",
+                    "value": f"len={len(fs) if isinstance(fs, list) else 'n/a'}",
+                    "issue": "falsification_signals 数组 < 1 (skill §1 铁律 5 + 达里奥极度求真)",
+                    "severity": "should",
+                })
+
     return violations
 
 

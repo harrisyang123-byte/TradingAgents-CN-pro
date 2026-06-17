@@ -3,13 +3,13 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 4,
-    "last_run": "2026-06-17T15:20:47+00:00",
+    "iteration_count": 5,
+    "last_run": "2026-06-17T15:50:48+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iteration 4 完成: DATA-ACQ-20260618-04 走完全 6 阶段, attempt#2 91 ACCEPT。data_acquisition 红线 5 层防御纵深落地(认知+skill+schema+代码+监控), 第 3 个 5 层完整红线(继 RULE-DATA-VERIFIED 4 层 + debate_discipline 5 层)。下轮 iteration 5: financial_analysis skill (杜邦/现金流/红旗) 治 4 stock-analyst 浅尝。",
-    "last_mine": "2026-06-17T15:15:16+00:00"
+    "_comment": "iter 5 完成 (FINANCIAL-20260618-05, GATE 86 ACCEPT + 2 hotfix). 5 层范式第 4 次成功复用 (规则 12). financial_analysis 红线落地. 下一轮 iter 6: v4-five-forces-method skill (波特 5 力量化), 治 6 agent (5 force + competitive).",
+    "last_mine": "2026-06-17T15:37:55+00:00"
   },
   "active_hole": null,
   "backlog": [
@@ -158,6 +158,45 @@
       "discovered_at": "2026-06-17T15:15:16+00:00",
       "evidence": [
         "含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DEBATE-CLEANUP-20260617-05",
+      "title": "34 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 0.0% 落差)",
+      "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
+      "shallow_score": 4,
+      "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+      "priority": "must",
+      "discovered_at": "2026-06-17T15:37:55+00:00",
+      "evidence": [
+        "含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DATA-ACQ-CLEANUP-20260617-06",
+      "title": "60 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3 cleanup 同型 + 协议 Part 7 #10",
+      "shallow_score": 4,
+      "harm_to_profit": "data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量",
+      "priority": "must",
+      "discovered_at": "2026-06-17T15:37:55+00:00",
+      "evidence": [
+        "total 60 units, only 0 含 acquisition_audit (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "FINANCIAL-CLEANUP-20260617-07",
+      "title": "49 只 stock 缺 financial_analysis (iter 5 静态 100.0% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约",
+      "shallow_score": 4,
+      "harm_to_profit": "iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发",
+      "priority": "must",
+      "discovered_at": "2026-06-17T15:37:55+00:00",
+      "evidence": [
+        "49 stocks 中仅 0 含 financial_analysis (0.0%)"
       ],
       "source": "v4_loop_mine.py"
     }
@@ -390,6 +429,53 @@
         }
       ],
       "completed_at": "2026-06-17T15:20:47+00:00"
+    },
+    {
+      "id": "FINANCIAL-20260618-05",
+      "title": "4 stock-analyst (financial/competitive/valuation/sentiment) zero skill cite — '产品 mix 改善'空话浅尝",
+      "violated_practice": "巴菲特-FCF/股东盈余 verified + critic 6.1 产品分子模型 + critic 6.9 价值创造四问",
+      "before": {
+        "agent_skill_cite_4_analyst": 0,
+        "stocks_with_financial_analysis": 0,
+        "verify_audit_block_11": "无"
+      },
+      "after_protocol": {
+        "skill": "skills/v4-financial-analysis/SKILL.md (新建 8 节: 5 铁律+杜邦/ROIC SOP+现金流质量+5 类红旗+可比+输出契约+反 Goodhart+协议关系)",
+        "agents": "4 stock-analyst .md skill cite + 必读段; financial 主用 (输出 schema 加 financial_analysis 7 字段); competitive/valuation/sentiment 引用 SECONDARY",
+        "critic_must_check": "v4-investor-critic.md 6.1 升级从 1 项扩到 7 项 (dupont 长度=5/roic_range 区间/cashflow 5 年/products 字段齐/red_flags 5 类齐/falsify ≥1/Goodhart 形式 cite)",
+        "verify_audit": "v4_verify_audit.py 加 ⑪ 块 + iter 5 GATE attempt#1 fatal hotfix(verdict enum 锁/roic_range 类型校验/verified_period 必查含年份)",
+        "mine_5th_layer": "v4_loop_mine.py scan_financial_analysis (静态 4 agent + 产物 7 维度) + build_candidate_holes 加 DATA-ACQ-CLEANUP + FINANCIAL-CLEANUP 自动入候选洞"
+      },
+      "after_runtime": {
+        "agent_skill_cite_pct": "100% (4/4)",
+        "agent_must_read_pct": "100% (4/4)",
+        "stocks_with_financial_analysis_pct": "0% (旧产物 cleanup loop 已自动入 backlog)",
+        "verify_audit_baseline": "16.3% (与 iter 4 同, 旧产物无新字段不触发新检测; iter 5 hotfix 后 enum/verified_period 守门已严)"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": 86,
+          "verdict": "ACCEPT (边缘但 critic 自判)",
+          "depth_gate_breakdown": {
+            "原则到执行": 18,
+            "证据密度": 18,
+            "可证伪": 17,
+            "反 Goodhart": 15,
+            "记忆复利": 18
+          },
+          "key_acceptance": "5 层范式第 4 次复用平滑无新孤儿, 3 同型 fatal 未复发, cleanup 节奏单调上升验证落实",
+          "post_accept_hotfix": [
+            "fatal 1 verify_audit ⑪ verdict enum 检查 bug 已 hotfix (改为正确 enum 锁)",
+            "fatal 2 verified_period 已加 verify_audit 必查含年份"
+          ],
+          "remaining": [
+            "red_flags 5+N 类扩商业模式死亡同型(政策/技术/客户集中度) 入下轮",
+            "SECONDARY narrative cite 抽查待 critic 6.1 进一步加强"
+          ]
+        }
+      ],
+      "completed_at": "2026-06-17T15:50:48+00:00"
     }
   ],
   "stuck": [],
@@ -406,7 +492,8 @@
       "[2026-06-17 iteration 3] 'permanent loss 防御纵深从 4 层增至 5 层'范式延续: 任何永久红线 (RULE-DATA-VERIFIED / debate_discipline) 都套 (认知层 prompt + schema 层显式定义 + 代码层 verify_audit 阻断 + 监控层 mine 自动产 cleanup 候选 + critic 层主观抽查) 5 层最小防御纵深, 缺一层即同型 fatal 复发",
       "[2026-06-17 iteration 3] critic GATE attempt#1 抓的 3 fatal 全是 iteration 1+2 同型 — F1=action_plan 孤儿同型 (Part 7 #9) / F2=47 stock cleanup 同型 (iteration 2 fatal#3) / F3=必跑无代码强制点 (规则 5/14)。证明协议 Part 7 + meta_memory rules_distilled 已成 critic 反射式拷问的实战 checklist (虽然主 agent IMPLEMENT 时仍漏)",
       "[2026-06-17 iteration 4] '5 层防御纵深'范式第三次成功落地: data_acquisition 红线 5 层(认知 prompt + skill 层 SOP + schema 层显式字段 + 代码层 verify_audit ⑨/⑩ + 监控层 mine scan_data_acquisition) 与 RULE-DATA-VERIFIED 4 层 / debate_discipline 5 层并列。规则 9 已成可复用模板",
-      "[2026-06-17 iteration 4] critic GATE attempt#1 三 fatal 仍全是历史同型 (F1=Part 7 #9 / F2=规则 9 5 层 / F3=Part 7 #10) → 证明协议 Part 7 + meta_memory rules 已成 critic 反射式拷问硬底盘, 主 agent IMPLEMENT 时仍遗漏 → 规则 10 必须前置自检"
+      "[2026-06-17 iteration 4] critic GATE attempt#1 三 fatal 仍全是历史同型 (F1=Part 7 #9 / F2=规则 9 5 层 / F3=Part 7 #10) → 证明协议 Part 7 + meta_memory rules 已成 critic 反射式拷问硬底盘, 主 agent IMPLEMENT 时仍遗漏 → 规则 10 必须前置自检",
+      "[2026-06-17 iter 5] 规则 12 5 层范式可复用第 4 次成功 (RULE-DATA-VERIFIED + debate_discipline + data_acquisition + financial_analysis), 范式平滑无新孤儿. PRIMARY/SECONDARY 区分新模式: skill 主用 1 agent + 引用 N agent, 节省 schema 强制重复但需配 SECONDARY narrative 抽查"
     ],
     "what_failed": [
       "[2026-06-17 iteration 1 attempt#1] 第一次没把 action_plan 显式写进 director schema, 以为 stock JSON 实际有就行, 结果三层 verbatim 引用 'action_plan.sell_trigger' 在契约层成孤儿。教训: 任何被多层引用的字段必须在源头 agent .md schema 明示, 不能依赖'实际产物有就行'。",
@@ -415,7 +502,8 @@
       "[2026-06-17 iteration 2 attempt#1] 第一次没把 v4_verify_audit.py 接进 v4_unit_cli.py 写盘咽喉, 以为协议 Part 7 + critic + director 三处口头要求'必跑'就够了。同型于 iteration 1 attempt#1 action_plan 孤儿。教训: '必跑/必查/必填' 这类铁律在 .md 层永远是口头, 必须配代码层强制点(hook/exit code/物理拦截), 否则 agent 在压力下会跳过",
       "[2026-06-17 iteration 2 attempt#1] URL_RE 含 'verified' 字面量 — 我把工具自身设计成 source='verified' 就过审, 等于自家工具违反 Part 7 #10。教训: 设计任何'是否合规'的检测工具时, 关键字白名单不能包含'合规字段名本身'(verified_source/audit/verified 等), 否则就是 source 字段写个关键字就过审",
       "[2026-06-17 iteration 3 attempt#1] 三 fatal 全是历史同型复发 = 主 agent IMPLEMENT 时未自动应用 Part 7 #9/#10 + 规则 5/14。教训: 任何新 active_hole IMPLEMENT 之前, 应先过一遍 Part 7 + meta_memory rules_distilled 自检清单, 而非凭直觉写 skill+agent+critic 三层就完了。这条本身应作为'IMPLEMENT 反 attempt#1 同型 checklist'入协议 Part 6",
-      "[2026-06-17 iteration 4 attempt#1] 我自己都漏了规则 10 IMPLEMENT 自检 checklist! 写完 skill+agent+critic+verify_audit 四件就以为完成, 漏了 mine 监控层(规则 9 5 层防御纵深第 5 层) — 这正是规则 10 必要性的证据。教训: IMPLEMENT 前必须打开协议 Part 7 + meta_memory rules 逐条过, 而非凭直觉 — 规则 10 已成必读项"
+      "[2026-06-17 iteration 4 attempt#1] 我自己都漏了规则 10 IMPLEMENT 自检 checklist! 写完 skill+agent+critic+verify_audit 四件就以为完成, 漏了 mine 监控层(规则 9 5 层防御纵深第 5 层) — 这正是规则 10 必要性的证据。教训: IMPLEMENT 前必须打开协议 Part 7 + meta_memory rules 逐条过, 而非凭直觉 — 规则 10 已成必读项",
+      "[2026-06-17 iter 5 attempt#1] verify_audit ⑪ verdict enum 检查布尔 bug — 'if v not in tuple AND not v' 实际只拦空值, 非 enum 词完全过审. critic GATE 抓出后 hotfix. 教训: 写 enum 锁时必须独立测试 (空值 / 合法值 / 非法值 三类)"
     ],
     "rules_distilled_for_future_iterations": [
       "规则1 (协议防自欺第9条候选): 任何被多层 .md 文档 verbatim 引用的字段, 必须在源头 agent schema 显式定义, 否则触发'契约层断层'fatal_flaw",
@@ -430,7 +518,8 @@
       "规则10 (主 agent IMPLEMENT 自检 checklist): 新 active_hole IMPLEMENT 前必过一遍 Part 7 + meta_memory rules 自检 — ①schema 是否显式定义? ②cite 检测是 narrative 还是字段名? ③数字字段是否打 verified? ④存量旧产物是否设 cleanup loop? ⑤是否有代码层强制点? 漏任一即 attempt#1 同型 fatal",
       "规则11 (协议节奏 - 切片 vs 单 agent): learning_rate=1 时, '单点'指'单一痛点切片', 不是'单一 agent'。一个 skill 可覆盖同切片多 agent (如 v4-debate-discipline 覆盖 9 辩手), 不违反批量浅做铁律, 反而是杠杆最大化",
       "规则12 (协议范式可复用): 5 层防御纵深范式已 3 次成功 (RULE-DATA-VERIFIED/debate_discipline/data_acquisition), 任何新永久红线直接套用此 5 层模板 (认知+skill+schema+代码+监控), 缺一层即同型 fatal 复发概率 >50%",
-      "规则13 (数据采集层专用): TAM/份额/CAGR/渗透率四类必 ≥3 不同机构来源去重 (不允许同机构多份报告凑数, 通富 $157B 同型治理). 财务比率类(ROIC/ROE/FCF) AKShare 单源即可但需标 as_of 报告期"
+      "规则13 (数据采集层专用): TAM/份额/CAGR/渗透率四类必 ≥3 不同机构来源去重 (不允许同机构多份报告凑数, 通富 $157B 同型治理). 财务比率类(ROIC/ROE/FCF) AKShare 单源即可但需标 as_of 报告期",
+      "规则14 (GATE attempt#1 后 hotfix vs backlog): critic ACCEPT 但留 fatal_flaws 时, 优先 hotfix 不入 backlog (规则 12 的代码层应同步修, 防同型 bug 在下轮 IMPLEMENT 复发)"
     ]
   }
 }
