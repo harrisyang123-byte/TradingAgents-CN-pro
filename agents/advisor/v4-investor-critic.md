@@ -75,7 +75,13 @@ tools:
    - **6.3 历史可比路径**: valuation_basis 或 thesis 是否引用 1-2 个相似情境的可比公司 re-rating 路径作为锚(如"X 公司从 Y 增速降至 Z 时 PE 从 W 降至 V 用 N 月")? 若纯拍脑袋"PE 35x 合理" → fatal_flaw。
    - **6.4 forward_view 多维**: 是否含 market_regime / liquidity_environment / industry_cycle_phase / systematic_risk_beta / comparable_matrix / pricing_power_analysis 6 字段? 缺 ≥3 个 → fatal_flaw(允许个别字段 N/A 但不能全空)。
    - **6.5 数据使用追溯**: evidence 数据点是否在 thesis/forward_view/sell_discipline 中被实际引用(非仅堆在 evidence 列表)? 抽查 3 条 evidence 看 thesis 是否提到, unused 比例 >50% → 提改进意见。
-   - **6.6 辩论深度**: bull/bear 每轮是否做到①点名反驳对方关键论点 ②引用具体数据分子 ③给可证伪信号? 若 ≥2 轮是立场对撞无攻防 → fatal_flaw。
+   - **6.6 辩论深度 + skill 派别切入必查 (2026-06-17 iteration 3 升级落地, 协议 Part 7 #10 narrative cite 防 Goodhart)**: bull/bear/risk 三方每轮必须做到 5 件事, 缺任一即 fatal_flaw:
+     - ① **点名反驳**: history 每轮**首句**引用对方上轮具体论点编号或关键词 (不是只立场对撞)
+     - ② **数据分子**: 每个论点 ≥1 个 KPI 数字 + 单位 + evidence/input 索引
+     - ③ **可证伪信号**: 本方核心论点配 ≥1 个反向阈值 + 时间窗 (绝对阈值禁相对偏离, 对齐 critic 6.16 ②)
+     - ④ **派别切入必引** (skill v4-debate-discipline §2): bull 必引 ≥1 派 (段永平好生意 OR 费雪 scuttlebutt OR 马克斯紫苏叶/错杀龙头), bear 必引 ≥1 派 (芒格逆向 OR 达里奥风险 OR 死亡清单 LTCM/Archegos/Woodford/价值陷阱)。无派别切入只立场对撞 → 浅尝套话 fatal_flaw
+     - ⑤ **反 Goodhart**: 必查 history 末尾 `methodology_used` 数组, 随机抽 ≥2 项 `本轮如何用的` narrative, **必须能在 history 找到对应段落** (而非只声明派别名)。例: 写"本轮应用了 [段永平-好生意]"但 history 上文无复购率/定价权/FCF 三问 narrative = 形式 cite = **fatal_flaw**。这是协议 Part 7 #10 的辩手层落地
+     - 应用规则: 若 ≥2 轮是立场对撞无攻防 → fatal_flaw "立场对撞辩论沦为口号"; 若 history 不输出 methodology_used → fatal_flaw "未消费 v4-debate-discipline skill"; 若 派别切入 narrative 找不到对应段落 → fatal_flaw "Goodhart 形式 cite"
    - **6.7 估值底层四问 + 诚实区间 + 安全边际档位（D0-8 用户三次反馈精炼后, 真实分析师手感, 必查）**:
      - 必查 valuation 是否回答了**底层四问**:
        · Q1 价值是区间(含估算误差%)还是假装精确单点 → 单点 = NEEDS_CHANGES

@@ -202,6 +202,113 @@ def audit_payload(payload: dict) -> list[dict]:
                     "severity": "fatal",
                 })
 
+    # ⑧ debate_discipline (iteration 3 GATE attempt#1 fatal F3 修复, 协议 Part 7 #10 narrative cite 防 Goodhart 工程化)
+    rounds = p.get("debate_rounds")
+    if rounds:
+        VALID_PARTIES = {
+            "段永平-好生意", "费雪-scuttlebutt", "马克斯-紫苏叶", "马克斯-错杀龙头",
+            "芒格-逆向", "达里奥-风险优先",
+            "死亡清单-LTCM", "死亡清单-Archegos", "死亡清单-Woodford",
+            "死亡清单-价值陷阱", "死亡清单-乐视康美", "死亡清单-抱团瓦解",
+        }
+        rounds_blob = json.dumps(rounds, ensure_ascii=False)
+
+        def find_methodology_used(obj):
+            """递归找所有 methodology_used 数组"""
+            results = []
+            if isinstance(obj, dict):
+                if "methodology_used" in obj:
+                    results.append(obj["methodology_used"])
+                for v in obj.values():
+                    results.extend(find_methodology_used(v))
+            elif isinstance(obj, list):
+                for item in obj:
+                    results.extend(find_methodology_used(item))
+            return results
+
+        mu_arrays = find_methodology_used(rounds)
+        if not mu_arrays:
+            violations.append({
+                "field": "debate_rounds.methodology_used",
+                "value": "missing",
+                "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+                "severity": "fatal",
+            })
+        else:
+            # 至少一个数组要非空
+            non_empty = [a for a in mu_arrays if isinstance(a, list) and len(a) > 0]
+            if not non_empty:
+                violations.append({
+                    "field": "debate_rounds.methodology_used",
+                    "value": f"all {len(mu_arrays)} arrays empty",
+                    "issue": "methodology_used 全部为空数组 (Goodhart 退化, 同型于 attempt#1 critic 抓的 'cite 检测靠字段名不靠 narrative')",
+                    "severity": "fatal",
+                })
+            else:
+                for arr_idx, arr in enumerate(non_empty):
+                    for entry_idx, entry in enumerate(arr):
+                        if not isinstance(entry, dict):
+                            continue
+                        if entry.get("_doc"):
+                            continue  # 跳过 schema 注释
+                        # ② 三 key 必填
+                        party = entry.get("派别") or entry.get("party")
+                        narrative = entry.get("本轮如何用的") or entry.get("how_used")
+                        ev_ref = entry.get("evidence_ref")
+                        if not party:
+                            violations.append({
+                                "field": f"methodology_used[{arr_idx}.{entry_idx}].派别",
+                                "value": str(entry)[:80],
+                                "issue": "methodology_used 项缺 派别 字段",
+                                "severity": "fatal",
+                            })
+                        if not narrative:
+                            violations.append({
+                                "field": f"methodology_used[{arr_idx}.{entry_idx}].本轮如何用的",
+                                "value": party or "?",
+                                "issue": "methodology_used 项缺 本轮如何用的 narrative",
+                                "severity": "fatal",
+                            })
+                        if not ev_ref:
+                            violations.append({
+                                "field": f"methodology_used[{arr_idx}.{entry_idx}].evidence_ref",
+                                "value": party or "?",
+                                "issue": "methodology_used 项缺 evidence_ref (协议 Part 7 #11 verified 红线辩手层延伸: narrative 必须引证至少1个 evidence/input 索引)",
+                                "severity": "fatal",
+                            })
+                        # ③ 派别 enum 白名单
+                        if party and party not in VALID_PARTIES and "|" not in str(party):
+                            # "|" 跳过(是 schema 模板未替换), 实际应是单一派别名
+                            violations.append({
+                                "field": f"methodology_used[{arr_idx}.{entry_idx}].派别",
+                                "value": str(party)[:80],
+                                "issue": f"派别 '{party}' 不在 skill v4-debate-discipline §2 enum 白名单",
+                                "severity": "should",
+                            })
+                        # ④ narrative ≥ 30 字中文
+                        if narrative and isinstance(narrative, str):
+                            chinese_chars = re.findall(r"[\u4e00-\u9fff]", narrative)
+                            if len(chinese_chars) < 30:
+                                violations.append({
+                                    "field": f"methodology_used[{arr_idx}.{entry_idx}].本轮如何用的",
+                                    "value": narrative[:60],
+                                    "issue": f"narrative 仅 {len(chinese_chars)} 中文字, < 30 字硬要求 (浅尝即止套话)",
+                                    "severity": "should",
+                                })
+                        # ⑤ narrative substring 在 history blob 中
+                        if narrative and isinstance(narrative, str) and party:
+                            # 取 narrative 前 15 字符或派别 split('-')[1] 关键词在 rounds_blob 中找
+                            party_kw = str(party).split("-")[-1] if "-" in str(party) else str(party)
+                            narrative_head = narrative[:15] if len(narrative) >= 15 else narrative
+                            if party_kw not in rounds_blob:
+                                # 派别核心词在 history 也找不到 = 形式 cite
+                                violations.append({
+                                    "field": f"methodology_used[{arr_idx}.{entry_idx}].派别",
+                                    "value": f"{party} -> {narrative_head}",
+                                    "issue": f"派别核心关键词 '{party_kw}' 在 debate_rounds history 中找不到 (协议 Part 7 #10 narrative cite 防 Goodhart 形式 cite)",
+                                    "severity": "fatal",
+                                })
+
     return violations
 
 

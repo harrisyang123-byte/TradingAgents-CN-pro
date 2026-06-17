@@ -1,6 +1,6 @@
 # v4 自进化循环 — DISCOVER 扫描报告
 
-生成时间: 2026-06-17T13:01:55+00:00
+生成时间: 2026-06-17T14:04:53+00:00
 扫描 stock: **49** 只 / industry: **11** 个
 
 ## 根因 1 — 标尺覆盖率
@@ -18,11 +18,14 @@
 - `死亡-Archegos集中` — 0 / 49  
 - `死亡-Woodford流动性` — 0 / 49  
 - `死亡-现金流背离` — 0 / 49  
+- `辩论纪律-bull派别` — 0 / 49  
+- `辩论纪律-bear派别` — 0 / 49  
 - `IPS-流动性` — 1 / 49  █
 - `IPS-卖出明文化` — 1 / 49  █
 - `死亡-抱团` — 1 / 49  █
 - `SOP-催化时间表` — 1 / 49  █
 - `SOP-拥挤度` — 1 / 49  █
+- `辩论纪律-3铁律` — 1 / 49  █
 - `马克斯-周期定位` — 2 / 49  ██
 - `段永平-管理层` — 3 / 49  ███
 - `马克斯-永久损失` — 3 / 49  ███
@@ -76,19 +79,26 @@
 - sell_trigger 闭环:  **0 / 49** (0.0%)
 - 历史类比引用:       **0 / 49** (0.0%)
 
+## active_hole 进度 — 辩论纪律 (iteration 3 落地)
+- agent skill cite:   **9 / 9** (100.0%)
+- agent 必读 skill 段: **9 / 9** (100.0%)
+- 含 debate_rounds 的 stock: **34**
+- methodology_used 应用率:   **0.0%** (0)
+- 派别切入引用率:           **0.0%** (0)
+
 ## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)
-- 完全合规:       **13 / 49** (26.5%)
-- 含 fatal 违规: **36**
-- fatal 计数:    38
+- 完全合规:       **8 / 49** (16.3%)
+- 含 fatal 违规: **41**
+- fatal 计数:    72
 - should 计数:   5
 - 详见:           data/v4/_loop/verify_audit.md
 
 ## 候选洞 (排序后)
-### 1. [must] 标尺库 14 条从没被 cite (top: IPS-多PM委员会, IPS-集中度上限, 巴菲特-FCF/股东盈余...)
+### 1. [must] 标尺库 16 条从没被 cite (top: IPS-多PM委员会, IPS-集中度上限, 巴菲特-FCF/股东盈余...)
 - 违反: Part 2 标尺库覆盖率
 - shallow_score: 5
 - 伤害: 嘴上有(skill 文档列了) / 流程无(产物零引用)，浅尝即止系统性
-- 证据: ['扫描 49 只 stock，14 条标尺零 cite']
+- 证据: ['扫描 49 只 stock，16 条标尺零 cite']
 ### 2. [must] 36/49 只 stock 缺 sell_trigger/exit_plan
 - 违反: IPS-卖出明文化 + 达里奥-可证伪
 - shallow_score: 5
@@ -104,3 +114,8 @@
 - shallow_score: 3
 - 伤害: 下游分析做了但 director 没整合，相当于白做
 - 证据: ["sample: ['002156', '002371', '09992']"]
+### 5. [must] 34 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 0.0% 落差)
+- 违反: iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart
+- shallow_score: 4
+- 伤害: 新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)
+- 证据: ['含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%']

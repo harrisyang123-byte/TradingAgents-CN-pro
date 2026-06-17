@@ -96,6 +96,8 @@
 
 **为什么必要**: 输入精简意味着 subagent 看不到细节,论点空洞、数据引用流于形式、辩论沦为立场对撞。这是用户反复指出的"建议言之无物"根本原因之一。
 
+**输入消化铁律 (2026-06-17 iteration 3 落地, 自进化循环 DEBATE-20260618-03 active_hole)**: 给辩手 (bull/bear/risk-aggressive/safe/neutral 三层共 9 个 agent) 喂 5000-15000 字满血输入但**不配方法论钩子**消化 = "满血输入 + 浅薄输出" — 这是 §0ter 治"言之无物"的另一半未解的痛点。本轮新建 `skills/v4-debate-discipline/SKILL.md` 强制辩手开辩前必读, 输出 history 必含 ①点名反驳 ②数据分子 ③可证伪信号 + bull/bear 派别切入 narrative + methodology_used 数组 (反 Goodhart, 协议 Part 7 #10)。critic 6.6 升级为必查 skill cite narrative 真假 (随机抽 ≥2 项 how_used 看能否在 history 找到对应段落, 形式 cite = fatal_flaw)。**输入越满血, 越要配方法论钩子, 否则浅尝**。
+
 ---
 
 ## 1. 主线：v4 分层独立深度投研

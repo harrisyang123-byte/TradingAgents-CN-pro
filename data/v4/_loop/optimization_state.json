@@ -3,13 +3,13 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 2,
-    "last_run": "2026-06-17T13:10:23+00:00",
+    "iteration_count": 3,
+    "last_run": "2026-06-17T14:24:49+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iteration 2 完成: VERIFIED-20260617-03 走完全 6 阶段, attempt#2 critic 92 分 ACCEPT。RULE-DATA-VERIFIED 红线工程化落地 (协议层+工具层+代码层+critic层+监控层 五层联动 + 4 层防御纵深)。下轮(iteration 3)首选 VERIFIED-CLEANUP-20260618-01 (回填 36 只 fatal stock 到 ≥80% 合规率).",
-    "last_mine": "2026-06-17T13:01:55+00:00"
+    "_comment": "iteration 3 完成: DEBATE-20260618-03 走完全 6 阶段, attempt#2 critic 87 分 ACCEPT。9 个辩手层 zero skill→100% skill cite, debate_discipline 红线 5 层防御纵深落地。下轮(iteration 4)候选 must active_hole 三选一: VERIFIED-CLEANUP-20260618-01 (36 fatal stock verified 回填) / DEBATE-CLEANUP-20260617-05 (34 stock methodology_used 回填) / RULER-20260617-01 (剩 13 条标尺零 cite — 优先 IPS-集中度上限 0/49 与 max_permanent_loss_pct 闭环)",
+    "last_mine": "2026-06-17T14:04:53+00:00"
   },
   "active_hole": null,
   "backlog": [
@@ -41,6 +41,19 @@
         "GATE attempt#2 score=92 ACCEPT 但留 4 项 nice-to-have"
       ],
       "source": "v4-investor-critic GATE attempt#2"
+    },
+    {
+      "id": "DEBATE-POLISH-20260618-04",
+      "title": "iteration 3 attempt#2 残留 4 项打磨: layer-aware enum / enum '|' placeholder reject / substring 严格化 / cleanup 节奏铁律",
+      "violated_practice": "iteration 3 GATE attempt#2 87 分 ACCEPT 后 nice-to-have improvements (非 blocker)",
+      "shallow_score": 2,
+      "harm_to_profit": "防 Goodhart 强度可再提升, 但当前 5 层防御纵深已能拦多数浅尝, 适合 iteration 5+ 顺手做",
+      "priority": "could",
+      "discovered_at": "2026-06-17T14:24:49+00:00",
+      "evidence": [
+        "GATE attempt#2 score=87 ACCEPT 但留 4 项 P1/P2/P3 nice-to-have"
+      ],
+      "source": "v4-investor-critic GATE attempt#2 (iteration 3)"
     },
     {
       "id": "SELL-20260617-02",
@@ -93,6 +106,19 @@
       "discovered_at": "2026-06-17T12:38:18+00:00",
       "evidence": [
         "top: ['000063', '002001', '002050']"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DEBATE-CLEANUP-20260617-05",
+      "title": "34 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 0.0% 落差)",
+      "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
+      "shallow_score": 4,
+      "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+      "priority": "must",
+      "discovered_at": "2026-06-17T14:04:53+00:00",
+      "evidence": [
+        "含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%"
       ],
       "source": "v4_loop_mine.py"
     }
@@ -209,6 +235,69 @@
       ],
       "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 待加 2026-06-17 iteration 2 条目",
       "completed_at": "2026-06-17T13:10:23+00:00"
+    },
+    {
+      "id": "DEBATE-20260618-03",
+      "title": "9 个 bull/bear 辩手 agent (asset/industry/stock 三层) zero skill cite + zero ruler narrative — '立场对撞辩论沦为口号'根因",
+      "violated_practice": "巴菲特-逆向思考 + 段永平-本分(诚实辩论) + 达里奥-极度求真+What am I missing + Part 2.6 IPS-多PM委员会 + critic 6.6 辩论深度铁律",
+      "before": {
+        "agent_skill_cite": "9/9 = 0% (32/35 全 v4 agent 91% 零 skill 引用)",
+        "agent_methodology_narrative": "9/9 = 0% (31/35 = 89% 零方法论 narrative)",
+        "debate_methodology_used_pct": "0% (34 只旧 stock 含 debate_rounds 全无 methodology_used)",
+        "verify_audit_compliance": "26.5% (URL_RE 收紧后 baseline)",
+        "code_layer_force_point": "无 — 'bull/bear 必须 3 铁律' 仅在 critic 6.6 文字必查, 无 verify_audit/write_unit 强制点"
+      },
+      "after_protocol": {
+        "skill": "skills/v4-debate-discipline/SKILL.md (新建): §1 辩论 3 铁律 + §2 派别切入 (bull 段永平/费雪/马克斯, bear 芒格/达里奥/死亡清单 8 案例) + §3 三层焦点表 12 行深化 (asset/industry/stock/risk 各层应引/禁引派) + §4 反 Goodhart methodology_used 输出契约 + §5 输入消化铁律 + §6 长期演化协议",
+        "9_agent_schema": "9 个 bull/bear/risk 辩手 .md (asset/industry/stock 三层 + risk 三方) frontmatter 加 skill: v4-debate-discipline + ## 必读 skill 段(5 项硬要求) + JSON schema 显式定义 methodology_used 字段 (派别 enum 白名单 + 本轮如何用的 narrative + evidence_ref 三 key)",
+        "critic_must_check": "6.6 升级从 3 项查扩到 5 项查 (3 铁律 + ④派别切入必引 + ⑤反 Goodhart methodology_used narrative 真实性抽查)",
+        "verify_audit_block_8": "scripts/v4_verify_audit.py audit_payload 加 ⑧ debate_discipline 检测块 (5 项 fatal 阻断: methodology_used 数组存在/非空 / 三 key 必填 / 派别 enum 白名单 / narrative ≥30 中文字 / 派别核心关键词在 history substring 命中)",
+        "mine_cleanup_loop": "scripts/v4_loop_mine.py build_candidate_holes 加 DEBATE-CLEANUP id_prefix 候选洞 (当 methodology_used_pct < 50% 自动产), append backlog (iteration 2 fatal#3 cleanup loop 同型治理) + 新 RULER_KEYWORDS 含 '辩论纪律-3铁律/bull派别/bear派别' 三组 narrative 关键词",
+        "agents_md_input_consume": "AGENTS.md §0ter 末段加'输入消化铁律 (2026-06-17 iteration 3 落地)' 强调 5000-15000 字满血输入必须配 skill 钩子消化否则浅尝"
+      },
+      "after_runtime": {
+        "agent_skill_cite_pct": "9/9 = 100% (静态层完全覆盖)",
+        "agent_must_read_pct": "9/9 = 100%",
+        "debate_methodology_used_pct": "0% (旧 stock 待 cleanup, 自动入 backlog DEBATE-CLEANUP-20260617-05)",
+        "verify_audit_compliance_after": "16.3% (合规率从 26.5% 降是健康信号 — verify_audit 加严发现 34 只旧 stock 缺 methodology_used 等新违规, 72 fatal 待 cleanup)",
+        "code_layer_force_point_after": "已落地: verify_audit ⑧ + write_unit hook 阻断空 methodology_used 写盘",
+        "_note": "本轮主要协议层+工具层+代码层落地, 不重跑 49 只 stock。新 stock 走 director→bull/bear→write→audit ⑧ 链路自动堵, 旧 stock 留 DEBATE-CLEANUP-20260617-05 cleanup loop"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": 66,
+          "verdict": "NEEDS_CHANGES",
+          "fatal_flaws": [
+            "F1: 9 agent 输出 JSON schema 未显式声明 methodology_used 字段 (iteration 1 attempt#1 action_plan 同型复发, Part 7 #9)",
+            "F2: 47 stock 旧产物零 cleanup loop (iteration 2 fatal#3 同型, 静态 100% / 产物 0% 落差零治理)",
+            "F3: 无代码层强制点 ('开辩前必读 skill' 纯 prompt 口号, verify_audit/write_unit 不拦, 规则 5/14 同型)"
+          ],
+          "improvements_count": 6,
+          "key_critique": "三 fatal 全是历史同型复发 — 协议沉淀的铁律 #9/#10/规则 5/14 在 attempt#1 仍未自动应用到新 active_hole, 说明铁律本身需 critic 反射式拷问开关"
+        },
+        {
+          "attempt": 2,
+          "score": 87,
+          "verdict": "ACCEPT",
+          "depth_gate_breakdown": {
+            "quantifiable": 18,
+            "falsifiable": 17,
+            "closed_loop": 18,
+            "data_verified": 17,
+            "methodology_explicit": 17
+          },
+          "key_acceptance": "3 fatal 全 FIXED + 关键 P1 全落地。permanent loss 防御纵深从 4 层 (RULE-DATA-VERIFIED) 增至 5 层 (debate_discipline 认知/schema/代码/监控/critic)。verify_audit ⑧ 5 项检测从 26.5%→16.3% 是更严治理发现新违规的健康信号",
+          "remaining_improvements": [
+            "P1 layer-aware enum 白名单 (asset 禁段永平/费雪) 代码层 enforce, 当前仅 skill 文字+critic 主观",
+            "P2 enum '|' placeholder reject (LLM 原样输出 schema 模板整段过审风险)",
+            "P2 substring 严格化 (从 split('-')[-1] 升级为派别全名 + 上下文 ±50 字内方法论关键词)",
+            "P3 cleanup loop 节奏铁律 (每周 ≥3 只旧 stock 重跑, 否则警报)"
+          ]
+        }
+      ],
+      "skill_consolidated": "skills/v4-debate-discipline/SKILL.md (新建) USER_CORRECTION 已加 2026-06-17 iteration 3 沉淀",
+      "completed_at": "2026-06-17T14:24:49+00:00"
     }
   ],
   "stuck": [],
@@ -220,14 +309,18 @@
       "[2026-06-17 iteration 1] critic attempt#1 抓出 RULER_KEYWORDS 把 schema 字段名当 cite 凭据的 Goodhart 风险 → 解耦 + methodology_used.how_used narrative 真实性必查 = 新一类'防自欺铁律', 应在协议 Part 7 后续补",
       "[2026-06-17 iteration 2] 'GATE 多 attempt 是放大器'再次验证: attempt#1 66 + 3 fatal 抓得极准 → attempt#2 92, +26 分。critic 抓的 fatal#1 (CLI hook 孤儿) 与 iteration 1 attempt#1 fatal (action_plan schema 孤儿) 同型, 证明'多层 verbatim 引用必须源头显式定义'已固化进 critic 的反射式拷问",
       "[2026-06-17 iteration 2] '工具自身防 Goodhart' 是新模式: URL_RE 故意排除 'verified' 字面量(防 source='verified' 自我作弊) + 'akshare' 收紧为 'akshare.func()' 形式(防空喊关键字)。这是 Part 7 #10 cite 检测靠 narrative 的工具层落地, 应推广到所有审计/检测工具的关键字白名单设计",
-      "[2026-06-17 iteration 2] '4 层防御纵深'落地: RULE-DATA-VERIFIED 红线 = 认知层(agent prompt) + 数据契约层(stock_data_contract collect 阶段) + 代码强制层(v4_unit_cli.py write 咽喉) + 自动审计层(v4_verify_audit.py)。四层任一独立可证伪/可回归, 形成攻击面纵深"
+      "[2026-06-17 iteration 2] '4 层防御纵深'落地: RULE-DATA-VERIFIED 红线 = 认知层(agent prompt) + 数据契约层(stock_data_contract collect 阶段) + 代码强制层(v4_unit_cli.py write 咽喉) + 自动审计层(v4_verify_audit.py)。四层任一独立可证伪/可回归, 形成攻击面纵深",
+      "[2026-06-17 iteration 3] '辩证拆解 35 agent 浅尝即止诉求'真见效: DIAGNOSE 拆 3 类不同根因(director 已多 narrative / 辩手分析师极薄零 skill / data-desk 工具问题不是 skill 问题), 拒绝一锅端 35 agent 同时改(违反 Part 7 #3 批量浅做铁律), 锁定最痛切片 9 个 bull/bear 辩手单 skill 覆盖。learning_rate=1 但单点 = 单切片 ≠ 单 agent",
+      "[2026-06-17 iteration 3] 'permanent loss 防御纵深从 4 层增至 5 层'范式延续: 任何永久红线 (RULE-DATA-VERIFIED / debate_discipline) 都套 (认知层 prompt + schema 层显式定义 + 代码层 verify_audit 阻断 + 监控层 mine 自动产 cleanup 候选 + critic 层主观抽查) 5 层最小防御纵深, 缺一层即同型 fatal 复发",
+      "[2026-06-17 iteration 3] critic GATE attempt#1 抓的 3 fatal 全是 iteration 1+2 同型 — F1=action_plan 孤儿同型 (Part 7 #9) / F2=47 stock cleanup 同型 (iteration 2 fatal#3) / F3=必跑无代码强制点 (规则 5/14)。证明协议 Part 7 + meta_memory rules_distilled 已成 critic 反射式拷问的实战 checklist (虽然主 agent IMPLEMENT 时仍漏)"
     ],
     "what_failed": [
       "[2026-06-17 iteration 1 attempt#1] 第一次没把 action_plan 显式写进 director schema, 以为 stock JSON 实际有就行, 结果三层 verbatim 引用 'action_plan.sell_trigger' 在契约层成孤儿。教训: 任何被多层引用的字段必须在源头 agent .md schema 明示, 不能依赖'实际产物有就行'。",
       "[2026-06-17 iteration 1 attempt#1] 以为 RULER_KEYWORDS 加 schema 字段名能让 cite 计数变高 = 进展, 实际是 Goodhart — 度量标准被作弊。教训: 任何'cite 是否真发生'的检测必须靠 narrative 关键词(语义), 不能靠 schema 字段名(语法)。",
       "[2026-06-17 iteration 1 attempt#1] verified_anchor 第一次没加, 直接给 trigger 阈值留'拍脑袋数字'口子(同型于通富 $157B 事故再现)。教训: 任何新增的数字字段必须同步打上 RULE-DATA-VERIFIED 红线, 防新字段成新通道",
       "[2026-06-17 iteration 2 attempt#1] 第一次没把 v4_verify_audit.py 接进 v4_unit_cli.py 写盘咽喉, 以为协议 Part 7 + critic + director 三处口头要求'必跑'就够了。同型于 iteration 1 attempt#1 action_plan 孤儿。教训: '必跑/必查/必填' 这类铁律在 .md 层永远是口头, 必须配代码层强制点(hook/exit code/物理拦截), 否则 agent 在压力下会跳过",
-      "[2026-06-17 iteration 2 attempt#1] URL_RE 含 'verified' 字面量 — 我把工具自身设计成 source='verified' 就过审, 等于自家工具违反 Part 7 #10。教训: 设计任何'是否合规'的检测工具时, 关键字白名单不能包含'合规字段名本身'(verified_source/audit/verified 等), 否则就是 source 字段写个关键字就过审"
+      "[2026-06-17 iteration 2 attempt#1] URL_RE 含 'verified' 字面量 — 我把工具自身设计成 source='verified' 就过审, 等于自家工具违反 Part 7 #10。教训: 设计任何'是否合规'的检测工具时, 关键字白名单不能包含'合规字段名本身'(verified_source/audit/verified 等), 否则就是 source 字段写个关键字就过审",
+      "[2026-06-17 iteration 3 attempt#1] 三 fatal 全是历史同型复发 = 主 agent IMPLEMENT 时未自动应用 Part 7 #9/#10 + 规则 5/14。教训: 任何新 active_hole IMPLEMENT 之前, 应先过一遍 Part 7 + meta_memory rules_distilled 自检清单, 而非凭直觉写 skill+agent+critic 三层就完了。这条本身应作为'IMPLEMENT 反 attempt#1 同型 checklist'入协议 Part 6"
     ],
     "rules_distilled_for_future_iterations": [
       "规则1 (协议防自欺第9条候选): 任何被多层 .md 文档 verbatim 引用的字段, 必须在源头 agent schema 显式定义, 否则触发'契约层断层'fatal_flaw",
@@ -237,7 +330,10 @@
       "规则5 (协议防自欺第14条候选): '必跑/必查/必填' 这类铁律必须配代码层强制点(hook/exit code/物理拦截), 否则在 agent 压力下沦为口头",
       "规则6 (协议防自欺第15条候选): 任何'是否合规'的检测工具, 关键字白名单不能含合规字段名自身(verified/audit_passed/compliant 等), 否则工具自身 Goodhart 化",
       "规则7 (协议节奏): 存量回填(cleanup) loop 应配单轮上限 + 合规率单调上升验证(否则'走形式回填'反而污染 baseline)",
-      "规则8 (协议防御): 任何永久红线应有 ≥3 层防御纵深(认知层+契约层+代码层+审计层), 单层失守不致命"
+      "规则8 (协议防御): 任何永久红线应有 ≥3 层防御纵深(认知层+契约层+代码层+审计层), 单层失守不致命",
+      "规则9 (协议防御纵深): 任何永久红线必须 5 层防御纵深 (认知层 prompt + schema 层显式定义 + 代码层 audit/write 阻断 + 监控层 mine 自动产 cleanup 候选 + critic 层主观抽查), 缺一层即同型 fatal 复发概率 >50%",
+      "规则10 (主 agent IMPLEMENT 自检 checklist): 新 active_hole IMPLEMENT 前必过一遍 Part 7 + meta_memory rules 自检 — ①schema 是否显式定义? ②cite 检测是 narrative 还是字段名? ③数字字段是否打 verified? ④存量旧产物是否设 cleanup loop? ⑤是否有代码层强制点? 漏任一即 attempt#1 同型 fatal",
+      "规则11 (协议节奏 - 切片 vs 单 agent): learning_rate=1 时, '单点'指'单一痛点切片', 不是'单一 agent'。一个 skill 可覆盖同切片多 agent (如 v4-debate-discipline 覆盖 9 辩手), 不违反批量浅做铁律, 反而是杠杆最大化"
     ]
   }
 }

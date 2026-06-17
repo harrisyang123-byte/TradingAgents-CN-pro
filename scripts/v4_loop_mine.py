@@ -71,6 +71,10 @@ RULER_KEYWORDS = {
     "SOP-三情景估值": ["bull/base/bear", "三情景", "概率权重"],
     "SOP-下行情景": ["基本面双杀", "估值杀", "政策杀", "下行幅度"],
     "SOP-拥挤度": ["公募集中", "北向重叠", "卖空比例"],
+    # 2026-06-17 iteration 3 落地: v4-debate-discipline skill cite 检测 (Part 7 #10 narrative 防 Goodhart)
+    "辩论纪律-3铁律": ["点名反驳", "数据分子", "反向阈值", "可证伪信号"],
+    "辩论纪律-bull派别": ["段永平好生意", "费雪 scuttlebutt", "scuttlebutt 闲聊", "紫苏叶切入", "错杀龙头切入"],
+    "辩论纪律-bear派别": ["芒格逆向切入", "芒格 invert", "达里奥风险切入", "永久损失场景", "Archegos 同型", "Woodford 流动性", "LTCM 相关性"],
 }
 
 # 浅尝特征正则 (放之四海皆准的套话)
@@ -245,6 +249,72 @@ def scan_pre_mortem_field(stocks: list[tuple[Path, dict]]) -> dict:
     }
 
 
+def scan_debate_discipline(stocks: list[tuple[Path, dict]]) -> dict:
+    """active_hole iteration 3 专项: 辩手 skill 引用 + 产物 methodology_used 应用率
+    (skill v4-debate-discipline + critic 6.6 升级)"""
+    # ① agent 层 (静态): 扫 9 个 bull/bear/risk agent .md 是否含 skill cite + 必读 skill 段
+    DEBATE_AGENTS = [
+        "v4-asset-bull.md", "v4-asset-bear.md",
+        "v4-industry-bull.md", "v4-industry-bear.md",
+        "v4-stock-bull.md", "v4-stock-bear.md",
+        "v4-stock-risk-aggressive.md", "v4-stock-risk-safe.md", "v4-stock-risk-neutral.md",
+    ]
+    agents_dir = ROOT / "agents" / "advisor"
+    agent_skill_cite = 0
+    agent_must_read = 0
+    agent_details: dict[str, dict] = {}
+    for fname in DEBATE_AGENTS:
+        p = agents_dir / fname
+        if not p.exists():
+            agent_details[fname] = {"status": "missing"}
+            continue
+        text = p.read_text(encoding="utf-8")
+        has_cite = "v4-debate-discipline" in text
+        has_must_read = "## 必读 skill" in text
+        if has_cite:
+            agent_skill_cite += 1
+        if has_must_read:
+            agent_must_read += 1
+        agent_details[fname] = {"skill_cite": has_cite, "must_read_section": has_must_read}
+    n_agents = max(len(DEBATE_AGENTS), 1)
+
+    # ② 产物层 (动态): 扫 stock debate_rounds 是否含 methodology_used + 派别切入 narrative
+    PARTY_KEYWORDS = [
+        "段永平好生意", "费雪 scuttlebutt", "scuttlebutt 闲聊", "紫苏叶切入", "错杀龙头切入",
+        "芒格逆向切入", "芒格 invert", "达里奥风险切入", "永久损失场景",
+        "Archegos 同型", "Woodford 流动性", "LTCM 相关性",
+    ]
+    debate_total = 0
+    debate_methodology_used = 0
+    debate_party_cite = 0
+    for path, d in stocks:
+        p = d.get("payload", {})
+        rounds = p.get("debate_rounds")
+        if not rounds:
+            continue
+        debate_total += 1
+        rounds_blob = json.dumps(rounds, ensure_ascii=False)
+        if "methodology_used" in rounds_blob:
+            debate_methodology_used += 1
+        if any(kw in rounds_blob for kw in PARTY_KEYWORDS):
+            debate_party_cite += 1
+    n_stocks_with_debate = max(debate_total, 1)
+
+    return {
+        "agent_count": len(DEBATE_AGENTS),
+        "agent_skill_cite_count": agent_skill_cite,
+        "agent_skill_cite_pct": round(agent_skill_cite / n_agents * 100, 1),
+        "agent_must_read_count": agent_must_read,
+        "agent_must_read_pct": round(agent_must_read / n_agents * 100, 1),
+        "agent_details": agent_details,
+        "stocks_with_debate_rounds": debate_total,
+        "debate_methodology_used_count": debate_methodology_used,
+        "debate_methodology_used_pct": round(debate_methodology_used / n_stocks_with_debate * 100, 1) if debate_total else 0.0,
+        "debate_party_cite_count": debate_party_cite,
+        "debate_party_cite_pct": round(debate_party_cite / n_stocks_with_debate * 100, 1) if debate_total else 0.0,
+    }
+
+
 def scan_director_vs_subagent_depth(stocks: list[tuple[Path, dict]]) -> dict[str, dict]:
     """根因 4: director verdict 字符长度 vs five_forces/forward_view 字符长度
     director 显著浅 = 主 agent 偷懒 (粗略代理指标)"""
@@ -341,6 +411,21 @@ def build_candidate_holes(report: dict) -> list[dict]:
             "priority": "should",
         })
 
+    # 辩论纪律 cleanup (iteration 3 GATE attempt#1 fatal F2 修复落地)
+    dd = report.get("debate_discipline", {}) or {}
+    if dd.get("stocks_with_debate_rounds", 0) > 0 and dd.get("debate_methodology_used_pct", 0) < 50:
+        n_with_debate = dd.get("stocks_with_debate_rounds", 0)
+        n_used = dd.get("debate_methodology_used_count", 0)
+        holes.append({
+            "id_prefix": "DEBATE-CLEANUP",
+            "title": f"{n_with_debate - n_used} 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 {dd.get('debate_methodology_used_pct', 0)}% 落差)",
+            "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
+            "evidence": [f"含 debate_rounds: {n_with_debate}, methodology_used 应用率仅 {dd.get('debate_methodology_used_pct', 0)}%, 派别切入 {dd.get('debate_party_cite_pct', 0)}%"],
+            "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+            "shallow_score": 4,
+            "priority": "must",
+        })
+
     return holes
 
 
@@ -430,6 +515,15 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- sell_trigger 闭环:  **{pm.get('sell_link_closed_count', 0)} / {pm.get('total_stocks', 0)}** ({pm.get('sell_link_closed_pct', 0)}%)")
         lines.append(f"- 历史类比引用:       **{pm.get('analog_cited_count', 0)} / {pm.get('total_stocks', 0)}** ({pm.get('analog_cited_pct', 0)}%)")
         lines.append("")
+    dd = report.get("debate_discipline", {})
+    if dd:
+        lines.append("## active_hole 进度 — 辩论纪律 (iteration 3 落地)")
+        lines.append(f"- agent skill cite:   **{dd.get('agent_skill_cite_count', 0)} / {dd.get('agent_count', 0)}** ({dd.get('agent_skill_cite_pct', 0)}%)")
+        lines.append(f"- agent 必读 skill 段: **{dd.get('agent_must_read_count', 0)} / {dd.get('agent_count', 0)}** ({dd.get('agent_must_read_pct', 0)}%)")
+        lines.append(f"- 含 debate_rounds 的 stock: **{dd.get('stocks_with_debate_rounds', 0)}**")
+        lines.append(f"- methodology_used 应用率:   **{dd.get('debate_methodology_used_pct', 0)}%** ({dd.get('debate_methodology_used_count', 0)})")
+        lines.append(f"- 派别切入引用率:           **{dd.get('debate_party_cite_pct', 0)}%** ({dd.get('debate_party_cite_count', 0)})")
+        lines.append("")
     va = report.get("verified_audit", {})
     if va and "compliance_pct" in va:
         lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
@@ -475,6 +569,7 @@ def main() -> int:
         "verified_holes": scan_verified_holes(stocks),
         "falsifiable_gap": scan_falsifiable_gap(stocks),
         "pre_mortem_field": scan_pre_mortem_field(stocks),
+        "debate_discipline": scan_debate_discipline(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
         "verified_audit": load_verify_audit(),
     }

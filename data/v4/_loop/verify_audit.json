@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-17T13:01:55+00:00",
+  "generated_at": "2026-06-17T14:04:53+00:00",
   "total_stocks": 49,
-  "stocks_clean": 13,
-  "stocks_with_fatal": 36,
-  "stocks_with_any_violation": 36,
-  "compliance_pct": 26.5,
+  "stocks_clean": 8,
+  "stocks_with_fatal": 41,
+  "stocks_with_any_violation": 41,
+  "compliance_pct": 16.3,
   "severity_count": {
-    "fatal": 38,
+    "fatal": 72,
     "should": 5
   },
   "violations": {
@@ -15,6 +15,12 @@
         "field": "evidence",
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -30,6 +36,12 @@
         "value": "卖方均值 ¥28-30 (+25-35% upside)",
         "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
         "severity": "should"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "002050": [
@@ -37,6 +49,20 @@
         "field": "evidence",
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
+      }
+    ],
+    "002156": [
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -48,11 +74,25 @@
         "severity": "fatal"
       }
     ],
+    "002371": [
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
+      }
+    ],
     "002415": [
       {
         "field": "evidence",
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -61,6 +101,12 @@
         "field": "evidence",
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -76,6 +122,12 @@
         "value": "HK$711 (+52.53% Strong Buy 46 分析师)",
         "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
         "severity": "should"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "01024": [
@@ -100,6 +152,12 @@
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "06160": [
@@ -108,6 +166,12 @@
         "value": 460,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "06990": [
@@ -115,6 +179,12 @@
         "field": "target_price",
         "value": 520,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -130,6 +200,20 @@
         "value": "HK$170-200 (大行均值, +30-50%)",
         "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
         "severity": "should"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
+      }
+    ],
+    "09992": [
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "300033": [
@@ -152,6 +236,20 @@
         "value": "¥1200-1500 (+15-43%, 卖方密集 危险信号)",
         "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
         "severity": "should"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
+      }
+    ],
+    "300394": [
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "300428": [
@@ -168,6 +266,12 @@
         "value": 32,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "300502": [
@@ -176,6 +280,12 @@
         "value": 700,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "300750": [
@@ -183,6 +293,12 @@
         "field": "target_price",
         "value": 475,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -208,6 +324,20 @@
         "value": 80,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
+      }
+    ],
+    "600276": [
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "600873": [
@@ -215,6 +345,12 @@
         "field": "target_price",
         "value": 10.21,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -224,6 +360,12 @@
         "value": 33,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "601899": [
@@ -232,6 +374,12 @@
         "value": 42,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "601985": [
@@ -239,6 +387,12 @@
         "field": "target_price",
         "value": 12,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -254,6 +408,12 @@
         "value": "¥74.33 (Buy, +33.9% from ¥55.50)",
         "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
         "severity": "should"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "603259": [
@@ -262,6 +422,12 @@
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "603501": [
@@ -269,6 +435,12 @@
         "field": "target_price",
         "value": 101,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -290,6 +462,12 @@
         "value": "当前价/PE未核实",
         "issue": "evidence 条目缺 source 字段 (director schema 强制 claim+source+status 三态)",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "605499": [
@@ -297,6 +475,12 @@
         "field": "target_price",
         "value": 190,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -306,6 +490,12 @@
         "value": 260,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "688019": [
@@ -313,6 +503,12 @@
         "field": "target_price",
         "value": 250,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ],
@@ -322,6 +518,12 @@
         "value": 75,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "688578": [
@@ -330,6 +532,12 @@
         "value": 180,
         "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
         "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
+        "severity": "fatal"
       }
     ],
     "688981": [
@@ -337,6 +545,12 @@
         "field": "evidence",
         "value": "[] empty",
         "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+        "severity": "fatal"
+      },
+      {
+        "field": "debate_rounds.methodology_used",
+        "value": "missing",
+        "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
       }
     ]
