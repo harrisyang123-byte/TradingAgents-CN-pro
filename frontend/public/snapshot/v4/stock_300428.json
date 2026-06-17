@@ -63,7 +63,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 13.5; ROIC/ROE ~11(ROE); 现价¥18.82",
+    "sentiment": "免热处理铝合金是9000T一体化压铸物理前提(不免热处理→压铸热变形废品), 客户认证壁垒(特斯拉/小米/蔚来12-18月)。但ROE11.4偏低+传统铝锭业务毛利仅5-8%无护城河, ROIC≈WACC价值创造弱。偏错杀但有条件: 市场未对免热合金成长期权定价(一体化压铸+人形机器人结构件), 但若2026-2027压铸装机不及预期则低PE=周期股陷阱。target¥25-28(2026E净利8.9亿×PE20-22材料溢价)买点¥16-17(PE11周期底)。当前¥18.82接近买点上沿。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

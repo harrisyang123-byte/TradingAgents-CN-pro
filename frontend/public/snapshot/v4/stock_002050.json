@@ -118,7 +118,12 @@
       "thesis": "长期赛道优质(热管理+机器人), 但短期Q1 miss+PEG 1.40+T项目兑现期远, 当前风险收益比不佳。维持减仓+止损¥38。回调至PE 30x(¥37-38)+Q2企稳方可重新评估加仓"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 43.5; 现价¥44.81; verified ROIC 9.9-13% vs 行业WACC 9% → 创造但脆弱; ROIC 9.9-13% > 9% WACC 价值创造,但Q1增速崩需观察",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价', 'reverse_dcf': {'current_pe': 46.3, 'implied_cagr_5y': '20-25%', 'interpretation': '隐含极高增速 vs 实际 Q1+2.68% 严重不匹配'}, 'scenarios': {'bull': {'fair_price_range': '¥45-50', 'prob': 0.2}, 'base': {'fair_price_range': '¥35-42', 'prob': 0.5}, 'bear': {'fair_price_range': '¥25-35', 'prob': 0.3}}, 'consensus_target': '¥37-39', 'price_derivation': '价值派 ¥26 / GARP ¥32-38 / 中性 ¥35-45 / bull ¥45-50 / 共识 ¥37-39'}",
+    "sentiment": "三花 = 全球制冷阀件 50%+ 龙头 + 汽车热管理 EV 全球前三. 制冷 60% (185.85亿+12%) / 汽车 40% (124.27亿+9%). 客户特斯拉/比亚迪/蔚小理. 关键: Q1 净利+2.68% vs 2025+31% 巨大反差暴露 PE 46x 不可持续. (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "memory_used": [
       "P1-P5",

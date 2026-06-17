@@ -59,7 +59,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 46.7; ROIC/ROE ~5.0(ROE); 现价¥49.96",
+    "sentiment": "多肽固相合成缩合剂+Fmoc氨基酸卡位(GLP-1上游), 之前瓶颈链作紫苏叶候选(conf0.72)。但verified基本面下滑: ROE5.0+净利1.0→1.3→1.1亿(增速-14%)+PE46.7不低。GLP-1放量逻辑在但当前订单未兑现+业绩下滑+估值偏高。区别于演绎预期(当时假设GLP-1拉动), verified后业绩走弱。观察, 待GLP-1国产上市潮拉动多肽原料放量确认。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

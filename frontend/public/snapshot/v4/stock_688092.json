@@ -59,7 +59,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 37.5; ROIC/ROE ~7.9(ROE); 现价¥22.88",
+    "sentiment": "TSV深孔电镀脉冲电源卡位(HBM设备国产), 之前瓶颈链作紫苏叶候选。但verified基本面下滑: ROE7.9+净利0.8→0.7→0.5亿(增速-24%)。卡位真实但当前业绩下行(半导体设备订单波动), 不符'健康'标准。区别于演绎预期: verified后基本面走弱。观察, 待半导体设备订单回暖+TSV设备配套放量确认。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

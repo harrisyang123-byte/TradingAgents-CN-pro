@@ -59,7 +59,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 66.4; ROIC/ROE ~11(ROE下滑); 现价¥38.49",
+    "sentiment": "悦安新材羰基铁粉+软磁粉, 但verified基本面走弱: 净利2021→2025为0.9→1.0→0.8→0.7→0.8亿(停滞)+ROE从21%降至11%(趋势下行)+PE66.4偏高。软磁粉卡位在但当前业绩停滞+估值高, 不符健康标准。观察, 待软磁粉需求(AI电源)放量+业绩回升确认。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

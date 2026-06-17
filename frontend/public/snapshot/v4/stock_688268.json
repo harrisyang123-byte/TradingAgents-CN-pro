@@ -43,7 +43,21 @@
   "discovery_level": "🟢未发现(小市值 + 估值溢价 → 高风险高回报)",
   "business_quality": "好生意(电子特气壁垒高+认证周期长+客户黏性强);10 年长青",
   "position_nature": "中期窗口期交易(国产替代窗口),小仓位试探不超过 1-2%",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "高(电子特气国产化率 10-30% 空间最大,处半导体材料核心瓶颈)",
+    "cross_force_dynamics": {
+      "weakest_link": "估值溢价 625% 极高"
+    },
+    "key_risk": "估值溢价 625% 极高",
+    "monitoring_signals": [
+      "估值溢价 625% 极高",
+      "Q1 数据缺失",
+      "小市值流动性风险",
+      "行业周期敏感"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -154,7 +168,13 @@
       "thesis": "国产替代赛道真实但估值已透支全部未来。ROIC<WACC+PE 166x无安全边际。除非PE回落至50x以下(¥55-60)方可重新评估, 当前风险收益比极差。强烈回避"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 166.8; ROIC/ROE 4.8-6.4; 现价¥188.5; ★verified ROIC 4.78-6.38% → 价值创造不足(ROIC<WACC)",
+    "competitive": "高(电子特气国产化率 10-30% 空间最大,处半导体材料核心瓶颈)",
+    "valuation": "电子特气小盘PS+PE法: 目标价75元=2026E EPS约1.2元 × PE 60x(小盘高成长溢价); 买点50-58=PE 42-48x; 破45→清仓。估值溢价625%极高,严格小仓(≤1%)试探。",
+    "sentiment": "电子特气国产替代是半导体材料最大空间(国产化率 10-30%);小市值+高弹性;估值偏高但成长性强;建议小仓试探(≤1%) (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

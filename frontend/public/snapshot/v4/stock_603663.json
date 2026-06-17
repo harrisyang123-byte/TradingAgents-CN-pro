@@ -43,7 +43,19 @@
   "discovery_level": "🟡半发现",
   "business_quality": "待深度分析(陶瓷/锆制品行业属性,需联网核实)",
   "position_nature": "中期窗口期(等深度分析后定性)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "待行业重新分类后评估",
+    "cross_force_dynamics": {
+      "weakest_link": "数据未充分核实"
+    },
+    "key_risk": "数据未充分核实",
+    "monitoring_signals": [
+      "数据未充分核实",
+      "下次重跑替换"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -129,7 +141,13 @@
       "thesis": "铪材料稀缺卡位但PE 259x+ROIC<WACC=典型概念溢价远超基本面支撑。增速55.2%为低基数恢复非可持续。强烈回避, 等PE回落至80x以下(¥22)或ROIC突破12%证明价值创造能力后再评估"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 259.3; ROIC/ROE 6.3-8.5; 现价¥72.6; ★verified ROIC 6.34-8.46% → 临界(ROIC≈WACC)",
+    "competitive": "待行业重新分类后评估",
+    "valuation": "现价¥72.6离谱;强烈回避, 等PE回落至80x以下(¥22)或ROIC突破12%再评估",
+    "sentiment": "中性(锆+稀土小盘股); B4 升级仅补 forward_view 框架,具体逻辑需下一波深度重跑 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": "中性(锆+稀土小盘股)",
     "prev_date": "2026-06-07T07:42:50Z",

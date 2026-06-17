@@ -62,7 +62,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 20.2; ROIC/ROE ~11.3(ROE); 现价¥23.01",
+    "sentiment": "声学+AR/VR代工+智能硬件。净利10.9→26.7→39.4亿(增48%但含低基数, 2023曾因大客户砍单暴跌)。回撤-60%+分位0.41。但代工模式价值捕获弱(被苹果/Meta压价, ROE仅11.3一般), AR/VR放量是期权但依赖大客户(Meta Quest/苹果Vision)。增48%含低基数恢复非内生。观察池: AR/VR催化(Meta/苹果新品放量+份额恢复)确认后再介入, 买点¥18-21。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

@@ -152,7 +152,12 @@
       "thesis": "ROIC价值创造确认, PE不贵。分歧=增速持续性。Q2小程序DAU/流水环比+20%验证则加仓至7%; 平淡则维持3%底仓。止损: 季度增速<10%或PE>22x减仓至1%"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 16.6; 现价¥14.73; verified ROIC 18-24% vs 行业WACC 9% → ★价值创造; ROIC 18-24% >> 9% WACC 强价值创造(游戏轻资产高ROIC)",
+    "valuation": "{'preliminary_warning': '⚠️ 4 项核心数据(毛利率/经营现金流/分部营收/一致预期)缺失, 当前估值是 preliminary 不是 final. 数据补齐后 confidence 可上修至 0.70+; 当前 0.55 反映这一约束.', 'core_logic': '反向 DCF: PE 10x 在 WACC 9%+g 3% 下稳态 PE=14.3x, 当前 10x < 稳态 → 隐含 CAGR -3%~+1%; vs 实际 Q1+50% 预期差大但需验证分母', 'scenarios': {'bull': {'trigger': 'Q2 三信号全过 + 海外占比突破 15%', 'fair_price_range': '¥19-22', 'prob': '20%(critic 修正下调)'}, 'base': {'trigger': 'Q2 部分信号触发, 增速回落至 +20-30%', 'fair_price_range': '¥10-15', 'prob': '50%(critic 修正上调)'}, 'bear': {'trigger': 'Q2 ",
+    "sentiment": "002517 中等规模游戏代理+研发(53亿营收), 核心矛盾'传奇 IP 60% 现金牛 vs 小程序游戏第二曲线'。市场以 PE 10x 给衰退定价, 但 Q1 归母+50.65% yoy 显示加速。**critic 关键拷问**: 1) 数据铁律——4 项核心 estimated 不应基于此出精确买卖点; 2) 价值陷阱风险——游戏股低 PE 长期不纠错(完美世界 2020-2024 PE 8-12x 横盘 4 年)。本版 v2 补齐敏感性矩阵+产品分子深做+三重叠合极端情景+证伪条件后, 维持 3% 等 Q2 三信号同时满足。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1→v2: critic 72 NEEDS_CHANGES 6 项全改 — 敏感性矩阵 3×3 量化 + 产品分子深做(传奇 DAU/ARPU/小程序 ROI) + 三重叠合极端情景(¥3-4) + 三七/吉比特/完美世界 re-rating 路径定量对标 + 估值标 preliminary + 价值陷阱证伪信号. confidence 0.62→0.55 反映 4 项数据约束.",
     "self_check": "v2 修复 critic 6 项. 数据契约 18/18 verified 但 4 项 estimated 已显式标注 data_gaps_to_fetch task. 严格全流程: 4 分析师+多空 R1-R3+3 方风险全 spawn ACCEPT(bull_r2 失败 1 次重试 ACCEPT). critic v2 待复核.",

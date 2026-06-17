@@ -62,7 +62,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "ROIC/ROE 15.1(ROE); 现价¥86.55",
+    "sentiment": "比亚迪H是EV绝对龙头(全球销量第一)被杀到5年分位0.0(历史最低!)+回撤-81%, 但ROE15.1健康+2025净利326亿(盈利仍强)。垂直整合(电池/电机/电控/芯片自供)+海外扩张(东南亚/欧洲/南美)。价格被'价格战+国内渗透见顶'担忧杀到历史最低。错杀逻辑: 盈利仍强+海外第二曲线+垂直整合成本优势, 但需辨周期(国内EV渗透50%见顶+价格战压毛利+销量增速放缓)。H股较A股折价。谨慎看多: 历史最低估值提供安全边际, 但需观察海外放量+价格战缓和。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

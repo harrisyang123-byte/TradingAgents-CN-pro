@@ -152,7 +152,12 @@
       "thesis": "价值创造者确认但营收增长乏力+地缘风险压制估值弹性。PEG 1.06合理非低估, 持有观察合理。关键信号: 下季EBG收入占比突破25%, 海外增速恢复双位数"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 19.6; 现价¥30.24; verified ROIC 11.6-15.4% vs 行业WACC 9% → 价值创造; ROIC 11.6-15.4% > 9% WACC 价值创造,现金流1.79x优质",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价 + SOTP 分部', 'reverse_dcf': {'wacc': 0.095, 'terminal_g': 0.03, 'steady_pe': 15.4, 'current_pe': 18.8, 'implied_cagr_5y': '5-6%', 'interpretation': '5-6% 隐含增速 vs 长期历史 +15% 显著低估, 但与近 2 年实际增速一致; 当前定价已 price-in 增长放缓, 创新业务期权未给值'}, 'scenarios': {'bull': {'trigger': 'PBG 回暖+10% / 创新业务占比≥10% / 净利率维持 17%', 'fair_price_range': '¥38-50', 'prob': 0.3}, 'base': {'trigger': '营收+5-10% / 净利率 15-17%', 'fair_price_range': '¥30-36', 'prob': 0.5}, 'bear': {'trigger': 'PBG 持续负增",
+    "sentiment": "海康威视 = 全球 AIoT 安防龙头(38% 全球市占), 四层护城河 (规模+渠道+品牌+自研芯片). 2025 营收停滞 +0.01% 但归母 +18.52% 现金流 253 亿/净利 141 亿 = 1.79x 高质量. 关键张力: bull 看 '宽护城河+创新业务期权+估值低' vs bear 看 '营收天花板+云厂商替代+减费增效空间耗尽'. R3 共识 ¥24-36 中枢 ¥30, 现价 ¥29 在共识中位偏下. 实体清单 2019 至今 7 年已充分 price-in (PE 从 35x 压缩至 18.8x). **结论**: 加仓至 2.5%, 等 ¥26-28 价值派买点 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1 首次 8 step 真验闭环. 旧 v2 是 B4 简化版.",
     "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 风险全 spawn ACCEPT (合并 spawn 节省时间但保持深度); critic 待真复核. 现价 ¥29 verified.",

@@ -43,7 +43,21 @@
   "discovery_level": "🟡半发现",
   "business_quality": "好生意(创新药+出海+泽布替尼全球放量+管线丰富),10年护城河强",
   "position_nature": "长期投资(出海BD+管线兑现长坡)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "高(出海BD变现能力+first-in-class靶点能力双重瓶颈卡位,行业最强出海标的)",
+    "cross_force_dynamics": {
+      "weakest_link": "生物安全法案风险"
+    },
+    "key_risk": "生物安全法案风险",
+    "monitoring_signals": [
+      "生物安全法案风险",
+      "FDA审评趋紧",
+      "泽布替尼专利2032到期",
+      "中美地缘"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -153,7 +167,13 @@
       "thesis": "已从纯烧钱biotech进化为具备全球商业化能力的创新药平台, 泽布替尼竞争力确认。但ROIC临界+单品依赖+政策尾部风险, 当前risk/reward对称, 等连续2季Non-GAAP盈利确认或第二曲线(sonrotoclax数据)催化后右侧介入更优, 维持临界观望"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "现价¥158.89999; ★verified ROIC 8.28% → 临界(ROIC≈WACC)",
+    "competitive": "高(出海BD变现能力+first-in-class靶点能力双重瓶颈卡位,行业最强出海标的)",
+    "valuation": "创新药PS+管线DCF法: 目标价460港元=2026E 产品收入约420亿 × PS 12x(扭亏初期看收入+管线NPV); 买点300-360=PS 8-10x(20-30%安全边际); 破280→清仓。泽布替尼全球放量+管线NPV是估值核心。",
+    "sentiment": "创新药出海首选+扭亏拐点+管线丰富+大行齐升目标价(瑞银465美元/花旗453美元);Q1净利178倍增长是结构性而非季节性 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

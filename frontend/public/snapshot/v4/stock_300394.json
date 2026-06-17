@@ -43,7 +43,21 @@
   "discovery_level": "🟡半发现",
   "business_quality": "中性(光器件相对光模块议价权弱,但天孚是少数能做高端隔离器/连接器的);海外布局给长期上行空间",
   "position_nature": "中期窗口期交易(2026-2027)+短期股价波动大需谨慎",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中下",
+    "moat_synthesis": "中(光器件供应商,处光模块上游,议价权弱于光模块整机)",
+    "cross_force_dynamics": {
+      "weakest_link": "增速低于光模块龙头"
+    },
+    "key_risk": "增速低于光模块龙头",
+    "monitoring_signals": [
+      "增速低于光模块龙头",
+      "下游光模块景气见顶传导",
+      "海外子公司业绩不确定",
+      "光器件议价权偏弱"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -152,7 +166,13 @@
       "thesis": "基本面一流无争议, 分歧在估值透支程度。减仓至半仓, 保留底仓享受周期β, 等PEG回落1.2-1.5再加仓。trigger: 季度增速<40%即杀估值信号"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 108.2; ROIC/ROE 36-48; 现价¥280.95; ★verified ROIC 36.1-48.13% → 价值创造之王(ROIC远超WACC)",
+    "competitive": "中(光器件供应商,处光模块上游,议价权弱于光模块整机)",
+    "valuation": "光器件PE法: 目标价420元=2026E EPS约14元 × forward PE 28-30x(光器件议价权弱于光模块整机故给较低PE); 买点300-330=forward PE 21-24x; 破280→清仓。",
+    "sentiment": "Q1 业绩高增+海外布局先发优势,值得作为光模块产业链分散仓位;但增速逊于龙头,目标价位 420 元(forward PE 28-30x) (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

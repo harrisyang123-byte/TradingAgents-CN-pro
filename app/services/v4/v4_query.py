@@ -146,6 +146,74 @@ def _extract_credibility(p):
     return None
 
 
+def _fallback_five_forces(p):
+    """D0-9: 老 v3 schema 个股没有 five_forces 结构化字段, 从 chokepoint_score/business_quality/risks 等散落字段
+    拼出可展示的最小 five_forces, 让前端 Step2 b 不至于整片空白(降级展示)。"""
+    cs = p.get("chokepoint_score")
+    bq = p.get("business_quality")
+    if not (cs or bq):
+        return None
+    # 从 chokepoint_score 提取护城河等级
+    moat = "中"
+    cs_str = str(cs or "")
+    if any(k in cs_str for k in ["宽", "Very Wide", "极宽", "9.0", "8.5"]): moat = "宽"
+    elif any(k in cs_str for k in ["中上", "B+", "7."]): moat = "中上"
+    elif any(k in cs_str for k in ["中下", "弱", "中等偏弱"]): moat = "中下"
+    elif any(k in cs_str for k in ["窄", "无护城河"]): moat = "窄"
+    risks = p.get("risks") or []
+    weakest = risks[0] if risks else (p.get("worst_case") or "")
+    return {
+        "moat_rating": moat,
+        "moat_synthesis": cs_str or bq or "(老 schema 落盘, 详见 thesis 与价值创造维度)",
+        "cross_force_dynamics": {
+            "weakest_link": weakest if isinstance(weakest, str) else str(weakest),
+        },
+        "key_risk": str(risks[0]) if risks else None,
+        "monitoring_signals": [str(r) for r in risks[:5]] if risks else [],
+        "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)",
+    }
+
+
+def _fallback_analysts(p):
+    """D0-9: 老 v3 schema 个股没有结构化 analysts.{financial/competitive/valuation/sentiment},
+    从 thesis/value_creation/valuation_basis/forward_view 等拼出降级展示, 让前端 Step2 不至于空白。"""
+    if not (p.get("thesis") or p.get("value_creation") or p.get("valuation_basis")):
+        return {}
+    # 财务: 从 value_creation.actionable_verdict 或 ROIC/ROE 拼
+    vc = p.get("value_creation") or {}
+    av = vc.get("actionable_verdict") or {}
+    fin_parts = []
+    if av.get("verified_pe"): fin_parts.append(f"PE {av['verified_pe']}")
+    if av.get("roic_pct"): fin_parts.append(f"ROIC/ROE {av['roic_pct']}")
+    if av.get("verified_price"): fin_parts.append(f"现价¥{av['verified_price']}")
+    if vc.get("roic_vs_wacc"): fin_parts.append(vc["roic_vs_wacc"])
+    fin = "; ".join(fin_parts) if fin_parts else None
+    # 估值: 从 valuation_basis 或 expert_valuation
+    vb = p.get("valuation_basis")
+    val = None
+    if isinstance(vb, str):
+        val = vb[:500]
+    elif isinstance(vb, dict):
+        val = str(vb.get("derivation") or vb.get("logic") or vb)[:500]
+    elif vc.get("expert_valuation"):
+        ev = vc["expert_valuation"]
+        if isinstance(ev, dict):
+            val = str(ev.get("target_verdict") or ev.get("now_judgment") or ev)[:500]
+    # 竞争: 从 chokepoint_score 或 business_quality
+    comp = p.get("chokepoint_score") or p.get("business_quality")
+    # 舆情: 从 thesis 提取(降级)
+    senti = (p.get("thesis") or "")[:300] + " (老 schema 无独立舆情段, 取自 thesis 摘要)"
+    out = {}
+    if fin: out["financial"] = fin
+    if comp: out["competitive"] = str(comp)
+    if val: out["valuation"] = str(val)
+    if senti: out["sentiment"] = senti
+    if out: out["_data_status"] = "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+    return out
+
+
+
+
 def _extract_risk_debate(p):
     rc = p.get("risk_consensus_from_3way") or {}
     if not rc:
@@ -570,7 +638,7 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "business_quality": p.get("business_quality"),
         "position_nature": p.get("position_nature"),
         # D 阶段 5+1 五力深做(2026-06-13 拆分): 5 力 level + cross_force_dynamics + weakest_link + moat_durability + monitoring_signals
-        "five_forces": p.get("five_forces") or p.get("five_forces_summary"),
+        "five_forces": p.get("five_forces") or p.get("five_forces_summary") or _fallback_five_forces(p),
         # D0-5 TradingAgents 对齐(2026-06-13): 3 方风险辩论 + sentiment + memory + forward_view 6 维 + 数据追溯
         "risk_debate_summary": p.get("risk_debate_summary") or _extract_risk_debate(p),
         "risk_debate_full": p.get("risk_debate_full"),
@@ -587,7 +655,7 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         "forward_view": p.get("forward_view"),
         # 辩论 + 反思
         "debate_rounds": p.get("debate_rounds", []),
-        "analysts": p.get("analysts", {}),
+        "analysts": p.get("analysts") or _fallback_analysts(p),
         "reflection": p.get("reflection"),
         # C 阶段 回测准确率(前端展示)
         "historical_alpha": p.get("historical_alpha"),

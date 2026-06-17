@@ -43,7 +43,21 @@
   "discovery_level": "🟡半发现(锂电过剩叙事冷, 但GLP-1含氟/LiFSI主题未发酵)",
   "business_quality": "差-周期底部价值毁灭期(ROIC<WACC, 连亏3年ROE-19→-1.73, 护城河中下)",
   "position_nature": "困境反转博弈(NOT健康龙头错杀): 基本面修复未verified确认, 需双确认催化",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中下",
+    "moat_synthesis": "中下(锂电是周期品+天赐自供LiFSI压制; 医药CDMO含氟中间体才真卡位但仅14.3%)",
+    "cross_force_dynamics": {
+      "weakest_link": "经营现金流转负=利润质量差(真拐点vs假拐点核心证伪)"
+    },
+    "key_risk": "经营现金流转负=利润质量差(真拐点vs假拐点核心证伪)",
+    "monitoring_signals": [
+      "经营现金流转负=利润质量差(真拐点vs假拐点核心证伪)",
+      "资产负债率74.4%化工危险区+连亏侵蚀净资产→ST风险",
+      "六氟磷酸锂产能过剩+天赐自供LiFSI压制, 锂电板块周期底部可能持续2-3年",
+      "固态电池远期替代液态电解液整链(2027-2028量产时间表)"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -78,7 +92,13 @@
     "stock_specific_risks": "ST风险/74.4%高负债偿还/现金流转负/固态电池远期替代"
   },
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 亏损(PE无意义); ROIC/ROE <0(亏损); 现价¥21.62; ROIC<WACC, 连续3年价值毁灭(ROE-19.08→-16.46→-1.73)。需六氟修复+扭亏才回正。",
+    "competitive": "中下(锂电是周期品+天赐自供LiFSI压制; 医药CDMO含氟中间体才真卡位但仅14.3%)",
+    "valuation": "周期股估值(禁PEG): SOTP分部(锂电PS2.5x+植保1.8x+医药CDMO3.0x+贸易0.3x-有息负债) + PB产能周期底2.0x + 正常化盈利还原(六氟修复+毛利率回25%→net~1.7亿)。target base¥24-28, 买点¥17-18。",
+    "sentiment": "氟化工平台(锂电40.6%/植保20.4%/医药CDMO14.3%/贸易24.6%)处周期底部困境反转早期。亏损-6.2→-0.46亿收窄+毛利率8.26→17.83%三连修复方向对, 但经营现金流/股转负(-0.08)是最硬红旗(利润收窄靠非现金项)+负债74.4%+ST风险=容错极窄。这是困境反转博弈非健康错杀, 当前¥21.62不追高(已price-in部分修复), 等双确认(单季经营净利转正+现金流转正)才介入。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": "无(首次分析)",
     "prev_date": "N/A",

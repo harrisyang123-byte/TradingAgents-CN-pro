@@ -154,7 +154,12 @@
       "thesis": "行业β真实增长但'规模能否转化为价值创造'是核心分歧。ROIC<WACC+FCF负是硬伤, 除非毛利率破20%或capex拐点。持有偏谨慎合理, 新增仓位等FCF转正(2027H1), 止损¥47"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 17.3; 现价¥55.5; ★verified(AKShare): ROIC 5.92-7.89% < WACC≈9% = 价值毁灭/不足。FCF/股 -5.958(负,重资产模组烧钱严重)。ROE 18.76% 是杠杆撑的假象(资产负债率高)——ROIC 才6-8%揭示真实资本回报不足。**好赛道(IoT模组TAM大)但烂回报(ROIC<WACC),类似通富/中芯资本密集陷阱**",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价 + 共识目标价交叉验证', 'reverse_dcf': {'wacc_range': '9-11% (基础 10%, 敏感性测试 ±1%)', 'terminal_g_range': '2.5-3.5% (基础 3%)', 'steady_pe': '12.5-16.7 (1/(0.10±0.01-0.03±0.005))', 'current_pe': 27.2, 'implied_cagr_5y': '12-14%', 'interpretation': 'WACC 10% / g 3% → 隐含 13% CAGR ≈ 行业平均下沿; 当前定价合理, 不是大幅低估'}, 'scenarios': {'bull': {'trigger': 'Q2 净利率 ≥5% + 5G+车规占比 ≥30%', 'fair_price_range': '¥80-100', 'prob': 0.3}, 'base': {'trigger': '营收+25% + 净利率 4-4.5%', 'fair_price_range'",
+    "sentiment": "移远 = 全球 IoT 蜂窝模组绝对龙头(34%市占, IoT Analytics 2025), 主营 4G/LPWA(50%) + 5G(25%) + 智能模组车载(15%) + 解决方案(10%); 海外 55-60% 客户分散. 2025 营收 243亿(+30.83%) 归母 8.37亿(+42%) 经营杠杆释放. **现价 ¥55.50 是入场价**: PE 27.2x 隐含 CAGR 13% 与行业平均吻合, 但 forward PE 20.43x 已 price-in 增速温和回落; 共识目标 ¥74.33 + 敏感性加权 ¥68.4 + bull 情景 ¥80-100 共同支撑 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1→v2→v3: critic v1 62 (6 项缺失) → v2 修 6 项 但被指'结论自相矛盾怯判' → v3 站队加仓. 价格冲突消解 ¥55.50 verified + 共识目标 ¥74.33 +33.9% upside + 反骑墙铁律强制站队. confidence 0.55→0.62→0.72.",
     "self_check": "data_status: synthesized_by_main_agent. critic v2 指出'数据齐全时不能怯判'是核心警示, v3 真站队. 严格全流程: 4 分析师+多空 R1-R3+3 方风险全 spawn ACCEPT(bear_r3 retry 1, critic v1+v2 retry 1). critic v3 待复核.",

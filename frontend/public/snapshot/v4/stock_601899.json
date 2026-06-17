@@ -43,7 +43,21 @@
   "discovery_level": "🔴已发现(2024-25已大涨)",
   "business_quality": "周期生意但电力化驱动结构性长青;铜矿+金矿+锂矿多元化降低单一商品风险;10年仍在",
   "position_nature": "长期投资(战略矿产+股息)+中期窗口期(铜价高位)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "高(铜矿+金矿双瓶颈卡位+全球前十大铜矿企业)",
+    "cross_force_dynamics": {
+      "weakest_link": "估值溢价267%偏高"
+    },
+    "key_risk": "估值溢价267%偏高",
+    "monitoring_signals": [
+      "估值溢价267%偏高",
+      "全球衰退导致铜价下行",
+      "金价高位回落",
+      "碳酸锂价格压力"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -153,7 +167,13 @@
       "thesis": "资源禀赋一流(ROIC>WACC), 但已price-in金铜高位。分歧=商品价中枢可持续。持有者可守, 新资金不追高, 待金价回调$2100或股价¥25以下左侧建仓, 设¥26.5观察线"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 14.9; ROIC/ROE 15-20; 现价¥29.09; ★verified ROIC 15.09-20.11% → 价值创造(ROIC>WACC9%)",
+    "competitive": "高(铜矿+金矿双瓶颈卡位+全球前十大铜矿企业)",
+    "valuation": "周期股PE+矿产NPV法: 目标价42元=2026E EPS约2.3元 × PE 18x(铜金高位+矿产储量NPV,周期股给低PE); 买点28-32=PE 12-14x(员工持股19.36×60%基准上方); 破24→清仓。铜价/金价是估值核心变量。",
+    "sentiment": "Q1净利+97.5% 强劲超预期(矿产金/碳酸锂量+主营金属价上涨);铜电力化(AI+EV)+金避险+稀土战略多重共振;员工持股19.36元/股(市价60%)是底部托底;EPS 0.755元 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

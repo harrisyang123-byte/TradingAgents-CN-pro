@@ -146,7 +146,12 @@
       "thesis": "优质寡头确认(ROIC>WACC), 估值不贵。分歧=当前是利润率顶还是可持续。加仓至1%可接受(仓位小), 需监控VA报价拐点+季度营收增速回升至8%+; 净利率<22%视为下行止损"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 13.6; 现价¥30.09; verified ROIC 16-21% vs 行业WACC 10% → ★价值创造; ROIC 16-21% > 10% WACC 强价值创造(净利率27.5%顶级,VA寡头)",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价 + 周期底部安全边际', 'reverse_dcf': {'wacc': 0.1, 'terminal_g': 0.03, 'steady_pe': 14.3, 'current_pe': 9.87, 'implied_cagr_5y': '0% 至 -2%', 'interpretation': '0% 隐含增速 vs 实际 5-10% 持续增长 = 显著低估; 但需 VA 周期上行催化才能纠正'}, 'scenarios': {'bull': {'trigger': 'VA 价格回升 +30% / 蛋氨酸价格止跌 / 新材料占比 ≥20%', 'fair_price_range': '¥30-38', 'prob': 0.3}, 'base': {'trigger': 'VA 持平 + 蛋氨酸亏损收窄 + 新材料持续放量', 'fair_price_range': '¥24-30', 'prob': 0.5}, 'bear': {'trigger': 'VA 再跌 20% / 蛋氨酸继续过剩 / 新材料慢",
+    "sentiment": "新和成 = 全球营养品+精细化工寡头, 4 大业务: 维生素 40%(VA 全球40%/VE 25%) + 蛋氨酸 25% + 香精香料 15% + 新材料 PPA/PPS 15%. 海外 55-60% 客户高度集中(ADM/Cargill/帝斯曼). 2025 营收 213.6 亿 净利 58.7 亿 — 净利率 27.5% 顶级 (vs 化工同业 8-12%) ROE 18%. 关键张力: bull 看 'VA 寡头底部估值+净利率顶级+新材料期权 (PPA/PPS 对标万华 MDI)' vs bear 看 'PE 陷阱 (周期股顶峰 PE 最低)+蛋氨酸产能过剩+VA 上行催化时点不定' (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1 首次 8 step 真验闭环.",
     "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师+多空 R1-R3+3 风险全 spawn ACCEPT (合并 spawn 节省时间但保持深度). 现价 ¥22.27 verified.",

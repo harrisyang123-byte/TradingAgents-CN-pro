@@ -61,7 +61,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 57.2; ROIC/ROE ~15(ROE); 现价¥82.92",
+    "sentiment": "铂科新材是金属软磁粉末龙头(芯片电感+光伏储能+AI电源), 净利2021→2025为1.2→1.9→2.6→3.8→4.2亿(持续高增)+ROE15-18%健康+毛利42%提升+负债23%低。AI电源/芯片电感高频化驱动软磁粉需求。但PE57.2偏高+5年分位0.69(已部分price-in), 非低估。建仓宜小仓+回调¥65-75加。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

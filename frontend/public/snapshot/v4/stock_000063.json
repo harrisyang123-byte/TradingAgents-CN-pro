@@ -146,7 +146,12 @@
       "thesis": "短期利润低谷+ROIC<WACC事实, 估值不便宜; 算力/5G-A中期修复可能但需验证; 地缘尾部风险不可忽视。守仓观察, 止损¥31, 等ROIC连续两季回升至6.5%+或算力毛利率>25%加仓信号"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 31.1; 现价¥36.35; verified ROIC 4.4-5.8% vs 行业WACC 9% → 价值不足; ROIC 4.4-5.8% < 9% WACC 价值不足,主因利润崩(-33.3%)",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价 + 大摩独立目标价', 'reverse_dcf': {'wacc': 0.1, 'terminal_g': 0.03, 'steady_pe': 14.3, 'current_pe': 30.89, 'implied_cagr_5y': '11.7%', 'interpretation': '30.89x 隐含 11.7% CAGR vs 实际利润 -33% — 隐含极度乐观, 不可持续, 估值偏高'}, 'scenarios': {'bull': {'trigger': 'Q2 净利率 ≥6% + 智算订单中标 ≥25% + 海外营收+15%', 'fair_price_range': '¥45-55', 'prob': 0.2}, 'base': {'trigger': '营收+5-10% + 净利率 4-5%', 'fair_price_range': '¥28-38', 'prob': 0.55}, 'bear': {'trigger': 'Q2 净利率 <3% + 实体清单升级 + 华为份额抢占'",
+    "sentiment": "中兴通讯 = 5G+AI 算力全栈布局通信设备龙头, 但当前处于 '利润塌方+竞争挤压+周期下行' 三重绞杀阶段. 2025 营收 1339 亿(+10.4%) 归母 56.18 亿(-33.3%) → 2026Q1 加速恶化 -46.58%. 关键张力: bull 看 AI 全栈期权(智算中标 22%↑+东数西算+回购) vs bear 看利润塌方+华为回归(国内 RAN 50%+)+净利率 4% 天花板+实体清单. R3 共识区 ¥32-38, 现价 ¥36.72 在中位无安全边际. **结论**: 利润拐点未现前持有不加, 等 ¥28-32 价值派买点+Q2 季度净利率回升至 5%+ 信 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1 首次 8 step 真验闭环. 旧 v2 是 B4 简化版.",
     "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 方风险全 spawn (bear_r1/competitive 各 retry 1); critic 待复核. 价格 ¥36.72 verified. 利润下滑严重 -47% Q1 是核心定价因素.",

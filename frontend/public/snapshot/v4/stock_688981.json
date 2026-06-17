@@ -122,7 +122,12 @@
       "thesis": "战略地位不可替代但ROIC<<WACC价值毁灭不可回避。A股 95x PE纯情绪溢价不可碰; H股 35x/PEG<1尚合理, 若产能利用率破85%+毛利率>22%可右侧确认。A股坚决不入, H股作国产替代期权小仓位关注, 止损港股PE>45x"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "现价¥124.88",
+    "valuation": "{'core_logic': 'DCF + 同业可比 + AH 溢价分析 + 战略价值期权', 'reverse_dcf': {'current_pe_A': 95, 'implied_cagr_5y': '25-30%', 'interpretation': '需 5 年净利 CAGR 25%+ 才能 justify A 股 PE — 制裁环境下几乎不可能'}, 'scenarios': {'bull': {'trigger': 'EUV 解禁 / 净利率突破 12% / 7nm 商业化', 'fair_price_A': '¥130-160', 'fair_price_H': 'HK$70-90', 'prob': 0.2}, 'base': {'trigger': '维持 7-8% 净利率 + 制裁现状', 'fair_price_A': '¥80-110', 'fair_price_H': 'HK$45-55', 'prob': 0.5}, 'bear': {'trigger': 'DUV 也被限 / 净利率回 5%', 'fair_price_A': '¥60-80', 'f",
+    "sentiment": "中芯 = 中国大陆最大晶圆代工厂, 国产替代核心. 28nm/14nm 量产 + 7nm 验证 (DUV 多重曝光). 2025+39% 利润但 ROE 仅 5%(资本密集). 关键张力: bull 看 '国产替代不可替代+战略资产+大基金支持' vs bear 看 'A 股 PE 95x 信仰泡沫+EUV 锁死天花板+capex 无底洞+AH 溢价 621%'. R3 共识: A股高估 H股合理偏高. 反骑墙: A股观望 H股回调入场. (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v2 简化版 → v3 真验闭环",
     "memory_used": [

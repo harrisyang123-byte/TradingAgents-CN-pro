@@ -159,7 +159,12 @@
       "thesis": "核心矛盾=EV烧钱对集团ROIC拖累vs规模爬坡盈利拐点时点。手机IoT稳健但增量有限不足以支撑估值向上突破。持有观望, 等EV单季盈亏平衡信号(2026H2-2027H1)再加仓; 下行守HK$22(剔除EV后核心业务15xPE)止损"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "现价¥26.2; verified ROIC 10.9% vs 行业WACC 11% → 临界; ROIC 10.9% ≈ 11% EV/手机混合WACC 临界,EV业务投入期拖累",
+    "valuation": "{'core_logic': 'SOTP 分部 + 反向 DCF + 同业可比', 'reverse_dcf': {'wacc': 0.1, 'terminal_g': 0.03, 'steady_pe': 14.3, 'current_pe': 17.61, 'implied_cagr_5y': '~6%', 'interpretation': '6% 隐含增速 vs 实际 +25% 营收增长, 看似低估但 EV 持续亏损是关键约束'}, 'sotp_breakdown': {'手机+IoT (75% 营收 ~3429 亿)': 'EPS 约 1.0 × PE 15x = HK$15', '互联网服务 (10%, 高毛利)': 'PE 25x × EPS 0.18 = HK$4.5', 'EV 业务 (15%, 亏损期)': 'PS 2x × HK$686 亿 ÷ 258 亿股 = HK$5.3', '净现金 + 投资': '约 HK$3-5/股', 'SOTP 合计': 'HK$28-30 (与现价 HK$32 接近)'}, 'scenarios': {'bull': {'trig",
+    "sentiment": "小米 = '人车家'多元化生态平台, 4 大业务: 手机(50%)+IoT(25%)+互联网服务(10%, 毛利率 73%)+智能 EV(15%, SU7 30 万+交付). 2025 营收 +25% 归母 +76% 增长强劲, 但 Q1 2026 经调整净利 -43.1% 暴露 EV 烧钱节奏. 关键张力: bull 看 'SOTP 平台重估+EV 终局价值+互联网利润安全垫' vs bear 看 'EV 价格战+SU7 Ultra 事故+手机饱和+forward 21.9x 透支 +236% Morningstar premium'. R3 共识区 (校准后) HK$28-38 中枢 HK (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1 首次 8 step. 旧 v2 是 B4 简化版.",
     "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 风险全 spawn ACCEPT (合并 spawn 节省时间). **关键纠正**: 辩论 agent 用了 HK$60 高点假设, 主 agent 校准至 verified HK$32 (52 周区间 28.80-61.45). 估值区间相应下修.",

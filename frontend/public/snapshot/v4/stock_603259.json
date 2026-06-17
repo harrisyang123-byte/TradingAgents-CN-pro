@@ -71,7 +71,12 @@
       "thesis": "ROIC>WACC价值创造无争议, PE 14.9x已部分反映悲观。分歧=BIOSECURE概率定价+融资恢复斜率。建仓5-8%合理, 设¥85止损(对应12.7x破坏性情景), 催化剂2026Q3法案窗口关闭+TIDES产能验证订单"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 14.9; 现价¥99.71; verified ROIC 21-28% vs 行业WACC 10% → ★价值创造; ROIC 21-28% >> 10% WACC 价值创造之王(CXO一体化客户黏性)",
+    "valuation": "现价¥99.71对目标¥150-180有50-80%空间,安全边际足;BIOSECURE落地是最大下行风险",
+    "sentiment": " (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

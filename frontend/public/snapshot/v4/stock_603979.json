@@ -62,7 +62,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 18.9; ROIC/ROE ~23(ROE); 现价¥70.76",
+    "sentiment": "矿山工程服务龙头+海外矿山资源(铜/金)+施工转运营业务质变。ROE23.3+净利10.3→15.8→23.4亿(增48%)+海外绿地项目3-5年锁定订单+工程转采矿运营=一次性变持续性收入。但5年分位0.96历史高位+回撤仅-19%, 大部分已price-in。海外矿山扩张确定但金铜价高位回落是风险。持有可, 当前¥70.76高位不追, 回调¥55-62分批。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

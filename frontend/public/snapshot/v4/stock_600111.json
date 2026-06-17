@@ -43,7 +43,21 @@
   "discovery_level": "🟢未发现(中长期国家战略资产但短期波动大)",
   "business_quality": "好生意(中国稀土战略资产+永磁需求EV/风电/AI机器人长期向好);10年长青",
   "position_nature": "长期投资(战略稀缺资源+下游需求长期增长)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "极高(稀土+磁材产业链龙头,中国稀土战略资产+磁材龙头金力永磁等下游)",
+    "cross_force_dynamics": {
+      "weakest_link": "稀土价格周期性强"
+    },
+    "key_risk": "稀土价格周期性强",
+    "monitoring_signals": [
+      "稀土价格周期性强",
+      "全球需求下行",
+      "出口管制变化",
+      "下游订单波动"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -153,7 +167,13 @@
       "thesis": "需求端中长期确定但PE 79x充分price-in甚至透支。ROIC<WACC结构性缺陷非周期波动。合理介入: 稀土价格突破¥60万/吨确认供需反转, 或PE回落至35-45x(¥25-32)提供安全边际。当前回避等待"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 79.4; ROIC/ROE 6.7-8.9; 现价¥49.43; ★verified ROIC 6.65-8.87% → 临界(ROIC≈WACC)",
+    "competitive": "极高(稀土+磁材产业链龙头,中国稀土战略资产+磁材龙头金力永磁等下游)",
+    "valuation": "稀土周期股PE法: 目标价80元=2026E EPS约1.6元 × PE 50x(稀土战略溢价+永磁需求成长); 买点55-62=PE 34-39x; 破48→清仓。稀土价格波动剧烈,高弹性。",
+    "sentiment": "Q1营收+27.69%/净利+113.12% 强劲;Q2稀土精矿价38804元/吨;张建平34.5亿入股是机构信心信号;EPS 0.2539元;长期看EV+风电+人形机器人持续拉动永磁需求 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

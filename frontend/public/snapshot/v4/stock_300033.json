@@ -63,7 +63,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 34.8; ROIC/ROE ~38.5(ROE); 现价¥207.46",
+    "sentiment": "ROE38.5%顶级商业模式(轻资产+毛利85%+订阅模式+零负债净现金), iFinD券商渗透60%+(中国版Bloomberg转换成本高)+C端3亿用户数据飞轮+问财AI金融大模型先发。但76%增速含牛市β放大(熊市利润可腰斩, 2018仅4亿vs2024 32亿=8倍波动), 常态增速应回归25-35%。PE34.8分位0.7偏高, 若回归常态增速30%则forward PEG~1.2偏贵。非错杀(从2024牛市泡沫PE70+回落到合理区间但非低估)。target¥240-270(AI期权溢价)买点¥165-175(牛市退潮后合理底)。当前¥207不追高。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

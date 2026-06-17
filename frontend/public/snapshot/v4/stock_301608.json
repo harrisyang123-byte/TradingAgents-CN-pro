@@ -43,7 +43,21 @@
   "discovery_level": "🟡半发现(算力连接器概念有关注但未兑现)",
   "business_quality": "中-周期股(ROE11.2中等+护城河弱+传统连接器周期属性)",
   "position_nature": "周期股+算力远期期权(成功率20-25%): 非健康错杀, 当前价无安全边际",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中下",
+    "moat_synthesis": "护城河2.5偏弱: 传统工业/汽车连接器认证壁垒中等但非技术垄断(客户'懒得换'非'换不了'), 算力高速连接器仅<5%营收+样品阶段+落后华丰/瑞可达",
+    "cross_force_dynamics": {
+      "weakest_link": "算力高速连接器仅概念未兑现(<5%营收样品阶段)"
+    },
+    "key_risk": "算力高速连接器仅概念未兑现(<5%营收样品阶段)",
+    "monitoring_signals": [
+      "算力高速连接器仅概念未兑现(<5%营收样品阶段)",
+      "传统工业连接器周期下行+下游工业自动化/新能源放缓",
+      "护城河弱被立讯/中航光电大厂降维打击",
+      "ROE11.2%仅略超资本成本非超额回报"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -78,7 +92,13 @@
     "stock_specific_risks": "算力期权归零/传统周期/大厂降维打击/护城河弱"
   },
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 18.5; ROIC/ROE ~11(ROE); 现价¥48.89; ROE11.2%略超WACC(~9%), 价值创造能力一般, 非印钞机",
+    "competitive": "护城河2.5偏弱: 传统工业/汽车连接器认证壁垒中等但非技术垄断(客户'懒得换'非'换不了'), 算力高速连接器仅<5%营收+样品阶段+落后华丰/瑞可达",
+    "valuation": "SOTP分部估值: 传统工业连接器2.2亿净利×15-18x=33-40亿 + 算力期权(成功率20-25%×全值13.5-30亿×折现)=2-6亿, 合计35-46亿=base¥45。当前¥48.89无安全边际。",
+    "sentiment": "维峰电子是小市值连接器厂(44亿), 初筛因5年分位0.01极低+回撤57%疑似健康错杀, 但完整分析后诚实降级: 这是IPO估值回归+传统工业连接器周期下行, 非健康错杀。主体传统工业/汽车连接器是周期品+护城河弱(2.5), 被市场炒作的'算力高速连接器'仅<5%营收+还在样品阶段+落后华丰科技/瑞可达, 被TE/安费诺/Molex垄断224G, 是成功率20-25%的远期期权非近期驱动。SOTP估值: 传统业务33-40亿+算力期权现值2-6亿=base¥45。当前¥48.89已略高于base无安全边际, 不追高。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": "无(首次)",
     "prev_date": "N/A",

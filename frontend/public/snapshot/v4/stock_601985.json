@@ -43,7 +43,21 @@
   "discovery_level": "🟡半发现",
   "business_quality": "好生意(核电基荷+低碳+长期现金流);10年长青",
   "position_nature": "长期投资(核电核准加速窗口期)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "高(核电中国双寡头之一+核准加速窗口)",
+    "cross_force_dynamics": {
+      "weakest_link": "核电核准节奏"
+    },
+    "key_risk": "核电核准节奏",
+    "monitoring_signals": [
+      "核电核准节奏",
+      "Q1净利下行34.19%(检修成本)",
+      "电价管制",
+      "核安全敏感"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -153,7 +167,13 @@
       "thesis": "合格防御底仓——现金流确定性A股前5%、反周期属性真实、长期有增量机组。分歧=估值偏贵: PE 20.4x对6%增速偏高, ROIC临界意味增长不创造超额价值。防御可选但非优选, 仓位3-5%以内, 回调至PE 17x(¥7.7)以下防御性价比显著提升"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 20.4; ROIC/ROE 3.5-4.6; 现价¥9.24; ★verified ROIC 3.48-4.64% → 价值创造不足(ROIC<WACC)",
+    "competitive": "高(核电中国双寡头之一+核准加速窗口)",
+    "valuation": "核电PE+资产法: 目标价12元=2026E EPS约0.6元 × PE 20x(核电基荷稳定现金流); 买点7.5-8.5=PE 13-14x; 破7→清仓。核准加速是估值催化,检修成本是短期压制。",
+    "sentiment": "核电核准2025-26高峰+低碳基荷不可替代+电力化拉动需求;市值1900亿/股价8.69元;1年涨跌-8%已部分修正 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

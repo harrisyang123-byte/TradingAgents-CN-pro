@@ -62,7 +62,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "ROIC/ROE 26.3(ROE); 现价¥45.88",
+    "sentiment": "快手是被低估的互联网平台: ROE26.3%(健康高)+2025净利186亿(盈利持续改善)+5年分位0.13+回撤-81%。短视频+直播电商+本地生活+海外(巴西)商业化, 净利从亏损转盈并高增。港股互联网被系统性杀估值(地缘+经济担忧), 但快手基本面verified改善(扭亏→186亿净利+ROE26.3)。PE~10(净利186亿/市值~2000亿港币)低估。健康错杀(基本面改善但价格历史低位)。区别于美团(2025巨亏233亿双杀)。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

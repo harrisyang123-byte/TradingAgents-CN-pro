@@ -59,7 +59,11 @@
   "confidence": null,
   "forward_view": null,
   "debate_rounds": [],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 108.8; ROIC/ROE ~21.2(ROE)",
+    "sentiment": "高速低损耗CCL龙头(AI服务器覆铜板, 对标松下M7), ROE21.2+净利11.6→17.4→33.3亿(增92%)。AI算力铜板逻辑确定。但5年分位1.0(历史最高位)+回撤0%(就在顶)+PE108.8, AI高速CCL已被市场充分发现并炒到历史新高+PE极高。卡位真实但估值已充分甚至过度price-in。区别于'错杀'——这是市场热门高位。观察, 不追高(PE108对增速92%虽PEG~1.2但分位1.0+历史最高位风险大), 等回调或业绩持续超预期消化估值。 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": null,
   "historical_alpha": null,
   "evidence": [],

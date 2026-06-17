@@ -43,7 +43,21 @@
   "discovery_level": "🔴已发现(红利标的多年配置)",
   "business_quality": "超好生意(水电=资源稀缺+无原料成本+永续现金流);10年长青(水电站永续运营)",
   "position_nature": "长期投资(战略红利底仓)+ 中期催化(电力化+利率下行)",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中",
+    "moat_synthesis": "极高(三峡+乌东德+白鹤滩四大水电站,中国最大水电资产+稀缺性极强,无法复制)",
+    "cross_force_dynamics": {
+      "weakest_link": "来水波动"
+    },
+    "key_risk": "来水波动",
+    "monitoring_signals": [
+      "来水波动",
+      "电价管制",
+      "利率反弹",
+      "估值溢价偏高"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -153,7 +167,13 @@
       "thesis": "双方认同最优质价值创造型防御资产(ROIC>WACC), 分歧在估值。PE 20x已price-in溢价, 适合底仓3-5%防御非重仓进攻。监控: 十年期国债破2.3%(利空)或丰水期+电价锁定(利多)。止损¥24.5"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 20.1; ROIC/ROE 7.9-10.5; 现价¥28.28; ★verified ROIC 7.9-10.53% → 价值创造(ROIC>WACC9%)",
+    "competitive": "极高(三峡+乌东德+白鹤滩四大水电站,中国最大水电资产+稀缺性极强,无法复制)",
+    "valuation": "公用事业DDM(股息折现)+PE法: 目标价33元=2026E EPS约1.5元 × PE 22x(红利股,股息率约5%); 买点24-27=PE 16-18x(股息率6%+); 破22=股息率<3.5%失吸引力→清仓。利率下行环境利好估值。",
+    "sentiment": "中国最大水电资产+稀缺性+稳定现金流;2026 营收+2.07%/净利+6.17%(稳健增长);电力化趋势+AI数据中心耗电+利率下行环境利好红利;Beta 仅0.12防御属性强;一年股价-9% 已部分修正 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

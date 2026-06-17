@@ -43,7 +43,22 @@
   "discovery_level": "🟡半发现",
   "business_quality": "中性(消费电子供应链中段+苹果链高度集中风险);AI硬件革新是新增长极,但单一公司面临客户/技术风险;10年护城河取决于技术迁移能力",
   "position_nature": "中期窗口期交易(等 iPhone17 发售验证+AI硬件兑现),不是长期重仓;若 Q1 亏损延续到 Q2-Q3 则降级",
-  "five_forces": null,
+  "five_forces": {
+    "moat_rating": "中下",
+    "moat_synthesis": "中。处消费电子'AI硬件芯片+模组'瓶颈环节(精细schema is_top=true)的核心受益人之一,与立讯精密/歌尔股份并列苹果链龙头;但本身属零部件供应商,议价权弱于品牌商",
+    "cross_force_dynamics": {
+      "weakest_link": "Q1 净亏损 1.496亿,业绩拐点向下"
+    },
+    "key_risk": "Q1 净亏损 1.496亿,业绩拐点向下",
+    "monitoring_signals": [
+      "Q1 净亏损 1.496亿,业绩拐点向下",
+      "苹果链客户集中度高+ 印度越南转移压力",
+      "AI硬件革新尚未规模化,2026 收入贡献有限",
+      "竞品立讯精密/歌尔股份激烈竞争",
+      "全球消费电子需求复苏速度低于预期"
+    ],
+    "_data_status": "fallback_from_chokepoint_score(老 schema 降级展示, 完整五力需重跑)"
+  },
   "risk_debate_summary": null,
   "risk_debate_full": null,
   "sentiment_view": null,
@@ -158,7 +173,13 @@
       "thesis": "客户卡位优质但商业模式结构性缺陷——ROIC<WACC意味增长不创造股东价值, 52xPE对10.9%增速定价过高。AR/VR和汽车为远期期权未贡献利润。维持回避, 等PE回落至30x以下或ROIC突破WACC再评估"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 52.1; ROIC/ROE 5.2-6.9; 现价¥41.14; ★verified ROIC 5.21-6.94% → 价值创造不足(ROIC<WACC)",
+    "competitive": "中。处消费电子'AI硬件芯片+模组'瓶颈环节(精细schema is_top=true)的核心受益人之一,与立讯精密/歌尔股份并列苹果链龙头;但本身属零部件供应商,议价权弱于品牌商",
+    "valuation": "周期成长股PE法: 目标价32元=2026E EPS约1.3元 × PE 25x(消费电子中枢,Q2扭亏后); 买点24-28=PE 18-22x(去年低点24.94一线); 破24=跌破去年低点趋势反转→清仓。注:Q1亏损,2026E EPS依赖Q2扭亏假设,故偏谨慎。",
+    "sentiment": "采信多头:控股股东增持 1 亿+ 限制性股票激励计划=管理层对长期信心强;iPhone 17 规格升级+ AI 硬件革新长期利好;短期亏损可视为 capex/转型阵痛.压低空头的季度亏损延续风险——这是关键观察点 (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_rating": null,
     "prev_date": null,

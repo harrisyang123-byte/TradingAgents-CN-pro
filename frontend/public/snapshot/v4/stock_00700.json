@@ -125,7 +125,12 @@
       "thesis": "ROIC>WACC价值创造无争议, 分歧=AI capex回报周期+监管β定价。PE 14.91x安全边际, 建仓6-7%合理, 跌破HK$400或capex/FCF>80%触发减仓, AI商业化季度进展作加仓催化"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 14.91; 现价¥463.60001; verified ROIC 15.25% vs 行业WACC 8.5% → 价值创造; ROIC 15.25% > 8.5% 互联网WACC 价值创造,vs海外Meta/Alphabet ROIC可比但PE折价50%",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别合理价 + 共识目标交叉', 'reverse_dcf': {'current_pe': 14.91, 'implied_cagr_5y': '~5%', 'interpretation': '5% 隐含增速 vs 实际 +15-22% 显著低估'}, 'scenarios': {'bull': {'trigger': 'AI 商业化+视频号广告+金科变现', 'fair_price_range': 'HK$650-750', 'prob': 0.3}, 'base': {'trigger': '维持 +15% 增速 + AI 渐进兑现', 'fair_price_range': 'HK$500-600', 'prob': 0.5}, 'bear': {'trigger': '实体清单升级 / 增速跌至 +5%', 'fair_price_range': 'HK$360-420', 'prob': 0.2}}, 'consensus_target': 'HK$711 (+52.53% Strong Buy 46 分析",
+    "sentiment": "腾讯 = 中国互联网生态绝对龙头(微信+QQ 月活 13亿+) + 全球游戏第一 + AI混元大模型 + 金融科技+企业服务. 2025+13.86%/+15.85% 高质量增长, Q1 加速 +22%. 关键张力: bull 看 'PE 14.91x vs Meta 25-30x 折价 50%+ AI混元商业化+回购增厚' vs bear 看 '中概结构折价+实体清单 tail risk+广告增速放缓'. R3 共识 HK$480-540, 现价 HK$446 在共识下沿. 反骑墙: 数据明确向上 (PEG 0.68 + 全球同业折价 50% + 共识 +52.53%), 加仓. (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v1 首次 8 step 真验闭环. 推荐池建仓提议.",
     "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师+多空 R1-R3+3 风险一次性 spawn ACCEPT (节省时间但保深度).",

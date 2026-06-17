@@ -121,7 +121,12 @@
       "thesis": "龙头价值创造确认, 分歧=增速久期+估值消化速度。PE 89x增速兑现期可容忍但安全边际薄, 2-3%分批合理——等800G量价验证或回调至PE 60-65x(¥850-900)加仓。止损: CSP季度CapEx指引环比转负即减仓"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "现价¥1149.0; verified ROIC 31-41% vs 行业WACC 11.5% → ★价值创造; ROIC 31-41% >> 11.5% AI算力WACC 强价值创造(光模块龙头)",
+    "valuation": "{'core_logic': '反向 DCF + 同业可比 + 多派别 + 历史规律 (984%涨幅后回调统计)', 'reverse_dcf': {'current_pe': 89.08, 'implied_cagr_5y': '30%+', 'interpretation': 'PE 89x 隐含连续 5 年 30%+ 增速, 极端乐观, 任何季度 miss 触发杀估值'}, 'scenarios': {'bull': {'trigger': '1.6T 超预期+新客户+净利率 30%', 'fair_price_range': '¥1300-1700', 'prob': 0.25}, 'base': {'trigger': '维持 +40-60% 增速 + 净利率 28%', 'fair_price_range': '¥900-1200', 'prob': 0.45}, 'bear': {'trigger': '增速放缓 +20% / Q2 miss / CPO 加速', 'fair_price_range': '¥650-850', 'prob': 0.3}}, 'consen",
+    "sentiment": "中际旭创 = 全球数通光模块龙头(30%+市占), 800G/1.6T 领先 6-9 月, 英伟达 GB200/GB300 独家供应+Rubin 平台锁定. 关键张力: bull 看 'fwd 47x 合理+1.6T 量产+新客户' vs bear 看 'PE 89x 历史高位+CPO 2028+ 替代+客户集中度+涨幅 984% 历史 12 月内大概率回调 30%+'. R3 共识: 方向看多但分歧买点时机. 现价 ¥1049 接近卖方目标 ¥1200-1500 下沿, risk-reward 不对称. 反骑墙: 数据偏多但估值偏空, 折中 = 观察仓 2-3% 分批等回调. (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "what_changed": "v8 (B4 简化版 confidence=low) → v9 真验闭环 8 step.",
     "memory_used": [

@@ -310,7 +310,13 @@
       "thesis": "创新转型方向正确管线价值真实, 但PEG 1.88+ROIC仅13-17%已充分反映乐观。不宜追高, PEG回落至1.5以下(¥40-42)再考虑; 同等仓位配置药明性价比更优"
     }
   ],
-  "analysts": {},
+  "analysts": {
+    "financial": "PE 40.7; ROIC/ROE 13-17; 现价¥48.49; ★verified ROIC 12.89-17.18% → 价值创造(ROIC>WACC9%)",
+    "competitive": "高(国内创新药龙头+best-in-class靶点能力+出海BD能力)",
+    "valuation": "forward 净利 72-75 亿(Q1 +21.78% 年化扣除 PD-1 衰减) × PE 38-42x(对标百济/信达已盈利后中枢,折价 buyer 4/5 定价权) = 4577-6300 亿市值 / 6.36 亿股 = 54-63 元;取上沿 63 元为 12 月目标价(给平台溢价 BD 期权 5%)。v1 75 元缺推导链拍脑袋,v2 严格按 forward 净利×PE×对标 推导。",
+    "sentiment": "5 力 + bull/bear R3 终局 + 3 方风险辩论 + sentiment + memory + 6 维 forward_view 整合后核心判断: 恒瑞 = '量护城河强(管线宽+销售+BD)+ 价护城河弱(医保单一买方 4/5)' 的二元结构. **产品分子(D0-5)**: 4 大产品线 2027E 营收 335 亿 = 创新 200(60%)/仿制 100(30%)/API+CDMO 30(9%)/海外 BD 5(1%); 自下而上加总 65 亿 + 增长溢价 5 亿 = 70 亿 (低于 director 75 亿 7%); weakest line=仿制(集采压制),  (老 schema 无独立舆情段, 取自 thesis 摘要)",
+    "_data_status": "fallback_from_thesis(老 schema 降级展示, 完整4分析师独立辩论需重跑)"
+  },
   "reflection": {
     "prev_stance": "v1: 增持(BMS战略合作+创新药营收高增+9款获批催化), 目标价 75",
     "prev_date": "2026 早期",
