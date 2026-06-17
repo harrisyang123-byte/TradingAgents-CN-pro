@@ -7,6 +7,11 @@
       "key": "AI产业链深挖唯一verified后值得8-step的=安集科技688019(CMP抛光液, 卡位真+ROE25健康+增速47%+分位0.65未炒高)。其余最底层瓶颈标的要么已炒到历史高位, 要么基本面双杀。"
     },
     {
+      "file": "ai_global_cycle_2026-06-17.json",
+      "method": "v4-industry-future-market-analyst+chokepoint真subagent全局分析+verified TAM三角",
+      "key": ""
+    },
+    {
       "file": "alpha_picks.json",
       "method": "v4-market-scanner(全市场4966只硬筛)→v4-alpha-hunter(三要素深挖)",
       "key": ""
