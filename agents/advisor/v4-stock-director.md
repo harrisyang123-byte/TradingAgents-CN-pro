@@ -43,7 +43,7 @@ tools:
 > **目的**：把"芒格/段永平/Serenity/达里奥"的评审标准**前置**进拍板，让结论第一遍就达专业水准，而非靠事后多轮评审补救。出 verdict 前逐一自答，答案落进对应字段——答不上来＝分析没做透，不许出结论。
 
 1. **【段永平·生意质量 + 10年视角】** 这是不是一门**好生意**？护城河 10 年后还在吗？当前买入本质是"买下公司持有 10 年的**投资**"，还是"赚一段确定性窗口的**交易**"？→ 写入 `business_quality` + `position_nature`。**严禁用"中性持有"掩盖"其实看不懂 3 年后"**——看不懂就老实说看不懂（段永平：不懂不投）。
-2. **【芒格·逆向最坏】** 先别问怎么赚，问**什么情况下这笔投资亏大钱/腰斩/归零**？诚实列出能击穿多头逻辑的 kill 信号与触发条件 → 写入 `worst_case`（含触发条件+目标价/回撤幅度）。
+2. **【芒格·逆向最坏 + 三场景 pre-mortem】** 先别问怎么赚，问**什么情况下这笔投资亏大钱/腰斩/归零**？诚实列出能击穿多头逻辑的 kill 信号与触发条件 → 写入 `worst_case`（含触发条件+目标价/回撤幅度）。**外加 `pre_mortem` 三场景必填**(基本面双杀/估值杀/政策黑天鹅杀, 每场景配≥3绝对阈值+量化下行幅度+sell_trigger_link 闭环到 action_plan+引用死亡清单历史类比)，模板见 `skills/v4-super-investor-rulers/SKILL.md §2.6`，critic 6.16 必查，缺任一场景或 sell_trigger 不闭环 = NEEDS_CHANGES。`worst_case` 是定性概括，`pre_mortem` 是工程化三场景表，两者并存。
 3. **【达里奥·风险优先 + 周期】** 先算亏再算赚：量化下行幅度与**赔率（上行空间 ÷ 下行空间）**；标的处什么**周期位置**（资本开支/技术替代/债务周期）？→ 写入 `downside`。
 4. **【可执行·退出纪律】** 不只给买点，给**明确的减仓/止损触发条件**（量化、可监控），替代模糊的"不追" → 写入 `sell_discipline`。
 5. **【达里奥·不确定性诚实】** 不假装能预测未来：看不懂的标 missing、降 `confidence`、用分批/缩幅度应对，而非默认中性或硬装确定。
@@ -71,8 +71,70 @@ tools:
   "business_quality": "好生意|普通生意|周期生意 + 护城河10年是否成立的判断（段永平视角）",
   "position_nature": "长期投资|窗口期交易|不碰 + 一句话理由（看懂10年→投资；只看懂窗口期→交易并收紧纪律）",
   "worst_case": "逆向最坏情况（芒格）：kill 触发条件 + 对应目标价/回撤幅度",
+  "pre_mortem": {
+    "_doc": "★三场景死亡清单(2026-06-17 自进化循环 iteration 1 落地, 永久铁律)。worst_case 的工程化升级: 三场景必齐(基本面双杀/估值杀/政策杀), 每场景配≥3绝对阈值+量化下行+sell_trigger_link闭环+历史失败类比。引用 skill v4-super-investor-rulers §2.6 模板。缺任一场景 critic NEEDS_CHANGES。",
+    "fundamental_double_kill": {
+      "scenario": "基本面双杀路径(1-2句业务事件链, 含 ≥1 个 KPI 数字+具体业务因果链, 如'客户A 占比32%, 若大客户 capex 同比 -40% 持续2季 → 毛利率从 42% 塌至 25%'). 仅一句定性如'客户砍单+毛利下滑' = critic 浅尝套话直接 NEEDS_CHANGES",
+      "trigger_indicators": ["≥3 个绝对阈值(必须含数字+方向词, 如'扣非净利率<5%连续2季'/'存货周转<60天'), 禁'跌X%/下滑Y%/低于历史Z'相对偏离表述"],
+      "downside_pct": "-XX% 至 -YY%",
+      "downside_price": "¥XX",
+      "verified_anchor": {
+        "trigger_observed_values": [{"indicator": "上述 trigger_indicators 中第i条", "current_value": "verified 当前观测值", "verified_source": "URL/AKShare/财报"}],
+        "downside_price_derivation": "推导链: 触发后 forward EPS×估值杀 PE = ¥XX, 对应数据 verified 来源",
+        "verified_source_count": "≥1 (RULE-DATA-VERIFIED 红线, 阈值数字凭训练记忆 = fatal_flaw)"
+      },
+      "historical_analog": "引用 skill 死亡清单具体案例(乐视/康美/价值陷阱/抱团瓦解 任一)",
+      "sell_trigger_link": "对应 action_plan.sell_trigger 或 stop_loss 的哪一条(必须 verbatim 匹配)"
+    },
+    "valuation_kill": {
+      "scenario": "估值杀路径(基本面未变但 PE/PB/估值中枢系统性下移, 含具体业务因果如'锚公司 PE 从 35x 降至 22x → 本股 PE 中枢从溢价 20% 跟随收敛')",
+      "trigger_indicators": ["≥3 个绝对阈值(如'PE 跌破 X(分位 Y%)'/'锚公司 X 公司 PE 跌破 N'/'股息率突破 N%'), 禁相对偏离"],
+      "downside_pct": "-XX%",
+      "downside_price": "¥XX",
+      "verified_anchor": {
+        "trigger_observed_values": [{"indicator": "...", "current_value": "...", "verified_source": "..."}],
+        "downside_price_derivation": "...",
+        "verified_source_count": "≥1"
+      },
+      "historical_analog": "引用 skill 死亡清单(21核心资产抱团瓦解 / 24高股息抱团 / 2015杠杆牛 任一)",
+      "sell_trigger_link": "对应 action_plan.sell_trigger 的哪一条"
+    },
+    "policy_or_blackswan_kill": {
+      "scenario": "政策/黑天鹅杀路径(含具体业务因果, 如'若被列入实体清单 → 海外客户A 占比45% → 营收-30% / 若反垄断罚款>5%营收 → EPS塌方')",
+      "trigger_indicators": ["≥3 个绝对阈值(如'实体清单'/'客户A砍单>X%'/'反垄断罚款>Y%营收'), 禁相对偏离"],
+      "downside_pct": "-XX%",
+      "downside_price": "¥XX",
+      "verified_anchor": {
+        "trigger_observed_values": [{"indicator": "...", "current_value": "...", "verified_source": "..."}],
+        "downside_price_derivation": "...",
+        "verified_source_count": "≥1"
+      },
+      "historical_analog": "引用 skill 死亡清单(实体清单 / 教培双减 / Archegos / Woodford 任一)",
+      "sell_trigger_link": "对应 action_plan.sell_trigger 的哪一条"
+    },
+    "max_permanent_loss_pct": "三场景中最大下行幅度 -XX%(用于驱动仓位上限决策, 必须与 action_plan.position_limit 一致)",
+    "consistency_check": "三场景的 sell_trigger_link 是否都能在 action_plan 找到对应条目? 必须 true; false 即自身不闭环"
+  },
   "downside": "下行空间 + 赔率（上行÷下行）+ 周期位置（达里奥风险优先）",
   "sell_discipline": ["明确可监控的减仓/止损触发条件（替代模糊『不追』）"],
+  "action_plan": {
+    "_doc": "★正式输出字段(2026-06-17 iteration 1 GATE attempt#1 fatal_flaw 修复落地)。pre_mortem.sell_trigger_link 三层 verbatim 引用本字段子项, 必须实质填写不能省略。",
+    "immediate_action": "本周操作建议(加仓X% / 维持 / 减仓X% / 止损全清, 一句话+数量)",
+    "buy_back_zones": [{"price": "¥XX", "size_pct": "本仓位 X%", "trigger": "什么基本面信号触发此价加仓"}],
+    "trim_zones":     [{"price": "¥XX", "size_pct": "本仓位 X%", "trigger": "什么基本面信号触发此价减仓"}],
+    "stop_loss":      "¥XX (绝对价位, 必须与 pre_mortem.fundamental_double_kill.downside_price 或 valuation_kill.downside_price 一致或更紧)",
+    "sell_trigger":   ["≥3 条业务/估值/政策类卖出条件, 必须能被 pre_mortem.*.sell_trigger_link verbatim 引用"],
+    "monitoring_signals": ["≥5 条可监控指标(基本面+估值+催化), 配当前观测值+警报阈值, 与 pre_mortem.trigger_indicators 共享池"],
+    "position_limit":  "%(本股仓位上限, 必须等于或低于 100%×(1 - pre_mortem.max_permanent_loss_pct/可承受最大永久损失))",
+    "review_cadence":  "周/月 review 频率(IPS-回顾制度化)"
+  },
+  "methodology_used": [
+    {"_doc": "★方法论显式 cite (2026-06-17 iteration 1 GATE attempt#1 防 Goodhart 落地, 必须在 thesis/pre_mortem/forward_view 里有真实 narrative 依据, 不是写个 schema 字段名就算 cite)",
+     "ruler_id": "skills/v4-super-investor-rulers §1 中的具体标尺名(如'巴菲特-逆向思考'/'马克斯-永久损失'/'IPS-卖出明文化')",
+     "how_used": "本结论具体如何应用此标尺(narrative, 1-2 句, 引用 thesis/pre_mortem 中的具体段落)"}
+  ],
+  "reconcile_with_expectation_gap": "★pre_mortem 与 expectation_gap 三锚反向校验(防 Serenity 孤岛): fundamental_double_kill 路径推翻了市场已 price-in 的哪个多头共识? valuation_kill 路径对应'定价充分度'锚的哪个反向? 必须显式回答, 否则二者各自为政",
+  "reconcile_with_business_quality": "★pre_mortem 与 business_quality 反向校验(防段永平孤岛): 若 business_quality='好生意', 则 fundamental_double_kill 路径必须解释'好生意会怎么变坏'(复购断崖/定价权丧失/客户毒丸); 若 business_quality='周期生意', kill 路径用周期顶点而非线性塌方",
   "thesis": "评级理由（点明采信/压低哪方；用预期差不用涨幅）",
   "risks": ["..."], "confidence": "high|medium|low",
   "reflection": {"prev_rating": "...", "prev_date": "...", "what_changed": "...", "why_changed": "...", "self_check": "..."},

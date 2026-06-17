@@ -1,0 +1,544 @@
+{
+  "generated_at": "2026-06-17T12:10:09+00:00",
+  "stock_count": 49,
+  "industry_count": 11,
+  "ruler_coverage": {
+    "巴菲特-能力圈": 0,
+    "巴菲特-护城河量化": 0,
+    "巴菲特-安全边际": 32,
+    "巴菲特-逆向思考": 0,
+    "巴菲特-FCF/股东盈余": 0,
+    "段永平-商业模式": 22,
+    "段永平-stop-doing": 0,
+    "段永平-管理层": 3,
+    "马克斯-二阶思维": 34,
+    "马克斯-周期定位": 2,
+    "马克斯-永久损失": 3,
+    "马克斯-紫苏叶": 3,
+    "达里奥-可证伪": 9,
+    "达里奥-what-am-i-missing": 0,
+    "达里奥-真分散": 0,
+    "费雪-scuttlebutt": 0,
+    "费雪-错杀龙头": 22,
+    "IPS-集中度上限": 0,
+    "IPS-流动性": 1,
+    "IPS-卖出明文化": 1,
+    "IPS-多PM委员会": 0,
+    "死亡-LTCM相关性": 0,
+    "死亡-Archegos集中": 0,
+    "死亡-Woodford流动性": 0,
+    "死亡-现金流背离": 0,
+    "死亡-抱团": 1,
+    "死亡-价值陷阱": 3,
+    "SOP-晨星moat": 16,
+    "SOP-催化时间表": 1,
+    "SOP-三情景估值": 3,
+    "SOP-下行情景": 3,
+    "SOP-拥挤度": 1
+  },
+  "shallow_phrases": {},
+  "verified_holes": {
+    "000063": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "002001": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "002050": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "002156": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "002241": [
+      "target_price"
+    ],
+    "002326": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "002371": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "002415": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "002517": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "00700": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "01024": [
+      "target_price"
+    ],
+    "01211": [
+      "target_price"
+    ],
+    "01810": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "06160": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "06990": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "09988": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "09992": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "300033": [
+      "target_price"
+    ],
+    "300308": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "300394": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "300428": [
+      "target_price"
+    ],
+    "300433": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "300502": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "300750": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "300811": [
+      "target_price"
+    ],
+    "301031": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "301608": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "600111": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "600183": [
+      "target_price"
+    ],
+    "600276": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "600873": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "600900": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "601899": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "601985": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "603236": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "603259": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "603501": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "603663": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "603979": [
+      "target_price"
+    ],
+    "605499": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "688012": [
+      "future_tam",
+      "future_share",
+      "forward_eps",
+      "target_price"
+    ],
+    "688019": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "688268": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "688379": [
+      "target_price"
+    ],
+    "688578": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ],
+    "688786": [
+      "target_price"
+    ],
+    "688981": [
+      "future_tam",
+      "future_share",
+      "target_price"
+    ]
+  },
+  "falsifiable_gap": {
+    "002050": [
+      "缺monitoring_signals"
+    ],
+    "002156": [
+      "缺monitoring_signals"
+    ],
+    "002241": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "002326": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "002371": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "01024": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "01211": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "06160": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "06990": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "09992": [
+      "缺monitoring_signals"
+    ],
+    "300033": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300394": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300428": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300433": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300502": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300750": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "300811": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "301031": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "301393": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "301608": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "600111": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "600183": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "600276": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "600873": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "600900": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "601899": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "601985": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "603259": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "603501": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "603663": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "603979": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "605499": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688012": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688019": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688092": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688268": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688379": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688578": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ],
+    "688786": [
+      "缺sell_trigger/exit_plan",
+      "缺stop_loss",
+      "缺monitoring_signals"
+    ]
+  },
+  "pre_mortem_field": {
+    "total_stocks": 49,
+    "has_field_count": 0,
+    "has_field_pct": 0.0,
+    "three_scenes_full_count": 0,
+    "three_scenes_full_pct": 0.0,
+    "threshold_compliance_count": 0,
+    "threshold_compliance_pct": 0.0,
+    "sell_link_closed_count": 0,
+    "sell_link_closed_pct": 0.0,
+    "analog_cited_count": 0,
+    "analog_cited_pct": 0.0,
+    "verified_anchor_count": 0,
+    "verified_anchor_pct": 0.0,
+    "absolute_threshold_only_count": 0,
+    "absolute_threshold_only_pct": 0.0,
+    "detail_sample": {
+      "000063": {
+        "status": "missing"
+      },
+      "002001": {
+        "status": "missing"
+      },
+      "002050": {
+        "status": "missing"
+      },
+      "002156": {
+        "status": "missing"
+      },
+      "002241": {
+        "status": "missing"
+      }
+    }
+  },
+  "director_lazy": {
+    "002156": {
+      "verdict_len": 397,
+      "max_downstream_len": 1052,
+      "ratio": 0.38
+    },
+    "002371": {
+      "verdict_len": 47,
+      "max_downstream_len": 1713,
+      "ratio": 0.03
+    },
+    "09992": {
+      "verdict_len": 421,
+      "max_downstream_len": 1093,
+      "ratio": 0.39
+    },
+    "300750": {
+      "verdict_len": 0,
+      "max_downstream_len": 673,
+      "ratio": 0.0
+    },
+    "600276": {
+      "verdict_len": 42,
+      "max_downstream_len": 1474,
+      "ratio": 0.03
+    },
+    "600873": {
+      "verdict_len": 0,
+      "max_downstream_len": 685,
+      "ratio": 0.0
+    },
+    "603501": {
+      "verdict_len": 0,
+      "max_downstream_len": 614,
+      "ratio": 0.0
+    },
+    "605499": {
+      "verdict_len": 0,
+      "max_downstream_len": 626,
+      "ratio": 0.0
+    },
+    "688019": {
+      "verdict_len": 0,
+      "max_downstream_len": 699,
+      "ratio": 0.0
+    },
+    "688578": {
+      "verdict_len": 0,
+      "max_downstream_len": 625,
+      "ratio": 0.0
+    }
+  }
+}

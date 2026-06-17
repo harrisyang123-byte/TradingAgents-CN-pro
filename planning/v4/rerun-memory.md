@@ -4,6 +4,39 @@
 > 维护规则：每步完成 → 更新对应单元状态 + 追加进度日志一条 + 记下产出版本号。
 > **恢复链路**：新对话先读 [`planning/project-master-prompt.md`](../project-master-prompt.md)（目标/架构/模式A分工/铁律），再读本文件 §2 单元状态表 + §3 最后一条进度日志接续。
 
+## 自进化优化循环进度（协议: `planning/v4/self-evolving-optimization-loop.md`）
+
+> 这是与"逐单元重跑"并行的**第二条进度线**：循环每跑一轮挖一个最痛的"嘴上有流程无"的洞。状态文件 `data/v4/_loop/optimization_state.json` 是真源，本节是给下次会话快速接续的人读摘要。
+
+| iteration | 时间 | active_hole | GATE 分 | 决策 | sealed |
+|---|---|---|---|---|---|
+| 1 | 2026-06-17 | PREMORTEM-20260617-01 (巴菲特-逆向思考标尺 0/49) | attempt#1=77, attempt#2=**92** | ACCEPT | skill+director+critic+mine 四件 |
+
+### iteration 1 全轨迹（已 done）
+- **DISCOVER**: 写 `scripts/v4_loop_mine.py` 扫 49 只 stock + 11 只 industry, 输出 4 类根因(标尺 cite/卖出触发缺失/verified 漏洞/director 偷懒) + 自动产出候选洞入 backlog。锁定"巴菲特-逆向思考(pre-mortem)" 0/49 cite 为最痛(复合杠杆 — 同时激活死亡清单+达里奥可证伪+IPS 卖出明文化)
+- **DIAGNOSE**: 三层都缺 — skill 列了但 GATE rubric 没把 pre-mortem 设必查; director schema 无 pre_mortem 字段; critic 无 pre_mortem 必查项
+- **IMPLEMENT**: 四件同步 — ①skill `v4-super-investor-rulers/SKILL.md` 加 §2.6 三场景标准模板 + USER_CORRECTION 沉淀 ②director `v4-stock-director.md` verdict JSON 加 pre_mortem 强制字段(三场景, 每场景含 verified_anchor 子对象) + 正式 action_plan 8 字段 + methodology_used 数组 + reconcile_with_expectation_gap/business_quality 二字段 ③critic `v4-investor-critic.md` 6.16 扩到 9 项必查 ④mine 脚本加 scan_pre_mortem_field 输出 7 维度 pct + RELATIVE_DEVIATION_RE 防伪绝对阈值 + RULER_KEYWORDS 解耦 schema 字段名防 Goodhart
+- **GATE attempt#1**: critic 真 spawn 评分 **77/100 NEEDS_CHANGES**, 1 fatal_flaw(action_plan schema 孤儿) + 6 improvements (verified_anchor/Goodhart/reconcile/KPI 因果链/相对偏离正则)
+- **GATE attempt#2**: 六改一 fatal 全 FIXED, critic 重评 **92/100 ACCEPT** (5×20 = 18+19+19+18+18, 无浅尝特征命中)
+- **CONSOLIDATE**: 状态文件 `optimization_state.json` 写入 done + meta_memory(what_worked/what_failed/rules_distilled), USER_CORRECTION 沉淀 2026-06-17 条目
+- **协议层落地, 不重跑 49 只 stock**: 下次任意 stock 走 director→critic 链路即被三层联动拦截; mine 脚本 7 维度 pct 是 GATE 客观锚, 下轮 DISCOVER 用此读基线
+
+### iteration 2 入口（下次接续）
+1. 读 `data/v4/_loop/optimization_state.json` → 看 active_hole(应为 null) 和 backlog
+2. backlog 当前 must 优先级:
+   - VERIFIED-20260617-03: 47 只 stock 缺 verified_sources (RULE-DATA-VERIFIED 红线大面积违规)
+   - RULER-20260617-01: 标尺库其余 13 条零 cite — 其中 IPS-集中度上限 0/49 与 pre_mortem.max_permanent_loss_pct 直接闭环, 是首选
+3. 不必先 mine, 但建议跑 `python3 scripts/v4_loop_mine.py` 看 7 维度 pct 是否随有 stock 重跑而上升(GATE 输入)
+4. 一次只锁 1 个洞, 三层联动改, max 2 attempts GATE, 提分才 CONSOLIDATE
+
+### 防自欺铁律(本轮血泪追加, 应吸收进协议 Part 7)
+- **任何被多层 .md 文档 verbatim 引用的字段, 必须在源头 agent schema 显式定义**(否则触发"契约层断层" fatal_flaw, 如 attempt#1 的 action_plan 孤儿)
+- **cite 检测必须靠 narrative 关键词, 不能靠 schema 字段名**(防 Goodhart, 写个字段名就被算 cite)
+- **任何新增数字字段必须同步打 RULE-DATA-VERIFIED 红线**(防新字段成新拍脑袋通道, attempt#1 的 verified_anchor 漏洞)
+- **GATE 一轮可以 2-3 次 attempt, 不是失败而是放大器**(critic 具体回退反馈是循环最有价值产出)
+
+---
+
 ## 0. 全局背景（不变量）
 
 - **目标**：按用户「跑一个 → 讲一个 → 用户本地验一个 → 提交一个」的节奏，逐单元重跑 v4 单元，让每个单元带上 B（结果闭环反思 reflection）+ C（反骑墙/源冲突）的新效果。

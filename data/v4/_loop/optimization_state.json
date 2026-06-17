@@ -3,19 +3,133 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 0,
-    "last_run": null,
+    "iteration_count": 1,
+    "last_run": "2026-06-17T12:30:00+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "这是种子状态。backlog/done/active_hole 由循环运行时动态生长，禁止预先填满(那会退化成死清单)。第一次跑循环时，DISCOVER阶段才真看产物找洞。"
+    "_comment": "iteration 1 完成: PREMORTEM-20260617-01 走完 DISCOVER→DIAGNOSE→IMPLEMENT→GATE(2 attempts)→CONSOLIDATE 全 6 阶段, 最终 critic 92 分 ACCEPT。下轮(iteration 2)从 backlog 取最高优洞继续。",
+    "last_mine": "2026-06-17T12:10:09+00:00"
   },
   "active_hole": null,
-  "backlog": [],
-  "done": [],
+  "backlog": [
+    {
+      "id": "SELL-20260617-02",
+      "title": "36/49 只 stock 缺 sell_trigger/exit_plan (旧产物 — 待 49 只重跑落地 action_plan 字段)",
+      "violated_practice": "IPS-卖出明文化 + 达里奥-可证伪",
+      "shallow_score": 4,
+      "harm_to_profit": "用户买进去不知道何时卖, 论点失效也没机制提醒。注: iteration 1 已让 director schema 强制 action_plan 8 字段, 此洞会在 49 只 stock 重跑后自动填上一大半, 不必再次专攻; 改为'重跑触发监控'入 backlog",
+      "priority": "should",
+      "discovered_at": "2026-06-17T11:41:40+00:00",
+      "evidence": ["扫描 49 只 stock，36 只 action_plan 没卖出条件"],
+      "source": "v4_loop_mine.py",
+      "downgraded_by": "iteration 1 PREMORTEM 落地 action_plan schema 已带动覆盖"
+    },
+    {
+      "id": "VERIFIED-20260617-03",
+      "title": "47 只 stock 有 future_tam/target 等数字但缺 verified_sources",
+      "violated_practice": "RULE-DATA-VERIFIED 永久红线",
+      "shallow_score": 4,
+      "harm_to_profit": "通富 $157B 事故同类风险 — 拍脑袋数字误导用户加仓",
+      "priority": "must",
+      "discovered_at": "2026-06-17T11:41:40+00:00",
+      "evidence": ["top: ['000063', '002001', '002050']"],
+      "source": "v4_loop_mine.py",
+      "_note": "iteration 2 候选: 这是数据工作单点深做 — 抽 3-5 只代表股做 verified_sources 回填+流程化(critic 6.8 数据契约必查的实操), 然后写 verifier 工具自动扫"
+    },
+    {
+      "id": "LAZY-20260617-04",
+      "title": "10 只 stock director verdict 长度 <40% downstream (含 7 只 verdict=0 完全空)",
+      "violated_practice": "MECE 反偷懒铁律 + 段永平-把事做对",
+      "shallow_score": 3,
+      "harm_to_profit": "下游分析做了但 director 没整合，相当于白做",
+      "priority": "should",
+      "discovered_at": "2026-06-17T11:41:40+00:00",
+      "evidence": ["sample: ['002156', '002371', '09992']"],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "RULER-20260617-01",
+      "title": "标尺库其余 13 条从没被 cite (剔除已 active 的'巴菲特-逆向思考')",
+      "violated_practice": "Part 2 标尺库覆盖率",
+      "shallow_score": 4,
+      "harm_to_profit": "嘴上有(skill 文档列了) / 流程无(产物零引用)，浅尝即止系统性",
+      "priority": "must",
+      "discovered_at": "2026-06-17T11:41:40+00:00",
+      "evidence": ["扫描 49 只 stock，13 条标尺零 cite (剔除 pre-mortem 已 done)"],
+      "source": "v4_loop_mine.py",
+      "_note": "iteration 1 经验: 一次只攻一条标尺, 三层联动方治本。下轮预选'IPS-集中度上限'(0/49) 因为它直接驱动 action_plan.position_limit 与 pre_mortem.max_permanent_loss_pct 闭环。"
+    }
+  ],
+  "done": [
+    {
+      "id": "PREMORTEM-20260617-01",
+      "title": "巴菲特-逆向思考(pre-mortem 死亡清单) 标尺 0/49 cite — 个股层完全没'怎么会亏光本金'的具体路径",
+      "violated_practice": "巴菲特-逆向思考 + 死亡清单(LTCM/Archegos/Woodford/价值陷阱) + 达里奥-可证伪",
+      "before": {
+        "ruler_cite_rate": "0/49 (0%)",
+        "pre_mortem_field_present": "0/49 (0%)",
+        "three_scenes_full": "0/49 (0%)",
+        "verified_anchor": "N/A (字段不存在)",
+        "sell_trigger_closed_loop": "0/49 (0%)",
+        "evidence": "DISCOVER 阶段 v4_loop_mine.py 扫描 49 只 stock 实证"
+      },
+      "after_protocol": {
+        "skill_template": "skills/v4-super-investor-rulers/SKILL.md §2.6 三场景标准模板 + 9 条 critic 必查 + USER_CORRECTION 沉淀",
+        "director_schema": "agents/advisor/v4-stock-director.md verdict JSON 新增 pre_mortem(三场景, 每场景含 verified_anchor) + 正式 action_plan 8 字段(immediate_action/buy_back_zones/trim_zones/stop_loss/sell_trigger/monitoring_signals/position_limit/review_cadence) + methodology_used 数组 + reconcile_with_expectation_gap + reconcile_with_business_quality, 闸门项 #2 引导 cite",
+        "critic_must_check": "agents/advisor/v4-investor-critic.md 6.16 扩到 9 项必查(三场景齐/≥3绝对阈值/sell_trigger_link 闭环/historical_analog/max_permanent_loss_pct 驱动仓位/verified_anchor/KPI数字+业务因果链/reconcile 二项/methodology_used narrative 真实性防 Goodhart)",
+        "mine_scanner": "scripts/v4_loop_mine.py 新增 scan_pre_mortem_field 函数, 输出 7 维度 pct(has_field/three_scenes_full/threshold_compliance/sell_link_closed/analog_cited/verified_anchor/absolute_threshold_only), RULER_KEYWORDS 解耦 schema 字段名防 Goodhart, RELATIVE_DEVIATION_RE 识别相对偏离阈值",
+        "protocol_part2_extension": "planning/v4/self-evolving-optimization-loop.md Part 2 扩 §2.6/§2.7/§2.8 (机构 IPS / 死亡清单 / 行业 SOP 三锚, 配套 §2.1-§2.5 的思想锚)"
+      },
+      "after_runtime": {
+        "_note": "本轮只改协议层(skill+agents+脚本), 不重跑 49 只 stock。下次任意 stock 走 director→critic 链路即被三层联动拦截, mine 脚本 verified_anchor_pct/three_scenes_full_pct 等指标会从 0% 单调上升, 下轮 DISCOVER 用此作 GATE 输入"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": 77,
+          "verdict": "NEEDS_CHANGES",
+          "fatal_flaws": ["action_plan 字段在 director schema 未定义但被三层 verbatim 引用 — 三层联动闭环在契约层断掉"],
+          "improvements_count": 6,
+          "key_critique": "看似三层联动实则有一层只是注释引用; downside_price 不强制 verified_source 留口给拍脑袋阈值; mine RULER_KEYWORDS 把 schema 字段名当 cite 凭据有 Goodhart 风险; pre_mortem 与 expectation_gap/business_quality 各自为政形成新孤岛"
+        },
+        {
+          "attempt": 2,
+          "score": 92,
+          "verdict": "ACCEPT",
+          "depth_gate_breakdown": {
+            "quantifiable": 18,
+            "falsifiable": 19,
+            "closed_loop": 19,
+            "data_verified": 18,
+            "methodology_explicit": 18
+          },
+          "shallow_features_hit": [],
+          "key_acceptance": "六改 + 一 fatal 全部 FIXED, 三层联动真同向落地。verified_anchor 卡死凭训练记忆填阈值, RELATIVE_DEVIATION_RE 卡死伪绝对阈值, reconcile 二项卡死孤岛, methodology_used.how_used narrative + RULER_KEYWORDS 解耦卡死 Goodhart 形式 cite"
+        }
+      ],
+      "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 已加 2026-06-17 本轮沉淀",
+      "completed_at": "2026-06-17T12:30:00+00:00"
+    }
+  ],
   "stuck": [],
   "meta_memory": {
-    "what_worked": [],
-    "what_failed": []
+    "what_worked": [
+      "[2026-06-17 iteration 1] 一次只攻 1 个最痛标尺(巴菲特-逆向思考 0/49), 但三层联动同步改(skill 模板 + director schema + critic 必查 + mine 脚本扫描) → critic 92 分 ACCEPT。学习率 = 1 但不是只改一层; 单点聚焦 ≠ 单层改动",
+      "[2026-06-17 iteration 1 attempt#1→#2] critic NEEDS_CHANGES 不是失败而是放大器。attempt#1 77 分给了 1 fatal+6 improvements 都很具体, 修完 attempt#2 直接 92。证明 GATE 真 spawn(禁主 agent 自评)+具体回退反馈是循环的核心引擎",
+      "[2026-06-17 iteration 1] mine 脚本先于 DISCOVER, 让'真看产物找洞'从语言变成数据。49 只 stock 5 维度 pct 让本轮提分有客观锚, 不靠主观感觉",
+      "[2026-06-17 iteration 1] critic attempt#1 抓出 RULER_KEYWORDS 把 schema 字段名当 cite 凭据的 Goodhart 风险 → 解耦 + methodology_used.how_used narrative 真实性必查 = 新一类'防自欺铁律', 应在协议 Part 7 后续补"
+    ],
+    "what_failed": [
+      "[2026-06-17 iteration 1 attempt#1] 第一次没把 action_plan 显式写进 director schema, 以为 stock JSON 实际有就行, 结果三层 verbatim 引用 'action_plan.sell_trigger' 在契约层成孤儿。教训: 任何被多层引用的字段必须在源头 agent .md schema 明示, 不能依赖'实际产物有就行'。",
+      "[2026-06-17 iteration 1 attempt#1] 以为 RULER_KEYWORDS 加 schema 字段名能让 cite 计数变高 = 进展, 实际是 Goodhart — 度量标准被作弊。教训: 任何'cite 是否真发生'的检测必须靠 narrative 关键词(语义), 不能靠 schema 字段名(语法)。",
+      "[2026-06-17 iteration 1 attempt#1] verified_anchor 第一次没加, 直接给 trigger 阈值留'拍脑袋数字'口子(同型于通富 $157B 事故再现)。教训: 任何新增的数字字段必须同步打上 RULE-DATA-VERIFIED 红线, 防新字段成新通道"
+    ],
+    "rules_distilled_for_future_iterations": [
+      "规则1 (协议防自欺第9条候选): 任何被多层 .md 文档 verbatim 引用的字段, 必须在源头 agent schema 显式定义, 否则触发'契约层断层'fatal_flaw",
+      "规则2 (协议防自欺第10条候选): cite 检测必须靠 narrative 关键词, 不能靠 schema 字段名, 防 Goodhart",
+      "规则3 (协议 GATE 第6条候选): 任何新增的数字字段必须同步加 verified_anchor / verified_source 字段对齐 RULE-DATA-VERIFIED, 防新字段成新拍脑袋通道",
+      "规则4 (循环节奏): 一轮 = 1-2 attempts(GATE) 是常态, 不是失败。critic 首次 NEEDS_CHANGES 给具体反馈是循环的最有价值产出"
+    ]
   }
 }

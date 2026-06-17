@@ -163,3 +163,18 @@ tools:
      - **浅尝特征命中检查**：①一句话定性零量化 ②套话填字段 ③断层不闭环 ④拍脑袋数字 ⑤不可证伪——命中即扣分并在反馈里点名
      - **回退反馈铁律**：判 NEEDS_CHANGES 时必须具体指出"哪里还浅、该怎么深"，不能只给分数。critic 看不到"改前vs改后对比"则不能判 ACCEPT。
      - **应用规则**: 此 6.15 仅对优化循环的改动产物启用; 个股/行业 verdict 走 6.9-6.14。
+
+   - **6.16 pre_mortem 三场景必查（2026-06-17 自进化循环 iteration 1 落地, 永久铁律, 仅评审个股层 stock:xxx 单元启用）**: 用户血泪 — mine 脚本扫描 49 只 stock 发现"巴菲特-逆向思考"标尺 0/49 cite, 即"个股 verdict 完全没'怎么会亏光本金'的具体路径"。这是马克斯"风险=永久损失本金"防御缺位, LTCM/Archegos/Woodford 教训正是事前不做 pre-mortem。从此 director 必输出 `pre_mortem` 字段三场景齐, critic 必查以下 5 项, 缺任一 → NEEDS_CHANGES, 三场景任缺一 → fatal_flaw:
+     - ① **三场景必齐**: `pre_mortem.fundamental_double_kill` + `valuation_kill` + `policy_or_blackswan_kill` 三个对象都必须存在且实质填写(不能 placeholder/空字段)。只列 fundamental_double_kill 一个 → fatal_flaw, 因为估值杀+政策杀同样常见
+     - ② **每场景 ≥3 个绝对阈值**: 每场景 `trigger_indicators` 数组 ≥3 项, 且必须是**绝对阈值**(如"扣非净利率<5%连续2季"/"PE 跌破 X"), 不能是相对偏离("跌 20%"). 含相对偏离或 <3 项 → NEEDS_CHANGES
+     - ③ **sell_trigger_link 闭环**: 每场景的 `sell_trigger_link` 必须能在 `action_plan.sell_trigger`/`stop_loss`/`monitoring_signals`/`trim_zones` 中找到 verbatim 对应条目. 任一场景 link 找不到对应 → fatal_flaw "pre_mortem 与 action_plan 自身不闭环"。consistency_check 标 false 也是 fatal_flaw
+     - ④ **历史失败类比引用**: 每场景的 `historical_analog` 必须引用 `skills/v4-super-investor-rulers` 死亡清单中的具体案例(乐视/康美/LTCM/Archegos/Woodford/价值陷阱/抱团瓦解/实体清单/教培双减 等), 不能"参考历史教训"放之四海。缺 historical_analog 或非死亡清单具体案例 → NEEDS_CHANGES
+     - ⑤ **max_permanent_loss_pct 驱动仓位**: `max_permanent_loss_pct` 是三场景中最大下行幅度, 必须用于驱动 `action_plan.position_limit`/`buy_back_zones`/`trim_zones` 的仓位上限决策, 不一致 → NEEDS_CHANGES "pre_mortem 算了下行但 action_plan 仓位不收"
+     - ⑥ **verified_anchor 必查(2026-06-17 GATE attempt#1 落地, 对齐 RULE-DATA-VERIFIED 红线)**: 每场景的 `verified_anchor.downside_price_derivation` 必须给出推导链 + `verified_anchor.trigger_observed_values` 必须列出 `trigger_indicators` 中关键阈值的当前观测值 + verified_source URL/AKShare/财报来源, `verified_source_count` ≥ 1。凭主 agent 训练记忆填阈值数字或下行价 → **fatal_flaw**(同型于通富 $157B 事故)。`verified_anchor` 整体缺失 → fatal_flaw
+     - ⑦ **scenario 必含 KPI 数字+业务因果链(2026-06-17 GATE attempt#1 落地, 防套话填字段)**: 每场景 `scenario` 字段必须含 ≥1 个 KPI 当前数字 + 具体业务因果链(为什么会发生, 不是只描述结果)。仅一句定性如"客户砍单+毛利下滑" = 浅尝套话填字段直接 NEEDS_CHANGES。`trigger_indicators` 含相对偏离词("跌X%/下滑Y%/低于历史Z") = 伪绝对阈值 → NEEDS_CHANGES, 必须用绝对阈值("<X/破X/连续N季")
+     - ⑧ **reconcile 二项必查(2026-06-17 GATE attempt#1 落地, 防 Serenity/段永平孤岛)**:
+       · `reconcile_with_expectation_gap`: pre_mortem 三场景必须与 expectation_gap 三锚显式反向校验 — fundamental_double_kill 路径推翻了市场已 price-in 的哪个多头共识? valuation_kill 对应"定价充分度"锚的反向是什么? 缺此字段或答非所问 = NEEDS_CHANGES "pre_mortem 与 expectation_gap 各自为政"
+       · `reconcile_with_business_quality`: 若 business_quality='好生意', 则 fundamental_double_kill 必须解释"好生意会怎么变坏"(复购断崖/定价权丧失/客户毒丸); 若是周期生意用周期顶点而非线性塌方; 缺 = NEEDS_CHANGES
+     - ⑨ **methodology_used narrative 真实性(2026-06-17 GATE attempt#1 落地, 防 Goodhart)**: director 输出的 `methodology_used` 数组中每项 `how_used` narrative 必须能在 `thesis`/`pre_mortem`/`forward_view` 文中找到对应叙述段落(critic 抽查 ≥2 项), 仅声明"用了巴菲特-逆向"但 thesis 无 invert 叙事 = 形式 cite → fatal_flaw。本检查项专治 schema 字段名被当 cite 凭据的 Goodhart 退化
+     - **应用规则**: 此 6.16 仅对个股层 `stock:xxx` 单元启用; 行业层/大类层不强制(但鼓励 director 自检). 高成长股(ROIC>15%/PE历史分位50%+)和重资产周期股 pre_mortem 必特别警惕"估值杀"场景。
+     - **反例血泪**: mine 扫描发现 002050.json action_plan.stop_loss=¥38 但 verdict 中无任何"触发 stop_loss 的具体业务事件链/估值中枢下移路径/政策黑天鹅", stop_loss 成了孤立数字。本铁律为防止再次出现而立。
