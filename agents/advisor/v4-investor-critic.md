@@ -108,6 +108,7 @@ tools:
        · value_creation.tam_penetration 含 TAM 数字但无 verified_source → fatal_flaw (通富 $157B 同型)
        · product_subdivision_deep.{future_tam,future_share,forward_eps,forward_revenue} 含数字但无 verified_source → fatal_flaw
        · 抽查 evidence 数组 ≥5 项, 每项含 claim+source+status(verified|estimated|missing) 三态, 缺 source 字段 = fatal_flaw, status 缺 = NEEDS_CHANGES
+       · **acquisition_audit 字段必查 (2026-06-17 iteration 4 落地, 数据采集层)**: data-desk 输出必含 acquisition_audit 字段 (skill v4-data-acquisition §6 输出契约), verify_audit ⑨ 机器审计 5 子键齐(akshare_calls/web_search_queries/downgrade_chain/missing_fields/tam_3source_check), 缺字段或 akshare_calls 含字面 "verified"/"akshare" 占位(不含具体函数+参数) = fatal_flaw "数据采集 Goodhart 形式 cite"。TAM 类字段必检查 tam_3source_check.sources_count ≥ 3, 否则 NEEDS_CHANGES "TAM 多源交叉不达标"
      - 三态对照判定:
        · ❌ 纯锚定话术("等¥X买"无推导) → NEEDS_CHANGES
        · ❌ 假装精确单点(EPS×PE反向凑数) → NEEDS_CHANGES (这是隐性锚定包装版)

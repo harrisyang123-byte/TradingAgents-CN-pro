@@ -309,6 +309,133 @@ def audit_payload(payload: dict) -> list[dict]:
                                     "severity": "fatal",
                                 })
 
+    # ⑨ acquisition_audit (iteration 4 落地, 数据采集层 SOP 审计, skill v4-data-acquisition §6 输出契约)
+    acq = p.get("acquisition_audit")
+    if acq is not None:  # 字段存在则严查; data-desk 单元产物或 stock 显式带 acquisition_audit 时触发
+        if not isinstance(acq, dict):
+            violations.append({
+                "field": "acquisition_audit",
+                "value": str(type(acq)),
+                "issue": "acquisition_audit 应是 dict 不是其他类型",
+                "severity": "fatal",
+            })
+        else:
+            # ② 5 子键齐
+            REQUIRED_KEYS = ["akshare_calls", "web_search_queries", "downgrade_chain", "missing_fields", "tam_3source_check"]
+            for k in REQUIRED_KEYS:
+                if k not in acq:
+                    violations.append({
+                        "field": f"acquisition_audit.{k}",
+                        "value": "missing",
+                        "issue": f"acquisition_audit 缺子键 '{k}' (skill v4-data-acquisition §6)",
+                        "severity": "fatal",
+                    })
+
+            # ③ akshare_calls 反 Goodhart: 每项必含 ()参数, 不能纯字面占位
+            ak_calls = acq.get("akshare_calls") or []
+            if isinstance(ak_calls, list):
+                for i, call in enumerate(ak_calls):
+                    if not isinstance(call, str):
+                        continue
+                    # 跳过 _doc 注释类
+                    if "_doc" in call.lower():
+                        continue
+                    # 必须含 () — 函数调用形式
+                    if "(" not in call or ")" not in call:
+                        violations.append({
+                            "field": f"acquisition_audit.akshare_calls[{i}]",
+                            "value": call[:80],
+                            "issue": f"akshare_calls 项 '{call[:30]}...' 不含函数调用 ()参数 (Goodhart 占位字符串, skill §2/§7)",
+                            "severity": "fatal",
+                        })
+                    # 禁止字面 "verified"/"akshare verified" 占位
+                    if call.strip().lower() in ("verified", "akshare", "akshare verified", ""):
+                        violations.append({
+                            "field": f"acquisition_audit.akshare_calls[{i}]",
+                            "value": call[:80],
+                            "issue": "akshare_calls 项是字面占位字符串(verified/akshare), 协议 Part 7 #10 narrative cite 防 Goodhart 已禁",
+                            "severity": "fatal",
+                        })
+
+            # ④ TAM 类字段若存在则 tam_3source_check 必 sources_count ≥ 3 + 多机构去重(P1)
+            tam_check = acq.get("tam_3source_check")
+            psd = p.get("product_subdivision_deep") or {}
+            vc = p.get("value_creation") or {}
+            has_tam = any(
+                isinstance(d, dict) and any(k in d for k in ("future_tam", "tam_2030", "tam_penetration"))
+                for d in (psd, vc)
+            )
+            if has_tam:
+                if not isinstance(tam_check, dict):
+                    violations.append({
+                        "field": "acquisition_audit.tam_3source_check",
+                        "value": str(tam_check),
+                        "issue": "存在 TAM 字段但 tam_3source_check 缺失 (skill §1 铁律 2 + §4 多源交叉)",
+                        "severity": "fatal",
+                    })
+                else:
+                    n_sources = tam_check.get("sources_count", 0)
+                    try:
+                        n_sources = int(n_sources)
+                    except (ValueError, TypeError):
+                        n_sources = 0
+                    if n_sources < 3:
+                        violations.append({
+                            "field": "acquisition_audit.tam_3source_check.sources_count",
+                            "value": str(n_sources),
+                            "issue": f"TAM 类多源交叉只有 {n_sources} 源, < 3 硬要求 (通富 $157B 同型隐患)",
+                            "severity": "fatal",
+                        })
+                    # P1 多机构去重: sources 数组中机构名首词 distinct ≥3 (不允许 IDC 多份报告凑数)
+                    sources = tam_check.get("sources") or []
+                    if isinstance(sources, list) and len(sources) > 0:
+                        # 取每条来源第一个空格前的机构名 (如 "IDC 2024Q3" -> "IDC")
+                        institutions = {str(s).split()[0].strip().lower() for s in sources if str(s).strip()}
+                        if len(institutions) < 3:
+                            violations.append({
+                                "field": "acquisition_audit.tam_3source_check.sources",
+                                "value": f"distinct institutions={len(institutions)}",
+                                "issue": f"TAM 多源去重后只 {len(institutions)} 个不同机构, < 3 硬要求 (引 3 份 IDC 报告凑数 = 多源造假)",
+                                "severity": "fatal",
+                            })
+                    # P1 锁源优先级: web_search_queries 数组中 TAM 相关查询必 ≥2 项 tier ≤ 2
+                    wsq = acq.get("web_search_queries") or []
+                    if isinstance(wsq, list) and wsq:
+                        tam_queries = [q for q in wsq if isinstance(q, dict) and q.get("query") and ("tam" in str(q.get("query", "")).lower() or "市场规模" in str(q.get("query", "")) or "TAM" in str(q.get("query", "")))]
+                        if tam_queries:
+                            tier_le2 = [q for q in tam_queries if q.get("tier") in (1, 2)]
+                            if len(tier_le2) < 2:
+                                violations.append({
+                                    "field": "acquisition_audit.web_search_queries (TAM tier 优先级)",
+                                    "value": f"TAM 查询 tier≤2 数 = {len(tier_le2)}",
+                                    "issue": "TAM 类查询 ≥2 项必走 Tier 1/2 权威源 (skill §3 锁源优先级, 防全走 Tier 3 估算)",
+                                    "severity": "should",
+                                })
+
+    # ⑩ evidence 元数据强制 (iteration 4 GATE attempt#1 fatal F3 修复, skill 铁律 4 工程化)
+    # verified status 的 evidence 项必有 as_of 或 claim 中含年份标注
+    ev = p.get("evidence")
+    if isinstance(ev, list):
+        import re as _re
+        YEAR_RE = _re.compile(r"20\d{2}")
+        for i, entry in enumerate(ev):
+            if not isinstance(entry, dict):
+                continue
+            if entry.get("_doc"):
+                continue
+            if entry.get("status") != "verified":
+                continue
+            claim_str = str(entry.get("claim", ""))
+            has_as_of = bool(entry.get("as_of"))
+            has_year = bool(YEAR_RE.search(claim_str))
+            if not has_as_of and not has_year:
+                violations.append({
+                    "field": f"evidence[{i}]",
+                    "value": claim_str[:60],
+                    "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+                    "severity": "should",
+                })
+
     return violations
 
 

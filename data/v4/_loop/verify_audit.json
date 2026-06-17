@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T14:04:53+00:00",
+  "generated_at": "2026-06-17T15:15:55+00:00",
   "total_stocks": 49,
   "stocks_clean": 8,
   "stocks_with_fatal": 41,
@@ -7,7 +7,7 @@
   "compliance_pct": 16.3,
   "severity_count": {
     "fatal": 72,
-    "should": 5
+    "should": 54
   },
   "violations": {
     "000063": [
@@ -64,6 +64,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "扣非占归母仅 51.7%,含 1.59亿非经常性损益(占48%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[4]",
+        "value": "Morningstar premium 48%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[8]",
+        "value": "CPI+1.2%/PPI+3.9%(连3月上行)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "002326": [
@@ -80,6 +98,102 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "PE-TTM 64x",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "PB 5.2x",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[4]",
+        "value": "市值 4211 亿",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[15]",
+        "value": "CR5 ≈ 85% (含长鑫/合肥晶合)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[16]",
+        "value": "客户性质: 国央企晶圆厂(战略采购+受政策约束但谈判强势)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[20]",
+        "value": "Top3 关键投入: 射频电源/精密阀门 MFC/真空泵",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[21]",
+        "value": "射频电源最大供应商: MKS/AE 全球占 70%+ (受美管制威胁)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[28]",
+        "value": "前 3 大国产竞品: 中微(刻蚀)/拓荆(CVD)/盛美上海(清洗)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[30]",
+        "value": "累计专利数 4000+ 件 (覆盖等离子/真空/热场/清洗)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[31]",
+        "value": "客户验证周期 18-36 月 (单台百万-千万级,认证失败客户停线损失数亿)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[32]",
+        "value": "替代技术: AMAT/LAM/TEL (受管制阻断增量)/国内细分竞品(互补>替代)/晶圆厂自研(<3%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[33]",
+        "value": "切换成本: 工艺 recipe 重新验证 6-18 月+良率风险 (高度不可逆物理驱动)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[36]",
+        "value": "盛美上海(688082) 营收增速 +35%/+30% 高于北方华创",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[37]",
+        "value": "华海清科(688120) CMP 龙头 PE-TTM 50x",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[49]",
+        "value": "覆盖刻蚀/PVD/CVD/CMP 4 大平台 + 炉管 = 唯一多平台 integrator",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[50]",
+        "value": "前 5 大客户营收占 70% (中芯/华虹/长存/长鑫/合肥晶合)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "002415": [
@@ -172,6 +286,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "美元口径Q1净利2.27亿+178倍 vs 上年130万美元",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "上调全年收入指引;瑞银目标价465美元/花旗453美元",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "06990": [
@@ -186,6 +312,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "招银国际目标价507.11港元 野村目标价544.42港元",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "收到宜联生物医药逾6亿人民币和解款",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[4]",
+        "value": "H股全流通备案获批",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "09988": [
@@ -214,6 +358,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "经营利润率45.5%/净利率34.4%(从24%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "LABUBU占营收38%(141亿),非LABUBU占美国收入50%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[6]",
+        "value": "卖方分歧极大:德银沽售140 vs 汇丰买入379(2.7倍)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "300033": [
@@ -250,6 +412,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "市值 2413.8 亿元,股价波动大(345 → 325 → 反弹)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "AIDC/数据中心光器件供应商",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "新加坡子公司 TFC TECHNOLOGY (SG) 拓展全球客户",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "300428": [
@@ -272,6 +452,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "美银证券降目标价至 24 元(短期受压但长期利好)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "4月业绩后股价创近8月新低 24.94元(A股),H股大跌 20% 创上市新低",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "300502": [
@@ -286,6 +478,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "国金证券:看好 2Q26 起 1.6T 产能释放带来收入&利润双增",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[4]",
+        "value": "1.6T 光模块第二梯队(中际旭创第一梯队)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "300750": [
@@ -330,6 +534,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "星标投资者张建平34.5亿元入股",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "扣非净利8.6-9亿元(+97.76%-106.97%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "600276": [
@@ -338,6 +554,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[0]",
+        "value": "Q1 营收 81.4 亿 (+12.98%) / 净利 22.82 亿 (+21.78%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[9]",
+        "value": "百济神州 PE 45x / 信达 PE 25x (已盈利后)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[14]",
+        "value": "国内 PD-1 7 家获批",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "600873": [
@@ -366,6 +600,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "Morningstar估值溢价824%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "1年涨跌-9.00%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "601899": [
@@ -380,6 +626,24 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[1]",
+        "value": "EPS 0.755元",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "员工持股计划受让价格19.36元/股(回购均价60%)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "Morningstar估值溢价267%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "601985": [
@@ -394,6 +658,18 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[2]",
+        "value": "Q1净利同比-34.19%(检修成本上升)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "1年涨跌-8.04%",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "603236": [
@@ -468,6 +744,12 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[0]",
+        "value": "三祥新材所属有色资源方向(见industry单元)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "605499": [
@@ -496,6 +778,12 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[3]",
+        "value": "中国刻蚀机龙头,与北方华创并列半导体设备双雄",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "688019": [
@@ -524,6 +812,12 @@
         "value": "missing",
         "issue": "debate_rounds 存在但任一轮均未输出 methodology_used 数组 (skill v4-debate-discipline §4 + critic 6.6 ⑤ 强制)",
         "severity": "fatal"
+      },
+      {
+        "field": "evidence[0]",
+        "value": "电子特气国产替代龙头(特气+激光气+超高纯气)",
+        "issue": "verified evidence 项缺 as_of 字段且 claim 中无年份 (skill §1 铁律 4: 数字必含 as_of/年份/单位/口径)",
+        "severity": "should"
       }
     ],
     "688578": [

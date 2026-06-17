@@ -315,6 +315,104 @@ def scan_debate_discipline(stocks: list[tuple[Path, dict]]) -> dict:
     }
 
 
+def scan_data_acquisition(stocks: list[tuple[Path, dict]]) -> dict:
+    """active_hole iteration 4 专项: 数据采集 SOP 静态+产物层应用率 (5 层防御纵深第 5 层 mine 监控)
+    skill v4-data-acquisition + verify_audit ⑨"""
+    # ① agent 层 (静态): 扫 v4-data-desk.md
+    p_desk = ROOT / "agents" / "advisor" / "v4-data-desk.md"
+    desk_skill_cite = desk_must_read = desk_schema_field = False
+    if p_desk.exists():
+        text = p_desk.read_text(encoding="utf-8")
+        desk_skill_cite = "v4-data-acquisition" in text
+        desk_must_read = "## 必读 skill" in text
+        desk_schema_field = '"acquisition_audit"' in text  # schema 块内显式字段
+
+    # ② 产物层 (动态): 扫 stock+industry JSON 是否含 acquisition_audit
+    industries_dir = ROOT / "data" / "v4" / "industries"
+    inputs_dir = ROOT / "data" / "v4" / "inputs"
+    all_units: list[tuple[Path, dict]] = list(stocks)
+    for d in (industries_dir, inputs_dir):
+        if d.exists():
+            for p in sorted(d.glob("*.json")):
+                try:
+                    all_units.append((p, json.loads(p.read_text(encoding="utf-8"))))
+                except Exception:
+                    pass
+
+    n_total = len(all_units)
+    n_with_field = n_5keys_full = n_no_placeholder = n_tam_pass = 0
+    placeholder_hits: list[str] = []
+    tier3_only_hits: list[str] = []
+
+    for path, d in all_units:
+        # acquisition_audit 可在 payload 或顶层 (data-desk 输出在顶层, stock unit envelope 在 payload)
+        acq = (d.get("payload") or {}).get("acquisition_audit") or d.get("acquisition_audit")
+        if not isinstance(acq, dict) or not acq:
+            continue
+        n_with_field += 1
+        REQUIRED = ["akshare_calls", "web_search_queries", "downgrade_chain", "missing_fields", "tam_3source_check"]
+        if all(k in acq for k in REQUIRED):
+            n_5keys_full += 1
+        # akshare_calls 反 Goodhart
+        ak_calls = acq.get("akshare_calls") or []
+        has_placeholder = False
+        if isinstance(ak_calls, list):
+            for call in ak_calls:
+                if isinstance(call, str) and call.strip().lower() in ("verified", "akshare", "akshare verified"):
+                    has_placeholder = True
+                    placeholder_hits.append(path.stem)
+                    break
+                if isinstance(call, str) and "(" not in call and ")" not in call and "_doc" not in call.lower():
+                    has_placeholder = True
+                    placeholder_hits.append(path.stem)
+                    break
+        if not has_placeholder:
+            n_no_placeholder += 1
+        # tam_3source_check ≥3 + 多机构去重(P1 强化)
+        tc = acq.get("tam_3source_check") or {}
+        if isinstance(tc, dict):
+            n_src = tc.get("sources_count", 0)
+            try:
+                n_src = int(n_src)
+            except (ValueError, TypeError):
+                n_src = 0
+            sources = tc.get("sources") or []
+            distinct_sources = len({str(s).split()[0] for s in sources}) if isinstance(sources, list) else 0
+            # 没 TAM 字段时 sources_count 可为 0, 视为 pass
+            field_name = str(tc.get("field", ""))
+            if "n/a" in field_name.lower() or n_src == 0:
+                n_tam_pass += 1
+            elif n_src >= 3 and distinct_sources >= 3:
+                n_tam_pass += 1
+        # tier=3 only 检测
+        wsq = acq.get("web_search_queries") or []
+        if isinstance(wsq, list) and wsq:
+            tiers = [q.get("tier") for q in wsq if isinstance(q, dict) and q.get("tier") is not None]
+            if tiers and all(t == 3 for t in tiers):
+                tier3_only_hits.append(path.stem)
+
+    n = max(n_total, 1)
+    n_field = max(n_with_field, 1)
+    return {
+        "agent_layer": {
+            "data_desk_skill_cite": desk_skill_cite,
+            "data_desk_must_read_section": desk_must_read,
+            "data_desk_schema_field": desk_schema_field,  # F1 修复后应为 True
+        },
+        "total_units_scanned": n_total,
+        "units_with_acquisition_audit": n_with_field,
+        "units_with_acquisition_audit_pct": round(n_with_field / n * 100, 1),
+        "five_keys_full_count": n_5keys_full,
+        "five_keys_full_pct": round(n_5keys_full / n_field * 100, 1) if n_with_field else 0.0,
+        "no_placeholder_count": n_no_placeholder,
+        "no_placeholder_pct": round(n_no_placeholder / n_field * 100, 1) if n_with_field else 0.0,
+        "tam_3source_pass_count": n_tam_pass,
+        "tam_3source_pass_pct": round(n_tam_pass / n_field * 100, 1) if n_with_field else 0.0,
+        "placeholder_hits_sample": placeholder_hits[:5],
+        "tier3_only_hits_sample": tier3_only_hits[:5],
+    }
+
+
 def scan_director_vs_subagent_depth(stocks: list[tuple[Path, dict]]) -> dict[str, dict]:
     """根因 4: director verdict 字符长度 vs five_forces/forward_view 字符长度
     director 显著浅 = 主 agent 偷懒 (粗略代理指标)"""
@@ -524,6 +622,23 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- methodology_used 应用率:   **{dd.get('debate_methodology_used_pct', 0)}%** ({dd.get('debate_methodology_used_count', 0)})")
         lines.append(f"- 派别切入引用率:           **{dd.get('debate_party_cite_pct', 0)}%** ({dd.get('debate_party_cite_count', 0)})")
         lines.append("")
+    da = report.get("data_acquisition", {})
+    if da:
+        al = da.get("agent_layer", {})
+        lines.append("## active_hole 进度 — 数据采集 SOP (iteration 4 落地, 5 层防御纵深第 5 层 mine 监控)")
+        lines.append(f"- v4-data-desk skill cite:    {'✓' if al.get('data_desk_skill_cite') else '✗'}")
+        lines.append(f"- v4-data-desk 必读 skill 段:  {'✓' if al.get('data_desk_must_read_section') else '✗'}")
+        lines.append(f"- v4-data-desk schema 字段:   {'✓' if al.get('data_desk_schema_field') else '✗'} (F1 修复关键)")
+        lines.append(f"- 扫描单元数: {da.get('total_units_scanned', 0)}")
+        lines.append(f"- 含 acquisition_audit 字段: **{da.get('units_with_acquisition_audit', 0)}** ({da.get('units_with_acquisition_audit_pct', 0)}%)")
+        lines.append(f"- 5 子键齐: {da.get('five_keys_full_count', 0)} ({da.get('five_keys_full_pct', 0)}%)")
+        lines.append(f"- 无 Goodhart 占位: {da.get('no_placeholder_count', 0)} ({da.get('no_placeholder_pct', 0)}%)")
+        lines.append(f"- TAM 多源 ≥3 + 多机构 pass: {da.get('tam_3source_pass_count', 0)} ({da.get('tam_3source_pass_pct', 0)}%)")
+        if da.get("placeholder_hits_sample"):
+            lines.append(f"- ⚠️ Goodhart 占位样本: {da['placeholder_hits_sample']}")
+        if da.get("tier3_only_hits_sample"):
+            lines.append(f"- ⚠️ 全 Tier 3 取数样本: {da['tier3_only_hits_sample']}")
+        lines.append("")
     va = report.get("verified_audit", {})
     if va and "compliance_pct" in va:
         lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
@@ -570,6 +685,7 @@ def main() -> int:
         "falsifiable_gap": scan_falsifiable_gap(stocks),
         "pre_mortem_field": scan_pre_mortem_field(stocks),
         "debate_discipline": scan_debate_discipline(stocks),
+        "data_acquisition": scan_data_acquisition(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
         "verified_audit": load_verify_audit(),
     }

@@ -1,6 +1,6 @@
 # v4 自进化循环 — DISCOVER 扫描报告
 
-生成时间: 2026-06-17T14:04:53+00:00
+生成时间: 2026-06-17T15:15:16+00:00
 扫描 stock: **49** 只 / industry: **11** 个
 
 ## 根因 1 — 标尺覆盖率
@@ -86,11 +86,21 @@
 - methodology_used 应用率:   **0.0%** (0)
 - 派别切入引用率:           **0.0%** (0)
 
+## active_hole 进度 — 数据采集 SOP (iteration 4 落地, 5 层防御纵深第 5 层 mine 监控)
+- v4-data-desk skill cite:    ✓
+- v4-data-desk 必读 skill 段:  ✓
+- v4-data-desk schema 字段:   ✓ (F1 修复关键)
+- 扫描单元数: 60
+- 含 acquisition_audit 字段: **0** (0.0%)
+- 5 子键齐: 0 (0.0%)
+- 无 Goodhart 占位: 0 (0.0%)
+- TAM 多源 ≥3 + 多机构 pass: 0 (0.0%)
+
 ## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)
 - 完全合规:       **8 / 49** (16.3%)
 - 含 fatal 违规: **41**
 - fatal 计数:    72
-- should 计数:   5
+- should 计数:   54
 - 详见:           data/v4/_loop/verify_audit.md
 
 ## 候选洞 (排序后)
