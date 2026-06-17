@@ -171,6 +171,7 @@ description: >
 - 2026-06-15 用户纠正：低关注度从"硬门槛"→"未被充分定价"两条路径——(a)低关注度紫苏叶 OR (b)被错杀的卡位龙头(中际旭创¥88案)，不因高关注度/大市值一刀切排除。
 - 2026-06-15 用户拍板：禁研报验证瓶颈(研报=市场已知=高关注=价格已反映=没alpha)，靠专利/客户名单/产能地图/上游矿源碎片演绎。
 - 2026-06-17 自进化循环 iteration 1 沉淀：scripts/v4_loop_mine.py 扫描 49 只 stock 发现"巴菲特-逆向思考"标尺 0/49 cite,根因是三层都缺(skill 模板/director schema/critic 必查项)。本轮新增 §2.6 pre-mortem 三场景模板(基本面双杀+估值杀+政策黑天鹅杀),director 加 pre_mortem 强制字段,critic 加 6.16 必查项,mine 脚本扩 pre_mortem 字段检测。三层联动方治本,仅改一层会复发(Part 7 第1条 复发要诚实记账)。
+- 2026-06-17 自进化循环 iteration 2 沉淀: VERIFIED-20260617-03 (47/49 缺 verified_sources, 同型于通富 $157B 事故大面积复发风险) 走完全 6 阶段。RULE-DATA-VERIFIED 红线工程化落地: scripts/v4_verify_audit.py 全产物 7 类数字字段自动审计 + scripts/v4_unit_cli.py 写盘咽喉 import audit_payload + fatal 违规 → return 4 阻断写盘。形成 4 层防御纵深(认知层 agent prompt + 数据契约层 stock_data_contract collect 阶段 + 代码强制层 v4_unit_cli.py write 咽喉 + 自动审计层 v4_verify_audit.py)。critic GATE attempt#1 66 → attempt#2 92。新沉淀 4 条铁律 (规则5-8: 必跑必配代码强制点 / 工具关键字白名单不含合规字段名自身防 Goodhart / cleanup 配合规率单调验证 / 永久红线 ≥3 层防御纵深)。
 <!-- USER_CORRECTION_END -->
 
 ---

@@ -362,6 +362,16 @@ SkillOpt 把 agent 的 skill 文档当"可训练权重"，用深度学习的纪�
 6. **卡住要升级用户**：2 次 gate 失败的洞进 stuck，主动告诉用户"这个我搞不定，需要你决策"，不无限空转。
 7. **不为循环而循环**：当找不到"不做就不可信"级别的洞，诚实进入 maintenance 态，不硬造洞刷 iteration_count（那也是一种浅尝）。
 8. **标尺库是锚不是装饰**：每轮至少有 1 个洞直接对应 Part 2 某条超级投资人实践，确保循环始终服务"真执行最佳投资实践"而非自嗨重构。
+9. **多层 verbatim 引用字段必须源头 schema 显式定义**（iteration 1 attempt#1 fatal_flaw 沉淀）：任何被 ≥2 个 .md 文档（skill/agent prompt/critic）verbatim 引用的字段，必须在源头 agent 的 verdict JSON schema 显式定义（不是只在注释或反例里出现）。否则触发"契约层断层" — 看似三层联动实则有一层只是注释引用。**反例**：iteration 1 attempt#1 critic/skill/pre_mortem 三处 verbatim 引用 `action_plan.sell_trigger` 但 director schema 没定义 action_plan = 孤儿 = fatal_flaw 77 分回退。
+10. **cite 检测靠 narrative 不靠 schema 字段名**（iteration 1 attempt#1 Goodhart 防御沉淀）：任何"某条标尺/铁律是否真被引用"的检测必须基于 thesis/reflection 的叙述关键词（语义），不能基于 schema 字段名（语法）。**反例**：iteration 1 attempt#1 mine RULER_KEYWORDS 把 `pre_mortem`/`fundamental_double_kill` 当作"巴菲特-逆向思考"cite 凭据 — director 写个字段名就被算 cite，度量被作弊。**修法**：narrative 关键词如"死亡清单/invert/反向自问/亏光本金"+ critic 必查 `methodology_used.how_used` narrative 能在 thesis 找到对应段落。
+11. **新数字字段必须同步打 RULE-DATA-VERIFIED 红线**（iteration 1 attempt#1 + iteration 2 active_hole 共同沉淀）：任何新增的数字字段（target_price/downside_price/trigger 阈值/TAM/份额/EPS）必须在同一次改动中加配套的 verified_source 字段（`verified_anchor` / `evidence` / `verified_sources` 数组），critic GATE 必查"凭训练记忆填阈值=fatal_flaw"。否则新字段=新拍脑袋通道，复发同型于通富 $157B 事故。**工具化**：`scripts/v4_verify_audit.py` 自动扫产物违规率（iteration 2 落地）。
+12. **GATE 多 attempt 是放大器不是失败**（iteration 1 经验沉淀）：critic 首次 NEEDS_CHANGES 给具体反馈是循环的最有价值产出。一轮 1-2 attempts 是常态，不是 stuck。**判定**：attempt#1 NEEDS_CHANGES + 给 ≥3 个具体可执行 improvements + 主 agent 全部修复 → attempt#2 应该真提分。若 attempt#2 仍 NEEDS_CHANGES 才进 stuck。**禁止**：因为 attempt#1 没过就降低标准凑过。
+13. **verify_audit 落盘必跑**（iteration 2 active_hole 落地, attempt#2 强化）：director write_unit 落盘前必须跑 `v4_verify_audit.py --strict`，fatal 违规 ≥1 → 不许落盘。critic 6.8 升级为不只 collect 阶段查，而是 director 落盘前再查一次。这是 RULE-DATA-VERIFIED 红线从"认知层规则"升级为"代码层强制"的最后一道闸。**代码层接线点**（防 attempt#1 那种"创建工具但孤儿"复发）：
+    - hook 位置 = `scripts/v4_unit_cli.py` 的 `write` 子命令, `args.unit_id.startswith("stock:")` 分支, `stock_data_contract.check_expert_valuation_verified` 之后, `env = store.new_envelope(...)` 之前
+    - import 路径 = `from v4_verify_audit import audit_payload`(同目录 sys.path 注入)
+    - 退出码 = fatal 违规 ≥1 → return 4(对齐 collect_v4 风格); should 违规打印 stderr 警告但不阻断
+    - 工具自身防 Goodhart = `URL_RE` 故意不收录 `verified` 字面量(避免 source='verified' 自我作弊), `akshare` 必须是 `akshare.func()` 调用形式才算来源
+    - 单文件模式 = `python3 scripts/v4_verify_audit.py --single <stock.json> --strict` 供 CI/CD 或手动调用
 
 ---
 

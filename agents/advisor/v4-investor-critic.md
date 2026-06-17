@@ -95,6 +95,13 @@ tools:
      - critic 必查 `data_contract_check.must_satisfied` 数 = 24, 否则 fatal_flaw "契约未达标却跑了 agent"
      - SHOULD 缺 → confidence 自动扣分 (max -0.20), critic 检查实际 confidence 是否反映了 should_missing 数量
      - 取数审计: critic 抽查 fetch_tasks 里 ≥3 条 MUST 的 search_query 是否在 evidence 字段里有对应来源, 装作"已查"实际没用 = fatal_flaw
+     - **verify_audit 落盘必跑(2026-06-17 iteration 2 落地, 永久铁律)**: director write_unit 落盘前必须跑 `python3 scripts/v4_verify_audit.py --strict`, fatal 违规 ≥ 1 → **不许落盘 fatal_flaw "RULE_DATA_VERIFIED_VIOLATED"**。critic 必查产物的:
+       · target_price/price_at_judgment 数字存在但 evidence 数组无对应 verified_source URL → fatal_flaw
+       · evidence 数组空 (`[]`) 但 verdict 含数字 → fatal_flaw "evidence 空但 verdict 含数字, director schema 要求 evidence min 5 项"
+       · pre_mortem.*.downside_price 含数字但 verified_anchor.verified_source_count=0 → fatal_flaw (iteration 1 critic 6.16 ⑥ 同步)
+       · value_creation.tam_penetration 含 TAM 数字但无 verified_source → fatal_flaw (通富 $157B 同型)
+       · product_subdivision_deep.{future_tam,future_share,forward_eps,forward_revenue} 含数字但无 verified_source → fatal_flaw
+       · 抽查 evidence 数组 ≥5 项, 每项含 claim+source+status(verified|estimated|missing) 三态, 缺 source 字段 = fatal_flaw, status 缺 = NEEDS_CHANGES
      - 三态对照判定:
        · ❌ 纯锚定话术("等¥X买"无推导) → NEEDS_CHANGES
        · ❌ 假装精确单点(EPS×PE反向凑数) → NEEDS_CHANGES (这是隐性锚定包装版)

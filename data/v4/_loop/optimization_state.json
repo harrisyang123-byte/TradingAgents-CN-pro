@@ -3,16 +3,45 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 1,
-    "last_run": "2026-06-17T12:30:00+00:00",
+    "iteration_count": 2,
+    "last_run": "2026-06-17T13:10:23+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iteration 1 完成: PREMORTEM-20260617-01 走完 DISCOVER→DIAGNOSE→IMPLEMENT→GATE(2 attempts)→CONSOLIDATE 全 6 阶段, 最终 critic 92 分 ACCEPT。下轮(iteration 2)从 backlog 取最高优洞继续。",
-    "last_mine": "2026-06-17T12:10:09+00:00"
+    "_comment": "iteration 2 完成: VERIFIED-20260617-03 走完全 6 阶段, attempt#2 critic 92 分 ACCEPT。RULE-DATA-VERIFIED 红线工程化落地 (协议层+工具层+代码层+critic层+监控层 五层联动 + 4 层防御纵深)。下轮(iteration 3)首选 VERIFIED-CLEANUP-20260618-01 (回填 36 只 fatal stock 到 ≥80% 合规率).",
+    "last_mine": "2026-06-17T13:01:55+00:00"
   },
   "active_hole": null,
   "backlog": [
+    {
+      "id": "VERIFIED-CLEANUP-20260618-01",
+      "title": "36 只 stock fatal 违规回填 — 让 v4_verify_audit 合规率从 26.5% → ≥80% (iteration 2 GATE attempt#1 fatal_flaw#3 修复后入 backlog)",
+      "violated_practice": "RULE-DATA-VERIFIED 红线 + 达里奥-彻底求真(存量永久损失防御)",
+      "shallow_score": 5,
+      "harm_to_profit": "iteration 2 上线 v4_verify_audit + v4_unit_cli.py 写盘 hook 防新违规, 但 36 只旧产物 baseline 26.5% 是巨大技术债存量, 不主动回填会被'下次再说'固化(达里奥风险=永久损失)。新 stock 走 director→critic 链路自动堵住, 旧 stock 必须显式触发 refresh + 主 agent 联网补 verified_source URL 才能干净",
+      "priority": "must",
+      "discovered_at": "2026-06-17T13:30:00+00:00",
+      "evidence": [
+        "v4_verify_audit baseline (URL_RE 收紧 verified Goodhart 后): 49 只 stock = 13 完全合规 / 36 含 fatal 违规 / fatal=38 / should=5",
+        "top fatal: evidence 空数组 + verdict 含数字 / pre_mortem 缺 verified_anchor / value_creation TAM 无 source",
+        "iteration 2 GATE attempt#1 critic 66 分 NEEDS_CHANGES 的 3 个 fatal_flaw 中第 3 条: fix_plan 全是增量护栏无回填存量"
+      ],
+      "source": "v4_loop_mine.py + v4_verify_audit.py",
+      "_note": "iteration 3 候选 active_hole 首选。可批量 refresh stock:<code> 触发主 agent 联网补 verified_source 后写盘, v4_unit_cli.py hook 会自动拦截不合规的, 形成 cleanup loop。建议每轮处理 top 5-10 只(避免单轮跑太多), 每轮跑完 mine + audit 看合规率单调上升"
+    },
+    {
+      "id": "AUDIT-POLISH-20260618-02",
+      "title": "v4_verify_audit.py 4 项打磨 (audit_payload len<min 检测 + cleanup 节奏铁律 + 单测 + status 强弱一致)",
+      "violated_practice": "iteration 2 GATE attempt#2 残留 4 项 should/nice improvements",
+      "shallow_score": 2,
+      "harm_to_profit": "工具未到完美形态, 长期可能回归; cleanup 节奏不严会被'走形式'。但 ACCEPT 已落地不阻断主线, 适合 iteration 4-5 顺手做",
+      "priority": "could",
+      "discovered_at": "2026-06-17T13:10:23+00:00",
+      "evidence": [
+        "GATE attempt#2 score=92 ACCEPT 但留 4 项 nice-to-have"
+      ],
+      "source": "v4-investor-critic GATE attempt#2"
+    },
     {
       "id": "SELL-20260617-02",
       "title": "36/49 只 stock 缺 sell_trigger/exit_plan (旧产物 — 待 49 只重跑落地 action_plan 字段)",
@@ -21,21 +50,11 @@
       "harm_to_profit": "用户买进去不知道何时卖, 论点失效也没机制提醒。注: iteration 1 已让 director schema 强制 action_plan 8 字段, 此洞会在 49 只 stock 重跑后自动填上一大半, 不必再次专攻; 改为'重跑触发监控'入 backlog",
       "priority": "should",
       "discovered_at": "2026-06-17T11:41:40+00:00",
-      "evidence": ["扫描 49 只 stock，36 只 action_plan 没卖出条件"],
+      "evidence": [
+        "扫描 49 只 stock，36 只 action_plan 没卖出条件"
+      ],
       "source": "v4_loop_mine.py",
       "downgraded_by": "iteration 1 PREMORTEM 落地 action_plan schema 已带动覆盖"
-    },
-    {
-      "id": "VERIFIED-20260617-03",
-      "title": "47 只 stock 有 future_tam/target 等数字但缺 verified_sources",
-      "violated_practice": "RULE-DATA-VERIFIED 永久红线",
-      "shallow_score": 4,
-      "harm_to_profit": "通富 $157B 事故同类风险 — 拍脑袋数字误导用户加仓",
-      "priority": "must",
-      "discovered_at": "2026-06-17T11:41:40+00:00",
-      "evidence": ["top: ['000063', '002001', '002050']"],
-      "source": "v4_loop_mine.py",
-      "_note": "iteration 2 候选: 这是数据工作单点深做 — 抽 3-5 只代表股做 verified_sources 回填+流程化(critic 6.8 数据契约必查的实操), 然后写 verifier 工具自动扫"
     },
     {
       "id": "LAZY-20260617-04",
@@ -45,7 +64,9 @@
       "harm_to_profit": "下游分析做了但 director 没整合，相当于白做",
       "priority": "should",
       "discovered_at": "2026-06-17T11:41:40+00:00",
-      "evidence": ["sample: ['002156', '002371', '09992']"],
+      "evidence": [
+        "sample: ['002156', '002371', '09992']"
+      ],
       "source": "v4_loop_mine.py"
     },
     {
@@ -56,9 +77,24 @@
       "harm_to_profit": "嘴上有(skill 文档列了) / 流程无(产物零引用)，浅尝即止系统性",
       "priority": "must",
       "discovered_at": "2026-06-17T11:41:40+00:00",
-      "evidence": ["扫描 49 只 stock，13 条标尺零 cite (剔除 pre-mortem 已 done)"],
+      "evidence": [
+        "扫描 49 只 stock，13 条标尺零 cite (剔除 pre-mortem 已 done)"
+      ],
       "source": "v4_loop_mine.py",
       "_note": "iteration 1 经验: 一次只攻一条标尺, 三层联动方治本。下轮预选'IPS-集中度上限'(0/49) 因为它直接驱动 action_plan.position_limit 与 pre_mortem.max_permanent_loss_pct 闭环。"
+    },
+    {
+      "id": "VERIFIED-20260617-03",
+      "title": "47 只 stock 有 future_tam/target 等数字但缺 verified_sources",
+      "violated_practice": "RULE-DATA-VERIFIED 永久红线",
+      "shallow_score": 4,
+      "harm_to_profit": "通富 $157B 事故同类风险 — 拍脑袋数字误导用户加仓",
+      "priority": "must",
+      "discovered_at": "2026-06-17T12:38:18+00:00",
+      "evidence": [
+        "top: ['000063', '002001', '002050']"
+      ],
+      "source": "v4_loop_mine.py"
     }
   ],
   "done": [
@@ -89,7 +125,9 @@
           "attempt": 1,
           "score": 77,
           "verdict": "NEEDS_CHANGES",
-          "fatal_flaws": ["action_plan 字段在 director schema 未定义但被三层 verbatim 引用 — 三层联动闭环在契约层断掉"],
+          "fatal_flaws": [
+            "action_plan 字段在 director schema 未定义但被三层 verbatim 引用 — 三层联动闭环在契约层断掉"
+          ],
           "improvements_count": 6,
           "key_critique": "看似三层联动实则有一层只是注释引用; downside_price 不强制 verified_source 留口给拍脑袋阈值; mine RULER_KEYWORDS 把 schema 字段名当 cite 凭据有 Goodhart 风险; pre_mortem 与 expectation_gap/business_quality 各自为政形成新孤岛"
         },
@@ -110,6 +148,67 @@
       ],
       "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 已加 2026-06-17 本轮沉淀",
       "completed_at": "2026-06-17T12:30:00+00:00"
+    },
+    {
+      "id": "VERIFIED-20260617-03",
+      "title": "47/49 只 stock 数字字段(target_price/future_tam/forward_eps/path_scenarios.implied_target_price)缺 verified_sources URL — RULE-DATA-VERIFIED 红线大面积违规",
+      "violated_practice": "RULE-DATA-VERIFIED 永久红线 + 巴菲特-FCF/股东盈余 verified + 达里奥-彻底求真",
+      "before": {
+        "verify_audit_compliance_pct": "0% (工具未存在)",
+        "stock_data_contract_only": "仅 collect_v4 阶段, director write 后无审计",
+        "evidence_field": "schema 提了但产物 47/49 空数组",
+        "rule_data_verified_red_line": "认知层规则有 + 数据契约层 + 代码强制层 (但仅查 expert_valuation 子集), 全产物级自动审计缺失"
+      },
+      "after_protocol": {
+        "verify_audit_tool": "scripts/v4_verify_audit.py 全产物 7 类数字字段自动审计 (target_price/evidence 三态/valuation_basis/forward_view scenarios/pre_mortem.verified_anchor/value_creation TAM/product_subdivision_deep), URL_RE 防 Goodhart (排除 'verified' 字面量, akshare 收紧为函数调用形式), 含 audit_payload() 公开函数 + --single 参数",
+        "cli_hook": "scripts/v4_unit_cli.py write 子命令 stock:* 分支 (stock_data_contract 校验后 + env=store.new_envelope 前) import v4_verify_audit.audit_payload, fatal 违规 → return 4 阻断写盘 (代码层物理强制)",
+        "director_schema": "evidence 数组任务 A min 5 + 三态强制 (claim+source+status verified|estimated|missing); 任务 B alloc:industry 适配 min 2 + 必含 ≥1 上游交叉引用",
+        "critic_must_check": "agents/advisor/v4-investor-critic.md 6.8 升级加 verify_audit 落盘必跑必查 (6 类 fatal_flaw 列出)",
+        "mine_integration": "scripts/v4_loop_mine.py 加 load_verify_audit + 报告新增'根因 3.1 — verify_audit 自动审计'段, backlog 去重逻辑修复 (id_prefix 替代 title)",
+        "protocol_part7": "新增 #9-#13 五条铁律固化 iteration 1+2 沉淀 (多层引用源头 schema/narrative cite 防 Goodhart/新数字字段必打 verified/GATE 多 attempt 是放大器/verify_audit 落盘必跑配 5 接线点说明)"
+      },
+      "after_runtime": {
+        "baseline_compliance_before": "26.5% (URL_RE 收紧后真实 baseline; URL_RE 含 verified Goodhart 时是虚假的 49%)",
+        "baseline_stock_count": "49 只 = 13 完全合规 / 36 含 fatal 违规 / fatal=38 / should=5",
+        "next_step": "iteration 3 候选 active_hole = VERIFIED-CLEANUP-20260618-01 (36 只 fatal stock 回填到 ≥80% 合规率)",
+        "_note": "本轮主要是协议层+工具层+代码层落地, 不重跑 49 只 stock。新 stock 走 director→write→audit 链路被自动堵, 旧 stock 留 cleanup loop 处理"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": 66,
+          "verdict": "NEEDS_CHANGES",
+          "fatal_flaws": [
+            "v4_unit_cli.py 写盘咽喉未挂 v4_verify_audit hook (五层联动实际是四层文档+一个孤立工具, 同型于 attempt#1 action_plan 孤儿)",
+            "v4_verify_audit.py URL_RE 含 'verified'/'akshare' 字面量自我 Goodhart (工具自身违反 Part 7 #10 cite 检测靠 narrative)",
+            "47/49 旧产物 baseline 26.5% 没回填路径, fix_plan 全是增量护栏无回填存量 (达里奥风险=永久损失)"
+          ],
+          "improvements_count": 8,
+          "key_critique": "协议规则有/代码层执行无 同型复发; 工具自我 Goodhart; 47/49 存量被'下次再说'固化"
+        },
+        {
+          "attempt": 2,
+          "score": 92,
+          "verdict": "ACCEPT",
+          "depth_gate_breakdown": {
+            "quantifiable": 18,
+            "falsifiable": 19,
+            "closed_loop": 19,
+            "data_verified": 18,
+            "methodology_explicit": 18
+          },
+          "shallow_features_hit": [],
+          "key_acceptance": "3 fatal + 关键 P1 全 FIXED, 五层联动真同向加固没引入新孤儿/新 Goodhart, RULE-DATA-VERIFIED 红线四层防御纵深 (认知层 + 数据契约层 + 代码强制层 + 自动审计层) 形成闭环",
+          "remaining_improvements": [
+            "audit_payload 不检测 'evidence 1≤len<5' (schema 强 / tool 弱)",
+            "VERIFIED-CLEANUP 没设单轮回填节奏铁律 (上限+合规率单调验证)",
+            "v4_verify_audit.py 225 行无单测, 改 URL_RE 易回归",
+            "evidence entry status 缺失只判 should 但 schema 说强制三选一"
+          ]
+        }
+      ],
+      "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 待加 2026-06-17 iteration 2 条目",
+      "completed_at": "2026-06-17T13:10:23+00:00"
     }
   ],
   "stuck": [],
@@ -118,18 +217,27 @@
       "[2026-06-17 iteration 1] 一次只攻 1 个最痛标尺(巴菲特-逆向思考 0/49), 但三层联动同步改(skill 模板 + director schema + critic 必查 + mine 脚本扫描) → critic 92 分 ACCEPT。学习率 = 1 但不是只改一层; 单点聚焦 ≠ 单层改动",
       "[2026-06-17 iteration 1 attempt#1→#2] critic NEEDS_CHANGES 不是失败而是放大器。attempt#1 77 分给了 1 fatal+6 improvements 都很具体, 修完 attempt#2 直接 92。证明 GATE 真 spawn(禁主 agent 自评)+具体回退反馈是循环的核心引擎",
       "[2026-06-17 iteration 1] mine 脚本先于 DISCOVER, 让'真看产物找洞'从语言变成数据。49 只 stock 5 维度 pct 让本轮提分有客观锚, 不靠主观感觉",
-      "[2026-06-17 iteration 1] critic attempt#1 抓出 RULER_KEYWORDS 把 schema 字段名当 cite 凭据的 Goodhart 风险 → 解耦 + methodology_used.how_used narrative 真实性必查 = 新一类'防自欺铁律', 应在协议 Part 7 后续补"
+      "[2026-06-17 iteration 1] critic attempt#1 抓出 RULER_KEYWORDS 把 schema 字段名当 cite 凭据的 Goodhart 风险 → 解耦 + methodology_used.how_used narrative 真实性必查 = 新一类'防自欺铁律', 应在协议 Part 7 后续补",
+      "[2026-06-17 iteration 2] 'GATE 多 attempt 是放大器'再次验证: attempt#1 66 + 3 fatal 抓得极准 → attempt#2 92, +26 分。critic 抓的 fatal#1 (CLI hook 孤儿) 与 iteration 1 attempt#1 fatal (action_plan schema 孤儿) 同型, 证明'多层 verbatim 引用必须源头显式定义'已固化进 critic 的反射式拷问",
+      "[2026-06-17 iteration 2] '工具自身防 Goodhart' 是新模式: URL_RE 故意排除 'verified' 字面量(防 source='verified' 自我作弊) + 'akshare' 收紧为 'akshare.func()' 形式(防空喊关键字)。这是 Part 7 #10 cite 检测靠 narrative 的工具层落地, 应推广到所有审计/检测工具的关键字白名单设计",
+      "[2026-06-17 iteration 2] '4 层防御纵深'落地: RULE-DATA-VERIFIED 红线 = 认知层(agent prompt) + 数据契约层(stock_data_contract collect 阶段) + 代码强制层(v4_unit_cli.py write 咽喉) + 自动审计层(v4_verify_audit.py)。四层任一独立可证伪/可回归, 形成攻击面纵深"
     ],
     "what_failed": [
       "[2026-06-17 iteration 1 attempt#1] 第一次没把 action_plan 显式写进 director schema, 以为 stock JSON 实际有就行, 结果三层 verbatim 引用 'action_plan.sell_trigger' 在契约层成孤儿。教训: 任何被多层引用的字段必须在源头 agent .md schema 明示, 不能依赖'实际产物有就行'。",
       "[2026-06-17 iteration 1 attempt#1] 以为 RULER_KEYWORDS 加 schema 字段名能让 cite 计数变高 = 进展, 实际是 Goodhart — 度量标准被作弊。教训: 任何'cite 是否真发生'的检测必须靠 narrative 关键词(语义), 不能靠 schema 字段名(语法)。",
-      "[2026-06-17 iteration 1 attempt#1] verified_anchor 第一次没加, 直接给 trigger 阈值留'拍脑袋数字'口子(同型于通富 $157B 事故再现)。教训: 任何新增的数字字段必须同步打上 RULE-DATA-VERIFIED 红线, 防新字段成新通道"
+      "[2026-06-17 iteration 1 attempt#1] verified_anchor 第一次没加, 直接给 trigger 阈值留'拍脑袋数字'口子(同型于通富 $157B 事故再现)。教训: 任何新增的数字字段必须同步打上 RULE-DATA-VERIFIED 红线, 防新字段成新通道",
+      "[2026-06-17 iteration 2 attempt#1] 第一次没把 v4_verify_audit.py 接进 v4_unit_cli.py 写盘咽喉, 以为协议 Part 7 + critic + director 三处口头要求'必跑'就够了。同型于 iteration 1 attempt#1 action_plan 孤儿。教训: '必跑/必查/必填' 这类铁律在 .md 层永远是口头, 必须配代码层强制点(hook/exit code/物理拦截), 否则 agent 在压力下会跳过",
+      "[2026-06-17 iteration 2 attempt#1] URL_RE 含 'verified' 字面量 — 我把工具自身设计成 source='verified' 就过审, 等于自家工具违反 Part 7 #10。教训: 设计任何'是否合规'的检测工具时, 关键字白名单不能包含'合规字段名本身'(verified_source/audit/verified 等), 否则就是 source 字段写个关键字就过审"
     ],
     "rules_distilled_for_future_iterations": [
       "规则1 (协议防自欺第9条候选): 任何被多层 .md 文档 verbatim 引用的字段, 必须在源头 agent schema 显式定义, 否则触发'契约层断层'fatal_flaw",
       "规则2 (协议防自欺第10条候选): cite 检测必须靠 narrative 关键词, 不能靠 schema 字段名, 防 Goodhart",
       "规则3 (协议 GATE 第6条候选): 任何新增的数字字段必须同步加 verified_anchor / verified_source 字段对齐 RULE-DATA-VERIFIED, 防新字段成新拍脑袋通道",
-      "规则4 (循环节奏): 一轮 = 1-2 attempts(GATE) 是常态, 不是失败。critic 首次 NEEDS_CHANGES 给具体反馈是循环的最有价值产出"
+      "规则4 (循环节奏): 一轮 = 1-2 attempts(GATE) 是常态, 不是失败。critic 首次 NEEDS_CHANGES 给具体反馈是循环的最有价值产出",
+      "规则5 (协议防自欺第14条候选): '必跑/必查/必填' 这类铁律必须配代码层强制点(hook/exit code/物理拦截), 否则在 agent 压力下沦为口头",
+      "规则6 (协议防自欺第15条候选): 任何'是否合规'的检测工具, 关键字白名单不能含合规字段名自身(verified/audit_passed/compliant 等), 否则工具自身 Goodhart 化",
+      "规则7 (协议节奏): 存量回填(cleanup) loop 应配单轮上限 + 合规率单调上升验证(否则'走形式回填'反而污染 baseline)",
+      "规则8 (协议防御): 任何永久红线应有 ≥3 层防御纵深(认知层+契约层+代码层+审计层), 单层失守不致命"
     ]
   }
 }

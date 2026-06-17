@@ -345,19 +345,26 @@ def build_candidate_holes(report: dict) -> list[dict]:
 
 
 def write_state_backlog(holes: list[dict]) -> int:
-    """把候选洞 append 到 state.backlog，已存在的 (按 title 去重) 不重复"""
+    """把候选洞 append 到 state.backlog，按 id_prefix (RULER/SELL/VERIFIED/LAZY 等) 去重 (iteration 2 修复)"""
     if not STATE_FILE.exists():
         return 0
     state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
-    existing_titles = {h.get("title") for h in state.get("backlog", [])}
-    existing_titles |= {h.get("title") for h in state.get("done", [])}
+
+    def extract_prefix(hole_id: str) -> str:
+        return hole_id.split("-")[0] if hole_id else ""
+
+    existing_prefixes: set[str] = set()
+    for h in state.get("backlog", []):
+        existing_prefixes.add(extract_prefix(h.get("id", "")))
+    for h in state.get("done", []):
+        existing_prefixes.add(extract_prefix(h.get("id", "")))
     if state.get("active_hole"):
-        existing_titles.add(state["active_hole"].get("title"))
+        existing_prefixes.add(extract_prefix(state["active_hole"].get("id", "")))
 
     appended = 0
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     for i, h in enumerate(holes, 1):
-        if h["title"] in existing_titles:
+        if h["id_prefix"] in existing_prefixes:
             continue
         hole_id = f"{h['id_prefix']}-{datetime.now().strftime('%Y%m%d')}-{i:02d}"
         state.setdefault("backlog", []).append({
@@ -372,6 +379,7 @@ def write_state_backlog(holes: list[dict]) -> int:
             "source": "v4_loop_mine.py",
         })
         appended += 1
+        existing_prefixes.add(h["id_prefix"])
 
     state.setdefault("loop_meta", {})["last_mine"] = now
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -422,6 +430,16 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- sell_trigger 闭环:  **{pm.get('sell_link_closed_count', 0)} / {pm.get('total_stocks', 0)}** ({pm.get('sell_link_closed_pct', 0)}%)")
         lines.append(f"- 历史类比引用:       **{pm.get('analog_cited_count', 0)} / {pm.get('total_stocks', 0)}** ({pm.get('analog_cited_pct', 0)}%)")
         lines.append("")
+    va = report.get("verified_audit", {})
+    if va and "compliance_pct" in va:
+        lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
+        lines.append(f"- 完全合规:       **{va.get('stocks_clean', 0)} / {va.get('total_stocks', 0)}** ({va.get('compliance_pct', 0)}%)")
+        lines.append(f"- 含 fatal 违规: **{va.get('stocks_with_fatal', 0)}**")
+        sc = va.get("severity_count", {})
+        lines.append(f"- fatal 计数:    {sc.get('fatal', 0)}")
+        lines.append(f"- should 计数:   {sc.get('should', 0)}")
+        lines.append(f"- 详见:           data/v4/_loop/verify_audit.md")
+        lines.append("")
     lines.append("## 候选洞 (排序后)")
     for i, h in enumerate(holes, 1):
         lines.append(f"### {i}. [{h['priority']}] {h['title']}")
@@ -430,6 +448,17 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- 伤害: {h['harm_to_profit']}")
         lines.append(f"- 证据: {h['evidence']}")
     return "\n".join(lines) + "\n"
+
+
+def load_verify_audit() -> dict:
+    """读取 v4_verify_audit.py 输出, 集成进 mine 报告(iteration 2 落地)"""
+    audit_file = LOOP_DIR / "verify_audit.json"
+    if not audit_file.exists():
+        return {"_note": "运行 python3 scripts/v4_verify_audit.py 生成"}
+    try:
+        return json.loads(audit_file.read_text(encoding="utf-8"))
+    except Exception as e:
+        return {"_error": str(e)}
 
 
 def main() -> int:
@@ -447,6 +476,7 @@ def main() -> int:
         "falsifiable_gap": scan_falsifiable_gap(stocks),
         "pre_mortem_field": scan_pre_mortem_field(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
+        "verified_audit": load_verify_audit(),
     }
 
     holes = build_candidate_holes(report)

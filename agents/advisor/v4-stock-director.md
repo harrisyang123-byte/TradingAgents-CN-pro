@@ -159,7 +159,13 @@ tools:
     "key_assumptions": [{"assumption": "本评级依赖的核心假设(如客户订单维持/产品涨价/份额提升)", "falsification_signal": "看到什么数据即推翻"}],
     "trigger_monitor": ["看到X就Y的硬触发清单(用绝对阈值,如份额跌破X/客户砍单>X%/股价跌破X→止损)"]
   },
-  "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
+  "evidence": [
+    {"_doc": "★强制 min 5 项 (iteration 2 落地, 对齐 RULE-DATA-VERIFIED 红线 + critic 6.8 升级)。必须覆盖 thesis/pre_mortem/forward_view 中所有数字字段(target_price/downside_price/trigger 阈值/TAM/份额/EPS)的来源。空数组 + verdict 含数字 = critic fatal_flaw NEEDS_CHANGES",
+     "claim": "本结论引用的具体数字断言, 如'2025 营收 +10.4%'/'forward EPS 1.85'/'TAM 2030E $80B'",
+     "source": "URL/AKShare 函数名/财报年份/卖方报告 — 必填, '主 agent 训练记忆'不算来源",
+     "status": "verified|estimated|missing — verified=有 URL 或权威源, estimated=多源交叉但无单一权威, missing=取不到诚实标注(可接受但 confidence 自动扣)"
+    }
+  ]
 }
 ```
 
@@ -174,7 +180,13 @@ tools:
   "stock_weights": [{"code": "...", "target_weight": 6.0, "entry_price_range": [下限, 上限], "reasoning": "预期差+评级,引用..."}],
   "sum_weight": 16.0,
   "input_warnings": [{"code": "...", "issue": "missing|stale", "detail": "..."}],
-  "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
+  "evidence": [
+    {"_doc": "★强制 min 2 项 (任务 B alloc:industry 配比层适配, iteration 2 attempt#2 落地, 区别于 task A 个股层 min 5)。必须含 ≥1 条引用上游 stock_weights/industry verdict 的交叉链接条目, 配比理由的数据锚不在自身而在上游, 不强凑套话",
+     "claim": "本配比依据的具体上游引用, 如'引用 stock:300308 forward EPS 1.85 + industry:AI算力数据中心 target_weight 18%'",
+     "source": "上游 unit_id 路径 (stock:<code> / industry:<name>) + 字段名, 或 URL/AKShare 函数名/财报年份",
+     "status": "verified|estimated|missing"
+    }
+  ]
 }
 ```
 

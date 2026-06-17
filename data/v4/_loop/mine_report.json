@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T12:10:09+00:00",
+  "generated_at": "2026-06-17T13:01:55+00:00",
   "stock_count": 49,
   "industry_count": 11,
   "ruler_coverage": {
@@ -539,6 +539,350 @@
       "verdict_len": 0,
       "max_downstream_len": 625,
       "ratio": 0.0
+    }
+  },
+  "verified_audit": {
+    "generated_at": "2026-06-17T13:01:55+00:00",
+    "total_stocks": 49,
+    "stocks_clean": 13,
+    "stocks_with_fatal": 36,
+    "stocks_with_any_violation": 36,
+    "compliance_pct": 26.5,
+    "severity_count": {
+      "fatal": 38,
+      "should": 5
+    },
+    "violations": {
+      "000063": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "002001": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        },
+        {
+          "field": "valuation_basis.consensus_target",
+          "value": "卖方均值 ¥28-30 (+25-35% upside)",
+          "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
+          "severity": "should"
+        }
+      ],
+      "002050": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "002326": [
+        {
+          "field": "target_price",
+          "value": 26,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "002415": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "002517": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "00700": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        },
+        {
+          "field": "valuation_basis.consensus_target",
+          "value": "HK$711 (+52.53% Strong Buy 46 分析师)",
+          "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
+          "severity": "should"
+        }
+      ],
+      "01024": [
+        {
+          "field": "target_price",
+          "value": 75,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "01211": [
+        {
+          "field": "target_price",
+          "value": 115,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "01810": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "06160": [
+        {
+          "field": "target_price",
+          "value": 460,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "06990": [
+        {
+          "field": "target_price",
+          "value": 520,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "09988": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        },
+        {
+          "field": "valuation_basis.consensus_target",
+          "value": "HK$170-200 (大行均值, +30-50%)",
+          "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
+          "severity": "should"
+        }
+      ],
+      "300033": [
+        {
+          "field": "target_price",
+          "value": 255,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "300308": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        },
+        {
+          "field": "valuation_basis.consensus_target",
+          "value": "¥1200-1500 (+15-43%, 卖方密集 危险信号)",
+          "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
+          "severity": "should"
+        }
+      ],
+      "300428": [
+        {
+          "field": "target_price",
+          "value": 26,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "300433": [
+        {
+          "field": "target_price",
+          "value": 32,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "300502": [
+        {
+          "field": "target_price",
+          "value": 700,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "300750": [
+        {
+          "field": "target_price",
+          "value": 475,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "301031": [
+        {
+          "field": "target_price",
+          "value": 140,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "301608": [
+        {
+          "field": "target_price",
+          "value": 45,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "600111": [
+        {
+          "field": "target_price",
+          "value": 80,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "600873": [
+        {
+          "field": "target_price",
+          "value": 10.21,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "600900": [
+        {
+          "field": "target_price",
+          "value": 33,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "601899": [
+        {
+          "field": "target_price",
+          "value": 42,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "601985": [
+        {
+          "field": "target_price",
+          "value": 12,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "603236": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        },
+        {
+          "field": "valuation_basis.consensus_target",
+          "value": "¥74.33 (Buy, +33.9% from ¥55.50)",
+          "issue": "consensus_target 含数字但无 verified_source(应标卖方报告/共识)",
+          "severity": "should"
+        }
+      ],
+      "603259": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ],
+      "603501": [
+        {
+          "field": "target_price",
+          "value": 101,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "603663": [
+        {
+          "field": "target_price",
+          "value": 15,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        },
+        {
+          "field": "evidence[0].source",
+          "value": "三祥新材所属有色资源方向(见industry单元)",
+          "issue": "evidence 条目缺 source 字段 (director schema 强制 claim+source+status 三态)",
+          "severity": "fatal"
+        },
+        {
+          "field": "evidence[1].source",
+          "value": "当前价/PE未核实",
+          "issue": "evidence 条目缺 source 字段 (director schema 强制 claim+source+status 三态)",
+          "severity": "fatal"
+        }
+      ],
+      "605499": [
+        {
+          "field": "target_price",
+          "value": 190,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "688012": [
+        {
+          "field": "target_price",
+          "value": 260,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "688019": [
+        {
+          "field": "target_price",
+          "value": 250,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "688268": [
+        {
+          "field": "target_price",
+          "value": 75,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "688578": [
+        {
+          "field": "target_price",
+          "value": 180,
+          "issue": "target_price 数字存在但 evidence 数组无对应 verified_source URL/数据源",
+          "severity": "fatal"
+        }
+      ],
+      "688981": [
+        {
+          "field": "evidence",
+          "value": "[] empty",
+          "issue": "evidence 空但 verdict 含数字; director schema 要求 evidence min 5 项",
+          "severity": "fatal"
+        }
+      ]
     }
   }
 }

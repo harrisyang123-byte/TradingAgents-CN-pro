@@ -11,6 +11,7 @@
 | iteration | 时间 | active_hole | GATE 分 | 决策 | sealed |
 |---|---|---|---|---|---|
 | 1 | 2026-06-17 | PREMORTEM-20260617-01 (巴菲特-逆向思考标尺 0/49) | attempt#1=77, attempt#2=**92** | ACCEPT | skill+director+critic+mine 四件 |
+| 2 | 2026-06-17 | VERIFIED-20260617-03 (47/49 缺 verified_sources, 通富同型隐患) | attempt#1=66, attempt#2=**92** | ACCEPT | verify_audit 工具+CLI hook+director evidence 三态+critic 6.8+mine 集成+Part 7 #9-#13 五铁律 |
 
 ### iteration 1 全轨迹（已 done）
 - **DISCOVER**: 写 `scripts/v4_loop_mine.py` 扫 49 只 stock + 11 只 industry, 输出 4 类根因(标尺 cite/卖出触发缺失/verified 漏洞/director 偷懒) + 自动产出候选洞入 backlog。锁定"巴菲特-逆向思考(pre-mortem)" 0/49 cite 为最痛(复合杠杆 — 同时激活死亡清单+达里奥可证伪+IPS 卖出明文化)
@@ -21,12 +22,22 @@
 - **CONSOLIDATE**: 状态文件 `optimization_state.json` 写入 done + meta_memory(what_worked/what_failed/rules_distilled), USER_CORRECTION 沉淀 2026-06-17 条目
 - **协议层落地, 不重跑 49 只 stock**: 下次任意 stock 走 director→critic 链路即被三层联动拦截; mine 脚本 7 维度 pct 是 GATE 客观锚, 下轮 DISCOVER 用此读基线
 
-### iteration 2 入口（下次接续）
-1. 读 `data/v4/_loop/optimization_state.json` → 看 active_hole(应为 null) 和 backlog
+### iteration 2 全轨迹（已 done）
+- **DISCOVER**: 接续 iteration 1 backlog, 锁定 VERIFIED-20260617-03 (47/49 数字字段缺 verified_sources, 同型于通富 $157B 事故大面积复发风险)。复合杠杆: 同时把 iteration 1 沉淀的 4 条新铁律固化进协议 Part 7 (meta_memory 写了 Part 7 没收录 = 协议自身的'嘴上有流程无')
+- **DIAGNOSE**: 三层都有但都不严 — 协议 RULE-DATA-VERIFIED 是认知层规则缺机器审计 / critic 6.8 仅 collect 阶段 / director schema 要 evidence 但产物 47/49 空数组 / 无 verified_audit 工具
+- **IMPLEMENT**: 5 件 + 1 联动 — ①新建 `scripts/v4_verify_audit.py` 全产物 7 类数字字段自动审计 ②协议 Part 7 新增 #9-#13 五条铁律(iteration 1+2 沉淀) ③director schema evidence 升级 (任务 A min 5 + 三态强制, 任务 B alloc:industry 适配 min 2 + 上游交叉引用) ④critic 6.8 升级加 verify_audit 落盘必跑 6 类 fatal_flaw ⑤mine 脚本集成 verify_audit + 修复 backlog 去重逻辑 (id_prefix 替代 title) + 联动: `scripts/v4_unit_cli.py` 写盘咽喉 import audit_payload + fatal → return 4 阻断
+- **GATE attempt#1**: critic 真 spawn 评分 **66/100 NEEDS_CHANGES**, 3 fatal_flaw + 8 improvements. 关键 fatal: ①CLI hook 未挂载工具孤儿(同型 iteration 1 attempt#1 action_plan 孤儿) ②URL_RE 含 'verified'/'akshare' 字面量自我 Goodhart ③47/49 旧产物 baseline 无回填路径
+- **GATE attempt#2**: 3 fatal + 关键 P1 全 FIXED — CLI hook 接线 + URL_RE 收紧排除 'verified' 字面量+akshare 收紧函数调用形式 + backlog 入 VERIFIED-CLEANUP-20260618-01 + Part 7 #13 加代码层接线点说明 + task B evidence min 2 + 单文件模式 --single + audit_payload 公开函数。critic 重评 **92/100 ACCEPT** (5×20 = 18+19+19+18+18, 无浅尝特征命中, +26 提分)
+- **CONSOLIDATE**: 状态文件 done + meta_memory 加 4 条新铁律 (规则5-8: 必跑必配代码强制点/工具关键字白名单不含合规字段名自身防 Goodhart/cleanup 配合规率单调验证/永久红线 ≥3 层防御纵深) + USER_CORRECTION 沉淀 + 4 项 nice-to-have improvements 入 backlog (AUDIT-POLISH-20260618-02)
+- **关键产出**: RULE-DATA-VERIFIED 红线 4 层防御纵深落地 (认知层 + 数据契约层 + 代码强制层 + 自动审计层); baseline 49 只 stock = 13 完全合规 (26.5%) / 36 fatal stocks; 新 stock 走 director→write→audit 链路自动堵, 旧 stock 留 cleanup loop
+
+### iteration 3 入口（下次接续）
+1. 读 `data/v4/_loop/optimization_state.json` → active_hole=null, backlog 6 项
 2. backlog 当前 must 优先级:
-   - VERIFIED-20260617-03: 47 只 stock 缺 verified_sources (RULE-DATA-VERIFIED 红线大面积违规)
-   - RULER-20260617-01: 标尺库其余 13 条零 cite — 其中 IPS-集中度上限 0/49 与 pre_mortem.max_permanent_loss_pct 直接闭环, 是首选
-3. 不必先 mine, 但建议跑 `python3 scripts/v4_loop_mine.py` 看 7 维度 pct 是否随有 stock 重跑而上升(GATE 输入)
+   - **VERIFIED-CLEANUP-20260618-01** (首选): 36 只 fatal stock 回填到 ≥80% 合规率, 配单轮 ≤10 只 + 合规率单调上升验证(规则7)
+   - SELL-20260617-02: action_plan 字段铺开 (iteration 1 schema 落地后下游)
+   - RULER-20260617-01: 标尺库剩 13 条零 cite (其中 IPS-集中度上限 0/49 与 max_permanent_loss_pct 闭环)
+3. 跑 `python3 scripts/v4_verify_audit.py` + `python3 scripts/v4_loop_mine.py` 看基线
 4. 一次只锁 1 个洞, 三层联动改, max 2 attempts GATE, 提分才 CONSOLIDATE
 
 ### 防自欺铁律(本轮血泪追加, 应吸收进协议 Part 7)

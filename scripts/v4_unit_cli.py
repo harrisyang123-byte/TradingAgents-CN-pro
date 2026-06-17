@@ -174,6 +174,40 @@ def main() -> int:
             except ImportError:
                 pass  # 契约模块不可用时跳过(向前兼容)
 
+            # 🚨 v4_verify_audit 强制审计 (2026-06-17 iteration 2 GATE attempt#1 fatal_flaw 修复)
+            # 协议 Part 7 #13: director write_unit 落盘前必跑, fatal 违规 ≥1 → 阻断写盘
+            # 这是 RULE-DATA-VERIFIED 红线从"认知层规则"升级为"代码层强制"的最后一道闸
+            try:
+                # 同目录 import: scripts/v4_verify_audit.py
+                _here = Path(__file__).resolve().parent
+                if str(_here) not in sys.path:
+                    sys.path.insert(0, str(_here))
+                from v4_verify_audit import audit_payload  # type: ignore
+                vio = audit_payload(payload or {})
+                fatal_vios = [v for v in vio if v.get("severity") == "fatal"]
+                if fatal_vios:
+                    print(json.dumps({
+                        "unit_id": args.unit_id,
+                        "blocked_by_v4_verify_audit": True,
+                        "fatal_count": len(fatal_vios),
+                        "should_count": sum(1 for v in vio if v.get("severity") == "should"),
+                        "violations": fatal_vios[:10],
+                        "message": (
+                            f"🚨 v4_verify_audit fatal 违规 {len(fatal_vios)} 项, 拒绝落盘! "
+                            f"协议 Part 7 #13: 数字字段必须配 verified_source URL/数据源, "
+                            f"凭训练记忆填阈值=fatal_flaw (通富 $157B 同型)"
+                        ),
+                    }, ensure_ascii=False, indent=2), file=sys.stderr)
+                    return 4
+                if vio:
+                    print(f"⚠️  v4_verify_audit should 警告 {len(vio)} 项 (不阻止落盘): "
+                          + "; ".join(v["issue"][:60] for v in vio[:3]),
+                          file=sys.stderr)
+            except ImportError:
+                # v4_verify_audit 不可用时降级为警告 (但应在 CI/CD 测发现)
+                print("⚠️  v4_verify_audit 模块未加载, 跳过审计 (协议 Part 7 #13 期望此处必跑)",
+                      file=sys.stderr)
+
         env = store.new_envelope(
             args.unit_id,
             payload,
