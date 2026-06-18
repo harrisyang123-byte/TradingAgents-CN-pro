@@ -11,6 +11,9 @@
             <span v-if="detail.industry" class="sdt-industry">· {{ detail.industry }}</span>
           </span>
           <span class="sdt-tags">
+            <router-link :to="`/portfolio/v4/stock/${detail.code}`" class="sdt-full-link">
+              <el-button size="small" type="primary" text>查看完整报告 →</el-button>
+            </router-link>
             <el-tag :type="ratingType" effect="dark" size="large">{{ detail.rating }}</el-tag>
             <span v-if="detail.credibility?.critic_score != null" class="sdt-credit-tag">
               评审 <b v-if="detail.credibility.initial_score != null && detail.credibility.initial_score !== detail.credibility.critic_score">{{ detail.credibility.initial_score }}→</b>{{ detail.credibility.critic_score }} ✓
@@ -750,6 +753,7 @@ watch(() => props.code, (c) => { if (c) load(c) }, { immediate: true })
 .sdt-industry { font-size: 13px; color: #2f4f8f; font-weight: 500; }
 .sdt-tags { display: inline-flex; align-items: center; gap: 8px; }
 .sdt-credit-tag { display: inline-block; background: #eef2ff; color: #4f46e5; font-size: 13px; font-weight: 600; padding: 3px 12px; border-radius: 14px; }
+.sdt-full-link { text-decoration: none; }
 
 /* ① 操作建议 */
 .sdt-action { background: linear-gradient(135deg, #fff7e6 0%, #fff 100%); border: 2px solid #ffd591; }

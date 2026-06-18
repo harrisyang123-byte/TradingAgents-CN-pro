@@ -328,6 +328,16 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'v4/stock/:code',
+        name: 'V4StockFullReport',
+        component: () => import('@/views/Portfolio/v4/StockFullReport.vue'),
+        meta: {
+          title: '个股完整分析',
+          requiresAuth: true,
+          hideInMenu: true
+        }
+      },
+      {
         path: 'fund/:code',
         name: 'FundDetail',
         component: () => import('@/views/FundDetail/index.vue'),
