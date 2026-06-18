@@ -81,6 +81,18 @@
             <div v-if="payload.thesis" class="sfr-thesis">
               <b>核心论述：</b>{{ payload.thesis }}
             </div>
+
+            <!-- 三维评分框架：好公司 × 好价格 × 好未来 -->
+            <div v-if="payload.three_dimension" class="sfr-3d">
+              <div class="sfr-3d-title">🎯 三维评分框架</div>
+              <div class="sfr-3d-grid">
+                <div v-for="(v, k) in payload.three_dimension" :key="k" class="sfr-3d-cell" :class="dimRateCls(String(v))">
+                  <div class="sfr-3d-dim">{{ dim3Label(String(k)) }}</div>
+                  <div class="sfr-3d-rate">{{ dim3Rate(String(v)) }}</div>
+                  <div class="sfr-3d-note">{{ dim3Note(String(v)) }}</div>
+                </div>
+              </div>
+            </div>
           </section>
 
           <!-- §2 操作计划 -->
@@ -187,19 +199,70 @@
                 <pre v-else class="sfr-comp-pre">{{ JSON.stringify(v, null, 2) }}</pre>
               </div>
             </div>
+
+            <!-- 同业锚定 peer_anchor -->
+            <div v-if="payload.peer_anchor" class="sfr-val-card">
+              <h3 class="sfr-h3">🔗 同业锚定</h3>
+              <table class="sfr-matrix-table">
+                <thead><tr><th>对标公司</th><th>锚定参考</th></tr></thead>
+                <tbody>
+                  <tr v-for="(v, k) in peerAnchorRows" :key="k">
+                    <td class="sfr-matrix-key">{{ k }}</td>
+                    <td>{{ v }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p v-if="payload.peer_anchor.note" class="sfr-matrix-finding">📌 {{ payload.peer_anchor.note }}</p>
+            </div>
           </section>
 
           <!-- §4 产品拆解 -->
-          <section v-if="payload.product_subdivision_deep" id="sec-product" class="sfr-section">
+          <section v-if="payload.product_subdivision_deep || payload.product_decomposition" id="sec-product" class="sfr-section">
             <h2 class="sfr-h2">🏭 产品业务拆解</h2>
-            <div v-for="(info, segment) in payload.product_subdivision_deep" :key="segment" class="sfr-prod-card">
-              <div class="sfr-prod-name">{{ segment }}</div>
-              <div class="sfr-prod-grid">
-                <div v-for="(val, field) in info" :key="field" class="sfr-prod-field">
-                  <span class="sfr-prod-label">{{ field }}</span>
-                  <span class="sfr-prod-val">{{ val }}</span>
+            <template v-if="payload.product_subdivision_deep">
+              <div v-for="(info, segment) in payload.product_subdivision_deep" :key="segment" class="sfr-prod-card">
+                <div class="sfr-prod-name">{{ segment }}</div>
+                <div class="sfr-prod-grid">
+                  <div v-for="(val, field) in info" :key="field" class="sfr-prod-field">
+                    <span class="sfr-prod-label">{{ field }}</span>
+                    <span class="sfr-prod-val">{{ val }}</span>
+                  </div>
                 </div>
               </div>
+            </template>
+
+            <!-- 产品分部利润表 product_decomposition（自下而上加总验证） -->
+            <div v-if="payload.product_decomposition" class="sfr-decomp">
+              <h3 class="sfr-h3">🧮 产品分部利润表（自下而上加总验证）</h3>
+              <p v-if="payload.product_decomposition.method" class="sfr-decomp-meta">
+                {{ payload.product_decomposition.method }}
+                <span v-if="payload.product_decomposition.as_of">· {{ payload.product_decomposition.as_of }}</span>
+              </p>
+              <table v-if="payload.product_decomposition.lines?.length" class="sfr-matrix-table">
+                <thead>
+                  <tr><th>产品线</th><th>营收(亿)</th><th>占比</th><th>毛利率</th><th>净利率</th><th>净利贡献(亿)</th><th>备注</th></tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(ln, i) in payload.product_decomposition.lines" :key="i">
+                    <td class="sfr-matrix-key">{{ ln.line }}</td>
+                    <td>{{ ln.revenue_2027E_yi ?? ln.revenue_yi ?? '-' }}</td>
+                    <td>{{ ln.revenue_share_pct != null ? ln.revenue_share_pct + '%' : '-' }}</td>
+                    <td>{{ ln.gross_margin_pct != null ? ln.gross_margin_pct + '%' : '-' }}</td>
+                    <td>{{ ln.net_margin_pct != null ? ln.net_margin_pct + '%' : '-' }}</td>
+                    <td class="sfr-matrix-price">{{ ln.net_contribution_yi ?? '-' }}</td>
+                    <td class="sfr-decomp-comment">{{ ln.comment }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="sfr-decomp-totals">
+                <span v-if="payload.product_decomposition.total_revenue_2027E_yi">总营收 <b>{{ payload.product_decomposition.total_revenue_2027E_yi }}</b> 亿</span>
+                <span v-if="payload.product_decomposition.total_net_2027E_yi_calculated">加总净利 <b>{{ payload.product_decomposition.total_net_2027E_yi_calculated }}</b> 亿</span>
+                <span v-if="payload.product_decomposition.total_net_2027E_yi_with_subsidy">含补贴 <b>{{ payload.product_decomposition.total_net_2027E_yi_with_subsidy }}</b> 亿</span>
+              </div>
+              <p v-if="payload.product_decomposition.comment" class="sfr-matrix-finding">⚠️ {{ payload.product_decomposition.comment }}</p>
+              <p v-if="payload.product_decomposition.implication_for_director" class="sfr-decomp-impl">
+                <b>🎩 对总监的含义：</b>{{ payload.product_decomposition.implication_for_director }}
+              </p>
             </div>
           </section>
 
@@ -234,8 +297,8 @@
           </section>
 
           <!-- §7 多空辩论 -->
-          <section v-if="debatePairs.length" id="sec-debate" class="sfr-section">
-            <h2 class="sfr-h2">⚔️ 多空辩论（{{ debatePairs.length }} 轮）</h2>
+          <section v-if="debatePairs.length || payload.bear_data_correction" id="sec-debate" class="sfr-section">
+            <h2 class="sfr-h2">⚔️ 多空辩论<span v-if="debatePairs.length">（{{ debatePairs.length }} 轮）</span></h2>
             <div v-for="(pair, i) in debatePairs" :key="i" class="sfr-debate-round">
               <div class="sfr-debate-tag">第 {{ pair.round }} 轮{{ pair.round === debatePairs.length ? ' · 终局' : '' }}</div>
               <div class="sfr-debate-duel">
@@ -248,6 +311,11 @@
                   <p>{{ pair.bear }}</p>
                 </div>
               </div>
+            </div>
+            <!-- 空头数据纠错（事实核查，避免被错误论据误导） -->
+            <div v-if="payload.bear_data_correction" class="sfr-bear-correction">
+              <div class="sfr-bear-correction-head">🔍 空头论据事实核查</div>
+              <p>{{ payload.bear_data_correction }}</p>
             </div>
           </section>
 
@@ -332,13 +400,197 @@
             </div>
           </section>
 
-          <!-- §12 反思 -->
-          <section v-if="payload.reflection" id="sec-reflection" class="sfr-section">
-            <h2 class="sfr-h2">🔄 版本反思</h2>
-            <div class="sfr-reflect-card">
-              <p v-if="payload.reflection.what_changed"><b>本次变化：</b>{{ payload.reflection.what_changed }}</p>
-              <p v-if="payload.reflection.memory_used?.length"><b>使用记忆：</b>{{ payload.reflection.memory_used.join('；') }}</p>
+          <!-- §12 价值创造 -->
+          <section v-if="payload.value_creation" id="sec-value-creation" class="sfr-section">
+            <h2 class="sfr-h2">💎 价值创造分析</h2>
+            <div class="sfr-vc-grid">
+              <div v-for="(v, k) in payload.value_creation" :key="k" class="sfr-vc-item">
+                <div class="sfr-vc-label">{{ k }}</div>
+                <div class="sfr-vc-val">
+                  <template v-if="isScalar(v)">{{ v }}</template>
+                  <JsonTree v-else :value="v" />
+                </div>
+              </div>
             </div>
+          </section>
+
+          <!-- §13 生意质量与定性 -->
+          <section v-if="hasQualitative" id="sec-qualitative" class="sfr-section">
+            <h2 class="sfr-h2">🏢 生意质量与定性判断</h2>
+            <div class="sfr-qual-grid">
+              <div v-if="payload.business_quality" class="sfr-qual-item">
+                <div class="sfr-qual-label">生意质量</div>
+                <p>{{ payload.business_quality }}</p>
+              </div>
+              <div v-if="payload.position_nature" class="sfr-qual-item">
+                <div class="sfr-qual-label">投资 or 交易</div>
+                <p>{{ payload.position_nature }}</p>
+              </div>
+              <div v-if="payload.expectation_gap" class="sfr-qual-item">
+                <div class="sfr-qual-label">预期差</div>
+                <p>{{ scalarText(payload.expectation_gap) }}</p>
+              </div>
+              <div v-if="payload.chokepoint_score" class="sfr-qual-item">
+                <div class="sfr-qual-label">卡位评分</div>
+                <p>{{ scalarText(payload.chokepoint_score) }}</p>
+              </div>
+              <div v-if="payload.discovery_level || payload.discovery" class="sfr-qual-item">
+                <div class="sfr-qual-label">市场发现度</div>
+                <p>{{ scalarText(payload.discovery_level || payload.discovery) }}</p>
+              </div>
+              <div v-if="payload.cycle_positioning && isScalar(payload.cycle_positioning)" class="sfr-qual-item">
+                <div class="sfr-qual-label">周期定位</div>
+                <p>{{ scalarText(payload.cycle_positioning) }}</p>
+              </div>
+            </div>
+            <!-- 周期定位（结构化：阶段/信号/H2动态/策略含义） -->
+            <div v-if="payload.cycle_positioning && !isScalar(payload.cycle_positioning)" class="sfr-cycle-card">
+              <h3 class="sfr-h3">🔄 周期定位</h3>
+              <p v-if="payload.cycle_positioning.phase"><b>所处阶段：</b>{{ payload.cycle_positioning.phase }}</p>
+              <p v-if="payload.cycle_positioning.key_signal"><b>关键信号：</b>{{ payload.cycle_positioning.key_signal }}</p>
+              <p v-if="payload.cycle_positioning.h2_dynamics"><b>下半年动态：</b>{{ payload.cycle_positioning.h2_dynamics }}</p>
+              <p v-if="payload.cycle_positioning['策略含义']" class="sfr-cycle-strategy"><b>📌 策略含义：</b>{{ payload.cycle_positioning['策略含义'] }}</p>
+            </div>
+            <!-- 产业链卡位 -->
+            <div v-if="payload.chain_positioning" class="sfr-chain-card">
+              <h3 class="sfr-h3">🎯 产业链卡位</h3>
+              <p v-if="payload.chain_positioning.industry">
+                {{ payload.chain_positioning.industry }} → {{ payload.chain_positioning.chokepoint }} → 本股 #{{ payload.chain_positioning.my_rank ?? '?' }}
+              </p>
+              <table v-if="payload.chain_positioning.industry_top?.length" class="sfr-matrix-table">
+                <thead><tr><th>#</th><th>标的</th><th>评级</th><th>目标价</th><th>理由</th></tr></thead>
+                <tbody>
+                  <tr v-for="(r, i) in payload.chain_positioning.industry_top" :key="i" :class="{ 'sfr-chain-self': r.is_self }">
+                    <td>{{ r.rank }}</td><td><b>{{ r.recommended }}</b></td><td>{{ r.rating }}</td>
+                    <td>{{ r.target_price_live != null ? `¥${r.target_price_live}` : '-' }}</td><td>{{ r.why }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- §14 风险与止损纪律 -->
+          <section v-if="hasRisks" id="sec-risks" class="sfr-section">
+            <h2 class="sfr-h2">⚠️ 风险清单与止损纪律</h2>
+            <div v-if="payload.worst_case || payload.downside" class="sfr-risk-worst">
+              <p v-if="payload.worst_case"><b>🧠 逆向最坏情况：</b>{{ scalarText(payload.worst_case) }}</p>
+              <p v-if="payload.downside"><b>🌊 赔率与下行：</b>{{ scalarText(payload.downside) }}</p>
+            </div>
+            <div v-if="payload.risks?.length" class="sfr-risk-list">
+              <div class="sfr-list-head">主要风险（{{ payload.risks.length }} 项）</div>
+              <ol><li v-for="(r, i) in payload.risks" :key="i">{{ scalarText(r) }}</li></ol>
+            </div>
+            <!-- ST/退市风险量化（高危红线） -->
+            <div v-if="payload.st_risk_quantified" class="sfr-st-risk">
+              <div class="sfr-st-risk-head">🚨 ST / 退市风险量化</div>
+              <p v-if="payload.st_risk_quantified.rule"><b>规则：</b>{{ payload.st_risk_quantified.rule }}</p>
+              <p v-if="payload.st_risk_quantified.threshold"><b>清仓阈值：</b>{{ payload.st_risk_quantified.threshold }}</p>
+              <JsonTree v-if="!payload.st_risk_quantified.rule && !payload.st_risk_quantified.threshold" :value="payload.st_risk_quantified" />
+            </div>
+            <div v-if="payload.tail_risk_joint_scenario_modeling || payload.tail_risk" class="sfr-risk-list">
+              <div class="sfr-list-head">尾部风险联合情景</div>
+              <JsonTree :value="payload.tail_risk_joint_scenario_modeling || payload.tail_risk" />
+            </div>
+            <!-- 证伪触发器（信号 → 含义 双列表格） -->
+            <div v-if="falsificationRows.length" class="sfr-risk-list">
+              <div class="sfr-list-head">🎯 证伪触发器（信号 → 应对）</div>
+              <table class="sfr-matrix-table">
+                <thead><tr><th>触发信号</th><th>应对含义</th></tr></thead>
+                <tbody>
+                  <tr v-for="(t, i) in falsificationRows" :key="i">
+                    <td>{{ t.signal }}</td>
+                    <td :class="triggerCls(t.implication)">{{ t.implication }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-else-if="payload.falsification_triggers" class="sfr-risk-list">
+              <div class="sfr-list-head">证伪触发器</div>
+              <JsonTree :value="payload.falsification_triggers" />
+            </div>
+            <div v-if="payload.sell_discipline?.length" class="sfr-sell-list">
+              <div class="sfr-list-head">止损纪律全集（{{ payload.sell_discipline.length }} 条）</div>
+              <ol><li v-for="(s, i) in payload.sell_discipline" :key="i">{{ scalarText(s) }}</li></ol>
+            </div>
+          </section>
+
+          <!-- §15 分析师与舆情 -->
+          <section v-if="hasAnalysts" id="sec-analysts" class="sfr-section">
+            <h2 class="sfr-h2">👔 分析师与舆情</h2>
+            <div v-if="payload.analysts" class="sfr-analyst-block">
+              <div v-for="(txt, name) in payload.analysts" :key="name" class="sfr-analyst-item">
+                <div class="sfr-analyst-name">{{ analystLabel(String(name)) }}</div>
+                <div class="sfr-analyst-text">
+                  <template v-if="isScalar(txt)">{{ txt }}</template>
+                  <JsonTree v-else :value="txt" />
+                </div>
+              </div>
+            </div>
+            <div v-if="payload.sentiment_view || payload.sentiment_full" class="sfr-analyst-block">
+              <div class="sfr-analyst-item">
+                <div class="sfr-analyst-name">📰 舆情分析</div>
+                <p v-if="payload.sentiment_view" class="sfr-analyst-text">{{ payload.sentiment_view }}</p>
+                <JsonTree v-if="payload.sentiment_full" :value="payload.sentiment_full" />
+              </div>
+            </div>
+          </section>
+
+          <!-- §16 数据采集证据 -->
+          <section v-if="payload.evidence?.length" id="sec-evidence" class="sfr-section">
+            <h2 class="sfr-h2">📥 数据采集证据（{{ payload.evidence.length }} 条）</h2>
+            <ul class="sfr-evidence-list">
+              <li v-for="(e, i) in payload.evidence" :key="i">
+                <el-tag :type="evidenceTag(e.status)" size="small" effect="plain">{{ e.status || '?' }}</el-tag>
+                {{ e.claim }}
+                <span v-if="e.source" class="sfr-evidence-src">— {{ e.source }}</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- §17 历史准确率 -->
+          <section v-if="payload.historical_alpha" id="sec-history" class="sfr-section">
+            <h2 class="sfr-h2">📈 历史判断准确率（结果闭环）</h2>
+            <div class="sfr-reflect-card">
+              <p v-if="payload.historical_alpha.hit"><b>命中情况：</b>{{ hitLabel }}</p>
+              <p v-if="payload.historical_alpha.alpha_note">{{ payload.historical_alpha.alpha_note }}</p>
+              <JsonTree :value="payload.historical_alpha" />
+            </div>
+          </section>
+
+          <!-- §18 反思 -->
+          <section v-if="payload.reflection || memoryList.length || payload.v9_to_v10_revisions?.length" id="sec-reflection" class="sfr-section">
+            <h2 class="sfr-h2">🔄 版本反思与记忆</h2>
+            <div v-if="payload.reflection" class="sfr-reflect-card">
+              <p v-if="payload.reflection.what_changed"><b>本次变化：</b>{{ payload.reflection.what_changed }}</p>
+              <p v-if="payload.reflection.why_changed"><b>为何改：</b>{{ payload.reflection.why_changed }}</p>
+              <p v-if="payload.reflection.self_check"><b>自检：</b>{{ payload.reflection.self_check }}</p>
+            </div>
+            <!-- 已引用记忆（经验/教训/模式） -->
+            <div v-if="memoryList.length" class="sfr-memory">
+              <div class="sfr-list-head">🧠 已引用记忆（{{ memoryList.length }} 条经验/教训/模式）</div>
+              <ul class="sfr-memory-list">
+                <li v-for="(m, i) in memoryList" :key="i">{{ m }}</li>
+              </ul>
+            </div>
+            <!-- 版本修订记录 -->
+            <div v-if="payload.v9_to_v10_revisions?.length" class="sfr-memory">
+              <div class="sfr-list-head">📝 版本修订记录</div>
+              <ol class="sfr-revisions">
+                <li v-for="(r, i) in payload.v9_to_v10_revisions" :key="i">{{ r }}</li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- §19 完整数据附录（兜底：所有未被上方章节消费的字段，零丢失） -->
+          <section v-if="leftoverEntries.length" id="sec-appendix" class="sfr-section">
+            <h2 class="sfr-h2">📦 完整数据附录</h2>
+            <p class="sfr-appendix-desc">以下为未在上方专题章节展示的全部原始字段，确保分析产出零信息丢失。</p>
+            <el-collapse>
+              <el-collapse-item v-for="[k, v] in leftoverEntries" :key="k" :name="k">
+                <template #title><span class="sfr-appendix-key">{{ k }}</span></template>
+                <JsonTree :value="v" />
+              </el-collapse-item>
+            </el-collapse>
           </section>
 
         </main>
@@ -356,6 +608,7 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { portfolioV4Api, type StockDetail } from '@/api/portfolioV4'
+import JsonTree from './JsonTree.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -412,15 +665,22 @@ const tocSections = computed(() => {
     { id: 'sec-action', icon: '💼', label: '操作计划' },
     { id: 'sec-valuation', icon: '💰', label: '估值体系' },
   ]
-  if (payload.value.product_subdivision_deep) secs.push({ id: 'sec-product', icon: '🏭', label: '产品拆解' })
+  if (payload.value.product_subdivision_deep || payload.value.product_decomposition) secs.push({ id: 'sec-product', icon: '🏭', label: '产品拆解' })
   if (payload.value.five_forces) secs.push({ id: 'sec-fiveforces', icon: '🏰', label: '五力分析' })
   if (payload.value.forward_view_6dim) secs.push({ id: 'sec-forward', icon: '🔭', label: '前瞻推演' })
-  if (debatePairs.value.length) secs.push({ id: 'sec-debate', icon: '⚔️', label: '多空辩论' })
+  if (debatePairs.value.length || payload.value.bear_data_correction) secs.push({ id: 'sec-debate', icon: '⚔️', label: '多空辩论' })
   if (payload.value.risk_consensus_from_3way) secs.push({ id: 'sec-risk', icon: '⚖️', label: '风险辩论' })
   if (payload.value.anchoring_check) secs.push({ id: 'sec-anchor', icon: '🧭', label: '锚定自查' })
-  if (payload.value.value_creation_verified) secs.push({ id: 'sec-value', icon: '🏭', label: '价值创造' })
+  if (payload.value.value_creation_verified) secs.push({ id: 'sec-value', icon: '🏭', label: '价值创造(验证)' })
   if (payload.value.critic_evaluation) secs.push({ id: 'sec-critic', icon: '🎓', label: '评审过程' })
-  if (payload.value.reflection) secs.push({ id: 'sec-reflection', icon: '🔄', label: '版本反思' })
+  if (payload.value.value_creation) secs.push({ id: 'sec-value-creation', icon: '💎', label: '价值创造' })
+  if (hasQualitative.value) secs.push({ id: 'sec-qualitative', icon: '🏢', label: '生意质量' })
+  if (hasRisks.value) secs.push({ id: 'sec-risks', icon: '⚠️', label: '风险与止损' })
+  if (hasAnalysts.value) secs.push({ id: 'sec-analysts', icon: '👔', label: '分析师/舆情' })
+  if (payload.value.evidence?.length) secs.push({ id: 'sec-evidence', icon: '📥', label: '数据证据' })
+  if (payload.value.historical_alpha) secs.push({ id: 'sec-history', icon: '📈', label: '历史准确率' })
+  if (payload.value.reflection || memoryList.value.length || payload.value.v9_to_v10_revisions?.length) secs.push({ id: 'sec-reflection', icon: '🔄', label: '反思与记忆' })
+  if (leftoverEntries.value.length) secs.push({ id: 'sec-appendix', icon: '📦', label: '完整数据附录' })
   return secs
 })
 
@@ -522,6 +782,153 @@ function fwdLabel(k: string): string {
   }
   return map[k] || k
 }
+// 三维评分框架（好公司/好价格/好未来）：值形如 "△(ROE11.3一般...)"，拆评级符号 + 备注
+function dim3Label(k: string): string {
+  const map: Record<string, string> = { '好公司': '🏢 好公司', '好价格': '💰 好价格', '好未来': '🔮 好未来' }
+  return map[k] || k
+}
+function dim3Rate(v: string): string {
+  const m = String(v).match(/^\s*([○◎●△×✓✗√!]+|[A-D][+-]?)/)
+  return m ? m[1] : String(v).slice(0, 2)
+}
+function dim3Note(v: string): string {
+  return String(v).replace(/^\s*([○◎●△×✓✗√!]+|[A-D][+-]?)\s*[（(]?/, '').replace(/[）)]\s*$/, '')
+}
+function dimRateCls(v: string): string {
+  const r = dim3Rate(v)
+  if (/[●◎√✓A]/.test(r)) return 'dim-good'
+  if (/[×✗D!]/.test(r)) return 'dim-bad'
+  return 'dim-mid'  // △ 等中性
+}
+function triggerCls(impl?: string): string {
+  if (!impl) return ''
+  if (/加仓|上调|增持|确认|验证/.test(impl)) return 'sfr-trigger-bull'
+  if (/减仓|下调|减至|清仓|减持|触发/.test(impl)) return 'sfr-trigger-bear'
+  return ''
+}
+function analystLabel(k: string): string {
+  const map: Record<string, string> = {
+    financial: '📊 财务分析师',
+    competitive: '🏰 竞争分析师',
+    valuation: '💰 估值分析师',
+    sentiment: '📰 舆情分析师',
+  }
+  return map[k] || k
+}
+function evidenceTag(s?: string): any {
+  if (s === 'verified') return 'success'
+  if (s === 'estimated') return 'warning'
+  return 'info'
+}
+function isScalar(v: any): boolean {
+  return v == null || ['string', 'number', 'boolean'].includes(typeof v)
+}
+function scalarText(v: any): string {
+  if (v == null) return '-'
+  if (isScalar(v)) return String(v)
+  if (Array.isArray(v)) return v.map(scalarText).join('；')
+  // dict → 取常见摘要字段
+  const o: any = v
+  return o.summary || o.core_logic || o.thesis || o.value || JSON.stringify(o)
+}
+
+const hitLabel = computed(() => {
+  const h = payload.value.historical_alpha?.hit || ''
+  return ({ hit: '✅ 命中', miss: '❌ 未命中', flat: '➖ 持平', tracking: '🔍 追踪中' } as Record<string, string>)[h] || h || '-'
+})
+
+const hasQualitative = computed(() => {
+  const p = payload.value
+  return !!(p.business_quality || p.position_nature || p.expectation_gap || p.chokepoint_score
+    || p.discovery_level || p.discovery || p.cycle_positioning || p.chain_positioning)
+})
+const hasRisks = computed(() => {
+  const p = payload.value
+  return !!(p.risks?.length || p.sell_discipline?.length || p.worst_case || p.downside
+    || p.tail_risk_joint_scenario_modeling || p.tail_risk || p.falsification_triggers)
+})
+const hasAnalysts = computed(() => {
+  const p = payload.value
+  return !!(p.analysts || p.sentiment_view || p.sentiment_full)
+})
+
+// peer_anchor: 排除 note 字段后的对标公司行
+const peerAnchorRows = computed(() => {
+  const pa = payload.value.peer_anchor
+  if (!pa || typeof pa !== 'object') return {}
+  const out: Record<string, any> = {}
+  for (const k of Object.keys(pa)) {
+    if (k === 'note') continue
+    out[k] = pa[k]
+  }
+  return out
+})
+
+// falsification_triggers: 规整为 {signal, implication} 行（兼容字符串数组）
+const falsificationRows = computed<Array<{ signal: string; implication?: string }>>(() => {
+  const ft = payload.value.falsification_triggers
+  if (!Array.isArray(ft)) return []
+  const out: Array<{ signal: string; implication?: string }> = []
+  for (const t of ft) {
+    if (t && typeof t === 'object' && t.signal) {
+      out.push({ signal: t.signal, implication: t.implication })
+    }
+  }
+  return out
+})
+
+// memory_used: 顶层优先，否则取 reflection.memory_used
+const memoryList = computed(() => {
+  const p = payload.value
+  const m = p.memory_used || p.reflection?.memory_used || []
+  return Array.isArray(m) ? m : []
+})
+
+// 完整数据附录：所有未被上方专题章节消费的字段，递归全展示，保证零丢失
+const CONSUMED_KEYS = new Set<string>([
+  // header / kpi
+  'code', 'name', 'industry', 'market', 'rating', 'target_price', 'entry_price_range',
+  'price_at_judgment', 'confidence', 'stock_unit', 'schema_version', 'instrument_type',
+  'version', 'version_v2', 'data_status', 'data_status_overall', 'analysis_mode',
+  // §核心结论
+  'verdict', 'verdict_v2', 'verdict_oneliner', 'thesis',
+  // §操作
+  'action_plan',
+  // §估值
+  'valuation_basis', 'sensitivity_matrix_3x3', 'sensitivity_matrix', 'sensitivity_matrix_v2',
+  'comparable_path_quantified', 'valuation_cross_check', '_valuation_cross_check', 'dcf_intrinsic',
+  // §产品
+  'product_subdivision_deep', 'product_subdivision', 'product_subdivision_stress_test', 'product_decomposition',
+  // §五力 §前瞻 §辩论 §风险辩论 §锚定
+  'five_forces', 'five_forces_summary', 'forward_view_6dim', 'forward_view',
+  'debate_rounds', 'debate_synthesis', 'risk_consensus_from_3way', 'risk_debate_summary',
+  'risk_debate_full', 'risk_debate_decision', 'anchoring_check',
+  // §价值创造(验证) §评审 §价值创造
+  'value_creation_verified', 'critic_evaluation', 'critic_review', 'credibility', 'value_creation',
+  // §生意质量
+  'business_quality', 'position_nature', 'expectation_gap', 'chokepoint_score',
+  'discovery_level', 'discovery', 'cycle_positioning', 'chain_positioning', 'industry_weight_pct',
+  // §风险与止损
+  'risks', 'sell_discipline', 'worst_case', 'downside',
+  'tail_risk_joint_scenario_modeling', 'tail_risk', 'falsification_triggers',
+  // §分析师/舆情 §证据 §历史 §反思
+  'analysts', 'sentiment_view', 'sentiment_full', 'evidence', 'historical_alpha', 'reflection',
+  // 本轮精排的高价值字段
+  'three_dimension', 'peer_anchor', 'st_risk_quantified', 'bear_data_correction',
+  'memory_used', 'v9_to_v10_revisions',
+])
+
+const leftoverEntries = computed(() => {
+  const p = payload.value || {}
+  const out: Array<[string, any]> = []
+  for (const k of Object.keys(p)) {
+    if (CONSUMED_KEYS.has(k)) continue
+    const v = (p as any)[k]
+    if (v == null || (Array.isArray(v) && v.length === 0)) continue
+    out.push([k, v])
+  }
+  return out
+})
 
 watch(code, (c) => { if (c) load(c) }, { immediate: true })
 </script>
@@ -675,6 +1082,87 @@ watch(code, (c) => { if (c) load(c) }, { immediate: true })
 /* §12 Reflection */
 .sfr-reflect-card { padding: 12px; }
 .sfr-reflect-card p { font-size: 13.5px; line-height: 1.7; margin: 6px 0; color: #4e5969; }
+
+/* §13 Qualitative */
+.sfr-qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.sfr-qual-item { background: #fafbfc; border-radius: 8px; padding: 12px 14px; border: 1px solid #ebeef5; }
+.sfr-qual-label { font-size: 12px; font-weight: 700; color: #909399; margin-bottom: 6px; }
+.sfr-qual-item p { font-size: 13px; line-height: 1.7; color: #4e5969; margin: 0; }
+.sfr-chain-card { margin-top: 14px; padding: 12px; background: #f5f7ff; border-radius: 8px; }
+.sfr-chain-card p { font-size: 13px; color: #4e5969; margin: 6px 0; }
+.sfr-chain-self { background: #f0f9eb; }
+
+/* §14 Risks */
+.sfr-risk-worst { background: #fff7e6; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+.sfr-risk-worst p { font-size: 13.5px; line-height: 1.7; margin: 6px 0; color: #874d00; }
+.sfr-risk-list, .sfr-sell-list { margin: 12px 0; }
+.sfr-list-head { font-size: 13px; font-weight: 700; color: #303133; margin-bottom: 8px; }
+.sfr-risk-list ol, .sfr-sell-list ol { padding-left: 22px; line-height: 1.9; font-size: 13px; color: #4e5969; }
+.sfr-sell-list { background: #fff1f0; border-radius: 8px; padding: 12px 14px; }
+
+/* §15 Analysts */
+.sfr-analyst-block { margin: 10px 0; }
+.sfr-analyst-item { background: #fafbfc; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; border: 1px solid #ebeef5; }
+.sfr-analyst-name { font-size: 13px; font-weight: 700; color: #303133; margin-bottom: 8px; }
+.sfr-analyst-text { font-size: 13px; line-height: 1.8; color: #4e5969; white-space: pre-wrap; }
+
+/* §16 Evidence */
+.sfr-evidence-list { list-style: none; padding: 0; font-size: 12.5px; line-height: 1.9; }
+.sfr-evidence-list li { padding: 6px 0; border-bottom: 1px dashed #f0f2f5; }
+.sfr-evidence-src { color: #909399; font-size: 11.5px; margin-left: 6px; }
+
+/* §19 Appendix */
+.sfr-appendix-desc { font-size: 13px; color: #909399; margin-bottom: 12px; line-height: 1.6; }
+.sfr-appendix-key { font-weight: 600; color: #5b6dde; font-size: 13.5px; }
+
+/* 三维评分框架 */
+.sfr-3d { margin-top: 16px; }
+.sfr-3d-title { font-size: 14px; font-weight: 700; color: #303133; margin-bottom: 10px; }
+.sfr-3d-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.sfr-3d-cell { border-radius: 10px; padding: 14px; text-align: center; border: 2px solid #ebeef5; }
+.sfr-3d-cell.dim-good { background: #f6ffed; border-color: #b7eb8f; }
+.sfr-3d-cell.dim-mid { background: #fffbe6; border-color: #ffe58f; }
+.sfr-3d-cell.dim-bad { background: #fff1f0; border-color: #ffccc7; }
+.sfr-3d-dim { font-size: 13px; font-weight: 700; color: #303133; margin-bottom: 8px; }
+.sfr-3d-rate { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 8px; }
+.dim-good .sfr-3d-rate { color: #389e0d; }
+.dim-mid .sfr-3d-rate { color: #d48806; }
+.dim-bad .sfr-3d-rate { color: #cf1322; }
+.sfr-3d-note { font-size: 12px; color: #606266; line-height: 1.5; }
+
+/* 产品分部利润表 */
+.sfr-decomp { margin-top: 14px; }
+.sfr-decomp-meta { font-size: 12.5px; color: #909399; margin-bottom: 10px; }
+.sfr-decomp-comment { color: #606266; font-size: 12px; max-width: 280px; }
+.sfr-decomp-totals { display: flex; gap: 20px; flex-wrap: wrap; margin: 10px 0; font-size: 13px; color: #4e5969; }
+.sfr-decomp-totals b { color: #409eff; }
+.sfr-decomp-impl { font-size: 13px; margin-top: 8px; padding: 10px 12px; background: #f5f7ff; border-radius: 6px; color: #303133; line-height: 1.7; border-left: 3px solid #5b6dde; }
+
+/* 同业锚定 note 复用 matrix-finding；周期定位卡片 */
+.sfr-cycle-card { margin-top: 14px; padding: 14px; background: #f0f7ff; border-radius: 8px; border-left: 3px solid #409eff; }
+.sfr-cycle-card p { font-size: 13px; line-height: 1.7; margin: 6px 0; color: #4e5969; }
+.sfr-cycle-strategy { background: #fff; padding: 8px 10px; border-radius: 6px; color: #303133 !important; }
+
+/* 空头数据纠错 */
+.sfr-bear-correction { margin-top: 12px; padding: 12px 14px; background: #f0f9eb; border-radius: 8px; border-left: 3px solid #67c23a; }
+.sfr-bear-correction-head { font-size: 13px; font-weight: 700; color: #2f6627; margin-bottom: 6px; }
+.sfr-bear-correction p { font-size: 13px; line-height: 1.8; color: #4e5969; margin: 0; }
+
+/* ST 风险 */
+.sfr-st-risk { margin: 12px 0; padding: 14px; background: #fff1f0; border: 2px solid #ffccc7; border-radius: 8px; }
+.sfr-st-risk-head { font-size: 14px; font-weight: 700; color: #cf1322; margin-bottom: 8px; }
+.sfr-st-risk p { font-size: 13px; line-height: 1.7; margin: 6px 0; color: #a8071a; }
+
+/* 证伪触发器表格 trigger 着色 */
+.sfr-trigger-bull { color: #389e0d; }
+.sfr-trigger-bear { color: #cf1322; }
+
+/* 记忆与版本修订 */
+.sfr-memory { margin: 14px 0; }
+.sfr-memory-list, .sfr-revisions { padding-left: 22px; line-height: 1.9; font-size: 13px; color: #4e5969; }
+.sfr-memory-list li { margin: 6px 0; padding: 6px 10px; background: #faf5ff; border-radius: 6px; border-left: 2px solid #722ed1; list-style: none; }
+.sfr-memory-list { padding-left: 0; }
+.sfr-revisions li { margin: 4px 0; }
 
 /* Empty */
 .sfr-empty { text-align: center; padding: 60px; }
