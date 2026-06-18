@@ -374,6 +374,20 @@ export interface IndustryDetail {
   // D0-2 投资地图：瓶颈环节→推荐个股→卡位排序
   investment_map?: InvestmentMapRow[]
   analysts?: Record<string, any>
+  // 7 把辩证尺：TAM/CAGR/渗透率/集中度/先行指标/瓶颈迁移/5年驱动力
+  industry_future_market?: Record<string, any>
+  // 前瞻视野：近端日历 + 中期路径 + 情景推演
+  forward_view?: ForwardView | Record<string, any> | null
+  // 证据链（54 条 verified/estimated/missing）
+  evidence?: any[]
+  // 数据质量说明
+  data_quality?: string
+  data_status?: string
+  // 可信度（director 自评/critic）
+  credibility?: Credibility | Record<string, any> | null
+  reflection?: ReflectionData | Record<string, any> | null
+  value_creation_industry?: Record<string, any>
+  fund_recommendation?: Record<string, any>
   intra_alloc_unit: UnitMeta
   stock_weights: StockWeightRow[]
   stocks: StockUnit[]

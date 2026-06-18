@@ -70,6 +70,9 @@
       "industry_aggregate_forward_peg": "行业代表PE中位数(腾讯14.91+阿里9+网易14)/CAGR中枢10% ≈ 1.2-1.5 合理"
     }
   },
+  "forward_view": {},
+  "evidence": [],
+  "data_quality": "",
   "value_creation_industry": {},
   "fund_recommendation": {},
   "credibility": {

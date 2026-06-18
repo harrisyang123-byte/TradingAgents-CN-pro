@@ -15,9 +15,14 @@
               :meta="detail.industry_unit"
             />
           </span>
-          <el-tag v-if="detail.verdict?.stance" :type="stanceType" effect="plain">
-            {{ stanceLabel }}
-          </el-tag>
+          <span class="idt-head-actions">
+            <router-link :to="`/portfolio/v4/industry/${encodeURIComponent(detail.industry)}`" class="idt-full-link">
+              <el-button size="small" type="primary" text>查看完整报告 →</el-button>
+            </router-link>
+            <el-tag v-if="detail.verdict?.stance" :type="stanceType" effect="plain">
+              {{ stanceLabel }}
+            </el-tag>
+          </span>
         </div>
 
         <div v-if="detail.verdict" class="idt-verdict">
@@ -246,6 +251,14 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
+}
+.idt-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.idt-full-link {
+  text-decoration: none;
 }
 .idt-title {
   font-size: 16px;

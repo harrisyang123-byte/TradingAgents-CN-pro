@@ -4,9 +4,9 @@
   "industry": "人工智能算力",
   "stock_unit": {
     "unit_id": "stock:300502",
-    "status": "green",
-    "status_label": "新鲜",
-    "stale_reason": null,
+    "status": "yellow",
+    "status_label": "待刷新",
+    "stale_reason": "已生成 6 天，超过 TTL 5 天，建议刷新",
     "cli_hint": "在 CLI 对话说「分析 stock:300502」，或运行：./scripts/run_v4.sh analyze stock:300502",
     "version": 1,
     "generated_at": "2026-06-12T15:04:29Z",

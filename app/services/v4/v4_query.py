@@ -451,6 +451,53 @@ def build_asset_detail(units: Dict[str, Dict[str, Any]], asset_class: str) -> Di
     return resp
 
 
+def _extract_embedded_json(s: str) -> Optional[Dict[str, Any]]:
+    """从含思考过程的脏字符串里抽取 ```json ...``` 代码块并解析（行业辩论 subagent 原始输出）。"""
+    if not isinstance(s, str):
+        return None
+    import re
+    m = re.search(r"```json\s*(\{.*?\})\s*```", s, re.S)
+    if not m:
+        # 退而求其次：找第一个 { 到最后一个 } 的片段
+        i, j = s.find("{"), s.rfind("}")
+        if i == -1 or j == -1 or j <= i:
+            return None
+        frag = s[i:j + 1]
+    else:
+        frag = m.group(1)
+    try:
+        return json.loads(frag)
+    except ValueError:
+        return None
+
+
+def _load_industry_debate(name: str) -> List[Dict[str, Any]]:
+    """合并独立辩论文件 data/v4/industry_debate_<name>.json（payload.debate_rounds 为空时的来源）。
+
+    原始 bull/bear 是含思考过程的脏字符串，解析内嵌 JSON 提取 thesis/challenge/points，
+    解析失败则回退展示截断后的原文，保证「完全展示」不丢内容。
+    """
+    from pathlib import Path
+    safe = str(name).replace("/", "_").replace("\\", "_")
+    fp = Path(f"data/v4/industry_debate_{safe}.json")
+    if not fp.exists():
+        return []
+    try:
+        raw = json.loads(fp.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    rounds = []
+    for r in raw.get("rounds", []) or []:
+        bull_obj = _extract_embedded_json(r.get("bull", ""))
+        bear_obj = _extract_embedded_json(r.get("bear", ""))
+        rounds.append({
+            "round": r.get("round"),
+            "bull": bull_obj or (r.get("bull", "")[:1500] if isinstance(r.get("bull"), str) else None),
+            "bear": bear_obj or (r.get("bear", "")[:1500] if isinstance(r.get("bear"), str) else None),
+        })
+    return rounds
+
+
 def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[str, Any]:
     """Tab3 行业详情（AC8.3）：深辩报告 + 个股列表 + 行业内配比。"""
     ind_env = units.get(f"industry:{name}")
@@ -484,7 +531,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         "industry": name,
         "industry_unit": decorate_unit(f"industry:{name}", ind_env, units),
         "verdict": ind_payload.get("verdict"),
-        "debate_rounds": ind_payload.get("debate_rounds", []),
+        # debate_rounds：payload 内优先，为空则合并独立辩论文件（解析内嵌 JSON）
+        "debate_rounds": ind_payload.get("debate_rounds") or _load_industry_debate(name),
         # Chokepoint 产业链瓶颈地图（行业层增强，透传给前端展示；无则空，不影响旧行业单元）
         "chokepoint_map": ind_payload.get("chokepoint_map", []),
         "top_chokepoints": ind_payload.get("top_chokepoints", []),
@@ -493,6 +541,10 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         "analysts": ind_payload.get("analysts", {}),
         # 2026-06-14 行业层 critic 复核 + 7 把辩证尺 + 未来市场必查模块全透传
         "industry_future_market": ind_payload.get("industry_future_market", {}),
+        # 前瞻视野（近端日历 + 中期路径 + 情景推演）+ 证据链 + 数据质量（独立完整报告页需要）
+        "forward_view": ind_payload.get("forward_view", {}),
+        "evidence": ind_payload.get("evidence", []),
+        "data_quality": ind_payload.get("data_quality", ""),
         "value_creation_industry": ind_payload.get("value_creation_industry", {}),
         "fund_recommendation": ind_payload.get("fund_recommendation", {}),
         "credibility": ind_payload.get("credibility", {}),

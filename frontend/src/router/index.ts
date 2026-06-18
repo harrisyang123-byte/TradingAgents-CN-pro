@@ -338,6 +338,16 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'v4/industry/:name',
+        name: 'V4IndustryFullReport',
+        component: () => import('@/views/Portfolio/v4/IndustryFullReport.vue'),
+        meta: {
+          title: '行业完整分析',
+          requiresAuth: true,
+          hideInMenu: true
+        }
+      },
+      {
         path: 'fund/:code',
         name: 'FundDetail',
         component: () => import('@/views/FundDetail/index.vue'),
