@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "DASHBOARD_DATA_FIX_dashboard_vue", "target": "DASHBOARD_DATA_FIX_favorites_api", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/fixes/dashboard/DASHBOARD_DATA_FIX.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

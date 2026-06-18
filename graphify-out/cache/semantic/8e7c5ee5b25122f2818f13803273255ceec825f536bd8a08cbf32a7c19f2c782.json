@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "enhanced_data_integration_enhanced_data_adapter", "target": "integration_summary_integration_summary", "relation": "cites", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/integration/enhanced_data_integration.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "cache_system_correct_analysis_app_cache_adapter", "target": "data_source_refactor_datasourcemanager", "relation": "provides_data_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/architecture/cache/CACHE_SYSTEM_CORRECT_ANALYSIS.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

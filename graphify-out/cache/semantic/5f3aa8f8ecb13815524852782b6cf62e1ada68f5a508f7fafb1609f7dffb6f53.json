@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "database_management_implementation_databasepage", "target": "database_management_implementation_backupservice", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/architecture/database/DATABASE_MANAGEMENT_IMPLEMENTATION.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

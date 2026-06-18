@@ -1,6 +1,6 @@
 # v4 自进化循环 — DISCOVER 扫描报告
 
-生成时间: 2026-06-17T15:37:55+00:00
+生成时间: 2026-06-18T00:43:00+00:00
 扫描 stock: **49** 只 / industry: **11** 个
 
 ## 根因 1 — 标尺覆盖率
@@ -107,6 +107,12 @@
 - red_flags 5 类齐:                  **0.0%**
 - falsification_signals ≥1:         **0.0%**
 
+## active_hole 进度 — 五力分析 (iter 6 落地, 5 层防御纵深第 5 层)
+- agent skill cite (6 agent): **6 / 6** (100.0%)
+- stocks 含 five_forces:       **21** (42.9%)
+- moat_rating enum 合规:       **42.9%**
+- 含 synthesis 5 力交叉编织:   **0** (0.0%)
+
 ## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)
 - 完全合规:       **8 / 49** (16.3%)
 - 含 fatal 违规: **41**
@@ -150,3 +156,8 @@
 - shallow_score: 4
 - 伤害: iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发
 - 证据: ['49 stocks 中仅 0 含 financial_analysis (0.0%)']
+### 8. [must] 49 只 stock 缺 five_forces_synthesis 5 力交叉编织 (iter 6 静态 100.0% / 产物 synthesis 0.0% 落差)
+- 违反: iter 2-5 cleanup 同型 + skill v4-five-forces-method §5 输出契约
+- shallow_score: 4
+- 伤害: 5 力专项已落地但 competitive 整合者交叉编织缺位, A/B 测试已证 5 段平铺扣分
+- 证据: ['含 synthesis 仅 0 (0.0%); 含 five_forces 不含 synthesis = 5 段平铺扣分']

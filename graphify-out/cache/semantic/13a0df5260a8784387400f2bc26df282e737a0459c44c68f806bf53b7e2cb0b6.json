@@ -1,0 +1,1 @@
+{"nodes": [{"id": "authentication_fix_summary_user_activity_logger", "label": "UserActivityLogger", "file_type": "code", "source_file": "web/utils/user_activity_logger.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}

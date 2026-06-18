@@ -89,6 +89,20 @@ tools:
      - ④ **派别切入必引** (skill v4-debate-discipline §2): bull 必引 ≥1 派 (段永平好生意 OR 费雪 scuttlebutt OR 马克斯紫苏叶/错杀龙头), bear 必引 ≥1 派 (芒格逆向 OR 达里奥风险 OR 死亡清单 LTCM/Archegos/Woodford/价值陷阱)。无派别切入只立场对撞 → 浅尝套话 fatal_flaw
      - ⑤ **反 Goodhart**: 必查 history 末尾 `methodology_used` 数组, 随机抽 ≥2 项 `本轮如何用的` narrative, **必须能在 history 找到对应段落** (而非只声明派别名)。例: 写"本轮应用了 [段永平-好生意]"但 history 上文无复购率/定价权/FCF 三问 narrative = 形式 cite = **fatal_flaw**。这是协议 Part 7 #10 的辩手层落地
      - 应用规则: 若 ≥2 轮是立场对撞无攻防 → fatal_flaw "立场对撞辩论沦为口号"; 若 history 不输出 methodology_used → fatal_flaw "未消费 v4-debate-discipline skill"; 若 派别切入 narrative 找不到对应段落 → fatal_flaw "Goodhart 形式 cite"
+
+   - **6.6.5 五力分析必查 (2026-06-17 iter 6 落地, skill v4-five-forces-method §5 输出契约)**: 5 force 专项 + competitive 整合者输出必含 force_analysis / five_forces_synthesis 字段, verify_audit ⑫ 机器审计:
+     - **5 force 专项 (entry/substitute/buyer/supplier/rivalry)**:
+       · ① force_analysis.level ∈ {1,2,3,4,5} enum, 缺或非 enum = fatal_flaw
+       · ② level_5y_trend 数组长度 ≥3, 缺 = fatal_flaw
+       · ③ data_thresholds_hit 数组 ≥1 项, 每项含 metric/value/level_threshold/verified_source, 缺 verified_source = fatal_flaw "level 凭感觉填" (Goodhart 反向)
+       · ④ falsification_signal 字段非空(skill 铁律 5), 缺 = NEEDS_CHANGES
+     - **competitive 整合者**:
+       · ⑤ five_forces_synthesis.five_levels 必含 5 个 force(entry/substitute/buyer/supplier/rivalry) level 1-5, 缺任一 = fatal_flaw
+       · ⑥ mutual_reinforcement OR mutual_offset 至少有 1 项(防 5 段平铺扣分, A/B 测试已证), 全空 = fatal_flaw "5 力平铺无交叉编织"
+       · ⑦ weakest_link narrative 非空(护城河上限单点指出), 缺 = NEEDS_CHANGES
+       · ⑧ moat_rating ∈ {wide, narrow, none} enum (晨星模式), 非 enum = fatal_flaw
+       · ⑨ moat_sources 数组(晨星 5 类: intangible_assets/switching_cost/network_effect/cost_advantage/efficient_scale), wide rating 必 ≥2 类来源, narrow 必 ≥1, 类型外 = NEEDS_CHANGES
+       · ⑩ falsification_signals 数组 ≥1, 缺 = NEEDS_CHANGES
    - **6.7 估值底层四问 + 诚实区间 + 安全边际档位（D0-8 用户三次反馈精炼后, 真实分析师手感, 必查）**:
      - 必查 valuation 是否回答了**底层四问**:
        · Q1 价值是区间(含估算误差%)还是假装精确单点 → 单点 = NEEDS_CHANGES

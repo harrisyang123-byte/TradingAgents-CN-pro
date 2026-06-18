@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "graphify": {
+      "type": "stdio",
+      "command": "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/.venv/bin/python",
+      "args": ["-m", "graphify.serve", "/Users/yangyanyu/AI-Coding-Engine/domains/tradingagents-cn/graphify-out/graph.json"],
+      "env": {}
+    }
+  }
+}

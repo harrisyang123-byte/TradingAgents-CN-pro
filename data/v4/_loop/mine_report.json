@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-17T15:37:55+00:00",
+  "generated_at": "2026-06-18T00:43:00+00:00",
   "stock_count": 49,
   "industry_count": 11,
   "ruler_coverage": {
@@ -575,6 +575,17 @@
     "red_flags_5_pct": 0.0,
     "falsify_pct": 0.0
   },
+  "five_forces": {
+    "agent_count": 6,
+    "agent_skill_cite_count": 6,
+    "agent_skill_cite_pct": 100.0,
+    "stocks_with_five_forces": 21,
+    "stocks_with_five_forces_pct": 42.9,
+    "moat_enum_pass_count": 21,
+    "moat_enum_pass_pct": 42.9,
+    "stocks_with_synthesis": 0,
+    "stocks_with_synthesis_pct": 0.0
+  },
   "director_lazy": {
     "002156": {
       "verdict_len": 397,
@@ -628,7 +639,7 @@
     }
   },
   "verified_audit": {
-    "generated_at": "2026-06-17T15:37:55+00:00",
+    "generated_at": "2026-06-18T00:31:26+00:00",
     "total_stocks": 49,
     "stocks_clean": 8,
     "stocks_with_fatal": 41,

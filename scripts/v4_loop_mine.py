@@ -488,6 +488,50 @@ def scan_financial_analysis(stocks: list[tuple[Path, dict]]) -> dict:
     }
 
 
+def scan_five_forces(stocks: list[tuple[Path, dict]]) -> dict:
+    """active_hole iter 6 专项: 五力分析静态+产物层 (5 层防御纵深第 5 层 mine 监控)
+    skill v4-five-forces-method + verify_audit ⑫"""
+    AGENTS = ["v4-stock-force-entry.md", "v4-stock-force-substitute.md", "v4-stock-force-buyer.md", "v4-stock-force-supplier.md", "v4-stock-force-rivalry.md", "v4-stock-analyst-competitive.md"]
+    agents_dir = ROOT / "agents" / "advisor"
+    agent_skill_cite = 0
+    for fname in AGENTS:
+        p = agents_dir / fname
+        if not p.exists():
+            continue
+        if "v4-five-forces-method" in p.read_text(encoding="utf-8"):
+            agent_skill_cite += 1
+
+    # 产物层: 扫 stock five_forces 字段 (现有结构, 检查 moat_rating enum) + five_forces_synthesis
+    n_with_ff = n_moat_enum_pass = n_synthesis_full = 0
+    VALID_MOAT = {"wide", "narrow", "none", "中", "中上", "中下", "宽", "窄"}  # 兼容现有"中/中上/中下/宽/窄" 中文
+    for path, d in stocks:
+        p = d.get("payload", {})
+        ff = p.get("five_forces")
+        if isinstance(ff, dict) and ff:
+            n_with_ff += 1
+            mr = ff.get("moat_rating")
+            if mr and (mr in VALID_MOAT or any(z in str(mr) for z in ["wide", "narrow", "none", "宽", "中", "窄"])):
+                n_moat_enum_pass += 1
+        ffs = p.get("five_forces_synthesis")
+        if isinstance(ffs, dict) and ffs:
+            five_levels = ffs.get("five_levels") or {}
+            if isinstance(five_levels, dict) and len(five_levels) >= 5:
+                n_synthesis_full += 1
+    n = max(len(stocks), 1)
+    n_ag = max(len(AGENTS), 1)
+    return {
+        "agent_count": len(AGENTS),
+        "agent_skill_cite_count": agent_skill_cite,
+        "agent_skill_cite_pct": round(agent_skill_cite / n_ag * 100, 1),
+        "stocks_with_five_forces": n_with_ff,
+        "stocks_with_five_forces_pct": round(n_with_ff / n * 100, 1),
+        "moat_enum_pass_count": n_moat_enum_pass,
+        "moat_enum_pass_pct": round(n_moat_enum_pass / n * 100, 1) if n_with_ff else 0.0,
+        "stocks_with_synthesis": n_synthesis_full,
+        "stocks_with_synthesis_pct": round(n_synthesis_full / n * 100, 1),
+    }
+
+
 def scan_director_vs_subagent_depth(stocks: list[tuple[Path, dict]]) -> dict[str, dict]:
     """根因 4: director verdict 字符长度 vs five_forces/forward_view 字符长度
     director 显著浅 = 主 agent 偷懒 (粗略代理指标)"""
@@ -625,6 +669,19 @@ def build_candidate_holes(report: dict) -> list[dict]:
             "priority": "must",
         })
 
+    # 五力 cleanup (iter 6 落地, 配套范式)
+    ff_d = report.get("five_forces", {}) or {}
+    if ff_d.get("stocks_with_synthesis_pct", 0) < 50:
+        holes.append({
+            "id_prefix": "FIVE-FORCES-CLEANUP",
+            "title": f"{49 - ff_d.get('stocks_with_synthesis', 0)} 只 stock 缺 five_forces_synthesis 5 力交叉编织 (iter 6 静态 {ff_d.get('agent_skill_cite_pct', 0)}% / 产物 synthesis {ff_d.get('stocks_with_synthesis_pct', 0)}% 落差)",
+            "violated_practice": "iter 2-5 cleanup 同型 + skill v4-five-forces-method §5 输出契约",
+            "evidence": [f"含 synthesis 仅 {ff_d.get('stocks_with_synthesis', 0)} ({ff_d.get('stocks_with_synthesis_pct', 0)}%); 含 five_forces 不含 synthesis = 5 段平铺扣分"],
+            "harm_to_profit": "5 力专项已落地但 competitive 整合者交叉编织缺位, A/B 测试已证 5 段平铺扣分",
+            "shallow_score": 4,
+            "priority": "must",
+        })
+
     return holes
 
 
@@ -753,6 +810,14 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- red_flags 5 类齐:                  **{fa_data.get('red_flags_5_pct', 0)}%**")
         lines.append(f"- falsification_signals ≥1:         **{fa_data.get('falsify_pct', 0)}%**")
         lines.append("")
+    ff_data = report.get("five_forces", {})
+    if ff_data:
+        lines.append("## active_hole 进度 — 五力分析 (iter 6 落地, 5 层防御纵深第 5 层)")
+        lines.append(f"- agent skill cite (6 agent): **{ff_data.get('agent_skill_cite_count', 0)} / {ff_data.get('agent_count', 0)}** ({ff_data.get('agent_skill_cite_pct', 0)}%)")
+        lines.append(f"- stocks 含 five_forces:       **{ff_data.get('stocks_with_five_forces', 0)}** ({ff_data.get('stocks_with_five_forces_pct', 0)}%)")
+        lines.append(f"- moat_rating enum 合规:       **{ff_data.get('moat_enum_pass_pct', 0)}%**")
+        lines.append(f"- 含 synthesis 5 力交叉编织:   **{ff_data.get('stocks_with_synthesis', 0)}** ({ff_data.get('stocks_with_synthesis_pct', 0)}%)")
+        lines.append("")
     va = report.get("verified_audit", {})
     if va and "compliance_pct" in va:
         lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
@@ -801,6 +866,7 @@ def main() -> int:
         "debate_discipline": scan_debate_discipline(stocks),
         "data_acquisition": scan_data_acquisition(stocks),
         "financial_analysis": scan_financial_analysis(stocks),
+        "five_forces": scan_five_forces(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
         "verified_audit": load_verify_audit(),
     }

@@ -3,13 +3,13 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 5,
-    "last_run": "2026-06-17T15:50:48+00:00",
+    "iteration_count": 6,
+    "last_run": "2026-06-18T00:45:55+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 5 完成 (FINANCIAL-20260618-05, GATE 86 ACCEPT + 2 hotfix). 5 层范式第 4 次成功复用 (规则 12). financial_analysis 红线落地. 下一轮 iter 6: v4-five-forces-method skill (波特 5 力量化), 治 6 agent (5 force + competitive).",
-    "last_mine": "2026-06-17T15:37:55+00:00"
+    "_comment": "iter 6 完成 (FIVE-FORCES-20260618-06, GATE 93 ACCEPT). 5 层范式第 5 次复用. 下 iter 7: v4-valuation-method skill (DCF/PEG 五陷阱), 治 valuation/auditor/engineer 3 agent.",
+    "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
   "backlog": [
@@ -197,6 +197,110 @@
       "discovered_at": "2026-06-17T15:37:55+00:00",
       "evidence": [
         "49 stocks 中仅 0 含 financial_analysis (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DEBATE-CLEANUP-20260618-05",
+      "title": "34 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 0.0% 落差)",
+      "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
+      "shallow_score": 4,
+      "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:31:26+00:00",
+      "evidence": [
+        "含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DATA-ACQ-CLEANUP-20260618-06",
+      "title": "60 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3 cleanup 同型 + 协议 Part 7 #10",
+      "shallow_score": 4,
+      "harm_to_profit": "data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:31:26+00:00",
+      "evidence": [
+        "total 60 units, only 0 含 acquisition_audit (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "FINANCIAL-CLEANUP-20260618-07",
+      "title": "49 只 stock 缺 financial_analysis (iter 5 静态 100.0% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约",
+      "shallow_score": 4,
+      "harm_to_profit": "iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:31:26+00:00",
+      "evidence": [
+        "49 stocks 中仅 0 含 financial_analysis (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "FIVE-FORCES-CLEANUP-20260618-08",
+      "title": "49 只 stock 缺 five_forces_synthesis 5 力交叉编织 (iter 6 静态 100.0% / 产物 synthesis 0.0% 落差)",
+      "violated_practice": "iter 2-5 cleanup 同型 + skill v4-five-forces-method §5 输出契约",
+      "shallow_score": 4,
+      "harm_to_profit": "5 力专项已落地但 competitive 整合者交叉编织缺位, A/B 测试已证 5 段平铺扣分",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:31:26+00:00",
+      "evidence": [
+        "含 synthesis 仅 0 (0.0%); 含 five_forces 不含 synthesis = 5 段平铺扣分"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DEBATE-CLEANUP-20260618-05",
+      "title": "34 只含 debate_rounds 的旧 stock 缺 methodology_used (iteration 3 静态层 100% / 产物层 0.0% 落差)",
+      "violated_practice": "iteration 2 fatal#3 同型 (存量 cleanup 缺位) + 协议 Part 7 #10 narrative cite 防 Goodhart",
+      "shallow_score": 4,
+      "harm_to_profit": "新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:43:00+00:00",
+      "evidence": [
+        "含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "DATA-ACQ-CLEANUP-20260618-06",
+      "title": "60 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3 cleanup 同型 + 协议 Part 7 #10",
+      "shallow_score": 4,
+      "harm_to_profit": "data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:43:00+00:00",
+      "evidence": [
+        "total 60 units, only 0 含 acquisition_audit (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "FINANCIAL-CLEANUP-20260618-07",
+      "title": "49 只 stock 缺 financial_analysis (iter 5 静态 100.0% / 产物 0.0% 落差)",
+      "violated_practice": "iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约",
+      "shallow_score": 4,
+      "harm_to_profit": "iter 5 schema+code+monitor 全齐, 但旧产物无 financial_analysis 字段永远 0% — '产品 mix 改善'空话浅尝复发",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:43:00+00:00",
+      "evidence": [
+        "49 stocks 中仅 0 含 financial_analysis (0.0%)"
+      ],
+      "source": "v4_loop_mine.py"
+    },
+    {
+      "id": "FIVE-FORCES-CLEANUP-20260618-08",
+      "title": "49 只 stock 缺 five_forces_synthesis 5 力交叉编织 (iter 6 静态 100.0% / 产物 synthesis 0.0% 落差)",
+      "violated_practice": "iter 2-5 cleanup 同型 + skill v4-five-forces-method §5 输出契约",
+      "shallow_score": 4,
+      "harm_to_profit": "5 力专项已落地但 competitive 整合者交叉编织缺位, A/B 测试已证 5 段平铺扣分",
+      "priority": "must",
+      "discovered_at": "2026-06-18T00:43:00+00:00",
+      "evidence": [
+        "含 synthesis 仅 0 (0.0%); 含 five_forces 不含 synthesis = 5 段平铺扣分"
       ],
       "source": "v4_loop_mine.py"
     }
@@ -476,6 +580,36 @@
         }
       ],
       "completed_at": "2026-06-17T15:50:48+00:00"
+    },
+    {
+      "id": "FIVE-FORCES-20260618-06",
+      "title": "5 force agent + competitive 整合者共 6 agent zero skill cite — '有护城河'空话浅尝",
+      "violated_practice": "波特原版五力 + 晨星护城河评级 + AGENTS.md §5 5 力深做铁律",
+      "before": {
+        "agent_skill_cite": "0/6",
+        "stocks_with_synthesis": "0/49"
+      },
+      "after_protocol": {
+        "skill": "skills/v4-five-forces-method/SKILL.md (新建 §1-§7: 5 铁律+量化矩阵 1-5 数字门槛+交叉编织+晨星 5 类来源+输出契约+反 Goodhart)",
+        "agents": "6 agent skill cite (5 PRIMARY + 1 INTEGRATOR), competitive 多 skill 引用 (financial+five_forces)",
+        "critic_6_6_5": "10 enforcement 规则: 5 force 4 项 + competitive 整合者 6 项",
+        "verify_audit_12": "⑫ block 双子块 (force_analysis 4 字段 + synthesis 6 字段, level/moat 三重 enum 锁)",
+        "mine_5th_layer": "scan_five_forces (静态 6/6 + 产物 5 维度) + FIVE-FORCES-CLEANUP 自动入 backlog"
+      },
+      "after_runtime": {
+        "agent_skill_cite_pct": "100% (6/6)",
+        "stocks_with_five_forces_pct": "42.9% (21/49 旧产物已有, moat_rating 中英兼容)",
+        "stocks_with_synthesis_pct": "0% (synthesis 整合 cleanup loop 自动入)"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": 93,
+          "verdict": "ACCEPT",
+          "key_acceptance": "5 层齐, PRIMARY+INTEGRATOR 模式平滑扩展, 三重 enum 锁防 Goodhart, 中英兼容防 Serenity 回归, 无 fatal/新孤儿"
+        }
+      ],
+      "completed_at": "2026-06-18T00:45:55+00:00"
     }
   ],
   "stuck": [],
@@ -493,7 +627,8 @@
       "[2026-06-17 iteration 3] critic GATE attempt#1 抓的 3 fatal 全是 iteration 1+2 同型 — F1=action_plan 孤儿同型 (Part 7 #9) / F2=47 stock cleanup 同型 (iteration 2 fatal#3) / F3=必跑无代码强制点 (规则 5/14)。证明协议 Part 7 + meta_memory rules_distilled 已成 critic 反射式拷问的实战 checklist (虽然主 agent IMPLEMENT 时仍漏)",
       "[2026-06-17 iteration 4] '5 层防御纵深'范式第三次成功落地: data_acquisition 红线 5 层(认知 prompt + skill 层 SOP + schema 层显式字段 + 代码层 verify_audit ⑨/⑩ + 监控层 mine scan_data_acquisition) 与 RULE-DATA-VERIFIED 4 层 / debate_discipline 5 层并列。规则 9 已成可复用模板",
       "[2026-06-17 iteration 4] critic GATE attempt#1 三 fatal 仍全是历史同型 (F1=Part 7 #9 / F2=规则 9 5 层 / F3=Part 7 #10) → 证明协议 Part 7 + meta_memory rules 已成 critic 反射式拷问硬底盘, 主 agent IMPLEMENT 时仍遗漏 → 规则 10 必须前置自检",
-      "[2026-06-17 iter 5] 规则 12 5 层范式可复用第 4 次成功 (RULE-DATA-VERIFIED + debate_discipline + data_acquisition + financial_analysis), 范式平滑无新孤儿. PRIMARY/SECONDARY 区分新模式: skill 主用 1 agent + 引用 N agent, 节省 schema 强制重复但需配 SECONDARY narrative 抽查"
+      "[2026-06-17 iter 5] 规则 12 5 层范式可复用第 4 次成功 (RULE-DATA-VERIFIED + debate_discipline + data_acquisition + financial_analysis), 范式平滑无新孤儿. PRIMARY/SECONDARY 区分新模式: skill 主用 1 agent + 引用 N agent, 节省 schema 强制重复但需配 SECONDARY narrative 抽查",
+      "[iter 6] 规则 12 范式第 5 次复用 (RULE-DATA-VERIFIED + debate + data_acq + financial + five_forces). PRIMARY+INTEGRATOR 模式扩展 iter 5 PRIMARY/SECONDARY: 单 skill 覆盖 6 agent (5 专项 + 1 整合者). VALID_MOAT 中英兼容防存量回归 (Serenity 视角)"
     ],
     "what_failed": [
       "[2026-06-17 iteration 1 attempt#1] 第一次没把 action_plan 显式写进 director schema, 以为 stock JSON 实际有就行, 结果三层 verbatim 引用 'action_plan.sell_trigger' 在契约层成孤儿。教训: 任何被多层引用的字段必须在源头 agent .md schema 明示, 不能依赖'实际产物有就行'。",

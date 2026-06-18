@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "datasourcemanager", "target": "stockdataservice", "relation": "shares_data_with", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "docs/integration/data-sources/STOCK_DATA_SERVICE_VS_DATA_SOURCE_MANAGER.md", "source_location": null, "weight": 0.8}], "hyperedges": []}

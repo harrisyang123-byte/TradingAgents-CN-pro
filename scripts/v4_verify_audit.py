@@ -581,15 +581,154 @@ def audit_payload(payload: dict) -> list[dict]:
                         "issue": f"red_flags_check 缺 {len(missing_flags)} 类: {missing_flags} (skill §4 5 类红旗清单, 必齐对照)",
                         "severity": "should",
                     })
-            # ⑦ falsification_signals ≥1
-            fs = fa.get("falsification_signals") or []
-            if not isinstance(fs, list) or len(fs) < 1:
+            # ⑦ falsification_signals ≥1 (financial_analysis 层)
+            fs_fa = fa.get("falsification_signals") or []
+            if not isinstance(fs_fa, list) or len(fs_fa) < 1:
                 violations.append({
                     "field": "financial_analysis.falsification_signals",
-                    "value": f"len={len(fs) if isinstance(fs, list) else 'n/a'}",
+                    "value": f"len={len(fs_fa) if isinstance(fs_fa, list) else 'n/a'}",
                     "issue": "falsification_signals 数组 < 1 (skill §1 铁律 5 + 达里奥极度求真)",
                     "severity": "should",
                 })
+
+    # ⑫ five_forces (iter 6 落地, skill v4-five-forces-method §5 输出契约)
+    VALID_LEVELS = {1, 2, 3, 4, 5}
+    VALID_FORCE_TYPES = {"entry", "substitute", "buyer", "supplier", "rivalry"}
+    VALID_MOAT_RATINGS = {"wide", "narrow", "none"}
+    VALID_MOAT_SOURCES = {"intangible_assets", "switching_cost", "network_effect", "cost_advantage", "efficient_scale"}
+
+    # A) force_analysis (5 force 专项产物)
+    fa_force = p.get("force_analysis")
+    if isinstance(fa_force, dict) and fa_force:
+        ft = fa_force.get("force_type")
+        if ft and ft not in VALID_FORCE_TYPES:
+            violations.append({
+                "field": "force_analysis.force_type",
+                "value": str(ft),
+                "issue": f"force_type '{ft}' 不在合法 enum {VALID_FORCE_TYPES}",
+                "severity": "fatal",
+            })
+        lvl = fa_force.get("level")
+        if lvl is None or lvl not in VALID_LEVELS:
+            violations.append({
+                "field": "force_analysis.level",
+                "value": str(lvl),
+                "issue": f"level '{lvl}' 不在合法 enum {VALID_LEVELS} (skill §2 量化矩阵)",
+                "severity": "fatal",
+            })
+        trend = fa_force.get("level_5y_trend") or []
+        if not isinstance(trend, list) or len(trend) < 3:
+            violations.append({
+                "field": "force_analysis.level_5y_trend",
+                "value": f"len={len(trend) if isinstance(trend, list) else 'n/a'}",
+                "issue": "level_5y_trend 数组长度 < 3 (skill 铁律 2 5 年趋势, 防单点不可证伪)",
+                "severity": "fatal",
+            })
+        thresholds = fa_force.get("data_thresholds_hit") or []
+        if not isinstance(thresholds, list) or len(thresholds) < 1:
+            violations.append({
+                "field": "force_analysis.data_thresholds_hit",
+                "value": "missing/empty",
+                "issue": "data_thresholds_hit 数组 < 1, level 凭感觉填 (Goodhart 反向)",
+                "severity": "fatal",
+            })
+        else:
+            for i, th in enumerate(thresholds):
+                if not isinstance(th, dict):
+                    continue
+                if not th.get("verified_source"):
+                    violations.append({
+                        "field": f"force_analysis.data_thresholds_hit[{i}].verified_source",
+                        "value": str(th)[:60],
+                        "issue": "data_thresholds_hit 项缺 verified_source (skill 铁律 1+3 数据契约对接)",
+                        "severity": "fatal",
+                    })
+        if not fa_force.get("falsification_signal"):
+            violations.append({
+                "field": "force_analysis.falsification_signal",
+                "value": "missing",
+                "issue": "falsification_signal 缺 (skill 铁律 5 + 达里奥极度求真)",
+                "severity": "should",
+            })
+
+    # B) five_forces_synthesis (competitive 整合者产物)
+    ffs = p.get("five_forces_synthesis")
+    if isinstance(ffs, dict) and ffs:
+        five_levels = ffs.get("five_levels") or {}
+        if not isinstance(five_levels, dict):
+            violations.append({
+                "field": "five_forces_synthesis.five_levels",
+                "value": str(type(five_levels)),
+                "issue": "five_levels 应是 dict",
+                "severity": "fatal",
+            })
+        else:
+            for force in VALID_FORCE_TYPES:
+                lv = five_levels.get(force)
+                if lv is None or lv not in VALID_LEVELS:
+                    violations.append({
+                        "field": f"five_forces_synthesis.five_levels.{force}",
+                        "value": str(lv),
+                        "issue": f"5 力中 {force} level 缺失或非 enum 1-5",
+                        "severity": "fatal",
+                    })
+        mr = ffs.get("mutual_reinforcement") or []
+        mo = ffs.get("mutual_offset") or []
+        if not (isinstance(mr, list) and mr) and not (isinstance(mo, list) and mo):
+            violations.append({
+                "field": "five_forces_synthesis.mutual_reinforcement|mutual_offset",
+                "value": "both empty",
+                "issue": "mutual_reinforcement OR mutual_offset 至少有 1 项 (A/B 测试已证 5 段平铺扣分)",
+                "severity": "fatal",
+            })
+        if not ffs.get("weakest_link"):
+            violations.append({
+                "field": "five_forces_synthesis.weakest_link",
+                "value": "missing",
+                "issue": "weakest_link 单点指出缺 (护城河上限)",
+                "severity": "should",
+            })
+        moat_rating = ffs.get("moat_rating")
+        if moat_rating and moat_rating not in VALID_MOAT_RATINGS:
+            violations.append({
+                "field": "five_forces_synthesis.moat_rating",
+                "value": str(moat_rating),
+                "issue": f"moat_rating '{moat_rating}' 不在 enum {VALID_MOAT_RATINGS} (晨星模式)",
+                "severity": "fatal",
+            })
+        moat_sources = ffs.get("moat_sources") or []
+        if isinstance(moat_sources, list):
+            invalid_src = [s for s in moat_sources if s not in VALID_MOAT_SOURCES]
+            if invalid_src:
+                violations.append({
+                    "field": "five_forces_synthesis.moat_sources",
+                    "value": str(invalid_src)[:80],
+                    "issue": f"moat_sources 含非合法值 {invalid_src}, 应在晨星 5 类 {VALID_MOAT_SOURCES}",
+                    "severity": "should",
+                })
+            # wide 必 ≥2 类, narrow 必 ≥1
+            if moat_rating == "wide" and len(moat_sources) < 2:
+                violations.append({
+                    "field": "five_forces_synthesis.moat_sources",
+                    "value": f"len={len(moat_sources)}",
+                    "issue": "wide rating 必 ≥2 类护城河来源",
+                    "severity": "should",
+                })
+            elif moat_rating == "narrow" and len(moat_sources) < 1:
+                violations.append({
+                    "field": "five_forces_synthesis.moat_sources",
+                    "value": f"len={len(moat_sources)}",
+                    "issue": "narrow rating 必 ≥1 类护城河来源",
+                    "severity": "should",
+                })
+        fs = ffs.get("falsification_signals") or []
+        if not isinstance(fs, list) or len(fs) < 1:
+            violations.append({
+                "field": "five_forces_synthesis.falsification_signals",
+                "value": f"len={len(fs) if isinstance(fs, list) else 'n/a'}",
+                "issue": "falsification_signals 数组 < 1 (达里奥极度求真)",
+                "severity": "should",
+            })
 
     return violations
 

@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "BUG_FIX_FULL_SYMBOL_INDEX_basics_sync_service", "target": "BUG_FIX_FULL_SYMBOL_INDEX_fix_script", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/fixes/data-source/BUG_FIX_FULL_SYMBOL_INDEX.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

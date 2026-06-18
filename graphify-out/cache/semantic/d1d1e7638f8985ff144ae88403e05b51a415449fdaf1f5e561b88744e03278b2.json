@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "DASHBOARD_MARKET_NEWS_FIX_news_api", "target": "DASHBOARD_MARKET_NEWS_FIX_news_data_service_backend", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/fixes/dashboard/DASHBOARD_MARKET_NEWS_FIX.md", "source_location": null, "weight": 1.0}], "hyperedges": []}

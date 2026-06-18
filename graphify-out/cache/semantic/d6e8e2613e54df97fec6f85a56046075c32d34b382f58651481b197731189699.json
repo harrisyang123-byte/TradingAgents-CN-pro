@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "PROVIDER_ID_FIX_config_service", "target": "PROVIDER_ID_FIX_fix_provider_id_script", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docs/fixes/data-source/PROVIDER_ID_FIX.md", "source_location": null, "weight": 1.0}], "hyperedges": []}
