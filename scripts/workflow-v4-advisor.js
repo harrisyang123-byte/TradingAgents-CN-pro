@@ -4,7 +4,10 @@
 // 用法: claude -p "运行 v4 编排器，Workflow 脚本 scripts/workflow-v4-advisor.js，
 //                  args 传 {verb:'analyze', selector:'asset:equity', user_id:'...'}"
 // args:
-//   verb       analyze | refresh
+//   verb       analyze | refresh | recritic
+//              recritic = 只重跑 critic 评审闭环(复用已落盘 director 产物, 跳过拆解/深挖/辩论, 省 token)；
+//                         用于"前面分析都对、只 critic 那步需用修复后代码重评"(如 Issue#5 score 解析修复后)。
+//                         仅 industry 单元支持。
 //   selector   单元选择器：asset:<class> | plan:<class> | alloc:portfolio |
 //              industry:<name> | alloc:equity_industries | stock:<code> | alloc:industry:<name>
 //   user_id    用户 ID
@@ -384,10 +387,78 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
   }
 }
 
+// ── 续跑：只重跑 critic 评审闭环（verb=recritic，省 token） ──────────
+// 复用已落盘的 director 产物(含 chokepoint/深挖/辩论全部成果)，跳过 Step A-D 昂贵 LLM，
+// 只从信封提取 payload → 跑 runCriticGate(真 spawn critic + director 修订闭环) → 重新落盘。
+// 用途：Issue#5 类——前面分析都对，只是 critic 那步需用修复后代码重评(如 score 解析 bug 修复后)。
+async function recriticIndustry(name) {
+  const unitId = `industry:${name}`;
+  const sn = safeName(name);
+  phase('行业研究部门');
+  log(`续跑 critic 评审：${unitId}（复用已落盘产物，跳过拆解/深挖/辩论，省 token）`);
+
+  const packName = `inputs/industry_${sn}.json`;
+  const inputs = [p(packName), p('inputs/data_macro.json'), p('allocation/portfolio.json')];
+  const upstreamRefs = ['alloc:portfolio', 'asset:equity'];
+  const chFile = `industry_chokepoint_${sn}.json`;
+  const fmFile = `industry_future_market_${sn}.json`;
+  const dbFile = `industry_debate_${sn}.json`;
+  const drillFile = `industry_drill_${sn}.json`;
+  const unitFile = `industries/${sn}.json`;
+  const payloadFile = p('_payload_tmp.json');
+
+  // director schema（与 runIndustryDepartment 保持一致，供修订轮使用）
+  const directorSchema =
+    `输出 JSON：{industry:"${name}",verdict:{stance,situation,direction,vitality_level,` +
+    `track_quality,worst_case,cycle_position,downgrade_trigger,` +
+    `chokepoint_conclusion,risks:[],allocation_advice,confidence},` +
+    `chokepoint_map:[],top_chokepoints:[],` +
+    `deep_chokepoint_chains:[{start,chain:[{depth,node,supply_demand_gap,expansion_cycle,global_players,pricing_power,discovery_level,beneficiaries_a:[],beneficiaries_qdii:[]}],deepest_alpha}],` +
+    `industry_future_market:{},` +
+    `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority,chain_depth}],` +
+    `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},data_quality,evidence:[]}`;
+
+  try {
+    // 取锁 + 从已落盘信封提取 payload 写入临时文件（critic gate 评审它）
+    await agent(
+      mkLockInstr(unitId) +
+      `\n【续跑准备】Read 已落盘单元 ${p(unitFile)}，取出其 "payload" 字段（这是上次 director 的完整产出，含 verdict/deep_chokepoint_chains/investment_map 等）。\n` +
+      `用 Write 工具将该 payload 对象（仅 payload 内容，不含信封外层）写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。`,
+      { label: '续跑·提取产物', phase: '行业研究部门' }
+    );
+
+    // 直接跑评审闭环（与正常流程同一函数，行为一致）
+    const verdict = await runCriticGate({
+      unitId, payloadFile, directorSchema, kind: 'industry',
+      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(dbFile)}、${p(packName)}`,
+      upstreamRefs, inputs,
+    });
+
+    log(`✅ ${unitId} 续跑完成：critic=${verdict._critic_score}/${verdict._critic_decision}`);
+    return { status: 'done', unit_id: unitId, mode: 'recritic' };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 续跑失败: ${e}`);
+    // 失败必须解锁（防锁泄漏）
+    await agent(
+      `【错误恢复·解锁】执行 Bash: python3 scripts/v4_unit_cli.py unlock '${unitId}' 2>&1。`,
+      { label: '续跑错误解锁', phase: '行业研究部门' }
+    );
+    throw e;
+  }
+}
+
 // ── 主调度 ──────────────────────────────────────────────────
 async function main() {
   const sel = parseSelector(selector);
   log(`v4 编排器：verb=${verb} selector=${selector} type=${sel.type} run_mode=${RUN_MODE}`);
+
+  // verb=recritic：只重跑 critic 评审闭环（省 token，复用已落盘产物）
+  if (verb === 'recritic') {
+    if (sel.type !== 'industry') {
+      throw new Error(`recritic 暂只支持 industry 单元（个股走 mode-A）；收到 ${sel.type}`);
+    }
+    return recriticIndustry(sel.key);
+  }
 
   switch (sel.type) {
     case 'industry':

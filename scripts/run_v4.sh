@@ -24,6 +24,7 @@
 # 子命令:
 #   analyze   触发指定单元深度分析（仅跑命中单元，不连带重跑其它，AC4.4）
 #   refresh   强制失效并重跑指定单元（重绑最新上游指纹，AC5.4）
+#   recritic  仅重跑 critic 评审闭环（复用已落盘 director 产物，跳过拆解/深挖/辩论，省 token；仅 industry）
 #   status    列出全部单元状态（五色 + 版本 + 生成时间）
 #   scan      扫描过期/过时单元，仅置黄并提示（绝不自动重跑，AC4.2 / AC5.3）
 
@@ -65,10 +66,11 @@ JSON_OUT=""
 usage() {
     cat <<'EOF'
 用法:
-  ./run_v4.sh analyze <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
-  ./run_v4.sh refresh <unit-selector> [--user-id <id>] [--portfolio-file <path>]
-  ./run_v4.sh status  [--user-id <id>] [--json]
-  ./run_v4.sh scan    [--user-id <id>] [--json]
+  ./run_v4.sh analyze  <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
+  ./run_v4.sh refresh  <unit-selector> [--user-id <id>] [--portfolio-file <path>]
+  ./run_v4.sh recritic <industry:名>   [--user-id <id>]   # 只重跑 critic 评审闭环(复用已落盘产物,省 token)
+  ./run_v4.sh status   [--user-id <id>] [--json]
+  ./run_v4.sh scan     [--user-id <id>] [--json]
 
 unit-selector:
   asset:<class> | plan:<class> | alloc:portfolio | industry:<name>
@@ -82,9 +84,9 @@ if [ -z "$COMMAND" ] || [ "$COMMAND" = "-h" ] || [ "$COMMAND" = "--help" ]; then
 fi
 shift || true
 
-# analyze/refresh 第二个位置参数是 selector
+# analyze/refresh/recritic 第二个位置参数是 selector
 case "$COMMAND" in
-    analyze|refresh)
+    analyze|refresh|recritic)
         if [ $# -gt 0 ] && [[ "${1:-}" != --* ]]; then
             SELECTOR="$1"
             shift
@@ -123,11 +125,16 @@ run_orchestrator() {
     fi
 
     # [1/2] 数据采集：为该单元拼装多维输入包（脱 LLM，纯 Python）
-    local collect_args=(--selector "$SELECTOR" --user-id "$USER_ID" --verb "$verb")
-    [ -n "$PORTFOLIO_FILE" ] && collect_args+=(--portfolio-file "$PORTFOLIO_FILE")
-    echo "[1/2] 采集 $SELECTOR 输入包..."
-    "$PYTHON" "$SCRIPT_DIR/collect_v4.py" "${collect_args[@]}" || {
-        echo "❌ 数据采集失败" >&2; exit 1; }
+    # recritic 复用已落盘产物 + 既有输入包，跳过重新采集（省时省 token，且无需联网）
+    if [ "$verb" = "recritic" ]; then
+        echo "[1/2] recritic 模式：跳过数据采集，复用已落盘产物与既有输入包"
+    else
+        local collect_args=(--selector "$SELECTOR" --user-id "$USER_ID" --verb "$verb")
+        [ -n "$PORTFOLIO_FILE" ] && collect_args+=(--portfolio-file "$PORTFOLIO_FILE")
+        echo "[1/2] 采集 $SELECTOR 输入包..."
+        "$PYTHON" "$SCRIPT_DIR/collect_v4.py" "${collect_args[@]}" || {
+            echo "❌ 数据采集失败" >&2; exit 1; }
+    fi
 
     # [2/2] Agent 推理：默认本会话 agent 直跑；无 claude 子进程时不阻塞（退出码 2，改走 agent 直跑）
     if ! command -v claude &>/dev/null; then
@@ -162,6 +169,7 @@ v4 子 Agent 定义在 .claude/agents/advisor/（v4-*.md）。
 case "$COMMAND" in
     analyze)  run_orchestrator analyze ;;
     refresh)  run_orchestrator refresh ;;
+    recritic) run_orchestrator recritic ;;
     status)   run_status status ;;
     scan)     run_status scan ;;
     *)
