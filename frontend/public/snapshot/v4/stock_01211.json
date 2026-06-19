@@ -86,5 +86,21 @@
       "stance": "谨慎看多(EV龙头历史最低估值错杀, 但价格战需辨)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "○(ROE15.1+垂直整合成本优势)",
+    "好价格": "○(分位0.0历史最低+回撤-81%)",
+    "好未来": "△(海外第二曲线确定但国内渗透见顶+价格战)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

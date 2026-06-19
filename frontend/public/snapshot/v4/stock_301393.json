@@ -84,5 +84,21 @@
       "stance": "观察/降级(卡位真但业绩下滑+估值不低)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "✗(ROE5.0低+净利下滑)",
+    "好价格": "✗(PE46.7对下滑业绩偏高)",
+    "好未来": "△(GLP-1拉动期权未兑现)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

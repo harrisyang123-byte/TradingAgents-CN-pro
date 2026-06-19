@@ -282,5 +282,155 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "维生素 (40% 营收, 85.4 亿)": {
+      "VA": "全球 40% 市占第一 (CR3 巴斯夫+帝斯曼+新和成 >85%)",
+      "VE": "全球 25% 第二",
+      "ASP_trend": "VA 价格从 2022 峰值回落 60%+, 已底部区间",
+      "毛利率_estimated": "35-40%",
+      "lifecycle": "周期成熟期+底部",
+      "key_catalyst": "巴斯夫柠檬醛装置不再扩产 (供给端见顶)"
+    },
+    "蛋氨酸 (25% 营收, 53.4 亿)": {
+      "ASP_trend": "¥22000→¥16000/吨 (-27%) 价格战",
+      "毛利率_estimated": "10-15% (低毛利)",
+      "lifecycle": "扩产周期+亏损期",
+      "key_risk": "全球 +30% 新增产能 80 万吨 2024-2026 集中投产"
+    },
+    "香精香料 (15% 营收, 32 亿)": {
+      "客户": "雅诗兰黛/欧莱雅/联合利华",
+      "毛利率_estimated": "40-45% (高毛利)",
+      "增速_2025": "+10-15%",
+      "lifecycle": "成长期"
+    },
+    "新材料 PPA/PPS (15% 营收, 32 亿)": {
+      "已知产品": "高端聚酯/聚醚/PPS",
+      "增速_2025": "+40%+",
+      "毛利率_estimated": "30-35%",
+      "lifecycle": "爆发期",
+      "潜力": "对标万华 MDI 估值重构"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "VA 价格变动 × 净利率",
+    "matrix": {
+      "VA+30% × 净利率 32%": {
+        "2026E_revenue": 234,
+        "2026E_net": 75,
+        "fair_pe": 13,
+        "fair_price": 31.7,
+        "comment": "bull 拐点 (VA 周期上行)"
+      },
+      "VA+30% × 净利率 28%": {
+        "2026E_revenue": 234,
+        "2026E_net": 65.5,
+        "fair_pe": 12,
+        "fair_price": 25.6,
+        "comment": "中性偏强"
+      },
+      "VA+30% × 净利率 24%": {
+        "2026E_revenue": 234,
+        "2026E_net": 56.2,
+        "fair_pe": 11,
+        "fair_price": 20.1,
+        "comment": "蛋氨酸拖累"
+      },
+      "VA+0% × 净利率 28%": {
+        "2026E_revenue": 220,
+        "2026E_net": 61.6,
+        "fair_pe": 12,
+        "fair_price": 24.1,
+        "comment": "维持现状"
+      },
+      "VA+0% × 净利率 25%": {
+        "2026E_revenue": 220,
+        "2026E_net": 55,
+        "fair_pe": 11,
+        "fair_price": 19.7,
+        "comment": "base 中位"
+      },
+      "VA+0% × 净利率 22%": {
+        "2026E_revenue": 220,
+        "2026E_net": 48.4,
+        "fair_pe": 10,
+        "fair_price": 15.8,
+        "comment": "bear 偏弱"
+      },
+      "VA-20% × 净利率 25%": {
+        "2026E_revenue": 195,
+        "2026E_net": 48.8,
+        "fair_pe": 10,
+        "fair_price": 15.9,
+        "comment": "周期下行"
+      },
+      "VA-20% × 净利率 22%": {
+        "2026E_revenue": 195,
+        "2026E_net": 42.9,
+        "fair_pe": 9,
+        "fair_price": 12.6,
+        "comment": "极端 bear"
+      },
+      "VA-20% × 净利率 18%": {
+        "2026E_revenue": 195,
+        "2026E_net": 35.1,
+        "fair_pe": 8,
+        "fair_price": 9.1,
+        "comment": "崩塌"
+      }
+    },
+    "probability_weighted": "9 格平均 ¥19.4 vs 现价 ¥22.27 = -13% 隐含 (现价已 price-in 中性偏强)",
+    "key_finding": "现价反映 VA 持平+净利率维持 25%+ 中性情景, 上行空间需 VA 周期上行 + 净利率回升至 28%+"
+  },
+  "comparable_path_quantified": {
+    "安迪苏(600299) PE 路径": "全球蛋氨酸龙头 PE 12-18x 周期波动",
+    "万华化学 PE 路径": "MDI 全球龙头 PE 15x 长期稳定",
+    "浙江医药 PE 路径": "维生素第二梯队 PE 15x",
+    "帝斯曼/DSM PE 路径": "欧洲营养品龙头 PE 18-22x",
+    "新和成当前 vs 触发条件 gap": [
+      "✅ VA 全球第一 (40%) — 满足触发1 龙头壁垒",
+      "✅ 净利率 27.5% 顶级 — 满足触发2 盈利质量",
+      "❌ VA 价格回升信号未现 — 缺触发3",
+      "❌ 新材料 PPA 占比 <15% (主营贡献仍小)",
+      "结论: 满足 2/4, 距 PE 12-15x re-rating 待 VA 周期上行+新材料放量"
+    ]
+  },
+  "forward_view_6dim": {
+    "market_regime": "全球饲料添加剂稳定增长 (CAGR 4-6%) + 新材料 PPA/PPS 高速 (CAGR 15-20%) + 维生素周期底部 + 蛋氨酸过剩压制",
+    "liquidity": "北上 5-7%, 沪深 300 权重股, 流动性良好",
+    "cycle_position": "VA 周期下行末段+底部探明 + 蛋氨酸扩产期+亏损期 + 新材料爆发期",
+    "beta_correlation": "Beta 0.71 (低于市场), 与化工/材料板块相关 0.6+",
+    "comparable_anchor": "安迪苏 15x / 万华 15x / 浙江医药 15x / 帝斯曼 20x; 新和成 9.87x 显著折价",
+    "pricing_power": "高 (VA 三寡头默契) — 但蛋氨酸产能过剩压制总体定价权"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "2.5%(¥20 以下激进抄底), 止损 ¥17.5",
+    "safe": "0.57%(维持观望), 止损 ¥18",
+    "neutral": "1.0%(从 0.57% 加 0.43%), ¥20 加至 1.8%, ¥18.5 加至 2.5%; 止损 ¥17.5",
+    "director_decision": "采纳 neutral — 现价 ¥22.27 加 0.43% 至 1.0%, 给后续加仓留弹药. aggressive 2.5% 一次到位在催化未现前过激; safe 0.57% 错失底部机会."
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 15.86,
+    "roic_adj_pct": 21.15,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 21.87,
+    "roa_pct": 18.22,
+    "debt_ratio_pct": 27.73,
+    "equity_yi": 329.61,
+    "ocf_yi": 87.97,
+    "fcf_per_share": 1.802,
+    "fcf_sign": "正",
+    "op_margin_pct": 35.3,
+    "net_margin_pct": 30.57,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 18.5% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

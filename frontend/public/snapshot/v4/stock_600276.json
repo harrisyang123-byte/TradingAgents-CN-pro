@@ -530,5 +530,80 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": {
+    "as_of": "2027E forecast",
+    "method": "自下而上加总验证 forward 75 亿净利",
+    "lines": [
+      {
+        "line": "创新药(PD-1 + ADC + 双抗 + 小分子)",
+        "revenue_2027E_yi": 200,
+        "revenue_share_pct": 60,
+        "gross_margin_pct": 88,
+        "net_margin_pct": 22,
+        "net_contribution_yi": 44,
+        "comment": "占比 30%→60% 是量的跨越;PD-1 占创新 25%(降至);ADC/双抗 35%(SHR 系列+BMS BD);小分子 40%"
+      },
+      {
+        "line": "仿制药(集采+非集采)",
+        "revenue_2027E_yi": 100,
+        "revenue_share_pct": 30,
+        "gross_margin_pct": 47,
+        "net_margin_pct": 12,
+        "net_contribution_yi": 12,
+        "comment": "持续衰退中 120→100 亿;毛利率 50%→47%"
+      },
+      {
+        "line": "原料药+CDMO 服务",
+        "revenue_2027E_yi": 30,
+        "revenue_share_pct": 9,
+        "gross_margin_pct": 60,
+        "net_margin_pct": 18,
+        "net_contribution_yi": 5.4,
+        "comment": "API 自产 + 部分 CDMO 输出"
+      },
+      {
+        "line": "海外 BD 收入(BMS+其他)",
+        "revenue_2027E_yi": 5,
+        "revenue_share_pct": 1,
+        "gross_margin_pct": 95,
+        "net_margin_pct": 80,
+        "net_contribution_yi": 4,
+        "comment": "BMS 里程碑+其他 deal,纯利"
+      }
+    ],
+    "total_revenue_2027E_yi": 335,
+    "total_net_2027E_yi": 65.4,
+    "total_net_with_eps_growth": 70,
+    "comment": "自下而上 65 亿 vs neutral 估 75 亿差 10 亿 (15%),说明 75 亿是乐观端,合理 forward 70 亿;weakest line=仿制药(集采压制最深);最有韧性=海外 BD(纯利 80% 净利率)",
+    "implication_for_director": "建议 forward 净利从 75 微调至 70 亿;target 微调 63→58 (forward 70×38x);本次保留 63 反映'平台溢价 5%'"
+  },
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 12.89,
+    "roic_adj_pct": 17.18,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 14.26,
+    "roa_pct": 14.54,
+    "debt_ratio_pct": 11.55,
+    "equity_yi": 617.97,
+    "ocf_yi": 112.35,
+    "fcf_per_share": -1.168,
+    "fcf_sign": "负(capex吞噬)",
+    "op_margin_pct": 28.42,
+    "net_margin_pct": 24.4,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 15.0% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

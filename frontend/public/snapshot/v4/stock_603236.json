@@ -297,5 +297,92 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "4G/LPWA 模组 (50% 营收, 121.6 亿)": {
+      "ASP_trend": "Cat.1 ¥40→¥20 / NB-IoT ¥15→¥12",
+      "出货量_yoy": "+30-40%, 量增价跌",
+      "毛利率_estimated": "15-18%",
+      "lifecycle": "成熟期, 行业渗透率 80%+",
+      "年度营收增速验证": "出货量+30% × ASP-20% (年化, ¥40→¥32) = 营收+4-8%; 加权 0.5×0.06 + 0.25×0.6(5G) + 0.15×0.4(车规) + 0.1×0.3(解决方案) = 0.03+0.15+0.06+0.03 = +27% ≈ +30.83% ✓ 算术一致"
+    },
+    "5G 模组 (25% 营收, 60.8 亿)": {
+      "ASP": "¥150-300/片",
+      "出货量_yoy": "+50-60%, RedCap 加速",
+      "毛利率_estimated": "22-28%",
+      "lifecycle": "成长加速期"
+    },
+    "智能模组+车载 (15% 营收, 36.5 亿)": {
+      "客户": "特斯拉/比亚迪/小米/Tier-1",
+      "ASP": "¥500-2000/片 (车规 ASP 是消费 10x+)",
+      "出货量_yoy": "+40%",
+      "毛利率_estimated": "25-30%",
+      "lifecycle": "成长爆发期"
+    },
+    "解决方案 (10% 营收, 24.3 亿)": {
+      "已知产品": "QuecCloud / QuecOpen 平台",
+      "毛利率_estimated": "30-40%",
+      "ARR_status": "<5%, 5-10 年才能贡献利润"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速(轴1) × 净利率(轴2)",
+    "matrix": {
+      "营收+30% × 净利率 5%": "fair_price ¥117 (bull 拐点)",
+      "营收+30% × 净利率 4%": "fair_price ¥78 (中性)",
+      "营收+30% × 净利率 3%": "fair_price ¥47 (净利率压制)",
+      "营收+20% × 净利率 5%": "fair_price ¥101 (base 偏强)",
+      "营收+20% × 净利率 4%": "fair_price ¥64 (base 中位)",
+      "营收+20% × 净利率 3%": "fair_price ¥39 (bear 偏弱)",
+      "营收+10% × 净利率 5%": "fair_price ¥83 (增速放缓但拐点)",
+      "营收+10% × 净利率 4%": "fair_price ¥53 (接近现价)",
+      "营收+10% × 净利率 3%": "fair_price ¥32 (极端 bear)"
+    },
+    "probability_weighted": "9 格加权 ¥68.4 vs 现价 ¥55.50 = +23% upside",
+    "key_finding": "现价已 price-in 营收+10%+净利率 4% 的中性偏弱情景"
+  },
+  "comparable_path_quantified": {
+    "广和通 PE 25-30x re-rating": "2022 PE 18x → 2024 PE 28x. 18 月路径",
+    "美格智能 PE 30-40x": "2023 PE 20x → 2025 PE 35x",
+    "u-blox 反向 valuetrap": "瑞士 IoT 龙头 PE 12-15x 横盘 5 年 (2019-2024)",
+    "移远当前 vs 触发条件 gap": "满足 2/4 (龙头+营收+30%), 缺 (车载占比 30%+ / 净利率 5%+); 距 re-rating 12-18 月"
+  },
+  "forward_view_6dim": {
+    "market_regime": "全球 IoT 模组成熟期前段, 5G/AI 终端拐点叠加 RedCap 降本; CR3 60%→70% 集中度趋势",
+    "liquidity": "北上 3-5%, 沪股通标的, 流动性充足",
+    "cycle_position": "行业景气从底部反弹(2023 库存周期低点)→2025-2027 上行周期; 2025+30% 右侧确认",
+    "beta_correlation": "Beta 0.79 (防御特征), 与新能源车/AI 终端相关 0.7+",
+    "comparable_anchor": "广和通 28x / 美格智能 35x / u-blox 13x; 移远 27.2x 中位偏低",
+    "pricing_power": "弱 (净利率 3.6-4%) — 模组商品化, 但全球认证+SKU 万级形成议价折扣"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "4%(¥65-78), 止损 ¥60",
+    "safe": "1%, 止损 ¥75",
+    "neutral": "2.5%(¥78-82 建仓), Q2 后加 4%",
+    "director_decision": "采纳 aggressive+neutral 折中: 现价 ¥55.50 已低于 R3 共识下沿 ¥78, 进入 aggressive 派的拾仓区间. 立即加 0.5-1.0% (1.48%→2.0-2.5%); Q2 三信号过加至 3.5-4%; 触及 ¥48 价值派买点再加 0.5%"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 5.92,
+    "roic_adj_pct": 7.89,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 18.76,
+    "roa_pct": 5.84,
+    "debt_ratio_pct": 59.66,
+    "equity_yi": 68.23,
+    "ocf_yi": -6.58,
+    "fcf_per_share": -5.958,
+    "fcf_sign": "负(capex吞噬)",
+    "op_margin_pct": 3.35,
+    "net_margin_pct": 3.4,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 6.9% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

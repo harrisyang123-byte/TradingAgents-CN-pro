@@ -88,5 +88,21 @@
       "stance": "中性偏多(优质但估值偏高, 等回调¥170以下重仓)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "○○(ROIC远超WACC, A股顶级商业模式)",
+    "好价格": "△(PE34.8分位0.7偏高+76%含牛市β, forward PEG~1.2)",
+    "好未来": "○(AI金融确定, iFinD→AI投研SaaS TAM扩张)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

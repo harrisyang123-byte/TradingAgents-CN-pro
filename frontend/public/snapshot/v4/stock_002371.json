@@ -1019,5 +1019,80 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": {
+    "as_of": "2027E forecast",
+    "method": "自下而上加总验证 forward 75 亿净利",
+    "lines": [
+      {
+        "line": "刻蚀(ICP+CCP)",
+        "revenue_2027E_yi": 165,
+        "revenue_share_pct": 35,
+        "gross_margin_pct": 38,
+        "net_margin_pct": 14,
+        "net_contribution_yi": 23.1,
+        "comment": "刻蚀是核心,先进制程占比提升但中微 ICP 竞争加剧 → 毛利率从 42% 降至 38%"
+      },
+      {
+        "line": "薄膜(PVD+CVD+ALD)",
+        "revenue_2027E_yi": 120,
+        "revenue_share_pct": 25,
+        "gross_margin_pct": 40,
+        "net_margin_pct": 16,
+        "net_contribution_yi": 19.2,
+        "comment": "PVD 国产唯一+ALD 28nm 突破=最有定价权;但 CVD 受拓荆挤压"
+      },
+      {
+        "line": "清洗设备",
+        "revenue_2027E_yi": 95,
+        "revenue_share_pct": 20,
+        "gross_margin_pct": 32,
+        "net_margin_pct": 12,
+        "net_contribution_yi": 11.4,
+        "comment": "盛美强势,北方华创清洗毛利率最低,is the weakest line"
+      },
+      {
+        "line": "炉管/扩散+其他",
+        "revenue_2027E_yi": 95,
+        "revenue_share_pct": 20,
+        "gross_margin_pct": 35,
+        "net_margin_pct": 13,
+        "net_contribution_yi": 12.4,
+        "comment": "炉管国产化率较低 1-2 家国产玩家,定价权中等"
+      }
+    ],
+    "total_revenue_2027E_yi": 475,
+    "total_net_2027E_yi_calculated": 66.1,
+    "total_net_2027E_yi_with_subsidy": 71.1,
+    "comment": "**自下而上加总 = 66 亿(扣非)+5 亿(大基金补贴) = 71 亿,低于 director 75 亿 4 亿(差 5%)**。说明 75 亿略偏乐观,合理 forward 应取 70-72 亿。同时识别 weakest line = 清洗设备(被盛美挤压,毛利率最低 32%);最有韧性 = 薄膜(PVD 国产唯一+ALD 突破)",
+    "implication_for_director": "建议 forward 净利从 75 亿微调至 71 亿;weakest line 清洗的 miss 风险最大(若份额跌破 25% 则 line 利润减半);薄膜是 bull 路径的关键(若 ALD 28nm 大单则 +5 亿净利贡献)"
+  },
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 7.29,
+    "roic_adj_pct": 9.72,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 16.41,
+    "roa_pct": 7.85,
+    "debt_ratio_pct": 51.08,
+    "equity_yi": 439.28,
+    "ocf_yi": 21.33,
+    "fcf_per_share": -6.216,
+    "fcf_sign": "负(capex吞噬)",
+    "op_margin_pct": 14.74,
+    "net_margin_pct": 13.74,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 8.5% vs WACC~9% → 临界"
+  },
+  "upstream_drill": null
 }

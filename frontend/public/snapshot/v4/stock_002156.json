@@ -678,5 +678,39 @@
       }
     }
   },
-  "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)"
+  "dcf_intrinsic": "正向DCF: FCF/股 +0.80(verified,2025)转正但薄, 经营现金流69.66亿. 三角验证: 正向DCF(FCF薄) + 反向DCF(PE60x隐含CAGR29%过高) + 多派别(¥30-55内在) 三者一致指向高估。ROIC 4.39-5.85%<WACC 9% 是高估的根本原因(增长不创造价值)",
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": {
+    "aggressive": "12% 仓位, 止损 ¥49, 接受 high tail risk",
+    "safe": "4% 仓位, 止损 ¥55, 拒绝 tail risk",
+    "neutral": "7% 仓位(分 2 批 2 周内减), 硬止损 ¥38.5/跟踪 ¥43, 加仓区 ¥42-44/¥38.5-40, 减仓区 ¥56-58/¥63-68",
+    "director_decision": "采纳 neutral 7% — 折中 aggressive 进攻性与 safe 防御性。weakest_link buyer_power + 估值偏热 → 不能 12% 激进; advanced packaging 产能紧张+AMD 排他绑定真实 → 不必 4% 过度避险。7% 既保留景气弹性又压缩尾部风险敞口。"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 4.39,
+    "roic_adj_pct": 5.85,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 8.08,
+    "roa_pct": 5.21,
+    "debt_ratio_pct": 63.73,
+    "equity_yi": 171.41,
+    "ocf_yi": 69.66,
+    "fcf_per_share": 0.803,
+    "fcf_sign": "正",
+    "op_margin_pct": 6.26,
+    "net_margin_pct": 4.93,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 5.1% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

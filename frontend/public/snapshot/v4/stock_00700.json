@@ -283,5 +283,107 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "增值服务-游戏+社交 (50% 营收, 3759亿)": {
+      "用户基础": "微信+QQ 月活 13亿+",
+      "增速_2025": "+10-12%",
+      "毛利率_estimated": "55%",
+      "lifecycle": "成熟期+海外游戏增长",
+      "key": "游戏全球 #1 营收 (Riot/Supercell/Epic 投资+自研)"
+    },
+    "营销服务-广告 (17% 营收, 1278亿)": {
+      "增速_2025": "+18-20%",
+      "毛利率_estimated": "60%+",
+      "驱动": "视频号广告加载率 3% (vs 抖音 15%) 5x 空间",
+      "key": "微信生态私域+AI 精准广告"
+    },
+    "金融科技+企业服务 (33% 营收, 2480亿)": {
+      "增速_2025": "+12-15%",
+      "毛利率_estimated": "30-35%",
+      "已知": "微信支付+理财通+保险+腾讯云",
+      "key": "金科牌照变现潜力(克制中)"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速 × 净利率",
+    "matrix": {
+      "+15% × 32%": {
+        "fair_price_hkd": 720,
+        "comment": "bull 拐点 (AI 兑现)"
+      },
+      "+15% × 30%": {
+        "fair_price_hkd": 620,
+        "comment": "中性偏强"
+      },
+      "+15% × 28%": {
+        "fair_price_hkd": 540,
+        "comment": "AI 投入压制"
+      },
+      "+10% × 32%": {
+        "fair_price_hkd": 600,
+        "comment": "base 偏强"
+      },
+      "+10% × 30%": {
+        "fair_price_hkd": 520,
+        "comment": "base 中位"
+      },
+      "+10% × 28%": {
+        "fair_price_hkd": 460,
+        "comment": "中性"
+      },
+      "+5% × 32%": {
+        "fair_price_hkd": 500,
+        "comment": "增速放缓"
+      },
+      "+5% × 30%": {
+        "fair_price_hkd": 430,
+        "comment": "接近现价"
+      },
+      "+5% × 28%": {
+        "fair_price_hkd": 380,
+        "comment": "极端 bear"
+      }
+    },
+    "weighted_avg": "9 格平均 HK$530 vs 现价 HK$446 = +18.8% 上行隐含"
+  },
+  "comparable_path_quantified": {
+    "Meta": "PE 25-30x (全球互联网龙头)",
+    "Alphabet": "PE 22-28x (广告+云)",
+    "Netflix": "PE 35x (流媒体)",
+    "阿里": "PE 9-12x (中概折价更深)",
+    "腾讯": "PE 14.91x — 折价于全球但溢价于阿里",
+    "gap": "若中概折价缓解, PE 应至 18-20x = HK$540-600"
+  },
+  "forward_view_6dim": {
+    "market_regime": "中国互联网监管常态化+AI 投入期+全球游戏渗透",
+    "liquidity": "南下港股通持股 12-15%, 恒指最大权重股",
+    "cycle_position": "广告增速从 30%→20% 放缓但 AI 兑现期+视频号空间打开",
+    "beta_correlation": "Beta 0.75 (低于市场), 与恒生科技指数 0.9+",
+    "comparable_anchor": "Meta 28x / Alphabet 25x / 阿里 10x / 腾讯 14.91x — 中概折价 50%",
+    "pricing_power": "强 (微信生态独占+游戏 IP+金科牌照)"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "8-10% 满仓上限",
+    "safe": "5% 控仓+分批",
+    "neutral": "6-7%, 现价 40% + HK$420 加 40% + HK$380 加 20%",
+    "director_decision": "采纳 neutral 6-7% — 推荐池高 conviction 标的"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "2025-12-31",
+    "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+    "roic_pct": 15.25,
+    "roe_pct": 21.13,
+    "net_margin_pct": 30.57,
+    "gross_margin_pct": 56.21,
+    "debt_ratio_pct": 39.13,
+    "per_op_cashflow": 33.23,
+    "roic_vs_wacc9_verdict": "ROIC 15.25% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

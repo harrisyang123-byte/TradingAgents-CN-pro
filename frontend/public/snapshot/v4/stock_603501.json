@@ -188,5 +188,22 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "索尼": "CIS全球50%高端垄断,成熟PE~20x",
+    "三星": "18%份额垂直整合",
+    "安森美": "车载CIS全球40%压制韦尔车载",
+    "格科微/思特威": "国产低端CIS"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

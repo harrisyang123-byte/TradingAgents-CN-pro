@@ -360,5 +360,144 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "传奇系 ARPG (60% 营收, 31.9 亿)": {
+      "DAU_estimated": "30-40万 (端游+手游合计, 年化 -10-15%)",
+      "ARPU": "¥2400-3000/年 (中老年男性高付费, 鲸鱼用户为主)",
+      "lifecycle_phase": "成熟期末段 (8 年运营, 行业平均生命周期 3-5 年, 已超期)",
+      "续命机制": "新版本/换皮 (《代号·新热江》2025), 但效果递减",
+      "data_gap": "❌ 缺单服/单产品流水拆分, 公司未披露"
+    },
+    "小程序游戏 (20% 营收, 10.6 亿)": {
+      "已知爆款": "《疯狂骑士团》《斗罗大陆: 魂师对决》等",
+      "单款 ROI": "estimated 200-300% (买量获客成本 ¥5-15, 30 天回本)",
+      "行业风险": "微信小游戏 CPM 2025H2 同比 +80%, ROI 窗口收窄",
+      "续命机制": "多款并行+季度上新 2-3 款 (轮转工业化)",
+      "data_gap": "❌ 缺月流水/MAU/留存率精确数"
+    },
+    "盗墓笔记 IP (10% 营收, 5.3 亿)": {
+      "已知产品": "《新盗墓笔记》Steam 2026 上线",
+      "增量空间": "若首月流水破 1 亿则 2027 营收+5-10 亿",
+      "data_gap": "❌ 缺上线时间表/预约数"
+    },
+    "海外 KingNet (10% 营收, 5.3 亿)": {
+      "已知市场": "东南亚/中东本地化传奇",
+      "增长趋势": "+50%+ (低基数)",
+      "data_gap": "❌ 缺地区拆分"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "小程序增速(轴1) × 传奇衰退(轴2), 假设净利率维持 30%",
+    "matrix": {
+      "小程序+50% × 传奇0%": {
+        "2026E_revenue_yi": 70,
+        "2026E_net_yi": 21,
+        "fair_pe": 22,
+        "fair_price": 19.5,
+        "comment": "bull 情景"
+      },
+      "小程序+50% × 传奇-15%": {
+        "2026E_revenue_yi": 65,
+        "2026E_net_yi": 19.5,
+        "fair_pe": 18,
+        "fair_price": 14.9,
+        "comment": "中性"
+      },
+      "小程序+50% × 传奇-30%": {
+        "2026E_revenue_yi": 60,
+        "2026E_net_yi": 18,
+        "fair_pe": 14,
+        "fair_price": 10.7,
+        "comment": "传奇加速衰退"
+      },
+      "小程序+20% × 传奇0%": {
+        "2026E_revenue_yi": 64,
+        "2026E_net_yi": 19.2,
+        "fair_pe": 18,
+        "fair_price": 14.6,
+        "comment": "base"
+      },
+      "小程序+20% × 传奇-15%": {
+        "2026E_revenue_yi": 58,
+        "2026E_net_yi": 17.4,
+        "fair_pe": 14,
+        "fair_price": 10.3,
+        "comment": "base 偏弱"
+      },
+      "小程序+20% × 传奇-30%": {
+        "2026E_revenue_yi": 53,
+        "2026E_net_yi": 15.9,
+        "fair_pe": 11,
+        "fair_price": 7.4,
+        "comment": "bear"
+      },
+      "小程序-20% × 传奇0%": {
+        "2026E_revenue_yi": 56,
+        "2026E_net_yi": 16.8,
+        "fair_pe": 12,
+        "fair_price": 8.5,
+        "comment": "小程序证伪"
+      },
+      "小程序-20% × 传奇-15%": {
+        "2026E_revenue_yi": 50,
+        "2026E_net_yi": 15,
+        "fair_pe": 10,
+        "fair_price": 6.4,
+        "comment": "双弱"
+      },
+      "小程序-20% × 传奇-30%": {
+        "2026E_revenue_yi": 45,
+        "2026E_net_yi": 13.5,
+        "fair_pe": 8,
+        "fair_price": 4.6,
+        "comment": "极端 bear"
+      }
+    },
+    "probability_weighted": "9 格平均 ¥10.8 vs 当前 ¥18.27 = -41% 下行隐含; 仅 1 格 ¥19.5 (11% 概率) 支撑当前价",
+    "净利率敏感性": "若 +5pct 至 35% 各格 EPS×1.17; 若 -5pct 至 25% 各格×0.83"
+  },
+  "comparable_path_quantified": {
+    "三七互娱 re-rating 路径": "2022 PE 8x → 2023 PE 12x → 2024 PE 15x. 触发序列: 1) 2023Q2 单季营收同比转正(+12%) 2) 2023H2 海外占比从 35% → 50% 3) 2024 分红率从 30% 提至 50%. 用时 18 月.",
+    "吉比特 path": "2023 PE 12x → 2024 PE 18x. 触发: 《问道》新资料片连续 3 季流水正增 + 出海 KPL 盘子兑现.",
+    "完美世界 反向 path (价值陷阱案例)": "2020 PE 12x → 2024 PE 8x 横盘 4 年. 关键: 始终未出现增速拐点(《幻塔》《诛仙世界》均不及预期).",
+    "恺英当前 vs 触发条件 gap": [
+      "✅ Q1 单季已正增长(+50.65%) — 满足触发1",
+      "❌ 海外占比 10% 未达 25%+ 拐点 — 缺触发2",
+      "❌ 分红率 ~26% 未达 40%+ — 缺触发3",
+      "❌ pipeline 可见度低 — 缺《盗墓笔记》上线时间表",
+      "结论: 满足 1/4 触发条件, 距完整 re-rating 路径仍需 12-18 月"
+    ]
+  },
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": {
+    "aggressive": "4.5% / 止损 ¥13 / high tail risk",
+    "safe": "1.5% / 止损 ¥16 / low tail risk",
+    "neutral": "3.0% 维持(用户现仓), Q2 验证后加至 4%",
+    "director_decision": "采纳 neutral 3.0% 维持. v2 加强: critic 指出 confidence 0.55 偏低应对应观望而非主动. 维持 3% 等 Q2 + 4 项数据补齐后再考虑加仓"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 18.07,
+    "roic_adj_pct": 24.1,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 23.13,
+    "roa_pct": 18.82,
+    "debt_ratio_pct": 24.27,
+    "equity_yi": 99.0,
+    "ocf_yi": 22.63,
+    "fcf_per_share": 0.872,
+    "fcf_sign": "正",
+    "op_margin_pct": 37.2,
+    "net_margin_pct": 35.72,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 21.1% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

@@ -277,5 +277,147 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "运营商网络 (60% 营收, 803 亿)": {
+      "客户": "中国移动/电信/联通(国内) + 海外运营商",
+      "lifecycle": "成熟期+下行 — 5G 投资周期已过峰",
+      "毛利率_estimated": "30-35% (集采压价, 历史 35%+)",
+      "增速_2025": "+5-8% (低于公司均速)",
+      "key_risk": "华为回归抢份额 + 5G capex 下行 3-5 年"
+    },
+    "政企业务 (20% 营收, 268 亿)": {
+      "已知产品": "智算服务器+DCI 光传输+大模型(星云)+ICT 解决方案",
+      "增速_2025": "+25-30% (AI 算力放量)",
+      "毛利率_estimated": "15-20% (低毛利)",
+      "lifecycle": "成长期",
+      "智算份额": "运营商智算中标 12%→22% (2024-2025)"
+    },
+    "消费者业务 (20% 营收, 268 亿)": {
+      "产品": "手机/MBB/家庭网络",
+      "增速_2025": "+5-10% (低速)",
+      "毛利率_estimated": "20-25%",
+      "lifecycle": "弱势 — 实体清单影响"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速 × 净利率",
+    "matrix": {
+      "营收+10% × 净利率 6%": {
+        "2026E_revenue": 1473,
+        "2026E_net": 88.4,
+        "fair_pe": 22,
+        "fair_price": 40.7,
+        "comment": "bull 拐点 (利润修复+10%)"
+      },
+      "营收+10% × 净利率 4%": {
+        "2026E_revenue": 1473,
+        "2026E_net": 58.9,
+        "fair_pe": 22,
+        "fair_price": 27.1,
+        "comment": "中性"
+      },
+      "营收+10% × 净利率 3%": {
+        "2026E_revenue": 1473,
+        "2026E_net": 44.2,
+        "fair_pe": 18,
+        "fair_price": 16.6,
+        "comment": "极端 bear (净利率压制)"
+      },
+      "营收+5% × 净利率 6%": {
+        "2026E_revenue": 1406,
+        "2026E_net": 84.4,
+        "fair_pe": 22,
+        "fair_price": 38.8,
+        "comment": "增速放缓但拐点"
+      },
+      "营收+5% × 净利率 4%": {
+        "2026E_revenue": 1406,
+        "2026E_net": 56.2,
+        "fair_pe": 20,
+        "fair_price": 23.5,
+        "comment": "base 中位"
+      },
+      "营收+5% × 净利率 3%": {
+        "2026E_revenue": 1406,
+        "2026E_net": 42.2,
+        "fair_pe": 18,
+        "fair_price": 15.9,
+        "comment": "深 bear"
+      },
+      "营收+0% × 净利率 6%": {
+        "2026E_revenue": 1339,
+        "2026E_net": 80.3,
+        "fair_pe": 22,
+        "fair_price": 36.9,
+        "comment": "维持现状"
+      },
+      "营收+0% × 净利率 4%": {
+        "2026E_revenue": 1339,
+        "2026E_net": 53.6,
+        "fair_pe": 20,
+        "fair_price": 22.4,
+        "comment": "停滞"
+      },
+      "营收+0% × 净利率 3%": {
+        "2026E_revenue": 1339,
+        "2026E_net": 40.2,
+        "fair_pe": 18,
+        "fair_price": 15.1,
+        "comment": "崩塌"
+      }
+    },
+    "probability_weighted": "9 格平均 ¥24.1 vs 现价 ¥36.72 = -34% 下行隐含; 仅 1 格 ¥40.7 接近现价",
+    "key_finding": "现价 ¥36.72 隐含 '营收+10% + 净利率回升至 5-6% 拐点' 乐观情景, 但实际 2026Q1 利润 -46.58% 反向. 现价定价偏乐观."
+  },
+  "comparable_path_quantified": {
+    "烽火通信 PE re-rating": "2022 PE 25x → 2024 PE 35x. 触发: 算力订单+海外+扣非利润转正",
+    "星网锐捷 PE 路径": "2023 PE 22x → 2025 PE 30x. 触发: AI 服务器+企业网+毛利率提升",
+    "诺基亚反向 valuetrap": "国际通信设备龙头 PE 12-15x 横盘 5 年 (2020-2025), 5G 投资见顶+利润持续承压",
+    "中兴当前 vs 触发条件 gap": [
+      "❌ 利润同比 -33% 远未转正 — 缺触发1 利润拐点",
+      "✅ 政企+消费者占比 40% 多元化",
+      "❌ 智算服务器毛利率 15-18% 远低于运营商 30-35% — mix shift 反向稀释",
+      "❌ 实体清单未解除",
+      "结论: 满足 1/4, 距 re-rating 仍需 12-18 月观察"
+    ]
+  },
+  "forward_view_6dim": {
+    "market_regime": "全球 5G 投资周期下行 2024-2027, AI 算力周期上行; 中国国产替代政策托底; 通信设备 CR3 60% 集中度提升",
+    "liquidity": "北上持股 5-7%, 流动性充足, 港股 A 股双重上市",
+    "cycle_position": "5G 设备周期下行末段 + AI 算力周期初期; 当前位于'青黄不接'阶段",
+    "beta_correlation": "Beta 1.0-1.2, 与半导体/AI 板块相关 0.7+, 与通信运营商资本开支相关 0.8+",
+    "comparable_anchor": "烽火 30x / 星网锐捷 28x / 诺基亚 13x; 中兴 30.89x 中位偏高 (考虑利润下滑应折价)",
+    "pricing_power": "弱-中 (运营商集采压价 + 华为回归挤压); 但 5G 全栈+8.4 万族专利+全球前三构成议价底"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "4%(¥33-37 拾仓), 止损 ¥30.5",
+    "safe": "0.5%(观察仓), 止损 ¥28",
+    "neutral": "1.5%(现仓持有), ¥33-35 加 1.0%, ¥28-33 加 1.0%, ¥40-42 减半",
+    "director_decision": "采纳 neutral 框架 — 现仓 1.38% 接近 1.5% 推荐, 维持不加. aggressive 4% 在利润严重下滑期太激进; safe 0.5% 已被现仓 1.38% 满足. 价格回踩 ¥28-32 + Q2 信号过 → 加至 2.5%."
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 4.38,
+    "roic_adj_pct": 5.84,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 7.58,
+    "roa_pct": 4.73,
+    "debt_ratio_pct": 65.26,
+    "equity_yi": 756.41,
+    "ocf_yi": 39.19,
+    "fcf_per_share": 1.45,
+    "fcf_sign": "正",
+    "op_margin_pct": 4.75,
+    "net_margin_pct": 4.16,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 5.1% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

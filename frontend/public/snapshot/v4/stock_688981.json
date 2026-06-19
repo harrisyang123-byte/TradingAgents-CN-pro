@@ -249,5 +249,124 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "逻辑芯片 (85% 营收, 570亿)": {
+      "工艺": "28nm/40nm/65nm 成熟+14nm 量产+7nm 小批量",
+      "客户": "高通/华为/展锐/比亚迪半导体/A 股 IC 设计",
+      "毛利率_estimated": "20-23%",
+      "key": "国内垄断 14nm 以下"
+    },
+    "功率半导体+其他 (15% 营收, 100亿)": {
+      "毛利率_estimated": "25-30%"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "毛利率 × 营收增速 (FY26E)",
+    "matrix": {
+      "毛利25% × 营收+25%": {
+        "FY26_net_yi": 95,
+        "fair_pe_A": 50,
+        "fair_price_A": 60,
+        "comment": "bull 极端"
+      },
+      "毛利25% × 营收+15%": {
+        "FY26_net_yi": 75,
+        "fair_pe_A": 45,
+        "fair_price_A": 42,
+        "comment": "bull base"
+      },
+      "毛利25% × 营收+10%": {
+        "FY26_net_yi": 65,
+        "fair_pe_A": 40,
+        "fair_price_A": 33,
+        "comment": "中性偏强"
+      },
+      "毛利22% × 营收+15%": {
+        "FY26_net_yi": 65,
+        "fair_pe_A": 40,
+        "fair_price_A": 33,
+        "comment": "base 中位"
+      },
+      "毛利22% × 营收+10%": {
+        "FY26_net_yi": 58,
+        "fair_pe_A": 35,
+        "fair_price_A": 25,
+        "comment": "base"
+      },
+      "毛利18% × 营收+10%": {
+        "FY26_net_yi": 45,
+        "fair_pe_A": 30,
+        "fair_price_A": 17,
+        "comment": "bear 偏弱"
+      },
+      "毛利18% × 营收+5%": {
+        "FY26_net_yi": 38,
+        "fair_pe_A": 25,
+        "fair_price_A": 12,
+        "comment": "bear"
+      },
+      "毛利15% × 营收+0%": {
+        "FY26_net_yi": 28,
+        "fair_pe_A": 20,
+        "fair_price_A": 7,
+        "comment": "极端 bear (制裁升级)"
+      },
+      "毛利15% × 营收-5%": {
+        "FY26_net_yi": 23,
+        "fair_pe_A": 15,
+        "fair_price_A": 4,
+        "comment": "崩塌"
+      }
+    },
+    "weighted_avg": "9 格平均 A 股 fair_price ¥26 vs 现价 ¥110 = -76% (基本面定价远低于现价)",
+    "key_finding": "A 股现价 ¥110 严重背离基本面, 是情绪+稀缺性溢价 (政策托底)"
+  },
+  "comparable_path_quantified": {
+    "TSMC": "PE 25-30x (40%+ 净利率/20%+ ROE)",
+    "UMC": "PE 12-15x (20% 净利率)",
+    "华虹": "PE 30-40x (12% 净利率/中国同业)",
+    "中芯 H股": "PE 35x (合理范围内)",
+    "中芯 A股": "PE 95x — 显著溢价 = 信仰税",
+    "京东方反向 valuetrap": "重资产代工长期低 ROE 估值持续下移",
+    "AH_solidarity": "AH 溢价 621% 是市场最直接的告诉 A股纯情绪定价"
+  },
+  "forward_view_6dim": {
+    "market_regime": "中美科技脱钩持续 + 国产替代主题热度 + 全球半导体上行周期",
+    "liquidity": "科创 50 ETF 被动加仓 + 北上撤退 (筹码散户化), 风险加大",
+    "cycle_position": "半导体周期上行中段 + 成熟制程价格战 + 先进制程突破期",
+    "beta_correlation": "Beta 1.0+, 与 SOX 半导体 0.8+, 与科创 50 强相关",
+    "comparable_anchor": "TSMC 28x / 华虹 35x / 中芯 H 35x / 中芯 A 95x — A 股严重溢价",
+    "pricing_power": "成熟制程定价权弱(全球过剩) / 先进制程定价权中(国内垄断)"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "H 股 5% 当前价",
+    "safe": "0% 等 PE 25x H 股",
+    "neutral": "0-3% 视风险偏好, H 股 HK$40-43 入 3%",
+    "director_decision": "采纳 neutral — 推荐池 0% 当前 / H 股 HK$35-40 区间入 3% / A 股不参与"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 2.74,
+    "roic_adj_pct": 3.65,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 3.4,
+    "roa_pct": 2.9,
+    "debt_ratio_pct": 33.0,
+    "equity_yi": 2463.62,
+    "ocf_yi": 200.81,
+    "fcf_per_share": -5.139,
+    "fcf_sign": "负(capex吞噬)",
+    "op_margin_pct": 12.33,
+    "net_margin_pct": 10.71,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 3.2% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

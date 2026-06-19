@@ -185,5 +185,22 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "红牛": "功能饮料原龙头(商标纠纷+高价格带萎缩)",
+    "贵州茅台": "消费龙头PE30x",
+    "伊利": "PE20x",
+    "海天": "PE25x"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

@@ -87,5 +87,21 @@
       "stance": "观察(AR/VR期权待催化, 代工价值捕获弱)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "△(ROE11.3一般+代工价值捕获弱)",
+    "好价格": "△(PE20.2分位0.41, 增速含低基数)",
+    "好未来": "△(AR/VR期权依赖大客户)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

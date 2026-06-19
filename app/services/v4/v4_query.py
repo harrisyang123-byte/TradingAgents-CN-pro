@@ -760,4 +760,17 @@ def build_stock_detail(units: Dict[str, Dict[str, Any]], code: str) -> Dict[str,
         # 价值创造维度(2026-06-14 用户拍板补全): TAM/渗透率 + ROIC vs WACC + 管理层资本配置 + 正向DCF
         "value_creation": p.get("value_creation"),
         "dcf_intrinsic": p.get("dcf_intrinsic") or (p.get("valuation_basis") or {}).get("dcf_intrinsic") if isinstance(p.get("valuation_basis"), dict) else p.get("dcf_intrinsic"),
+        # StockFullReport 精排字段透传(2026-06-19 loop iter10: 前端 iter2 加了展示但后端从未透传, 静态快照下精排 UI 全白板)
+        "three_dimension": p.get("three_dimension"),                       # 三维评分(好公司×好价格×好未来)
+        "peer_anchor": p.get("peer_anchor"),                               # 同业锚定
+        "st_risk_quantified": p.get("st_risk_quantified"),                 # ST/退市风险量化
+        "product_decomposition": p.get("product_decomposition"),           # 产品分部利润表
+        "product_subdivision_deep": p.get("product_subdivision_deep"),     # 产品业务拆解(深)
+        "sensitivity_matrix_3x3": p.get("sensitivity_matrix_3x3"),         # 敏感性矩阵(顶层,区别于 valuation_basis 内的)
+        "comparable_path_quantified": p.get("comparable_path_quantified"), # 可比路径量化
+        "forward_view_6dim": p.get("forward_view_6dim"),                   # 前瞻6维(顶层)
+        "risk_consensus_from_3way": p.get("risk_consensus_from_3way"),     # 3方风险共识
+        "bear_data_correction": p.get("bear_data_correction"),             # 空头数据纠错
+        "value_creation_verified": p.get("value_creation_verified"),       # 价值创造验证块
+        "upstream_drill": p.get("upstream_drill"),                         # 个股上游供应链深挖(iter 个股层新增)
     }

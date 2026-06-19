@@ -189,5 +189,23 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "伊品生物": "赖氨酸/苏氨酸主要竞争对手(追至85%效率)",
+    "阜丰集团(港股)": "味精同业PE8-10x",
+    "莲花健康": "味精三线",
+    "海大集团": "饲料龙头PE15-20x",
+    "万华化学": "周期成长龙头PE12-15x"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

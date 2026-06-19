@@ -148,5 +148,23 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "中航光电": "军工连接器PE25x溢价",
+    "航天电器": "PE22x",
+    "瑞可达": "民用工业连接器18-20x",
+    "华丰科技": "算力高速连接器进度领先维峰",
+    "TE/安费诺/Molex": "224G高速连接器CR3>85%垄断"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

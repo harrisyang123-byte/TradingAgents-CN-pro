@@ -86,5 +86,21 @@
       "stance": "建仓(互联网健康错杀)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "○(ROE26.3健康+轻资产平台)",
+    "好价格": "○(PE~10+分位0.13回撤-81%低估)",
+    "好未来": "○(直播电商+本地生活+海外巴西商业化)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

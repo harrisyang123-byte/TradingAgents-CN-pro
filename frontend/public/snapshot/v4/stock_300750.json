@@ -188,5 +188,22 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "比亚迪": "全球17%份额(自供为主)",
+    "LG新能源": "13%份额PE38x(韩国溢价)",
+    "亿纬锂能": "二线PE20x",
+    "台积电": "全球制造龙头逻辑对标PE22-28x"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

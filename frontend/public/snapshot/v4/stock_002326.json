@@ -149,5 +149,25 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "巨化股份": "氟化工龙头周期位置参考",
+    "多氟多": "六氟主供同处底部",
+    "天赐材料": "电解液龙头+自供LiFSI=永太竞争对手",
+    "note": "永太非六氟成本最优非LiFSI龙头, 平台分散但每条线非第一"
+  },
+  "st_risk_quantified": {
+    "rule": "连续3年扣非亏损→*ST(2023/2024/2025已连亏, 2026关键)",
+    "threshold": "2026单季持续亏损+负债率>80%=ST高危即刻清仓"
+  },
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

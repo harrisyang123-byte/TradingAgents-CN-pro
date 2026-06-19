@@ -187,5 +187,22 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "杜邦Dupont(CMC)": "CMP抛光液全球龙头",
+    "Fujimi": "日本CMP",
+    "AGC(Cabot)": "CMP",
+    "鼎龙股份300054": "国产CMP抛光垫+部分抛光液追赶"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": "bear看空论据'2023净利仅1.3亿低基数反弹'经核实为数据错误: 1.3亿是2021年, 真实净利2021→2025=1.3/3.0/4.0/5.3/7.8亿连续5年无中断高增长(2023=4.0亿>2022=3.0亿), 是真实成长非低基数反弹。但bear客户集中>70%+毛利率回落论据成立采纳。",
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

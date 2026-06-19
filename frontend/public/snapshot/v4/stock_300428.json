@@ -88,5 +88,21 @@
       "stance": "谨慎看多(免热铝压铸期权, 观察仓)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "✗(ROIC≈WACC传统业务不创造超额)",
+    "好价格": "○(PE13.5分位0.38回撤-57%已释放)",
+    "好未来": "△有条件(免热合金期权依赖压铸装机)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

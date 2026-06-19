@@ -285,5 +285,129 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "高速光模块 (85% 营收, 325亿)": {
+      "产品线": "400G/800G/1.6T",
+      "增速": "+60%+",
+      "毛利率_estimated": "35-40%",
+      "客户": "英伟达/Google/Meta/Amazon/Microsoft",
+      "1.6T 进度": "送样, 2026H2 量产, 领先 6-9 月"
+    },
+    "接入网+其他 (15% 营收, 57亿)": {
+      "增速": "+10-15%",
+      "毛利率_estimated": "20-25%"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速 × 净利率",
+    "matrix": {
+      "+60% × 30%": {
+        "FY26_net_yi": 184,
+        "fair_pe": 50,
+        "fair_price": 1110,
+        "comment": "bull 极端"
+      },
+      "+60% × 28%": {
+        "FY26_net_yi": 171,
+        "fair_pe": 45,
+        "fair_price": 930,
+        "comment": "中性偏强"
+      },
+      "+60% × 25%": {
+        "FY26_net_yi": 153,
+        "fair_pe": 40,
+        "fair_price": 740,
+        "comment": "净利率压制"
+      },
+      "+40% × 30%": {
+        "FY26_net_yi": 161,
+        "fair_pe": 50,
+        "fair_price": 974,
+        "comment": "base 偏强"
+      },
+      "+40% × 28%": {
+        "FY26_net_yi": 149,
+        "fair_pe": 45,
+        "fair_price": 813,
+        "comment": "base"
+      },
+      "+40% × 25%": {
+        "FY26_net_yi": 134,
+        "fair_pe": 40,
+        "fair_price": 645,
+        "comment": "bear 偏弱"
+      },
+      "+20% × 30%": {
+        "FY26_net_yi": 137,
+        "fair_pe": 40,
+        "fair_price": 660,
+        "comment": "增速放缓"
+      },
+      "+20% × 28%": {
+        "FY26_net_yi": 128,
+        "fair_pe": 35,
+        "fair_price": 540,
+        "comment": "bear"
+      },
+      "+20% × 25%": {
+        "FY26_net_yi": 114,
+        "fair_pe": 30,
+        "fair_price": 415,
+        "comment": "极端 bear (CPO+增速放缓)"
+      }
+    },
+    "weighted_avg": "9 格平均 ¥780 vs 现价 ¥1049 = -26% 下行隐含 (PE 89x 已高估)",
+    "key_finding": "现价 ¥1049 隐含 +60% 增速维持 + 净利率 28%+, 任何 miss 戴维斯双杀风险大"
+  },
+  "comparable_path_quantified": {
+    "新易盛 PE": "60-80x (跟随龙头但份额小)",
+    "天孚通信 PE": "50-70x (细分龙头)",
+    "Lumentum 国际": "PE 30-40x (海外同业增速慢)",
+    "Coherent": "PE 25-35x",
+    "中际旭创": "PE 89.08x 同业最高 / 历史中位 91.98x",
+    "AWS re-rating 反例": "AWS 2017 PE 25x → 2019 PE 40x 用 24 月利润率从 8%→25% 验证",
+    "中际 vs 触发 gap": "已涨 984%/PE 89x 已 price-in 大部分乐观, 上行需 1.6T 超预期 + 新客户突破 + 净利率 30%+"
+  },
+  "forward_view_6dim": {
+    "market_regime": "全球 AI capex 高峰 +30-40% / 数据中心扩张 / CPO 2028+ 长期威胁",
+    "liquidity": "北上 8-12% 高占比 + 公募集中度历史高位 (拥挤交易风险)",
+    "cycle_position": "AI 算力周期上行 + 800G 出货高峰 + 1.6T 渗透初期",
+    "beta_correlation": "Beta 1.40-1.65 (高于市场), AI 板块强相关 0.9+",
+    "comparable_anchor": "新易盛 70x / 天孚 60x / Lumentum 35x / 中际 89x — 同业最高",
+    "pricing_power": "中高 (英伟达独供) — 但 CPO 长期威胁定价权",
+    "beta_correlation_detail": "Beta 1.40-1.65 高于市场, 与英伟达股价相关 0.85+, 与AI板块整体 0.9+, 高个股β低市场β意味独立行情(波动放大)",
+    "comparable_dynamic": "同业 PE 6 月内变化: 新易盛 50→70x / 天孚 40→60x / Lumentum 25→35x / 中际 30→89x — 中际 PE 扩张幅度远超同业 (3x vs 同业 1.4x), 估值 outperformance 已超盈利 outperformance 危险信号",
+    "pricing_power_dynamic": "英伟达 GB200/300 锁定中际定价权强 (毛利率 38% 提升空间); 1.6T 阶段竞争加剧 (新易盛/Lumentum 跟进) ASP 跌幅可能加快; CPO 替代会从根本上削弱传统模块定价权"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "5-8% 立即建仓",
+    "safe": "0% 等回调到 ¥900-950 才入",
+    "neutral": "2-3% 分 3 批 (现价 1% / ¥980 加 / ¥900 加), 止损 ¥850, Q2 验证",
+    "director_decision": "采纳 neutral 2-3% — 1.6T 期权值得占位 1% 观察, 但估值过热不一次性大仓"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 31.39,
+    "roic_adj_pct": 41.85,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 43.84,
+    "roa_pct": 36.84,
+    "debt_ratio_pct": 30.18,
+    "equity_yi": 316.21,
+    "ocf_yi": 108.96,
+    "fcf_per_share": 1.773,
+    "fcf_sign": "正",
+    "op_margin_pct": 35.56,
+    "net_margin_pct": 30.28,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 36.6% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

@@ -294,5 +294,34 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 36.1,
+    "roic_adj_pct": 48.13,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 41.91,
+    "roa_pct": 41.93,
+    "debt_ratio_pct": 14.52,
+    "equity_yi": 55.13,
+    "ocf_yi": 18.68,
+    "fcf_per_share": 0.823,
+    "fcf_sign": "正",
+    "op_margin_pct": 45.55,
+    "net_margin_pct": 39.08,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 42.1% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

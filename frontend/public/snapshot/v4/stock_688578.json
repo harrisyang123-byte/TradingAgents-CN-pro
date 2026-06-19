@@ -186,5 +186,22 @@
       ]
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": {
+    "恒瑞医药": "创新药龙头PE",
+    "百济神州": "创新药出海标杆",
+    "奥希替尼(阿斯利康)": "三代TKI原研竞品",
+    "阿美替尼(豪森)": "国产三代TKI竞品"
+  },
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }

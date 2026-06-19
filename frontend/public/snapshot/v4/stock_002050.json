@@ -222,5 +222,103 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "制冷空调零部件 (60% 营收, 185.85亿)": {
+      "增速_2025": "+12.22%",
+      "毛利率_estimated": "30%",
+      "lifecycle": "成熟期+稳定"
+    },
+    "汽车热管理 (40% 营收, 124.27亿)": {
+      "增速_2025": "+9.14%",
+      "Q1 增速": "急剧放缓",
+      "key_risk": "特斯拉自研热管理"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速 × 净利率",
+    "matrix": {
+      "营收+15% × 净利率 14%": {
+        "fair_price": 48,
+        "comment": "bull"
+      },
+      "营收+15% × 净利率 13%": {
+        "fair_price": 45,
+        "comment": "中性偏强"
+      },
+      "营收+15% × 净利率 12%": {
+        "fair_price": 41,
+        "comment": "中性"
+      },
+      "营收+5% × 净利率 14%": {
+        "fair_price": 42,
+        "comment": "Q1趋势"
+      },
+      "营收+5% × 净利率 13%": {
+        "fair_price": 39,
+        "comment": "base"
+      },
+      "营收+5% × 净利率 12%": {
+        "fair_price": 36,
+        "comment": "bear偏弱"
+      },
+      "营收-5% × 净利率 13%": {
+        "fair_price": 34,
+        "comment": "bear"
+      },
+      "营收-5% × 净利率 12%": {
+        "fair_price": 31,
+        "comment": "极端bear"
+      },
+      "营收-5% × 净利率 14%": {
+        "fair_price": 36,
+        "comment": "需求下行"
+      }
+    },
+    "weighted_avg": "9 格平均 ¥39 vs 现价 ¥46 = -15% 下行"
+  },
+  "comparable_path_quantified": {
+    "盾安环境": "PE 25-35x",
+    "海立股份": "PE 15-20x",
+    "Modine": "PE 12x 反向valuetrap",
+    "三花": "PE 46x 高估"
+  },
+  "forward_view_6dim": {
+    "market_regime": "全球 EV 渗透率上行+价格战传导",
+    "liquidity": "北上 8-10%",
+    "cycle_position": "汽车 EV 增速见顶+制冷成熟",
+    "beta_correlation": "Beta 1.0+",
+    "comparable_anchor": "盾安 30x / 海立 18x / Modine 12x; 三花 46x 高估",
+    "pricing_power": "中"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "0.43% 持有不动",
+    "safe": "0.2% 减半",
+    "neutral": "0.43% 维持设止损 ¥38",
+    "director_decision": "采纳 neutral"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 9.89,
+    "roic_adj_pct": 13.19,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 15.8,
+    "roa_pct": 11.61,
+    "debt_ratio_pct": 35.15,
+    "equity_yi": 320.4,
+    "ocf_yi": 50.91,
+    "fcf_per_share": -1.76,
+    "fcf_sign": "负(capex吞噬)",
+    "op_margin_pct": 15.67,
+    "net_margin_pct": 13.24,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 11.5% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

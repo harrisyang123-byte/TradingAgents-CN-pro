@@ -271,5 +271,141 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "中国电商 (40% 营收, 4080亿)": {
+      "GMV 份额": "~40% (从 50% 下滑)",
+      "增速_FY26": "+2-3%",
+      "毛利率_estimated": "45%",
+      "净利贡献": "EBITA ~1200亿 (主要利润源, 但增速放缓)",
+      "key_risk": "PDD/抖音/SHEIN 三面挤压 + 闪购补贴侵蚀利润"
+    },
+    "国际电商 (10% 营收, 1020亿)": {
+      "已知产品": "Lazada/Trendyol/Daraz",
+      "增速_FY26": "+50%+",
+      "毛利率_estimated": "10-15% (亏损中)",
+      "净利贡献": "EBITA -300到-500亿 (持续亏损投入期)",
+      "盈亏平衡": "2-3 年"
+    },
+    "云智能集团 (15% 营收, 1581亿)": {
+      "增速_FY26": "+34% (加速)",
+      "毛利率_estimated": "30-35%",
+      "AI 收入": "11 季连续三位数增长, 占外部云收入 30%",
+      "EBITA 利润率": "+10% 左右 (从亏损转正利润释放)",
+      "净利贡献": "EBITA ~140亿 → 25E 200亿+ → 27E 400亿+",
+      "估值期权": "独立估值 3-5x P/S = 4700-7900亿 (占整体 21-35%)"
+    },
+    "数字媒体+本地生活+菜鸟 (30% 营收, 3000亿)": {
+      "本地生活": "饿了么/高德 (盈亏平衡中)",
+      "菜鸟": "FY26 即将分拆上市 (估值 1000亿+)",
+      "净利贡献": "EBITA ~50-100亿"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "云增速 × 电商净利率 (FY27E)",
+    "matrix": {
+      "云+40% × 电商净利率 +2pp": {
+        "FY27_net_yi": 1500,
+        "fair_pe": 14,
+        "fair_price_hkd": 230,
+        "comment": "bull 极端"
+      },
+      "云+40% × 电商净利率 0pp": {
+        "FY27_net_yi": 1300,
+        "fair_pe": 13,
+        "fair_price_hkd": 195,
+        "comment": "bull base"
+      },
+      "云+40% × 电商净利率 -2pp": {
+        "FY27_net_yi": 1100,
+        "fair_pe": 12,
+        "fair_price_hkd": 155,
+        "comment": "云强电商弱"
+      },
+      "云+25% × 电商净利率 +2pp": {
+        "FY27_net_yi": 1350,
+        "fair_pe": 13,
+        "fair_price_hkd": 185,
+        "comment": "中性偏强"
+      },
+      "云+25% × 电商净利率 0pp": {
+        "FY27_net_yi": 1200,
+        "fair_pe": 12,
+        "fair_price_hkd": 160,
+        "comment": "base 中位"
+      },
+      "云+25% × 电商净利率 -2pp": {
+        "FY27_net_yi": 1000,
+        "fair_pe": 11,
+        "fair_price_hkd": 130,
+        "comment": "接近现价"
+      },
+      "云+10% × 电商净利率 +2pp": {
+        "FY27_net_yi": 1200,
+        "fair_pe": 11,
+        "fair_price_hkd": 145,
+        "comment": "云放缓"
+      },
+      "云+10% × 电商净利率 0pp": {
+        "FY27_net_yi": 1050,
+        "fair_pe": 10,
+        "fair_price_hkd": 115,
+        "comment": "bear 偏弱"
+      },
+      "云+10% × 电商净利率 -2pp": {
+        "FY27_net_yi": 850,
+        "fair_pe": 9,
+        "fair_price_hkd": 85,
+        "comment": "极端 bear"
+      }
+    },
+    "weighted_avg": "9 格平均 HK$155 vs 现价 HK$130 = +19% 上行隐含",
+    "key_finding": "现价 HK$130 已 price-in 云+25% 电商利润率 -2pp 中性偏弱情景, 上行需云维持 +25%+ 即可"
+  },
+  "comparable_path_quantified": {
+    "AWS re-rating 路径": "2017 PE 25x → 2019 PE 40x (24 月). 触发: 利润率从 8%→25%, 规模效应验证",
+    "Amazon 整体": "PE 35-45x (云+电商组合)",
+    "Meta 2022 反弹": "2022 11月 PE 11x → 2023 PE 25x (12 月). 触发: 砍 capex + 广告复苏 + AI 兑现",
+    "拼多多 PE 路径": "2022 PE 30x → 2024 PE 11x. 估值压缩反映竞争加剧",
+    "京东 PE 路径": "PE 10-12x 长期 valuetrap (低 ROE)",
+    "阿里 当前 vs 触发条件 gap": [
+      "✅ 云+34% 已加速 — 满足触发1",
+      "✅ 回购 150 亿美元 — 缩股效应",
+      "❌ Q4 利润归零 — 需 FY2027Q1 验证拐点",
+      "❌ 闪购 vs PDD 成败未明",
+      "结论: 满足 2/4, 距 PE 14-15x re-rating 仍需 12-18 月观察"
+    ],
+    "implied_re_rating": "若 FY2027Q1 利润恢复至 250亿+ 且云利润率提升, PE 11x → 13-14x = HK$160-180 (vs 现价 +23-38%)"
+  },
+  "forward_view_6dim": {
+    "market_regime": "中国互联网监管常态化 + AI 资本开支高峰 + 中概结构折价 + 全球电商分化 (跨境亚马逊/SHEIN 抢份额)",
+    "liquidity_environment": "南下港股通持仓 8-10% 持续净买入 + 外资中概低配 (结构性折价) + 港股流动性折价",
+    "industry_cycle_phase": "电商成熟期+下行周期 / 云AI 成长爆发期 / 国际电商投入期 — 三周期叠加复杂",
+    "systematic_risk_beta": "Beta ~1.2 (高于市场), 与中概互联网指数相关 0.9+, 与 BABA ADR 同步性高",
+    "comparable_matrix": "Amazon 35x / Meta 28x / 阿里 11x / 拼多多 11x / 京东 10x — 阿里与 PDD/JD 同档但 PDD/JD 利润增长 vs 阿里下滑, 阿里折价于全球但持平国内同业",
+    "pricing_power_analysis": "电商定价权弱 (PDD 价格战 + 商家多平台经营) / 云定价权中 (中国云价格战频繁) / AI 模型定价权弱 (DeepSeek 效应快速降低成本)"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "8-10% 重仓",
+    "safe": "1.5-3% 观察",
+    "neutral": "5% 分批 (HK$130 30% / HK$115 30% / HK$100 40%)",
+    "director_decision": "采纳 neutral 5% — 推荐池高 conviction 标的但利润拐点未确认, 分批降低时间成本"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "2026-03-31",
+    "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+    "roic_pct": 6.26,
+    "roe_pct": 9.91,
+    "net_margin_pct": 9.98,
+    "gross_margin_pct": 39.81,
+    "debt_ratio_pct": 41.02,
+    "per_op_cashflow": 3.98,
+    "roic_vs_wacc9_verdict": "ROIC 6.26% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

@@ -264,5 +264,27 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "2025-12-31",
+    "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+    "roic_pct": -13.46,
+    "roe_pct": -9.34,
+    "net_margin_pct": -18.56,
+    "gross_margin_pct": 71.86,
+    "debt_ratio_pct": 18.73,
+    "per_op_cashflow": -0.77,
+    "roic_vs_wacc9_verdict": "ROIC -13.46% vs WACC~9% → 价值毁灭/不足"
+  },
+  "upstream_drill": null
 }

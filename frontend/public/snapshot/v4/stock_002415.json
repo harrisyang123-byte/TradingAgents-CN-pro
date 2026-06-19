@@ -335,5 +335,154 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": {
+    "PBG 政府 (45% 营收, 416 亿)": {
+      "客户": "公安/交通/智慧城市/教育/医疗",
+      "lifecycle": "成熟期下行 — 地方财政紧缩拖累",
+      "毛利率_estimated": "45-48%",
+      "增速_2025": "-3% to 0% (财政压制)",
+      "key_risk": "地方债+化债优先, 新增 IT 投入受限"
+    },
+    "EBG 企业 (35% 营收, 324 亿)": {
+      "客户": "金融/能源/工商/物流/制造业大企业",
+      "lifecycle": "成长期",
+      "毛利率_estimated": "44-46%",
+      "增速_2025": "+5-8%",
+      "key_risk": "竞争加剧 (大华+宇视+云厂商)"
+    },
+    "SMBG 中小 (15% 营收, 139 亿)": {
+      "客户": "中小企业+渠道分销",
+      "lifecycle": "成熟期",
+      "毛利率_estimated": "40-42%",
+      "增速_2025": "+3-5%"
+    },
+    "创新业务 (5% 营收, 46 亿)": {
+      "已知产品": "萤石(智能家居)/海康机器人/汽车电子/热成像/储能",
+      "lifecycle": "成长爆发期",
+      "毛利率_estimated": "35-40%",
+      "增速_2025": "+30-50%",
+      "潜力": "2027 占比 ≥15% 是关键拐点"
+    }
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "营收增速 × 净利率",
+    "matrix": {
+      "营收+10% × 净利率 17%": {
+        "2026E_revenue": 1018,
+        "2026E_net": 173,
+        "fair_pe": 22,
+        "fair_price": 41.4,
+        "comment": "bull 拐点 (PBG 回暖+创新业务放量)"
+      },
+      "营收+10% × 净利率 15%": {
+        "2026E_revenue": 1018,
+        "2026E_net": 153,
+        "fair_pe": 20,
+        "fair_price": 33.3,
+        "comment": "中性偏强"
+      },
+      "营收+10% × 净利率 13%": {
+        "2026E_revenue": 1018,
+        "2026E_net": 132,
+        "fair_pe": 18,
+        "fair_price": 25.8,
+        "comment": "净利率压制"
+      },
+      "营收+5% × 净利率 17%": {
+        "2026E_revenue": 971,
+        "2026E_net": 165,
+        "fair_pe": 21,
+        "fair_price": 37.7,
+        "comment": "base 偏强"
+      },
+      "营收+5% × 净利率 15%": {
+        "2026E_revenue": 971,
+        "2026E_net": 146,
+        "fair_pe": 20,
+        "fair_price": 31.7,
+        "comment": "base 中位"
+      },
+      "营收+5% × 净利率 13%": {
+        "2026E_revenue": 971,
+        "2026E_net": 126,
+        "fair_pe": 17,
+        "fair_price": 23.3,
+        "comment": "bear 偏弱"
+      },
+      "营收+0% × 净利率 17%": {
+        "2026E_revenue": 925,
+        "2026E_net": 157,
+        "fair_pe": 20,
+        "fair_price": 34.1,
+        "comment": "维持现状+减费"
+      },
+      "营收+0% × 净利率 15%": {
+        "2026E_revenue": 925,
+        "2026E_net": 139,
+        "fair_pe": 18,
+        "fair_price": 27.2,
+        "comment": "停滞"
+      },
+      "营收+0% × 净利率 13%": {
+        "2026E_revenue": 925,
+        "2026E_net": 120,
+        "fair_pe": 16,
+        "fair_price": 20.9,
+        "comment": "极端 bear (减费空间耗尽)"
+      }
+    },
+    "probability_weighted": "9 格平均 ¥30.6 vs 现价 ¥29 = +5.5% 上行隐含; 中位 ¥31 (base) 与共识吻合",
+    "key_finding": "现价 ¥29 已 price-in '营收持平+净利率维持 15%' 中性情景, 上下空间相对对称; 创新业务期权未充分定价"
+  },
+  "comparable_path_quantified": {
+    "大华股份 PE 路径": "2022 PE 12x → 2024 PE 18x. 触发: 海外+创新业务+毛利率提升",
+    "Axis Communications 国际对标": "瑞典安防龙头 PE 25-30x 长期保持, 软件化转型支撑",
+    "Avigilon 反向 (被 Motorola 收购)": "安防硬件公司转型受困 PE 长期 15-20x",
+    "海康当前 vs 触发条件 gap": [
+      "❌ 营收增速 +0.01% 远低于双位数 — 缺触发1",
+      "✅ 利润 +18.52% 高质量",
+      "✅ 现金流 253 亿支撑回购+分红",
+      "❌ 创新业务占比 5% < 15% 拐点 — 缺触发2",
+      "结论: 满足 2/4, 距 re-rating 25x+ 仍需 12-18 月观察 PBG+创新业务"
+    ]
+  },
+  "forward_view_6dim": {
+    "market_regime": "国内地方财政紧缩 (PBG 拖累) + AI 大模型平台化趋势 (云厂商替代风险) + 国产替代政策托底 + 海外非美市场扩张",
+    "liquidity": "北上持股 10-12% 高占比, 流动性极佳, 沪深 300 权重股",
+    "cycle_position": "传统安防成熟期+底部 / 创新业务初期; PBG 财政周期下行末段, 反转待验证",
+    "beta_correlation": "Beta 0.9-1.1, 与 AI/AIoT/智慧城市相关 0.7+, 与政府支出周期相关 0.8+",
+    "comparable_anchor": "大华 18x / Axis 28x / Avigilon 17x; 海康 18.8x 中位 (考虑龙头+四壁垒应给 22-25x 溢价)",
+    "pricing_power": "中-高 (定价权稳, 毛利率 10 年稳定 44-46%); 客户分散+生态锁定支撑议价"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "4%(¥26-30 拾仓), 止损 ¥24",
+    "safe": "1%(维持), 止损 ¥22",
+    "neutral": "2.5%(从现仓 1.15% 加至 2.5%), ¥26-28 加 0.5%, ¥30-32 持仓; 止损 ¥23.5/trailing 10%",
+    "director_decision": "采纳 neutral 2.5% — 现仓 1.15% 偏轻, 加 1.35% 至 2.5% 现价进入. 利润+18.52% 高质量+现金流 253 亿+龙头地位均支撑加仓; aggressive 4% 在 PBG 回暖未确认前过激; safe 1% 已被现仓满足. ¥26-28 再加 0.5%."
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "20251231",
+    "source": "akshare stock_financial_abstract (verified)",
+    "roic_low_pct": 11.58,
+    "roic_adj_pct": 15.44,
+    "roic_note": "ROIC区间: 下界=息前税后总资产报酬率(verified), 上界=投入资本口径调整",
+    "roe_pct": 17.3,
+    "roa_pct": 12.75,
+    "debt_ratio_pct": 33.92,
+    "equity_yi": 912.17,
+    "ocf_yi": 253.39,
+    "fcf_per_share": 1.791,
+    "fcf_sign": "正",
+    "op_margin_pct": 18.34,
+    "net_margin_pct": 16.68,
+    "minority_interest_yi": 0.0,
+    "roic_vs_wacc9_verdict": "ROIC中值 13.5% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

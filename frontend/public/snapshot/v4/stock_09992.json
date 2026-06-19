@@ -678,5 +678,32 @@
       }
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": null,
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": {
+    "aggressive": "6% 仓位, 止损 HK$125",
+    "safe": "2% 仓位, 止损 HK$128",
+    "neutral": "4% 仓位(HK$135-142 逆向小加), 硬止损 HK$120",
+    "director_decision": "采纳 neutral 偏 safe — 因 critic 指出盈利分母未验证 + confidence 0.58 偏低, 修正为'维持 3.48% 观望, 仅 HK$130 以下深跌逆向小注至 4% 上限'。不主动在当前价加仓(纠正 v1 矛盾)"
+  },
+  "bear_data_correction": null,
+  "value_creation_verified": {
+    "as_of": "2025-12-31",
+    "source": "akshare stock_financial_hk_analysis_indicator_em (verified)",
+    "roic_pct": 130.69,
+    "roe_pct": 77.52,
+    "net_margin_pct": 35.05,
+    "gross_margin_pct": 72.1,
+    "debt_ratio_pct": 29.43,
+    "per_op_cashflow": 8.09,
+    "roic_vs_wacc9_verdict": "ROIC 130.69% vs WACC~9% → 价值创造"
+  },
+  "upstream_drill": null
 }

@@ -86,5 +86,21 @@
       "stance": "建仓-小仓(回调¥65-75加)"
     }
   },
-  "dcf_intrinsic": null
+  "dcf_intrinsic": null,
+  "three_dimension": {
+    "好公司": "○(ROE15-18+净利高增+毛利42%)",
+    "好价格": "△(PE57偏高+分位0.69已price-in)",
+    "好未来": "○(AI电源+芯片电感软磁粉需求)"
+  },
+  "peer_anchor": null,
+  "st_risk_quantified": null,
+  "product_decomposition": null,
+  "product_subdivision_deep": null,
+  "sensitivity_matrix_3x3": null,
+  "comparable_path_quantified": null,
+  "forward_view_6dim": null,
+  "risk_consensus_from_3way": null,
+  "bear_data_correction": null,
+  "value_creation_verified": null,
+  "upstream_drill": null
 }
