@@ -1304,6 +1304,7 @@
     "HBM高带宽内存/SK Hynix——四维全满，价格+246% YoY+OPM 75.7-77.3%+wafer密度为DDR5的3倍=AI产业链2025最大瓶颈，但2026-2027面临Micron追赶+HBM4竞争+利润率均值回归三重压力",
     "AI加速器GPU/NVIDIA——四维全满，CUDA全栈+训练>90%份额+毛利率70-75%，但自研ASIC在推理端（未来增量最大）持续侵蚀"
   ],
+  "deep_chokepoint_chains": [],
   "investment_map": [
     {
       "chokepoint_node": "光互连800G/1.6T/CPO",

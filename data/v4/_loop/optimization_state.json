@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 8,
-    "last_run": "2026-06-19T01:00:00+00:00",
+    "iteration_count": 9,
+    "last_run": "2026-06-19T02:00:00+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 8 完成 (CRITIC-GATE-ALIGN): skill 执行指令对齐 cli 禁自评代码强制, 消除主agent撞exit=4困惑",
+    "_comment": "iter 9 完成 (SNAPSHOT-STALE): 重build快照使近几轮透传字段对前端生效",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -664,6 +664,30 @@
       ],
       "honest_caveat": "认知层(skill)↔代码层(cli)闭环完成。但主 agent 是否真遵守仍依赖其读 skill——代码闸门(cli exit=4)是最终兜底, 即便主 agent 不读 skill 也拦得住自评。本轮把'兜底'补上了'指引', 减少撞墙困惑。未端到端真跑。",
       "completed_at": "2026-06-19T01:00:00+00:00"
+    },
+    {
+      "id": "SNAPSHOT-STALE-20260619-09",
+      "title": "快照未随 build_industry_detail 透传改动重生成 — 前端静态模式永远看不到近几轮新增字段(deep_chokepoint_chains 11/11缺)",
+      "violated_practice": "改产出契约必须同步刷新下游产物(snapshot 是前端唯一数据源, 代码对≠用户看得到)",
+      "before": {
+        "snapshot_mtime": "2026-06-18 15:16 (在 deep_chokepoint_chains 透传/valuation_inputs 等改动之前)",
+        "deep_chokepoint_chains_in_snapshot": "0/11 行业快照"
+      },
+      "after_protocol": {
+        "action": "重跑 build_snapshot_v4.py (85文件)",
+        "result": "11/11 行业快照 deep_chokepoint_chains + debate_rounds + forward_view + evidence + data_quality + credibility 字段全有(键存在)",
+        "note": "旧产物深挖链为空数组, 前端 v-if length 优雅隐藏不报错; 本地重跑行业才会填充真实上溯链"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(集成回归)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "6字段 11/11 快照全有, 诊断确认是快照过时非代码bug(透传逻辑行570正确), 重build修复"
+        }
+      ],
+      "honest_caveat": "本质是流程纪律洞: 改透传后该 build snapshot。这轮补了产物刷新, 但真实 deep_chokepoint_chains 数据要本地 claude -p 重跑行业才有(现为空数组占位)。提醒: 今后改 v4_query 透传/契约后必须重 build snapshot。",
+      "completed_at": "2026-06-19T02:00:00+00:00"
     }
   ],
   "stuck": [],
