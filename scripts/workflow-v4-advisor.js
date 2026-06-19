@@ -32,6 +32,10 @@ const userId = args.user_id || args.userId || '6a094caea814b57d3357fa0b';
 const portfolioFile = args.portfolio_file || args.portfolioFile || '';
 const dataDir = args.data_dir || 'data/v4';
 const DEBATE_ROUNDS = 3; // AC2.2 固定 3 轮
+// 瓶颈递归深挖：AI 自评估收敛（触底/供需松/已price-in 即停），层数不写死；
+// MAX_DRILL_DEPTH 纯为防跑飞的硬上限，非业务限制（不同行业实际深度由 AI 判定）。
+const MAX_DRILL_DEPTH = Number(args.max_drill_depth || 6);
+const DRILL_TOP_N = Number(args.drill_top_n || 2); // 对骨架里 top 几个瓶颈做上溯深挖
 
 if (!selector) {
   throw new Error('缺少 selector（如 asset:equity）');
@@ -91,6 +95,47 @@ function mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, status) {
 // 七大类固定枚举
 const CLASS_KEYS = ['equity', 'fixed_income', 'cash', 'commodity', 'precious_metal', 'real_estate', 'alternative'];
 
+// ── 瓶颈递归深挖（上溯式：每层 AI 自评估是否继续，不写死层数） ──────────
+// 思路（用户拍板）：价格=供需。某环节是瓶颈 → 它上游用什么 → 那层供不应求吗 →
+// 供需最紧 + 市场未发现的那一环，才是还没被 price-in 的超额收益所在。
+// 收敛条件（任一满足即停）：① 触底(材料/矿源，无更上游) ② 供需已松(不再瓶颈)
+// ③ 已被市场充分 price-in(alpha 没了)。MAX_DRILL_DEPTH 仅防跑飞。
+async function drillChokepoint(industry, startNode, packPath) {
+  const chain = []; // 上溯链：[{depth, node, ...}]
+  let current = startNode; // 起点瓶颈环节（一句话描述）
+  for (let depth = 1; depth <= MAX_DRILL_DEPTH; depth++) {
+    const prevChain = chain.length
+      ? `\n已上溯路径：${chain.map((c) => `L${c.depth} ${c.node}`).join(' → ')}\n`
+      : '';
+    const node = await agent(
+      `你是产业链「上溯调研员」(upstream supply-chain driller)。Read ${packPath}。\n` +
+      `行业「${industry}」。当前聚焦环节：【${current}】。${prevChain}\n` +
+      `第一性原理：市场价格 = 供需关系。瓶颈环节供不应求 → 涨价 → 利润上来 → 股市有故事。\n` +
+      `你的任务——只往上游钻一层：回答「制造/实现【${current}】，还必须依赖什么更上游的关键投入(材料/部件/设备/特种工艺/矿源)？」\n` +
+      `挑出其中供需最紧张的那一个上游环节，评估它：\n` +
+      `- supply_demand_gap：当前供需缺口(紧缺/平衡/过剩 + 一句话证据，如"全球仅2家供,在建产能2027才投产")\n` +
+      `- expansion_cycle：扩产/认证周期(决定缺口能否快速缓解)\n` +
+      `- global_players：全球玩家数 + CR1/CR3 集中度\n` +
+      `- pricing_power：是否具备涨价能力(BOM占比可能小但断供整线停=议价强)\n` +
+      `- discovery_level：🔴已拥挤/🟡半发现/🟢未发现(市场是否已认识到这个上游瓶颈)\n` +
+      `- beneficiaries_a / beneficiaries_qdii：受益标的(只列名/代码，数字不编)\n` +
+      `然后自评估是否继续上溯，给出 should_continue(bool) + stop_reason：\n` +
+      `  停(should_continue=false) 当：① 已触底(纯大宗材料/矿源，无更上游卡点) ② 该上游供需已松(不再是瓶颈) ③ 已被市场充分 price-in(无 alpha)。\n` +
+      `  继续(true) 当：钻出的上游仍紧缺且未被充分发现，值得再往上一层。\n` +
+      `输出 JSON：{depth:${depth},node:"上游环节名",needs_what:"${current}依赖它的原因",` +
+      `supply_demand_gap,expansion_cycle,global_players,pricing_power,discovery_level,` +
+      `beneficiaries_a:[],beneficiaries_qdii:[],should_continue:bool,stop_reason:"",` +
+      `evidence:[{claim,source,status}]}。${GROUNDING}`,
+      { label: `上溯钻 L${depth}:${String(current).slice(0, 10)}`, phase: '行业研究部门' }
+    );
+    chain.push(node);
+    if (!node || node.should_continue === false) break;
+    if (!node.node) break; // 没钻出新环节，停
+    current = node.node; // 下一层聚焦点 = 本层钻出的上游
+  }
+  return { start: startNode, depth_reached: chain.length, chain };
+}
+
 // ── 部门：行业研究（industry:<name>，FR-006 AC6.2） ──────────
 async function runIndustryDepartment(name) {
   const unitId = `industry:${name}`;
@@ -104,6 +149,7 @@ async function runIndustryDepartment(name) {
   const chFile = `industry_chokepoint_${sn}.json`;
   const fmFile = `industry_future_market_${sn}.json`;
   const dbFile = `industry_debate_${sn}.json`;
+  const drillFile = `industry_drill_${sn}.json`;
 
   try {
     // ── Step A: Chokepoint 产业链瓶颈拆解 ──
@@ -120,6 +166,27 @@ async function runIndustryDepartment(name) {
       `top_chokepoints:["四维最强的1-3个环节及理由"],evidence:[{claim,source,status}]}。${GROUNDING}` +
       mkWriteInstr(chFile, 'chokepoint'),
       { label: '瓶颈分析师', phase: '行业研究部门' }
+    );
+
+    // ── Step A2: 瓶颈递归深挖（粗评估出骨架 → 对 top 瓶颈逐层上溯，AI 自评估收敛） ──
+    log(`[${sn}] Step A2: 瓶颈递归深挖（上溯式，AI 自评估层数）`);
+    // 选 top 瓶颈作为深挖起点：优先 chokepoint_map 里 is_top，回退 top_chokepoints 文本
+    const cmap = Array.isArray(chokepoint?.chokepoint_map) ? chokepoint.chokepoint_map : [];
+    let drillStarts = cmap.filter((n) => n && n.is_top).map((n) => n.node).filter(Boolean);
+    if (!drillStarts.length && Array.isArray(chokepoint?.top_chokepoints)) {
+      drillStarts = chokepoint.top_chokepoints.map((t) => String(t).split(/[—（(]/)[0].trim()).filter(Boolean);
+    }
+    drillStarts = drillStarts.slice(0, DRILL_TOP_N);
+    const drills = [];
+    for (const startNode of drillStarts) {
+      log(`[${sn}]   上溯深挖起点：${startNode}`);
+      drills.push(await drillChokepoint(name, startNode, p(packName)));
+    }
+    // 落盘上溯链
+    await agent(
+      `请用 Write 工具将以下内容写入 ${p(drillFile)}（先 Bash: mkdir -p ${dataDir}）：
+${JSON.stringify({ industry: name, drills }, null, 2)}`,
+      { label: '写深挖文件', phase: '行业研究部门' }
     );
 
     // ── Step B: Future-Market 7把辩证尺消化 ──
@@ -176,14 +243,17 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
     const payloadFile = p('_payload_tmp.json');
     const director = await agent(
       `你是行业研究部门总监。Read ${p(dbFile)}、${p(chFile)}、` +
-      `${p(fmFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
-      `综合：① 产业链瓶颈地图 ② 未来市场7把尺结论 ③ ${DEBATE_ROUNDS}轮多空辩论。\n` +
-      `拍板「${name}」的方向研判。输出必含 chokepoint_map + industry_future_market + investment_map。\n` +
+      `${p(fmFile)}、${p(drillFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
+      `综合：① 产业链瓶颈地图 ② 瓶颈递归深挖的上溯链(industry_drill：每个 top 瓶颈往上游钻出的更深紧缺环节) ③ 未来市场7把尺结论 ④ ${DEBATE_ROUNDS}轮多空辩论。\n` +
+      `拍板「${name}」的方向研判。输出必含 chokepoint_map + deep_chokepoint_chains + industry_future_market + investment_map。\n` +
+      `★特别要求：investment_map 不能只停在表层瓶颈(如"光模块制造")，必须把上溯链钻出的【更深、供需更紧、市场更未发现】的环节(如光模块→EML芯片→磷化铟衬底)也作为投资标的纳入，并标 discovery_level——这些深层环节才是还没被 price-in 的超额收益来源。\n` +
       `输出 JSON：{industry:"${name}",verdict:{stance,situation,direction,vitality_level,` +
       `track_quality,worst_case,cycle_position,downgrade_trigger,` +
       `chokepoint_conclusion,risks:[],allocation_advice,confidence},` +
-      `chokepoint_map:[],top_chokepoints:[],industry_future_market:{},` +
-      `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority}],` +
+      `chokepoint_map:[],top_chokepoints:[],` +
+      `deep_chokepoint_chains:[{start:"表层瓶颈",chain:[{depth,node,supply_demand_gap,expansion_cycle,global_players,pricing_power,discovery_level,beneficiaries_a:[],beneficiaries_qdii:[]}],deepest_alpha:"最深且未发现的那一环+理由"}],` +
+      `industry_future_market:{},` +
+      `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority,chain_depth}],` +
       `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},` +
       `data_quality,evidence:[]}。${GROUNDING}` +
       `\n\n【最终落盘】用 Write 工具将上述完整 JSON 写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。` +

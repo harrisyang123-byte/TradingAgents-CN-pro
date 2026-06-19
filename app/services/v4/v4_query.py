@@ -498,6 +498,36 @@ def _load_industry_debate(name: str) -> List[Dict[str, Any]]:
     return rounds
 
 
+def _load_industry_drill(name: str) -> List[Dict[str, Any]]:
+    """合并独立深挖文件 data/v4/industry_drill_<name>.json（瓶颈上溯链）。
+
+    workflow Step A2 产出 {industry, drills:[{start, depth_reached, chain:[...]}]}。
+    转成前端 deep_chokepoint_chains 同构结构（start + chain + deepest_alpha）。
+    """
+    from pathlib import Path
+    safe = str(name).replace("/", "_").replace("\\", "_")
+    fp = Path(f"data/v4/industry_drill_{safe}.json")
+    if not fp.exists():
+        return []
+    try:
+        raw = json.loads(fp.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    out = []
+    for d in raw.get("drills", []) or []:
+        chain = d.get("chain", []) or []
+        # 最深且标记未发现的一环作为 deepest_alpha 兜底（director 未显式给时）
+        deepest = ""
+        for node in reversed(chain):
+            if isinstance(node, dict) and node.get("node"):
+                disc = str(node.get("discovery_level", ""))
+                tag = "（🟢未发现）" if "未发现" in disc else ""
+                deepest = f"{node.get('node')}{tag}：{node.get('supply_demand_gap', '')}"
+                break
+        out.append({"start": d.get("start"), "chain": chain, "deepest_alpha": deepest})
+    return out
+
+
 def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[str, Any]:
     """Tab3 行业详情（AC8.3）：深辩报告 + 个股列表 + 行业内配比。"""
     ind_env = units.get(f"industry:{name}")
@@ -536,6 +566,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         # Chokepoint 产业链瓶颈地图（行业层增强，透传给前端展示；无则空，不影响旧行业单元）
         "chokepoint_map": ind_payload.get("chokepoint_map", []),
         "top_chokepoints": ind_payload.get("top_chokepoints", []),
+        # 瓶颈递归上溯深挖链（2026-06-19）：payload 内优先，缺则合并独立 drill 文件
+        "deep_chokepoint_chains": ind_payload.get("deep_chokepoint_chains") or _load_industry_drill(name),
         # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序，实时同步个股最新评级）
         "investment_map": fresh_inv_map,
         "analysts": ind_payload.get("analysts", {}),

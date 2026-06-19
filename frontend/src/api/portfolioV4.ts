@@ -373,6 +373,8 @@ export interface IndustryDetail {
   // Chokepoint 产业链瓶颈地图（行业层增强）
   chokepoint_map?: ChokepointNode[]
   top_chokepoints?: string[]
+  // 瓶颈递归上溯深挖链（2026-06-19）：表层瓶颈 → 逐层上游 → 最深未发现 alpha
+  deep_chokepoint_chains?: DeepChokepointChain[]
   // D0-2 投资地图：瓶颈环节→推荐个股→卡位排序
   investment_map?: InvestmentMapRow[]
   analysts?: Record<string, any>
@@ -507,6 +509,26 @@ export interface HistoricalAlpha {
   hit?: string
   alpha_note?: string
   data_status?: string
+}
+
+export interface DeepDrillNode {
+  depth?: number
+  node?: string
+  needs_what?: string
+  supply_demand_gap?: string
+  expansion_cycle?: string
+  global_players?: string
+  pricing_power?: string
+  discovery_level?: string
+  beneficiaries_a?: string[]
+  beneficiaries_qdii?: string[]
+  should_continue?: boolean
+  stop_reason?: string
+}
+export interface DeepChokepointChain {
+  start?: string
+  chain?: DeepDrillNode[]
+  deepest_alpha?: string
 }
 
 export interface ChokepointNode {

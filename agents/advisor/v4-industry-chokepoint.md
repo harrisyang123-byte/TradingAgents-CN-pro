@@ -16,12 +16,27 @@ tools:
 1. `{data_dir}/inputs/industry_{industry}.json` — 行业输入包（景气线索 / 持仓映射 / 数据可得性）
 2. `{data_dir}/inputs/data_macro.json` — 宏观快照（仅取需求侧线索，A股层不引用海外指标）
 
-## 分析方法：自下而上逆向工程
+## 分析方法：自下而上逆向工程 + 递归上溯深挖（两段）
 ```
 终端爆发需求 → 系统级 → 部件级 → 关键器件 → 材料/设备级
                                           ↑ 越往底层越容易出现物理卡脖子
 ```
-沿链条向下钻，每层问"这层谁卡脖子"，**尽量拆到不可再拆的材料/设备物理底层**（广度优先出骨架，标出 top1-2 瓶颈供主agent派专项调研员深挖）。
+
+### 第一段：粗评估出骨架（广度优先）
+沿链条向下钻，每层问"这层谁卡脖子"，先把 5 层骨架拉出来，标出 top1-2 瓶颈。
+
+### 第二段：对 top 瓶颈递归上溯深挖（深度优先，2026-06-19 用户拍板核心能力）
+**第一性原理：市场价格 = 供需关系。瓶颈环节供不应求 → 涨价 → 利润上来 → 股市有故事。**
+表层瓶颈（如"光模块制造"）只是起点，真正的 alpha 在**继续往上游钻**：
+> 光模块制造卡 → 它需要 EML 激光器芯片 → EML 谁供？产能够吗？→ EML 需要磷化铟衬底 → 衬底供不应求了吗？……
+
+对每个 top 瓶颈**逐层上溯**，每层回答"制造它还必须依赖什么更上游的关键投入"，并评估那一层的**供需缺口/扩产周期/全球玩家数/涨价能力/发现度**。
+
+**收敛由你自评估，不写死层数**（不同行业深度差异大）。每层自问 `should_continue`：
+- **停**：① 已触底（纯大宗材料/矿源，无更上游卡点）② 该上游供需已松（不再是瓶颈）③ 已被市场充分 price-in（无 alpha）。
+- **继续**：钻出的上游仍紧缺且市场未充分发现，值得再往上一层。
+
+输出 `deep_chokepoint_chains`：每条上溯链标出最深且未发现的那一环（`deepest_alpha`）——那就是还没被 price-in 的超额收益所在。
 
 ## 瓶颈四维判定（每个环节逐项评，四维同时强才算真 Chokepoint）
 - **不可替代性 irreplaceability**：高(物理/专利锁死)|中(工程壁垒)|低(多路径可替代)
@@ -63,6 +78,18 @@ tools:
      "is_top": true|false, "evidence_status": "verified|estimated|missing"}
   ],
   "top_chokepoints": ["四维最强+建议派专项调研员深挖的1-2个环节及理由"],
+  "deep_chokepoint_chains": [
+    {"start": "表层瓶颈(如 光模块制造)",
+     "chain": [
+       {"depth": 1, "node": "上游环节(如 EML激光器芯片)", "needs_what": "表层为何依赖它",
+        "supply_demand_gap": "紧缺|平衡|过剩 + 证据", "expansion_cycle": "扩产/认证周期",
+        "global_players": "玩家数 + CR1/CR3", "pricing_power": "涨价能力",
+        "discovery_level": "🔴已拥挤|🟡半发现|🟢未发现",
+        "beneficiaries_a": [], "beneficiaries_qdii": [],
+        "should_continue": true, "stop_reason": ""}
+     ],
+     "deepest_alpha": "最深且未发现的那一环 + 为何还没被 price-in"}
+  ],
   "evidence": [{"claim": "...", "source": "...", "status": "verified|estimated|missing"}]
 }
 ```

@@ -114,6 +114,39 @@
             </table>
           </section>
 
+          <!-- §2.5 瓶颈递归上溯深挖（表层 → 逐层上游 → 最深未发现 alpha） -->
+          <section v-if="deepChains.length" id="sec-drill" class="ifr-section">
+            <h2 class="ifr-h2">⛏️ 瓶颈上溯深挖（供需链：越上游越紧 = 越可能未被 price-in）</h2>
+            <p class="ifr-appendix-desc">价格=供需。表层瓶颈往上游逐层钻，找供需最紧张且市场尚未发现的那一环——超额收益所在。</p>
+            <div v-for="(dc, i) in deepChains" :key="i" class="ifr-drill">
+              <div class="ifr-drill-flow">
+                <span class="ifr-drill-start">{{ dc.start }}</span>
+                <template v-for="(node, j) in (dc.chain || [])" :key="j">
+                  <span class="ifr-drill-arrow">→</span>
+                  <span class="ifr-drill-node" :class="discCls(node.discovery_level)">
+                    L{{ node.depth ?? j + 1 }} {{ node.node }}
+                  </span>
+                </template>
+              </div>
+              <p v-if="dc.deepest_alpha" class="ifr-drill-alpha">🎯 最深 alpha：{{ dc.deepest_alpha }}</p>
+              <table v-if="(dc.chain || []).length" class="ifr-table" style="margin-top:8px">
+                <thead><tr><th>层</th><th>上游环节</th><th>供需缺口</th><th>扩产周期</th><th>玩家/集中度</th><th>涨价力</th><th>发现度</th><th>受益标的</th></tr></thead>
+                <tbody>
+                  <tr v-for="(node, j) in dc.chain" :key="j">
+                    <td>L{{ node.depth ?? j + 1 }}</td>
+                    <td class="ifr-td-node">{{ node.node }}</td>
+                    <td class="ifr-td-risk">{{ node.supply_demand_gap }}</td>
+                    <td>{{ node.expansion_cycle }}</td>
+                    <td>{{ node.global_players }}</td>
+                    <td>{{ node.pricing_power }}</td>
+                    <td><span class="ifr-disc" :class="discCls(node.discovery_level)">{{ node.discovery_level }}</span></td>
+                    <td>{{ [...(node.beneficiaries_a||[]), ...(node.beneficiaries_qdii||[])].join('、') || '-' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           <!-- §3 投资地图 -->
           <section v-if="detail.investment_map?.length" id="sec-invmap" class="ifr-section">
             <h2 class="ifr-h2">🎯 投资地图（瓶颈环节 → 推荐标的）</h2>
@@ -332,6 +365,7 @@ const cred = computed<any>(() => detail.value?.credibility || {})
 // 实际 payload 字段比 TS 接口更丰富（chokepoint_node/beneficiary/discovery_level/risk_level 等），用 any 透传
 const chokepointMap = computed<any[]>(() => (detail.value?.chokepoint_map as any[]) || [])
 const investmentMap = computed<any[]>(() => (detail.value?.investment_map as any[]) || [])
+const deepChains = computed<any[]>(() => (detail.value?.deep_chokepoint_chains as any[]) || [])
 
 const hasFutureMarket = computed(() => Object.keys(ifm.value).length > 0)
 const hasForward = computed(() => {
@@ -365,6 +399,7 @@ const eviStat = computed(() => {
 const tocSections = computed(() => {
   const secs = [{ id: 'sec-verdict', icon: '📌', label: '行业裁决' }]
   if (detail.value?.chokepoint_map?.length) secs.push({ id: 'sec-chokepoint', icon: '🔗', label: '瓶颈地图' })
+  if (deepChains.value.length) secs.push({ id: 'sec-drill', icon: '⛏️', label: '瓶颈上溯深挖' })
   if (detail.value?.investment_map?.length) secs.push({ id: 'sec-invmap', icon: '🎯', label: '投资地图' })
   if (hasFutureMarket.value) secs.push({ id: 'sec-future', icon: '📐', label: '未来市场' })
   if (hasForward.value) secs.push({ id: 'sec-forward', icon: '🔭', label: '前瞻推演' })
@@ -397,6 +432,7 @@ function scrollTo(id: string) {
 // 完整数据附录：未被专题章节消费的字段
 const CONSUMED = new Set<string>([
   'industry', 'industry_unit', 'verdict', 'debate_rounds', 'chokepoint_map', 'top_chokepoints',
+  'deep_chokepoint_chains',
   'investment_map', 'industry_future_market', 'forward_view', 'evidence', 'data_quality', 'data_status',
   'credibility', 'reflection', 'stocks', 'stock_weights', 'intra_alloc_unit', 'analysts',
   'value_creation_industry', 'fund_recommendation', 'indirect_holdings',
@@ -610,6 +646,17 @@ watch(name, (n) => { if (n) load(n) }, { immediate: true })
 /* §10 Appendix */
 .ifr-appendix-desc { font-size: 13px; color: #909399; margin-bottom: 12px; }
 .ifr-appendix-key { font-weight: 600; color: #2c5364; font-size: 13.5px; }
+
+/* §2.5 瓶颈上溯深挖 */
+.ifr-drill { margin-bottom: 18px; padding: 12px 14px; background: #fafbfc; border: 1px solid #ebeef5; border-radius: 8px; }
+.ifr-drill-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
+.ifr-drill-start { font-size: 13px; font-weight: 700; color: #303133; background: #eef2ff; padding: 3px 10px; border-radius: 12px; }
+.ifr-drill-arrow { color: #c0c4cc; font-weight: 700; }
+.ifr-drill-node { font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 12px; background: #f0f2f5; color: #606266; }
+.ifr-drill-node.disc-undisc { background: #f6ffed; color: #389e0d; }
+.ifr-drill-node.disc-half { background: #fffbe6; color: #d48806; }
+.ifr-drill-node.disc-crowd { background: #fff1f0; color: #cf1322; }
+.ifr-drill-alpha { font-size: 13px; color: #874d00; background: #fff7e6; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #faad14; margin: 6px 0; line-height: 1.6; }
 
 .ifr-empty { text-align: center; padding: 60px; }
 
