@@ -103,14 +103,14 @@ def get_actual_price(code, market, to_date, manual_price=None):
     """取实际价格: 手动 > AKShare > unavailable"""
     if manual_price is not None:
         return {"price": manual_price, "source": "manual", "status": "verified"}
+    # 统一取价: A股走 AKShare, 美股/港股走 yfinance/stooq
     try:
-        import akshare as ak  # noqa
-        # 生产环境: 用 stock_source 取历史收盘价
-        from app.services.v4 import stock_source
-        # 简化: 取最新价(实际应取 to_date 当日)
-        info = stock_source.fetch_stock_quote(code) if hasattr(stock_source, "fetch_stock_quote") else None
-        if info and info.get("price"):
-            return {"price": float(info["price"]), "source": "akshare", "status": "verified"}
+        from app.services.v4 import overseas_source
+        res = overseas_source.build_any_stock_fundamentals(code)
+        if res.get("available") and res.get("data", {}).get("price") is not None:
+            d = res["data"]
+            return {"price": float(d["price"]), "source": res.get("source", "auto"),
+                    "status": "verified", "price_date": d.get("price_date")}
     except Exception as e:
         return {"price": None, "source": f"unavailable({type(e).__name__})", "status": "missing"}
     return {"price": None, "source": "unavailable", "status": "missing"}

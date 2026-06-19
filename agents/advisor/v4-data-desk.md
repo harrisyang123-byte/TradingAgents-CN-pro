@@ -72,7 +72,8 @@ tools:
   跑 stock 取数后必须调 `app.services.v4.stock_data_contract.check_data_contract()` 校验 24 MUST 字段 + 10 SHOULD 字段:
   - **MUST 字段(24)**: 财务硬数据 8(营收/净利/毛利率/净利率/ROE/经营现金流/股价/市值) + 业务结构 6(主营/分部营收/地区/Top客户/同业/行业空间) + 估值锚 4(PE-TTM/PE历史中枢/同业PE/卖方一致EPS未来2年) + **价值创造组 6(roic/wacc_estimate/tam_size/penetration_rate/capital_allocation_5y/fcf_latest，2026-06-14 用户拍板补全)**
   - **SHOULD 字段(10)**: 季度营收/季度净利/应收周转/存货周转/D-E/股本/股东变动/沽空融资/北上资金/分析师目标价
-  - **★价值创造组取数（2026-06-14 AKShare 外网恢复后）**: ROIC/FCF/ROE/净利率等**计算密集项必须用 AKShare verified 精算**(`stock_source.build_stock_fundamentals(code)` 自动返回 `value_creation_verified`含 roic_low/roic_adj/fcf/roe/净利率)，**严禁主 agent 凭感觉估精确点值**(A/B 测试: 估算法35 vs 计算法85)。A股直接取；港股待测 stock_hk 接口，取不到才给区间+稳健性检验。TAM/渗透率/管理层资本配置(定性)由主 agent 联网+industry层判断。
+  - **★价值创造组取数（2026-06-14 AKShare 外网恢复后）**: ROIC/FCF/ROE/净利率等**计算密集项必须用 verified 精算**(`stock_source.build_stock_fundamentals(code)` 自动返回 `value_creation_verified`含 roic_low/roic_adj/fcf/roe/净利率)，**严禁主 agent 凭感觉估精确点值**(A/B 测试: 估算法35 vs 计算法85)。TAM/渗透率/管理层资本配置(定性)由主 agent 联网+industry层判断。
+  - **★海外个股程序化取数（2026-06-19 新增 `overseas_source.py`）**: 美股(AAPL/NVDA/TSM)、港股(00700.HK)**优先走 `overseas_source.build_any_stock_fundamentals(code)`**（自动按市场路由：A股→AKShare，美股/港股→yfinance主源+stooq备源），返回 verified 价格/市值/PE/PB/ROE/净利率/营收增速等，每个数字带 `_source_url`。**服务"赚外国信息差"——海外硬数据先程序化取 verified，取不到(限流/未披露)才联网 web_search 补，仍取不到才标 missing，绝不用训练记忆编造**。5力/TAM/竞争格局等非行情字段仍需联网补。
   - 缺 MUST → `collect_v4.py` 自动 exit=4 阻断, 输出 `fetch_tasks` 数组(每条含 search_query/source_hints/usage), 主 agent 必须用 web_search/web_fetch 真去取, 取到回填 inputs/stock_<code>.json, 重跑 collect 直至契约通过才能进 spawn analysts → director → critic
   - 缺 SHOULD → 自动扣 confidence(每项 -0.02 上限 -0.20), 不阻断
   - **真取不到的(公司未披露/付费数据/港股细科目)**: 必须诚实标 `unattainable: 原因` + 给替代假设区间(如行业平均/同业代理), critic 评审降级 confidence 但不阻断。注: AKShare 外网现已可用("沙箱无外网"已过时), 财务比率优先程序化取 verified。
