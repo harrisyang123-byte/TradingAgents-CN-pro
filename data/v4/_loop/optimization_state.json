@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 7,
-    "last_run": "2026-06-19T00:00:00+00:00",
+    "iteration_count": 8,
+    "last_run": "2026-06-19T01:00:00+00:00",
     "phase": "idle",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 7 完成 (CRITIC-GATE-20260619-07): 行业层加 critic 评审闭环 + 个股层 cli 强制禁主agent自评critic",
+    "_comment": "iter 8 完成 (CRITIC-GATE-ALIGN): skill 执行指令对齐 cli 禁自评代码强制, 消除主agent撞exit=4困惑",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -641,6 +641,29 @@
         "<本轮 cli self-synth>"
       ],
       "completed_at": "2026-06-19T00:00:00+00:00"
+    },
+    {
+      "id": "CRITIC-GATE-ALIGN-20260619-08",
+      "title": "cli 禁自评 critic 代码强制(iter7)未对齐执行指令 — 主 agent 撞 exit=4 会困惑(skill 无失败处理)",
+      "violated_practice": "AGENTS.md 第0铁律『文档即代码契约』+ 代码强制必须有执行侧指引",
+      "before": {
+        "skill_critic_fail_handling": "无 (v4-advisor/SKILL.md 226行全文无 critic spawn 失败/red/synthesized 处理)",
+        "risk": "主 agent 撞 cli exit=4(self_synth/not_accept) 无手册指引 → 可能反复重试或错误绕过"
+      },
+      "after_protocol": {
+        "skill_new_section": "v4-advisor/SKILL.md 新增『critic 闸门铁律(模式A必读)』: 真spawn/禁自评/失败两条合法路径(重试≤2或落red降级)/NEEDS_CHANGES回退/skip留痕",
+        "alignment": "执行指令逐条对齐 cli 代码行为, GATE 5/5 一致(真spawn放行/自评拦/red放行/未改拦/skip放行)"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(一致性验证)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "SKILL 承诺的5条路径与 cli 实际判定 5/5 一致, 无矛盾; 纯文档对齐无代码风险"
+        }
+      ],
+      "honest_caveat": "认知层(skill)↔代码层(cli)闭环完成。但主 agent 是否真遵守仍依赖其读 skill——代码闸门(cli exit=4)是最终兜底, 即便主 agent 不读 skill 也拦得住自评。本轮把'兜底'补上了'指引', 减少撞墙困惑。未端到端真跑。",
+      "completed_at": "2026-06-19T01:00:00+00:00"
     }
   ],
   "stuck": [],

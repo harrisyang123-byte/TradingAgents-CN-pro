@@ -216,6 +216,20 @@ python scripts/run_report_v4.py
 - 若有 stale 下游，提示「以下单元建议刷新：...」
 - 若失败，输出原因和重试指令
 
+## critic 闸门铁律（模式 A 直跑个股/行业必读，2026-06-19 loop iter 8 对齐 cli 代码强制）
+
+> 背景：`v4_unit_cli.py write` 已**代码强制**——`stock:/industry:/asset:` 单元落盘时，
+> `credibility.final_verdict` 必须 `ACCEPT` **且** critic 类字段不得标 `synthesized_by_main_agent`，
+> 否则 `exit=4` 阻断。本节是执行侧对齐，撞到 exit=4 时照此处理，别困惑、别绕过。
+
+- ✅ **critic 必须真 spawn `v4-investor-critic`**：director 出 verdict 后，把完整 payload 喂给真 subagent 评审，拿它返回的 score/decision 写进 `credibility`。
+- 🚫 **禁止主 agent 扮演四大师自评**：绝不自己合成 critique 后写 `final_verdict:ACCEPT` + `data_status:synthesized_by_main_agent`——cli 会 exit=4 拦截（闸门自己被合成=闸门失效）。
+- **critic spawn 失败时**，只有两条合法路径，**没有第三条**：
+  1. **重试 spawn**（换更小 prompt / 拆 stage），最多 2 次；
+  2. 仍失败 → **落 red 信封诚实降级**：`v4_unit_cli.py write <unit> --payload <f> --status red --error "critic 评审未完成(spawn 失败 N 次)"`（带 `--error`/`--status red` 的失败信封绕过 ACCEPT 校验，能成功记账+不锁泄漏），并在 `reflection.self_check` 标注「评审未完成，结论待复核」。
+- **critic 评 NEEDS_CHANGES 时**：把 fatal_flaws/improvements 喂回 director 修订，**真重 spawn critic 复核**（≤2 轮），ACCEPT 才落 green 信封；到上限仍不过 → 落 red 信封降级（同上）。
+- 🚫 `--skip-critic` 仅限真紧急（如 critic 服务整体不可用），用了必须在 `reflection.self_check` 留痕说明原因。
+
 ## 约束
 
 - 🚫 **绝不在 Web 接口中触发 LLM 分析**——本 skill 只在本地 CLI 对话中执行。
