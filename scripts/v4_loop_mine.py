@@ -769,10 +769,42 @@ def build_candidate_holes(report: dict) -> list[dict]:
     return holes
 
 
+def _reconcile_done_from_log() -> None:
+    """写 backlog 前先从 append-only done_log.jsonl 找回被覆写丢失的 done 历史，
+    确保下面的 id_prefix 去重基于**完整** done 集合，不会因 done 丢失而重复挖已做的洞
+    (2026-06-19 LOOP-STATE-OVERWRITE 闭环: 本地跑 mine 也接入 reconcile)。"""
+    done_log = LOOP_DIR / "done_log.jsonl"
+    if not (STATE_FILE.exists() and done_log.exists()):
+        return
+    try:
+        state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        merged = {e["id"]: e for e in state.get("done", []) if e.get("id")}
+        recovered = 0
+        for ln in done_log.read_text(encoding="utf-8").splitlines():
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                e = json.loads(ln)
+            except ValueError:
+                continue
+            eid = e.get("id")
+            if eid and eid not in merged:
+                merged[eid] = e
+                recovered += 1
+        if recovered:
+            state["done"] = list(merged.values())
+            STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+            print(f"  [reconcile] 从 done_log.jsonl 找回 {recovered} 条被覆写的 done 历史")
+    except (OSError, ValueError):
+        pass  # 对账失败不阻断 mine 主流程
+
+
 def write_state_backlog(holes: list[dict]) -> int:
     """把候选洞 append 到 state.backlog，按 id_prefix (RULER/SELL/VERIFIED/LAZY 等) 去重 (iteration 2 修复)"""
     if not STATE_FILE.exists():
         return 0
+    _reconcile_done_from_log()  # 先找回被覆写的 done, 再读 state 去重
     state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
 
     def extract_prefix(hole_id: str) -> str:
