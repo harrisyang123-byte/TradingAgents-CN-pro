@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 10,
-    "last_run": "2026-06-19T03:00:00+00:00",
-    "phase": "idle",
+    "iteration_count": 11,
+    "last_run": "2026-06-19T04:00:00+00:00",
+    "phase": "maintenance",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 10 完成 (STOCK-PASSTHROUGH): build_stock_detail 补透传精排字段, iter2前端UI在静态模式真生效",
+    "_comment": "iter 11: DISCOVER 核查前后端数据链(行业/个股/大类/持仓四类无残留断裂)、提交卫生(无误提dist)、gitignore(完备)、iter10副作用(CONSUMED 12字段全含,附录无重复)——未发现新高优洞, 诚实进 maintenance 态, 不硬造洞刷次数(loop铁律)。critic闭环线(iter6-8)+前后端透传线(iter9-10)均已收口。",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -759,5 +759,18 @@
       "规则13 (数据采集层专用): TAM/份额/CAGR/渗透率四类必 ≥3 不同机构来源去重 (不允许同机构多份报告凑数, 通富 $157B 同型治理). 财务比率类(ROIC/ROE/FCF) AKShare 单源即可但需标 as_of 报告期",
       "规则14 (GATE attempt#1 后 hotfix vs backlog): critic ACCEPT 但留 fatal_flaws 时, 优先 hotfix 不入 backlog (规则 12 的代码层应同步修, 防同型 bug 在下轮 IMPLEMENT 复发)"
     ]
-  }
+  },
+  "maintenance_log": [
+    {
+      "at": "2026-06-19T04:00:00+00:00",
+      "iteration": 11,
+      "checked": [
+        "前后端数据链 4 类组件 vs build_* 透传(无断裂)",
+        "iter10 大提交卫生(49快照+1py,无dist误提)",
+        ".gitignore 完备(dist/node_modules/__pycache__/.env 都有)",
+        "iter10 CONSUMED 防附录重复(12/12)"
+      ],
+      "conclusion": "无新高优洞, 维持 maintenance。下次有真实信号(用户反馈/本地真跑暴露问题/新 issue)再激活。"
+    }
+  ]
 }
