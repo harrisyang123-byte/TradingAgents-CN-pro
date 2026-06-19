@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 8,
-    "last_run": "2026-06-19T05:00:00+00:00",
+    "iteration_count": 9,
+    "last_run": "2026-06-19T06:00:00+00:00",
     "phase": "apply",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 8 (ASSET-CRITIC): 大类层补critic闭环+recritic扩展。注: 本状态文件曾被本地跑(bdc61021)覆盖, 之前session登记的critic线iter7-11条目丢失, 本条基于覆盖后状态续记。",
+    "_comment": "iter 9 (LOOP-STATE-OVERWRITE): done账本外移append-only jsonl根治覆写丢失; done_log.jsonl为唯一真源",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -355,7 +355,8 @@
         }
       ],
       "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 已加 2026-06-17 本轮沉淀",
-      "completed_at": "2026-06-17T12:30:00+00:00"
+      "completed_at": "2026-06-17T12:30:00+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "VERIFIED-20260617-03",
@@ -416,7 +417,8 @@
         }
       ],
       "skill_consolidated": "skills/v4-super-investor-rulers/SKILL.md USER_CORRECTION 待加 2026-06-17 iteration 2 条目",
-      "completed_at": "2026-06-17T13:10:23+00:00"
+      "completed_at": "2026-06-17T13:10:23+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "DEBATE-20260618-03",
@@ -479,7 +481,8 @@
         }
       ],
       "skill_consolidated": "skills/v4-debate-discipline/SKILL.md (新建) USER_CORRECTION 已加 2026-06-17 iteration 3 沉淀",
-      "completed_at": "2026-06-17T14:24:49+00:00"
+      "completed_at": "2026-06-17T14:24:49+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "DATA-ACQ-20260618-04",
@@ -532,7 +535,8 @@
           ]
         }
       ],
-      "completed_at": "2026-06-17T15:20:47+00:00"
+      "completed_at": "2026-06-17T15:20:47+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "FINANCIAL-20260618-05",
@@ -579,7 +583,8 @@
           ]
         }
       ],
-      "completed_at": "2026-06-17T15:50:48+00:00"
+      "completed_at": "2026-06-17T15:50:48+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "FIVE-FORCES-20260618-06",
@@ -609,7 +614,8 @@
           "key_acceptance": "5 层齐, PRIMARY+INTEGRATOR 模式平滑扩展, 三重 enum 锁防 Goodhart, 中英兼容防 Serenity 回归, 无 fatal/新孤儿"
         }
       ],
-      "completed_at": "2026-06-18T00:45:55+00:00"
+      "completed_at": "2026-06-18T00:45:55+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
     },
     {
       "id": "ASSET-CRITIC-20260619-07",
@@ -636,7 +642,33 @@
         }
       ],
       "honest_caveat": "未真跑(环境无LLM)。大类层首次有critic——现有7个大类产物credibility全空(当初绕过评审落盘), 本地首次 recritic asset:equity 时critic很可能低分+fatal迫使director修订, 这是暴露大类分析真实质量的好事。本条洞的'前置分析'即过往director产物, recritic只补评审不重跑拆解。",
-      "completed_at": "2026-06-19T05:00:00+00:00"
+      "completed_at": "2026-06-19T05:00:00+00:00",
+      "_logged_from": "optimization_state.done(seed 2026-06-19)"
+    },
+    {
+      "id": "LOOP-STATE-OVERWRITE-20260619-08",
+      "title": "loop状态文件 optimization_state.json 整体覆写 → 本地跑与会话agent交替操作互相吞done历史(亲历iter7-11丢失)",
+      "violated_practice": "诚实记账(北极星) — done是loop记忆, 丢了等于自欺; 多actor并发写同一大JSON必覆盖",
+      "discovery_evidence": {
+        "write_pattern": "v4_loop_mine.py:776读全文 → :810整体write_text覆写; done/backlog是同一JSON内数组",
+        "incident": "bdc61021(本地Sonnet跑)覆写state, 上一session登记的critic线iter7-11 done条目丢失",
+        "root": "无并发安全/append机制, 后写整体覆盖先写"
+      },
+      "after_protocol": {
+        "append_only_log": "新增 data/v4/_loop/done_log.jsonl (每条洞追加一行,永不覆写), 种子7条历史",
+        "tooling": "新增 scripts/v4_loop_log.py: append(原子追加)/reconcile(以jsonl为准重建state.done,找回被覆写历史)/list",
+        "protocol": "self-evolving-optimization-loop.md Part4 固化『done账本防覆写铁律』: CONSOLIDATE必append jsonl + 每轮reconcile + done以jsonl为唯一真源"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(机制验证)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "list显示7条种子; 模拟state.done清空后reconcile从jsonl完整找回7条(覆写恢复验证通过); append用'a'模式不读不覆写"
+        }
+      ],
+      "honest_caveat": "机制根治了'覆写丢历史', 但本地跑的 v4_loop_mine.py 尚未改为调用 append(它仍整体写state) — 本轮只新增旁路日志+reconcile恢复+协议铁律, 未改动本地跑核心逻辑(避免破坏)。完整闭环需本地跑后续也接入 v4_loop_log.py append, 或定期 reconcile。未真跑并发场景。",
+      "completed_at": "2026-06-19T06:00:00+00:00"
     }
   ],
   "stuck": [],

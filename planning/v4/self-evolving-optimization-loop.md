@@ -278,6 +278,10 @@ SkillOpt 把 agent 的 skill 文档当"可训练权重"，用深度学习的纪�
 - **backlog 生长**：DISCOVER/CONSOLIDATE 发现新洞就 append，**不一次性填满**（那就退化成死清单了）。
 - **done 防重复**：DISCOVER 前先查 done，已填的洞不重挖（除非复发——复发记进 meta_memory.what_failed）。
 - **stuck 升级**：同一洞 2 次 gate 失败 → 移入 stuck + `escalate_to_user:true`，下次面对用户时主动汇报求决策。
+- ⚠️ **done 账本防覆写铁律（2026-06-19 真实事故固化）**：`optimization_state.json` 是「读全文→整体覆写」，本地跑与会话 agent 交替操作会**互相覆盖 done 历史**（已亲历 iter7-11 条目丢失）。因此 **done 的真账本是 append-only 的 `data/v4/_loop/done_log.jsonl`**：
+  - CONSOLIDATE 完成一个洞时，除了写 `optimization_state.done`，**必须**同时 `python3 scripts/v4_loop_log.py append <entry.json>`（'a' 模式追加一行，永不覆写）。
+  - 每轮开始（或怀疑被覆写时）先 `python3 scripts/v4_loop_log.py reconcile`，以 jsonl 为准重建 state.done（按 id 去重），**找回被覆写丢失的历史**。
+  - `optimization_state.json` 只视为「当前态缓存」(active_hole/backlog/meta)，**done 历史以 done_log.jsonl 为唯一真源**。
 
 ---
 
