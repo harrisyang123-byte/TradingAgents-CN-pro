@@ -348,6 +348,26 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'v4/holdings',
+        name: 'V4HoldingsFullReport',
+        component: () => import('@/views/Portfolio/v4/HoldingsFullReport.vue'),
+        meta: {
+          title: '持仓完整体检',
+          requiresAuth: true,
+          hideInMenu: true
+        }
+      },
+      {
+        path: 'v4/asset/:assetClass',
+        name: 'V4AssetFullReport',
+        component: () => import('@/views/Portfolio/v4/AssetFullReport.vue'),
+        meta: {
+          title: '大类完整分析',
+          requiresAuth: true,
+          hideInMenu: true
+        }
+      },
+      {
         path: 'fund/:code',
         name: 'FundDetail',
         component: () => import('@/views/FundDetail/index.vue'),

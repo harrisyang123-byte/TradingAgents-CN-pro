@@ -610,9 +610,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { portfolioV4Api, type StockDetail } from '@/api/portfolioV4'
 import JsonTree from './JsonTree.vue'
 
+// codeProp：嵌入 V4Overview tab 时由父级传入；独立路由页则取 route.params
+const props = defineProps<{ codeProp?: string }>()
 const route = useRoute()
 const router = useRouter()
-const code = computed(() => route.params.code as string)
+const code = computed(() => props.codeProp || (route.params.code as string))
 const detail = ref<StockDetail | null>(null)
 const rawEnvelope = ref<any>(null)
 const loading = ref(false)

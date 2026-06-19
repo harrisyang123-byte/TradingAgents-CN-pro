@@ -316,6 +316,8 @@ export interface IndustryAllocationRow {
   industry: string
   target_weight: number
   reasoning?: string
+  stance?: string
+  direction?: string
 }
 
 export interface AssetDetail {
@@ -638,4 +640,11 @@ export interface HoldingsReview {
   capital_flow: { sources: FlowItem[]; uses: FlowItem[] }
   fund_groups: FundTheme[]
   indirect_holdings: Array<{ code: string; name: string; indirect_value: number; fund_count: number; note: string }>
+  // 组合层补充字段（build_holdings_review 透传）
+  industry_allocations?: IndustryAllocationRow[]
+  equity_quota_v4?: number | null
+  asset_class_targets?: Record<string, any>
+  portfolio_key_actions?: string[]
+  portfolio_key_risks?: string[]
+  portfolio_confidence?: number | null
 }

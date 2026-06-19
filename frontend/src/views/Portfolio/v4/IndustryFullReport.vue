@@ -301,9 +301,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { portfolioV4Api, type IndustryDetail } from '@/api/portfolioV4'
 import JsonTree from './JsonTree.vue'
 
+// industryProp：嵌入 V4Overview tab 时父级传入；独立路由页取 route.params
+const props = defineProps<{ industryProp?: string }>()
 const route = useRoute()
 const router = useRouter()
-const name = computed(() => route.params.name as string)
+const name = computed(() => props.industryProp || (route.params.name as string))
 const detail = ref<IndustryDetail | null>(null)
 const loading = ref(false)
 

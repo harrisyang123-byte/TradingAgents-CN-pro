@@ -26,12 +26,23 @@
         </div>
 
         <div v-if="detail.verdict" class="idt-verdict">
-          <p v-if="detail.verdict.summary"><b>📌 结论：</b>{{ detail.verdict.summary }}</p>
-          <p v-if="detail.verdict.situation"><b>景气/形势：</b>{{ detail.verdict.situation }}</p>
-          <p v-if="detail.verdict.direction"><b>方向/空间：</b>{{ detail.verdict.direction }}</p>
+          <div v-if="detail.verdict.summary" class="idt-vline">
+            <span class="idt-vlabel">📌 结论</span>
+            <p>{{ detail.verdict.summary }}</p>
+          </div>
+          <div v-if="detail.verdict.situation" class="idt-vline">
+            <span class="idt-vlabel">景气形势</span>
+            <p>{{ detail.verdict.situation }}</p>
+          </div>
+          <div v-if="detail.verdict.direction" class="idt-vline">
+            <span class="idt-vlabel">方向空间</span>
+            <p>{{ detail.verdict.direction }}</p>
+          </div>
           <div v-if="detail.verdict.risks?.length" class="idt-risks">
-            <b>风险：</b>
-            <el-tag v-for="(r, i) in detail.verdict.risks" :key="i" type="danger" size="small" effect="plain">{{ r }}</el-tag>
+            <div class="idt-risks-head">⚠️ 主要风险（{{ detail.verdict.risks.length }} 项）</div>
+            <ol class="idt-risks-list">
+              <li v-for="(r, i) in detail.verdict.risks" :key="i">{{ r }}</li>
+            </ol>
           </div>
           <div v-if="(detail as any).credibility?.critic_score" class="idt-critic">
             🎩 critic 评审：<b>{{ (detail as any).credibility.critic_score }}/100</b>
@@ -239,8 +250,8 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
 
 <style scoped>
 .idt-loading { padding: 20px; }
-.idt-head, .idt-debate, .idt-body {
-  padding: 16px;
+.card, .idt-head, .idt-debate, .idt-body {
+  padding: 16px 18px;
   margin-bottom: 16px;
   border: 1px solid #ebeef5;
   border-radius: 8px;
@@ -268,8 +279,20 @@ watch(() => props.industry, (n) => { if (n) load(n) }, { immediate: true })
   align-items: center;
   gap: 10px;
 }
-.idt-verdict p { margin: 6px 0; font-size: 13px; color: #606266; line-height: 1.6; }
-.idt-risks { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.idt-verdict { display: flex; flex-direction: column; gap: 10px; }
+.idt-vline { display: flex; gap: 12px; align-items: flex-start; }
+.idt-vlabel {
+  flex-shrink: 0; width: 64px; font-size: 12px; font-weight: 700;
+  color: #909399; padding-top: 2px;
+}
+.idt-vline p { margin: 0; font-size: 13.5px; color: #303133; line-height: 1.8; flex: 1; }
+.idt-risks {
+  margin-top: 4px; padding: 12px 14px;
+  background: #fffbfb; border: 1px solid #fde2e2; border-radius: 8px;
+}
+.idt-risks-head { font-size: 13px; font-weight: 700; color: #cf1322; margin-bottom: 8px; }
+.idt-risks-list { margin: 0; padding-left: 20px; }
+.idt-risks-list li { font-size: 13px; color: #4e5969; line-height: 1.8; padding: 3px 0; }
 .idt-round { margin-bottom: 14px; }
 .idt-round-no { font-weight: 700; color: #909399; font-size: 12px; margin-bottom: 6px; }
 .idt-duel { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }

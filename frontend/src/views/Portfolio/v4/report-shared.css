@@ -1,0 +1,105 @@
+/* report-shared.css — v4 四类完整报告统一设计语言
+ *
+ * 共享给：HoldingsFullReport / AssetFullReport / IndustryFullReport / StockFullReport
+ * 设计原则（用户拍板）：完整、清晰、不花哨。
+ * 统一前缀 .rpt-*，各页只需在根 div 加 class="rpt" 即可复用。
+ */
+
+.rpt { min-height: 100vh; background: #f5f7fa; }
+.rpt-loading { padding: 60px 40px; max-width: 900px; margin: 0 auto; }
+
+/* ── Hero 头部（深色渐变，各页可用 --rpt-hero 覆盖配色） ── */
+.rpt-hero {
+  background: var(--rpt-hero, linear-gradient(135deg, #1a1a2e 0%, #16213e 100%));
+  color: #fff;
+  padding: 30px 40px 22px;
+}
+.rpt-hero-main { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.rpt-hero-title { font-size: 26px; font-weight: 800; margin: 0; }
+.rpt-hero-sub { font-size: 14px; font-weight: 400; opacity: 0.6; margin-left: 10px; }
+.rpt-hero-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.rpt-hero-score { background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 16px; font-size: 13px; font-weight: 600; }
+.rpt-hero-kpi { display: flex; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
+.rpt-kpi { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.08); padding: 12px 18px; border-radius: 10px; min-width: 92px; }
+.rpt-kpi-label { font-size: 12px; opacity: 0.7; margin-bottom: 4px; }
+.rpt-kpi-val { font-size: 18px; font-weight: 700; }
+.rpt-kpi-green { color: #52c41a; }
+.rpt-kpi-red { color: #ff4d4f; }
+.rpt-hero-gen { margin-top: 16px; font-size: 12px; opacity: 0.5; display: flex; align-items: center; gap: 16px; }
+
+/* ── Body：侧边 TOC + 主体 ── */
+.rpt-body { display: flex; max-width: 1400px; margin: 0 auto; padding: 24px 20px; gap: 24px; }
+.rpt-toc { width: 190px; flex-shrink: 0; position: sticky; top: 20px; align-self: flex-start; }
+.rpt-toc nav { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.rpt-toc-title { font-size: 13px; font-weight: 700; color: #909399; margin-bottom: 12px; letter-spacing: 1px; }
+.rpt-toc-link { display: block; padding: 7px 10px; margin: 2px 0; border-radius: 6px; font-size: 13px; color: #606266; text-decoration: none; transition: all 0.2s; }
+.rpt-toc-link:hover { background: #f5f7fa; color: #303133; }
+.rpt-toc-link.active { background: #ecf5ff; color: #409eff; font-weight: 600; }
+
+.rpt-main { flex: 1; min-width: 0; }
+.rpt-section { background: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); scroll-margin-top: 20px; }
+.rpt-h2 { font-size: 18px; font-weight: 700; color: #1d2129; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+.rpt-h3 { font-size: 15px; font-weight: 600; color: #303133; margin: 16px 0 10px; }
+
+/* ── 通用排版块 ── */
+.rpt-list-head { font-size: 13px; font-weight: 700; color: #303133; margin: 12px 0 8px; }
+
+/* 标签 + 正文两栏行（结论/方向等） */
+.rpt-line { display: flex; gap: 12px; align-items: flex-start; margin: 10px 0; }
+.rpt-line-label { flex-shrink: 0; width: 72px; font-size: 12px; font-weight: 700; color: #909399; padding-top: 2px; }
+.rpt-line p { margin: 0; font-size: 13.5px; color: #303133; line-height: 1.8; flex: 1; }
+
+/* 信息卡网格 */
+.rpt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.rpt-cell { background: #fafbfc; border-radius: 8px; padding: 12px 14px; border: 1px solid #ebeef5; }
+.rpt-cell.full { grid-column: 1 / -1; }
+.rpt-cell.warn { background: #fff7e6; border-color: #ffe7ba; }
+.rpt-cell-label { font-size: 12px; font-weight: 700; color: #909399; margin-bottom: 6px; }
+.rpt-cell p { font-size: 13px; line-height: 1.7; color: #4e5969; margin: 0; }
+
+/* 风险清单（统一：竖排编号、浅红框，杜绝串行红墙） */
+.rpt-risks { margin-top: 4px; padding: 12px 14px; background: #fffbfb; border: 1px solid #fde2e2; border-radius: 8px; }
+.rpt-risks-head { font-size: 13px; font-weight: 700; color: #cf1322; margin-bottom: 8px; }
+.rpt-risks ol { margin: 0; padding-left: 20px; }
+.rpt-risks li { font-size: 13px; color: #4e5969; line-height: 1.8; padding: 3px 0; }
+
+/* 动作清单（绿色，正向） */
+.rpt-actions { margin-top: 4px; padding: 12px 14px; background: #f6ffed; border: 1px solid #d9f7be; border-radius: 8px; }
+.rpt-actions-head { font-size: 13px; font-weight: 700; color: #389e0d; margin-bottom: 8px; }
+.rpt-actions ol { margin: 0; padding-left: 20px; }
+.rpt-actions li { font-size: 13px; color: #4e5969; line-height: 1.8; padding: 3px 0; }
+
+/* 表格 */
+.rpt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.rpt-table th { background: #f0f2f5; padding: 8px 10px; text-align: left; font-weight: 600; color: #606266; border-bottom: 2px solid #e4e7ed; white-space: nowrap; }
+.rpt-table td { padding: 8px 10px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+.rpt-td-strong { font-weight: 600; color: #303133; }
+.rpt-link { color: #409eff; text-decoration: none; }
+.rpt-link:hover { text-decoration: underline; }
+
+/* 裁决卡 */
+.rpt-verdict-card { background: #fafbfc; border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+.rpt-verdict-stance { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.rpt-verdict-stance.pos { color: #389e0d; }
+.rpt-verdict-stance.neg { color: #cf1322; }
+.rpt-verdict-stance.neutral { color: #d46b08; }
+
+/* 附录 */
+.rpt-appendix-desc { font-size: 13px; color: #909399; margin-bottom: 12px; }
+.rpt-appendix-key { font-weight: 600; color: #5b6dde; font-size: 13.5px; }
+
+.rpt-empty { text-align: center; padding: 60px; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .rpt-toc { display: none; }
+  .rpt-body { padding: 12px; }
+  .rpt-hero { padding: 20px; }
+  .rpt-section { padding: 16px; }
+  .rpt-table { font-size: 11.5px; }
+}
+@media print {
+  .rpt-toc { display: none; }
+  .rpt-hero { background: #fff !important; color: #000; }
+  .rpt-section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+}
