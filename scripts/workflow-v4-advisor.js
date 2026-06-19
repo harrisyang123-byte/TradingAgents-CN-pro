@@ -70,6 +70,28 @@ function safeName(s) {
   return String(s).replace(/[\/\\:\*\?"<>\|（）()\s]+/g, '_');
 }
 
+// Issue #5 修复：agent() 不带 schema 时返回的是 markdown 字符串(含 ```json 块)，不是 object。
+// 此前 runCriticGate/drillChokepoint 直接 critique?.score 取到 undefined→0(critic 实评 42 分被吞)。
+// 统一用此函数从 agent 返回值提取结构化 JSON：已是 object 直接用；字符串则按优先级容错解析。
+function parseAgentJSON(ret) {
+  if (ret == null) return {};
+  if (typeof ret === 'object') return ret;           // 万一 harness 已解析
+  const s = String(ret);
+  // 1) ```json ... ``` 代码块(critic/分析师标准输出格式)
+  let m = s.match(/```json\s*([\s\S]*?)```/i);
+  if (m) { try { return JSON.parse(m[1].trim()); } catch (e) { /* 落到下一策略 */ } }
+  // 2) 任意 ``` ... ``` 代码块
+  m = s.match(/```\s*([\s\S]*?)```/);
+  if (m) { try { return JSON.parse(m[1].trim()); } catch (e) { /* next */ } }
+  // 3) 第一个 { 到最后一个 } 的片段(无围栏直接吐 JSON)
+  const i = s.indexOf('{'), j = s.lastIndexOf('}');
+  if (i !== -1 && j > i) { try { return JSON.parse(s.slice(i, j + 1)); } catch (e) { /* next */ } }
+  // 4) 整串就是 JSON
+  try { return JSON.parse(s); } catch (e) { /* 全失败 */ }
+  log(`[WARN] parseAgentJSON 解析失败，返回空对象（原文前120字: ${s.slice(0, 120)}）`);
+  return {};
+}
+
 // ── 内联文件 I/O 指令（嵌入 agent prompt） ──────────────────
 function mkWriteInstr(filePath, jsonVar) {
   return `\n\n【文件写入指令】请用 Write 工具将以上完整 JSON 写入 "${p(filePath)}"（先确保目录存在: Bash: mkdir -p ${dataDir}）。`;
@@ -107,7 +129,7 @@ async function drillChokepoint(industry, startNode, packPath) {
     const prevChain = chain.length
       ? `\n已上溯路径：${chain.map((c) => `L${c.depth} ${c.node}`).join(' → ')}\n`
       : '';
-    const node = await agent(
+    const node = parseAgentJSON(await agent(
       `你是产业链「上溯调研员」(upstream supply-chain driller)。Read ${packPath}。\n` +
       `行业「${industry}」。当前聚焦环节：【${current}】。${prevChain}\n` +
       `第一性原理：市场价格 = 供需关系。瓶颈环节供不应求 → 涨价 → 利润上来 → 股市有故事。\n` +
@@ -127,7 +149,7 @@ async function drillChokepoint(industry, startNode, packPath) {
       `beneficiaries_a:[],beneficiaries_qdii:[],should_continue:bool,stop_reason:"",` +
       `evidence:[{claim,source,status}]}。${GROUNDING}`,
       { label: `上溯钻 L${depth}:${String(current).slice(0, 10)}`, phase: '行业研究部门' }
-    );
+    ));
     chain.push(node);
     if (!node || node.should_continue === false) break;
     if (!node.node) break; // 没钻出新环节，停
@@ -148,14 +170,14 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
   for (let iter = 1; iter <= CRITIC_MAX_ITERS + 1; iter++) {
     // 评审当前 payload（首轮评 director 初稿，后续评修订稿）
     log(`[${unitId}] Step E: critic 评审（第 ${iter} 轮，真 spawn 评委）`);
-    critique = await agent(
+    critique = parseAgentJSON(await agent(
       `你是 v4 专业投资者评审官(v4-investor-critic)，由芒格/段永平/Serenity/达里奥四视角组成评审委员会。\n` +
       `⚠️ 必须读取并应用 agents/advisor/v4-investor-critic.md 的四视角拷问框架 + 评审铁律（${kind === 'industry' ? '行业层重点查 6.11 未来市场必查 + 6.11.x 7把辩证尺 + 瓶颈不可替代性/预期差' : '6.12-6.16 个股必查项'}）。\n` +
       `Read 待评审产出 ${payloadFile}，及上游依据 ${readRefs}。\n` +
       `严苛拷问这份 ${kind} 分析，宁苛勿松：数据是否 verified（编造/未核实关键数字一票否决）、瓶颈不可替代性是否成立、是否用预期差而非涨幅锚、最坏情况是否诚实、辩论是否真攻防。\n` +
       `输出 JSON：{verdict_reviewed:"${unitId}",munger:{pass:bool,critique},duan:{pass:bool,critique},serenity:{pass:bool,critique},dalio:{pass:bool,critique},fatal_flaws:[],improvements:["具体可执行,指出哪里/为什么/怎么改"],score:0-100,decision:"ACCEPT|NEEDS_CHANGES"}。只输出 JSON。`,
       { label: `评审委员会 R${iter}`, phase: '行业研究部门' }
-    );
+    ));
     const score = Number(critique?.score || 0);
     const decision = String(critique?.decision || 'NEEDS_CHANGES');
     const fatal = Array.isArray(critique?.fatal_flaws) ? critique.fatal_flaws : [];
@@ -173,10 +195,8 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
         mkUnlockInstr(unitId),
         { label: '评审通过落盘', phase: '行业研究部门' }
       );
-      lastVerdict = lastVerdict || {};
-      lastVerdict._critic_score = score;
-      lastVerdict._critic_decision = 'ACCEPT';
-      return lastVerdict;
+      // 落盘 agent 返回的是文本总结，verdict 真身在 payloadFile；这里只回传评审元信息供主流程 log
+      return { _critic_score: score, _critic_decision: 'ACCEPT', verdict: parseAgentJSON(lastVerdict).verdict || {} };
     }
 
     if (iter === CRITIC_MAX_ITERS + 1) {
@@ -230,7 +250,7 @@ async function runIndustryDepartment(name) {
   try {
     // ── Step A: Chokepoint 产业链瓶颈拆解 ──
     log(`[${sn}] Step A: 产业链瓶颈拆解`);
-    const chokepoint = await agent(
+    const chokepoint = parseAgentJSON(await agent(
       mkLockInstr(unitId) +
       `\n你是产业链瓶颈分析师(chokepoint analyst)。Read ${p(packName)}、${p('inputs/data_macro.json')}。\n` +
       `对行业「${name}」做自下而上逆向工程拆解：终端需求→系统级→部件级→关键器件→材料/设备级。\n` +
@@ -242,7 +262,7 @@ async function runIndustryDepartment(name) {
       `top_chokepoints:["四维最强的1-3个环节及理由"],evidence:[{claim,source,status}]}。${GROUNDING}` +
       mkWriteInstr(chFile, 'chokepoint'),
       { label: '瓶颈分析师', phase: '行业研究部门' }
-    );
+    ));
 
     // ── Step A2: 瓶颈递归深挖（粗评估出骨架 → 对 top 瓶颈逐层上溯，AI 自评估收敛） ──
     log(`[${sn}] Step A2: 瓶颈递归深挖（上溯式，AI 自评估层数）`);
@@ -267,7 +287,7 @@ ${JSON.stringify({ industry: name, drills }, null, 2)}`,
 
     // ── Step B: Future-Market 7把辩证尺消化 ──
     log(`[${sn}] Step B: 未来市场7把尺分析`);
-    const futureMarket = await agent(
+    const futureMarket = parseAgentJSON(await agent(
       `你是行业未来市场专职分析师(future-market-analyst)。Read ${p(packName)}、${p('inputs/data_macro.json')}、${p(chFile)}。\n` +
       `★Issue#4：输入包 packName 内含 valuation_inputs(关联个股 verified PE 聚合 + 折现率锚 cn10y/lpr_5y + fetch_tasks)。第⑤尺 forward PEG 必须消费它：用 peer_pe_median/peer_pe_range 算行业 PE 中枢，用 cn10y 推合理折现率；若 valuation_inputs.available=false 则按 fetch_tasks 提示联网补，仍取不到才标 industry_forward_peg=null 并说明，不编造。\n` +
       `对行业「${name}」用7把辩证分析尺消化数据，产出独立的行业未来市场全景：\n` +
@@ -278,7 +298,7 @@ ${JSON.stringify({ industry: name, drills }, null, 2)}`,
       `methodology_applied:[{ruler,result,data_ref}],data_sources:[{url,status}],evidence:[{claim,source,status}]}。${GROUNDING}` +
       mkWriteInstr(fmFile, 'futureMarket'),
       { label: '未来市场分析师', phase: '行业研究部门' }
-    );
+    ));
 
     // ── Step C: Bull/Bear 3轮辩论 ──
     log(`[${sn}] Step C: 多空辩论`);
@@ -295,14 +315,14 @@ ${JSON.stringify({ industry: name, drills }, null, 2)}`,
         (r > 1 ? `这是第 ${r} 轮，先回应上一轮空头挑战再强化：${JSON.stringify(lastBear).slice(0, 1200)}。` : `这是第 1 轮，给出看多核心论点。`) +
         `论证行业「${name}」景气向上、瓶颈环节投资价值、渗透率空间。必须引用前置分析的具体结论。` +
         `输出 JSON：{role:"bull",industry:"${name}",round:${r},thesis,bull_points:[{point,evidence_ref,confidence}],vitality_view,catalysts:[],suggested_stance,evidence:[{claim,source,status}],methodology_used:[]}。${GROUNDING}`;
-      const bull = await agent(bullPrompt, { label: `行业多头 R${r}`, phase: '行业研究部门' });
+      const bull = parseAgentJSON(await agent(bullPrompt, { label: `行业多头 R${r}`, phase: '行业研究部门' }));
 
       const bearPrompt =
         `你是行业空头研究员。先 Read 多头本轮论点：${JSON.stringify(bull).slice(0, 1600)}。再 Read ${p(packName)}、${p('inputs/data_macro.json')}。` +
         `同时消化前置分析结论：${preContext}` +
         `逐条挑战多头，可质疑前置分析的假设(如TAM拆解的因子是否合理、瓶颈是否真那么刚性、替代路径是否被低估)。` +
         `输出 JSON：{role:"bear",industry:"${name}",round:${r},challenge,bear_points:[{point,evidence_ref,confidence}],vitality_view,key_risks:[],suggested_stance,evidence:[{claim,source,status}],methodology_used:[]}。${GROUNDING}`;
-      const bear = await agent(bearPrompt, { label: `行业空头 R${r}`, phase: '行业研究部门' });
+      const bear = parseAgentJSON(await agent(bearPrompt, { label: `行业空头 R${r}`, phase: '行业研究部门' }));
 
       lastBear = bear;
       rounds.push({ round: r, bull, bear });

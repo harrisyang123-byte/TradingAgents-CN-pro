@@ -14,7 +14,7 @@
           </h1>
           <div class="ifr-hero-meta">
             <el-tag v-if="verdict.stance" :type="stanceType" effect="dark" size="large">{{ verdict.stance }}</el-tag>
-            <span v-if="cred.score != null" class="ifr-hero-score">评审 {{ cred.score }}分 {{ cred.final_verdict }}</span>
+            <span v-if="credScore != null" class="ifr-hero-score">评审 {{ credScore }}分 {{ cred.final_verdict }}</span>
           </div>
         </div>
         <div class="ifr-hero-kpi">
@@ -276,11 +276,19 @@
             <h2 class="ifr-h2">🎓 可信度与评审</h2>
             <div class="ifr-cred-card">
               <div class="ifr-cred-scores">
-                <span class="ifr-cred-final">{{ cred.final_verdict }} · {{ cred.score }}分</span>
+                <span class="ifr-cred-final" :class="{ 'ifr-cred-unresolved': cred.unresolved || cred.final_verdict === 'NEEDS_CHANGES' }">
+                  {{ cred.final_verdict || '-' }}<span v-if="credScore != null"> · {{ credScore }}分</span>
+                </span>
                 <span v-if="cred.reviewer">评审人：{{ cred.reviewer }}</span>
+                <span v-if="cred.critic_iterations">迭代 {{ cred.critic_iterations }} 轮</span>
                 <span v-if="cred.verified_data_ratio">verified 占比：{{ cred.verified_data_ratio }}</span>
               </div>
+              <p v-if="cred.unresolved" class="ifr-cred-warn">⚠️ 经多轮修订仍未达专业评审标准，结论待复核，谨慎参考。</p>
               <p v-if="cred.rationale" class="ifr-cred-rationale">{{ cred.rationale }}</p>
+              <div v-if="critChallenges.length" class="ifr-gaps">
+                <div class="ifr-list-head">🔍 评审委员会关键挑战 / 改进意见</div>
+                <ol><li v-for="(g, i) in critChallenges" :key="i">{{ g }}</li></ol>
+              </div>
               <div v-if="cred.self_identified_gaps?.length" class="ifr-gaps">
                 <div class="ifr-list-head">🔍 自识别局限</div>
                 <ol><li v-for="(g, i) in cred.self_identified_gaps" :key="i">{{ g }}</li></ol>
@@ -362,6 +370,17 @@ const verdict = computed<any>(() => detail.value?.verdict || {})
 const ifm = computed<any>(() => detail.value?.industry_future_market || {})
 const fv = computed<any>(() => detail.value?.forward_view || {})
 const cred = computed<any>(() => detail.value?.credibility || {})
+// 兼容字段名: workflow 写 critic_score, 旧/critic agent 用 score
+const credScore = computed<number | null>(() => {
+  const c = cred.value
+  const v = c.critic_score ?? c.score
+  return v != null ? v : null
+})
+const critChallenges = computed<string[]>(() => {
+  const c = cred.value
+  const arr = c.challenges || c.improvements || c.fatal_flaws || []
+  return Array.isArray(arr) ? arr : []
+})
 // 实际 payload 字段比 TS 接口更丰富（chokepoint_node/beneficiary/discovery_level/risk_level 等），用 any 透传
 const chokepointMap = computed<any[]>(() => (detail.value?.chokepoint_map as any[]) || [])
 const investmentMap = computed<any[]>(() => (detail.value?.investment_map as any[]) || [])
@@ -632,6 +651,8 @@ watch(name, (n) => { if (n) load(n) }, { immediate: true })
 .ifr-cred-card { background: #fafbfc; border-radius: 8px; padding: 14px; }
 .ifr-cred-scores { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: #606266; margin-bottom: 10px; }
 .ifr-cred-final { font-weight: 700; color: #389e0d; }
+.ifr-cred-final.ifr-cred-unresolved { color: #cf1322; }
+.ifr-cred-warn { font-size: 13px; color: #a8071a; background: #fff1f0; padding: 8px 12px; border-radius: 6px; margin: 8px 0; line-height: 1.6; }
 .ifr-cred-rationale { font-size: 13px; line-height: 1.7; color: #4e5969; margin: 0; }
 .ifr-gaps { margin-top: 12px; }
 .ifr-gaps ol { padding-left: 22px; line-height: 1.8; font-size: 12.5px; color: #874d00; }
