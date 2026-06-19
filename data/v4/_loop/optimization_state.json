@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 7,
-    "last_run": "2026-06-18T00:45:55+00:00",
+    "iteration_count": 8,
+    "last_run": "2026-06-19T05:00:00+00:00",
     "phase": "apply",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 7 进行中 (VALUATION-CLEANUP). 5 层范式第 6 次复用. 新增: scan_valuation()+VALUATION-CLEANUP hole+render_md valuation区块+verify_audit ⑬ valuation_method 审计. skill v4-valuation-method (DCF/PEG五陷阱/预期差三锚/四派别/安全边际档位), 治 valuation/auditor/engineer 3 agent.",
+    "_comment": "iter 8 (ASSET-CRITIC): 大类层补critic闭环+recritic扩展。注: 本状态文件曾被本地跑(bdc61021)覆盖, 之前session登记的critic线iter7-11条目丢失, 本条基于覆盖后状态续记。",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -610,6 +610,33 @@
         }
       ],
       "completed_at": "2026-06-18T00:45:55+00:00"
+    },
+    {
+      "id": "ASSET-CRITIC-20260619-07",
+      "title": "大类层(asset)缺 critic 评审 — cli闸门强制ACCEPT但pipeline无critic, 长期靠 --skip-critic 绕过=闸门形同虚设",
+      "violated_practice": "AGENTS.md『GATE必须真spawn critic禁自评』+ cli代码强制(asset单元落盘需final_verdict=ACCEPT)与pipeline实际能力必须一致",
+      "discovery_evidence": {
+        "cli_gate": "v4_unit_cli.py:129 对 asset:/industry:/stock: 强制 credibility.final_verdict=ACCEPT",
+        "asset_pipeline": "AGENTS.md 大类 pipeline: v4-asset-director 后直接 v4-allocation-director, 无 critic 环节",
+        "products": "7个大类产物 credibility 全空(final_verdict/reviewer/critic_score=None) + status=green + error=None → 落盘时必经 --skip-critic 绕过(否则exit=4)",
+        "同源": "与 iter(critic线) 行业层『只到多空辩论无评委』+ 个股层 synthesized_by_main_agent 自评 同型, 潜伏在大类层"
+      },
+      "after_protocol": {
+        "agents_md": "大类 pipeline 补 v4-investor-critic 独立评审闭环(<85或fatal打回director修订≤2轮, ACCEPT才落盘)",
+        "workflow": "新增 recriticAsset() 复用 assets/<class>.json 产物跑 critic gate(省token); runCriticGate 加 phaseLabel + asset 评审视角(宏观/资金/政策/配比逻辑)",
+        "tooling": "run_v4.sh recritic 支持 asset; SKILL.md 自然语言『重评<大类>』映射",
+        "commit": "d24c1962"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(链路一致性验证)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "bash/JS语法+端到端6点一致(run_v4→workflow分发→recriticAsset→runCriticGate大类phase+asset视角+AGENTS补critic+SKILL映射); cli闸门复用同一ACCEPT校验无分叉"
+        }
+      ],
+      "honest_caveat": "未真跑(环境无LLM)。大类层首次有critic——现有7个大类产物credibility全空(当初绕过评审落盘), 本地首次 recritic asset:equity 时critic很可能低分+fatal迫使director修订, 这是暴露大类分析真实质量的好事。本条洞的'前置分析'即过往director产物, recritic只补评审不重跑拆解。",
+      "completed_at": "2026-06-19T05:00:00+00:00"
     }
   ],
   "stuck": [],
