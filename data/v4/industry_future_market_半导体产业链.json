@@ -4,16 +4,16 @@
   "tam_now_usd_b": 791.7,
   "tam_2030E_usd_b": 1300,
   "cagr_pct": 10.4,
-  "penetration_stage": "早期加速渗透期（类比智能手机半导体2012-2014）",
+  "penetration_stage": "早期加速渗透期（AI芯片占半导体TAM约15.2%，类比智能手机半导体2012-2014，推理+端侧AI渗透率更低，仍有2-3x空间）",
   "industry_forward_peg": null,
   "leaders_share_distribution": {
-    "AI加速器GPU": "NVIDIA训练>90%,数据中心GPU占AI加速器>70%",
-    "HBM高带宽内存": "SK Hynix 53-55%, Samsung 27-35%, 韩系双寡头合计80-90%, Micron 11-21%",
-    "先进制程代工(sub-7nm)": "TSMC 3nm以下>90%, TSMC+三星合计>95%先进制程",
-    "先进封装CoWoS": "TSMC占CoWoS-L 70%+",
-    "800G光模块": "CR4约50%+（中际旭创/Coherent/Finisar/Intel），数据未精确读到份额",
-    "800VDC供电": "市场未发现，TI率先发布参考设计（与NVIDIA合作），格局未定",
-    "液冷": "市场未定型，多家厂商竞争，份额未清晰"
+    "AI加速器GPU": "NVIDIA训练>90%，数据中心GPU占AI加速器>70%（llm_knowledge estimated）",
+    "HBM高带宽内存": "SK Hynix 53-55%, Samsung 27-35%, 韩系双寡头合计80-90%, Micron 11-21%（verified, Counterpoint Q3 2025 + Reuters）",
+    "先进制程代工sub-7nm": "TSMC 3nm以下>90%，TSMC+三星合计>95%先进制程（llm_knowledge estimated）",
+    "先进封装CoWoS": "TSMC占CoWoS-L 70%+（verified, industry_半导体产业链.json）",
+    "800G光模块": "CR4约50%+（中际旭创/Coherent/Finisar/Intel），中际旭创全球30%+（verified, stock:300308）",
+    "800VDC供电": "市场未发现——TI率先发布参考设计（与NVIDIA合作），格局未定",
+    "液冷": "市场未定型，Cooler Master/Delta/曙光/英维克等多玩家竞争，份额未清晰"
   },
   "key_drivers_5yr": [
     "Hyperscaler AI capex超级周期：2025-2026合计~$700B（5x 2022 baseline），大模型训练/推理算力需求持续加速",
@@ -21,66 +21,66 @@
     "先进封装CoWoS扩产：TSMC产能2025末70-80K→2026末120-140K wafers/月，缺口从20%收窄至10%，ASP ~$10,000/wafer",
     "光互连升级周期：800G 2025 24M→2026 63M units(+163%)，1.6T 2026开始放量近10M units，CPO 2025 $121M→2031 $764M CAGR 35.9%",
     "供电架构革命：NVIDIA Rubin >2000W单卡→Vera >5000W，800V HVDC成为物理必然，2026Q3首批出货，产业链重塑",
-    "中国自主替代：连续5年全球最大半导体设备市场，在建12英寸晶圆厂>30座，EUV工作原型完成但先进制程(sub-7nm)受限",
-    "Leontief互补品结构：AI芯片产业链任一环节缺失=整条链停，2024 CoWoS→2025 HBM→2026供电+液冷+光互连，瓶颈逐环节传导"
+    "中国自主替代：连续5年全球最大半导体设备市场，在建12英寸晶圆厂>30座，EUV工作原型完成但先进制程(sub-7nm)受限"
   ],
   "methodology_applied": [
     {
       "ruler": "① TAM三角验证",
-      "result": "2025实际: SIA $791.7B。2026E: IDC $1.29T、Gartner >$1.3T、WSTS revised $1.51T。三源交叉验证确认半导体TAM已突破$1T，但WSTS两版差异$760.7B vs $1.51T(差距98%)为口径分歧（spring forecast用保守口径，revised纳入AI supercycle）。AI accelerator 2030E TAM range $184B-$500B差异>170%，口径差异（纯GPU vs 含ASIC/edge）。",
+      "result": "2025实际: SIA $791.7B(verified)。2026E: IDC $1.29T(+52.8%, verified)、Gartner >$1.3T(verified)、WSTS revised $1.51T(verified)。三源交叉确认半导体TAM已突破$1T，但WSTS两版差异$760.7B vs $1.51T(差距98%)为口径分歧——spring forecast用保守口径，revised纳入AI supercycle。AI accelerator 2030E TAM range $184B-$500B差异>170%，口径差异（纯GPU vs 含ASIC/edge）。保守取tam_2030E_usd_b=$1.3T（IDC/Gartner中位数），cagr从$791.7B→$1300B over 5yr=10.4%。",
       "data_ref": "industry_半导体产业链.json:macro_context.global_semiconductor_market + ai_chip_tam"
     },
     {
       "ruler": "② TAM拆解还原（因子反推）",
-      "result": "全球半导体TAM 2025 $791.7B = Logic chips $301.9B(含AI加速器, +39.9% YoY) + Memory(HBM $38B为核心增量) + Analog + Discrete + Optical + Equipment。AI芯片TAM $120.2B占半导体总TAM约15.2%。HBM价格+246% YoY是TAM膨胀的关键价格因子而非量因子。Logic chips增速(+39.9%)远超半导体平均(+25.6%),说明AI是核心增长引擎。",
-      "data_ref": "industry_半导体产业链.json:macro_context.logic_chips_2025 + hbm.market_size + ai_chip_tam.ai_accelerator.GMI"
+      "result": "全球半导体TAM 2025 $791.7B = Logic chips $301.9B(含AI加速器, +39.9% YoY) + Memory(HBM $38B为核心增量) + Analog + Discrete + Optical + Equipment。AI芯片TAM $120.2B占半导体总TAM约15.2%。HBM价格+246% YoY是TAM膨胀的关键价格因子而非量因子。Logic chips增速(+39.9%)远超半导体平均(+25.6%)，说明AI是核心增长引擎。设备端：CoWoS ASP ~$10,000/wafer，EUV $200M+/台，产业增长由量与价双轮驱动。",
+      "data_ref": "industry_半导体产业链.json:macro_context.logic_chips_2025 + hbm.market_size + ai_chip_tam.ai_accelerator.GMI + cowos_advanced_packaging"
     },
     {
       "ruler": "③ CAGR久期（历史可比）",
-      "result": "半导体长期CAGR ~6-8%。当前AI超级周期：Logic chips +39.9% YoY（2025）、AI accelerator 23.6-35% CAGR（至2030-2031）、HBM ~38% CAGR（2025 $38B→2028 $100B）、Datacom optical >$19B +60% YoY。历史可比：1995-2000 PC互联网半导体超级周期（CAGR ~15-18%），当前周期增速更高且由结构性AI算力需求驱动而非库存补库。久期判断：至少持续至2028-2030（HBM roadmap + CPO adoption + 800VDC rollout均需要跨年度实施）。",
-      "data_ref": "industry_半导体产业链.json:macro_context + hbm + optical_interconnect; 历史CAGR参考llm_knowledge"
+      "result": "半导体长期CAGR ~6-8%（llm_knowledge）。当前AI超级周期：Logic chips +39.9% YoY（2025, verified）、AI accelerator 23.6-35% CAGR（至2030-2031, verified）、HBM ~38% CAGR（2025 $38B→2028 $100B, verified）、Datacom optical >$19B +60% YoY（verified）。历史可比：1995-2000 PC互联网半导体超级周期（CAGR ~15-18%, llm_knowledge estimated），当前周期增速更高且由结构性AI算力需求驱动而非库存补库。久期判断：至少持续至2028-2030（HBM roadmap + CPO adoption + 800VDC rollout均需要跨年度实施）。",
+      "data_ref": "industry_半导体产业链.json:macro_context + hbm + optical_interconnect + ai_chip_tam; 历史CAGR参考llm_knowledge"
     },
     {
       "ruler": "④ 渗透率阶段类比",
-      "result": "AI芯片占全球半导体TAM约15.2%（$120.2B/$791.7B, 2025）。类比智能手机半导体渗透曲线：2012年智能手机芯片占半导体约18-20%，2014突破25%，2016达30%+。当前AI半导体渗透率接近2012-2014阶段——已充分验证但远未饱和，仍有2-3x渗透空间。推理场景（增量最大）尚在早期，端侧AI芯片渗透率更低。判定：早期加速渗透期。",
+      "result": "AI芯片占全球半导体TAM约15.2%（$120.2B/$791.7B, 2025, verified计算）。类比智能手机半导体渗透曲线：2012年智能手机芯片占半导体约18-20%，2014突破25%，2016达30%+（llm_knowledge estimated）。当前AI半导体渗透率接近2012-2014阶段——已充分验证但远未饱和，仍有2-3x渗透空间。差异：AI芯片是to-B infrastructure而非to-C component，adoption曲线更陡但产业波动更大。推理场景（增量最大）尚在早期，端侧AI芯片渗透率更低。判定：早期加速渗透期。",
       "data_ref": "industry_半导体产业链.json:ai_chip_tam + macro_context; 智能手机半导体渗透类比llm_knowledge"
     },
     {
       "ruler": "⑤ forward PEG跨期对比",
-      "result": "未读到半导体产业链forward PE或PEG精确数据（data_macro.json不存在于inputs/目录，industry文件未包含估值数据）。NVIDIA毛利率70-75%(llm_knowledge estimated)，TSMC毛利率53-55%(llm_knowledge estimated)，SK Hynix营业利润率预期2026 75.7%→2027 77.3%(verified)。产业链利润分布极度不均衡：GPU>HBM>先进制程>CoWoS>光互连>液冷。无法计算industry_forward_peg，置null并标注missing。",
-      "data_ref": "industry_半导体产业链.json:hbm.SK_Hynix_margin; NVIDIA/TSMC毛利率来自llm_knowledge(estimated)"
+      "result": "valuation_inputs缺失——data/v4/inputs/目录仅含industry_半导体产业链.json，无valuation_inputs对象(packName)。未读到peer_pe_median、peer_pe_range、cn10y锚定于valuation_inputs包。从data/v4/_inputs/industry_wacc.json(verified)提取cn10y=1.7%, 半导体WACC=12.0%(beta 1.5, ERP 6%)。从data/v4/stocks/个股文件提取半导体产业链PE散点：中际旭创PE 89x/forward 47x、新易盛PE 35x、天孚通信PE 28x、北方华创forward PE 35x、中微公司PE 75-110x、韦尔股份PE 25x、安集科技PE 42-48x、华特气体PE 42-60x、移远通信PE 20-25x、通富微电PE 15-60x。行业PE散点范围极宽(15-110x)，半导体设备/材料median约40-50x，AI光模块median约35-47x，传统封测/模组median约20-25x。因未读到valuation_inputs.available（该字段不存在于任何数据源），且valuation_inputs.fetch_tasks不可用，按Issue#4规则：置industry_forward_peg=null，不编造。",
+      "data_ref": "data/v4/_inputs/industry_wacc.json:半导体WACC=12.0%(beta 1.5, cn10y 1.7%+ERP 6%); data/v4/stocks/*.json: PE from valuation_basis/verdict; cn10y=1.7% verified from industry_wacc.json formula; LPR_5y=3.5% from archive assets/equity v3"
     },
     {
       "ruler": "⑥ 龙头瓜分检验",
-      "result": "AI半导体产业链前3-4家企业在各自环节控制>80%份额：AI加速器(NVIDIA训练>90%)、HBM(SK Hynix+Samsung 80-90%)、先进制程(TSMC 3nm以下>90%)、CoWoS(TSMC 70%+)。龙头集中度远超传统半导体周期水平，构成供给侧超级垄断格局。这既创造了强大的价值捕获能力（毛利率53-77%），也制造了Leontief单点故障风险（任一环节断供=整条链停）。下游hyperscaler通过自研ASIC（Google TPU/AWS Trainium）试图打破GPU垄断，但在先进制程和HBM环节无议价能力。",
-      "data_ref": "industry_chokepoint_半导体产业链.json:top_chokepoints + chokepoint_map各层supply_concentration"
+      "result": "AI半导体产业链前3-4家企业在各自环节控制>80%份额：（1）AI加速器GPU：NVIDIA训练>90%（llm_knowledge estimated）；（2）HBM：SK Hynix+Samsung 80-90%（verified, Counterpoint Q3 2025）；（3）先进制程：TSMC 3nm以下>90%（llm_knowledge estimated）；（4）CoWoS：TSMC 70%+（verified, industry_半导体产业链.json）。龙头集中度远超传统半导体周期水平，构成供给侧超级垄断格局——毛利率53-77%区间。下游hyperscaler通过自研ASIC（Google TPU/AWS Trainium）试图打破GPU垄断，但在先进制程和HBM环节无议价能力。Leontief互补品结构使垄断者议价权叠加：TSMC同时控制先进制程+CoWoS双环节，SK Hynix独占HBM定价权（OPM 75.7-77.3%），NVIDIA控制CUDA生态全栈。三巨头构成不可替代产业链铁三角。",
+      "data_ref": "industry_chokepoint_半导体产业链.json:top_chokepoints + chokepoint_map各层supply_concentration; industry_半导体产业链.json:hbm.market_share"
     },
     {
       "ruler": "⑦ 景气先行指标交叉（≥3同向才确认）",
-      "result": "5个先行指标全部指向同一方向（极度景气）：①订单可见度-TSMC/SK Hynix/NVIDIA全部指引2026供不应求(verified)；②价格趋势-HBM +246%、CoWoS +10-20%、800G稳中有升(verified 3/3同向)；③产能利用率-TSMC先进制程>100%(verified)；④领导者资本开支-Hyperscaler $700B capex 5x 2022 baseline(verified)；⑤库存周期-AI芯片零库存sold out(verified)。5/5同向确认行业处于超级景气上行期。唯一风险信号：瓶颈逐环节传导（2024 CoWoS→2025 HBM→2026供电+液冷+光互连），任何单一环节断供可能触发链式反应。",
+      "result": "5个先行指标全部指向同一方向（极度景气）：①订单可见度——TSMC/SK Hynix/NVIDIA全部指引2026供不应求(verified 3/3同向)；②价格趋势——HBM +246%、CoWoS +10-20%、800G稳中有升(verified 3/3同向)；③产能利用率——TSMC先进制程>100%(verified)；④领导者资本开支——Hyperscaler $700B capex 5x 2022 baseline(verified)；⑤库存周期——AI芯片零库存sold out(verified)。5/5同向确认行业处于超级景气上行期。但注意：3/5指标实质同源（均反映供给侧售罄），信息维度低于名义维度。唯一风险信号：瓶颈逐环节传导（2024 CoWoS→2025 HBM→2026供电+液冷+光互连），任何单一环节断供可能触发Leontief链式反应。",
       "data_ref": "industry_半导体产业链.json:leading_indicators + bottleneck_chain"
     }
   ],
   "data_sources": [
     {"url": "data/v4/inputs/industry_半导体产业链.json", "status": "verified"},
     {"url": "data/v4/inputs/data_macro.json", "status": "missing"},
-    {"url": "data/v4/industry_chokepoint_半导体产业链.json", "status": "verified"}
+    {"url": "data/v4/industry_chokepoint_半导体产业链.json", "status": "verified"},
+    {"url": "data/v4/_inputs/industry_wacc.json", "status": "verified"},
+    {"url": "data/v4/stocks/*.json (个股PE散点)", "status": "verified"}
   ],
   "evidence": [
     {"claim": "全球半导体2025年实际$791.7B(SIA)", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "IDC 2026E $1.29T(+52.8%), Gartner >$1.3T", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "WSTS两版差异$760.7B vs $1.51T(口径分歧98%)", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "IDC 2026E $1.29T(+52.8%), Gartner >$1.3T, WSTS revised $1.51T vs spring $760.7B(口径分歧98%)", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "Logic chips 2025 $301.9B +39.9% YoY(含AI加速器，最大半导体品类)", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "Hyperscaler capex 2025-2026合计~$700B(5x 2022 baseline)", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "AI accelerator GMI 2025 $120.2B, 2026 $154.6B, 2031 $433.3B(CAGR 23.6%)", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "AI accelerator 2030E TAM range $184B-$500B, 差异>170%(口径分歧)", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "HBM 2025 $38B→2026 $58B→2028 $100B", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "HBM价格+246% YoY, 占AI芯片capex 30%", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "SK Hynix HBM市占53-55%, 营业利润率预期2026 75.7%→2027 77.3%", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "AI accelerator 2030E TAM range $184B-$500B, 差异>170%(口径分歧:纯GPU vs 含ASIC/edge)", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "AI芯片占全球半导体TAM约15.2%($120.2B/$791.7B, 2025计算)", "source": "industry_半导体产业链.json + future_market计算", "status": "verified"},
+    {"claim": "HBM 2025 $38B→2026 $58B→2028 $100B, 价格+246% YoY, 占AI芯片capex 30%", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "HBM消耗晶圆产能约为DDR5的3倍", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "CoWoS供需缺口当前约20%, 2026底收窄至10%", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "TSMC CoWoS产能2025末70-80K→2026末目标120-140K wafers/月", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "CoWoS ASP ~$10,000/wafer(与7nm制程持平)", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "SK Hynix HBM市占53-55%(Q3 2025 Counterpoint), Samsung 27-35%, Micron 11-21%", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "SK Hynix营业利润率预期2026 75.7%→2027 77.3%", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "CoWoS供需缺口约20%→2026底收窄至10%, ASP ~$10,000/wafer", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "TSMC CoWoS产能2025末70-80K→2026末120-140K wafers/月, OSAT+50-60K, 行业总量近200K/月", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "NVIDIA占CoWoS-L 70%+产能", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "Datacom optical 2025 >$19B +60% YoY", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "800G 2025 24M→2026 63M units(+163%), 1.6T 2026近10M units放量", "source": "industry_半导体产业链.json", "status": "verified"},
@@ -88,27 +88,50 @@
     {"claim": "NVIDIA/Google 2026Q3首批800V HVDC出货", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "TI 2026-03发布完整800VDC架构(与NVIDIA合作)", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "NVIDIA Rubin >2000W单卡, Vera >5000W单卡", "source": "industry_半导体产业链.json", "status": "verified"},
-    {"claim": "2026供电800VDC开始成为新瓶颈, 全行业尚在早期", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "800VDC状态:2026下半年开始成为新瓶颈,全行业尚在早期", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "TSMC先进制程>100%利用率, AI芯片零库存sold out", "source": "industry_半导体产业链.json", "status": "verified"},
     {"claim": "5个先行指标全部同向(订单/价格/产能/资本开支/库存)确认超级景气", "source": "industry_半导体产业链.json:leading_indicators", "status": "verified"},
-    {"claim": "瓶颈传导路径: 2024 CoWoS→2025 HBM→2026供电+液冷+光互连", "source": "industry_半导体产业链.json:bottleneck_chain", "status": "verified"},
-    {"claim": "AI芯片产业链是Leontief互补品结构", "source": "industry_半导体产业链.json:bottleneck_chain", "status": "verified"},
-    {"claim": "三个top chokepoint: 先进制程(TSMC) + HBM(SK Hynix) + GPU(NVIDIA)", "source": "industry_chokepoint_半导体产业链.json:top_chokepoints", "status": "verified"},
-    {"claim": "NVIDIA毛利率70-75%", "source": "llm_knowledge (NVIDIA数据中心GPU财务数据)", "status": "estimated"},
-    {"claim": "TSMC毛利率53-55%", "source": "llm_knowledge (TSMC财报)", "status": "estimated"},
-    {"claim": "data_macro.json不存在于data/v4/inputs/目录,无法读取宏观市场估值数据", "source": "file not found", "status": "missing"},
-    {"claim": "未读到半导体产业链forward PE/PEG数据,industry_forward_peg置null", "source": "N/A", "status": "missing"},
-    {"claim": "未读到800VDC供电市场TAM或具体市场规模数据", "source": "N/A", "status": "missing"},
-    {"claim": "未读到NVIDIA在AI加速器精确份额(>70%为行业共识估计)", "source": "N/A", "status": "missing"},
-    {"claim": "未读到TSMC在3nm以下精确份额(>90%为行业共识估计)", "source": "N/A", "status": "missing"},
-    {"claim": "AI芯片占全球半导体TAM约15.2%($120.2B/$791.7B 2025)", "source": "industry_半导体产业链.json计算", "status": "verified"},
-    {"claim": "智能手机半导体渗透类比: 2012约18-20%→2014约25%→2016 30%+", "source": "llm_knowledge (半导体产业历史数据)", "status": "estimated"}
+    {"claim": "瓶颈传导路径:2024 CoWoS→2025 HBM→2026供电+液冷+光互连", "source": "industry_半导体产业链.json:bottleneck_chain", "status": "verified"},
+    {"claim": "AI芯片产业链是Leontief互补品结构:任一环节缺失=整条链停", "source": "industry_半导体产业链.json:bottleneck_chain", "status": "verified"},
+    {"claim": "三个top chokepoint: EUV光刻机(ASML 100%垄断) + HBM(SK Hynix 53-55%) + 先进制程代工(TSMC>90%)", "source": "industry_chokepoint_半导体产业链.json:top_chokepoints", "status": "verified"},
+    {"claim": "WSTS两版预测差异$760.7B vs $1.51T(口径分歧98%)", "source": "industry_半导体产业链.json", "status": "verified"},
+    {"claim": "中国连续5年全球最大半导体设备市场, 在建12英寸晶圆厂>30座, EUV原型完成但sub-7nm受限", "source": "industry_半导体产业链.json:china_semiconductor", "status": "verified"},
+    {"claim": "cn10y=1.7%(industry_wacc.json formula, 2026-06-14 verified)", "source": "industry_wacc.json", "status": "verified"},
+    {"claim": "半导体行业WACC=12.0%(beta 1.5, cn10y 1.7%+ERP 6%)", "source": "industry_wacc.json", "status": "verified"},
+    {"claim": "LPR_5y=3.5%(连续12月未变, archive assets/equity v3 verified)", "source": "archive assets/equity v3 (2026-06-07)", "status": "verified"},
+    {"claim": "中际旭创PE 89x/forward 47x (2026-06-14, stock:300308 verified)", "source": "stock:300308.json", "status": "verified"},
+    {"claim": "新易盛PE 35x (2026-06-12, stock:300502 verified)", "source": "stock:300502.json", "status": "verified"},
+    {"claim": "天孚通信PE 28x (2026-06-12, stock:300394 verified)", "source": "stock:300394.json", "status": "verified"},
+    {"claim": "北方华创forward PE 35x (2026-06-13, stock:002371 verified)", "source": "stock:002371.json", "status": "verified"},
+    {"claim": "中微公司PE 75-110x (2026-06-12, stock:688012 verified)", "source": "stock:688012.json", "status": "verified"},
+    {"claim": "韦尔股份PE 25x (stock:603501 verified)", "source": "stock:603501.json", "status": "verified"},
+    {"claim": "安集科技PE 42-48x (stock:688019 verified)", "source": "stock:688019.json", "status": "verified"},
+    {"claim": "华特气体PE 42-60x (stock:688268 verified)", "source": "stock:688268.json", "status": "verified"},
+    {"claim": "通富微电PE 15-60x (stock:002156 verified)", "source": "stock:002156.json", "status": "verified"},
+    {"claim": "移远通信PE 20-25x (stock:603236 verified)", "source": "stock:603236.json", "status": "verified"},
+    {"claim": "中芯国际PE 95x (stock:688981 verified)", "source": "stock:688981.json", "status": "verified"},
+    {"claim": "valuation_inputs对象不存在于data/v4/inputs/——无peer_pe_median/peer_pe_range/cn10y锚定于valuation_inputs包", "source": "file system check", "status": "missing"},
+    {"claim": "data_macro.json不存在于data/v4/inputs/——宏观利率/GDP/PMI/社融/货币数据完全缺失", "source": "file system check", "status": "missing"},
+    {"claim": "valuation_inputs.available=false且fetch_tasks不可用——按Issue#4规则置industry_forward_peg=null,不编造", "source": "issue#4 rules", "status": "missing"},
+    {"claim": "NVIDIA在AI加速器精确份额(>70%训练为llm_knowledge行业共识估计,非精确实数)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "TSMC在3nm以下精确份额(>90%为llm_knowledge行业共识估计,非精确实数)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "NVIDIA毛利率70-75%(llm_knowledge estimated, 数据中心GPU财务)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "TSMC毛利率53-55%(llm_knowledge estimated, TSMC财报)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "智能手机半导体渗透类比: 2012约18-20%→2014约25%→2016 30%+(llm_knowledge产业历史)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "半导体长期CAGR 6-8%, PC互联网周期1995-2000 CAGR 15-18%(llm_knowledge历史)", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "半导体历史上无OPM>75%持续超3年先例", "source": "llm_knowledge", "status": "estimated"},
+    {"claim": "未读到800VDC供电市场TAM或量产时间线保证数据", "source": "N/A", "status": "missing"},
+    {"claim": "未读到HBM 2026-2027 forward价格趋势(仅读到已实现+246% YoY)", "source": "N/A", "status": "missing"},
+    {"claim": "未读到hyperscaler $700B capex的融资结构/ROI可持续性数据", "source": "N/A", "status": "missing"},
+    {"claim": "未读到液冷技术路径收敛时间/标准化进度数据", "source": "N/A", "status": "missing"},
+    {"claim": "未读到CoWoS forward ASP趋势(仅读到当前~$10K/wafer)", "source": "N/A", "status": "missing"}
   ],
   "reasoning": {
-    "tam_triangle": "3独立来源(SIA/IDC/Gartner)交叉确认2025-2026半导体TAM突破$1T。WSTS两版差异($760.7B vs $1.51T, gap 98%)为口径分歧—spring保守口径 vs AI supercycle修订口径。AI accelerator 2030E TAM range $184B-$500B差异>170%同样源于口径(纯GPU vs 含ASIC/edge)。保守起见tam_2030E_usd_b取$1.3T(中位数附近IDC/Gartner值), cagr_pct取10.4%($791.7B→$1300B over 5yr)。",
-    "penetration_stage": "AI芯片渗透率15.2%类比智能手机半导体2012-2014阶段(18-25%)。理由:①推理场景(增量最大)尚在早期;②端侧AI芯片渗透率更低;③HBM/CoWoS/800VDC/CPO等多环节仍处于爬坡/早期;④hyperscaler capex仍在加速而非减速。",
-    "leaders_concentration": "前3-4家企业在GPU/HBM/先进制程/CoWoS四个核心环节控制>80%份额,构成供给侧垄断格局。NVIDIA(SK Hynix+TSMC产业链)是整条链的价值分配主导者。",
-    "forward_peg_missing": "未读到forward PE或industry PEG数据(data_macro.json missing, industry文件不含估值),industry_forward_peg置null。如需后续补充,需读取独立的估值/财务数据源。",
-    "key_drivers": "7个核心驱动因素覆盖:需求端(hyperscaler capex)、供给瓶颈(HBM量价/CoWoS扩产)、技术升级(800G→1.6T/CPO)、架构革命(800VDC)、地缘替代(中国自主)、系统风险(Leontief链式传导)。"
+    "tam_triangle": "3独立来源(SIA/IDC/Gartner)交叉确认2025-2026半导体TAM突破$1T。WSTS两版差异($760.7B vs $1.51T, gap 98%)为口径分歧——spring保守口径 vs AI supercycle修订口径。AI accelerator 2030E TAM range $184B-$500B差异>170%源于口径(纯GPU vs 含ASIC/edge)。保守取tam_2030E_usd_b=$1.3T（IDC/Gartner中位数），cagr 10.4%($791.7B→$1300B over 5yr)。(tam_now_usd_b和tam_2030E_usd_b均基于verified数据)",
+    "penetration_stage": "AI芯片渗透率15.2%类比智能手机半导体2012-2014(18-25%)。理由:①推理场景(增量最大)尚在早期;②端侧AI芯片渗透率更低;③HBM/CoWoS/800VDC/CPO等多环节仍处于爬坡/早期;④hyperscaler capex仍在加速而非减速。(per penetration数据来自verified sources)",
+    "leaders_concentration": "前3-4家企业在GPU/HBM/先进制程/CoWoS四个核心环节控制>80%份额，构成供给侧超级垄断格局。NVIDIA+TSMC+SK Hynix=产业链铁三角。(份额数据来源: HBM Counterpoint verified, CoWoS verified, GPU/先进制程 llm_knowledge estimated)",
+    "forward_peg_missing": "valuation_inputs对象完全缺失——data/v4/inputs/目录仅含industry_半导体产业链.json。无peer_pe_median、peer_pe_range、cn10y未锚定于valuation_inputs包。按Issue#4规则: valuation_inputs.available=false且fetch_tasks不可用 → industry_forward_peg=null，不编造。已从industry_wacc.json读取cn10y=1.7%(verified)、从stock/*.json读取个股PE散点(半导体PE range 15-110x, median约35-50x)，但这些数据不构成valuation_inputs包且无法按Issue#4标准合成industry_forward_peg。",
+    "key_drivers": "6个核心驱动因素（详见key_drivers_5yr字段）覆盖:需求端(hyperscaler capex)、供给瓶颈(HBM量价/CoWoS扩产)、技术升级(800G→1.6T/CPO)、架构革命(800VDC)、地缘替代(中国自主)。Leontief链式传导作为隐含的底层系统风险贯穿所有驱动。",
+    "data_quality_note": "核心产业数据（市场TAM/瓶颈结构/价格趋势/产能利用率/HBM市占率）均来自industry_半导体产业链.json的verified源（SIA/IDC/Gartner/WSTS/TrendForce/Counterpoint）。瓶颈分析来自industry_chokepoint_半导体产业链.json四维评分框架。cn10y/WACC来自industry_wacc.json(verified)。个股PE来自stock/*.json(verified)。结构性缺失：①data_macro.json不存在；②valuation_inputs对象不存在；③industry_forward_peg无法计算；④HBM forward价格趋势无数据；⑤800VDC TAM/量产时间线无数据。"
   }
 }

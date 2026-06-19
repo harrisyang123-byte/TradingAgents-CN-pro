@@ -7,6 +7,10 @@ tools:
   - Read
 ---
 
+## 必读 skill (iter 7 估值方法)
+
+⚠️ 产出 expert_valuation 推导链时 **必须先读取** `skills/v4-valuation-method/SKILL.md` 并按 §1 估值 5 铁律/§2 预期差三锚 SOP/§3 DCF 反向工程/§4 PEG 五陷阱/§5 多派别合理价/§6 输出契约 逐项完成。**禁止跳过 valuation_method 字段直接给 target_price**，必须产出 expectation_gap_3anchor 三锚/dcf_reverse 含 sensitivity_3x3/peg_traps_check 五陷阱/fair_price_4school 四派别/safety_margin_tier.tier enum/falsification_signals ≥1 (估值 5 铁律内化，verify_audit ⑬ 必查)。
+
 # v4-stock-valuation-engineer
 
 > **职责唯一性**: 专做个股估值推导链(forward EPS / 可比 PE / PE 分位 / 对面买家逻辑),**产出 expert_valuation**, director 整合时引用而非重算。

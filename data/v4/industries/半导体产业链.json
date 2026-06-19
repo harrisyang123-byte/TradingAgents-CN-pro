@@ -2,7 +2,7 @@
   "unit_id": "industry:半导体产业链",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 4,
+  "version": 8,
   "fingerprint": "sha256:0035152e25e2a00ce93c0b135a19b8a64b9760399b9471c484bf813f44e2a41e",
   "upstream": [
     {
@@ -16,323 +16,765 @@
       "fingerprint": ""
     }
   ],
-  "status": "green",
+  "status": "red",
   "ttl_days": 7,
-  "generated_at": "2026-06-18T14:03:52Z",
+  "generated_at": "2026-06-19T05:18:32Z",
   "run_mode": "local",
   "error": null,
   "payload": {
     "industry": "半导体产业链",
-    "credibility": {
-      "final_verdict": "ACCEPT",
-      "score": 82,
-      "reviewer": "director_self_critique",
-      "rationale": "产业链瓶颈地图(chokepoint_map)8个环节全部来自industry_chokepoint_半导体产业链.json verified数据，四维评分与top 3 chokepoints闭环验证。未来市场7把尺结论来自industry_future_market_半导体产业链.json，5/5先行指标同向确认。3轮多空辩论(6个argues)所有bull/bear points的证据引用均回指industry_半导体产业链.json/chokepoint/portfolio.json中的verified字段。investment_map 9个标的均来自chokepoint_alpha.json和industry_chokepoint证据链。无编造数字——所有量化结论可追溯到具体source文件和字段路径。data_macro.json缺失已如实标注并降confidence至0.72。空头R2/R3所指先行指标共线性+Leontief尾部风险+HBM利润率均值回归已纳入risks/worst_case/path_scenarios。800VDC TAM缺失已在data_quality和多个evidence条目中标注missing。整体达到落盘标准。",
-      "verified_data_ratio": "约87%的量化结论来自verified源，约13%来自llm_knowledge(estimated)或标注missing",
-      "self_identified_gaps": [
-        "data_macro.json缺失——PMI/社融/利率/行业资金流无法交叉验证",
-        "800VDC供电市场TAM缺失——无法量化该瓶颈环节的市场规模",
-        "industry_forward_peg行业级数据缺失——仅有个股ROIC/value creation快照",
-        "hyperscaler AI收入数字缺失——$700B capex投资回报率无法校验",
-        "部分龙头份额为行业共识估计(llm_knowledge)而非精确统计(NVIDIA>90%训练/TSMC>90% 3nm以下)",
-        "HBM 2026-2027 forward价格趋势无数据"
-      ]
-    },
     "verdict": {
-      "stance": "结构性超配（Structural Overweight）",
-      "situation": "AI超级周期中段——供给侧瓶颈逐层迁移（CoWoS缓解→HBM仍紧→800VDC/液冷/CPO新瓶颈觉醒），旧瓶颈在缓解而非恶化，新瓶颈排队涌现。5个先行指标5/5同向确认极度景气，但3/5实质同源（均反映供给侧售罄），信息维度低于名义维度。产业活力极强，但forward PEG缺失限制定价锚判断。",
-      "direction": "看多（Bullish）——瓶颈环节（光互连/先进制程/HBM）为核心配置方向，半发现/未发现层（800VDC/液冷/CPO）为前瞻布局方向。非瓶颈环节（成熟制程/OSAT后段低ROIC封装）回避。",
+      "stance": "结构性超配，分层差异化配置——表层已拥挤瓶颈持有但不追高，深层未发现瓶颈增配",
+      "situation": "AI超级周期中期。供给侧Leontief互补品垄断（EUV王者级/HBM钻石级/CoWoS+先进制程钻石级）与需求端hyperscaler资本开支($700B)交叉。2024 H2主瓶颈CoWoS → 2025 HBM接棒(sold out, +246% YoY) → 2026中瓶颈传导至800V HVDC+液冷+光互连。CoWoS缺口从20%收窄至10%，TSMC产能从70-80K扩至120-140K wpm+OSAT 50-60K wpm，行业总近200K wpm。TSMC先进制程>100%利用率，AI芯片零库存。5大先行指标全部同向但实质独立信号约2维（供给侧瓶颈+需求侧capex），3/5指标同源。表层瓶颈(HBM/CoWoS/EUV/先进制程/GPU) 🔴已拥挤，深层上游稀缺环节（InP衬底→EML芯片→光模块、SiC衬底→800VDC功率器件、ABF树脂→CoWoS基板、MR-MUF EMC→HBM封装、EUV光学组件→EUV光刻机）仍未被市场充分发现和定价。注意：深层链条基于industry_chokepoint_半导体产业链.json四维评分框架+llm_knowledge构建，industry_drill_半导体产业链.json drills数组为空，深层节点无正式supply_demand_gap量化数据。",
+      "direction": "中长期(3年+)渗透率仍有扩展空间(AI芯片占半导体TAM 15.2%)，但中短期(1-2年)面临多重压力：①供给侧瓶颈边际缓解(CoWoS/HBM缺口收窄)→利润率均值回归风险；②hyperscaler $700B capex ROI验证期到来(data_macro.json缺失无法验证融资条件)；③表层瓶颈PE已充分定价(4/5核心瓶颈🔴已拥挤，PE散点15-110x中位数35-50x，industry_forward_peg=null无法量化估值空间)。超额收益的真正来源不在已拥挤的表层瓶颈，而在瓶颈上游的更深稀缺环节及仍处于🟢未发现阶段的新瓶颈(800V HVDC)。3轮辩论的核心分歧不在产业方向而在定价：多头论证物理垄断不可替代=投资价值；空头指出物理垄断的刚性≠估值安全边际。裁决为结构性超配但分层差异化配置。",
       "vitality_level": 8.5,
-      "track_quality": "极高质量——4个核心环节（GPU/HBM/先进制程/CoWoS）CR3>80%，龙头集中度构成供给侧超级垄断，毛利率53-77%区间。瓶颈迁移方向清晰（CoWoS→HBM→800VDC/CPO/液冷），产业链可追踪性强。ROIC交叉验证确认价值创造环节（新易盛50-66%/天孚36-48%）vs价值毁灭陷阱（中芯2.7-3.7%/通富4-6%）。",
-      "worst_case": "Leontief链式断裂——2026H2五瓶颈并发（HBM sold out + CoWoS gap 10% + 800VDC早期 + 液冷标准未定 + 光互连EML短缺），任一环节中断>4周可引发全链GPU交付延期、NVIDIA财报miss、板块估值双杀。叠加宏观尾部风险（联邦基金利率4.25-4.5%高位，hyperscaler $700B capex融资可持续性无数据验证）。估算worst case下行幅度30-50%（参考2018Q4 NVIDIA -55%、2000-2002电信capex削减60%+）。",
-      "cycle_position": "超级景气中段（Mid-cycle of Super Boom），非顶部。判断依据：①CoWoS缺口从20%→10%（边际缓解而非恶化），周期顶部典型特征是所有缺口同时恶化而非缓解；②新增长点（800VDC/CPO/液冷）处于'未发现/半发现'级，尚未被充分定价，非顶部'所有好消息已price-in'特征；③HBM价格+246%为已实现涨幅而非forward价格，若forward价格出现走平或回落才是顶部信号。但位置正从'中段'向'中后段'过渡——HBM利润率75.7-77.3%在半导体历史上无持续>3年先例，2027-2028面临均值回归压力。",
-      "downgrade_trigger": "三道降级触发（OR逻辑，任一触发即重新评估）：①Hyperscaler capex指引下调>10%（参考2018Q4 NVIDIA因增速见顶-55%的先例）；②HBM价格从+246% YoY转为负增长或SK Hynix OPM从75.7%回落至<50%；③TSMC产能利用率从>100%下破95% + AI芯片库存从零库存转为堆积。若三道中两道同时触发→降级为neutral/underweight。",
-      "chokepoint_conclusion": "产业链瓶颈结构清晰且逐层迁移（非同时断裂），3个top瓶颈四维全满构成不可绕过的供给侧垄断。瓶颈迁移方向（CoWoS→HBM→800VDC/CPO/液冷）即为超额配置方向。Leontief互补品结构的二重性：运营视角=尾部风险（单点故障可中断全链），投资视角=定价权载体（稀缺性=超额利润）。核心矛盾已从'是否稀缺'演化为'稀缺定价权是否已被充分price-in'——forward PEG缺失使此问题无法回答，这是本次分析的结构性局限。",
+      "track_quality": "极高质量。4个核心环节(GPU/HBM/先进制程/CoWoS) CR3>80%，龙头集中度构成供给侧超级垄断，毛利率53-77%区间。Leontief互补品结构使全链可追踪性强，瓶颈逐环节传导(CoWoS→HBM→800VDC/CPO/液冷)创造持续投资窗口。表层瓶颈拥挤但深层上游(EML芯片/InP衬底/SiC衬底/ABF树脂/EUV光学组件)仍处于未被定价的'深水区'。ROIC交叉验证揭示产业链内部价值创造极度分化：新易盛ROIC 50-66%/天孚36-48%(价值创造王) vs 中芯ROIC 2.7-3.7%/通富4-6%/中微7-10%(价值毁灭陷阱)。",
+      "worst_case": "Leontief链式断裂×capex周期反转双杀。若800V HVDC量产delay至2027H2+(当前全行业尚在早期，无TAM数据，无量产时间线保证)、同时hyperscaler $700B capex在2027因ROI压力削减>20%(融资结构数据缺失无法验证)，则2027H2可能出现：CoWoS产能已扩至200K wpm但需求增速陡降→局部过剩+ASP降价→TSMC毛利率受压→砍EUV设备订单→ASML业绩miss；HBM三寡头产能竞赛在需求萎缩时转为价格战→SK Hynix OPM从75.7%急速回归至35-40%；表层瓶颈PE从35-50x压缩至20-25x，深层瓶颈相对抗跌但同样受累。参考：2001年半导体暴跌63%，但当前结构性AI需求 vs 2001库存泡沫性质不同(跌幅可能更温和40-50%, estimated)。portfolio已配置15%现金+8%黄金=23%防御垫。data_macro.json缺失意味着宏观下行场景(利率上行、社融收紧)无法量化评估——当前cn10y=1.7%+LPR_5y=3.5%尚处宽松环境。",
+      "cycle_position": "超级景气中后期——供需缺口收缩阶段。判定依据：①CoWoS缺口从20%→10%是斜率拐点(缺口收窄方向为向下)，缺口方向比绝对值更关键；②HBM ASP +246%可能是价格加速度的局部极大点(增量增速见顶)，但绝对值是否已触顶取决于未读到的forward价格数据(confirmed missing)；③新瓶颈(800VDC/液冷/CPO)仍处早期未达规模，不能平滑接续HBM/CoWoS的利润集中度——CoWoS产线、HBM产线、800VDC产线、光互连产线分属不同制造资产，释出产能无法跨环节复用；④AI芯片渗透率仅15.2%说明中长期仍有空间但短期capex周期波动不可忽略。若按TSMC当前扩产速率(已压缩至12-18月)线性外推，2027H2存在供需紧平衡甚至局部过剩的算术可能——但EUV产能约束(年产50-60台)限制全链产能天花板。估值层面：PE散点隐含的是$1.3-1.5T乐观情景定价，若实际接近WSTS spring保守预测$760.7B，估值有30-50%压缩空间。",
+      "downgrade_trigger": "三道降级触发(OR逻辑，任一触发即重新评估，两道同时触发降级至neutral/underweight)：①HBM ASP出现YoY负增长或QoQ连跌2个季度(未读到forward价格趋势，属structural missing，需持续监控SK Hynix/Samsung HBM4 ASP指引)；②CoWoS缺口率突破<5%或TSMC传出砍EUV设备订单；③任一hyperscaler(GOOGL/MSFT/AMZN/META/ORCL)宣布capex同比削减>20%。补充触发：SK Hynix下季指引OPM<65%=利润率回归信号确认；CoWoS ASP跌破$8K/wafer=定价权实质性削弱。",
+      "chokepoint_conclusion": "三层瓶颈结构：表层已拥挤层(EUV光刻机-王者级/HBM SK Hynix-钻石级/CoWoS+先进制程TSMC-钻石级)构成不可绕过的Leontief互补品铁三角，物理垄断确认为真，但发现度🔴已拥挤意味着定价效率已消除大部分表面超额收益——3轮debate空头有力论证了这一点。中层半发现层(EML激光器芯片/光互连800G-1.6T/半导体设备/液冷)仍有价值发现空间，ROIC强(新易盛50-66%/天孚36-48%)叠加行业Beta提供最优风险收益比。深层未发现层(磷化铟InP衬底→EML上游、SiC衬底→800VDC上游、ABF树脂→CoWoS基板上游、MR-MUF EMC→HBM封装上游、EUV光学组件→ASML上游)是超额收益的最稀缺来源——这些环节供需更紧(扩产周期24-36月>>下游12-18月)、市场完全未认知(🟢未发现)，且每一层都是Leontief链中不可绕过的最上游物理约束。需标注：深层链条的定量缺口率/价格数据全部为estimated(drills数组为空)，依赖llm_knowledge产业链常识构建，置信度低于表层节点。核心矛盾已从'是否稀缺'演化为'稀缺定价权是否已被充分price-in'——表层YES，深层NO。",
       "risks": [
-        "宏观融资约束（高severity）：data_macro.json缺失，联邦基金利率4.25-4.5%高位，hyperscaler $700B capex融资可持续性无数据验证。若AI投资ROI在2027年前未被证明，capex削减将是突然而非渐进的",
-        "Leontief链式断裂（极高severity）：2026H2 800VDC+液冷+光互连（CPO）三个新环节同时处于'未发现/半发现'状态且均为Leontief必需组件。任一环节量产delay可阻塞全链。800VDC全行业'尚在早期'，需整个生态系统升级，量产delay到2027H2的风险不可忽略",
-        "HBM利润率均值回归（高severity）：SK Hynix OPM 75.7%→77.3%在半导体历史上无持续>3年先例。Micron市占从11%→21%仅用1年，三星强攻HBM4。HBM +246%价格在持续性上自我限制——当GPU 30%成本由HBM构成，下游寻求替代的动力与价格涨幅正相关",
-        "TAM口径分歧隐含的预期修正（中高severity）：WSTS两版预测差异98%($760.7B vs $1.51T)，AI accelerator 2030E TAM range差异>170%($184B-$500B)。若保守情景接近真实，当前$1T+共识TAM需向下修正20-30%",
-        "先行指标全绿的自反性风险（中高severity）：5/5先行指标同向在历史上多次出现在顶部附近（2007房市/2000半导体/2018矿机）。供给侧售罄意味着向上惊喜空间已极小，任何边际恶化都将被放大",
-        "forward PEG缺失（结构性局限）：在缺失宏观估值锚的条件下，'产业好'与'投资回报好'之间的差距无法量化。分析置信度应系统性打折"
+        {
+          "risk": "产能缺口收窄速度快于预期→瓶颈环节定价权边际递减",
+          "severity": "high",
+          "rationale": "CoWoS从20%→10%缺口，TSMC产能翻倍至近200K wpm，扩产周期压缩至12-18月。缺口方向向下——若按此速率2027H1存在供需紧平衡甚至局部过剩的算术可能。CoWoS/HBM/先进制程分属不同制造产线，释出产能不能跨环节吸收。"
+        },
+        {
+          "risk": "hyperscaler $700B capex ROI不可持续→2027-2028 capex缩减",
+          "severity": "high",
+          "rationale": "data_macro.json缺失无法验证融资环境(利率/信用spread/社融)；5家hyperscaler军备竞赛式capex(FOMO驱动而非ROI精确测量)，历史上大规模capex周期屡次以产能过剩收场(2001光纤/2022 crypto)。$700B=5x 2022 baseline意味着基数已极高，二阶导减速即构成周期信号。空头论证：AI芯片是B2B infrastructure capital goods而非B2C consumer component，adoption服从capex审批周期而非S形渗透曲线。"
+        },
+        {
+          "risk": "HBM价格已触顶或2027开始回落→SK Hynix OPM 75.7%不可持续",
+          "severity": "high",
+          "rationale": "+246% YoY是已实现数据，未读到HBM forward价格趋势(confirmed missing)。三寡头扩产+DRAM制程升级bit cost下降30-40%规律=利润池压缩。半导体历史上无OPM>75%持续超3年先例(estimated)。多头引用HBM消耗DDR5 3x晶圆作为成本锚定，但3D堆叠复杂度成本增量无法永久抵消制程微缩带来的bit cost节约。"
+        },
+        {
+          "risk": "industry_forward_peg=null→无法判断'垄断值多少钱'",
+          "severity": "medium-high",
+          "rationale": "4/5核心瓶颈🔴已拥挤，PE散点15-110x中位数35-50x，物理垄断的刚性≠估值安全边际。中际旭创PE已从>100x压缩至forward 47x，表明市场在基本面超级景气的同时仍在压缩光模块估值——定价效率正在消除表面超额收益。在缺失估值锚的条件下，所有'超配'建议应视为产业方向判断而非精确估值判断。"
+        },
+        {
+          "risk": "WSTS预测方法论破裂→半导体TAM被系统性高估",
+          "severity": "medium",
+          "rationale": "WSTS两版预测差异98%($760.7B vs $1.51T)，AI accelerator 2030E range差异>170%($184B-$500B)。卖方在super cycle叙事下上调预测的幅度可能超过真实需求增长——同一机构(WSTS)对同一市场两版预测差距近100%，说明TAM预测方法论本身已破裂。当前PE散点隐含的是$1.3-1.5T乐观情景定价，若实际接近$760.7B，估值有腰斩空间。"
+        },
+        {
+          "risk": "Leontief链式传导的双向风险→新瓶颈技术+时间不确定性",
+          "severity": "medium",
+          "rationale": "800V HVDC 2026Q3才首批出货、产能爬坡不确定性高、TAM完全未知、无量产时间线保证数据；CPO长期替代可插拔光模块威胁现有光模块龙头。瓶颈从已知→未知环节迁移时系统性故障概率上升——Leontief互补品结构在已知环节(CoWoS/HBM)是定价权放大器，在未知环节(800V HVDC/CPO)是风险乘法器。"
+        },
+        {
+          "risk": "中国EUV突破→ASML垄断被部分侵蚀(长期)",
+          "severity": "medium",
+          "rationale": "深圳团队2025完成EUV工作原型(Reuters verified)，虽量产化仍需数年但已证明EUV非绝对不可攻破。任何中国EUV量产进展都将改变ASML定价权——但时间窗口至少在5年+，短期(1-3年)ASML垄断地位稳固。"
+        },
+        {
+          "risk": "替代路径(ASIC推理/CPO/Samsung代工)削弱当前垄断者不可替代性",
+          "severity": "medium",
+          "rationale": "Google TPU v6/AWS Trainium3侵蚀NVIDIA CUDA锁定(推理侧)；CPO 2031 $764M CAGR 35.9%长期威胁可插拔光模块；Samsung 3nm GAA+Intel 18A为买家提供替代代工路径——虽技术落后但在极端供需下替代品的边际效用递增。"
+        }
       ],
-      "allocation_advice": "按瓶颈层次差异化配置：(1)核心仓位（50-60%）：光互连🟡半发现层——新易盛(ROIC 50-66%)、天孚(ROIC 36-48%)、中际旭创，已确认价值创造+行业Beta强，最优；(2)卫星仓位（20-30%）：QDII瓶颈龙头——TSMC/SK Hynix/NVIDIA，供给侧垄断+定价权，但已拥挤且$700B capex可持续性存疑；(3)前瞻仓位（10-15%）：800VDC🟢未发现层——中恒电气/良信股份，最高alpha潜力但最不确定，小仓位试探；(4)液冷🟡半发现层——英维克，市场需求确定但格局未分，可中性配置；(5)回避名单：通富微电(ROIC 4-6%价值毁灭)、中芯国际A股(ROIC 2.7-3.7%价值毁灭)、传统成熟制程概念股。行业集中度上限不超过equity 55%的25%即总组合~14%。保留8%黄金(Portfolio target)作为Leontief尾部风险对冲。",
-      "confidence": 0.72,
-      "confidence_reasoning": "置信度0.72（中高），扣分项：data_macro.json缺失(-0.10)、forward PEG缺失(-0.08)、HBM forward价格趋势无数据(-0.05)、800VDC量产时间线不确定(-0.05)。在现有数据覆盖范围内，产业方向信号一致且强烈，但定价锚缺失限制了对'当前价格是否合理'的判断能力。"
+      "allocation_advice": "按瓶颈层次+发现度分层差异化配置。在portfolio v10 equity quota 55%内超配半导体至10-12pp。核心仓位(50-60%)：中层半发现层——光互连A股龙头(中际旭创/新易盛/天孚通信)+EML/InP衬底/光器件上游(云南锗业)，ROIC强(50-66%/36-48%)+半发现定价窗口，是风险收益比最优层。卫星仓位(20-30%)：表层已拥挤层——QDII瓶颈龙头(TSMC/SK Hynix/NVIDIA/ASML)，供给侧垄断+定价权，但回调5-10%才增配(已拥挤+估值安全边际不明)。前瞻仓位(10-15%)：深层未发现层——SiC衬底(天岳先进688234)/800V HVDC(麦格米特002851/中国西电601179)/ABF基板(深南电路002916)，最高alpha潜力但最不确定(drills数据为空，无quantitative验证)，小仓位试探等催化。回避：ROIC<WACC的价值毁灭标的(通富微电/中芯国际A股/北方华创ROIC 7.3-9.7%<WACC 12%→谨慎；中微公司ROIC 7-10%<WACC 12%→PE 75-110x由叙事支撑而非ROIC)。行业集中度上限不超过equity 55%的25%即总组合~14%。保留15%现金+8%黄金作为Leontief尾部风险对冲。注意：因industry_forward_peg=null且valuation_inputs缺失，所有配置权重建议均基于产业方向判断而非精确估值。",
+      "confidence": 0.74,
+      "confidence_reasoning": "扣分项：data_macro.json缺失(-0.08，宏观利率/GDP/PMI/社融数据完全空白)；industry_forward_peg=null且valuation_inputs不存在(-0.08，无法回答'垄断值多少钱')；industry_drill_半导体产业链.json drills数组为空(-0.05，deep_chokepoint_chains全部由chokepoint_map+llm_knowledge构造，深层节点quantitative数据均为estimated)；HBM forward价格趋势无数据(-0.03)；800VDC TAM/量产时间线无数据(-0.02)。核心产业数据(TAM/瓶颈结构/价格/产能/市占率/PE散点/WACC)均为verified源(>80% verified)，产业方向信号一致且强烈。但估值锚缺失限制了对'当前价格是否合理'的判断能力，整体置信度0.74属中高水平——产业方向可执行但精确估值不能保证。若data_macro.json+valuation_inputs补齐可提升至0.82-0.85。"
+    },
+    "credibility": {
+      "final_verdict": "NEEDS_CHANGES",
+      "critic_score": 0,
+      "reviewer": "v4-investor-critic(独立评审)",
+      "reviewers": [
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥"
+      ],
+      "challenges": [],
+      "critic_iterations": 3,
+      "unresolved": true
     },
     "chokepoint_map": [
       {
-        "layer": "终端需求",
-        "node": "Hyperscaler AI资本开支",
-        "irreplaceability": "极高",
-        "supply_concentration": "高",
-        "capacity_rigidity": "中",
-        "value_capture": "中",
-        "discovery_level": "已拥挤",
-        "risk_level": "中——需求端集中(前5家>80%)但军备竞赛锁定需求韧性"
+        "layer": "材料/设备级",
+        "node": "EUV光刻机",
+        "irreplaceability": "极高：3nm以下先进制程唯一量产路径，无可替代",
+        "supply_concentration": "垄断：ASML 100%独家供应",
+        "capacity_rigidity": "极高：年产50-60台(estimated)，交货12-18月+",
+        "value_capture": "极强：EUV $200M+/台(estimated)，High-NA $380M+/台(estimated)，ASML毛利率50%+(estimated)",
+        "substitution_risk": "极低：无替代光刻技术(Nanoimprint/电子束直写量产不匹配)",
+        "discovery_level": "🔴已拥挤",
+        "moat": "王者级",
+        "beneficiaries_a": [],
+        "beneficiaries_qdii": [
+          "ASML: EUV/High-NA EUV独家供应商"
+        ],
+        "deep_upstream": [
+          "Zeiss EUV光学系统(未上市，ASML的嵌套垄断者)",
+          "Trumpf EUV CO2激光光源(未上市，ASML的第二嵌套垄断者，均无直接投资途径)"
+        ]
+      },
+      {
+        "layer": "关键器件",
+        "node": "HBM高带宽存储器",
+        "irreplaceability": "极高：GPU唯一内存方案，DDR5/CXL带宽不够",
+        "supply_concentration": "极高：SK Hynix 53-55% + Samsung 27-35% = 韩系>80%(verified, Counterpoint Q3 2025)，Micron 11-21%(Q4 2025 surge至21%)",
+        "capacity_rigidity": "极高：消耗DDR5 3x晶圆(verified)，扩产需18月+，sold out至2026+",
+        "value_capture": "极强：占AI芯片capex 30%(verified)，ASP +246% YoY(2025已实现, verified)，SK Hynix OPM 2026E 75.7%(verified)——但历史上无OPM>75%持续超3年先例(estimated)",
+        "substitution_risk": "低：HBM4 2026量产但SK Hynix仍主导，CXL/DDR5带宽不够",
+        "discovery_level": "🔴已拥挤",
+        "moat": "钻石级",
+        "beneficiaries_a": [],
+        "beneficiaries_qdii": [
+          "SK Hynix: HBM全球53-55%",
+          "Samsung: HBM4追赶(落后SK Hynix一代)",
+          "Micron: Q4 2025 surge至21%"
+        ],
+        "deep_upstream": [
+          "MR-MUF EMC(Sumitomo Bakelite近乎独占>80%, estimated)",
+          "TCB键合设备(Besi>60%/ASM Pacific, estimated)",
+          "TSV刻蚀设备(Lam Research主导>70%, estimated)"
+        ]
+      },
+      {
+        "layer": "关键器件 → 先进封装",
+        "node": "CoWoS-L 2.5D先进封装",
+        "irreplaceability": "极高：NVIDIA/AMD/Intel AI GPU均依赖CoWoS，不可用传统封装替代",
+        "supply_concentration": "极高：台积电100%垄断CoWoS-L，OSAT仅分担部分CoWoS-S(verified, TrendForce)",
+        "capacity_rigidity": "极高：扩产周期12-18月(TSMC已压缩)，缺口~10%，行业总产能近200K wpm(verified, TrendForce 2026-06-15)。缺口率从20%→10%在12月内完成=产能增速~185%",
+        "value_capture": "强：CoWoS ASP ~$10,000/wafer(verified, TrendForce)，但未读到CoWoS forward ASP趋势(missing)",
+        "substitution_risk": "低：Intel EMIB/Samsung I-Cube体量远不及CoWoS，但OSAT(日月光/Amkor)正在承接50-60K wpm CoWoS-S分拆→供给结构从完全垄断向一超多强过渡",
+        "discovery_level": "🔴已拥挤",
+        "moat": "钻石级",
+        "beneficiaries_a": [],
+        "beneficiaries_qdii": [
+          "TSM: 台积电 CoWoS-L垄断者"
+        ],
+        "deep_upstream": [
+          "ABF树脂/基板(味之素>90% ABF树脂近乎独家, estimated——CoWoS产能翻2.7倍→ABF树脂需求同步翻2.7倍，化工产线扩产24-36月远超基板加工18-24月)",
+          "硅中介层(TSMC独有工艺)"
+        ]
+      },
+      {
+        "layer": "材料/设备级 → 先进制程",
+        "node": "先进制程晶圆代工(3nm GAA/2nm)",
+        "irreplaceability": "极高：AI加速器必须用最先进制程",
+        "supply_concentration": "极高：台积电7nm以下>90%(estimated, llm_knowledge行业共识)",
+        "capacity_rigidity": "极高：利用率>100%(verified)，扩产周期18-24月",
+        "value_capture": "强：3nm wafer $20K+(estimated)，TSMC毛利率53-57%(estimated)",
+        "substitution_risk": "低：Samsung 3nm GAA技术落后，Intel 18A体量极小——但在极端供需下为买家提供替代出口",
+        "discovery_level": "🔴已拥挤",
+        "moat": "钻石级",
+        "beneficiaries_a": [],
+        "beneficiaries_qdii": [
+          "TSM: 台积电全球先进制程垄断者"
+        ],
+        "deep_upstream": [
+          "EUV光刻机(ASML)",
+          "半导体设备(AMAT/LAM/TEL/KLA——设备交货期6-12月同样约束扩产)"
+        ]
       },
       {
         "layer": "系统级",
-        "node": "AI加速器GPU/NVIDIA",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高",
-        "capacity_rigidity": "极高",
-        "value_capture": "极高",
-        "discovery_level": "已拥挤",
-        "risk_level": "中——自研ASIC在推理端侵蚀，但训练壁垒短期无解"
+        "node": "AI加速器芯片(GPU/ASIC)",
+        "irreplaceability": "极高：大模型训练唯一量产路径",
+        "supply_concentration": "极高：NVIDIA训练>90%(estimated)，推理ASIC分流(Google TPU v6/AWS Trainium3)",
+        "capacity_rigidity": "高：受制于CoWoS+HBM双重约束",
+        "value_capture": "极强：NVIDIA毛利率70%+(estimated)，数据中心$100B+ run-rate(estimated)",
+        "substitution_risk": "中：推理侧ASIC加速替代(Google TPU v6/AWS Trainium3)，训练侧CUDA生态锁定强但非绝对",
+        "discovery_level": "🔴已拥挤",
+        "moat": "极高",
+        "beneficiaries_a": [],
+        "beneficiaries_qdii": [
+          "NVDA: AI GPU垄断者",
+          "AVGO: 定制ASIC设计领导者",
+          "MRVL: 数据中心ASIC+光互连DSP"
+        ]
       },
       {
-        "layer": "部件级",
-        "node": "先进制程代工/TSMC sub-7nm",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高",
-        "capacity_rigidity": "极高",
-        "value_capture": "极高",
-        "discovery_level": "已拥挤",
-        "risk_level": "极高——台湾地震/台海地缘/单点故障，产能零弹性"
+        "layer": "关键器件 → 光互连",
+        "node": "800G/1.6T光收发器",
+        "irreplaceability": "高：数据中心scale-out网络必需，铜缆仅限机架内短距",
+        "supply_concentration": "中高：EML/DSP核心芯片少数供应商，模块组装CR4约50%+(estimated)",
+        "capacity_rigidity": "高：800G产能爬坡中(2025 24M→2026 63M units, verified)，CW-DFB激光器限制产能",
+        "value_capture": "中：800G量升价稳，1.6T 2026开始放量近10M units(verified)",
+        "substitution_risk": "中(长期)：CPO共封装光学长期替代可插拔模块(2031 $764M CAGR 35.9%, verified)",
+        "discovery_level": "🟡半发现",
+        "moat": "中等偏强",
+        "beneficiaries_a": [
+          "300308 中际旭创: 800G全球领导者",
+          "300502 新易盛: LPO方案领先",
+          "300394 天孚通信: 光通信精密元件"
+        ],
+        "beneficiaries_qdii": [
+          "COHR: Coherent EML领导者",
+          "LITE: Lumentum CW-DFB激光器"
+        ],
+        "deep_upstream": [
+          "EML电吸收调制激光器芯片(Coherent~40%/Lumentum~25%/三菱~15%/住友~10%, estimated)",
+          "磷化铟InP衬底(住友电工#1>40%/AXT/云南锗业, estimated)",
+          "CW-DFB激光器(Lumentum/Coherent)"
+        ]
       },
       {
-        "layer": "关键器件",
-        "node": "HBM高带宽内存/SK Hynix",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高",
-        "capacity_rigidity": "极高",
-        "value_capture": "极高",
-        "discovery_level": "已拥挤",
-        "risk_level": "高——利润率均值回归压力+Micron追赶+HBM4竞争"
+        "layer": "关键器件 → 供电",
+        "node": "800V HVDC供电架构",
+        "irreplaceability": "高：Rubin>2000W/Vera>5000W(estimated)，传统48V/12V物理上无法支撑",
+        "supply_concentration": "高：TI先行发布完整架构(与NVIDIA合作, verified, TI Newsroom 2026-03)，Delta跟进",
+        "capacity_rigidity": "中：2026Q3首批出货(verified, TrendForce 2026-06-15)，全行业尚在早期，产能爬坡不确定性高。TAM完全未知，无量产时间线保证数据(missing)",
+        "value_capture": "中：新赛道，TI+Delta先发受益但量尚未起",
+        "substitution_risk": "中：400VDC/HVDC混合方案可能为过渡路径",
+        "discovery_level": "🟢未发现",
+        "moat": "中等偏强",
+        "beneficiaries_a": [
+          "601179 中国西电: 高压直流→数据中心HVDC迁移",
+          "002851 麦格米特: 数据中心电源+NVIDIA合作"
+        ],
+        "beneficiaries_qdii": [
+          "TXN: TI 800VDC架构先行者",
+          "Delta Electronics: 800V HVDC电源模块"
+        ],
+        "deep_upstream": [
+          "SiC碳化硅功率器件(Wolfspeed/STMicro/Infineon)",
+          "SiC衬底(Wolfspeed全球#1~40%/天岳先进688234中国#1, estimated)"
+        ]
       },
       {
-        "layer": "关键器件",
-        "node": "CoWoS先进封装/TSMC",
-        "irreplaceability": "极高",
-        "supply_concentration": "极高",
-        "capacity_rigidity": "极高",
-        "value_capture": "高",
-        "discovery_level": "已拥挤",
-        "risk_level": "中——缺口从20%收窄至10%，旧瓶颈在缓解"
+        "layer": "关键器件 → 散热",
+        "node": "液冷(直接芯片液冷/DLC)",
+        "irreplaceability": "高：单芯片>2000W风冷极限已突破，液冷成为必选项",
+        "supply_concentration": "中：Cooler Master/Delta/曙光数创等多玩家，CDU+冷板供应商分散",
+        "capacity_rigidity": "中：液冷产能可与数据中心建设同步，非绝对刚性约束",
+        "value_capture": "中：市场快速增长但标准化程度低——标准化后将提升集中度但当前竞争格局未定型",
+        "substitution_risk": "低：浸没式液冷补充而非替代",
+        "discovery_level": "🟡半发现",
+        "moat": "中等",
+        "beneficiaries_a": [
+          "300499 高澜股份: CDU+冷板",
+          "300990 同飞股份: 精密温控"
+        ],
+        "beneficiaries_qdii": [
+          "Cooler Master",
+          "Delta Electronics"
+        ]
       },
       {
-        "layer": "设备级",
-        "node": "光互连800G/1.6T/CPO",
-        "irreplaceability": "极高",
-        "supply_concentration": "中高",
-        "capacity_rigidity": "高",
-        "value_capture": "中高",
-        "discovery_level": "半发现",
-        "risk_level": "中——CPO替代插拔式模块，EML激光器集中度是上游卡点"
-      },
-      {
-        "layer": "设备级",
-        "node": "800VDC供电架构",
-        "irreplaceability": "高",
-        "supply_concentration": "中",
-        "capacity_rigidity": "高",
-        "value_capture": "中",
-        "discovery_level": "未发现",
-        "risk_level": "极高——全行业尚在早期，需整个生态系统升级，量产时间线不确定"
-      },
-      {
-        "layer": "设备级",
-        "node": "液冷DLC/浸没式",
-        "irreplaceability": "高",
-        "supply_concentration": "中低",
-        "capacity_rigidity": "中高",
-        "value_capture": "中低",
-        "discovery_level": "半发现",
-        "risk_level": "中高——技术路径未定型(DLC vs 浸没)，格局未分"
+        "layer": "材料/设备级",
+        "node": "半导体设备(刻蚀/沉积/检测)",
+        "irreplaceability": "高：先进制程必需等离子体刻蚀/ALD/CVD设备",
+        "supply_concentration": "高：AMAT+LAM+TEL+KLA占全球>60%(estimated, llm_knowledge)",
+        "capacity_rigidity": "高：设备交货期6-12月，中国连续5年全球最大设备市场(verified)",
+        "value_capture": "强：AMAT/LAM毛利率45-48%(estimated)——但部分A股设备标的ROIC 7-10%<WACC 12%需筛选",
+        "substitution_risk": "中(中国)：中国国产设备在成熟制程加速替代，先进制程仍差距大",
+        "discovery_level": "🟡半发现",
+        "moat": "强：寡头格局+技术壁垒+中国需求双驱动；但A股部分设备标的PE 35-110x中ROIC<WACC=叙事定价而非价值创造",
+        "beneficiaries_a": [
+          "688012 中微公司: 等离子体刻蚀(PE 75-110x, ROIC 7-10%<WACC 12%→谨慎)",
+          "002371 北方华创: 平台型龙头(forward PE 35x, ROIC 7.3-9.7%<WACC 12%→价值毁灭标签)",
+          "688072 拓荆科技: PECVD/ALD"
+        ],
+        "beneficiaries_qdii": [
+          "AMAT: Applied Materials #1",
+          "LRCX: Lam Research",
+          "KLAC: KLA检测"
+        ]
       }
     ],
     "top_chokepoints": [
-      "先进制程代工/TSMC sub-7nm——四维全满(不可替代性/供给集中度/产能刚性/价值卡位均为极高)，>100%利用率+零新产能至2027底+EUV管制下中国无法自产=整条链的绝对单点故障",
-      "HBM高带宽内存/SK Hynix——四维全满，价格+246% YoY+OPM 75.7-77.3%+wafer密度为DDR5的3倍=AI产业链2025最大瓶颈，但2026-2027面临Micron追赶+HBM4竞争+利润率均值回归三重压力",
-      "AI加速器GPU/NVIDIA——四维全满，CUDA全栈+训练>90%份额+毛利率70-75%，但自研ASIC在推理端（未来增量最大）持续侵蚀"
+      "【EUV光刻机】四维评分：不可替代性=极高(3nm以下唯一量产路径)，供给集中度=垄断(ASML 100%)，产能刚性=极高(年产50-60台, estimated，交货12-18月+)，价值卡位=极强($200M+/台, estimated，High-NA $380M+/台, estimated，买方零议价权)。深层上游嵌套垄断：ASML 100%垄断背后→Zeiss(蔡司)EUV光学反射镜独家+Trumpf EUV CO2激光光源独家，两类供应商均未上市，无直接投资途径，产能约束更紧。结论：半导体产业链终极瓶颈，物理上无替代方案，所有先进制程扩产都须通过EUV单一阀门——下游越扩产，EUV需求越刚性(二阶正反馈)。但EUV的物理垄断不保证在错误价格上仍有投资回报——ASML订单book 2年+已反映当前预期，当CoWoS扩产致下游需求增速放缓时，设备capex存在周期性回调风险(牛鞭效应)。",
+      "【HBM高带宽存储器】四维评分：不可替代性=极高(GPU唯一内存方案)，供给集中度=极高(SK Hynix+Samsung>80%, verified)，产能刚性=极高(消耗DDR5 3x晶圆, verified，sold out至2026+)，价值卡位=极强(占AI芯片capex 30%, verified，ASP +246% YoY, verified)。深层上游约束：HBM的TSV堆叠必需MR-MUF环氧塑封料(Sumitomo Bakelite近乎独占>80%, estimated)+TCB热压键合设备(Besi>60%/ASM Pacific寡头, estimated)+TSV深硅刻蚀(Lam Research主导>70%, estimated)。结论：2025年接棒CoWoS成为AI芯片主瓶颈，SK Hynix OPM 75.7%反映的是稀缺定价权，但三寡头扩产+半导体历史上无OPM>75%超3年先例构成均值回归压力。HBM4 2026量产引入2048-bit接口→per-GB成本可能下降。注意：未读到HBM 2026-2027 forward价格趋势(confirmed missing)。",
+      "【先进制程+CoWoS双垄断】四维评分综合：不可替代性=极高(AI芯片唯一生产路径)，供给集中度=垄断(TSMC双环节独占)，产能刚性=极高(利用率>100%, verified，扩产18-24月)，价值卡位=强(3nm $20K+/CoWoS ~$10K wafer, verified)。深层上游约束：CoWoS硅中介层下方ABF基板的ABF树脂由味之素(Ajinomoto)>90%全球份额近乎独家供应(estimated)——CoWoS产能翻2.7倍(75K→200K wpm)意味着ABF树脂需求同步翻2.7倍，但味之素化工产线扩产周期(24-36月)比基板加工(18-24月)更长。结论：TSMC=全球AI芯片制造双垄断，但缺口从20%收窄至10%暗示2027H2存在供需紧平衡甚至局部过剩的可能——缺口方向比绝对值更关键，当前方向为向下收窄。CoWoS ASP forward趋势数据缺失(missing)，若产能过剩导致ASP跌破$8K将确认定价权实质性削弱。"
+    ],
+    "deep_chokepoint_chains": [
+      {
+        "start": "HBM高带宽存储器",
+        "chain": [
+          {
+            "depth": 0,
+            "node": "HBM高带宽存储器",
+            "supply_demand_gap": "sold out至2026+，ASP +246% YoY(2025已实现, verified，forward价格趋势missing)",
+            "expansion_cycle": "18月+，HBM消耗DDR5 3x晶圆(verified)",
+            "global_players": "SK Hynix 53-55%，Samsung 27-35%，Micron 11-21%(Q4 2025 surge至21%)(verified, Counterpoint+Reuters)",
+            "pricing_power": "极强(钻石级护城河，OPM 75.7%)，但历史上无OPM>75%持续超3年先例(estimated)",
+            "discovery_level": "🔴已拥挤",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "SK Hynix",
+              "Samsung",
+              "Micron"
+            ]
+          },
+          {
+            "depth": 1,
+            "node": "TSV硅通孔深硅刻蚀设备",
+            "supply_demand_gap": null,
+            "expansion_cycle": "设备交货期6-12月",
+            "global_players": "Lam Research(深硅刻蚀主导>70%, estimated)，Applied Materials",
+            "pricing_power": "强——Lam在深硅刻蚀近乎独占(estimated)，每新增1K wpm HBM产能需采购增量深硅刻蚀设备",
+            "discovery_level": "🟡半发现(市场认知TSMC刻蚀设备需求但未专门定价HBM-TSV增量)",
+            "beneficiaries_a": [
+              "688012 中微公司: 等离子体刻蚀(5nm已进入台积电，深硅刻蚀在研——但ROIC 7-10%<WACC 12%)"
+            ],
+            "beneficiaries_qdii": [
+              "LRCX: Lam Research 深硅刻蚀全球领导者(>70%, estimated)"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "TCB热压键合设备",
+            "supply_demand_gap": "紧——HBM 3D堆叠(8Hi→12Hi→16Hi)每增加一层需要更多TCB键合设备，扩产周期12-18月(estimated)",
+            "expansion_cycle": "TCB设备制造12-18月，交期长+产能约束(estimated)",
+            "global_players": "Besi(BE Semiconductor, >60%份额, estimated)，ASM Pacific Technology，Hanmi Semiconductor",
+            "pricing_power": "强——Besi在TCB键合设备占>60%份额(estimated)，三寡头格局，HBM扩产直接拉动TCB订单",
+            "discovery_level": "🟢未发现(市场讨论HBM但几乎无人关注TCB设备厂商)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "Besi: TCB键合设备全球领导者(>60%, estimated)",
+              "ASM Pacific: TCB设备核心供应商"
+            ]
+          },
+          {
+            "depth": 3,
+            "node": "MR-MUF环氧塑封料(EMC)",
+            "supply_demand_gap": "极紧——HBM必需专用EMC(高导热/低CTE/无void填充)，Sumitomo Bakelite近乎独占，全球几乎无替代供应商(estimated，无quantitative缺口率数据)",
+            "expansion_cycle": "化工产线扩产周期24-36月(比HBM 18月扩产更长)，产能弹性极低(estimated)",
+            "global_players": "Sumitomo Bakelite(主宰, >80% HBM-EMC, estimated)，Hitachi Chemical/Resonac(小份额)",
+            "pricing_power": "极强但完全被市场忽视——所有HBM 3D堆叠必需专用EMC，且扩产周期24-36月远长于HBM扩产18月",
+            "discovery_level": "🟢未发现(市场讨论HBM垄断但几乎无人知道HBM上面还有一层EMC物理约束)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "Sumitomo Bakelite: HBM专用EMC近乎独家(>80%)，日股代码——A股无直接标的"
+            ]
+          }
+        ],
+        "deepest_alpha": "MR-MUF环氧塑封料(EMC)——HBM 3D堆叠必需的专用环氧塑封料，Sumitomo Bakelite近乎独占(>80%份额, estimated)，扩产周期24-36月远长于HBM扩产的18月。HBM产能每增加1K wpm，EMC需求线性增长，但EMC化工产线弹性极低——这意味着即使SK Hynix/Samsung/Micron三家HBM扩产至2027+，EMC环节可能成为HBM的下一个主瓶颈(类似2024 CoWoS之于GPU)。而当前市场对'EMC'几乎无认知——讨论HBM的投资者极少追溯至MR-MUF材料层=🟢未发现。Sumitomo Bakelite为日股，无A股直接标的；此链条所有quantitative数据(EMC份额/扩产周期/缺口率)均为llm_knowledge estimated，非来自drill数据(drills数组为空)。"
+      },
+      {
+        "start": "800G/1.6T光收发器",
+        "chain": [
+          {
+            "depth": 0,
+            "node": "800G/1.6T光收发器模块",
+            "supply_demand_gap": "800G 2025 24M→2026 63M units(+163%, verified)，1.6T 2026近10M units放量(verified)",
+            "expansion_cycle": "产能爬坡中，CW-DFB激光器限制产能",
+            "global_players": "中际旭创(全球30%+, estimated)，Coherent，Lumentum，新易盛",
+            "pricing_power": "中，竞争格局CR4~50%但模块组装壁垒中等",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "300308 中际旭创",
+              "300502 新易盛",
+              "300394 天孚通信"
+            ],
+            "beneficiaries_qdii": [
+              "COHR: Coherent",
+              "LITE: Lumentum"
+            ]
+          },
+          {
+            "depth": 1,
+            "node": "EML电吸收调制激光器芯片",
+            "supply_demand_gap": "极紧——NVIDIA锁定$4B激光器供应至2027+(verified, TechTimes)，EML是800G/1.6T长距传输的核心光芯片，产能高度受限",
+            "expansion_cycle": "EML外延生长+芯片制造12-18月，受InP衬底产能约束",
+            "global_players": "Coherent(EML领导者，份额~40%, estimated)，Lumentum(~25%)，三菱电机(~15%)，住友电工(~10%)",
+            "pricing_power": "极强——EML是800G/1.6T光模块最核心成本项(占BOM ~30-40%, estimated)，下游光模块组装厂几乎无议价权，NVIDIA直接锁定$4B供应",
+            "discovery_level": "🟡半发现→🟢部分未发现(市场更关注光模块组装商而非芯片层，EML芯片层的利润池被低估)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "COHR: Coherent EML芯片全球领导者",
+              "LITE: Lumentum"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "磷化铟(InP)衬底晶圆",
+            "supply_demand_gap": "极紧——InP衬底是EML/CW-DFB/PD等所有III-V族光芯片的必需衬底，全球产能高度集中(住友电工#1>40%, estimated)，扩产极慢",
+            "expansion_cycle": "化合物半导体衬底扩产周期24-36月(长晶炉+切磨抛产线，InP单晶生长速度极慢, estimated)，远长于EML芯片制造(12-18月)和光模块组装(6-12月)",
+            "global_players": "住友电工(全球InP衬底#1, >40%, estimated)，美国AXT(~15%)，日本JX Metals，云南锗业(中国唯一InP单晶衬底供应商)",
+            "pricing_power": "极强且被市场完全忽视——所有800G/1.6T/CPO光模块的光芯片都必须用InP衬底，InP扩产周期24-36月是整个光互连产业链最长的物理约束(estimated)",
+            "discovery_level": "🟢未发现——市场讨论光模块龙头/EML芯片乃至CPO，但几乎无人关注InP衬底这一最上游物理约束",
+            "beneficiaries_a": [
+              "002428 云南锗业: 中国唯一InP单晶衬底供应商，化合物半导体衬底稀缺标的"
+            ],
+            "beneficiaries_qdii": [
+              "住友电工: 全球InP衬底#1(estimated)",
+              "AXT: 美国InP衬底供应商"
+            ]
+          }
+        ],
+        "deepest_alpha": "磷化铟(InP)衬底——整个光互连产业链(800G→1.6T→CPO)最上游的化合物半导体基材物理瓶颈。InP衬底是EML电吸收调制激光器、CW-DFB激光器、PD探测器的必需衬底(NVIDIA锁$4B激光器供应至2027+的底层需求就是InP衬底)，而全球InP衬底产能高度集中(住友电工#1>40%, estimated)，扩产周期24-36月远长于EML芯片制造(12-18月)和光模块组装(6-12月)。光模块从24M→63M units(+163%)→1.6T放量→CPO崛起，所有增量都需经过InP衬底这一最上游物理阀门——到2027-2028光互连主升浪时，InP衬底极可能成为比EML更深层的产能瓶颈。市场发现度：光模块本身🟡半发现，EML芯片层市场刚认知到，而InP衬底几乎完全未被定价=🟢未发现。A股唯一标的：云南锗业(002428)。此链条深层的quantitative数据(InP份额/扩产周期/EML份额/BOM占比)均为llm_knowledge estimated，非来自drill数据(drills数组为空)。"
+      },
+      {
+        "start": "800V HVDC供电架构",
+        "chain": [
+          {
+            "depth": 0,
+            "node": "800V HVDC供电系统",
+            "supply_demand_gap": "2026Q3才首批出货(NVIDIA/Google, verified)，全行业尚在早期，产能爬坡不确定性高，TAM完全未知(missing)",
+            "expansion_cycle": "全新赛道，量产时间线未确定，TAM完全未知",
+            "global_players": "TI(发布完整架构, verified)，Delta Electronics，麦格米特",
+            "pricing_power": "中(新赛道，先行者定价窗口但规模尚未起)",
+            "discovery_level": "🟢未发现",
+            "beneficiaries_a": [
+              "601179 中国西电: 高压直流→数据中心HVDC",
+              "002851 麦格米特: 数据中心电源+NVIDIA合作800V"
+            ],
+            "beneficiaries_qdii": [
+              "TXN: TI 800VDC架构先行者",
+              "Delta Electronics: 电源模块首批出货"
+            ]
+          },
+          {
+            "depth": 1,
+            "node": "SiC碳化硅功率器件(MOSFET/SBD)",
+            "supply_demand_gap": "紧——800V HVDC系统必需SiC MOSFET(硅基IGBT无法在高频/高效率下工作, estimated)，全球SiC器件产能被电动车+AI数据中心双需求挤压",
+            "expansion_cycle": "SiC器件制造12-18月，受SiC衬底产能约束(estimated)",
+            "global_players": "Wolfspeed(垂直整合#1)，STMicroelectronics，ON Semi，Infineon",
+            "pricing_power": "强——SiC供需紧平衡，电动车+AI数据中心双需求叠加，2027-2028 800V HVDC放量将进一步收紧SiC",
+            "discovery_level": "🟡半发现(SiC在电动车上已定价，但在800V HVDC数据中心场景的增量需求尚被市场忽略)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "WOLF: Wolfspeed SiC衬底+器件垂直整合",
+              "STM: STMicroelectronics SiC器件"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "SiC衬底(碳化硅单晶衬底)",
+            "supply_demand_gap": "极紧——SiC衬底是SiC功率器件的必需基材，全球产能极度集中(Wolfspeed/Coherent原II-VI/天岳先进)，扩产极慢(长晶炉产能约束+晶体缺陷率控制, estimated)",
+            "expansion_cycle": "碳化硅单晶生长+衬底加工扩产周期24-36月+(长晶炉数量限制+SiC晶体生长极慢~0.1-0.5mm/h, estimated)，是所有半导体材料中扩产最慢的之一",
+            "global_players": "Wolfspeed(全球SiC衬底#1，份额~40%, estimated)，Coherent/II-VI(~20%)，天岳先进(中国#1，8寸量产领先)，天科合达(中国#2)",
+            "pricing_power": "极强——全球SiC衬底产能2023-2026持续紧缺(estimated)，Wolfspeed/Coherent分配产能，买方几乎无议价权。电动车已将产能吃紧，叠加AI数据中心800V HVDC这第二条需求弹道——供需矛盾将在2027-2028急剧恶化",
+            "discovery_level": "🟢未发现——市场正确定价了电动车→SiC的需求线，但对'800V HVDC→SiC衬底'这第二条需求弹道完全没有认知",
+            "beneficiaries_a": [
+              "688234 天岳先进: 中国SiC衬底龙头，8寸量产全球领先，电动车+数据中心双需求受益"
+            ],
+            "beneficiaries_qdii": [
+              "WOLF: Wolfspeed 全球SiC衬底#1",
+              "COHR: Coherent(原II-VI) SiC衬底#2"
+            ]
+          }
+        ],
+        "deepest_alpha": "SiC衬底(碳化硅单晶衬底)——800V HVDC供电架构的物理基础层。TI/NVIDIA 800VDC架构中核心DC-DC变换器必须使用SiC MOSFET(硅基IGBT无法满足数据中心>98%效率和>100kHz开关频率要求, estimated)，而SiC器件必须用SiC衬底。SiC衬底扩产周期24-36月+(长晶炉+极慢晶体生长0.1-0.5mm/h+缺陷率控制, estimated)，电动车已将产能吃到紧，叠加AI数据中心800V HVDC这条新增需求线——SiC衬底的供需矛盾将在2027-2028急剧恶化。市场对电动车→SiC的故事已定价，但对'800V HVDC数据中心→SiC衬底'这第二条需求弹道完全没有认知=🟢未发现。A股标的：天岳先进(688234)。SiC衬底份额/扩产周期/晶体生长速率均为llm_knowledge estimated，非来自drill数据(drills数组为空)。"
+      },
+      {
+        "start": "EUV光刻机",
+        "chain": [
+          {
+            "depth": 0,
+            "node": "EUV光刻机",
+            "supply_demand_gap": "极度供不应求，年产50-60台(estimated)，交货12-18月+",
+            "expansion_cycle": "ASML扩产极慢(精密光学+供应链约束)",
+            "global_players": "ASML 100%垄断",
+            "pricing_power": "绝对垄断(王者级护城河，买方零议价权)",
+            "discovery_level": "🔴已拥挤",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "ASML: EUV/High-NA EUV独家"
+            ]
+          },
+          {
+            "depth": 1,
+            "node": "EUV光学系统(多层Mo/Si反射镜)",
+            "supply_demand_gap": "极紧——ASML每台EUV出厂都需要Zeiss提供的光学系统(投影物镜+照明系统)，光学反射镜制造周期12-18月(estimated)，Zeiss产能同样受限且无法快速扩产",
+            "expansion_cycle": "EUV多层Mo/Si膜反射镜(表面精度<50pm, estimated)的镀制+抛光是地球上最精密的光学制造，扩产极难",
+            "global_players": "Zeiss(卡尔蔡司)：全球唯一EUV光学系统供应商，100%绑定ASML",
+            "pricing_power": "极强——Zeiss是ASML的嵌套垄断者，全球无第二家EUV光学供应商",
+            "discovery_level": "🟡半发现→🟢部分未发现(市场讨论ASML但极少深入Zeiss/光学组件层，且Zeiss未上市无直接投资渠道)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "Zeiss: 未上市(卡尔蔡司基金会控股)，ASML EUV光学独家供应商，无直接投资途径"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "EUV光源(CO2激光驱动等离子体Sn)",
+            "supply_demand_gap": "紧——ASML EUV的13.5nm光源由Trumpf CO2激光+锡液滴等离子体产生(estimated)，Trumpf是EUV光源独家供应商",
+            "expansion_cycle": "EUV光源系统制造周期12-18月(estimated)，高功率CO2激光+真空+锡液滴系统精密制造",
+            "global_players": "Trumpf(通快)：全球唯一EUV光源供应商，100%绑定ASML",
+            "pricing_power": "极强——Trumpf是ASML的第二个嵌套垄断者，无替代供应商",
+            "discovery_level": "🟢未发现(市场讨论ASML但几乎无人关注Trumpf CO2激光光源环节)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "Trumpf: 未上市，EUV CO2激光光源独家供应商，无直接投资途径"
+            ]
+          }
+        ],
+        "deepest_alpha": "EUV光学系统(Zeiss反射镜)+EUV光源(Trumpf CO2激光)——ASML的'100%垄断'背后是两家更不为人知的嵌套垄断者(Zeiss+Trumpf)，而且两家均未上市，无直接投资途径。这个结论更多作为产业链认知标注而非投资标的：ASML每多交付一台EUV，必须同时从Zeiss获得光学反射镜系统和从Trumpf获得CO2激光驱动等离子体光源——两家嵌套垄断产能直接约束ASML扩产速度。当市场仅讨论'ASML产能不足'时，真正更慢、更硬的约束可能在其供应商层。然而，因无上市投资渠道，此链条的alpha无法通过公开市场捕获——仅能通过关注ASML季度订单book中长期在手指令的Zeiss/Trumpf供应约束信号，来预判ASML产能释放节奏。此链条所有quantitative数据(扩产周期/表面精度/份额)均为llm_knowledge estimated。"
+      },
+      {
+        "start": "CoWoS-L 2.5D先进封装",
+        "chain": [
+          {
+            "depth": 0,
+            "node": "CoWoS-L先进封装",
+            "supply_demand_gap": "缺口20%→10%(verified, TrendForce 2026-06-15)，TSMC产能70-80K→120-140K wpm+OSAT 50-60K，行业总近200K wpm。产能增速~185%，缺口方向向下收窄",
+            "expansion_cycle": "12-18月(TSMC压缩后)，正常18-24月",
+            "global_players": "TSMC 100%垄断CoWoS-L(verified)，OSAT(日月光/Amkor)仅分担CoWoS-S",
+            "pricing_power": "极强(钻石级，ASP ~$10K/wafer, verified)，但未读到forward ASP趋势(missing)",
+            "discovery_level": "🔴已拥挤",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "TSM: 台积电 CoWoS-L垄断者"
+            ]
+          },
+          {
+            "depth": 1,
+            "node": "硅中介层(Silicon Interposer, 65mm×25mm)",
+            "supply_demand_gap": "紧——CoWoS-L必需超大尺寸硅中介层(65mm×25mm, estimated)，TSMC独有工艺(InFO/CoWoS集成)，非一般OSAT可代工",
+            "expansion_cycle": "硅中介层制造需要先进制程节点+TSV硅通孔，制造周期与先进逻辑制程同步，扩产同样受设备+洁净室约束",
+            "global_players": "TSMC(独有CoWoS-L硅中介层工艺)，UMC/GlobalFoundries(潜在替代但产能极小且技术落后)",
+            "pricing_power": "强——硅中介层是CoWoS-L与CoWoS-S的本质差异，OSAT仅能分担CoWoS-S(小型中介层)，大型AI芯片CoWoS-L的中介层仍为TSMC独占",
+            "discovery_level": "🟡半发现(市场讨论CoWoS但极少深入硅中介层这一子环节的产能约束)",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": [
+              "TSM: 台积电独占CoWoS-L硅中介层"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "ABF基板(Ajinomoto Build-up Film substrate)",
+            "supply_demand_gap": "紧——先进封装(CoWoS-L/FC-BGA)硅中介层下方必需ABF基板，AI芯片面积持续增大(B200→Rubin→Vera chiplet面积)推升单芯片ABF用量；CoWoS产能翻2.7倍→ABF基板需求同步翻2.7倍(estimated)",
+            "expansion_cycle": "ABF基板加工扩产周期18-24月，但ABF树脂(上游)化工产线扩产周期24-36月——上游树脂产能约束比基板加工更硬(estimated)",
+            "global_players": "ABF树脂：味之素(Ajinomoto)>90%全球份额近乎独家(estimated)；ABF基板加工：Unimicron/欣兴电子/Ibiden/AT&S/Samsung Electro-Mechanics等多玩家",
+            "pricing_power": "极强(树脂层)——味之素以>90%份额近乎垄断ABF树脂，所有ABF基板加工厂(Unimicron/欣兴/Ibiden)均依赖味之素供应树脂，味之素扩产节奏直接决定全行业ABF基板产能上限",
+            "discovery_level": "🟢未发现(市场讨论'ABF基板缺货'但几乎无人追溯至'味之素ABF树脂垄断'——基板加工厂多玩家竞争，但ABF树脂单一供应商的定价权远大于基板加工厂)",
+            "beneficiaries_a": [
+              "002916 深南电路: IC载板/ABF基板加工布局中，但ABF树脂仍需进口(味之素)——非纯正ABF树脂标的"
+            ],
+            "beneficiaries_qdii": [
+              "味之素(Ajinomoto): 日股代码，ABF树脂全球>90%份额近乎独家"
+            ]
+          }
+        ],
+        "deepest_alpha": "ABF树脂(味之素 Ajinomoto Build-up Film)——CoWoS先进封装中硅中介层下方的ABF基板，其核心原材料ABF树脂由日本味之素以>90%全球份额近乎独家供应(estimated)。AI芯片面积持续增大(B200→Rubin→Vera chiplet面积不断增加)推升单芯片ABF用量，而CoWoS产能从75K→近200K wpm意味着ABF基板需求同步翻2.7倍——但ABF树脂的化工产线扩产周期(24-36月)比基板加工(18-24月)更长，味之素一家产能约束所有ABF基板加工厂。当'基板缺货→加紧扩产→树脂跟不上'的链条显现时，味之素的定价权将被重新定价。A股无ABF树脂纯正标的(深南电路002916仅基板加工)，味之素为日股。此链条ABF树脂份额/扩产周期/CoWoS→ABF需求推演均为llm_knowledge estimated。"
+      }
     ],
     "industry_future_market": {
       "tam_now_usd_b": 791.7,
       "tam_2030E_usd_b": 1300,
       "cagr_pct": 10.4,
-      "penetration_stage": "早期加速渗透期——AI芯片占半导体TAM约15.2%($120.2B/$791.7B 2025)，类比智能手机半导体2012-2014阶段，仍有2-3x渗透空间。但类比存在结构差异：AI芯片是to-B infrastructure而非to-C component，adoption曲线更陡但产业波动更大",
-      "ai_accelerator_cagr": "23.6-35% (GMI vs IDC/Gartner)",
+      "penetration_stage": "早期加速渗透期(AI芯片占半导体TAM约15.2%, verified计算，类比智能手机半导体2012-2014，推理+端侧AI渗透率更低，仍有2-3x空间)。但需标注结构性差异：AI芯片是B2B infrastructure capital goods而非B2C consumer component——adoption曲线由hyperscaler capex审批周期驱动而非消费者S形渗透。这意味着渗透速度可能更快(前置capex)但波动幅度更大(capex周期摆动)。",
       "industry_forward_peg": null,
-      "forward_peg_note": "data_macro.json缺失，未读到forward PE/PEG数据。这是本次分析的结构性局限——在缺失定价锚的条件下，'产业好'与'投资回报好'之间的差距无法量化",
-      "leaders_concentration": "前3-4家企业在GPU/HBM/先进制程/CoWoS四个核心环节控制>80%份额。NVIDIA训练>90%、SK Hynix+Samsung HBM 80-90%、TSMC 3nm以下>90%、TSMC CoWoS 70%+。构成供给侧超级垄断，毛利率53-77%",
-      "leading_indicators": "5/5同向确认极度景气：①订单可见度(TSMC/SK Hynix/NVIDIA全部指引2026供不应求)②价格趋势(HBM+246%/CoWoS+10-20%/800G稳中有升)③产能利用率(TSMC先进制程>100%)④资本开支(Hyperscaler $700B=5x 2022 baseline)⑤库存周期(AI芯片零库存sold out)。但note: 3/5指标实质同源（均反映供给侧售罄），信息维度低于名义维度",
-      "bottleneck_migration": "2024 CoWoS→2025 HBM→2026 800VDC+液冷+光互连(CPO)。瓶颈逐层迁移而非同时断裂，每一次迁移创造新一轮供需缺口和投资窗口",
+      "forward_peg_note": "valuation_inputs对象完全缺失——data/v4/inputs/目录仅含industry_半导体产业链.json。无peer_pe_median/peer_pe_range。按Issue#4规则：valuation_inputs.available=false且fetch_tasks不可用→industry_forward_peg=null，不编造。这是本次分析的结构性局限——在缺失估值锚的条件下，'产业好'与'投资回报好'之间的差距无法量化。已从industry_wacc.json读取cn10y=1.7%(verified)、从stock/*.json读取个股PE散点(半导体PE range 15-110x，中位数约35-50x)，但这些数据不构成valuation_inputs包且无法按Issue#4标准合成industry_forward_peg。",
+      "leaders_concentration": "前3-4家企业在GPU(训练>90%, estimated)/HBM(SK Hynix+Samsung 80-90%, verified)/先进制程(TSMC 3nm以下>90%, estimated)/CoWoS(TSMC 70%+, verified)四个核心环节控制>80%份额，构成供给侧超级垄断格局——毛利率53-77%区间。下游hyperscaler通过自研ASIC(Google TPU/AWS Trainium)试图打破GPU垄断，但在先进制程和HBM环节无议价能力。Leontief互补品结构使垄断者议价权叠加。",
       "key_drivers_5yr": [
-        "Hyperscaler AI capex超级周期：2025-2026合计~$700B（5x 2022 baseline）",
-        "HBM量价齐升：$38B→$58B→$100B，价格+246% YoY，HBM4 2026供应",
-        "先进封装CoWoS扩产：TSMC产能70-80K→120-140K wafers/月，缺口20%→10%",
-        "光互连升级：800G 24M→63M units(+163%)，1.6T近10M units放量，CPO CAGR 35.9%",
-        "供电架构革命：NVIDIA Rubin>2000W→Vera>5000W，800VDC 2026Q3首批出货",
-        "中国自主替代：连续5年最大设备市场，在建12英寸晶圆厂>30座，EUV原型完成但sub-7nm受限",
-        "Leontief互补品结构：任一环节缺失=整条链停"
-      ]
+        "Hyperscaler AI capex超级周期：2025-2026合计~$700B(5x 2022 baseline, verified)，大模型训练/推理算力需求持续加速。但ROI可持续性无数据验证(data_macro.json缺失)。",
+        "HBM量价齐升：2025 $38B→2026 $58B→2028 $100B(verified)，价格+246% YoY(2025已实现, verified)，占AI芯片capex 30%。注意：未读到HBM forward价格趋势(missing)。",
+        "先进封装CoWoS扩产：TSMC产能2025末70-80K→2026末120-140K wpm，缺口从20%收窄至10%，ASP ~$10,000/wafer(verified, TrendForce)。缺口收敛速率~185%产能增速。",
+        "光互连升级周期：800G 2025 24M→2026 63M units(+163%, verified)，1.6T 2026放量近10M units(verified)，CPO 2025 $121M→2031 $764M CAGR 35.9%(verified)。",
+        "供电架构革命：NVIDIA Rubin >2000W→Vera >5000W(estimated)，800V HVDC成为物理必然，2026Q3首批出货(verified)，但TAM完全未知(missing)。",
+        "中国自主替代：连续5年全球最大半导体设备市场，在建12寸晶圆厂>30座，EUV工作原型完成但先进制程(sub-7nm)受限(verified, Reuters)。",
+        "上游稀缺环节觉醒(bonus driver)：InP衬底(EML→光模块上游)、SiC衬底(800VDC上游)、ABF树脂(CoWoS基板上游)、MR-MUF EMC(HBM封装上游)——市场尚未认知的深层物理约束，但全部quantitative数据为estimated。"
+      ],
+      "tam_controversy": "WSTS两版预测差异$760.7B vs $1.51T(差距98%, verified)，AI accelerator 2030E range $184B-$500B(差异>170%, verified)，口径分歧源于'AI芯片'定义边界和super cycle上调幅度。保守取tam_2030E=$1.3T(IDC/Gartner中位数)。同一机构(WSTS)对同一市场仅因口径变化产生98%预测差异——这意味着半导体TAM测量方法学本身已破裂，预测置信区间极宽。当前PE散点隐含的是$1.3-1.5T乐观情景定价——若实际TAM接近$760B(WSTS spring保守)，估值有30-50%压缩空间。",
+      "leading_indicators_note": "5个先行指标全部同向确认极度景气(verified)，但3/5指标实质同源(订单可见度/产能利用率/库存周期均反映供给侧售罄同一事实)，信息维度低于名义维度。实质独立信号仅2个：供给侧瓶颈(TSMC+HBM产能不足)+需求侧capex(hyperscaler $700B)。空头在辩论中指出：5/5同向的数字夸大了信号强度。"
     },
     "investment_map": [
       {
-        "chokepoint_node": "光互连800G/1.6T/CPO",
+        "chokepoint_node": "磷化铟(InP)衬底→EML芯片→光互连 上溯深钻",
+        "beneficiary": "云南锗业",
+        "code": "002428",
+        "reason": "中国唯一InP单晶衬底供应商。InP衬底是所有800G/1.6T/CPO光模块中EML/CW-DFB激光器的必需基材。NVIDIA锁定$4B激光器供应至2027+(verified)的底层需求本质=InP衬底需求。全球产能高度集中(住友电工#1>40%, estimated)，InP扩产周期24-36月远长于光模块扩产6-12月。到2027-2028光互连主升浪时，InP衬底极可能成为最深层产能瓶颈。市场认知度：光模块🟡半发现，EML芯片层刚认知，InP衬底🟢完全未发现。A股唯一InP衬底标的，稀有性极高。风险：InP衬底扩产周期/份额均为estimated(drills数据为空)，标的实际InP业务占比/毛利率需验证。",
+        "discovery_level": "🟢未发现",
+        "position_priority": 1,
+        "chain_depth": 2
+      },
+      {
+        "chokepoint_node": "SiC衬底→800V HVDC 上溯深钻",
+        "beneficiary": "天岳先进",
+        "code": "688234",
+        "reason": "中国SiC衬底龙头，8寸量产全球领先。800V HVDC供电架构必需SiC MOSFET(硅基IGBT无法满足高频/高效率, estimated)，SiC器件必须用SiC衬底。SiC衬底扩产周期24-36月+(长晶炉+极慢晶体生长0.1-0.5mm/h+缺陷率控制, estimated)，电动车已将产能吃到紧，叠加AI数据中心800V HVDC这第二条需求弹道——供需矛盾在2027-2028将急剧恶化。市场已定价电动车→SiC但完全未认知800V HVDC→SiC这条需求线。风险：800V HVDC量产时间线无保证(TAM missing)，SiC衬底份额/扩产周期均为estimated。",
+        "discovery_level": "🟢未发现(800V HVDC→SiC衬底需求线未被市场认知)",
+        "position_priority": 1,
+        "chain_depth": 2
+      },
+      {
+        "chokepoint_node": "SiC衬底→800V HVDC 上溯深钻(QDII)",
+        "beneficiary": "Wolfspeed",
+        "code": "WOLF (NYSE)",
+        "reason": "全球SiC衬底#1(estimated)，垂直整合SiC衬底+器件。双需求引擎(电动车+AI数据中心800V HVDC)，SiC衬底全球产能紧缺。电动车逻辑已定价(🟡半发现)，800V HVDC增量完全未定价。2027-2028 800V HVDC放量将进一步挤压SiC供给。风险：Wolfspeed财务压力(持续亏损/高capex)需独立验证——SiC产能扩张是产业确定方向但标的层面财务风险不可忽略。",
+        "discovery_level": "🟡半发现(电动车逻辑已定价，800VDC增量未price-in)",
+        "position_priority": 2,
+        "chain_depth": 2
+      },
+      {
+        "chokepoint_node": "EML激光器芯片→光互连 上溯深钻",
+        "beneficiary": "Coherent (QDII)",
+        "code": "COHR (NYSE)",
+        "reason": "EML电吸收调制激光器芯片全球领导者(份额~40%, estimated)，NVIDIA锁定$4B激光器供应至2027+(verified)的直接最大受益者。800G→1.6T升级+CPO趋势均需更多EML/CW-DFB激光器。Coherent同时在EML和SiC衬底(II-VI并购)双赛道拥有结构性卡位——光互连+800V HVDC两条线上游的交叉受益者。风险：EML份额为estimated，Coherent在SiC衬底的竞争地位需独立验证。",
+        "discovery_level": "🟡半发现(光模块已定价，EML芯片层认知刚起步，SiC衬底层认知更低)",
+        "position_priority": 2,
+        "chain_depth": 1
+      },
+      {
+        "chokepoint_node": "800G/1.6T光收发器(表层瓶颈)",
         "beneficiary": "中际旭创",
         "code": "300308",
-        "reason": "800G/1.6T光模块全球龙头，直接受益于800G 2026 63M units(+163%)和1.6T近10M units放量。半发现层，竞争格局有利(CR4 50%+)，CPO转型将重塑行业但中际旭创有先发优势。portfolio推荐池中天孚/新易盛同属此环节且ROIC verified强（50-66%/36-48%），验证光互连层价值创造能力",
-        "discovery_level": "半发现",
-        "position_priority": 1
+        "reason": "800G光模块全球领导者(份额30%+, estimated)，1.6T批量出货，深度绑定NVIDIA/Google。800G 2025 24M→2026 63M units(+163%, verified)量价齐升。风险：forward PE 47x(verified)估值已部分反映景气(PE从>100x大幅压缩)，且CPO长期威胁可插拔模块。表层瓶颈🟡半发现——持有但非优先加仓(相比上游EML/InP)。ROIC data未读到此标的，需独立验证。",
+        "discovery_level": "🟡半发现",
+        "position_priority": 3,
+        "chain_depth": 0
       },
       {
-        "chokepoint_node": "光互连800G/1.6T/CPO",
+        "chokepoint_node": "800G/1.6T光收发器(表层瓶颈)",
         "beneficiary": "新易盛",
         "code": "300502",
-        "reason": "光模块核心厂商，portfolio推荐池优先深入标的(ROIC 50-66%价值创造极强)。光互连层在ROIC和增长双维度确认，是瓶颈环节中价值创造+发现阶段性价比最优的层级",
-        "discovery_level": "半发现",
-        "position_priority": 1
+        "reason": "800G/1.6T光模块，LPO线性直驱方案领先。PE 35x(verified)相对中际旭创forward 47x有估值折价。ROIC 50-66%远超WACC 12%为价值创造王者(portfolio.json verified)——在光模块产业链中估值合理+ROIC最高，是性价比最优的光模块标的。风险：LPO技术路线尚未成为主流，若EML+DSP方案持续主导，LPO先发优势可能无法兑现。",
+        "discovery_level": "🟡半发现",
+        "position_priority": 3,
+        "chain_depth": 0
       },
       {
-        "chokepoint_node": "光互连上游光器件",
+        "chokepoint_node": "800G/1.6T光收发器上游光器件",
         "beneficiary": "天孚通信",
         "code": "300394",
-        "reason": "光器件核心供应商，portfolio推荐池优先深入标的(ROIC 36-48%价值创造强)。光互连上游光器件环节集中度高(EML激光器极度集中)，天孚在光模块上游的价值链位置使其受益于800G/1.6T全链放量",
-        "discovery_level": "半发现",
-        "position_priority": 2
+        "reason": "光通信精密光学元件+光引擎封装，800G/1.6T升级直接受益。PE 28x(verified)为光模块产业链中估值最低，ROIC 36-48%价值创造强(portfolio.json verified)。在光模块上游的价值链位置使其享受光互连全链放量但估值更安全——估值保护+产业链卡位的平衡标的。",
+        "discovery_level": "🟡半发现",
+        "position_priority": 3,
+        "chain_depth": 0
       },
       {
-        "chokepoint_node": "先进制程代工/TSMC",
+        "chokepoint_node": "800V HVDC供电(新表层瓶颈)",
+        "beneficiary": "麦格米特",
+        "code": "002851",
+        "reason": "数据中心电源解决方案，与NVIDIA合作800V HVDC。2026Q3首批出货(verified)催化，新赛道先行者优势。discovery_level=🟢未发现——市场尚未充分认知800V HVDC的TAM空间和供应链价值。配合SiC衬底(天岳先进)构成800V HVDC主题的上下游组合。风险：800V HVDC量产时间线/TAM完全未知(missing)，标的实际业务占比需验证。",
+        "discovery_level": "🟢未发现",
+        "position_priority": 2,
+        "chain_depth": 0
+      },
+      {
+        "chokepoint_node": "800V HVDC供电(新表层瓶颈)",
+        "beneficiary": "中国西电",
+        "code": "601179",
+        "reason": "高压直流输电技术积累→数据中心HVDC迁移能力。800V HVDC需要全新母线/断路器/变换器系统，中国西电在高压直流领域的技术和工程经验可迁移至数据中心场景。同样🟢未发现——市场对中国西电的定价仍停留在'电力设备/特高压'而忽略了'数据中心800V HVDC'新增长线。风险：从电力传输HVDC到数据中心800V HVDC的技术迁移路径尚未验证，实际时间线不确定。",
+        "discovery_level": "🟢未发现",
+        "position_priority": 3,
+        "chain_depth": 0
+      },
+      {
+        "chokepoint_node": "EUV光刻机(表层瓶颈, QDII)",
+        "beneficiary": "ASML",
+        "code": "ASML (NASDAQ)",
+        "reason": "EUV/High-NA EUV独家供应商，王者级护城河，半导体产业链终极物理垄断。年产50-60台(estimated)，所有先进制程扩产必经EUV单一阀门——下游越扩产EUV需求越刚性(二阶正反馈)。风险：🔴已拥挤，适合持有+回调5-10%增配，不宜追高。ASML背后的Zeiss/Trumpf嵌套垄断者均未上市，无直接投资途径。牛鞭效应风险：当CoWoS扩产致下游需求增速放缓时，TSMC可能砍EUV订单→ASML业绩miss。",
+        "discovery_level": "🔴已拥挤",
+        "position_priority": 4,
+        "chain_depth": 0
+      },
+      {
+        "chokepoint_node": "CoWoS先进封装(表层瓶颈, QDII)",
         "beneficiary": "TSMC",
-        "code": "TSM",
-        "reason": "全球唯一可量产3nm/4nm的代工厂，3nm以下>90%份额，毛利率53-55%，>100%利用率+零新产能至2027底。供给侧绝对垄断+AI芯片唯一代工路径。但已拥挤+台湾地缘tail risk+已充分定价",
-        "discovery_level": "已拥挤",
-        "position_priority": 3
+        "code": "TSM (NYSE)",
+        "reason": "全球先进制程+CoWoS双垄断，3nm以下>90%份额(estimated)，CoWoS-L 100%独占(verified)。产能翻倍至近200K wpm仍存10%缺口，是AI芯片唯一生产通道。但已拥挤+台湾地缘tail risk+缺口收窄方向性压力(20%→10%→若继续收窄至<5%则触发downgrade review)。注意：CoWoS上游ABF树脂(味之素>90%全球份额, estimated)是更深约束，味之素为日股无A股替代。CoWoS forward ASP趋势数据缺失(missing)。",
+        "discovery_level": "🔴已拥挤",
+        "position_priority": 4,
+        "chain_depth": 0
       },
       {
-        "chokepoint_node": "HBM高带宽内存",
-        "beneficiary": "SK Hynix",
-        "code": "000660.KS",
-        "reason": "HBM市占53-55%，OPM 75.7-77.3%，HBM4 2026供应巩固领先。HBM是AI产业链2025最大瓶颈且wafer密度为DDR5的3倍，产能刚性极强。但已拥挤+利润率均值回归风险(半导体历史无OPM>75%持续3年+先例)+Micron追赶",
-        "discovery_level": "已拥挤",
-        "position_priority": 3
+        "chokepoint_node": "半导体设备(刻蚀/沉积/检测)",
+        "beneficiary": "中微公司",
+        "code": "688012",
+        "reason": "等离子体刻蚀机国产替代先锋，5nm已进入台积电。中国连续5年全球最大半导体设备市场(verified)+30座12寸晶圆厂在建构成长期需求底。PE 75-110x(verified)估值高但中国替代叙事持续，中长期结构性配置。核心风险：ROIC 7-10% < WACC 12% = 估值由叙事(中国替代/国产化)而非ROIC价值创造支撑——叙事退潮时PE压缩空间极大。在PE 75-110x的定价下，任何低于预期的国产替代进展都可能触发戴维斯双杀。",
+        "discovery_level": "🟡半发现",
+        "position_priority": 4,
+        "chain_depth": 0
       },
       {
-        "chokepoint_node": "AI加速器GPU",
-        "beneficiary": "NVIDIA",
-        "code": "NVDA",
-        "reason": "CUDA全栈+训练>90%份额+毛利率70-75%，决定了整条链的价值分配主导权。但已拥挤+自研ASIC在推理端（未来增量最大）侵蚀份额+Hyperscaler buyer power上升",
-        "discovery_level": "已拥挤",
-        "position_priority": 4
-      },
-      {
-        "chokepoint_node": "800VDC供电架构",
-        "beneficiary": "中恒电气",
-        "code": "002364",
-        "reason": "HVDC电源核心厂商，800VDC供电架构革命是2026H2新瓶颈。未发现层——最高alpha潜力但最不确定，全行业尚在早期+量产时间线不确定+NVIDIA/Google首批出货仅为验证级别。小仓位前瞻试探",
-        "discovery_level": "未发现",
-        "position_priority": 5
-      },
-      {
-        "chokepoint_node": "800VDC供电架构",
-        "beneficiary": "良信股份",
-        "code": "002706",
-        "reason": "断路器/母线供应商，800VDC供电架构需要全新配电系统（母线/断路器/变换器），良信在低压电器环节有布局。未发现层，前瞻布局",
-        "discovery_level": "未发现",
-        "position_priority": 5
-      },
-      {
-        "chokepoint_node": "数据中心液冷",
-        "beneficiary": "英维克",
-        "code": "002837",
-        "reason": "数据中心冷却龙头，液冷是NVIDIA Rubin>2000W单卡后的唯一冷却方案。半发现层——市场需求确定但技术路径未定型(DLC vs 浸没式)+格局未分+液冷当前仅占数据中心capex <5%",
-        "discovery_level": "半发现",
-        "position_priority": 4
+        "chokepoint_node": "TCB热压键合设备→HBM上溯(QDII)",
+        "beneficiary": "Besi (BE Semiconductor)",
+        "code": "BESI (Euronext Amsterdam)",
+        "reason": "TCB热压键合设备全球领导者(>60%份额, estimated)，HBM 3D堆叠(8Hi→12Hi→16Hi)每增加一层需更多TCB设备。HBM三家扩产(SK Hynix/Samsung/Micron)直接拉动TCB订单增量——HBM产能每增1K wpm→TCB设备增量采购。市场讨论HBM但几乎无人关注TCB设备厂商=🟢未发现。A股无TCB纯正标的(ASM Pacific为港股，日月光/Amkor为封测而非设备)。风险：TCB份额为estimated，Besi估值/财务数据未读到。",
+        "discovery_level": "🟢未发现(市场讨论HBM但几乎无人关注TCB设备层)",
+        "position_priority": 2,
+        "chain_depth": 2
       }
     ],
     "forward_view": {
       "near_term_calendar": [
         {
-          "event": "NVIDIA/Google 2026Q3首批800V HVDC出货",
-          "timeline": "2026Q3",
-          "impact": "供电瓶颈正式确认，催生电源/母线/断路器新投资主题。若出货顺利且hyperscaler确认全量采用，800VDC环节将从未发现升级为半发现"
+          "event": "2026Q3 NVIDIA/Google首批800V HVDC出货",
+          "impact": "供电新瓶颈从概念→现实，TI/Delta/麦格米特/中国西电首波催化，SiC衬底(天岳先进/Wolfspeed)的800V HVDC需求逻辑开始被市场认知。800V HVDC从🟢未发现→🟡半发现迁移。但TAM完全未知且量产时间线不确定——若出货延迟或初期良率不佳，催化可能落空。",
+          "watch": "TI 800VDC架构实际部署进度/良率；Delta/麦格米特订单数据；SiC MOSFET在800VDC中的用量数据(currently missing)"
         },
         {
-          "event": "HBM4 2026开始供应",
-          "timeline": "2026H2",
-          "impact": "若SK Hynix再次率先量产则巩固53-55%份额+75.7%OPM；若Samsung先行则打破SK Hynix垄断，压缩利润率"
+          "event": "2026 H2 HBM4量产供应",
+          "impact": "SK Hynix HBM4市占率维持53-55%→OPM 75.7%→77.3%路径兑现，高利润率持续性市场信念加强。但若HBM4 ASP低于HBM3E(+246%高点)→利润率见顶信号，是警惕点。HBM4 2048-bit接口→per-GB成本可能下降→价格未必线性外推。",
+          "watch": "SK Hynix/Samsung HBM4 ASP指引；HBM4与HBM3E价格比较；HBM forward价格趋势(currently missing)"
         },
         {
-          "event": "Hyperscaler 2026Q3 capex指引更新",
-          "timeline": "2026Q3",
-          "impact": "最关键短期信号——若任一hyperscaler下调>10%，触发降级机制；若全部维持或上调，确认capex可持续性"
+          "event": "2026 H2 1.6T光模块近10M units放量+800G从24M→63M units(+163%)",
+          "impact": "光互连产业链量价共振，中际旭创/新易盛/天孚通信/Coherent/Lumentum业绩催化。深层：EML芯片+InP衬底供需更紧——NVIDIA锁$4B激光器至2027+的约束将在1.6T阶段更明显(1.6T单通道200G/lane EML良率是关键)。",
+          "watch": "EML/CW-DFB激光器产能是否跟上；住友电工/AXT/云南锗业InP衬底价格变化；1.6T EML单通道速率(200G/lane)良率"
         },
         {
-          "event": "CoWoS缺口收窄至10%(2026底)",
-          "timeline": "2026H2",
-          "impact": "旧瓶颈缓解→GPU出货加速，但新瓶颈(800VDC/液冷)接力。正面(NVIDIA出货量增)与负面(CoWoS ASP松动)并存"
+          "event": "CoWoS缺口从20%收窄至10%(2026底)",
+          "impact": "TSMC ASP ~$10K/wafer能否维持是关键——若缺口收窄但ASP不降反稳，将重新定价CoWoS的议价权持续性(bull case)；若缺口收窄且ASP开始松动→垄断定价权的均值回归信号(bear case)。深层：ABF树脂(味之素)产能能否跟上CoWoS翻2.7倍的需求增量。",
+          "watch": "TSMC CoWoS ASP趋势(currently missing forward ASP data)；味之素ABF树脂扩产指引；ABF基板加工厂(Unimicron/Ibiden)季度产能数据"
         },
         {
-          "event": "1.6T光模块放量+CPO应用推进",
-          "timeline": "2026H2-2028",
-          "impact": "光互连升级周期接力800G高增长，CPO从$121M→$764M CAGR 35.9%将持续重塑行业格局"
+          "event": "HBM ASP forward价格趋势监控(持续)",
+          "impact": "+246% YoY后若出现QoQ下跌或YoY转负=价格周期顶点信号确认，触发downgrade review。深层：MR-MUF EMC(Sumitomo Bakelite)产能能否跟上HBM三寡头扩产——若EMC先于HBM成为瓶颈，HBM'过剩'担忧可能被证伪。",
+          "watch": "ainvest/Reuters/Counterpoint HBM季度价格报告；Sumitomo Bakelite EMC产能指引"
+        },
+        {
+          "event": "Hyperscaler Q3/Q4 capex执行进度+2027指引",
+          "impact": "最关键短期信号——若任一巨头capex指引上调或维持→强化AI超级周期叙事；若下调>20%→触发downgrade trigger。深层：hyperscaler $700B capex的ROI/generative AI revenue开始有数据验证(2026Q4-2027H1是验证窗口)，当前这个关键数据完全缺失。",
+          "watch": "MSFT/GOOGL/AMZN/META/ORCL季报capex指引；Azure/GCP/AWS AI revenue数据；GPU利用率/推理营收转化率"
         }
       ],
-      "mid_term_path": "2026H2-2028：瓶颈从HBM/CoWoS迁移至800VDC+液冷+CPO，产业链进入'新瓶颈觉醒'阶段。核心观察点：①800VDC能否在2027H1实现全行业量产（当前仅NVIDIA/Google首批验证）；②HBM利润率是否从75.7%开始均值回归（Micron追赶+三星强攻HBM4）；③hyperscaler capex从+100%+ YoY回落至+20-30%时的市场反应（二阶导转负=周期股卖出信号）。若三个观察点中两个偏正面→超级景气延续至2028-2030；若两个偏负面→2027H1可能出现景气拐点。",
+      "mid_term_path": "2026底-2027H2：供需紧平衡过渡期。表层瓶颈(CoWoS/HBM)缺口持续收窄至个位数%，新瓶颈(800V HVDC/1.6T/CPO)逐步放量但速度温和、技术路径未收敛、量产不确定性高——多头'新瓶颈吸收释出产能'的论点存在结构性问题(CoWoS/HBM/800VDC/光互连分属不同制造产线，产能不能跨环节复用)。深层瓶颈(EML→InP衬底/SiC衬底/ABF树脂/MR-MUF EMC)间歇性收紧但未全局危机。2027是hyperscaler $700B capex ROI的关键检验窗口：若AI应用端变现追上capex增速→超级周期延续至2028+；若ROI gap拉大→2027-2028存在capex缩减→AI芯片需求断崖风险。EUV物理垄断的产能约束(ASML年产50-60台, estimated)是长期稳固底线——即使需求增速放缓，EUV瓶颈不会消失。但需区分：EUV瓶颈稳固≠ASML股价有安全边际——当CoWoS扩产致需求增速放缓时，设备capex的牛鞭效应可能使ASML订单先于需求放缓。核心策略：从表层已拥挤瓶颈向深层未发现环节迁移配置(EML/InP衬底/SiC衬底/ABF树脂/TCB设备)——这些环节的供需最紧、扩产最慢、市场认知最低，是超额收益的最可靠来源。但需注意：深层链条的全部quantitative数据均为estimated(drills数据为空)，实际供需可能好于或差于当前推测。",
       "path_scenarios": [
         {
-          "scenario": "牛市情景（概率~35%）：超级景气延续",
-          "triggers": "800VDC/液冷/CPO顺利量产+hyperscaler capex维持高增速+HBM利润率高位维持",
-          "outcome": "瓶颈逐层迁移创造持续投资窗口，产业链TAM突破$1.5T，AI芯片渗透率突破25%，已拥挤+半发现+未发现三层同时受益",
-          "portfolio_action": "全部瓶颈层超配，800VDC前瞻仓位升级为核心仓位"
+          "scenario": "乐观(35%概率)：capex持续兑现+AI变现超预期+深层瓶颈觉醒",
+          "path": "2026-2027 capex维持或加速，CoWoS缺口在200K wpm基底仍存~5-8%，HBM ASP维持高位，800V HVDC/1.6T顺利放量吸收释出产能。深层稀缺环节(EML芯片→InP衬底，SiC衬底→800VDC，ABF树脂→CoWoS基板)先后出现供需危机→估值重估。表层瓶颈持有回报温和(估值已拥挤抑制上行)，深层稀缺环节爆发性重估(从🟢未发现→🟡半发现→🔴已拥挤的三段迁移)。半导体TAM接近$1.5T(WSTS revised)，AI芯片渗透率突破20%。",
+          "trigger": "Hyperscaler 2026Q4 capex继续上调+SK Hynix HBM4 ASP维持HBM3E水平+800V HVDC 2027H1大规模部署验证+InP/SiC衬底价格开始上涨"
         },
         {
-          "scenario": "基准情景（概率~45%）：结构性景气，利润率均值回归",
-          "triggers": "800VDC量产delay至2027H2+HBM利润率从75.7%回归至40-50%+hyperscaler capex增速从+100%回落至+20-30%",
-          "outcome": "产业方向依然向上但增速放缓，瓶颈环节从'所有环节都稀缺'分化为'真正稀缺vs已缓解'。光互连和800VDC新瓶颈成为增量alpha来源，HBM/GPU/先进制程从alpha变beta",
-          "portfolio_action": "减持已拥挤层(HBM/GPU)，加仓半发现/未发现层(光互连/800VDC)，维持结构性超配但降低集中度"
+          "scenario": "基准(45%概率)：供需紧平衡，瓶颈逐环节传导，表层均值回归+深层觉醒",
+          "path": "CoWoS/HBM缺口持续收窄至个位数%，利润率从极端高点(OPM 75.7%→60-65%)边际回落但仍远高于历史均值。800V HVDC/1.6T/CPO逐步放量但速度温和、技术路径收敛中。深层瓶颈(EML/InP/SiC衬底/ABF树脂)间歇性收紧但未全局危机→部分深层标的被定价部分仍未。表层瓶颈持有回报温和(估值已拥挤抑制上行)，超额收益集中在深层稀缺环节的早期布局(discovery_level低)。半导体TAM取$1.3T中位数，CAGR 10.4%兑现。此情景下行业Beta创造温和正回报，Alpha来自深层节点选股。",
+          "trigger": "Hyperscaler capex维持但不再加速+CoWoS缺口持续收敛(但未<5%)+HBM价格走平(非跌)+深层材料(EMC/ABF树脂)间歇性短缺"
         },
         {
-          "scenario": "熊市情景（概率~20%）：Leontief链式断裂或宏观冲击",
-          "triggers": "800VDC量产失败/台海地缘事件/美国衰退导致hyperscaler capex削减>30%/HBM价格雪崩",
-          "outcome": "多瓶颈并发断裂→全链停摆→NVIDIA财报miss→板块估值双杀，下行幅度30-50%",
-          "portfolio_action": "触发downgrade_trigger→全面降级至neutral/underweight，黄金8%作为尾部对冲发挥作用"
+          "scenario": "悲观(20%概率)：capex缩减+产能过剩双杀+深层瓶颈同步恶化",
+          "path": "2027 hyperscaler因ROI压力缩减capex>20%，CoWoS 200K wpm产能遭遇需求增速陡降，缺口转负(局部过剩)，CoWoS ASP降价→TSMC毛利率受压→砍EUV设备订单→ASML业绩miss(牛鞭效应全链传导)。HBM三寡头产能竞赛在需求萎缩时演变为价格战，SK Hynix OPM从75.7%急速回归至35-40%。表层瓶颈估值大幅压缩(PE从35-50x→20-25x)，深层瓶颈(EML/InP/SiC)同时受累(下游需求萎缩→上游材料需求同步下滑)但相对稀缺性提供防御垫(扩产周期长=供给响应慢=跌得慢)。参考：2001年半导体暴跌63%，当前结构性AI需求 vs 2001库存泡沫性质不同，跌幅可能更温和40-50%(estimated)。portfolio 15%现金+8%黄金=23%防御垫提供对冲。注意：data_macro.json缺失意味着宏观下行场景(利率上行触发hyperscaler融资约束)无法量化评估。",
+          "trigger": "任一hyperscaler宣布capex同比削减>20%+HBM ASP QoQ连跌2季度+CoWoS利用率跌破90%+TSMC砍EUV订单"
         }
       ]
     },
-    "data_quality": "中高——核心产业数据(市场TAM/瓶颈结构/价格趋势/产能利用率/HBM市占率)均来自industry_半导体产业链.json的verified源(SIA/IDC/Gartner/WSTS/TrendForce/Counterpoint)。瓶颈分析来自industry_chokepoint_半导体产业链.json四维评分框架。ROIC数据来自portfolio.json的AKShare verified。结构性缺失：①data_macro.json不存在(宏观利率/GDP/信贷环境完全空白)；②industry_forward_peg=null(无法计算估值锚)；③HBM forward价格趋势无数据；④800VDC TAM/量产时间线无数据；⑤HBM量价拆分的精确数据缺失。这些缺失使分析的置信度上限约为0.72。",
+    "data_quality": "中高——核心产业数据(TAM/瓶颈结构/价格趋势/产能利用率/HBM市占率)均来自industry_半导体产业链.json的verified源(SIA/IDC/Gartner/WSTS/TrendForce/Counterpoint)。瓶颈分析来自industry_chokepoint_半导体产业链.json四维评分框架。ROIC/WACC数据来自industry_wacc.json和portfolio.json的AKShare verified。个股PE来自stock/*.json verified。3轮bull/bear辩论结论(industry_debate_半导体产业链.json)已纳入——辩论未改变产业方向判断但强化了对'估值定价效率'的审慎立场。结构性缺失：①data_macro.json不存在(宏观利率/GDP/PMI/社融/货币条件完全空白)；②valuation_inputs对象不存在→industry_forward_peg=null(无法计算估值锚)；③industry_drill_半导体产业链.json drills数组为空→deep_chokepoint_chains全部为基于chokepoint_map+llm_knowledge构造，深层节点的所有quantitative数据(supply_demand_gap/扩产周期/份额/价格)均为estimated(非verified)，置信度显著低于表层节点；④HBM 2026-2027 forward价格趋势无数据；⑤800VDC供电市场TAM或量产时间线无数据；⑥hyperscaler $700B capex融资结构/ROI可持续性无数据。这些缺失使分析置信度上限约为0.74。3轮独立评审(芒格/段永平/Serenity/达里奥)后critic_score=0, final_verdict=NEEDS_CHANGES——评审团判定行业分析经2轮修订仍未达专业水准，6项challenges未解决。",
     "evidence": [
       {
-        "claim": "全球半导体2025实际$791.7B(SIA verified)",
+        "claim": "全球半导体2025年实际$791.7B(SIA)",
+        "source": "industry_半导体产业链.json / SIA",
+        "status": "verified",
+        "as_of": "2025"
+      },
+      {
+        "claim": "IDC 2026E $1.29T(+52.8%)，Gartner >$1.3T，WSTS revised $1.51T vs spring $760.7B(口径分歧98%)",
+        "source": "industry_半导体产业链.json",
+        "status": "verified",
+        "as_of": "2026"
+      },
+      {
+        "claim": "AI accelerator GMI 2025 $120.2B，2031 $433.3B CAGR 23.6%",
+        "source": "industry_半导体产业链.json / GMInsights",
+        "status": "verified",
+        "as_of": "2025"
+      },
+      {
+        "claim": "AI accelerator 2030E TAM range $184B-$500B，差异>170%",
         "source": "industry_半导体产业链.json",
         "status": "verified"
       },
       {
-        "claim": "IDC 2026E $1.29T(+52.8%), Gartner >$1.3T, WSTS revised $1.51T vs spring $760.7B(gap 98%)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "AI芯片占全球半导体TAM约15.2%($120.2B/$791.7B，2025计算)",
+        "source": "industry_future_market_半导体产业链.json 计算",
+        "status": "verified",
+        "as_of": "2025"
       },
       {
-        "claim": "AI accelerator GMI 2025 $120.2B→2026 $154.6B→2031 $433.3B(CAGR 23.6%)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "AI accelerator 2030E TAM range $184B-$500B差异>170%",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "AI芯片占全球半导体TAM约15.2%($120.2B/$791.7B 2025)",
-        "source": "industry_半导体产业链.json + future_market计算",
-        "status": "verified"
-      },
-      {
-        "claim": "Hyperscaler capex 2025-2026合计~$700B(5x 2022 baseline)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "HBM 2025 $38B→2026 $58B→2028 $100B",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "HBM价格+246% YoY, 占AI芯片capex 30%",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "HBM 2025 $38B→2026 $58B→2028 $100B，价格+246% YoY(2025已实现)，占AI芯片capex 30%",
+        "source": "industry_半导体产业链.json / ainvest.com",
+        "status": "verified",
+        "as_of": "2025"
       },
       {
         "claim": "HBM消耗晶圆产能约为DDR5的3倍",
@@ -340,43 +782,31 @@
         "status": "verified"
       },
       {
-        "claim": "SK Hynix HBM市占53-55%(Q3 2025 Counterpoint verified)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "SK Hynix HBM市占53-55%(Counterpoint Q3 2025)，Samsung 27-35%，Micron 11-21%(Q4 2025 surge to 21%)",
+        "source": "industry_半导体产业链.json / Counterpoint+Reuters",
+        "status": "verified",
+        "as_of": "2025-Q3"
       },
       {
         "claim": "SK Hynix营业利润率预期2026 75.7%→2027 77.3%",
         "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "status": "verified",
+        "as_of": "2026-06"
       },
       {
-        "claim": "Micron HBM市占从11%→21%(Q4 2025 surge)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "半导体历史上无OPM>75%持续超3年先例",
+        "source": "llm_knowledge",
+        "status": "estimated"
       },
       {
-        "claim": "Samsung HBM 27-35%, HBM4 2026供应",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "CoWoS供需缺口约20%→2026底收窄至10%，ASP ~$10,000/wafer",
+        "source": "industry_半导体产业链.json / TrendForce 2026-06-15",
+        "status": "verified",
+        "as_of": "2026-06-15"
       },
       {
-        "claim": "CoWoS供需缺口约20%→2026底收窄至10%",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "TSMC CoWoS产能2025末70-80K→2026末120-140K wafers/月",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "OSAT partners额外50-60K wafers/月,行业总量2026近200K/月",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "CoWoS ASP ~$10,000/wafer(与7nm制程持平)",
-        "source": "industry_半导体产业链.json",
+        "claim": "TSMC CoWoS产能2025末70-80K→2026末120-140K wpm + OSAT 50-60K，行业总量近200K wpm",
+        "source": "industry_半导体产业链.json / TrendForce",
         "status": "verified"
       },
       {
@@ -385,184 +815,229 @@
         "status": "verified"
       },
       {
+        "claim": "EUV光刻机ASML 100%垄断，年产约50-60台(estimated)，High-NA EUV $380M+/台",
+        "source": "industry_chokepoint_半导体产业链.json / llm_knowledge",
+        "status": "estimated"
+      },
+      {
+        "claim": "台积电先进制程(7nm以下)全球份额>90%",
+        "source": "llm_knowledge(行业共识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "Zeiss是ASML EUV光学系统独家供应商，Trumpf是EUV光源独家供应商，均未上市",
+        "source": "llm_knowledge(半导体设备产业链)",
+        "status": "estimated"
+      },
+      {
         "claim": "Datacom optical 2025 >$19B +60% YoY",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "source": "industry_半导体产业链.json / Cignal AI",
+        "status": "verified",
+        "as_of": "2025"
       },
       {
-        "claim": "800G 2025 24M→2026 63M units(+163%)",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
+        "claim": "800G 2025 24M→2026 63M units(+163%)，1.6T 2026近10M units放量",
+        "source": "industry_半导体产业链.json / TechTimes 2025-05-27",
+        "status": "verified",
+        "as_of": "2025-05-27"
       },
       {
-        "claim": "1.6T 2026近10M units开始放量",
-        "source": "industry_半导体产业链.json",
-        "status": "verified"
-      },
-      {
-        "claim": "CPO 2025 $121M→2031 $764M(CAGR 35.9%)",
+        "claim": "CPO 2025 $121M→2031 $764M CAGR 35.9%",
         "source": "industry_半导体产业链.json",
         "status": "verified"
       },
       {
         "claim": "NVIDIA/Google 2026Q3首批800V HVDC出货",
+        "source": "industry_半导体产业链.json / TrendForce 2026-06-15",
+        "status": "verified",
+        "as_of": "2026-06-15"
+      },
+      {
+        "claim": "TI 2026-03 GTC发布完整800VDC架构(与NVIDIA合作)",
+        "source": "industry_半导体产业链.json / TI Newsroom",
+        "status": "verified",
+        "as_of": "2026-03"
+      },
+      {
+        "claim": "NVIDIA Rubin >2000W单卡，Vera >5000W单卡",
+        "source": "industry_半导体产业链.json",
+        "status": "estimated"
+      },
+      {
+        "claim": "NVIDIA锁定$4B激光器供应至2027+",
+        "source": "industry_半导体产业链.json / TechTimes",
+        "status": "verified"
+      },
+      {
+        "claim": "Hyperscaler 2025-2026合计Capex ~$700B(5x 2022 baseline)",
+        "source": "industry_半导体产业链.json / Substack",
+        "status": "verified"
+      },
+      {
+        "claim": "5个先行指标全部同向确认超级景气，但3/5指标实质同源(均反映供给侧售罄)，实质独立信号仅2个",
+        "source": "industry_半导体产业链.json + industry_future_market_半导体产业链.json methodology r7",
+        "status": "verified"
+      },
+      {
+        "claim": "瓶颈传导路径：2024 CoWoS→2025 HBM→2026供电+液冷+光互连",
+        "source": "industry_半导体产业链.json:bottleneck_chain",
+        "status": "verified"
+      },
+      {
+        "claim": "AI芯片产业链是Leontief互补品结构：任一环节缺失=整条链停",
         "source": "industry_半导体产业链.json",
         "status": "verified"
       },
       {
-        "claim": "TI 2026-03发布完整800VDC架构(与NVIDIA合作)",
-        "source": "industry_半导体产业链.json",
+        "claim": "3个top chokepoint：EUV(王者级)+HBM(钻石级)+先进制程+CoWoS(钻石级)",
+        "source": "industry_chokepoint_半导体产业链.json:top_chokepoints",
         "status": "verified"
       },
       {
-        "claim": "NVIDIA Rubin >2000W单卡, Vera >5000W单卡",
-        "source": "industry_半导体产业链.json",
+        "claim": "HBM/CoWoS/GPU/先进制程/EUV 5环节 discovery=🔴已拥挤",
+        "source": "industry_chokepoint_半导体产业链.json:chokepoint_map",
         "status": "verified"
       },
       {
-        "claim": "800VDC状态:2026下半年开始成为新瓶颈,全行业尚在早期",
-        "source": "industry_半导体产业链.json",
+        "claim": "光互连/半导体设备/液冷 3环节 discovery=🟡半发现",
+        "source": "industry_chokepoint_半导体产业链.json:chokepoint_map",
         "status": "verified"
       },
       {
-        "claim": "TSMC先进制程>100%利用率, AI芯片零库存sold out",
-        "source": "industry_半导体产业链.json",
+        "claim": "800VDC供电 discovery=🟢未发现",
+        "source": "industry_chokepoint_半导体产业链.json:chokepoint_map",
         "status": "verified"
       },
       {
-        "claim": "5个先行指标全部同向(订单/价格/产能/资本开支/库存)",
-        "source": "industry_半导体产业链.json: leading_indicators",
+        "claim": "中国连续5年全球最大半导体设备市场，在建12寸晶圆厂>30座，深圳团队EUV原型完成(Reuters)",
+        "source": "industry_半导体产业链.json:china_semiconductor",
         "status": "verified"
       },
       {
-        "claim": "瓶颈传导路径:2024 CoWoS→2025 HBM→2026供电+液冷+光互连",
-        "source": "industry_半导体产业链.json: bottleneck_chain",
-        "status": "verified"
+        "claim": "半导体行业WACC=12.0%(beta 1.5, cn10y 1.7%+ERP 6%)",
+        "source": "industry_wacc.json(verified)",
+        "status": "verified",
+        "as_of": "2026-06-14"
       },
       {
-        "claim": "AI芯片产业链是Leontief互补品结构:任一环节缺失=整条链停",
-        "source": "industry_半导体产业链.json: bottleneck_chain",
-        "status": "verified"
+        "claim": "中际旭创PE 89x/forward 47x——PE已从>100x大幅压缩",
+        "source": "stock:300308.json",
+        "status": "verified",
+        "as_of": "2026-06-14"
       },
       {
-        "claim": "3个top瓶颈(先进制程/HBM/GPU)四维全满(不可替代性/供给集中度/产能刚性/价值卡位均为极高)",
-        "source": "industry_chokepoint_半导体产业链.json: top_chokepoints",
-        "status": "verified"
+        "claim": "新易盛PE 35x，ROIC 50-66%>>WACC 12%=价值创造之王",
+        "source": "stock:300502.json + portfolio.json",
+        "status": "verified",
+        "as_of": "2026-06-12"
       },
       {
-        "claim": "中国连续5年全球最大半导体设备市场,在建12英寸晶圆厂>30座",
-        "source": "industry_半导体产业链.json: china_semiconductor",
-        "status": "verified"
+        "claim": "天孚通信PE 28x，ROIC 36-48%>>WACC 12%=价值创造强",
+        "source": "stock:300394.json + portfolio.json",
+        "status": "verified",
+        "as_of": "2026-06-12"
       },
       {
-        "claim": "深圳团队2025初完成EUV工作原型(路透社),EUV管制下sub-7nm受限",
-        "source": "industry_半导体产业链.json: china_semiconductor",
-        "status": "verified"
+        "claim": "北方华创forward PE 35x，ROIC 7.3-9.7%<WACC 12%=价值毁灭",
+        "source": "stock:002371.json + industry_wacc.json",
+        "status": "verified",
+        "as_of": "2026-06-13"
       },
       {
-        "claim": "Portfolio stance: moderate_aggressive_balanced, equity target 55%, conf 0.78",
+        "claim": "中微公司PE 75-110x，ROIC 7-10%<WACC 12%——PE由叙事支撑而非ROIC",
+        "source": "stock:688012.json + portfolio.json",
+        "status": "verified",
+        "as_of": "2026-06-12"
+      },
+      {
+        "claim": "portfolio v10 stance=moderate_aggressive_balanced(conf 0.78)，equity 55%",
         "source": "portfolio.json",
         "status": "verified"
       },
       {
-        "claim": "新易盛ROIC 50-66%(value creation极强, portfolio推荐池优先深入)",
-        "source": "portfolio.json: value_creation_rebalance",
+        "claim": "portfolio 15%现金+8%黄金=23%防御垫",
+        "source": "portfolio.json",
         "status": "verified"
       },
       {
-        "claim": "天孚通信ROIC 36-48%(value creation强, portfolio推荐池优先深入)",
-        "source": "portfolio.json: value_creation_rebalance",
-        "status": "verified"
-      },
-      {
-        "claim": "中芯国际A股ROIC 2.7-3.7%(价值毁灭, portfolio谨慎/回避)",
-        "source": "portfolio.json: value_creation_rebalance",
-        "status": "verified"
-      },
-      {
-        "claim": "通富微电ROIC 4-6%(价值毁灭, portfolio维持减仓)",
-        "source": "portfolio.json: value_creation_rebalance",
-        "status": "verified"
-      },
-      {
-        "claim": "CoWoS缺口从20%→10%为边际缓解信号,非恶化信号——此为周期中段而非顶部的关键判断依据",
-        "source": "industry_半导体产业链.json: cowos.supply_demand_gap",
-        "status": "verified"
-      },
-      {
-        "claim": "NVIDIA毛利率70-75%(llm_knowledge estimated, 数据中心GPU财务数据)",
-        "source": "llm_knowledge",
-        "status": "estimated"
-      },
-      {
-        "claim": "TSMC毛利率53-55%(llm_knowledge estimated, TSMC财报)",
-        "source": "llm_knowledge",
-        "status": "estimated"
-      },
-      {
-        "claim": "联邦基金利率4.25-4.5%, 企业融资成本20年高位(2026年6月)",
-        "source": "llm_knowledge (当前宏观环境)",
-        "status": "estimated"
-      },
-      {
-        "claim": "半导体历史上无营业利润率>75%持续超过3年的先例",
-        "source": "llm_knowledge (半导体产业利润率历史)",
-        "status": "estimated"
-      },
-      {
-        "claim": "5/5先行指标同向在2000Q1/2007/2018周期顶部同样出现过",
-        "source": "llm_knowledge (半导体/金融周期历史)",
-        "status": "estimated"
-      },
-      {
-        "claim": "2018Q4 NVIDIA因增速见顶从高点-55%",
-        "source": "llm_knowledge (NVIDIA股价历史)",
-        "status": "estimated"
-      },
-      {
-        "claim": "2000-2002电信capex削减60%+ (历史先例)",
-        "source": "llm_knowledge (电信周期历史)",
-        "status": "estimated"
-      },
-      {
-        "claim": "data_macro.json不存在于data/v4/inputs/目录——宏观利率/GDP/货币政策/衰退概率完全缺失",
+        "claim": "data_macro.json不存在于data/v4/inputs/——宏观利率/GDP/PMI/社融数据完全缺失，半导体高beta(1.5)行业宏观防御性无法评估",
         "source": "file system check",
         "status": "missing"
       },
       {
-        "claim": "industry_forward_peg=null——PEG/估值数据完全缺失",
-        "source": "industry_future_market_半导体产业链.json: forward PEG missing",
+        "claim": "valuation_inputs对象不存在——industry_forward_peg=null，无法回答'垄断值多少钱'",
+        "source": "industry_future_market_半导体产业链.json + file system check",
         "status": "missing"
       },
       {
-        "claim": "未读到hyperscaler $700B capex的资金来源/ROI/可持续性量化数据",
+        "claim": "未读到HBM 2026-2027 forward价格趋势(仅读到已实现+246% YoY)——无法判断+246%是否为价格顶点",
         "source": "N/A",
         "status": "missing"
       },
       {
-        "claim": "未读到HBM 2026-2027 forward价格趋势(仅读到已实现+246%)",
+        "claim": "未读到800VDC供电市场TAM或量产时间线保证数据——新瓶颈定量分析无法完成",
         "source": "N/A",
         "status": "missing"
       },
       {
-        "claim": "未读到800VDC供电市场TAM或量产时间线保证数据",
+        "claim": "未读到hyperscaler $700B capex的融资结构/ROI可持续性数据——capex可持续性无法验证",
         "source": "N/A",
         "status": "missing"
       },
       {
-        "claim": "未读到NVIDIA在AI加速器精确份额(>70%为行业共识估计)",
-        "source": "N/A",
+        "claim": "industry_drill_半导体产业链.json drills数组为空——deep_chokepoint_chains全部为基于chokepoint_map+llm_knowledge构造，深层节点所有quantitative数据均为estimated",
+        "source": "industry_drill_半导体产业链.json",
         "status": "missing"
       },
       {
-        "claim": "未读到TSMC在3nm以下精确份额(>90%为行业共识估计)",
-        "source": "N/A",
-        "status": "missing"
+        "claim": "InP衬底全球产能集中于住友电工(>40%)/AXT/云南锗业，EML/CW-DFB激光器必需基材，扩产周期24-36月",
+        "source": "llm_knowledge(化合物半导体产业链常识)",
+        "status": "estimated"
       },
       {
-        "claim": "未读到液冷技术路径收敛时间/标准化进度",
-        "source": "N/A",
-        "status": "missing"
+        "claim": "SiC衬底扩产周期24-36月+(长晶炉+极慢晶体生长0.1-0.5mm/h)，Wolfspeed#1~40%/天岳先进中国#1",
+        "source": "llm_knowledge(宽禁带半导体产业链常识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "味之素(Ajinomoto)ABF树脂全球份额>90%近乎独家，先进封装基板必需材料，扩产周期24-36月(化工产线)",
+        "source": "llm_knowledge(半导体材料产业链常识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "Sumitomo Bakelite HBM专用MR-MUF环氧塑封料近乎独占(>80%)，扩产周期24-36月",
+        "source": "llm_knowledge(半导体封装材料产业链常识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "Besi TCB热压键合设备全球>60%份额，HBM 3D堆叠核心设备供应商",
+        "source": "llm_knowledge(半导体封装设备产业链常识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "WSTS两版预测差异$760.7B vs $1.51T(口径分歧98%)，同一机构同一市场仅因口径产生近100%差异→TAM预测方法论破裂",
+        "source": "industry_半导体产业链.json / WSTS",
+        "status": "verified"
+      },
+      {
+        "claim": "DRAM历史上每次制程升级后bit cost下降30-40%——HBM虽为特种产品但制造物理相同，无法永久逃脱成本下降规律",
+        "source": "llm_knowledge(DRAM产业历史)",
+        "status": "estimated"
+      },
+      {
+        "claim": "1999-2000互联网泡沫时期半导体先行指标也全部同向→2001年行业暴跌63%——全同向信号非稀缺",
+        "source": "llm_knowledge(半导体产业历史)",
+        "status": "estimated"
+      },
+      {
+        "claim": "CoWoS/HBM/800VDC/光互连四条产线分属完全不同制造资产，产能释出后无法跨环节复用",
+        "source": "llm_knowledge(半导体制造常识)",
+        "status": "estimated"
+      },
+      {
+        "claim": "牛鞭效应：下游需求增速微降→设备capex增速大降→设备商订单大幅下滑，TSMC砍EUV订单→ASML业绩miss",
+        "source": "llm_knowledge(供应链管理理论)",
+        "status": "estimated"
       }
     ]
   }

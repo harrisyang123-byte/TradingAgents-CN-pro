@@ -730,6 +730,99 @@ def audit_payload(payload: dict) -> list[dict]:
                 "severity": "should",
             })
 
+    # ⑬ valuation_method (iter 7 落地, skill v4-valuation-method §6 输出契约)
+    # A) 静态层: 估值三 agent 必须 cite skill
+    VALUATION_AGENTS = {
+        "v4-stock-analyst-valuation.md",
+        "v4-stock-valuation-auditor.md",
+        "v4-stock-valuation-engineer.md",
+    }
+    cited_agents = set(p.get("_meta", {}).get("agents_used", []) or [])
+    for agent_file in VALUATION_AGENTS:
+        if not any(agent_file in a for a in cited_agents):
+            violations.append({
+                "field": f"_meta.agents_used[{agent_file}]",
+                "value": "missing",
+                "issue": f"估值 agent {agent_file} 未在 _meta.agents_used 中 — skill cite 防 Goodhart 层缺失",
+                "severity": "should",
+            })
+
+    # B) 动态层: valuation_method 字段合规
+    vm = p.get("valuation_method")
+    if vm is None:
+        violations.append({
+            "field": "valuation_method",
+            "value": "missing",
+            "issue": "valuation_method 字段缺失 (iter 7 schema 要求)",
+            "severity": "fatal",
+        })
+    else:
+        # 预期差三锚齐
+        eg = vm.get("expectation_gap_3anchor") or {}
+        required_anchors = {"consensus_estimate", "management_guidance", "our_estimate"}
+        missing_anchors = required_anchors - set(eg.keys())
+        if missing_anchors:
+            violations.append({
+                "field": "valuation_method.expectation_gap_3anchor",
+                "value": f"missing={sorted(missing_anchors)}",
+                "issue": "预期差三锚不齐 (consensus/management/our 三者必须同时存在)",
+                "severity": "fatal",
+            })
+
+        # 反向DCF敏感性矩阵 3×3
+        dcf = vm.get("dcf_reverse") or {}
+        sens = dcf.get("sensitivity_3x3")
+        if not isinstance(sens, list) or len(sens) != 3 or not all(isinstance(r, list) and len(r) == 3 for r in sens):
+            violations.append({
+                "field": "valuation_method.dcf_reverse.sensitivity_3x3",
+                "value": f"shape={type(sens).__name__}",
+                "issue": "反向DCF敏感性矩阵须为 3×3 二维数组",
+                "severity": "fatal",
+            })
+
+        # PEG五陷阱 ≥5 条
+        peg = vm.get("peg_traps_check") or []
+        if not isinstance(peg, list) or len(peg) < 5:
+            violations.append({
+                "field": "valuation_method.peg_traps_check",
+                "value": f"len={len(peg) if isinstance(peg, list) else 'n/a'}",
+                "issue": "PEG五陷阱检查数组 < 5 条",
+                "severity": "should",
+            })
+
+        # 四派别合理价
+        fp4 = vm.get("fair_price_4school") or {}
+        SCHOOLS = {"value_school", "garp_school", "growth_school", "contrarian_school"}
+        missing_schools = SCHOOLS - set(fp4.keys())
+        if missing_schools:
+            violations.append({
+                "field": "valuation_method.fair_price_4school",
+                "value": f"missing={sorted(missing_schools)}",
+                "issue": "四派别合理价不齐 (value/garp/growth/contrarian 四者必须同时存在)",
+                "severity": "fatal",
+            })
+
+        # 安全边际档位 1-4 enum
+        sm = vm.get("safety_margin_tier") or {}
+        tier = sm.get("tier")
+        if tier not in (1, 2, 3, 4):
+            violations.append({
+                "field": "valuation_method.safety_margin_tier.tier",
+                "value": str(tier),
+                "issue": "safety_margin_tier.tier 须为 1-4 整数 (安全边际四档)",
+                "severity": "fatal",
+            })
+
+        # 可证伪信号 ≥1
+        fsig = vm.get("falsification_signals") or []
+        if not isinstance(fsig, list) or len(fsig) < 1:
+            violations.append({
+                "field": "valuation_method.falsification_signals",
+                "value": f"len={len(fsig) if isinstance(fsig, list) else 'n/a'}",
+                "issue": "falsification_signals 数组 < 1 (达里奥极度求真)",
+                "severity": "should",
+            })
+
     return violations
 
 

@@ -232,11 +232,11 @@
     "industry:半导体产业链": {
       "unit_id": "industry:半导体产业链",
       "unit_type": "industry",
-      "version": 4,
+      "version": 8,
       "fingerprint": "sha256:0035152e25e2a00ce93c0b135a19b8a64b9760399b9471c484bf813f44e2a41e",
-      "status": "green",
+      "status": "red",
       "ttl_days": 7,
-      "generated_at": "2026-06-18T14:03:52Z",
+      "generated_at": "2026-06-19T05:18:32Z",
       "upstream": [
         {
           "unit_id": "alloc:portfolio",
@@ -925,5 +925,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-19T04:31:04Z"
+  "updated_at": "2026-06-19T05:18:32Z"
 }

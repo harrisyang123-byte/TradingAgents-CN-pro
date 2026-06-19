@@ -532,6 +532,77 @@ def scan_five_forces(stocks: list[tuple[Path, dict]]) -> dict:
     }
 
 
+def scan_valuation(stocks: list[tuple[Path, dict]]) -> dict:
+    """active_hole iter 7 专项: 估值方法静态+产物层 (5 层防御纵深第 5 层 mine 监控)
+    skill v4-valuation-method + verify_audit ⑬"""
+    AGENTS = ["v4-stock-analyst-valuation.md", "v4-stock-valuation-auditor.md", "v4-stock-valuation-engineer.md"]
+    agents_dir = ROOT / "agents" / "advisor"
+    agent_skill_cite = 0
+    for fname in AGENTS:
+        p = agents_dir / fname
+        if not p.exists():
+            continue
+        if "v4-valuation-method" in p.read_text(encoding="utf-8"):
+            agent_skill_cite += 1
+
+    # 产物层: 扫 valuation_method 字段结构合规 (Goodhart 防御: 检查内容质量, 非仅字段名存在)
+    SCHOOLS = {"value_school", "garp_school", "growth_school", "contrarian_school"}
+    n_with_vm = n_3anchor = n_3x3 = n_peg5 = n_4school = n_tier_enum = n_falsify = 0
+    for path, d in stocks:
+        p = d.get("payload", {})
+        vm = p.get("valuation_method")
+        if not isinstance(vm, dict) or not vm:
+            continue
+        n_with_vm += 1
+        # 预期差三锚齐
+        eg = vm.get("expectation_gap_3anchor") or {}
+        if all(k in eg for k in ("implied_growth", "pricing_completeness", "catalysts")):
+            n_3anchor += 1
+        # 反向 DCF 敏感性矩阵 3×3
+        s3x3 = (vm.get("dcf_reverse") or {}).get("sensitivity_3x3")
+        if isinstance(s3x3, list) and len(s3x3) == 3 and all(isinstance(r, list) and len(r) == 3 for r in s3x3):
+            n_3x3 += 1
+        # PEG 五陷阱
+        ptc = vm.get("peg_traps_check")
+        if isinstance(ptc, list) and len(ptc) == 5:
+            n_peg5 += 1
+        # 四派别合理价
+        fp4 = vm.get("fair_price_4school") or {}
+        if SCHOOLS.issubset(fp4.keys()):
+            n_4school += 1
+        # 安全边际档位 tier enum
+        tier = (vm.get("safety_margin_tier") or {}).get("tier")
+        if tier in (1, 2, 3, 4):
+            n_tier_enum += 1
+        # 可证伪信号 ≥1
+        fsi = vm.get("falsification_signals") or []
+        if isinstance(fsi, list) and len(fsi) >= 1:
+            n_falsify += 1
+
+    n = max(len(stocks), 1)
+    n_ag = max(len(AGENTS), 1)
+    n_vm = max(n_with_vm, 1)
+    return {
+        "agent_count": len(AGENTS),
+        "agent_skill_cite_count": agent_skill_cite,
+        "agent_skill_cite_pct": round(agent_skill_cite / n_ag * 100, 1),
+        "stocks_with_valuation": n_with_vm,
+        "stocks_with_valuation_pct": round(n_with_vm / n * 100, 1),
+        "anchor3_full_count": n_3anchor,
+        "anchor3_full_pct": round(n_3anchor / n_vm * 100, 1) if n_with_vm else 0.0,
+        "dcf_3x3_count": n_3x3,
+        "dcf_3x3_pct": round(n_3x3 / n_vm * 100, 1) if n_with_vm else 0.0,
+        "peg_traps5_count": n_peg5,
+        "peg_traps5_pct": round(n_peg5 / n_vm * 100, 1) if n_with_vm else 0.0,
+        "fair_price_4school_count": n_4school,
+        "fair_price_4school_pct": round(n_4school / n_vm * 100, 1) if n_with_vm else 0.0,
+        "safety_tier_enum_count": n_tier_enum,
+        "safety_tier_enum_pct": round(n_tier_enum / n_vm * 100, 1) if n_with_vm else 0.0,
+        "falsify_count": n_falsify,
+        "falsify_pct": round(n_falsify / n_vm * 100, 1) if n_with_vm else 0.0,
+    }
+
+
 def scan_director_vs_subagent_depth(stocks: list[tuple[Path, dict]]) -> dict[str, dict]:
     """根因 4: director verdict 字符长度 vs five_forces/forward_view 字符长度
     director 显著浅 = 主 agent 偷懒 (粗略代理指标)"""
@@ -682,6 +753,19 @@ def build_candidate_holes(report: dict) -> list[dict]:
             "priority": "must",
         })
 
+    # 估值方法 cleanup (iter 7 落地, 配套范式)
+    vm_d = report.get("valuation", {}) or {}
+    if vm_d.get("stocks_with_valuation_pct", 0) < 50:
+        holes.append({
+            "id_prefix": "VALUATION-CLEANUP",
+            "title": f"{49 - vm_d.get('stocks_with_valuation', 0)} 只 stock 缺 valuation_method (iter 7 静态 {vm_d.get('agent_skill_cite_pct', 0)}% / 产物 {vm_d.get('stocks_with_valuation_pct', 0)}% 落差)",
+            "violated_practice": "iter 2-6 cleanup 同型 + skill v4-valuation-method §6 输出契约",
+            "evidence": [f"含 valuation_method 仅 {vm_d.get('stocks_with_valuation', 0)} ({vm_d.get('stocks_with_valuation_pct', 0)}%); 预期差三锚/反向DCF/PEG五陷阱缺位"],
+            "harm_to_profit": "iter 7 schema+code+monitor 全齐, 但旧产物无 valuation_method 字段永远 0% — PE/PEG套话估值复发",
+            "shallow_score": 4,
+            "priority": "must",
+        })
+
     return holes
 
 
@@ -818,6 +902,18 @@ def render_md(report: dict, holes: list[dict]) -> str:
         lines.append(f"- moat_rating enum 合规:       **{ff_data.get('moat_enum_pass_pct', 0)}%**")
         lines.append(f"- 含 synthesis 5 力交叉编织:   **{ff_data.get('stocks_with_synthesis', 0)}** ({ff_data.get('stocks_with_synthesis_pct', 0)}%)")
         lines.append("")
+    vm_data = report.get("valuation", {})
+    if vm_data:
+        lines.append("## active_hole 进度 — 估值方法 (iter 7 落地, 5 层防御纵深第 5 层)")
+        lines.append(f"- agent skill cite (3 agent): **{vm_data.get('agent_skill_cite_count', 0)} / {vm_data.get('agent_count', 0)}** ({vm_data.get('agent_skill_cite_pct', 0)}%)")
+        lines.append(f"- stocks 含 valuation_method: **{vm_data.get('stocks_with_valuation', 0)}** ({vm_data.get('stocks_with_valuation_pct', 0)}%)")
+        lines.append(f"- 预期差三锚齐:               **{vm_data.get('expectation_gap_3anchor_pct', 0)}%**")
+        lines.append(f"- 反向DCF 3×3矩阵齐:          **{vm_data.get('dcf_3x3_pct', 0)}%**")
+        lines.append(f"- PEG五陷阱 ≥5 条:            **{vm_data.get('peg_traps_5_pct', 0)}%**")
+        lines.append(f"- 四派别合理价齐:              **{vm_data.get('fair_price_4school_pct', 0)}%**")
+        lines.append(f"- safety_margin_tier 1-4:     **{vm_data.get('safety_margin_enum_pct', 0)}%**")
+        lines.append(f"- falsification_signals ≥1:   **{vm_data.get('falsification_pct', 0)}%**")
+        lines.append("")
     va = report.get("verified_audit", {})
     if va and "compliance_pct" in va:
         lines.append("## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)")
@@ -867,6 +963,7 @@ def main() -> int:
         "data_acquisition": scan_data_acquisition(stocks),
         "financial_analysis": scan_financial_analysis(stocks),
         "five_forces": scan_five_forces(stocks),
+        "valuation": scan_valuation(stocks),
         "director_lazy": scan_director_vs_subagent_depth(stocks),
         "verified_audit": load_verify_audit(),
     }

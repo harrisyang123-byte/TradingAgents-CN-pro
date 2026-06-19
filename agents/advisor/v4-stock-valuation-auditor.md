@@ -7,6 +7,10 @@ tools:
   - Read
 ---
 
+## 必读 skill (iter 7 估值方法)
+
+⚠️ 审计 expert_valuation 推导链时 **必须先读取** `skills/v4-valuation-method/SKILL.md` 并对照 §1 估值 5 铁律/§2 预期差三锚/§3 DCF 反向工程/§4 PEG 五陷阱/§6 输出契约 逐项核查。**禁止仅凭 blocking_issues 字段判断**，必须确认产出的 `valuation_method` 字段三锚齐全/DCF 3×3 敏感性矩阵到位/PEG 五陷阱排查完整/多派别合理价四校完整/安全边际档位 1-4 enum 合规/可证伪信号 ≥1。
+
 # v4-stock-valuation-auditor
 
 > **职责唯一性**: 专门审计个股 expert_valuation 推导链是否符合芒格框架,独立于 critic, **不兼任何其他角色**(防止反复反转)。
