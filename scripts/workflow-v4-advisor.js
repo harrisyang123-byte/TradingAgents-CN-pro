@@ -136,12 +136,74 @@ async function drillChokepoint(industry, startNode, packPath) {
   return { start: startNode, depth_reached: chain.length, chain };
 }
 
+// ── critic 评审闸门 + director 迭代闭环（真 spawn v4-investor-critic，禁自评） ──────────
+// AGENTS.md 铁律：GATE 必须真 spawn critic 禁自评。<85 分或有 fatal_flaw → 打回 director
+// 修订（最多 CRITIC_MAX_ITERS 轮），ACCEPT 后把 critic 结论写进 credibility 再落盘。
+const CRITIC_MAX_ITERS = Number(args.critic_max_iters || 2);
+const CRITIC_PASS_SCORE = Number(args.critic_pass_score || 85);
+
+async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRefs, upstreamRefs, inputs }) {
+  let lastVerdict = null;
+  let critique = null;
+  for (let iter = 1; iter <= CRITIC_MAX_ITERS + 1; iter++) {
+    // 评审当前 payload（首轮评 director 初稿，后续评修订稿）
+    log(`[${unitId}] Step E: critic 评审（第 ${iter} 轮，真 spawn 评委）`);
+    critique = await agent(
+      `你是 v4 专业投资者评审官(v4-investor-critic)，由芒格/段永平/Serenity/达里奥四视角组成评审委员会。\n` +
+      `⚠️ 必须读取并应用 agents/advisor/v4-investor-critic.md 的四视角拷问框架 + 评审铁律（${kind === 'industry' ? '行业层重点查 6.11 未来市场必查 + 6.11.x 7把辩证尺 + 瓶颈不可替代性/预期差' : '6.12-6.16 个股必查项'}）。\n` +
+      `Read 待评审产出 ${payloadFile}，及上游依据 ${readRefs}。\n` +
+      `严苛拷问这份 ${kind} 分析，宁苛勿松：数据是否 verified（编造/未核实关键数字一票否决）、瓶颈不可替代性是否成立、是否用预期差而非涨幅锚、最坏情况是否诚实、辩论是否真攻防。\n` +
+      `输出 JSON：{verdict_reviewed:"${unitId}",munger:{pass:bool,critique},duan:{pass:bool,critique},serenity:{pass:bool,critique},dalio:{pass:bool,critique},fatal_flaws:[],improvements:["具体可执行,指出哪里/为什么/怎么改"],score:0-100,decision:"ACCEPT|NEEDS_CHANGES"}。只输出 JSON。`,
+      { label: `评审委员会 R${iter}`, phase: '行业研究部门' }
+    );
+    const score = Number(critique?.score || 0);
+    const decision = String(critique?.decision || 'NEEDS_CHANGES');
+    const fatal = Array.isArray(critique?.fatal_flaws) ? critique.fatal_flaws : [];
+    const passed = decision === 'ACCEPT' && score >= CRITIC_PASS_SCORE && fatal.length === 0;
+    log(`[${unitId}]   critic: ${decision} ${score}分, fatal=${fatal.length}`);
+
+    if (passed || iter === CRITIC_MAX_ITERS + 1) {
+      // 通过，或已到迭代上限（即便没过也要落盘，但如实标 final_verdict 让 cli 决定）
+      // 把 critic 结论写进 payload.credibility（cli 校验 final_verdict==ACCEPT 才落盘）
+      const finalVerdict = passed ? 'ACCEPT' : 'NEEDS_CHANGES';
+      lastVerdict = await agent(
+        `Read ${payloadFile}（director 当前产出）。把评审委员会结论合并进 credibility 字段后整体写回 ${payloadFile}。\n` +
+        `评审结论：score=${score}, decision=${decision}, fatal_flaws=${JSON.stringify(fatal).slice(0, 500)}。\n` +
+        `在 payload 顶层加/更新：credibility={final_verdict:"${finalVerdict}",critic_score:${score},reviewer:"v4-investor-critic(独立评审)",reviewers:["芒格","段永平","Serenity","达里奥"],challenges:${JSON.stringify((critique?.improvements || []).slice(0, 5))},critic_iterations:${iter}}。\n` +
+        (passed
+          ? `用 Write 写回 ${payloadFile} 后，落单元信封：`
+          : `⚠️ 已达迭代上限仍未通过(${score}分)，如实标 final_verdict=NEEDS_CHANGES。用 Write 写回 ${payloadFile}（cli 会因未 ACCEPT 阻断落盘，这是预期的诚实降级，不要强行 skip-critic）。仍尝试落盘：`) +
+        mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, passed ? 'green' : 'yellow') +
+        mkUnlockInstr(unitId),
+        { label: passed ? '评审通过落盘' : '迭代上限落盘', phase: '行业研究部门' }
+      );
+      lastVerdict = lastVerdict || {};
+      lastVerdict._critic_score = score;
+      lastVerdict._critic_decision = finalVerdict;
+      return lastVerdict;
+    }
+
+    // 未通过 → 把 critic 反馈喂回 director 修订（重写 payloadFile，下一轮再评）
+    log(`[${unitId}]   未过线，打回 director 修订（improvements ${(critique?.improvements || []).length} 条）`);
+    lastVerdict = await agent(
+      `你是行业研究部门总监。你上一版 ${kind} 分析被评审委员会判 NEEDS_CHANGES（${score}分）。\n` +
+      `Read 你的上一版产出 ${payloadFile}，及依据 ${readRefs}。\n` +
+      `评审委员会的硬伤与改进意见（必须逐条针对性修订，不许换个说法重复）：\n` +
+      `fatal_flaws=${JSON.stringify(fatal)}\nimprovements=${JSON.stringify(critique?.improvements || [])}\n` +
+      `针对每条意见实质修订你的 verdict/investment_map/forward_view 等，${directorSchema}。${GROUNDING}\n` +
+      `用 Write 工具将修订后的完整 JSON 覆盖写回 ${payloadFile}（先 Bash: mkdir -p ${dataDir}），本步骤不落信封。`,
+      { label: `总监修订 R${iter}`, phase: '行业研究部门' }
+    );
+  }
+  return lastVerdict || {};
+}
+
 // ── 部门：行业研究（industry:<name>，FR-006 AC6.2） ──────────
 async function runIndustryDepartment(name) {
   const unitId = `industry:${name}`;
   const sn = safeName(name);
   phase('行业研究部门');
-  log(`运行行业研究部门：${unitId}（chokepoint→future-market→辩论→总监）`);
+  log(`运行行业研究部门：${unitId}（chokepoint→深挖→future-market→辩论→总监→critic评审闭环）`);
 
   const packName = `inputs/industry_${sn}.json`;
   const inputs = [p(packName), p('inputs/data_macro.json'), p('allocation/portfolio.json')];
@@ -239,15 +301,10 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
       { label: `写辩论文件`, phase: '行业研究部门' }
     );
 
-    // ── Step D: Director 整合拍板（含锁释放 + 信封落盘） ──
+    // ── Step D: Director 整合拍板（只产出 payload，不落盘——落盘留给 critic 通过后） ──
     log(`[${sn}] Step D: 总监整合拍板`);
     const payloadFile = p('_payload_tmp.json');
-    const director = await agent(
-      `你是行业研究部门总监。Read ${p(dbFile)}、${p(chFile)}、` +
-      `${p(fmFile)}、${p(drillFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
-      `综合：① 产业链瓶颈地图 ② 瓶颈递归深挖的上溯链(industry_drill：每个 top 瓶颈往上游钻出的更深紧缺环节) ③ 未来市场7把尺结论 ④ ${DEBATE_ROUNDS}轮多空辩论。\n` +
-      `拍板「${name}」的方向研判。输出必含 chokepoint_map + deep_chokepoint_chains + industry_future_market + investment_map。\n` +
-      `★特别要求：investment_map 不能只停在表层瓶颈(如"光模块制造")，必须把上溯链钻出的【更深、供需更紧、市场更未发现】的环节(如光模块→EML芯片→磷化铟衬底)也作为投资标的纳入，并标 discovery_level——这些深层环节才是还没被 price-in 的超额收益来源。\n` +
+    const directorSchema =
       `输出 JSON：{industry:"${name}",verdict:{stance,situation,direction,vitality_level,` +
       `track_quality,worst_case,cycle_position,downgrade_trigger,` +
       `chokepoint_conclusion,risks:[],allocation_advice,confidence},` +
@@ -256,14 +313,27 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
       `industry_future_market:{},` +
       `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority,chain_depth}],` +
       `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},` +
-      `data_quality,evidence:[]}。${GROUNDING}` +
-      `\n\n【最终落盘】用 Write 工具将上述完整 JSON 写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。` +
-      mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, 'green') +
-      mkUnlockInstr(unitId),
+      `data_quality,evidence:[]}`;
+    // director 初稿（产出写入 payloadFile，评审闭环在 Step E）
+    await agent(
+      `你是行业研究部门总监。Read ${p(dbFile)}、${p(chFile)}、` +
+      `${p(fmFile)}、${p(drillFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
+      `综合：① 产业链瓶颈地图 ② 瓶颈递归深挖的上溯链(industry_drill：每个 top 瓶颈往上游钻出的更深紧缺环节) ③ 未来市场7把尺结论 ④ ${DEBATE_ROUNDS}轮多空辩论。\n` +
+      `拍板「${name}」的方向研判。输出必含 chokepoint_map + deep_chokepoint_chains + industry_future_market + investment_map。\n` +
+      `★特别要求：investment_map 不能只停在表层瓶颈(如"光模块制造")，必须把上溯链钻出的【更深、供需更紧、市场更未发现】的环节(如光模块→EML芯片→磷化铟衬底)也作为投资标的纳入，并标 discovery_level——这些深层环节才是还没被 price-in 的超额收益来源。\n` +
+      directorSchema + `。${GROUNDING}` +
+      `\n\n【产出落盘】用 Write 工具将上述完整 JSON 写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。本步骤先不写单元信封，等评审委员会通过后再落盘。`,
       { label: '行业总监', phase: '行业研究部门' }
     );
 
-    log(`✅ ${unitId} 完成：stance=${(director.verdict || {}).stance || '?'}`);
+    // ── Step E: 独立 critic 评审闸门 + director 迭代闭环（真 spawn v4-investor-critic，禁自评） ──
+    const verdict = await runCriticGate({
+      unitId, payloadFile, directorSchema, kind: 'industry',
+      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(dbFile)}、${p(packName)}`,
+      upstreamRefs, inputs,
+    });
+
+    log(`✅ ${unitId} 完成：stance=${(verdict.verdict || {}).stance || '?'} | critic=${verdict._critic_score}/${verdict._critic_decision}`);
     return { status: 'done', unit_id: unitId };
   } catch (e) {
     log(`[ERROR] ${unitId} 失败: ${e}`);
