@@ -207,7 +207,7 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 | 层 | 角色 |
 |----|------|
 | 通用 | `v4-data-desk`——宏观 `macro_source.py`(AKShare 22 指标) + **A股个股 `stock_source.py`(股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**)** |
-| 大类 | `v4-asset-analyst-macro/flow/policy`(3视角) + `v4-asset-bull/bear`(多空3轮) + `v4-asset-director` + `v4-allocation-director`(配比) |
+| 大类 | `v4-asset-analyst-macro/flow/policy`(3视角) + `v4-asset-bull/bear`(多空3轮) + `v4-asset-director`(拍板) + **`v4-investor-critic`(独立评审闭环, <85或fatal→打回director修订≤2轮, ACCEPT才落盘; 2026-06-19 补齐——此前大类 pipeline 无 critic 却被 cli 强制 ACCEPT, 长期靠 --skip-critic 绕过=闸门形同虚设)** + `v4-allocation-director`(配比) |
 | 行业 | `v4-industry-chokepoint`(瓶颈拆解+**递归上溯深挖**) + `v4-industry-future-market-analyst`(7把尺) + `v4-industry-bull/bear`(多空3轮) + `v4-industry-director`(整合拍板) + **`v4-investor-critic`(独立评审闭环, <85或fatal→打回director修订≤2轮, ACCEPT才落盘)** + `v4-industry-allocator` |
 | 个股 | **`v4-stock-analyst-financial/competitive/valuation`(3分析师分队)** + `v4-stock-bull/bear` + `v4-stock-director`(预期差拍板) |
 | 质量闸门 | **`v4-investor-critic`**(芒格/段永平/Serenity/达里奥四视角评审,ACCEPT\|NEEDS_CHANGES;标准已内化进各层 director) |

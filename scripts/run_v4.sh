@@ -24,7 +24,7 @@
 # 子命令:
 #   analyze   触发指定单元深度分析（仅跑命中单元，不连带重跑其它，AC4.4）
 #   refresh   强制失效并重跑指定单元（重绑最新上游指纹，AC5.4）
-#   recritic  仅重跑 critic 评审闭环（复用已落盘 director 产物，跳过拆解/深挖/辩论，省 token；仅 industry）
+#   recritic  仅重跑 critic 评审闭环（复用已落盘 director 产物，跳过拆解/深挖/辩论，省 token；industry / asset）
 #   status    列出全部单元状态（五色 + 版本 + 生成时间）
 #   scan      扫描过期/过时单元，仅置黄并提示（绝不自动重跑，AC4.2 / AC5.3）
 
@@ -68,7 +68,7 @@ usage() {
 用法:
   ./run_v4.sh analyze  <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
   ./run_v4.sh refresh  <unit-selector> [--user-id <id>] [--portfolio-file <path>]
-  ./run_v4.sh recritic <industry:名>   [--user-id <id>]   # 只重跑 critic 评审闭环(复用已落盘产物,省 token)
+  ./run_v4.sh recritic <industry:名|asset:类> [--user-id <id>]  # 只重跑 critic 评审闭环(复用已落盘产物,省 token)
   ./run_v4.sh status   [--user-id <id>] [--json]
   ./run_v4.sh scan     [--user-id <id>] [--json]
 

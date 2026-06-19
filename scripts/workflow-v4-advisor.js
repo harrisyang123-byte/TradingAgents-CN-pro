@@ -7,7 +7,7 @@
 //   verb       analyze | refresh | recritic
 //              recritic = 只重跑 critic 评审闭环(复用已落盘 director 产物, 跳过拆解/深挖/辩论, 省 token)；
 //                         用于"前面分析都对、只 critic 那步需用修复后代码重评"(如 Issue#5 score 解析修复后)。
-//                         仅 industry 单元支持。
+//                         支持 industry / asset 单元(个股走 mode-A)。
 //   selector   单元选择器：asset:<class> | plan:<class> | alloc:portfolio |
 //              industry:<name> | alloc:equity_industries | stock:<code> | alloc:industry:<name>
 //   user_id    用户 ID
@@ -167,7 +167,8 @@ async function drillChokepoint(industry, startNode, packPath) {
 const CRITIC_MAX_ITERS = Number(args.critic_max_iters || 2);
 const CRITIC_PASS_SCORE = Number(args.critic_pass_score || 85);
 
-async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRefs, upstreamRefs, inputs }) {
+async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRefs, upstreamRefs, inputs, phaseLabel }) {
+  const ph = phaseLabel || '行业研究部门';
   let lastVerdict = null;
   let critique = null;
   for (let iter = 1; iter <= CRITIC_MAX_ITERS + 1; iter++) {
@@ -175,11 +176,11 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
     log(`[${unitId}] Step E: critic 评审（第 ${iter} 轮，真 spawn 评委）`);
     critique = parseAgentJSON(await agent(
       `你是 v4 专业投资者评审官(v4-investor-critic)，由芒格/段永平/Serenity/达里奥四视角组成评审委员会。\n` +
-      `⚠️ 必须读取并应用 agents/advisor/v4-investor-critic.md 的四视角拷问框架 + 评审铁律（${kind === 'industry' ? '行业层重点查 6.11 未来市场必查 + 6.11.x 7把辩证尺 + 瓶颈不可替代性/预期差' : '6.12-6.16 个股必查项'}）。\n` +
+      `⚠️ 必须读取并应用 agents/advisor/v4-investor-critic.md 的四视角拷问框架 + 评审铁律（${kind === 'industry' ? '行业层重点查 6.11 未来市场必查 + 6.11.x 7把辩证尺 + 瓶颈不可替代性/预期差' : kind === 'asset' ? '大类层重点查 宏观/资金面/政策三视角是否扎实 + 多空辩论质量 + 配比逻辑 + 不确定性诚实' : '6.12-6.16 个股必查项'}）。\n` +
       `Read 待评审产出 ${payloadFile}，及上游依据 ${readRefs}。\n` +
       `严苛拷问这份 ${kind} 分析，宁苛勿松：数据是否 verified（编造/未核实关键数字一票否决）、瓶颈不可替代性是否成立、是否用预期差而非涨幅锚、最坏情况是否诚实、辩论是否真攻防。\n` +
       `输出 JSON：{verdict_reviewed:"${unitId}",munger:{pass:bool,critique},duan:{pass:bool,critique},serenity:{pass:bool,critique},dalio:{pass:bool,critique},fatal_flaws:[],improvements:["具体可执行,指出哪里/为什么/怎么改"],score:0-100,decision:"ACCEPT|NEEDS_CHANGES"}。只输出 JSON。`,
-      { label: `评审委员会 R${iter}`, phase: '行业研究部门' }
+      { label: `评审委员会 R${iter}`, phase: ph }
     ));
     const score = Number(critique?.score || 0);
     const decision = String(critique?.decision || 'NEEDS_CHANGES');
@@ -196,7 +197,7 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
         `用 Write 写回 ${payloadFile} 后，落单元信封：` +
         mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, 'green') +
         mkUnlockInstr(unitId),
-        { label: '评审通过落盘', phase: '行业研究部门' }
+        { label: '评审通过落盘', phase: ph }
       );
       // 落盘 agent 返回的是文本总结，verdict 真身在 payloadFile；这里只回传评审元信息供主流程 log
       return { _critic_score: score, _critic_decision: 'ACCEPT', verdict: parseAgentJSON(lastVerdict).verdict || {} };
@@ -215,7 +216,7 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
         `用 Write 写回 ${payloadFile} 后，落「红」信封（--status red 不走 ACCEPT 校验，能成功记账）：` +
         mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, 'red') +
         `\n\n【必须解锁】无论上一步成败，最后务必执行 Bash: python3 scripts/v4_unit_cli.py unlock '${unitId}' 2>&1（防锁泄漏）。`,
-        { label: '迭代上限·红信封落盘', phase: '行业研究部门' }
+        { label: '迭代上限·红信封落盘', phase: ph }
       );
       return { _critic_score: score, _critic_decision: 'NEEDS_CHANGES', verdict: {}, unresolved: true };
     }
@@ -229,7 +230,7 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
       `fatal_flaws=${JSON.stringify(fatal)}\nimprovements=${JSON.stringify(critique?.improvements || [])}\n` +
       `针对每条意见实质修订你的 verdict/investment_map/forward_view 等，${directorSchema}。${GROUNDING}\n` +
       `用 Write 工具将修订后的完整 JSON 覆盖写回 ${payloadFile}（先 Bash: mkdir -p ${dataDir}），本步骤不落信封。`,
-      { label: `总监修订 R${iter}`, phase: '行业研究部门' }
+      { label: `总监修订 R${iter}`, phase: ph }
     );
   }
   return lastVerdict || {};
@@ -447,6 +448,47 @@ async function recriticIndustry(name) {
   }
 }
 
+// ── 续跑：大类层 critic 评审闭环（2026-06-19 补齐——大类 pipeline 原无 critic，靠 --skip-critic 绕过 cli）──
+// 大类只有最终信封 assets/<class>.json（无独立过程文件），故 readRefs 用信封自身 + 输入包。
+async function recriticAsset(cls) {
+  const unitId = `asset:${cls}`;
+  phase('大类研究部门');
+  log(`续跑 critic 评审：${unitId}（复用已落盘大类产物，省 token）`);
+
+  const packName = `inputs/asset_${cls}.json`;
+  const unitFile = `assets/${cls}.json`;
+  const payloadFile = p('_payload_tmp.json');
+  const upstreamRefs = ['alloc:portfolio'];
+  const inputs = [p(packName), p('inputs/data_macro.json'), p('allocation/portfolio.json')];
+  // 大类 director schema（与 mode-A 大类产出对齐：verdict + 多空 + 配比建议）
+  const directorSchema =
+    `输出 JSON：{asset_class:"${cls}",verdict:{stance,situation,direction,trend,confidence,risks:[]},` +
+    `analysts:{},debate_rounds:[],industries:[],plan:{},forward_view:{},data_quality,evidence:[]}`;
+
+  try {
+    await agent(
+      mkLockInstr(unitId) +
+      `\n【续跑准备】Read 已落盘单元 ${p(unitFile)}，取出其 "payload" 字段（上次大类 director 产出）。\n` +
+      `用 Write 工具将该 payload 对象（仅 payload 内容，不含信封外层）写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。`,
+      { label: '续跑·提取大类产物', phase: '大类研究部门' }
+    );
+    const verdict = await runCriticGate({
+      unitId, payloadFile, directorSchema, kind: 'asset',
+      readRefs: `${p(unitFile)}、${p(packName)}`,
+      upstreamRefs, inputs, phaseLabel: '大类研究部门',
+    });
+    log(`✅ ${unitId} 续跑完成：critic=${verdict._critic_score}/${verdict._critic_decision}`);
+    return { status: 'done', unit_id: unitId, mode: 'recritic' };
+  } catch (e) {
+    log(`[ERROR] ${unitId} 续跑失败: ${e}`);
+    await agent(
+      `【错误恢复·解锁】执行 Bash: python3 scripts/v4_unit_cli.py unlock '${unitId}' 2>&1。`,
+      { label: '续跑错误解锁', phase: '大类研究部门' }
+    );
+    throw e;
+  }
+}
+
 // ── 主调度 ──────────────────────────────────────────────────
 async function main() {
   const sel = parseSelector(selector);
@@ -454,10 +496,9 @@ async function main() {
 
   // verb=recritic：只重跑 critic 评审闭环（省 token，复用已落盘产物）
   if (verb === 'recritic') {
-    if (sel.type !== 'industry') {
-      throw new Error(`recritic 暂只支持 industry 单元（个股走 mode-A）；收到 ${sel.type}`);
-    }
-    return recriticIndustry(sel.key);
+    if (sel.type === 'industry') return recriticIndustry(sel.key);
+    if (sel.type === 'asset') return recriticAsset(sel.key);
+    throw new Error(`recritic 支持 industry / asset 单元（个股走 mode-A）；收到 ${sel.type}`);
   }
 
   switch (sel.type) {
