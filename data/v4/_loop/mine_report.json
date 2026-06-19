@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T00:43:00+00:00",
+  "generated_at": "2026-06-19T14:01:20+00:00",
   "stock_count": 49,
   "industry_count": 11,
   "ruler_coverage": {
@@ -548,7 +548,7 @@
       "data_desk_must_read_section": true,
       "data_desk_schema_field": true
     },
-    "total_units_scanned": 60,
+    "total_units_scanned": 115,
     "units_with_acquisition_audit": 0,
     "units_with_acquisition_audit_pct": 0.0,
     "five_keys_full_count": 0,
@@ -585,6 +585,25 @@
     "moat_enum_pass_pct": 42.9,
     "stocks_with_synthesis": 0,
     "stocks_with_synthesis_pct": 0.0
+  },
+  "valuation": {
+    "agent_count": 3,
+    "agent_skill_cite_count": 3,
+    "agent_skill_cite_pct": 100.0,
+    "stocks_with_valuation": 0,
+    "stocks_with_valuation_pct": 0.0,
+    "anchor3_full_count": 0,
+    "anchor3_full_pct": 0.0,
+    "dcf_3x3_count": 0,
+    "dcf_3x3_pct": 0.0,
+    "peg_traps5_count": 0,
+    "peg_traps5_pct": 0.0,
+    "fair_price_4school_count": 0,
+    "fair_price_4school_pct": 0.0,
+    "safety_tier_enum_count": 0,
+    "safety_tier_enum_pct": 0.0,
+    "falsify_count": 0,
+    "falsify_pct": 0.0
   },
   "director_lazy": {
     "002156": {

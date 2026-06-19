@@ -1,6 +1,6 @@
 # v4 自进化循环 — DISCOVER 扫描报告
 
-生成时间: 2026-06-18T00:43:00+00:00
+生成时间: 2026-06-19T14:01:20+00:00
 扫描 stock: **49** 只 / industry: **11** 个
 
 ## 根因 1 — 标尺覆盖率
@@ -90,7 +90,7 @@
 - v4-data-desk skill cite:    ✓
 - v4-data-desk 必读 skill 段:  ✓
 - v4-data-desk schema 字段:   ✓ (F1 修复关键)
-- 扫描单元数: 60
+- 扫描单元数: 115
 - 含 acquisition_audit 字段: **0** (0.0%)
 - 5 子键齐: 0 (0.0%)
 - 无 Goodhart 占位: 0 (0.0%)
@@ -112,6 +112,16 @@
 - stocks 含 five_forces:       **21** (42.9%)
 - moat_rating enum 合规:       **42.9%**
 - 含 synthesis 5 力交叉编织:   **0** (0.0%)
+
+## active_hole 进度 — 估值方法 (iter 7 落地, 5 层防御纵深第 5 层)
+- agent skill cite (3 agent): **3 / 3** (100.0%)
+- stocks 含 valuation_method: **0** (0.0%)
+- 预期差三锚齐:               **0%**
+- 反向DCF 3×3矩阵齐:          **0.0%**
+- PEG五陷阱 ≥5 条:            **0%**
+- 四派别合理价齐:              **0.0%**
+- safety_margin_tier 1-4:     **0%**
+- falsification_signals ≥1:   **0%**
 
 ## 根因 3.1 — verify_audit 自动审计 (iteration 2 落地)
 - 完全合规:       **8 / 49** (16.3%)
@@ -146,11 +156,11 @@
 - shallow_score: 4
 - 伤害: 新 stock 走 director→write→audit 自动堵, 旧 stock 永远 0% — 自进化循环被自动验证为伪进化(达里奥风险=永久损失信任)
 - 证据: ['含 debate_rounds: 34, methodology_used 应用率仅 0.0%, 派别切入 0.0%']
-### 6. [must] 60 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)
+### 6. [must] 115 个单元缺 acquisition_audit (iter 4 静态 100% / 产物 0.0% 落差)
 - 违反: iter 2/3 cleanup 同型 + 协议 Part 7 #10
 - shallow_score: 4
 - 伤害: data-desk 写盘 hook 已落 (verify_audit ⑨), 但旧产物无字段永远 0%, 通富 $157B 同型隐患存量
-- 证据: ['total 60 units, only 0 含 acquisition_audit (0.0%)']
+- 证据: ['total 115 units, only 0 含 acquisition_audit (0.0%)']
 ### 7. [must] 49 只 stock 缺 financial_analysis (iter 5 静态 100.0% / 产物 0.0% 落差)
 - 违反: iter 2/3/4 cleanup 同型 + skill v4-financial-analysis §6 输出契约
 - shallow_score: 4
@@ -161,3 +171,8 @@
 - shallow_score: 4
 - 伤害: 5 力专项已落地但 competitive 整合者交叉编织缺位, A/B 测试已证 5 段平铺扣分
 - 证据: ['含 synthesis 仅 0 (0.0%); 含 five_forces 不含 synthesis = 5 段平铺扣分']
+### 9. [must] 49 只 stock 缺 valuation_method (iter 7 静态 100.0% / 产物 0.0% 落差)
+- 违反: iter 2-6 cleanup 同型 + skill v4-valuation-method §6 输出契约
+- shallow_score: 4
+- 伤害: iter 7 schema+code+monitor 全齐, 但旧产物无 valuation_method 字段永远 0% — PE/PEG套话估值复发
+- 证据: ['含 valuation_method 仅 0 (0.0%); 预期差三锚/反向DCF/PEG五陷阱缺位']
