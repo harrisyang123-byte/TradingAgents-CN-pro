@@ -145,6 +145,27 @@ def main() -> int:
                 }, ensure_ascii=False), file=sys.stderr)
                 return 4
 
+            # 🚨 禁主agent自评critic(2026-06-19 loop自查发现: 49只个股全标 synthesized_by_main_agent
+            # =主agent自己扮演四大师打ACCEPT,绕过真评委。AGENTS.md 第75行明令"不能主agent自评84分绕过critic"。
+            # critic是质量闸门,闸门自己被主agent合成=闸门失效。把"禁自评"从认知规则升级为代码强制。)
+            _critic_synth = (
+                str(cred.get("data_status") or "").strip() == "synthesized_by_main_agent"
+                or str((payload or {}).get("critic_evaluation", {}).get("data_status")
+                       if isinstance((payload or {}).get("critic_evaluation"), dict) else "").strip()
+                == "synthesized_by_main_agent"
+            )
+            if _critic_synth:
+                print(json.dumps({
+                    "unit_id": args.unit_id,
+                    "blocked_by_critic_self_synth": True,
+                    "message": (
+                        "BLOCKED: critic 评审被标 synthesized_by_main_agent(主 agent 自评), "
+                        "ACCEPT 不算数。AGENTS.md 第75行: critic 必须真 spawn v4-investor-critic, "
+                        "禁主 agent 扮演四大师自评绕过。请真 spawn critic 复核; 紧急可 --skip-critic(留痕)。"
+                    ),
+                }, ensure_ascii=False), file=sys.stderr)
+                return 4
+
         # 🚨 RULE-DATA-VERIFIED 强制校验(2026-06-14 用户血泪固化, 防通富$157B事故再现)
         # 仅对 stock:* 单元启用(industry/asset 已有 critic 6.11/6.12 必查)
         # 失败/降级信封(--error 或 status=red)同样绕过——错误记账不含可信赖数字, 无需 verified 校验
