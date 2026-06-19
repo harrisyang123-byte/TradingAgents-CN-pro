@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 9,
-    "last_run": "2026-06-19T06:00:00+00:00",
+    "iteration_count": 10,
+    "last_run": "2026-06-19T07:00:00+00:00",
     "phase": "apply",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 9 (LOOP-STATE-OVERWRITE): done账本外移append-only jsonl根治覆写丢失; done_log.jsonl为唯一真源",
+    "_comment": "iter 10 (LOOP-RECONCILE-CLOSE): 本地跑mine写backlog前自动reconcile, 防覆写彻底闭环",
     "last_mine": "2026-06-18T00:43:00+00:00"
   },
   "active_hole": null,
@@ -669,6 +669,31 @@
       ],
       "honest_caveat": "机制根治了'覆写丢历史', 但本地跑的 v4_loop_mine.py 尚未改为调用 append(它仍整体写state) — 本轮只新增旁路日志+reconcile恢复+协议铁律, 未改动本地跑核心逻辑(避免破坏)。完整闭环需本地跑后续也接入 v4_loop_log.py append, 或定期 reconcile。未真跑并发场景。",
       "completed_at": "2026-06-19T06:00:00+00:00"
+    },
+    {
+      "id": "LOOP-RECONCILE-CLOSE-20260619-09",
+      "title": "本地跑 v4_loop_mine 未接入 done_log reconcile — 防覆写机制半闭环(仅旁路日志,本地跑仍可能基于丢失的done重复挖洞)",
+      "violated_practice": "防覆写要彻底: 仅有 append 日志+手动 reconcile 不够, 本地跑(高频写state)必须自动对账",
+      "discovery_evidence": {
+        "fact_correction": "原假设 mine 写 done → 实际 mine 只写 backlog(行795), done 由 CONSOLIDATE 手动写",
+        "real_gap": "mine 写 backlog 整体覆写 state(行810) + 去重读 done(行784); 若 done 已被覆写丢失, mine 会重复挖已做的洞",
+        "half_closed": "上轮(LOOP-STATE-OVERWRITE)只加旁路 jsonl+手动 reconcile, 本地跑未自动用"
+      },
+      "after_protocol": {
+        "auto_reconcile": "write_state_backlog 前置 _reconcile_done_from_log(): 从 done_log.jsonl 找回被覆写 done, 再去重",
+        "robustness": "对账失败 try/except 不阻断 mine 主流程",
+        "effect": "本地跑每次自动保全 done 历史, 不依赖 agent 自觉; id_prefix 去重基于完整 done 集"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(机制验证)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "py编译通过; 模拟state.done清空(8→0)→调mine内部reconcile→自动找回8条; 对账逻辑与v4_loop_log.py reconcile一致"
+        }
+      ],
+      "honest_caveat": "防覆写链现已闭环(append日志+mine自动reconcile+协议铁律)。但仍是'最终一致'非'强一致'——真正并发同刻写仍可能瞬时覆盖,只是下次mine跑会找回。未真跑并发压测。",
+      "completed_at": "2026-06-19T07:00:00+00:00"
     }
   ],
   "stuck": [],
