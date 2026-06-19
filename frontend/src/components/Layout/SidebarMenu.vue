@@ -6,42 +6,14 @@
     router
     class="sidebar-menu"
   >
-    <!-- ====== 持仓 ====== -->
-    <el-sub-menu index="/portfolio">
-      <template #title>
-        <el-icon><Wallet /></el-icon>
-        <span>持仓组合</span>
-      </template>
-      <el-menu-item index="/portfolio/holdings">持仓明细</el-menu-item>
-      <el-menu-item index="/portfolio/overview">组合总揽</el-menu-item>
-      <el-menu-item index="/portfolio/v4-overview">组合总揽 v4</el-menu-item>
-    </el-sub-menu>
-
-    <!-- ====== 分析 ====== -->
-    <el-sub-menu index="/analysis">
-      <template #title>
-        <el-icon><TrendCharts /></el-icon>
-        <span>股票分析</span>
-      </template>
-      <el-menu-item index="/analysis/single">单股分析</el-menu-item>
-      <el-menu-item index="/analysis/batch">批量分析</el-menu-item>
-      <el-menu-item index="/reports">分析报告</el-menu-item>
-    </el-sub-menu>
-
-    <el-menu-item index="/tasks">
-      <el-icon><List /></el-icon>
-      <template #title>任务中心</template>
+    <!-- ====== 持仓（顶层直达，不用子菜单包） ====== -->
+    <el-menu-item index="/portfolio/holdings">
+      <el-icon><Wallet /></el-icon>
+      <template #title>持仓明细</template>
     </el-menu-item>
-
-    <!-- ====== 工具 ====== -->
-    <el-menu-item index="/screening">
-      <el-icon><Search /></el-icon>
-      <template #title>股票筛选</template>
-    </el-menu-item>
-
-    <el-menu-item index="/favorites">
-      <el-icon><Star /></el-icon>
-      <template #title>我的自选股</template>
+    <el-menu-item index="/portfolio/v4-overview">
+      <el-icon><DataAnalysis /></el-icon>
+      <template #title>组合总揽 v4</template>
     </el-menu-item>
 
     <el-sub-menu index="/settings">
@@ -72,11 +44,6 @@
         <el-menu-item index="/settings/usage">使用统计</el-menu-item>
       </el-sub-menu>
     </el-sub-menu>
-
-    <el-menu-item index="/about">
-      <el-icon><InfoFilled /></el-icon>
-      <template #title>关于</template>
-    </el-menu-item>
   </el-menu>
 </template>
 
@@ -85,13 +52,9 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import {
-  TrendCharts,
-  Search,
-  Star,
-  List,
   Setting,
-  InfoFilled,
-  Wallet
+  Wallet,
+  DataAnalysis
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
