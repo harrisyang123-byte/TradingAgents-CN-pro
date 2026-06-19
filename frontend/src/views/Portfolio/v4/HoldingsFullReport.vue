@@ -86,6 +86,12 @@
                 </div>
                 <el-tag v-if="node.action" size="small" :type="actionType(node.action)" effect="plain">{{ actionLabel(node.action) }}</el-tag>
               </div>
+              <!-- 配比理由（当前/目标/gap/宏观/资金流/政策/风险）—— 8 大类皆有，曾全丢 -->
+              <div v-if="hasReason(node.reasoning)" class="rpt-tree-reason">
+                <span v-for="(v, k) in reasonPairs(node.reasoning)" :key="k" class="rpt-reason-item">
+                  <b>{{ reasonLabel(k) }}：</b>{{ v }}
+                </span>
+              </div>
               <!-- 下属行业 -->
               <div v-if="node.industries?.length" class="rpt-tree-children">
                 <span v-for="(ind, i) in node.industries" :key="i" class="rpt-tree-ind">
@@ -257,6 +263,23 @@ function indStanceType(st?: string): any {
   if (/nogo|bear|减|回避/.test(st || '')) return 'danger'
   return 'info'
 }
+// 配比理由：只展示文字型解释字段（current_pct/target_pct 已在进度条体现，不重复）
+const REASON_LABEL: Record<string, string> = {
+  gap: '缺口', macro: '宏观', flow: '资金流', policy: '政策', risk: '风险',
+}
+function reasonPairs(r: any): Record<string, any> {
+  if (!r || typeof r !== 'object') return {}
+  const out: Record<string, any> = {}
+  for (const k of Object.keys(r)) {
+    if (k === 'current_pct' || k === 'target_pct') continue
+    const v = r[k]
+    if (v == null || v === '') continue
+    out[k] = v
+  }
+  return out
+}
+function hasReason(r: any): boolean { return Object.keys(reasonPairs(r)).length > 0 }
+function reasonLabel(k: string): string { return REASON_LABEL[k] || k }
 
 // TOC
 const tocSections = computed(() => {
@@ -317,6 +340,9 @@ function scrollTo(id: string) { document.getElementById(id)?.scrollIntoView({ be
 .rpt-tree-bar-tgt { position: absolute; top: -3px; width: 2px; height: 20px; background: #f56c6c; }
 .rpt-tree-pct { font-size: 12.5px; color: #606266; white-space: nowrap; min-width: 110px; }
 .rpt-tree-tgt-txt { color: #f56c6c; font-weight: 600; }
+.rpt-tree-reason { margin-top: 8px; padding-left: 110px; display: flex; flex-wrap: wrap; gap: 12px; }
+.rpt-reason-item { font-size: 12px; color: #606266; line-height: 1.6; }
+.rpt-reason-item b { color: #909399; }
 .rpt-tree-children { margin-top: 8px; padding-left: 110px; display: flex; flex-wrap: wrap; gap: 8px; }
 .rpt-tree-ind { font-size: 12px; background: #f5f7fa; padding: 3px 10px; border-radius: 12px; color: #606266; }
 .rpt-tree-ind em { color: #909399; font-style: normal; margin-left: 4px; }

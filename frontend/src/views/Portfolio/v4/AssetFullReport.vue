@@ -123,6 +123,30 @@
               <div class="rpt-risks-head">⚠️ 风险提示</div>
               <ol><li v-for="(r, i) in plan.risk_flags" :key="i">{{ r }}</li></ol>
             </div>
+
+            <!-- 可信度 / critic 评审（非权益 plan 内嵌，之前会丢） -->
+            <div v-if="planCred || planCritic" class="rpt-cell full" style="margin-top:14px">
+              <div class="rpt-cell-label">🎓 可信度与评审</div>
+              <p v-if="planCred?.final_verdict || planCred?.score">
+                {{ planCred?.final_verdict || '' }} {{ planCred?.score != null ? planCred.score + '分' : '' }}
+                <span v-if="planCred?.reviewer"> · {{ planCred.reviewer }}</span>
+              </p>
+              <p v-if="planCred?.rationale" style="color:#606266">{{ planCred.rationale }}</p>
+              <p v-if="planCritic?.final_verdict || planCritic?.final_score">
+                critic：{{ planCritic?.final_verdict || '' }} {{ planCritic?.final_score != null ? planCritic.final_score + '分' : '' }}
+              </p>
+            </div>
+
+            <!-- plan 内其余字段兜底（敏感性/可比/四维闸门/合规等，零丢失） -->
+            <div v-if="planLeftover.length" style="margin-top:14px">
+              <div class="rpt-list-head">📦 方案补充数据</div>
+              <el-collapse>
+                <el-collapse-item v-for="[k, v] in planLeftover" :key="k" :name="k">
+                  <template #title><span class="rpt-appendix-key">{{ k }}</span></template>
+                  <JsonTree :value="v" />
+                </el-collapse-item>
+              </el-collapse>
+            </div>
           </section>
 
           <!-- §4 前瞻（若 verdict 带 forward_view） -->
@@ -221,6 +245,27 @@ const planInstruments = computed<any[]>(() => {
   const p = plan.value
   if (!p) return []
   return (p.holding_structure || p.instrument_mix || []) as any[]
+})
+const planCred = computed<any>(() => plan.value?.credibility || null)
+const planCritic = computed<any>(() => plan.value?.critic_evaluation || null)
+
+// plan 内已被专题章节消费的字段；其余进「方案补充数据」附录，杜绝嵌套丢失
+const PLAN_CONSUMED = new Set<string>([
+  'asset_class', 'summary', 'stance', 'structure_target', 'valuation_basis', 'duration_view',
+  'holding_structure', 'instrument_mix', 'action_plan', 'risk_flags', 'forward_view_6dim',
+  'current_weight', 'target_weight', 'confidence', 'credibility', 'critic_evaluation',
+  'note', 'holding_only_note',
+])
+const planLeftover = computed(() => {
+  const p: any = plan.value || {}
+  const out: Array<[string, any]> = []
+  for (const k of Object.keys(p)) {
+    if (PLAN_CONSUMED.has(k)) continue
+    const v = p[k]
+    if (v == null || (Array.isArray(v) && v.length === 0)) continue
+    out.push([k, v])
+  }
+  return out
 })
 
 // hero 配色：权益蓝、非权益青
