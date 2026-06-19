@@ -1,6 +1,6 @@
 ---
 name: v4-advisor
-description: "v4 分层投研系统触发器：识别用户自然语言中的分析意图，映射为 run_v4.sh 命令并执行。当用户说「分析<大类/行业/个股>」「跑 v4」「刷新<单元>」「v4 状态」等时触发。"
+description: "v4 分层投研系统触发器：识别用户自然语言中的分析意图，映射为 run_v4.sh 命令并执行。当用户说「分析<大类/行业/个股>」「跑 v4」「刷新<单元>」「重新评审/重评<行业>」「v4 状态」等时触发。"
 tools: ["Read", "Bash", "Grep"]
 ---
 
@@ -63,6 +63,7 @@ tools: ["Read", "Bash", "Grep"]
 | `行业内配比 <行业名>` | `alloc:industry:<行业名>` | `run_v4.sh analyze alloc:industry:<行业名>` |
 | `非权益方案 <大类>` / `<大类>投资方案` | `plan:<class>` | `run_v4.sh analyze plan:<class>` |
 | `刷新<任意单元>` / `refresh <unit>` | 同上，换命令 | `run_v4.sh refresh <unit-selector>` |
+| `重新评审<行业>` / `重评<行业>` / `recritic<行业>` / `<行业>只重跑critic` / `<行业>评审分数不对重跑` | `industry:<行业名>` | `run_v4.sh recritic industry:<行业名>` |
 | `v4 状态` / `单元状态` / `看看哪些过期` | — | `run_v4.sh status --json` |
 | `v4 扫描` / `扫描过期` | — | `run_v4.sh scan --json` |
 | `跑全量 v4` / `v4 全量分析` / `全部分析` | 七大类+配比+非权益方案 | 见「全量分析序列」 |
@@ -73,6 +74,12 @@ tools: ["Read", "Bash", "Grep"]
 | `加一笔 XX` / `新买了 XX` / `增加持仓` | — | 追加到 holdings.json |
 | `卖了 XX` / `清仓 XX` / `删掉 XX` | — | 从 holdings.json 移除 |
 | `看看我的持仓` / `当前持仓` | — | 读取并展示 holdings.json |
+
+> **refresh vs recritic 怎么选**（省 token 关键）：
+> - **recritic**：前面分析（瓶颈拆解/深挖/未来市场/辩论）都对，只是 **critic 那一步**要重跑——典型场景：critic 代码 bug 修复后重评、对评审结论不满想重审。复用已落盘 director 产物，跳过 Step A-D，**省大量 token**。仅 `industry:` 单元。
+> - **refresh**：上游数据变了 / 想从头重做整个分析。全套重跑，贵。
+> - 用户说"重新评审/重评/评审分数不对/只重跑 critic"→ **recritic**；说"重跑/刷新/重新分析"→ **refresh**。拿不准时问一句。
+> - ⚠️ recritic 跑完务必 `python scripts/build_snapshot_v4.py` 同步前端（否则前端仍显示旧分数）。
 
 ### 七大类 class 名称映射
 
