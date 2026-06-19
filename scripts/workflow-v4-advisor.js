@@ -162,25 +162,39 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
     const passed = decision === 'ACCEPT' && score >= CRITIC_PASS_SCORE && fatal.length === 0;
     log(`[${unitId}]   critic: ${decision} ${score}分, fatal=${fatal.length}`);
 
-    if (passed || iter === CRITIC_MAX_ITERS + 1) {
-      // 通过，或已到迭代上限（即便没过也要落盘，但如实标 final_verdict 让 cli 决定）
-      // 把 critic 结论写进 payload.credibility（cli 校验 final_verdict==ACCEPT 才落盘）
-      const finalVerdict = passed ? 'ACCEPT' : 'NEEDS_CHANGES';
+    if (passed) {
+      // 评审通过：critic 结论写进 credibility(final_verdict=ACCEPT) → cli 放行落盘 → 解锁
       lastVerdict = await agent(
         `Read ${payloadFile}（director 当前产出）。把评审委员会结论合并进 credibility 字段后整体写回 ${payloadFile}。\n` +
-        `评审结论：score=${score}, decision=${decision}, fatal_flaws=${JSON.stringify(fatal).slice(0, 500)}。\n` +
-        `在 payload 顶层加/更新：credibility={final_verdict:"${finalVerdict}",critic_score:${score},reviewer:"v4-investor-critic(独立评审)",reviewers:["芒格","段永平","Serenity","达里奥"],challenges:${JSON.stringify((critique?.improvements || []).slice(0, 5))},critic_iterations:${iter}}。\n` +
-        (passed
-          ? `用 Write 写回 ${payloadFile} 后，落单元信封：`
-          : `⚠️ 已达迭代上限仍未通过(${score}分)，如实标 final_verdict=NEEDS_CHANGES。用 Write 写回 ${payloadFile}（cli 会因未 ACCEPT 阻断落盘，这是预期的诚实降级，不要强行 skip-critic）。仍尝试落盘：`) +
-        mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, passed ? 'green' : 'yellow') +
+        `评审结论：score=${score}, decision=ACCEPT, fatal_flaws=${JSON.stringify(fatal).slice(0, 500)}。\n` +
+        `在 payload 顶层加/更新：credibility={final_verdict:"ACCEPT",critic_score:${score},reviewer:"v4-investor-critic(独立评审)",reviewers:["芒格","段永平","Serenity","达里奥"],challenges:${JSON.stringify((critique?.improvements || []).slice(0, 5))},critic_iterations:${iter}}。\n` +
+        `用 Write 写回 ${payloadFile} 后，落单元信封：` +
+        mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, 'green') +
         mkUnlockInstr(unitId),
-        { label: passed ? '评审通过落盘' : '迭代上限落盘', phase: '行业研究部门' }
+        { label: '评审通过落盘', phase: '行业研究部门' }
       );
       lastVerdict = lastVerdict || {};
       lastVerdict._critic_score = score;
-      lastVerdict._critic_decision = finalVerdict;
+      lastVerdict._critic_decision = 'ACCEPT';
       return lastVerdict;
+    }
+
+    if (iter === CRITIC_MAX_ITERS + 1) {
+      // 到迭代上限仍未过线：诚实落「红」信封(error 说明评审未通过) + 必须解锁(防锁泄漏)。
+      // 不写绿/黄信封——那会被 cli ACCEPT 闸门 exit=4 阻断、且 agent 见错可能跳过 unlock。
+      // 用错误信封路径(status=red)如实记账，cli 写 error 信封不走 ACCEPT 校验，能成功落盘+解锁。
+      log(`[${unitId}]   ⚠️ 迭代 ${CRITIC_MAX_ITERS} 轮仍未过线(${score}分)，落红信封如实记账`);
+      const errSummary = `critic 未通过(score=${score}, decision=${decision}); fatal=${JSON.stringify(fatal).slice(0, 300)}`;
+      await agent(
+        `Read ${payloadFile}。把评审结论合并进 credibility 后写回 ${payloadFile}：` +
+        `credibility={final_verdict:"NEEDS_CHANGES",critic_score:${score},reviewer:"v4-investor-critic(独立评审)",reviewers:["芒格","段永平","Serenity","达里奥"],challenges:${JSON.stringify((critique?.improvements || []).slice(0, 5))},critic_iterations:${iter},unresolved:true}。\n` +
+        `这是诚实降级：行业分析经 ${CRITIC_MAX_ITERS} 轮修订仍未达专业水准，如实标红，不强行通过。\n` +
+        `用 Write 写回 ${payloadFile} 后，落「红」信封（--status red 不走 ACCEPT 校验，能成功记账）：` +
+        mkEnvelopeInstr(unitId, payloadFile, upstreamRefs, inputs, 'red') +
+        `\n\n【必须解锁】无论上一步成败，最后务必执行 Bash: python3 scripts/v4_unit_cli.py unlock '${unitId}' 2>&1（防锁泄漏）。`,
+        { label: '迭代上限·红信封落盘', phase: '行业研究部门' }
+      );
+      return { _critic_score: score, _critic_decision: 'NEEDS_CHANGES', verdict: {}, unresolved: true };
     }
 
     // 未通过 → 把 critic 反馈喂回 director 修订（重写 payloadFile，下一轮再评）

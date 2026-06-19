@@ -123,7 +123,10 @@ def main() -> int:
 
         # D0-5 critic 接入编排: 校验 credibility.final_verdict ACCEPT
         # 仅对 stock:/industry:/asset:* 单元强制(plan/alloc 单元绕过)
-        if not args.skip_critic and args.unit_id.startswith(("stock:", "industry:", "asset:")):
+        # 例外(2026-06-19): 带 --error 的失败/降级信封(status=red)绕过 ACCEPT 校验——
+        #   错误记账本就不该被质量闸门拦(否则 catch 块的 red 信封 + critic 迭代上限的诚实降级都落不了盘 → 锁泄漏)
+        _is_error_envelope = bool((args.error or "").strip()) or (args.status == "red")
+        if not args.skip_critic and not _is_error_envelope and args.unit_id.startswith(("stock:", "industry:", "asset:")):
             cred = (payload or {}).get("credibility") or {}
             verdict = cred.get("final_verdict")
             if verdict != "ACCEPT":
@@ -144,7 +147,8 @@ def main() -> int:
 
         # 🚨 RULE-DATA-VERIFIED 强制校验(2026-06-14 用户血泪固化, 防通富$157B事故再现)
         # 仅对 stock:* 单元启用(industry/asset 已有 critic 6.11/6.12 必查)
-        if args.unit_id.startswith("stock:"):
+        # 失败/降级信封(--error 或 status=red)同样绕过——错误记账不含可信赖数字, 无需 verified 校验
+        if args.unit_id.startswith("stock:") and not _is_error_envelope:
             try:
                 from app.services.v4.stock_data_contract import (
                     check_expert_valuation_verified,
