@@ -193,9 +193,10 @@ ${JSON.stringify({ industry: name, drills }, null, 2)}`,
     log(`[${sn}] Step B: 未来市场7把尺分析`);
     const futureMarket = await agent(
       `你是行业未来市场专职分析师(future-market-analyst)。Read ${p(packName)}、${p('inputs/data_macro.json')}、${p(chFile)}。\n` +
+      `★Issue#4：输入包 packName 内含 valuation_inputs(关联个股 verified PE 聚合 + 折现率锚 cn10y/lpr_5y + fetch_tasks)。第⑤尺 forward PEG 必须消费它：用 peer_pe_median/peer_pe_range 算行业 PE 中枢，用 cn10y 推合理折现率；若 valuation_inputs.available=false 则按 fetch_tasks 提示联网补，仍取不到才标 industry_forward_peg=null 并说明，不编造。\n` +
       `对行业「${name}」用7把辩证分析尺消化数据，产出独立的行业未来市场全景：\n` +
       `① TAM三角验证(≥3独立来源,差异>30%标分歧) ② TAM拆解还原(因子反推) ③ CAGR久期(历史可比) ` +
-      `④ 渗透率阶段类比 ⑤ forward PEG跨期对比 ⑥ 龙头瓜分检验 ⑦ 景气先行指标交叉(≥3同向才确认)。\n` +
+      `④ 渗透率阶段类比 ⑤ forward PEG跨期对比(消费 valuation_inputs，给出 industry_pe_anchor + leaders_forward_peg) ⑥ 龙头瓜分检验 ⑦ 景气先行指标交叉(≥3同向才确认)。\n` +
       `输出 JSON：{role:"future_market",industry:"${name}",tam_now_usd_b,tam_2030E_usd_b,cagr_pct,` +
       `penetration_stage,industry_forward_peg,leaders_share_distribution,key_drivers_5yr:[],` +
       `methodology_applied:[{ruler,result,data_ref}],data_sources:[{url,status}],evidence:[{claim,source,status}]}。${GROUNDING}` +

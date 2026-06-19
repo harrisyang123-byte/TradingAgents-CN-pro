@@ -198,8 +198,85 @@ def _safe(s: str) -> str:
     return _re.sub(r"[/\\:\*\?\"<>\|（）()\s]+", "_", str(s)) or "_"
 
 
+def _build_industry_valuation_inputs(inputs: Path, name: str, related: list, macro: dict) -> dict:
+    """Issue #4：行业估值输入（PE 分位/龙头 forward PEG/PB-band + 折现率锚）。
+
+    数据来源优先级：
+    1. 关联个股输入包 stock_<code>.json 的 valuation section（已 verified）→ 聚合行业 PE 中位/区间
+    2. 宏观折现率锚（cn10y / lpr_5y，data_macro 有则带，供分析师推 PE 中枢）
+    3. 缺失 → 标 fetch_tasks，让 data-desk 在模式 A 联网 web_search 补（绝不编造）
+    """
+    peer_pe: list[float] = []
+    peer_detail: list[dict] = []
+    for h in related:
+        code = h.get("code", "")
+        if not code:
+            continue
+        sp = inputs / f"stock_{_safe(code)}.json"
+        if not sp.exists():
+            continue
+        try:
+            sd = json.loads(sp.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        val = sd.get("valuation", {}) or {}
+        pe = (val.get("pe_ttm") or {}).get("value") if isinstance(val.get("pe_ttm"), dict) else val.get("pe_ttm")
+        try:
+            pe_f = float(pe) if pe is not None else None
+        except (TypeError, ValueError):
+            pe_f = None
+        if pe_f and pe_f > 0:
+            peer_pe.append(pe_f)
+        peer_detail.append({"code": code, "name": sd.get("name", code), "pe_ttm": pe_f,
+                            "pe_history_band": (val.get("pe_history_band") or {}).get("value")
+                            if isinstance(val.get("pe_history_band"), dict) else val.get("pe_history_band")})
+
+    # 折现率锚（cn10y / lpr_5y）
+    inds = (macro or {}).get("indicators", {}) or {}
+    def _ind(k):
+        v = inds.get(k)
+        return v.get("value") if isinstance(v, dict) else v
+    cn10y = _ind("cn10y")
+    lpr_5y = _ind("lpr_5y")
+
+    peer_pe_median = round(sorted(peer_pe)[len(peer_pe) // 2], 2) if peer_pe else None
+    available = bool(peer_pe) or cn10y is not None
+
+    # 缺失项 → data-desk 联网补任务（第⑤尺必需）
+    fetch_tasks = []
+    if not peer_pe:
+        fetch_tasks.append({
+            "field": "industry_pe_percentile / leaders_forward_peg",
+            "search_query": f"{name} 行业 PE 估值分位 龙头 forward PEG 2026",
+            "source_hints": ["东方财富行业板块PE", "Wind/choice行业估值", "券商行业深度研报"],
+            "usage": "7把尺第⑤尺 forward PEG 跨期对比；缺则 confidence 打折",
+        })
+    if cn10y is None:
+        fetch_tasks.append({
+            "field": "cn10y（折现率锚）",
+            "search_query": "中国10年期国债收益率 最新",
+            "source_hints": ["中国债券信息网", "东方财富债券"],
+            "usage": "推算行业合理 PE 中枢 / DCF 折现率基准",
+        })
+
+    return {
+        "available": available,
+        "peer_valuation": peer_detail,
+        "peer_pe_median": peer_pe_median,
+        "peer_pe_range": [min(peer_pe), max(peer_pe)] if peer_pe else None,
+        "discount_rate_anchor": {"cn10y": cn10y, "lpr_5y": lpr_5y},
+        "fetch_tasks": fetch_tasks,
+        "note": (
+            "估值输入来自关联个股 verified PE 聚合 + 宏观折现率锚。"
+            if available else
+            "⚠️ 行业估值数据缺失（无关联个股 PE / 无折现率锚）——7把尺第⑤尺 forward PEG 无法执行，"
+            "data-desk 须按 fetch_tasks 联网 web_search 补行业 PE 分位 + 龙头 forward PEG，缺则标 missing 不编造。"
+        ),
+    }
+
+
 def _build_industry_pack(inputs: Path, name: str, classified: dict, macro: dict) -> None:
-    """行业深辩输入包（FR-006 AC6.2）：候选信息 + 景气信号(best-effort) + 权益持仓敞口。"""
+    """行业深辩输入包（FR-006 AC6.2）：候选信息 + 景气信号(best-effort) + 权益持仓敞口 + 估值输入(Issue#4)。"""
     from app.services.v4 import industry_candidates as ic
 
     # 候选元信息（rationale/kind）
@@ -229,13 +306,21 @@ def _build_industry_pack(inputs: Path, name: str, classified: dict, macro: dict)
     related = [h for h in equity_bucket.get("holdings", [])
                if name.split("/")[0] in (h.get("name", "") + h.get("code", ""))]
 
+    # Issue #4 修复：估值输入 section（7 把尺第⑤尺 forward PEG 依赖此，缺则 confidence 系统性打折）
+    valuation_inputs = _build_industry_valuation_inputs(inputs, name, related, macro)
+
     pack = {
         "industry": name,
         "candidate_meta": cand_meta,
         "vitality": vitality,
         "related_holdings": related,
+        "valuation_inputs": valuation_inputs,
         "macro_context": macro,
-        "data_availability": {"vitality": vitality["available"], "macro": macro["data_availability"]},
+        "data_availability": {
+            "vitality": vitality["available"],
+            "macro": macro["data_availability"],
+            "valuation": valuation_inputs["available"],
+        },
     }
     out = inputs / f"industry_{_safe(name)}.json"
     _write_json(out, pack)

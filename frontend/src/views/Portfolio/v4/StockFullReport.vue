@@ -285,6 +285,37 @@
             </div>
           </section>
 
+          <!-- §5.5 上游供应链递归深挖（供方议价力上溯：本股成本风险 + 更优上游标的） -->
+          <section v-if="upstreamDrill.length" id="sec-upstream" class="sfr-section">
+            <h2 class="sfr-h2">⛏️ 上游供应链深挖（供需链：本股成本风险 + 未被 price-in 的上游机会）</h2>
+            <p class="sfr-appendix-desc">本股最关键的受限投入往上游逐层钻——既是成本端隐患，那个供需最紧且市场未发现的环节也可能是更优的上游卡位标的。</p>
+            <div v-for="(dc, i) in upstreamDrill" :key="i" class="sfr-drill">
+              <div class="sfr-drill-flow">
+                <span class="sfr-drill-start">{{ dc.start }}</span>
+                <template v-for="(node, j) in (dc.chain || [])" :key="j">
+                  <span class="sfr-drill-arrow">→</span>
+                  <span class="sfr-drill-node">L{{ node.depth ?? j + 1 }} {{ node.node }}</span>
+                </template>
+              </div>
+              <p v-if="dc.deepest_alpha" class="sfr-drill-alpha">🎯 最深环节：{{ dc.deepest_alpha }}</p>
+              <table v-if="(dc.chain || []).length" class="sfr-matrix-table" style="margin-top:8px">
+                <thead><tr><th>层</th><th>上游环节</th><th>供需缺口</th><th>扩产周期</th><th>玩家/集中度</th><th>涨价力</th><th>发现度</th><th>受益标的</th></tr></thead>
+                <tbody>
+                  <tr v-for="(node, j) in dc.chain" :key="j">
+                    <td>L{{ node.depth ?? j + 1 }}</td>
+                    <td class="sfr-matrix-key">{{ node.node }}</td>
+                    <td>{{ node.supply_demand_gap }}</td>
+                    <td>{{ node.expansion_cycle }}</td>
+                    <td>{{ node.global_players }}</td>
+                    <td>{{ node.pricing_power }}</td>
+                    <td>{{ node.discovery_level }}</td>
+                    <td>{{ [...(node.beneficiaries_a||[]), ...(node.beneficiaries_qdii||[])].join('、') || '-' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           <!-- §6 前瞻推演 6维 -->
           <section v-if="payload.forward_view_6dim" id="sec-forward" class="sfr-section">
             <h2 class="sfr-h2">🔭 前瞻推演（6维）</h2>
@@ -669,6 +700,7 @@ const tocSections = computed(() => {
   ]
   if (payload.value.product_subdivision_deep || payload.value.product_decomposition) secs.push({ id: 'sec-product', icon: '🏭', label: '产品拆解' })
   if (payload.value.five_forces) secs.push({ id: 'sec-fiveforces', icon: '🏰', label: '五力分析' })
+  if (upstreamDrill.value.length) secs.push({ id: 'sec-upstream', icon: '⛏️', label: '上游深挖' })
   if (payload.value.forward_view_6dim) secs.push({ id: 'sec-forward', icon: '🔭', label: '前瞻推演' })
   if (debatePairs.value.length || payload.value.bear_data_correction) secs.push({ id: 'sec-debate', icon: '⚔️', label: '多空辩论' })
   if (payload.value.risk_consensus_from_3way) secs.push({ id: 'sec-risk', icon: '⚖️', label: '风险辩论' })
@@ -721,6 +753,12 @@ function scrollTo(id: string) {
 }
 
 // Debate pairs
+// 上游供应链深挖：payload 顶层 或 five_forces 内（供方议价力分析师产出）
+const upstreamDrill = computed<any[]>(() => {
+  const p: any = payload.value || {}
+  return p.upstream_drill || p.five_forces?.upstream_drill || []
+})
+
 const debatePairs = computed(() => {
   const rounds = payload.value.debate_rounds || []
   const map: Record<number, { round: number; bull?: string; bear?: string }> = {}
@@ -902,7 +940,7 @@ const CONSUMED_KEYS = new Set<string>([
   // §产品
   'product_subdivision_deep', 'product_subdivision', 'product_subdivision_stress_test', 'product_decomposition',
   // §五力 §前瞻 §辩论 §风险辩论 §锚定
-  'five_forces', 'five_forces_summary', 'forward_view_6dim', 'forward_view',
+  'five_forces', 'five_forces_summary', 'upstream_drill', 'forward_view_6dim', 'forward_view',
   'debate_rounds', 'debate_synthesis', 'risk_consensus_from_3way', 'risk_debate_summary',
   'risk_debate_full', 'risk_debate_decision', 'anchoring_check',
   // §价值创造(验证) §评审 §价值创造
@@ -1031,6 +1069,14 @@ watch(code, (c) => { if (c) load(c) }, { immediate: true })
 .sfr-ff-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .sfr-ff-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
 .sfr-ff-name { width: 140px; font-weight: 600; color: #303133; background: #fafafa; }
+
+/* §5.5 上游供应链深挖 */
+.sfr-drill { margin-bottom: 16px; padding: 12px 14px; background: #fafbfc; border: 1px solid #ebeef5; border-radius: 8px; }
+.sfr-drill-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 8px; }
+.sfr-drill-start { font-size: 13px; font-weight: 700; color: #303133; background: #eef2ff; padding: 3px 10px; border-radius: 12px; }
+.sfr-drill-arrow { color: #c0c4cc; font-weight: 700; }
+.sfr-drill-node { font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 12px; background: #f0f2f5; color: #606266; }
+.sfr-drill-alpha { font-size: 13px; color: #874d00; background: #fff7e6; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #faad14; margin: 6px 0; line-height: 1.6; }
 
 /* §6 Forward */
 .sfr-fwd-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
