@@ -1,0 +1,13 @@
+{
+  "trades": [],
+  "stats": {
+    "total": 0,
+    "overrode_coach": 0,
+    "overrode_and_wrong": 0,
+    "panic_sells": 0,
+    "panic_sells_avg_return_30d": null,
+    "fomo_buys": 0,
+    "fomo_buys_avg_return_30d": null
+  },
+  "updatedAt": null
+}

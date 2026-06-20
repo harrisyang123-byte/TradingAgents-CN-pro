@@ -40,6 +40,9 @@
 - [AI 产业链情报管线](ai-industry-intel.md) — 22 个 X(Twitter) 信源每日抓取，半导体/AI 供应链一手信息流
   - [AI 产业链情报 · 实时推送](ai-industry-intel-feed.md) — 108 条推文按账号整理，每日更新
 
+### 交易纪律与风控
+- [交易纪律教练 (Discipline Coach)](v4-discipline-coach.md) — 买卖前情绪自检 + 5 问 Checklist + v4 分析联动 + 交易日志，防追涨杀跌
+
 ### 记忆与反思
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
 
