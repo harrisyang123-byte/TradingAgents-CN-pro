@@ -184,11 +184,11 @@
     "industry:AI算力数据中心": {
       "unit_id": "industry:AI算力数据中心",
       "unit_type": "industry",
-      "version": 5,
-      "fingerprint": "sha256:8e208c10de481496d5d2ebf06bc7377a1e76ccafb8d71cec64e77a8d33054b5e",
+      "version": 6,
+      "fingerprint": "sha256:ff6898f368614012a3c43e3bad425e2079ddbe2f0c3cd1aac16337b179e53e11",
       "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-20T18:30:00Z",
+      "generated_at": "2026-06-20T22:00:00Z",
       "upstream": [],
       "error": null,
       "path": "industries/AI算力数据中心.json"
@@ -925,5 +925,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-20T17:00:00Z"
+  "updated_at": "2026-06-20T22:00:00Z"
 }

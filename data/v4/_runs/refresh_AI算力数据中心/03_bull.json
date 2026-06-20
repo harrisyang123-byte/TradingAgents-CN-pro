@@ -1,0 +1,20 @@
+{
+  "role": "bull",
+  "rounds_summary": [
+    {"round": 1, "title": "AI算力超级周期是verified不是叙事", "key": "TAM三源交叉(TBRC $765B/美银$1.7T/JLL 200GW), 瓶颈集中度CR3极高(HBM 95%/MLCC AI 90%/CoWoS TSMC 90%), 6条先行指标全同向"},
+    {"round": 2, "title": "配置重心迁移 + 范畴谬误反击", "key": "bear以风华/生益/源杰3只透支股代表全行业=抽样偏差(已划⛔). 拿出未发现层5只(国瓷PE82x/云南锗业/麦格米特/巨化/西电PE59x). 铜vs光是分层共存非替代(CPO良率仅19%延迟到2028+)"},
+    {"round": 3, "title": "6个月可证伪催化剂日历", "key": "MLCC涨价2026-07/HBM4e送样2026-07/Nvidia FY27Q2指引2026-08/CSP capex 2026-09/800V首批出货2026Q3/西电中标节奏2026-12. 任一阈值破即承认看多失败"}
+  ],
+  "core_thesis": "四条verified事实联立: (a)TAM双口径CAGR 29-45% verified; (b)瓶颈CR3 90-100%超寡头; (c)bear点名标的风华/源杰/生益已被bull划⛔=bear打到空气; (d)未发现层5只标的(国瓷/云南锗业/麦格米特/巨化/西电)估值合理+chokepoint score≥7.75",
+  "discovery_layer_picks_tiered": [
+    {"tier": 1, "type": "确定性", "code": "300285", "name": "国瓷材料", "reason": "钛酸钡村田/SEMCO核心供应商, 国内80-90%市占, PE 82x板块内最理性, 段永平好生意三问全过"},
+    {"tier": 1, "type": "空间弹性", "code": "002428", "name": "云南锗业", "reason": "InP衬底原料层最深alpha, score 9.25未发现层, 机构盲区紫苏叶画像"},
+    {"tier": 2, "type": "时间窗口", "code": "002851", "name": "麦格米特", "reason": "800V HVDC 2026Q3首批出货, 新一代电源核心"},
+    {"tier": 2, "type": "行业周期", "code": "600160", "name": "巨化股份", "reason": "电子氟化液3M退出+AI浸没式双驱动, 市场仅看锂电是预期差"},
+    {"tier": 2, "type": "政策催化", "code": "601179", "name": "中国西电", "reason": "PE 59x+FY2026-2028E净利复合+特高压中标引爆, 机构目标18元留20%空间"}
+  ],
+  "trigger_calendar_count": 7,
+  "methodology_used_count": {"费雪_scuttlebutt": 3, "马克斯_紫苏叶": 3, "段永平_好生意": 2},
+  "data_atoms_count": 27,
+  "falsification_signals_count": 12
+}

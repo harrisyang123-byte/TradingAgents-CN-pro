@@ -1,0 +1,23 @@
+{
+  "role": "bear",
+  "rounds_summary": [
+    {"round": 1, "title": "估值已price-in透支 + 历史顶部信号同型", "key": "TAM真但PE透支(风华机构共识下行-53~-68%/源杰PE 585x). 同型: 2018太阳诱电-55%/2022费城半导体-36%. 高管减持+基金减仓=内部人脚投票"},
+    {"round": 2, "title": "路线颠覆 + HBM砍单链条塌陷", "key": "CPO良率仅19%延迟2028+, LPO 2030超CPO=光模块价值链5年减值螺旋. HBM占晶圆3x+CoWoS TSMC一家=任一砍单30%引发HBM业绩下修60-80%. LTCM同型"},
+    {"round": 3, "title": "宏观/地缘/物理硬约束 + ROI未证 + Archegos尾部", "key": "电力-1.7%/电价+5.9%物理硬约束. 出口管制A股5大4家受影响. AI链公募25-30%+融资40%+雪球万亿=Archegos. OpenAI/Anthropic仍亏损=ROI未证"}
+  ],
+  "core_thesis": "TAM verified真但五重压力下的拥挤交易: PE透支+路线分叉+宏观/地缘/物理逆风+内部人减仓+雪球Archegos. 紫苏叶alpha真但流动性脆弱跌时更狠. 建议underweight, 窗口2026H2-2027H1 capex guidance首次下修前.",
+  "tactical_short_targets": [
+    {"code": "688498", "name": "源杰科技", "reason": "PE 585x+PB 82.5x+CPO 19%延迟到2028+LPO 2030超CPO, 路线威胁直击光芯片"},
+    {"code": "000636", "name": "风华高科", "reason": "PE 239x机构目标价共识下行-53~-68%, 2018太阳诱电-55%同型"},
+    {"code": "600183", "name": "生益科技", "reason": "PE 111x累涨250%+高管减持+基金减仓, CPO时代PCB基材重要性下降"}
+  ],
+  "trigger_warnings_count": 5,
+  "key_disagreement_with_bull": {
+    "bull_未发现层论": "国瓷/云南锗业/麦格米特/巨化/西电估值合理, 配置重心迁移alpha",
+    "bear_反驳": "紫苏叶之所以未被发现, 多数情况是它确实没那么重要; 卖水人传导链6-9月+去库存12-18月; AI叙事整体逆风时紫苏叶层跌得更狠(流动性溢价回吐)",
+    "判定": "bull/bear 在'未发现层5只'估值上有共识(国瓷PE 82x+西电PE 59x合理), 真正分歧在'AI叙事整体是否处顶部'"
+  },
+  "methodology_派别_count": {"芒格_逆向": 3, "达里奥_风险优先": 3, "死亡清单_价值陷阱_LTCM_Archegos_抱团瓦解": 4},
+  "data_atoms_count": 22,
+  "falsification_signals_count": 9
+}

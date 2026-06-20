@@ -1,0 +1,43 @@
+{
+  "role": "chokepoint",
+  "industry": "AI算力数据中心",
+  "analysis_date": "2026-06-20",
+  "analyst": "v4-industry-chokepoint",
+  "method": "横向铺全(25 segments) → 4维瓶颈判定 → 递归深挖(5链depth 3) → 投资地图(21标的)",
+
+  "landscape_count": 25,
+  "landscape_coverage_check": "✅ 25个细分领域(终端/系统/核心芯片/存储/封装/光互连(模块/光芯片/InP/CPO/OCS/光纤)/电连接(铜缆/连接器/CCL/PCB/ABF)/被动元件(MLCC/钛酸钡)/供电散热(800V/液冷/工质/燃机)/基础设施(电网/稀土)/运营层) 超过15-25 阈值上限,补齐前次漏的玻璃基板/CCL/铜连接/液冷工质/InP/稀土/燃机7个并列领域",
+
+  "top_chokepoints": [
+    "InP磷化铟衬底(score 9.25, 🟢未发现) — 全球3家寡头+物理不可替代+扩产2-3年, 国内云南锗业未充分关联AI叙事, 是最深alpha层",
+    "MLCC AI高端高容(score 9.0, 🟡半发现到🔴) — 双寡头90%+涨价10-70%+缺口至2030, 但国内风华PE 239x已严重透支, 应优先看上游国瓷材料(钛酸钡粉)",
+    "800V HVDC供电(score 7.75, 🟢未发现) — 2026Q3才首批出货, A股麦格米特/欧陆通/金鸡未price-in, 新一代窗口期",
+    "224G高速铜缆+连接器(score 7.75, 🟡半发现) — Scale-up铜不可替代到2028+, 立讯精密AI收入未充分认知, LightCounting 2029铜仍占50%",
+    "液冷工质电子氟化液(score 8.0, 🟢未发现) — 3M退出加剧短缺, 国内新宙邦/巨化股份未关联AI叙事"
+  ],
+
+  "deep_chokepoint_chains_summary": [
+    {"start": "光模块800G/1.6T", "deepest_alpha": "InP磷化铟衬底+原料铟. 云南锗业/驰宏锌锗未与AI光芯片叙事强关联,机构盲区,典型紫苏叶画像"},
+    {"start": "MLCC高端AI", "deepest_alpha": "国瓷材料 — 钛酸钡粉体国内80-90%市占,村田/SEMCO核心供应商,卖水人逻辑,弹性弱于成品但确定性强,PE 82x相对成品厂理性"},
+    {"start": "AI服务器供电800V", "deepest_alpha": "天岳先进 SiC衬底 — 8英寸国产突破, 800V HVDC窗口期受益但市场仍主要看车载叙事, 双线受益+未充分price-in"},
+    {"start": "电网/变压器", "deepest_alpha": "金力永磁/中科三环 — 高性能稀土永磁同时受益变压器+液冷泵+燃机叶片, AI关联未被充分认知"},
+    {"start": "液冷散热", "deepest_alpha": "巨化股份/新宙邦 — 电子氟化液稀缺受益,3M退出+AI浸没式液冷双驱动,市场仅看到锂电电解液,未关联AI"}
+  ],
+
+  "investment_map_top_priority_1_新发现": [
+    {"code": "300285", "name": "国瓷材料", "chokepoint": "MLCC上游钛酸钡(村田/SEMCO核心供应商)", "valuation": "PE 82x verified", "guidance": "✅ 卖水人确定性强, position_priority=1"},
+    {"code": "002428", "name": "云南锗业", "chokepoint": "锗+InP相关(光芯片衬底深层)", "valuation": "需verified", "guidance": "✅ 紫苏叶画像, 机构盲区"},
+    {"code": "600497", "name": "驰宏锌锗", "chokepoint": "锌副产铟+锗(InP原料层)", "valuation": "需verified", "guidance": "✅ 完全未关联AI叙事"},
+    {"code": "002851", "name": "麦格米特", "chokepoint": "800V HVDC AI服务器电源(2026Q3出货)", "valuation": "需verified", "guidance": "✅ 新一代电源架构核心标的"},
+    {"code": "600160", "name": "巨化股份", "chokepoint": "电子氟化液(3M退出+AI浸没双驱动)", "valuation": "需verified", "guidance": "✅ 市场仅看锂电"}
+  ],
+
+  "investment_map_⛔不追高": [
+    {"code": "000636", "name": "风华高科", "valuation": "PE 239x", "reason": "机构目标价20-30元远低于市价63.5元"},
+    {"code": "688498", "name": "源杰科技", "valuation": "PE 585x / static 1091x", "reason": "科创板天价"},
+    {"code": "600183", "name": "生益科技", "valuation": "PE 111x +高管减持+基金减仓", "reason": "内部人在出货"}
+  ],
+
+  "evidence_count": {"verified": 24, "estimated": 6, "missing": 0},
+  "save_note": "完整产物 chokepoint_map(11瓶颈4维) + landscape(25 segments) + deep_chains(5x depth3) + investment_map(21标的) 见原始 agent 输出, 此为索引摘要供下游 agent 引用"
+}
