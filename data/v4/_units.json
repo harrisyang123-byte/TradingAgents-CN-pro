@@ -183,14 +183,14 @@
     },
     "industry:AI算力数据中心": {
       "unit_id": "industry:AI算力数据中心",
-      "unit_type": null,
-      "version": 2,
-      "fingerprint": null,
-      "status": null,
-      "ttl_days": null,
-      "generated_at": null,
+      "unit_type": "industry",
+      "version": 3,
+      "fingerprint": "sha256:1b4d7d42417d1cacf5b40ca71571890eb425bded79865a30eafd34b8ba98ab58",
+      "status": "red",
+      "ttl_days": 7,
+      "generated_at": "2026-06-20T14:08:23Z",
       "upstream": [],
-      "error": null,
+      "error": "sentiment段已verified(X feed驱动); 量化段(TAM/CAGR/forwardPEG/个股PE)待本地akshare+web_search补后重跑升ACCEPT",
       "path": "industries/AI算力数据中心.json"
     },
     "industry:互联网平台": {
@@ -925,5 +925,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-20T13:57:44Z"
+  "updated_at": "2026-06-20T14:08:23Z"
 }

@@ -1,70 +1,559 @@
 {
   "unit_id": "industry:AI算力数据中心",
-  "as_of": "2026-06-14",
-  "version": 2,
+  "unit_type": "industry",
+  "schema_version": "v4.0",
+  "version": 3,
+  "fingerprint": "sha256:1b4d7d42417d1cacf5b40ca71571890eb425bded79865a30eafd34b8ba98ab58",
+  "upstream": [],
+  "status": "red",
+  "ttl_days": 7,
+  "generated_at": "2026-06-20T14:08:23Z",
+  "run_mode": "ai_proxy",
+  "error": "sentiment段已verified(X feed驱动); 量化段(TAM/CAGR/forwardPEG/个股PE)待本地akshare+web_search补后重跑升ACCEPT",
   "payload": {
     "industry": "AI算力数据中心",
-    "direction": "go",
-    "confidence": 0.78,
-    "industry_future_market": {
-      "tam_now_usd_b": "光模块2024 $13.6B / AI服务器2024 $135-143B",
-      "tam_2030E_usd_b": "光模块2033 $36-48B / AI服务器2030 $394-838B(多源冲突标分歧)",
-      "cagr_pct": "光模块11-13.5%(3源一致) / AI服务器19.4-34.3%(口径分歧)",
-      "penetration_stage": "800G爆发期上半段(20%→60%); 1.6T导入期(2026量产)",
-      "industry_forward_peg": "行业CAGR口径4-7x高估 / 龙头自身增速口径0.2-0.8合理偏低(中际108%/新易盛235%)",
-      "leaders_share_distribution": "CN3: 中际旭创(全球#1, ~20%)/新易盛(#3, ~12%)/天孚(无源器件#1, ~8%) | 海外: Coherent/Lumentum/Innolight ~50%",
-      "key_drivers_5yr": [
-        "Hyperscaler capex 2026 $700B+(IEEE/Datacenter Knowledge)",
-        "800G→1.6T代际切换",
-        "AI训练→推理比重转移拉动互连密度",
-        "CPO/硅光技术替代风险"
-      ],
-      "data_sources": [
-        "marketsandmarkets(AI server)",
-        "IDC",
-        "Gartner",
-        "grandviewresearch(光模块)",
-        "LightCounting",
-        "TrendForce(800G渗透)",
-        "Goldman Sachs hyperscaler capex",
-        "SEMI"
-      ],
-      "methodology_used": [
-        "尺①TAM三角(2030 AI server $400-840B口径分歧)",
-        "尺②TAM拆解还原($700B×65%×4%≈$18B验证$15.4B)",
-        "尺③CAGR久期(类比智能机+1.6T续接=6-8年)",
-        "尺④渗透阶段(20%→60%爆发上半段)",
-        "尺⑤forward PEG跨期(用龙头自身增速)",
-        "尺⑥龙头瓜分(CN3 40%+)",
-        "尺⑦先行指标三同向"
-      ]
-    },
     "verdict": {
-      "stance": "go",
-      "summary": "GO. ①TAM拆解$18B与实际$15.4B偏差<20%锚定可信; ②渗透率20%→60%爆发期上半段+1.6T续接久期6-8年; ③景气三指标同向确认(capex/出货量/量产); ④龙头forward PEG 0.2-0.8(自身增速)远低于1。风险:多源TAM冲突$400-840B+800G成熟期2027H1验证, 中兴ROIC<WACC建议降配",
-      "confidence": 0.78
-    },
-    "analysts": {
-      "bull_thesis": "见上 industry_future_market 详解",
-      "bear_thesis": "多源TAM冲突2.1倍/CAGR久期2027回落/CN3被Coherent良率追+Broadcom CPO威胁/中兴ROIC毁灭"
-    },
-    "data_status": "synthesized_by_main_agent_with_subagent_debate(verified TAM≥3源 + 7把辩证尺)",
-    "reflection": {
-      "prev_stance": "go(2026-06-12 v3已存在)",
-      "what_changed": "本轮加 industry_future_market 完整模块(TAM/CAGR/渗透率/forward PEG/龙头瓜分/3独立源/7把尺), 旧版仅 ROIC分层+chokepoint",
-      "why_changed": "用户拍板\"行业层结合未来市场考虑了吗\"后落地, 成为下游个股 expert_valuation 的统一上游锚定"
+      "stance": "结构性超配（Structural Overweight）— 但配置重心从『算力主芯片』下移至『上游材料/封测/供电』瓶颈层",
+      "situation": "AI 算力进入资本开支超级周期中段。X 一线信号（@xingpt/@aleabitoreddit/@SemiAnalysis_，2026-06）一致确认：投资逻辑正从 GPU/数据中心 → 存储/HBM → 上游材料（MLCC/覆铜板/玻璃基板）逐层向上游迁移，且新瓶颈（电网供电/铜光路线之争）涌现。需求侧 hyperscaler+neocloud capex 强劲（CoreWeave/Lambda 扩张、neocloud $NBIS 创新高），但部分环节估值已高位。",
+      "direction": "看多（Bullish）。核心配置方向 = 供需最紧 + 仍有信息差/预期差的瓶颈层：①存储/HBM（事件密集催化）②上游被动元件/材料（MLCC/CCL/玻璃基板，X 大佬正轮动炒作）③供电/电网（FERC 快速接入新政+电网供给天花板）。回避：已充分定价的主芯片龙头估值溢价、纯算力租赁同质化。",
+      "vitality_level": 8.5,
+      "track_quality": "极高质量。AI capex 超级周期需求确定，瓶颈环节集中度高、议价权强。但活力正从主芯片向上游材料/供电迁移，配置需跟随瓶颈迁移。",
+      "worst_case": "①AI capex 增速二阶导转负（hyperscaler 指引下修）→ 全链估值杀；②铜连接路线若快速替代光互连，光模块链承压（@SemiAnalysis_ 警示别押单边）；③电网供给瓶颈若限制数据中心落地速度，拖累算力放量节奏。worst case 板块回撤 30-50%（参考历史 capex 周期）。",
+      "cycle_position": "超级景气中段向中后段过渡。主芯片层已拥挤（估值高），但上游材料层/供电层处于『半发现/未发现』，仍有空间。",
+      "downgrade_trigger": "OR 逻辑任一触发即重评：①任一 hyperscaler 2026 capex 指引下调 >10%；②HBM 价格/存储利润见顶回落；③neocloud 融资环境收紧（利率/信用）。",
+      "chokepoint_conclusion": "AI 算力产业链瓶颈正逐层向上游迁移：主芯片/HBM（已拥挤）→ 先进封装/光互连（半发现）→ 上游被动元件/材料(MLCC/CCL/玻璃基板)/供电电网（半发现~未发现）。配置应跟随迁移方向，重心下移至上游材料与供电层——这正是 X 一线大佬当前轮动方向。核心矛盾：主芯片层信息差已被 price-in，alpha 在上游材料/供电的未发现层。",
+      "risks": [
+        "铜 vs 光路线之争（@SemiAnalysis_ 2026-06-20 verified）：投资者把 AI networking 简化为铜/光二元对立并来回轮动，押单边有路线风险，光互连链需警惕铜连接（高速连接器/背板）替代",
+        "估值高位（@SemiAnalysis_/@bboczeng）：部分环节（存储/neocloud）已大涨，短期回调风险；MLCC 等已 2 月内翻倍（太阳诱电+211%），追高风险",
+        "电网供给天花板（@SemiAnalysis_ verified）：电力产出-1.7%但电价+5.9% YoY，电网是数据中心放量的物理硬约束",
+        "宏观/利率（@degentradingLSD/@BitfuryGeorge）：FOMC 沃什意外不鹰，但利率路径与 neocloud 融资成本仍是变量"
+      ],
+      "allocation_advice": "瓶颈层超配 + 跟随迁移：存储/HBM（事件驱动）、上游被动元件材料（MLCC/CCL/玻璃基板，半发现）、供电电网（未发现）为核心；主芯片龙头标配不超配（已price-in）；光互连维持但警惕铜替代。",
+      "confidence": 0.62,
+      "confidence_reason": "X 一线信号方向高度一致(多源同向)→提升置信; 但本地 akshare/外网取数不可用, TAM/份额/PE 等 verified 量化数据缺失(data_availability 全 false), 无法量化估值锚 → 扣减。定性方向强, 定量验证弱。"
     },
     "credibility": {
-      "final_verdict": "ACCEPT",
-      "critic_score": 82,
+      "final_verdict": "NEEDS_CHANGES",
+      "critic_score": 58,
+      "reviewer": "v4-investor-critic(独立评审, 主agent mode-A 真评)",
       "reviewers": [
-        "v4-investor-critic"
+        "芒格",
+        "段永平",
+        "Serenity",
+        "达里奥"
       ],
-      "review_method": "spawn_subagent_ask_v2 真复核",
-      "7_items_pass": 7,
-      "rulers_used": 7,
-      "key_concerns": "AI server 2030 口径2.1倍差异未明确conf对应情景",
-      "data_status": "真critic spawn 复核"
-    }
+      "data_status": "sentiment_verified_from_x_feed; quantitative_missing(无akshare/外网)",
+      "challenges": [
+        "致命: TAM/CAGR/渗透率/forward PEG 全缺(本地未取到), 7把尺第①②⑤尺无法执行, 这是结构性局限非分析疏漏",
+        "致命: chokepoint 四维判定缺 verified 供给集中度/产能数据(CR3/扩产周期), 多为基于 X 定性信号+训练知识的 estimated, 未达 verified 红线",
+        "investment_map 标的市值/PE 未 verified(本地无 akshare), 仅列名, 不可作建仓依据",
+        "铜vs光路线之争已识别但未量化两条路线的份额/时间表, 无法判断光互连链承压程度",
+        "需补: 本地用 akshare/web_search 取 verified TAM(IDC/Gartner)+龙头PE分位+MLCC/CCL厂商产能数据后重跑"
+      ],
+      "critic_iterations": 1,
+      "unresolved": true,
+      "note": "诚实降级: 定性方向(X舆情驱动)扎实且多源印证, 但量化数据缺失使其达不到可建仓的 verified 标准。这是分工 workflow 的真实状态——sentiment段已由X feed补齐, 但 fundamentals/valuation/TAM 段仍需本地 akshare+web_search 取数后重跑。"
+    },
+    "landscape": [
+      {
+        "segment": "AI加速器GPU/ASIC",
+        "layer": "核心芯片层",
+        "role_in_industry": "算力主芯片, 训练推理核心",
+        "is_bottleneck": true,
+        "bottleneck_reason": "NVIDIA CUDA全栈+训练垄断, 但已充分发现估值高",
+        "representative_players": [
+          "NVIDIA",
+          "AMD",
+          "寒武纪",
+          "海光信息"
+        ]
+      },
+      {
+        "segment": "HBM高带宽存储",
+        "layer": "存储层",
+        "role_in_industry": "喂饱GPU的内存带宽瓶颈",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@tengyanAI verified: A100→B200算力8x但内存带宽仅4x, 内存墙是真瓶颈; SK海力士主导, 事件催化密集(ADR/HBM4e/Q2财报)",
+        "representative_players": [
+          "SK海力士",
+          "三星",
+          "美光"
+        ]
+      },
+      {
+        "segment": "存储(NAND/DRAM)",
+        "layer": "存储层",
+        "role_in_industry": "AI服务器大容量存储",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@bboczeng verified: 存储利润翻倍, SNDK目标上调; @firstadopter: 存储股大涨",
+        "representative_players": [
+          "SanDisk(SNDK)",
+          "美光",
+          "铠侠"
+        ]
+      },
+      {
+        "segment": "先进制程晶圆代工",
+        "layer": "核心芯片层",
+        "role_in_industry": "GPU/ASIC唯一代工路径",
+        "is_bottleneck": true,
+        "bottleneck_reason": "TSMC 3nm/2nm垄断, @LordWilliamUK verified: 台积电大涨7%",
+        "representative_players": [
+          "TSMC",
+          "三星",
+          "中芯国际"
+        ]
+      },
+      {
+        "segment": "先进封装(CoWoS/HBM集成)",
+        "layer": "封测层",
+        "role_in_industry": "chiplet/2.5D异构集成",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@LordWilliamUK verified: AMKR利好/日月光大涨; @tengyanAI: Intel挖SK海力士CEO做memory-logic封装集成",
+        "representative_players": [
+          "TSMC",
+          "日月光(ASX)",
+          "Amkor(AMKR)",
+          "通富微电"
+        ]
+      },
+      {
+        "segment": "MLCC片式多层陶瓷电容",
+        "layer": "上游被动元件层",
+        "role_in_industry": "AI服务器供电滤波必需, BOM占比小但断供整线停",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@aleabitoreddit(Serenity) verified: 2月内太阳诱电+211%/村田+155%/Vishay+146%, MLCC瓶颈已兑现; @xingpt: 资金转向MLCC",
+        "representative_players": [
+          "村田",
+          "太阳诱电",
+          "三星电机",
+          "国巨",
+          "风华高科"
+        ]
+      },
+      {
+        "segment": "覆铜板CCL/高速PCB",
+        "layer": "上游材料层",
+        "role_in_industry": "高速信号传输基材, 224G高速连接刚需",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@xingpt verified: 资金正炒覆铜板上游材料; 高速CCL是AI服务器PCB真瓶颈",
+        "representative_players": [
+          "生益科技",
+          "南亚新材",
+          "联茂",
+          "台光电子"
+        ]
+      },
+      {
+        "segment": "玻璃基板",
+        "layer": "上游材料层",
+        "role_in_industry": "下一代先进封装载板(替代ABF)",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@xingpt verified: 资金开始炒玻璃基板; 下一代封装载体, 半发现",
+        "representative_players": [
+          "Intel(主推)",
+          "SKC",
+          "三星电机",
+          "沃格光电"
+        ]
+      },
+      {
+        "segment": "光互连(800G/1.6T/CPO)",
+        "layer": "光互连层",
+        "role_in_industry": "节点间高速互连",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@SemiAnalysis_ verified: 但警示铜vs光别押单边; @aleabitoreddit核心主题Photonics",
+        "representative_players": [
+          "中际旭创",
+          "新易盛",
+          "天孚通信",
+          "Coherent"
+        ]
+      },
+      {
+        "segment": "高速铜连接(连接器/背板/铜缆)",
+        "layer": "电连接层",
+        "role_in_industry": "短距高速互连(NVLink等), 光的竞争路线",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@SemiAnalysis_ verified: 铜vs光二元之争, 铜是真实竞争路线(我们之前漏了)",
+        "representative_players": [
+          "安费诺",
+          "沃尔核材",
+          "Amphenol"
+        ]
+      },
+      {
+        "segment": "供电架构(800V HVDC/电源)",
+        "layer": "供电散热层",
+        "role_in_industry": "GPU机柜高功率供电",
+        "is_bottleneck": true,
+        "bottleneck_reason": "Rubin>kW级功率, 800V HVDC新架构; SiC功率器件上游紧",
+        "representative_players": [
+          "中恒电气",
+          "麦格米特",
+          "Vicor",
+          "英飞凌"
+        ]
+      },
+      {
+        "segment": "电网接入/算电协同",
+        "layer": "基础设施运营层",
+        "role_in_industry": "数据中心落地的电力物理约束",
+        "is_bottleneck": true,
+        "bottleneck_reason": "@SemiAnalysis_ verified: 电网供给天花板(产出-1.7%/电价+5.9%); @blockspace verified: FERC快速接入新政, 利好自带电源前矿企",
+        "representative_players": [
+          "Cipher(CIFR)",
+          "TeraWulf(WULF)",
+          "中国西电"
+        ]
+      },
+      {
+        "segment": "液冷散热",
+        "layer": "供电散热层",
+        "role_in_industry": "高功率GPU散热",
+        "is_bottleneck": true,
+        "bottleneck_reason": "GPU功率密度飙升, 风冷转液冷刚需(DLC)",
+        "representative_players": [
+          "英维克",
+          "高澜股份",
+          "Vertiv"
+        ]
+      },
+      {
+        "segment": "Neocloud/AI云算力",
+        "layer": "基础设施运营层",
+        "role_in_industry": "GPU算力租赁服务商",
+        "is_bottleneck": false,
+        "bottleneck_reason": "@aleabitoreddit核心主题(Neoclouds=Energy); @degentradingLSD: $NBIS创新高; 但同质化竞争, 非物理瓶颈",
+        "representative_players": [
+          "CoreWeave",
+          "Nebius(NBIS)",
+          "Lambda"
+        ]
+      },
+      {
+        "segment": "AI服务器整机",
+        "layer": "系统整机层",
+        "role_in_industry": "GPU/CPU/存储集成",
+        "is_bottleneck": false,
+        "bottleneck_reason": "组装环节, 价值量低毛利薄, @aleabitoreddit提Wistron(3231)",
+        "representative_players": [
+          "工业富联",
+          "纬创(Wistron 3231)",
+          "Supermicro"
+        ]
+      },
+      {
+        "segment": "光纤光缆",
+        "layer": "光互连层",
+        "role_in_industry": "数据中心内/间光纤连接",
+        "is_bottleneck": false,
+        "bottleneck_reason": "技术成熟, 非卡脖子, 但放量受益",
+        "representative_players": [
+          "长飞",
+          "亨通光电",
+          "Corning"
+        ]
+      },
+      {
+        "segment": "光芯片(EML/DFB)",
+        "layer": "光互连层",
+        "role_in_industry": "光模块核心激光器芯片",
+        "is_bottleneck": true,
+        "bottleneck_reason": "光模块上游卡点, 国产化率低(承接半导体产业链深挖结论: EML→磷化铟衬底)",
+        "representative_players": [
+          "源杰科技",
+          "Lumentum",
+          "Coherent"
+        ]
+      },
+      {
+        "segment": "PCB印制电路板",
+        "layer": "上游材料层",
+        "role_in_industry": "AI服务器高多层高速板",
+        "is_bottleneck": false,
+        "bottleneck_reason": "高速PCB有壁垒但玩家较多, 真瓶颈在上游CCL材料",
+        "representative_players": [
+          "沪电股份",
+          "胜宏科技",
+          "深南电路"
+        ]
+      },
+      {
+        "segment": "燃气轮机/自备电源",
+        "layer": "基础设施运营层",
+        "role_in_industry": "数据中心自备发电(绕过电网瓶颈)",
+        "is_bottleneck": true,
+        "bottleneck_reason": "电网瓶颈下自备电源成解法, @blockspace: 自带电源数据中心被FERC优先",
+        "representative_players": [
+          "GE Vernova",
+          "西门子能源",
+          "中国船舶(海上数据中心概念@yiqifacai)"
+        ]
+      },
+      {
+        "segment": "算力租赁/IDC运营",
+        "layer": "基础设施运营层",
+        "role_in_industry": "算力资源出租",
+        "is_bottleneck": false,
+        "bottleneck_reason": "重资产同质化, 非瓶颈, 受益放量但议价权弱",
+        "representative_players": [
+          "世纪互联",
+          "万国数据",
+          "润泽科技"
+        ]
+      }
+    ],
+    "landscape_count": 21,
+    "top_chokepoints": [
+      "上游被动元件(MLCC)——@aleabitoreddit/@xingpt verified 资金正轮动, 2月内龙头翻倍, BOM占比小但断供整线停, 半发现层信息差兑现中",
+      "存储/HBM——内存墙真瓶颈(@tengyanAI), 事件催化密集(ADR/HBM4e/财报), 海外一致强多",
+      "供电/电网——@SemiAnalysis_ verified 电网供给天花板, 数据中心放量物理约束, 未发现层"
+    ],
+    "deep_chokepoint_chains": [
+      {
+        "start": "光互连800G/1.6T光模块",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "EML电吸收调制激光器芯片",
+            "needs_what": "光模块核心光电转换",
+            "supply_demand_gap": "紧缺-国产化率低",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "源杰科技"
+            ],
+            "beneficiaries_qdii": [
+              "Lumentum",
+              "Coherent"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "磷化铟(InP)衬底",
+            "needs_what": "EML芯片基材",
+            "supply_demand_gap": "紧缺-化合物半导体物理瓶颈(承接半导体产业链深挖)",
+            "discovery_level": "🟢未发现",
+            "beneficiaries_a": [
+              "云南锗业"
+            ],
+            "beneficiaries_qdii": []
+          }
+        ],
+        "deepest_alpha": "磷化铟衬底——光互连链最上游物理瓶颈, 未发现层。注: 此链承接半导体产业链已有深挖, AI算力数据中心复用。"
+      },
+      {
+        "start": "AI服务器供电",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "MLCC片式多层陶瓷电容",
+            "needs_what": "供电滤波必需",
+            "supply_demand_gap": "紧缺-@aleabitoreddit verified 2月内龙头翻倍",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "风华高科",
+              "三环集团"
+            ],
+            "beneficiaries_qdii": [
+              "村田",
+              "太阳诱电",
+              "国巨"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "MLCC上游陶瓷粉/介质材料(BaTiO3)",
+            "needs_what": "MLCC核心原料",
+            "supply_demand_gap": "estimated紧缺-高端粉体日企垄断(需verified)",
+            "discovery_level": "🟢未发现",
+            "beneficiaries_a": [
+              "国瓷材料"
+            ],
+            "beneficiaries_qdii": [
+              "堺化学"
+            ]
+          }
+        ],
+        "deepest_alpha": "MLCC上游高端陶瓷粉体——未发现层, 但供给数据需本地web_search verified后确认"
+      }
+    ],
+    "industry_future_market": {
+      "tam_now_usd_b": null,
+      "tam_2030E_usd_b": null,
+      "cagr_pct": null,
+      "penetration_stage": "AI算力capex超级周期中段(定性, X信号确认需求强劲: CoreWeave/Lambda扩张/neocloud创新高)",
+      "industry_forward_peg": null,
+      "forward_peg_note": "🚨 TAM/CAGR/forward PEG 全部 missing——本地 akshare/外网取数不可用(data_availability 全 false), 7把尺第①TAM三角②TAM拆解⑤forward PEG 无法执行。需本地 web_search 取 IDC/Gartner 的 AI数据中心 TAM + 龙头PE分位后重跑。这是结构性局限, 已如实标注, 不编造。",
+      "leading_indicators": "X一线信号(verified): ①hyperscaler+neocloud capex强劲(CoreWeave 2分钟训完DeepSeek-V3/Lambda组建领导层) ②存储利润翻倍 ③MLCC龙头2月翻倍 ④电网供给天花板 ⑤Intel重组攻memory-logic封装",
+      "bottleneck_migration": "GPU/数据中心(2024-25已拥挤) → 存储/HBM(2025-26催化密集) → 上游材料MLCC/CCL/玻璃基板(2026正轮动) → 供电/电网(2026新瓶颈觉醒)。X大佬@xingpt明确描述此迁移路径。",
+      "key_drivers_5yr": [
+        "hyperscaler+neocloud AI capex超级周期(需求确定)",
+        "内存墙驱动HBM量价齐升(@tengyanAI: 算力scaling快于内存带宽)",
+        "瓶颈向上游材料迁移(MLCC/CCL/玻璃基板)",
+        "电网成数据中心物理约束→自备电源/算电协同(FERC新政)",
+        "铜vs光互连路线演进(@SemiAnalysis_警示别押单边)"
+      ],
+      "data_sources": [
+        {
+          "source": "custom-feed-x.json (22账号/108推文, 2026-06-20)",
+          "status": "verified-sentiment"
+        }
+      ]
+    },
+    "investment_map": [
+      {
+        "chokepoint_node": "MLCC(供电滤波瓶颈)",
+        "beneficiary": "风华高科",
+        "code": "000636",
+        "reason": "MLCC国产龙头, X大佬轮动方向(@xingpt/@aleabitoreddit)",
+        "discovery_level": "🟡半发现",
+        "position_priority": 1,
+        "note": "市值/PE需本地akshare verified"
+      },
+      {
+        "chokepoint_node": "MLCC上游陶瓷粉",
+        "beneficiary": "国瓷材料",
+        "code": "300285",
+        "reason": "MLCC介质材料, 更上游未发现层",
+        "discovery_level": "🟢未发现",
+        "position_priority": 1,
+        "note": "供给数据需verified"
+      },
+      {
+        "chokepoint_node": "覆铜板CCL(高速PCB基材)",
+        "beneficiary": "生益科技",
+        "code": "600183",
+        "reason": "高速CCL龙头, @xingpt资金轮动方向",
+        "discovery_level": "🟡半发现",
+        "position_priority": 2,
+        "note": "需verified"
+      },
+      {
+        "chokepoint_node": "存储/HBM",
+        "beneficiary": "SK海力士",
+        "code": "000660.KS",
+        "reason": "HBM主导+事件催化密集(ADR/HBM4e/Q2财报), 多个X源强多",
+        "discovery_level": "🔴已拥挤",
+        "position_priority": 2,
+        "note": "已大涨, 追高需谨慎"
+      },
+      {
+        "chokepoint_node": "光芯片EML→磷化铟",
+        "beneficiary": "源杰科技",
+        "code": "688498",
+        "reason": "光模块上游卡点, 承接半导体深挖链",
+        "discovery_level": "🟡半发现",
+        "position_priority": 3,
+        "note": "需verified"
+      },
+      {
+        "chokepoint_node": "电网接入/自备电源",
+        "beneficiary": "中国西电",
+        "code": "601179",
+        "reason": "电网设备, 数据中心电力瓶颈受益",
+        "discovery_level": "🟢未发现",
+        "position_priority": 3,
+        "note": "需verified"
+      }
+    ],
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "event": "SK海力士美股ADR上市",
+          "timeline": "2026-07",
+          "impact": "@xiaomustock verified: 放大承接市场, 存储情绪催化"
+        },
+        {
+          "event": "HBM4e送样",
+          "timeline": "2026-07",
+          "impact": "@xiaomustock verified: HBM技术迭代验证"
+        },
+        {
+          "event": "SK海力士Q2财报(7/23)+美光财报",
+          "timeline": "2026-07",
+          "impact": "存储基本面验证"
+        },
+        {
+          "event": "Intel梦之队组建(陈立武+SK海力士前CEO李锡熙)",
+          "timeline": "2026持续",
+          "impact": "@TJ_Research/@tengyanAI: memory-logic封装整合, 改写竞争格局"
+        }
+      ],
+      "mid_term_path": "瓶颈持续向上游迁移: 2026H2 上游材料(MLCC/CCL/玻璃基板)→ 供电/电网。关键观察: ①hyperscaler capex二阶导 ②铜vs光份额演进 ③电网接入瓶颈缓解节奏。",
+      "path_scenarios": [
+        {
+          "scenario": "牛市(概率~35%)",
+          "triggers": "capex维持高增+上游材料瓶颈兑现+电网新政落地",
+          "outcome": "瓶颈逐层迁移创造持续投资窗口, 上游材料层戴维斯双击",
+          "portfolio_action": "上游材料+供电超配"
+        },
+        {
+          "scenario": "基准(概率~45%)",
+          "triggers": "结构性景气, 主芯片估值消化, 上游补涨",
+          "outcome": "配置重心下移获超额",
+          "portfolio_action": "跟随瓶颈迁移调仓"
+        },
+        {
+          "scenario": "熊市(概率~20%)",
+          "triggers": "capex指引下修>10% 或 利率/neocloud融资收紧",
+          "outcome": "全链估值杀30-50%",
+          "portfolio_action": "降仓+保留现金/防御"
+        }
+      ]
+    },
+    "data_quality": "中低。优势: sentiment 维度由 custom-feed-x.json(22账号产业一线大佬, verified来源+url)强力补齐, 方向性信号多源同向(资金向上游迁移/存储强多/电网瓶颈)。结构性缺失: ①本地akshare/外网不可用→TAM/CAGR/渗透率/forward PEG/龙头PE分位全missing(7把尺①②⑤无法执行) ②chokepoint四维的供给集中度/产能/扩产周期多为estimated非verified ③investment_map标的市值/PE未verified仅列名。需本地web_search+akshare取数后重跑达verified标准。",
+    "evidence": [
+      {
+        "claim": "AI投资逻辑从GPU/数据中心→存储/HBM→上游材料(MLCC/覆铜板/玻璃基板)迁移",
+        "source": "@xingpt (custom-feed-x.json, 2026-06-16)",
+        "status": "verified"
+      },
+      {
+        "claim": "MLCC瓶颈兑现: 2月内太阳诱电+211%/村田+155%/Vishay+146%",
+        "source": "@aleabitoreddit Serenity (custom-feed-x.json, 2026-06-19)",
+        "status": "verified"
+      },
+      {
+        "claim": "AI networking铜vs光二元之争, 别押单边",
+        "source": "@SemiAnalysis_ (custom-feed-x.json, 2026-06-20)",
+        "status": "verified"
+      },
+      {
+        "claim": "电网供给天花板: 电力产出-1.7%但电价+5.9% YoY",
+        "source": "@SemiAnalysis_ (custom-feed-x.json, 2026-06-19)",
+        "status": "verified"
+      },
+      {
+        "claim": "FERC批准AI数据中心电网快速接入, 利好自带电源",
+        "source": "@blockspace (custom-feed-x.json, 2026-06-18)",
+        "status": "verified"
+      },
+      {
+        "claim": "内存墙: A100→B200算力8x但内存带宽仅4x/容量2.4x",
+        "source": "@tengyanAI (custom-feed-x.json, 2026-06-07)",
+        "status": "verified"
+      },
+      {
+        "claim": "SK海力士催化: ADR/HBM4e送样/Q2财报(7/23)",
+        "source": "@xiaomustock (custom-feed-x.json, 2026-06)",
+        "status": "verified"
+      },
+      {
+        "claim": "存储利润翻倍, SNDK目标上调",
+        "source": "@bboczeng (custom-feed-x.json, 2026-06-15)",
+        "status": "verified"
+      },
+      {
+        "claim": "Intel组memory-logic封装梦之队(陈立武+李锡熙)",
+        "source": "@TJ_Research/@tengyanAI (custom-feed-x.json, 2026-06-19)",
+        "status": "verified"
+      },
+      {
+        "claim": "AI算力数据中心 TAM/CAGR/渗透率/forward PEG",
+        "source": "本地akshare/web_search未取到",
+        "status": "missing"
+      }
+    ]
   }
 }
