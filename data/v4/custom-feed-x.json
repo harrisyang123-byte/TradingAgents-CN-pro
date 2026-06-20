@@ -1,0 +1,699 @@
+{
+  "x": [
+    {
+      "name": "SemiAnalysis_",
+      "username": "SemiAnalysis_",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n7小时\nInvestors have increasingly framed AI networking as a binary debate between copper and optics. Thus they are constantly thinking and evaluating the rotation in and out each theme.\n\nWe think that the networking landscape can actually be viewed from a simpler lens. As GPU clusters\n显示更多\n18\n37\n372\n3.5万",
+          "url": "https://x.com/SemiAnalysis_/status/2068136869011861897",
+          "created_at": "2026-06-20T01:00:28.000Z"
+        },
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n11小时\nEveryone's talking about Elon Musk's AI1 satellite this week. Almost nobody noticed: China moved on space-based AI compute a week BEFORE he did.\n\nLast week, Beijing quietly launched its first Space Computing Industry Innovation Center. Government-chartered, led by BUPT, a top\n显示更多\n18\n58\n332\n5.6万",
+          "url": "https://x.com/SemiAnalysis_/status/2068076529884467586",
+          "created_at": "2026-06-19T21:00:42.000Z"
+        },
+        {
+          "text": "SemiAnalysis 已转帖\nDylan Patel\n@dylan522p\n·\n17小时\n45\n12\n755\n8.1万",
+          "url": "https://x.com/dylan522p/status/2067988404227449091",
+          "created_at": "2026-06-19T15:10:31.000Z"
+        },
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n15小时\nIndustrial production is Semis and everything else is flat\n\nHeadline industrial production inched up by just 0.1%, with manufacturing flat in May. But semiconductors continued their upward march. (1/4) \n4\n19\n162\n2.2万",
+          "url": "https://x.com/SemiAnalysis_/status/2068016308935897215",
+          "created_at": "2026-06-19T17:01:24.000Z"
+        },
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n15小时\nElectric utility output fell −1.7% while CPI electricity is +5.9% y/y. Output down, price up looks like a grid supply ceiling, not soft demand. (3/4)\n2\n20\n8,020",
+          "url": "https://x.com/SemiAnalysis_/status/2068016311616012665",
+          "created_at": "2026-06-19T17:01:25.000Z"
+        },
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n15小时\nA note: The high-tech IP indexes are hedonically quality-adjusted, so part of the +14% is measured chip-quality gains rather than physical units; and the autumn 2026 rebase (2017→2022 base year) will reset the level. (4/4)\n1\n15\n6,342",
+          "url": "https://x.com/SemiAnalysis_/status/2068016312668786932",
+          "created_at": "2026-06-19T17:01:25.000Z"
+        },
+        {
+          "text": "SemiAnalysis\n@SemiAnalysis_\n·\n16小时\nIf you enjoy SemiAnalysis' work and want to join an amazing, incredibly talented team, consider applying at \nhttps://\nsemianalysis.com/semianalysis-c\nareers/\n… or \nhttps://\nx.com/SemiAnalysis_/\njobs\n….\n\nA bit about the team: we're in office, 7 days a week (actually technically 8 days since we have offices globally across\n显示更多\n引用\nAustin Wang\n@austinywang\n·\n6月19日\n20\n7\n267\n9.9万",
+          "url": "https://x.com/SemiAnalysis_/status/2068005612798021680",
+          "created_at": "2026-06-19T16:18:54.000Z"
+        }
+      ]
+    },
+    {
+      "name": "tengyanai",
+      "username": "tengyanai",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nTeng Yan\n@tengyanAI\n·\n6月7日\nEveryone thinks the AI bottleneck is compute. Well...not exactly.\n\nFrom the A100 to the B200, compute scaled 8x. Memory bandwidth scaled 4x. Capacity only 2.4x.\n\nThe gap between what a chip can calculate & what you can actually feed it is the real wall. \nA thread on memory:\nTessara\n19\n41\n277\n6.9万",
+          "url": "https://x.com/tengyanAI/status/2063412426922766775",
+          "created_at": "2026-06-07T00:07:13.000Z"
+        },
+        {
+          "text": "Teng Yan\n@tengyanAI\n·\n20小时\nmy counter: gemma 4 (31B) fits in Cerebras's SRAM, which is exactly where wafer-scale shines: small-to-mid models\n\nlarge models (400B+) need to be split across wafers and the cost-per-token math gets murkier when compared against a batched gpu fleet. \n\nit's a latency vs tokens\n显示更多\n引用\nTessara Signals\n@tessarasignals\n·\n6月19日\nCerebras pegs Gemma 4 throughput at 1,500+ tokens per second on its wafer-scale hardware, per CEO Andrew Feldman's post, 15x the rate cited for Claude Haiku 4.5.\n\nOn the reported numbers, inference memory bandwidth stays the binding constraint GPU",
+          "url": "https://x.com/tengyanAI/status/2067943023498211710",
+          "created_at": "2026-06-19T12:10:11.000Z"
+        },
+        {
+          "text": "Teng Yan\n@tengyanAI\n·\n6月19日\nLee ran SK Hynix, the company that dominates HBM. \n\nyou don't put a memory CEO in packaging unless the goal is memory-logic integration, coupling hbm tight to the die as the foundry selling point. \n\nimo that's the seam intel wants to own.\n引用\nIntel\n@intel\n·\n6月19日\nSeok-Hee Lee joins Intel as EVP, @Intel_Foundry, to lead advanced packaging and back-end manufacturing, strengthening our ability to deliver system-level innovation. \n\nNaga Chandrasekaran will continue to lead front-end technology development, manufacturing, design enablement,\n7\n5\n87\n7,966",
+          "url": "https://x.com/tengyanAI/status/2067793629448753637",
+          "created_at": "2026-06-19T02:16:33.000Z"
+        },
+        {
+          "text": "Teng Yan\n@tengyanAI\n·\n6月19日\njust maybe... we might get to chinese fable/mythos-class models sooner rather than later\n引用\njietang\n@jietang\n·\n6月18日\n回复 @elonmusk 和 @teortaxesTex\nwon’t take that long\n2\n9\n1,584",
+          "url": "https://x.com/tengyanAI/status/2067791646360736046",
+          "created_at": "2026-06-19T02:08:40.000Z"
+        },
+        {
+          "text": "Teng Yan\n@tengyanAI\n·\n6月19日\nmy personal takeaways:\n- doing work creates the data needed to automate that work later\n\n- this means employers need to think about (1) the direct work output of their employees tied to the business but also (2) how much of their work output can help to drive eventual automation.\n显示更多\n引用\nAndrew Koh\n@andrewjkoh\n·\n6月17日\nNew paper on data as a driver of automation and growth: \nhttps://\nnber.org/papers/w35320\n\nOne of my favorite lines from the Nicomachean Ethics goes ‘for the things we need to learn before we do them, we learn by doing them’. The world is complex and me",
+          "url": "https://x.com/tengyanAI/status/2067786195766251555",
+          "created_at": "2026-06-19T01:47:01.000Z"
+        }
+      ]
+    },
+    {
+      "name": "firstadopter",
+      "username": "firstadopter",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\ntae kim\n@firstadopter\n·\n5月17日\nMy Substack's stock ideas since inception have been like Shohei Ohtani going 13-for-14 with 3 grand slam homeruns. \n\nIt won't last, but it's been fun so far! \n\nKen Griffin says the best stock pickers are right just 54% of the time. \n$NVDA\n18\n15\n178\n7.9万",
+          "url": "https://x.com/firstadopter/status/2056024840214098392",
+          "created_at": "2026-05-17T14:51:35.000Z"
+        },
+        {
+          "text": "tae kim\n@firstadopter\n·\n1小时\nM5 Mac Studios with high end memory configs are going to cost as much as a decent used car, aren’t they?\n引用\ntae kim\n@firstadopter\n·\n6月18日\nMemory stocks and Korean equities are up a lot on this headline. Like I said, don't make fun of the Koreans. They're right!\n\nWSJ: \"Apple plans to raise prices on its products to offset the surging costs of memory and storage chips, Chief Executive Tim Cook said in an exclusive\n1\n1\n12\n2,803",
+          "url": "https://x.com/firstadopter/status/2068221920101683292",
+          "created_at": "2026-06-20T06:38:26.000Z"
+        },
+        {
+          "text": "tae kim\n@firstadopter\n·\n5小时\nCountry Roooooooad. Take me hooooome.\n1\n13\n3,846",
+          "url": "https://x.com/firstadopter/status/2068175728231755886",
+          "created_at": "2026-06-20T03:34:53.000Z"
+        },
+        {
+          "text": "tae kim\n@firstadopter\n·\n12小时\nLunch\n1\n1\n31\n4,128",
+          "url": "https://x.com/firstadopter/status/2068056158472925338",
+          "created_at": "2026-06-19T19:39:45.000Z"
+        }
+      ]
+    },
+    {
+      "name": "xingpt",
+      "username": "xingpt",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nXinGPT\n@xingpt\n·\n2月21日\n 文章\n年薪150万的工作，我用500美金的AI完成：个人业务Agent升级指南\n2026 年春节，我做了一个决定：把自己的全部业务流程 Agent 化。\n一周后的今天，这套系统已经跑通了接近 1/3，尽管这套系统还在完善，我每天的常规工作任务已经可以从 6 小时降到 2 小时，但业务产出反而提升了...\n362\n2,231\n7,425\n231万",
+          "url": "https://x.com/xingpt/status/2025219080421277813",
+          "created_at": "2026-02-21T14:40:30.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月16日\n最近AI产业的投资逻辑开始往上游转移，从GPU、数据中心到存储、HBM，现在开始炒玻璃基板、MLCC、覆铜板等上游材料和设备。\n显示更多\nyoutube.com\n日本上市公司中的隐形冠军：AI产业链中最受益的企业盘点（村田、太阳诱电、日东纺……）\n这期我们盘点了 9 家AI产业链中不那么出名，但是又在产业链中占据卡脖子地位的龙头日企。（所以像铠侠这种知名大厂就不包括其中了）快...\n28\n2\n14\n9,746",
+          "url": "https://x.com/xingpt/status/2066772151676391548",
+          "created_at": "2026-06-16T06:37:34.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月16日\n订阅我的Patreon：\nhttp://\nPatreon.com/c/xingpt 获得更多详细信息及后续产业链及时跟踪\nXINGPT 投资频道\n来自 patreon.com\n3,996",
+          "url": "https://x.com/xingpt/status/2066772153584730193",
+          "created_at": "2026-06-16T06:37:34.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月12日\n笑死了 币圈连美股都能 这圈子彻底凉了\n27\n2\n83\n2.3万",
+          "url": "https://x.com/xingpt/status/2065448619843703086",
+          "created_at": "2026-06-12T14:58:19.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月12日\n比特币在微策略这样的公司手里，其实是非常危险的。\n13\n30\n1.1万",
+          "url": "https://x.com/xingpt/status/2065270210903625884",
+          "created_at": "2026-06-12T03:09:23.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月11日\n昨天Oracle财报一出来，都在说什么因为资本开支上涨，现金流吃紧，还计划FY27融资约400亿美元，所以债务会有隐患，大利空。\n这是大部分媒体的报道，以及只会用AI的自媒体博主得出来的字面意思。\n但这个财报实际上应该这么看：\n第一：AI云资本开支没有放缓，反而更清晰了。\n显示更多\n7\n3\n46\n1.2万",
+          "url": "https://x.com/xingpt/status/2065059278608896286",
+          "created_at": "2026-06-11T13:11:13.000Z"
+        },
+        {
+          "text": "XinGPT\n@xingpt\n·\n6月11日\nOracle财报对于完整产业链上游影响的深入分析请订阅Patreon会员：\nOracle FY4Q 26 财报深度解读 | XINGPT 投资频道\n来自 patreon.com\n2,356",
+          "url": "https://x.com/xingpt/status/2065059281226043839",
+          "created_at": "2026-06-11T13:11:14.000Z"
+        }
+      ]
+    },
+    {
+      "name": "bitfurygeorge",
+      "username": "bitfurygeorge",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nGeorge Kikvadze\n@BitfuryGeorge\n·\n2025年10月28日\nAnd Then You Win is Finally Out! \nThe story of how we went all-in on Bitcoin, were ridiculed, “ate glass” to survive — and built businesses worth $12 billion and counting.\nMore than that, it’s about what we learned about ourselves and the world along the way.\nAmazon:\n显示更多\nRichard Branson 及 另外 5 个人\n201\n481\n7,199\n147万",
+          "url": "https://x.com/BitfuryGeorge/status/1983128671532503045",
+          "created_at": "2025-10-28T11:08:14.000Z"
+        },
+        {
+          "text": "George Kikvadze\n@BitfuryGeorge\n·\n6月15日\nKevin Warsh’s first FOMC meeting starts this week. He may actually surprise everyone and will either cut or signal cutting rates:\n\n1) The labor market is cracking beneath the surface. Americans who want a job but can’t find one have risen to 6.2 million, near post-2021 highs.\n\n2)\n显示更多\n2\n2\n11\n960",
+          "url": "https://x.com/BitfuryGeorge/status/2066501330726711563",
+          "created_at": "2026-06-15T12:41:25.000Z"
+        },
+        {
+          "text": "George Kikvadze 已转帖\nSaint Javelin\n@saintjavelin\n·\n6月15日\nWhen Notre-Dame burned in 2019, the world stopped. \n\nToday, Russia damages Kyiv Pechersk Lavra, a monastery nearly 1,000 years old and older than Notre-Dame itself.\n\nA thousand years of history deserves the same attention, the same sympathy, and the same protection.\n575\n1.1万\n3.2万\n33万",
+          "url": "https://x.com/saintjavelin/status/2066449217220980885",
+          "created_at": "2026-06-15T09:14:20.000Z"
+        },
+        {
+          "text": "George Kikvadze 已转帖\nKeith Kellogg\n@generalkellogg\n·\n6月15日\nThis attack tonight on the Monastery by the Russians in Kyiv makes no sense.  It has a parallel with the bombing of London’s St. Paul’s in 1940 by the Germans.  It won’t work. Someone tell me the military necessity of the Russian attack. There is none.\n1,067\n2,776\n9,245\n30万",
+          "url": "https://x.com/generalkellogg/status/2066310384579985561",
+          "created_at": "2026-06-15T00:02:40.000Z"
+        },
+        {
+          "text": "George Kikvadze\n@BitfuryGeorge\n·\n6月10日\nKnow what you own.\nAI demand just started moving in a meaningful way. \nStay patient. \nWe are still early.\n4\n4\n29\n1,423",
+          "url": "https://x.com/BitfuryGeorge/status/2064402465852637595",
+          "created_at": "2026-06-09T17:41:17.000Z"
+        }
+      ]
+    },
+    {
+      "name": "lordwilliamuk",
+      "username": "lordwilliamuk",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nLord William｜UK\n@LordWilliamUK\n·\n2025年11月3日\n近半个月的 \n$BTC\n 逃顶交易近乎完美，除了 #币安人生\n\n10月2日，我监测指标，有几个亮了红灯，提示止盈 ；\n强调了119K以上，是我们收获的区域，不是上头的区域。  牛市的尾巴，我们需要一场伟大的撤退！\n\n10月4日，再次提示高位风险，再次止盈 \n$BTC\n \n$ETH\n 等 \n\n10月10日，币安质押清算导致史诗级大爆仓；\n显示更多\n引用\nLord William｜UK\n@LordWilliamUK\n·\n2025年10月2日\n118.7K止盈了点 $BTC $ETH $SOL 盈利9%\n\n监测指标中，有几个亮了红灯，止盈了点；\n\n等待回调再买回；\n\n下图的红框，是我们收获的区域，不是你上头的区域。\n\n牛市的尾巴，我们需要一场伟大的撤退！\n\nTook some profit at 118.8K on $BTC, $ETH, and $SOL, locking in a 9% gain.\n\nSeveral monitoring  x.com/LordWilliamUK/…\n19\n7\n64\n21万",
+          "url": "https://x.com/LordWilliamUK/status/1985306570075275443",
+          "created_at": "2025-11-03T11:22:26.000Z"
+        },
+        {
+          "text": "Lord William｜UK\n@LordWilliamUK\n·\n6月19日\n$TSM\n \n$ASX\n 大涨盈利！台湾产业人脉发挥作用\n\n我们多次加仓的台积电、日月光，今天均大涨7%左右，盈利30-50%；\n\n我应该是X中文圈第一个多次让买入 \n$ASX\n 的；\n\n通过我在台湾的产业朋友，一直在关注台湾的GDP、半导体出口数据、台积电等基石股动向；\n\n长线的布局，迎来丰厚的收益；\n显示更多\nASE Technology Holding Co Ltd\nASX\n$40.56\n+8.33%\n引用\nLord William｜UK\n@LordWilliamUK\n·\n6月11日\n散户极度悲观，看空比率升至47.7%的高位，很快又要吃苦头了\n\n昨天收盘前，我们把 $ORCL 换仓为 $TSM ,操作堪称完美，盘后财报后 $ORCL 大跌10%；\n\n一周前，乐观的散户，目前开始悲观、割肉，并大量买入 SQQQ及看空期权等做套保；\n\n市场净看多比例快速降到负17.4%（如下图）；  x.com/LordWilliamUK/…\n17\n4\n34\n5,332",
+          "url": "https://x.com/LordWilliamUK/status/2067675535178691072",
+          "created_at": "2026-06-18T18:27:17.000Z"
+        },
+        {
+          "text": "Lord William｜UK\n@LordWilliamUK\n·\n6月17日\n$AMAT\n \n$LRCX\n \n$AMKR\n 等20天盈利30-40%，恭喜跟上的老铁们！\n\n市场近期轮动到半导体设备制造板块，AMAT等领涨市场；\n\n先进封测近期AMKR利好不少；推背感十足；日月光也不错；\n\n止盈了部分；恭喜跟上的老铁！\n\n今晚FOMC会议，利率不会调整，看看沃什发言带来惊吓还是惊喜；\n显示更多\n引用\nLord William｜UK\n@LordWilliamUK\n·\n5月27日\n$AMKR $AMAT $LRCX $KLAC 今天盘中都大涨；\n\n昨天提到的标的，都不错， $AMKR 涨11%；\n\n恭喜跟上的小伙伴们！\n\n$AMKR, $AMAT, $LRCX, and $KLAC all surged intraday today.\n\nThe tickers I mentioned yesterday have all performed well — congrats to everyone who followed along!  x.com/LordWilliamUK/…\n47\n9\n30\n7,721",
+          "url": "https://x.com/LordWilliamUK/status/2067254408119758982",
+          "created_at": "2026-06-17T14:33:53.000Z"
+        }
+      ]
+    },
+    {
+      "name": "aleabitoreddit",
+      "username": "aleabitoreddit",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "Serenity\n@aleabitoreddit\n·\n4小时\nIn terms of personal notes:\n\n1. Priortech owns 21% of \n$CAMT\n, ~1.35x their MC, seems more like holding co.\n\n2. Bit Digital people kept shouting, but NAV discount is not clean \n$WYFI\n, lot of dilution + not AI parent. \n\n3. Wistron (3231) is the best one I've seen since $SIVE + Ayar +\n显示更多\n引用\nBo Jiang\n@pingguo2023\n·\n6月19日\n回复 @aleabitoreddit\n如果找到了能告诉一下吗？谢谢\n102\n36\n550\n21万",
+          "url": "https://x.com/aleabitoreddit/status/2068180134667182470",
+          "created_at": "2026-06-20T03:52:23.000Z"
+        },
+        {
+          "text": "Serenity\n@aleabitoreddit\n·\n19小时\nWow, I completely missed this with $LPK meeting notes. \n\nAnd I think markets did too. My biggest takeaway:\n\n- NASDAQ listing is actively on their radar and are in discussions.\n- 70% market share targeted, unholy target. \n- TAM greatly exceeds former projections.\n- See a 4-5 base\n显示更多\n引用\nKoala\n@BrainyMarsupial\n·\n6月19日\n$LPK \n\nMeeting Notes (not meant to be official guidance just a summary of what I heard)   \n\nIt's incredibly bullish imo a lot of great info but I'll leave that to the reader to decide. Most salient points are in bold \n\n1. Industry is ready for first",
+          "url": "https://x.com/aleabitoreddit/status/2067958378488623499",
+          "created_at": "2026-06-19T13:11:12.000Z"
+        },
+        {
+          "text": "Serenity\n@aleabitoreddit\n·\n19小时\nRemind me whenever I call out a bottleneck, I should go long myself.\n\nJust floated this idea out around MLCC bottlenecks awhile back. \n\nTaiyo Yuden up 211.38%\n\n$VSH\n up 146.15%\nMurata up 155.43% \n\nWithin the last 2 months... \n\nFeels bad.\n引用\nSerenity\n@aleabitoreddit\n·\n4月19日\n仅限订阅者\nSubscribe to unlock\n111\n18\n609\n17万",
+          "url": "https://x.com/aleabitoreddit/status/2067954339982008731",
+          "created_at": "2026-06-19T12:55:10.000Z"
+        },
+        {
+          "text": "Serenity\n@aleabitoreddit\n·\n20小时\nI think something to highlight also is not all my ideas are green, especially on short term timeframes!\n\nMy core three themes are Neoclouds (Energy), Memory, and Photonics. \n\nAnd I'm glad I chose the literal top performers for each segment from \n$NBIS\n to \n$EWY\n leaps to $SIVE.\n显示更多\n引用\nNitya\n@insyyte\n·\n22小时\n回复 @aleabitoreddit\nAppreciate you keeping these calls real.\n218\n120\n2,012\n50万",
+          "url": "https://x.com/aleabitoreddit/status/2067945397923037693",
+          "created_at": "2026-06-19T12:19:38.000Z"
+        },
+        {
+          "text": "Serenity\n@aleabitoreddit\n·\n23小时\nBernstein is basically the institutional version of Jim Cramer:\n\nTells retail Kioxia looks like it’s going to crash, gives a -50% PT.\n\nBunch of retail sells.\n\nStock proceeds to skyrocket right after, with another +12% today.\n引用\nSerenity\n@aleabitoreddit\n·\n6月17日\nBernstein is legit the dumbest analyst firm I’ve seen calling for a 50% crash in Kioxia.\n\nThey gave $INTC a $36 PT back in Jan and now it’s $118.\n\nGood lesson to ignore institutional reports that get published for retail consumption. \n\nThey’re not here to help retail investors. x.com/bloombergjapan…\n116\n85",
+          "url": "https://x.com/aleabitoreddit/status/2067896191338311750",
+          "created_at": "2026-06-19T09:04:06.000Z"
+        }
+      ]
+    },
+    {
+      "name": "xiaomustock",
+      "username": "xiaomustock",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\n川沐｜Trumoo\n@xiaomustock\n·\n1月27日\n目前能买到包含海力士和三星股票的etf有\n1.a股的中韩半导体etf\n2.美股的FLXK\n3.港股的俩倍做多海力士/三星.\n不推荐的是第三个，前俩个有正股不怕横盘磨损.当然也可以都买，成年人不做选择.\n引用\n川沐｜Trumoo\n@xiaomustock\n·\n1月27日\n海力士这股票要是放了美股，最起码再爆拉三倍，可惜棒子市场太小了没啥流动性能支撑起来.有非常多的人想买正股买不到被动无奈买etf，接下来最关键就看啥时候搞海力士美股adr，放大承接市场才能真正疯狂.\n233\n266\n1,690\n387万",
+          "url": "https://x.com/xiaomustock/status/2016009765944754560",
+          "created_at": "2026-01-27T04:45:58.000Z"
+        },
+        {
+          "text": "川沐｜Trumoo\n@xiaomustock\n·\n2分钟\n年初当时等待的海力士adr美股即将要来了，\n进美股放大承接市场，\n海力士真正的疯狂！\n牢牢捏住海力士45天！\nHODL！\n引用\n川沐｜Trumoo\n@xiaomustock\n·\n1月27日\n海力士这股票要是放了美股，最起码再爆拉三倍，可惜棒子市场太小了没啥流动性能支撑起来.有非常多的人想买正股买不到被动无奈买etf，接下来最关键就看啥时候搞海力士美股adr，放大承接市场才能真正疯狂.\n3\n12\n1,101",
+          "url": "https://x.com/xiaomustock/status/2068251542722097454",
+          "created_at": "2026-06-20T08:36:08.000Z"
+        },
+        {
+          "text": "川沐｜Trumoo\n@xiaomustock\n·\n23小时\n这条推特当时挺火，\n可惜没几天特朗普打伊朗干趴了一个月，\n不过价格海力士都翻倍回来了，\n历史一直重复，\n去年关税战多少人恐惧，\n今天美伊战争一样有非常多人恐惧，\n今年存储这一路捏的其实很艰难，\n很多人三月份被嘲讽被fud被恐惧下车了，\n没能坚持到现在。\n引用\n川沐｜Trumoo\n@xiaomustock\n·\n2月26日\n不要做那种曾经的傻逼，\n2000年初你拥抱互联网跟着时代潮流注册了qq，注册了网易邮箱。体验着各种新奇的互联网产品。\n却不知道他妈的傻逼怎么不去买个腾讯网易的股票。\n现在的你整天在那倒腾AI产品，倒腾电脑里的龙虾，又是买mac\n34\n22\n328\n9.6万",
+          "url": "https://x.com/xiaomustock/status/2067892178542858386",
+          "created_at": "2026-06-19T08:48:09.000Z"
+        },
+        {
+          "text": "川沐｜Trumoo\n@xiaomustock\n·\n6月19日\n海力士今天又是6个点，\n啥也不用研究，\n啥也不要做，\n做得多错的多，时间会给你一切，\n花里胡哨在那天天研究没屌用，\n捏住海力士躺平就够了。\n引用\n川沐｜Trumoo\n@xiaomustock\n·\n6月17日\n今天把大部分仓位换到了\n#sk海力士 正股和 #2x海力士 。\n有几个原因\n1.下个月海力士美股adr\n2.下个月hbm4e送样\n3.下个月23号海力士q2财报\n4.美光6.18号财报对于美光自己涨跌都有可能，但对于海力士就是可预测的提振刺激。\n5.adr后的海力士分红计划和回购计划。\n33\n17\n216\n12万",
+          "url": "https://x.com/xiaomustock/status/2067810501581758828",
+          "created_at": "2026-06-19T03:23:36.000Z"
+        }
+      ]
+    },
+    {
+      "name": "0xxsmart",
+      "username": "0xxsmart",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "加密大聪明 已转帖\nTraderS | 缺德道人\n@Trader_S18\n·\n6月17日\n今天凌晨2点美联储就要出决议了，然后两点半开发布会，万众瞩目的沃什首秀就要来了。之前对于几个标的短期最高点已到的判断目前看是正确的，市场确实是选择暂时盈利了结避险FOMC前后的风险。\n\n详细前瞻一下本次FOMC会议看点吧：\n\n1. 利率不变，这次不会加也不会降\n\n2.\n显示更多\n引用\nTraderS | 缺德道人\n@Trader_S18\n·\n6月16日\n这波反弹，走的是CPI利好+美伊和解双利好的剧本。大饼67200+，黄金4370+，白银71+，应该都阶段性到位了。\n\n接下来日本加息+FOMC在即，短线就不适合继续等更高的位置了，甚至在一片质疑声中，油价也没有继续下探。这些都是信号。\n\n下一波我想应该等本周FOMC会议之后沃什发言+点阵图出来再操作。 x.com/Trader_S18/sta…\n29\n10\n60\n5.9万",
+          "url": "https://x.com/Trader_S18/status/2067233367708651939",
+          "created_at": "2026-06-17T13:10:16.000Z"
+        },
+        {
+          "text": "加密大聪明 已转帖\n王不爱\n@wangbuai\n·\n6月16日\n省流版：\nB所 说自己拿到 SpaceX 额度，是因为有独家合作的私募基金给额度，\n\n顺道不忘拉踩M所，结果M的老板 就是 B 合作私募的 LP。\n\n太好笑了，是谁鼻子变红了\n引用\nBruce J\n@BTCBruce1\n·\n6月16日\n本着对女性的尊重\n我本来不想对你的可爱言论做太多评价\n但这两天太多人发来私信问起此事\n既然你也点名道姓了\n只能占用几分钟普及一下基本常识\n\n1. 我是Republic Ventures（美国）的LP\n据我所知，Bitget那份所谓的“独家”合同主体\n只是开曼群岛的一个壳。\n\n2. 我2020年投的SpaceX（46B估值）  x.com/gracybitget/st…\n61\n10\n100\n4.3万",
+          "url": "https://x.com/wangbuai/status/2066792913129075005",
+          "created_at": "2026-06-16T08:00:04.000Z"
+        },
+        {
+          "text": "加密大聪明 已转帖\nCrypto_Painter\n@CryptoPainter\n·\n6月16日\n好了，这下都搞明白了…\n\n为啥其他币圈 Pre-IPO 没有额度，但 \n@MSX_CN\n 却有额度而且全额兑付了？\n\n原来是B哥用美国LP身份拿到的46B的额度，然后以远低于市场散户认购的价格又卖给了MSX…\n\n属于纯粹的花钱补贴…\n\n另一边 Bitget CEO\n显示更多\n引用\nBruce J\n@BTCBruce1\n·\n6月16日\n本着对女性的尊重\n我本来不想对你的可爱言论做太多评价\n但这两天太多人发来私信问起此事\n既然你也点名道姓了\n只能占用几分钟普及一下基本常识\n\n1. 我是Republic Ventures（美国）的LP\n据我所知，Bitget那份所谓的“独家”合同主体\n只是开曼群岛的一个壳。\n\n2. 我2020年投的SpaceX（46B估值）  x.com/gracybitget/st…\n35\n41\n190\n7万",
+          "url": "https://x.com/CryptoPainter/status/2066834739584258257",
+          "created_at": "2026-06-16T10:46:16.000Z"
+        }
+      ]
+    },
+    {
+      "name": "degentradinglsd",
+      "username": "degentradinglsd",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\ndegentrading\n@degentradingLSD\n·\n2022年9月3日\nMusings of a mac donalds worker\n31\n11\n217",
+          "url": "https://x.com/degentradingLSD/status/1565756322657607680",
+          "created_at": "2022-09-02T17:39:32.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月18日\npre mkt thoughts 18 Jun 26  \n\nYields convulsed post the fed meeting and the signing of the Iran deal. Post the Fed, we had 2Y yields up 15bps while the long end softened by about 5bps in a flattening move.   \n\nIn asian trading, KOSPI and NKY are both up 1-2% to hit their\n显示更多\n13\n5\n142\n7,793",
+          "url": "https://x.com/degentradingLSD/status/2067514453177053399",
+          "created_at": "2026-06-18T07:47:12.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月18日\nFOMC - \n\nInitial move is getting reversed as people are now finding out that Warsh is surprisingly not hawkish? WOW. what a shocker.\n\nNeoclouds leading with \n$NBIS\n surging to ATHs. Even in the initial SPX sell-off, \n$NBIS\n shrugged off the move and continued to ATHs. That's when you\n显示更多\n4\n1\n71\n7,371",
+          "url": "https://x.com/degentradingLSD/status/2067317986583842888",
+          "created_at": "2026-06-17T18:46:31.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月18日\ndid warsh just say \"open minded?\" - this guy sounds more like gangnam guy than the fed! basically we dont care about cpi anymore?\n14\n2,237",
+          "url": "https://x.com/degentradingLSD/status/2067319147449692569",
+          "created_at": "2026-06-17T18:51:08.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月17日\nmkt thoughts 17 Jun 26\n\nUS trading got off to a brisk start with risk assets attempting to make a surge pre FOMC - most sector had a short initial bounce that was quickly faded...memory, photonics... again the only sector that remained sturdy was ... neoclouds. \n$NBIS\n continues to\n显示更多\n9\n2\n70\n2.2万",
+          "url": "https://x.com/degentradingLSD/status/2067251742149095732",
+          "created_at": "2026-06-17T14:23:17.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月17日\nLeopold btw - is situational awareness\n1\n7\n2,860",
+          "url": "https://x.com/degentradingLSD/status/2067251849334518230",
+          "created_at": "2026-06-17T14:23:43.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月17日\n$SHAZ\n is $88 at the time of this post.\n3\n2,619",
+          "url": "https://x.com/degentradingLSD/status/2067252799566721265",
+          "created_at": "2026-06-17T14:27:29.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月17日\npre mkt thoughts 17 Jun 26\n\nYields eased up a little more before FOMC. Asian markets were roughly up 1% - with SK Hynix at ATHs. $285A also sits at the top of the range at 96k. \n\nOn monday, i called it as a good area to trim some profits before the inevitable hedging that would\n显示更多\n19\n8\n162\n2.2万",
+          "url": "https://x.com/degentradingLSD/status/2067188144504762480",
+          "created_at": "2026-06-17T10:10:34.000Z"
+        },
+        {
+          "text": "degentrading\n@degentradingLSD\n·\n6月17日\n$TAO\n new update - let me unpack the good, the bad and the unhinged? \n\nThe good - finally the root autosell on subnet stops, why would people ever buy subnets with an autodumping daily function befuddles me.\n\nThe bad - this gives WAY too much power to valis who now can kingmake\n显示更多\n引用\nAlgod\n@AlgodTrading\n·\n6月16日\nKind of sad to see the new $tao update. Tao the token is/was already an index token of all subnet.\n\nNow giving more power to validators which were proven to be highly corrupt pre dtao is sad to see. Another rushed update, another update without th",
+          "url": "https://x.com/degentradingLSD/status/2066922606251638964",
+          "created_at": "2026-06-16T16:35:25.000Z"
+        }
+      ]
+    },
+    {
+      "name": "LambdaAPI",
+      "username": "LambdaAPI",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nLambda\n@LambdaAPI\n·\n5月6日\nAI infrastructure is the largest industrial buildout of our lifetime. Lambda is assembling the leadership team to match the opportunity ahead.\n\nToday, Lambda welcomes global infrastructure operator Michel Combes as CEO and former AT&T Communications CEO John Donovan as Chairman\n显示更多\n6\n9\n43\n6,070",
+          "url": "https://x.com/LambdaAPI/status/2051718240293044253",
+          "created_at": "2026-05-05T17:38:42.000Z"
+        },
+        {
+          "text": "Lambda\n@LambdaAPI\n·\n6月19日\nCompute was never a commodity.  \n\nLambda co-founder and CTO \n@stephenbalaban\n joins \n@mattturck\n on the MAD Podcast on the state of AI compute in 2026: what the H100 price indices get wrong, the real cost stack from photons to tokens, and why we're still underbuilding. \n\nFull\n显示更多\nyoutube.com\nThe Neocloud Boom: State of AI Compute 2026 | Stephen Balaban\nMany people said GPU compute would become a commodity. The opposite...\n1\n2\n11\n1,787",
+          "url": "https://x.com/LambdaAPI/status/2067727166734037276",
+          "created_at": "2026-06-18T21:52:27.000Z"
+        },
+        {
+          "text": "Lambda\n@LambdaAPI\n·\n6月19日\nCVPR 2026. Two papers, two workshops, a \n@KodiakRobotics\n autonomous truck demo, and one theme underneath all of it: physical AI is scaling hard.\n\nWe wrote up what we learned.\n1\n2\n10\n1,355",
+          "url": "https://x.com/LambdaAPI/status/2067683690428408222",
+          "created_at": "2026-06-18T18:59:42.000Z"
+        },
+        {
+          "text": "Lambda\n@LambdaAPI\n·\n6月19日\nRead more:\nBuilding at the speed of research: Lambda at CVPR 2026\n来自 lambda.ai\n1\n636",
+          "url": "https://x.com/LambdaAPI/status/2067683691778937141",
+          "created_at": "2026-06-18T18:59:42.000Z"
+        },
+        {
+          "text": "Lambda\n@LambdaAPI\n·\n6月18日\nTraining data is running out. Human annotation doesn't scale. Sim2Reason generates synthetic physics data that outperforms real-world corpora.\n\n+17.9% on JEEBench. Zero human-annotated data.\n\nAccepted at \n@icmlconf\n 2026. Built by \n@CarnegieMellon\n and Lambda.\n显示更多\n3\n2\n9\n753",
+          "url": "https://x.com/LambdaAPI/status/2067588262009717015",
+          "created_at": "2026-06-18T12:40:30.000Z"
+        }
+      ]
+    },
+    {
+      "name": "CoreWeave",
+      "username": "CoreWeave",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nCoreWeave\n@CoreWeave\n·\n6月19日\nWe just trained DeepSeek-V3 671B benchmark in 2 minutes.\n\n671 billion parameters. 8,192 \n@nvidia\n Blackwell Ultra GPUs. A 2 minute time-to-train, the fastest DeepSeek-V3 run ever recorded in MLPerf®.\n\nCheck out the final results. \nhttps://\nutm.io/uqDci\nGIF\n2\n9\n80\n1.7万",
+          "url": "https://x.com/CoreWeave/status/2067679589552603167",
+          "created_at": "2026-06-18T18:43:24.000Z"
+        },
+        {
+          "text": "CoreWeave\n@CoreWeave\n·\n20小时\nCoreWeave joins \n@SiliconAngle\n \n@theCUBE\n on June 30.\n\nGet an inside look of NVIDIA Vera Rubin NVL72 and the team behind the cloud bring-up. \n\nSave the date. \nhttps://\nutm.io/up4Eg\n6\n34\n1,985",
+          "url": "https://x.com/CoreWeave/status/2067943225969775043",
+          "created_at": "2026-06-19T12:11:00.000Z"
+        },
+        {
+          "text": "CoreWeave\n@CoreWeave\n·\n6月19日\nAgentic AI is rewriting what infrastructure has to do.\n\nOn June 30 at 9:30 am PT, tune into \n@SiliconAngle\n \n@theCUBE\n as we discuss and demo \n@nvidia\n Vera Rubin NVL72.\n\nSave the date. \nhttps://\nutm.io/up4Eg\n2\n6\n42\n7,652",
+          "url": "https://x.com/CoreWeave/status/2067745422853169271",
+          "created_at": "2026-06-18T23:05:00.000Z"
+        },
+        {
+          "text": "CoreWeave\n@CoreWeave\n·\n6月19日\nTake back control of production. CoreWeave delivers predictable AI inference at scale with the clarity you need to diagnose latency and maintain SLA commitments.\n\nSustained performance. Accelerated innovation. Don’t miss out:\nProduction AI Runs on Inference | CoreWeave Blog\n来自 coreweave.com\n1\n2\n23\n1,412",
+          "url": "https://x.com/CoreWeave/status/2067698869442679006",
+          "created_at": "2026-06-18T20:00:01.000Z"
+        },
+        {
+          "text": "CoreWeave\n@CoreWeave\n·\n6月18日\n\"We were too busy executing.\"\n\nOn the latest AI Cloud Essentials podcast, Susanne Seitinger breaks down why AI's real value isn't just automation; it's giving marketing teams the clarity to challenge biases, leverage real-time research, and think harder.\n\nWatch the full episode\n显示更多\n1\n7\n30\n1,343",
+          "url": "https://x.com/CoreWeave/status/2067614370666832308",
+          "created_at": "2026-06-18T14:24:15.000Z"
+        }
+      ]
+    },
+    {
+      "name": "blockspace",
+      "username": "blockspace",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nBlockspace\n@blockspace\n·\n5月20日\nWhat's a MegaWatt worth, anyways?\n\nGet Blockspace's newest report on the economics of the AI/HPC sector including popular stocks like \n$CIFR\n \n$IREN\n \n$CLSK\n and more.\n\nThis 10 page report will help you understand the tradeoffs in build models, the revenue goals compared to Bitcoin\n显示更多\nColin Harper\n5\n10\n41\n8,626",
+          "url": "https://x.com/blockspace/status/2057087705083769104",
+          "created_at": "2026-05-20T13:15:02.000Z"
+        },
+        {
+          "text": "Blockspace\n@blockspace\n·\n12小时\nLast month we had \n@mikealfred\n on the podcast discussing his latest 13F, closing the quarter with over 3.76M shares of \n$CIFR\n worth $48.4 million (implied $12.87/share)\n\nYesterday Cipher Digital reached a new all time high of over $30, which would take that position to over $112\n显示更多\n引用\nBlockspace\n@blockspace\n·\n5月16日\n0:58\nMike Alfred details purchasing seven million shares of $CIFR back when it was trading between $1 and $2  \n\nHis hedge fund Alpine Fox LP’s latest 13F shows they still hold 3.76M shares worth over $48 MILLION \n\nA massive winner on Cipher Digital\n",
+          "url": "https://x.com/blockspace/status/2068070192433832291",
+          "created_at": "2026-06-19T20:35:31.000Z"
+        },
+        {
+          "text": "Blockspace 已转帖\nHashrate Index \n@hashrateindex\n·\n18小时\nThe recent negative difficulty adjustment coincided with the start of the Four Coincidental Peaks (4CP) season in Texas, a period when miners curtail operations.\n\nGet the gist on \n@blockspace\n with \n@AsILayHodling\n and \n@cbspears\n1\n5\n517",
+          "url": "https://x.com/hashrateindex/status/2067975498395746814",
+          "created_at": "2026-06-19T14:19:14.000Z"
+        },
+        {
+          "text": "Blockspace\n@blockspace\n·\n6月18日\nThe United States has just approved fast tracking grid connections for AI data centers  \n\nThis is huge for former Bitcoin miners \n$CIFR\n and \n$WULF\n, both with major projects in the PJM grid\n引用\nBlockspace\n@blockspace\n·\n6月17日\n$MSFT just backed out of a reported $3 billion cloud infrastructure deal with Oracle \n\nCan the neoclouds/former Bitcoin miners save the day?\n\n$KEEL $HUT $NBIS $IREN $CRWV $CLSK $APLD $KEEL\nKeel Infrastructure Corp\nKEEL\n$6.29\n+5.36%\n5\n23\n145\n2万",
+          "url": "https://x.com/blockspace/status/2067637786019033102",
+          "created_at": "2026-06-18T15:57:17.000Z"
+        },
+        {
+          "text": "Blockspace\n@blockspace\n·\n6月19日\nMORE ON THIS: Specifically, FERC has issued new guidance to encourage state grid operators to fast-track data centers that bring their own power and can participate in demand response. The guidance also mandates that data centers pay 100% of infrastructure-related costs for their\n显示更多\n2\n600",
+          "url": "https://x.com/blockspace/status/2067715187801555410",
+          "created_at": "2026-06-18T21:04:51.000Z"
+        }
+      ]
+    },
+    {
+      "name": "karpathy",
+      "username": "karpathy",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nAndrej Karpathy\n@karpathy\n·\n2023年1月25日\nThe hottest new programming language is English\n2,300\n1万\n7.3万\n1,275万",
+          "url": "https://x.com/karpathy/status/1617979122625712128",
+          "created_at": "2023-01-24T20:14:18.000Z"
+        },
+        {
+          "text": "Andrej Karpathy\n@karpathy\n·\n6月13日\nIn awe of SpaceX and its story - past, present and the future. You can think about it in 10+ different ways and continue re-blowing your mind in circles. Huge congrats to the team! \n368\n1,046\n2.1万\n91万",
+          "url": "https://x.com/karpathy/status/2065490793092337691",
+          "created_at": "2026-06-12T17:45:54.000Z"
+        },
+        {
+          "text": "Andrej Karpathy\n@karpathy\n·\n6月10日\nThis is a super exciting release - Claude Fable 5 is the same underlying model as Mythos but with added safeguards. The benchmarks are great and it's SOTA on everything by a margin but I'll add that *qualitatively* also, this is a major-version-bump-deserving step change forward\n显示更多\n引用\nClaude\n@claudeai\n·\n6月10日\n回复 @claudeai\nFable 5 is state-of-the-art on nearly all tested benchmarks, with exceptional performance in software engineering, knowledge work, scientific research, and vision.\n\nThe longer and more complex the task, the larger Fable 5’s lead over our ot",
+          "url": "https://x.com/karpathy/status/2064409694761054332",
+          "created_at": "2026-06-09T18:10:00.000Z"
+        },
+        {
+          "text": "Andrej Karpathy 已转帖\nDerek Thompson\n@DKThomp\n·\n5月31日\nThis has quietly been a miracle month in medicine. \n\nIn the last 5 weeks we’ve got news on:  \n\n- retatrutide, the triple agonist GLP-1 from Lilly, basically melting fat and body-wide inflammation at record levels \n- RevMed’s new pancreatic cancer drug showing unprecedented\n显示更多\n引用\nCrémieux\n@cremieuxrecueil\n·\n5月31日\nThis is actually insane.\n\n97% of people taking the standard of care for metastatic solid tumor got worse by seven years.\n\nBut with lorlatinib, that number was only 45% in the same time!\n\nThis is an ENORMOUS jump in the quality of ca",
+          "url": "https://x.com/DKThomp/status/2061110056293106118",
+          "created_at": "2026-05-31T15:38:25.000Z"
+        },
+        {
+          "text": "Andrej Karpathy 已转帖\nThariq\n@trq212\n·\n6月3日\n 文章\nA harness for every task: dynamic workflows in Claude Code \nLast week, we released dynamic workflows in Claude Code. Claude can now write its own harness on the fly, custom-built for the task at hand.\nWhile the default Claude Code harness is built for coding,...\n261\n1,654\n1万\n309万",
+          "url": "https://x.com/trq212/status/2061907337154367865",
+          "created_at": "2026-06-02T20:26:32.000Z"
+        }
+      ]
+    },
+    {
+      "name": "sama",
+      "username": "sama",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "Sam Altman 已转帖\nKaran Singhal\n@thekaransinghal\n·\n6月18日\nOne of the ways scaling test-time compute can benefit people most: have reasoning models think really hard about rare undiagnosed diseases.\n\nToday we’re sharing published evidence that this can work, in some of the most difficult pediatric cases!\n引用\nOpenAI\n@OpenAI\n·\n6月18日\nTogether with researchers at Boston Children’s Hospital and Harvard, we published a study in NEJM AI showing how o3 Deep Research helped clinicians revisit previously unsolved rare pediatric disease cases, and find answers for families who had waited years.\n71\n76\n666\n28万",
+          "url": "https://x.com/thekaransinghal/status/2067635005552209969",
+          "created_at": "2026-06-18T15:46:14.000Z"
+        },
+        {
+          "text": "Sam Altman\n@sama\n·\n6月18日\nWe offer no explanation as to why Noams are so good at AI; we attribute their success, as all else, to divine benevolence.\n引用\nNoam Brown\n@polynoamial\n·\n6月18日\nI'm always thrilled to have more Noams at @OpenAI, but I'm especially thrilled to welcome @NoamShazeer! x.com/NoamShazeer/st…\n481\n415\n8,473\n97万",
+          "url": "https://x.com/sama/status/2067427678529974740",
+          "created_at": "2026-06-18T02:02:24.000Z"
+        },
+        {
+          "text": "Sam Altman\n@sama\n·\n6月18日\nnoam is one of the people I have most wanted to work with since the very beginning of openai.\n\nonly took 10 years.\n\ni think it will be worth the wait!\n引用\nNoam Shazeer\n@NoamShazeer\n·\n6月18日\nI’m excited to share that I’ll be joining OpenAI and look forward to working with the exceptional team there.\n\nIt was a difficult decision to move on. I’m incredibly proud of the amazing team at Google and everything we’ve built together.  It has been an honor and a pleasure to\n385\n360\n9,713\n95万",
+          "url": "https://x.com/sama/status/2067427421083652131",
+          "created_at": "2026-06-18T02:01:22.000Z"
+        },
+        {
+          "text": "Sam Altman\n@sama\n·\n6月12日\nreally looking forward to working together!\n引用\nJohannes Landgraf\n@jolandgraf\n·\n6月11日\n 文章\nOna is joining OpenAI\nI always thought selling the company would feel like an ending. Instead, our life's work is getting bigger and more important.\nToday, we are announcing that @ona_hq has entered into an agreement to...\n514\n211\n3,011\n85万",
+          "url": "https://x.com/sama/status/2065160791205310565",
+          "created_at": "2026-06-11T19:54:36.000Z"
+        },
+        {
+          "text": "Sam Altman\n@sama\n·\n6月9日\nHere is our current plan for OpenAI:\nBuilt to benefit everyone: our plan\n来自 openai.com\n1,346\n1,237\n7,681\n163万",
+          "url": "https://x.com/sama/status/2064088940932641225",
+          "created_at": "2026-06-08T20:55:27.000Z"
+        }
+      ]
+    },
+    {
+      "name": "kobeissiletter",
+      "username": "kobeissiletter",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\nThe Kobeissi Letter\n@KobeissiLetter\n·\n1月11日\nANNOUNCEMENT: \n\nWe are excited to present The Kobeissi Letter’s 2025 performance report. \n\nOur analysis provided a net return of +30.7% in 2025, outperforming the S&P 500's 2025 return of +16.4%.\n\nSince 2020, our investment strategy has now returned +516.3%, significantly\n显示更多\n468\n606\n5,917\n1,043万",
+          "url": "https://x.com/KobeissiLetter/status/2010041448486580639",
+          "created_at": "2026-01-10T17:30:00.000Z"
+        },
+        {
+          "text": "The Kobeissi Letter\n@KobeissiLetter\n·\n11小时\nEmerging market central banks are driving historic gold purchases:\n\nOver the last 3 years, Asian and Eastern European countries have purchased +12 tonnes of gold per month on average.\n\nAfrican nations have acquired +2 tonnes per month during the same period.\n\nOver the last 12\n显示更多\n96\n149\n814\n11万",
+          "url": "https://x.com/KobeissiLetter/status/2068079290139152758",
+          "created_at": "2026-06-19T21:11:40.000Z"
+        },
+        {
+          "text": "The Kobeissi Letter\n@KobeissiLetter\n·\n12小时\nChina’s economic slowdown is deepening:\n\nChina’s retail sales fell -0.6% YoY in May, the largest monthly drop since the economy reopened after the pandemic in late 2022.\n\nFurthermore, fixed-asset investment fell -4.1% YoY in the first 5 months of 2026, the largest decline since\n显示更多\n96\n177\n844\n12万",
+          "url": "https://x.com/KobeissiLetter/status/2068058442959323586",
+          "created_at": "2026-06-19T19:48:50.000Z"
+        },
+        {
+          "text": "The Kobeissi Letter\n@KobeissiLetter\n·\n14小时\nGlobal equity markets have never been this concentrated:\n\nThe average market cap of the top 20 stocks in the MSCI All-Country World Index (ACWI) is now 60 times larger than the average stock among the remaining ~2,500 constituents.\n\nThis ratio has DOUBLED over the last 7 years,\n显示更多\n72\n89\n569\n11万",
+          "url": "https://x.com/KobeissiLetter/status/2068041120991584623",
+          "created_at": "2026-06-19T18:40:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "bitfool1",
+      "username": "bitfool1",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "比特傻\n@bitfool1\n·\n7小时\n糟，又来新麻烦\n盈透开通日韩市场被拒\n要30天后才能申请\n\n背着国内身份，真是走到哪里都是麻烦\n32\n3\n28\n1.9万",
+          "url": "https://x.com/bitfool1/status/2068142515543515419",
+          "created_at": "2026-06-20T01:22:54.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月19日\n突然有个好奇，A股中有哪些AI标的可以投？\n把A股打入冷宫太久了，突然想看看冷宫的冷妃\n69\n1\n19\n1.8万",
+          "url": "https://x.com/bitfool1/status/2067863430745522179",
+          "created_at": "2026-06-19T06:53:55.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月19日\n币圈播种的季节近了，如何下注呢？\n\n什么时机：9-10月份左右开始定投，传统周期低点+Mstr尘埃落定+美股股票或可一跌\n买什么：核心就是btc，其他都信不过，可能出问题。可以附加Mstr和Circle。Eth最好直接放弃。\n什么价格买： BTC再次腰斩左右，4.5万左右可以开始定投\n显示更多\n62\n9\n64\n1.6万",
+          "url": "https://x.com/bitfool1/status/2067829582800335227",
+          "created_at": "2026-06-19T04:39:25.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月19日\n今天有些灵感，傻哥做了三笔操作：\n\n1、 把美光买回来了。\n之前小高点卖出，好在傻哥脸皮厚，今天买回来，价格差不多。\n但傻哥在实践中明白了美股中的强势股，不要去波段，hodl是最好的策略。\n甚至美股整个底层机制设计，促成了低波动+牛长熊短的格局，就是引导股民不要波段的。\n显示更多\n32\n9\n55\n1.8万",
+          "url": "https://x.com/bitfool1/status/2067644350331555981",
+          "created_at": "2026-06-18T16:23:22.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月18日\n傻哥看完SpaceX\n\n右脑觉得：\n唯有SpaceX是宇宙级别的公司\n其他的公司都是在地球上做点业务，小打小闹，不值一提\n\n左脑想拿个板砖拍醒自己\n好矛盾啊\n30\n1\n16\n6,345",
+          "url": "https://x.com/bitfool1/status/2067432495210217821",
+          "created_at": "2026-06-18T02:21:32.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月17日\n《男人的地狱模式》\n\n一朋友爱玩，说北京的Spa店现在是什么情况呢？\n大活儿是传说，都听过但谁也没见过\n小活儿绝迹了，所有人都像怀念当年的东莞一样怀念\n\n那现在有什么呢？\n可以花大活儿的钱，在Spa的过程中挑逗下你\n然后让你快点回家自己撸\n\n傻哥听后很平静\n幸亏傻哥从来不需要这些服务\n30\n1\n13\n1万",
+          "url": "https://x.com/bitfool1/status/2067122722141004255",
+          "created_at": "2026-06-17T05:50:36.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月17日\n《从SpaceX开盘看meme思维的胜利》\n\n在SpaceX开盘前， 傻哥订阅的付费美股老炮都说不能搞\n有说估值高到离谱的\n有说xai收购道德风险的\n有说定价现金流已经包含了所有最好的预期的\n有说AI业务风险极大，不具备竞争优势的\n事后看这班人都是麻瓜\n显示更多\n18\n3\n22\n5,763",
+          "url": "https://x.com/bitfool1/status/2067087137334558967",
+          "created_at": "2026-06-17T03:29:12.000Z"
+        },
+        {
+          "text": "比特傻\n@bitfool1\n·\n6月16日\n前两天盈透开好\n今天试了下长桥被封\n\n长桥啊长桥，你以后改名叫“断桥”好不好\n40\n3\n23\n2.4万",
+          "url": "https://x.com/bitfool1/status/2066898501406257307",
+          "created_at": "2026-06-16T14:59:38.000Z"
+        }
+      ]
+    },
+    {
+      "name": "yiqifacai",
+      "username": "yiqifacai",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\n一起发财\n@yiqifacai\n·\n5月10日\n 文章\n发财街的X订阅指南：Why What How\n【为什么开这个订阅】...\n34\n6\n61\n8.2万",
+          "url": "https://x.com/yiqifacai/status/2053216610207604885",
+          "created_at": "2026-05-09T20:52:41.000Z"
+        },
+        {
+          "text": "一起发财\n@yiqifacai\n·\n55分钟\n当我想舔酸奶盖的时候，我突然意识到我的美光和Intel都有可能在明年正式达到十倍收益。\n于是我改用了勺子！ 奢侈一把，不过了！\n11\n1\n26\n1,993",
+          "url": "https://x.com/yiqifacai/status/2068238677600260322",
+          "created_at": "2026-06-20T07:45:01.000Z"
+        },
+        {
+          "text": "一起发财\n@yiqifacai\n·\n2小时\n与此同时，在航运造船的大周期里，中国船舶的市值，已经跌到不到三千亿人民币，还不如随便拉出一个科创板AI半导体公司的市值。\n人们是不是误解了造一个大型燃气燃油运输轮船，或者造一个海上数据中心大型货轮，属于老登传统制造业，不需要任何科技含量。\n显示更多\n14\n3\n29\n1.3万",
+          "url": "https://x.com/yiqifacai/status/2068207760043336128",
+          "created_at": "2026-06-20T05:42:10.000Z"
+        },
+        {
+          "text": "一起发财\n@yiqifacai\n·\n23小时\n老子有一句话叫“进道若退”，字面意思是：真正沿着“道”前进的人，表面看起来反而像在后退。你的认知越高，财富积累越多，本来就是应该越孤独，越难有朋友，越难享受普通的快乐的。\n显示更多\n62\n14\n129\n9,932",
+          "url": "https://x.com/yiqifacai/status/2067893739796803873",
+          "created_at": "2026-06-19T08:54:21.000Z"
+        },
+        {
+          "text": "一起发财\n@yiqifacai\n·\n6月19日\n多看科幻小说的话，你就会相信在不远的未来，食用天然种植的食物，自己开车，可以上班，是顶级富豪才能享受的生活。\n53\n1\n40\n1.1万",
+          "url": "https://x.com/yiqifacai/status/2067867130062606667",
+          "created_at": "2026-06-19T07:08:37.000Z"
+        }
+      ]
+    },
+    {
+      "name": "bboczeng",
+      "username": "bboczeng",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\n勃勃OC\n@bboczeng\n·\n6月15日\n2026年6月14日：美伊两国正式停战，美股盘前全体暴涨；FOMC议息会议，下半年能否再创新高？Mythos模型被禁，半导体成最大赢家；存储利润翻倍，SNDK目标继续上调；未来六个月的Put卖出计划\n2026年6月14日：美伊两国正式停战，美股盘前全体暴涨；FOMC议息会议，下半年能否再创新高？Mythos模型被禁，半导体成最大赢家；存储利润翻倍，SNDK目标继续上调；未来六个月的Put卖出计划\n来自 boist.org\n5\n2\n28\n3.3万",
+          "url": "https://x.com/bboczeng/status/2066394296954331505",
+          "created_at": "2026-06-15T05:36:06.000Z"
+        },
+        {
+          "text": "勃勃OC\n@bboczeng\n·\n24分钟\n特朗普团队里是真的连基本的深色吸热，海藻的繁殖以及油漆不能和过氧化氢的化学原理都不懂？\n\n美国精英们亡国至此，真的是令人震惊\n\n中期选举大败吧\n引用\n联合早报 Lianhe Zaobao\n@zaobaosg\n·\n22小时\n美国林肯纪念堂倒影池翻新后，于6月6日正式重新开放。然而，仅12天后，池底油漆已开始剥落。 \nhttps://\nzaobao.com.sg/news/world/sto\nry20260619-9232281?utm_medium=Social&utm_source=Twitter#Echobox=1781862775\n…\n1\n7\n1,347",
+          "url": "https://x.com/bboczeng/status/2068246546257428614",
+          "created_at": "2026-06-20T08:16:17.000Z"
+        },
+        {
+          "text": "勃勃OC\n@bboczeng\n·\n59分钟\n每年QS排名发布的时候，我都必须说一句，争论QS排名的都是大傻逼。\n\n几乎15年前，学术界就已经形成了一个初步的共识，大学排名的方法应该和Google的PageRank算法是一样的：\n\nA和B是两所大学，如果A毕业的博士PhD能进入B大学当教授（tenure track AP），那么A->B加一分，\n\n反过来，B大学毕业的博士毕业\n显示更多\n4\n2\n30\n3,459",
+          "url": "https://x.com/bboczeng/status/2068237527417606315",
+          "created_at": "2026-06-20T07:40:27.000Z"
+        },
+        {
+          "text": "勃勃OC\n@bboczeng\n·\n59分钟\n转自我的亲孙儿：党党\n2\n10\n1,314",
+          "url": "https://x.com/bboczeng/status/2068237645696917873",
+          "created_at": "2026-06-20T07:40:55.000Z"
+        },
+        {
+          "text": "勃勃OC\n@bboczeng\n·\n1小时\n从这个图来看本次暴涨只进行到了一半？\n\n谢谢大家\n7\n22\n5,351",
+          "url": "https://x.com/bboczeng/status/2068227302581006834",
+          "created_at": "2026-06-20T06:59:49.000Z"
+        },
+        {
+          "text": "勃勃OC\n@bboczeng\n·\n2小时\n好贵，这下日本是真的去不起了！！！\n\n\n引用\nbiantaishabi5\n@biantaishabi5\n·\n5小时\n7月1日起，日本签证费涨5倍\n\n据看看新闻，日本外务大臣茂木敏充19日宣布，7月1日起，单次入境签证和多次入境签证的费用将分别上涨至15000日元和30000日元。目前日本单次入境签证费用为3000日元，多次入境签证（可在有效期内多次入境）费用为6000日元。\n4\n12\n6,603",
+          "url": "https://x.com/bboczeng/status/2068220457107734711",
+          "created_at": "2026-06-20T06:32:37.000Z"
+        }
+      ]
+    },
+    {
+      "name": "lianyanshe",
+      "username": "lianyanshe",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "链研社｜AI First\n@lianyanshe\n·\n6月19日\nUSD1 最近的动作有点密集。\nBinance 主站 WLFI 空投一直续杯到没停过，还陆续加了 Gate、Bybit、MEXC 都上了活期理财。链上还有 Dolomite 借贷、Lorenzo Vault 、TownSquare 在 Monad 链上收益都给了很多像毛细血管一样渗入，在最缺理财收益的时候一直能稳定提供。\n\n1、把稳定币铺满交易所\n显示更多\n2\n4\n1,945",
+          "url": "https://x.com/lianyanshe/status/2067640201875489022",
+          "created_at": "2026-06-18T16:06:53.000Z"
+        },
+        {
+          "text": "链研社｜AI First\n@lianyanshe\n·\n6月18日\n微策略虽然不会暴雷，但可能会暂停STRC 利息是脱锚的主要原因。上次比特币破 6 万美金的时候，是 $94，现在比特币 $64000，结果反而破 $90了，上一次微策略脱锚还是靠加息回锚，也因为卖币支付利息引发比特币暴跌。\n\nSTRC\n显示更多\n引用\n链研社｜AI First\n@lianyanshe\n·\n6月18日\n微策略发的永续优先股 STRC 严重脱锚，面值 $100 现在不到 90%，年化利率还有11.50%，应该是最严重的一次脱锚了，但是他如果卖币还利息可能会继续脱锚，本来债务就很严重了还非要加倍买币，这下账上现金，还利息真没剩几个月了\n54\n6\n24\n1.8万",
+          "url": "https://x.com/lianyanshe/status/2067610119995793634",
+          "created_at": "2026-06-18T14:07:21.000Z"
+        },
+        {
+          "text": "链研社｜AI First\n@lianyanshe\n·\n6月18日\nToken Plan 即将加入国补\n引用\nMax For AI\n@MaxForAI\n·\n6月18日\ntmd中国AI真的疯了，第一见国家鼓励个人贷款买AI的\n\n原文：\n\n财联社6月18日电，商务部等8部门关于加快“人工智能+消费\"发展的实施意见，意见提出，加大财政等资金支持力度。\n2\n11\n3,499",
+          "url": "https://x.com/lianyanshe/status/2067581418058957212",
+          "created_at": "2026-06-18T12:13:18.000Z"
+        },
+        {
+          "text": "链研社｜AI First\n@lianyanshe\n·\n6月18日\n今年端午周边夯爆了，整套的网球套装，今年的礼盒太大了，去拿的时候还以为是行李箱\n\n#Binance\n3\n9\n5,748",
+          "url": "https://x.com/lianyanshe/status/2067569896096223570",
+          "created_at": "2026-06-18T11:27:31.000Z"
+        }
+      ]
+    },
+    {
+      "name": "tj_research",
+      "username": "tj_research",
+      "bio": "",
+      "tweets": [
+        {
+          "text": "已置顶\n投资TALK君\n@TJ_Research\n·\n5月22日\n这是我在5月8日置顶的帖子，讲述的是估值回到了上年10月份的水平。这两天我一直在和彭博沟通，因为数据似乎出了问题，最新的图1如下：才25倍的估值，我仔细对比了一下和5月8日的图，3月29日之前是一样的，上年10月份超过30倍。差别似乎在3月30，31日两天。和彭博沟通下来的结果是纳指综合指数（3000多\n显示更多\n引用\n投资TALK君\n@TJ_Research\n·\n5月9日\n如果你听进了我在三月底大喊科技股太便宜了，并且拿到现在，恭喜大家，这是我们应得的。今天的收盘FORWARD P/E来到了29，上年10月份我开始喊降BETA时是30，我们很接近了。我认为从30以上再次开始降BETA是合理的，也就是再往上3%的距离，无需太讲究点位，因为30不一定就是个顶，情绪面顶部无需预测。\n43\n24\n226\n17万",
+          "url": "https://x.com/TJ_Research/status/2057679992226455818",
+          "created_at": "2026-05-22T04:28:34.000Z"
+        },
+        {
+          "text": "投资TALK君 已转帖\nNeil Sethi NEW account, please refollow\n@neilsethinew\n·\n18小时\nYardeni: We expected a June Swoon in the stock and bond markets because investors hadn't fully discounted our hawkish Fed scenario. \n\n[However], we were blown away by Fed Chair Kevin Warsh's press conference. We thought he was a dove who favored lowering the federal funds rate\n显示更多\n8\n32\n8,804",
+          "url": "https://x.com/neilsethinew/status/2067975153246495115",
+          "created_at": "2026-06-19T14:17:52.000Z"
+        },
+        {
+          "text": "投资TALK君\n@TJ_Research\n·\n15小时\n非常标准的从上到下的改变和反转。\n看公司真不能向后看，还记得一年前川普指控陈是中国间谍，很多人很慌。然后也就一年不到，人员氛围改头换面。陈很厉害\n引用\nVivian\n@Vivian193299\n·\n16小时\n陈立武的intel梦之队快要组建完毕，台积电副总裁罗唯仁，三星电子代工业务副总裁韩升勋（Shawn Han），前SK海力士 CEO 李锡熙，以及ARM，高通两位副总裁，旧部Candence核心高管，整个高管团队，充满亚裔，重塑intel荣光，亚裔义不容辞。梦之队的工程与执行力文化值得期待！\n40\n1\n107\n2.9万",
+          "url": "https://x.com/TJ_Research/status/2068018733411340475",
+          "created_at": "2026-06-19T17:11:02.000Z"
+        },
+        {
+          "text": "投资TALK君\n@TJ_Research\n·\n18小时\n如果硬要找理由，Token价格过去两周回调可能是导致大科技低迷的原因，量化搞得鬼。\n价格涨，短期利好财报。价格跌，长期利好落地\n引用\nPeter Berezin\n@PeterBerezinBCA\n·\n18小时\nStill falling…\n66\n3\n99\n3.3万",
+          "url": "https://x.com/TJ_Research/status/2067970692528627989",
+          "created_at": "2026-06-19T14:00:08.000Z"
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-06-20T08:40:48.105704+00:00",
+  "stats": {
+    "totalTweets": 108,
+    "newTweets": 108,
+    "sources": 22,
+    "sourcesWithContent": 21,
+    "sourcesBlocked": 1
+  }
+}
