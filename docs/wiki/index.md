@@ -36,6 +36,9 @@
 - [组合顾问引擎 (Tier 2)](portfolio-advisor-engine.md) — 三角色信息差辩论 + CIO 芒格约束 + 结构化处方
 - [Claude Code 组合顾问](claude-code-advisor.md) — 2026-06-03 新架构：Python编排+9子Agent+交叉验证，替代LangGraph管线
 
+### 数据与情报
+- [AI 产业链情报管线](ai-industry-intel.md) — 22 个 X(Twitter) 信源每日抓取，半导体/AI 供应链一手信息流
+
 ### 记忆与反思
 - [TradingMemoryLog 结果反思系统](trading-memory-log.md) — 决策级结果追踪 + Phase A/B 生命周期 + A 股适配
 
