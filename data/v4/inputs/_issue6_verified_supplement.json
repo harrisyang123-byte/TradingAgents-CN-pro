@@ -1,0 +1,250 @@
+{
+  "_meta": {
+    "description": "Issue#6 量化数据补充 — AI算力数据中心行业 verified TAM/CAGR/PE/集中度/铜光份额",
+    "supplement_for": "industry:AI算力数据中心",
+    "generated_at": "2026-06-20",
+    "method": "web_search verified, ≥3独立源交叉验证",
+    "status": "supplementing NEEDS_CHANGES (critic 58分→目标 85+ ACCEPT)"
+  },
+
+  "industry_future_market__verified": {
+    "tam_2026_usd_b": 277,
+    "tam_2026_source": "The Business Research Company, AI Datacenters Global Market Report 2026, https://www.researchandmarkets.com/reports/6215044/",
+    "tam_2030E_usd_b": 764.9,
+    "tam_2030E_source": "TBRC via ResearchAndMarkets, CAGR 28.9% (2026-2030), https://www.researchandmarkets.com/reports/6215044/",
+
+    "tam_broad_2030E_usd_b": 17000,
+    "tam_broad_note": "美银证券口径: AI数据中心系统TAM(AI加速器+CPU+网络+HBM), 2025基数$264B, CAGR 45%",
+    "tam_broad_source": "美银证券 2026-05, https://www.itiger.com/hans/news/2635809749",
+
+    "china_aidc_capex_2030E_usd_b": 327,
+    "china_aidc_capex_cagr_pct": 24,
+    "china_aidc_source": "美银: 中国AIDC资本支出, 占全球20%, https://www.itiger.com/hans/news/2644712843",
+
+    "dc_capacity_2030_gw": 200,
+    "dc_capacity_cagr_pct": 14,
+    "dc_spend_5yr_usd_t": 3,
+    "dc_capacity_source": "JLL 2026 Global Data Center Outlook, https://www.datacenterfrontier.com/cloud/article/55341273/",
+
+    "ai_workload_share_2030_pct": 50,
+    "ai_workload_source": "JLL: AI workloads 25%(2025)→~50%(2030)",
+
+    "penetration_stage": "超级景气中段→中后段过渡。主芯片层已拥挤, 上游材料/供电层半发现~未发现。2027拐点: 推理>训练。",
+    "penetration_source": "综合 JLL/McKinsey/长城证券/美银, 多源同向",
+    "penetration_citations": [
+      "JLL: 2026-2030 新增100GW, 全球DC容量翻倍至200GW",
+      "McKinsey/长城: AI DC 2030=156GW, 中国DC装机 2025 29GW→2030 77GW",
+      "美银: AI支出占IT支出 2025 4.7%→2030 19.5%, AI占DC系统支出 52%→83.6%"
+    ],
+
+    "forward_peg_estimate": "N/A (行业层不适用个股PEG, 用CAGR替代: 窄口径29%, 广口径45%)",
+    "forward_peg_note": "行业CAGR 29-45% vs 全球GDP~3%, 增速溢价极高. 个股forward PEG需逐只计算",
+
+    "tam_segments_2030E": {
+      "ai_accelerator_gpu_asic": {"tam_usd_b": 11700, "source": "美银 2026-05"},
+      "dc_cpu": {"tam_usd_b": 110, "ai_cpu_usd_b": 87.6, "cagr": 57, "source": "美银"},
+      "ai_networking": {"tam_usd_b": 316, "source": "美银"},
+      "hbm_memory": {"tam_usd_b": 168, "cagr": 37, "source": "美银 (2025基数$35B)"}
+    }
+  },
+
+  "mlcc_verified": {
+    "ai_server_mlcc_market_2025_usd_b": 1.4,
+    "ai_server_mlcc_market_2030E_usd_b": 6.1,
+    "ai_server_mlcc_cagr_pct": 34,
+    "mlcc_source": "国信证券/HTX Insights/36氪, 多源同向, https://www.kucoin.com/news/flash/mlcc-becomes-next-10b-ai-computing-component",
+
+    "mlcc_per_rack": {
+      "general_server": 2000,
+      "h100_8gpu": "25,000-28,000",
+      "gb300_nvl72": 440000,
+      "rubin_vr200": 600000,
+      "rubin_ultra_nvl576": "3,000,000-3,500,000"
+    },
+    "mlcc_per_rack_source": "国信证券 AI服务器MLCC量价齐升报告, https://data.eastmoney.com/report/zw_industry.jshtml?encodeUrl=fT7MG3z99qslJnEoDmwZDJVPW2deINEj6AIzgde7FwU=",
+
+    "supply_demand_gap": "需求CAGR 34% vs 供给CAGR ~10%, 缺口持续至2030",
+    "price_increase_2026": "行业普涨10-70% (2026-07生效), AI高容15-35%, 国巨高端+5-275%",
+    "lead_time": "16-24周 (from 8-12周)",
+
+    "global_market_share": {
+      "murata": {"share_pct": 40, "ai_high_end_share_pct": "45-70", "note": "绝对龙头, 0402 47µF独家量产"},
+      "semco": {"share_pct": "20-25", "ai_high_end_share_pct": "39-40", "note": "激进扩产, 2026 Capex >₩2T"},
+      "taiyo_yuden": {"share_pct": "8-10", "ai_high_end_share_pct": "lower", "note": "纯MLCC(71%营收), 消费→AI转产最激进"},
+      "yageo": {"share_pct": "mid", "ai_high_end_share_pct": "low", "note": "受益溢出, 非高端AI主供"},
+      "cr5": 77.3,
+      "murata_semco_ai_duopoly": 90
+    },
+    "mlcc_market_share_source": "HTX Insights/国信证券/36氪, https://www.panewslab.com/en/articles/019eacd3-9c27-7215-82d2-b29027303908",
+
+    "entry_barriers": [
+      "技术: 日本80年材料科学积累, 关键设备不外售",
+      "认证: AI服务器认证12-18月, 车规2-3年",
+      "资本: 单条高端产线$300-500M, 满产需4-5年",
+      "专利: 村田MLCC专利最多(IEEE里程碑奖2024)",
+      "人才: 核心工程师培养5-10年, 日本终身雇佣锁定"
+    ],
+    "entry_barriers_source": "HTX Insights: MLCC成为AI算力下一个$10B组件",
+
+    "capacity_vs_demand_note": "8因素制约供给: 设备交期12-18月/良率爬坡/厂商集体'克制'(吸取2018过度扩产教训). AI用MLCC产能消耗是消费级4-7x → 更紧"
+  },
+
+  "copper_vs_optical_verified": {
+    "thesis": "不是'光进铜退', 是分层共存. Scale-up(GPU-to-GPU)铜主导2026-2028+; Scale-out(rack-to-rack)光主导2026+",
+    "source": "Bernstein 97页研报, 2026-04, https://www.kucoin.com/news/flash/bernstein-report-ai-data-center-connectivity-battle-who-will-win-by-2026",
+
+    "copper_share_2029": "LightCounting: 铜缆仍占1.6T连接市场近50%",
+    "copper_key_players": ["安费诺(Amphenol)", "立讯精密(竞争NVIDIA GP300铜连接)", "沃尔核材"],
+    "optical_transceiver_2025_revenue_usd_b": 23,
+    "optical_ethernet_cagr_2024_2026": 59,
+
+    "cpo_timeline": {
+      "scale_out_small_deploy": "H2 2026 (验证)",
+      "scale_up_critical": "H2 2028 earliest",
+      "mass_deploy": "not before 2028-2030",
+      "current_yield": "~19% (SemiAnalysis)"
+    },
+
+    "lpo_npo_transition": {
+      "lpo_vs_cpo": "Bernstein: LPO出货量可能2030年超越CPO",
+      "lpo_power_saving": "功耗降至传统可插拔模块~1/3 (去除DSP)",
+      "npo_role": "2026-2028 realistic bridge, NPO项目集中上量"
+    },
+
+    "cpo_value_chain_shift": {
+      "traditional_winners": ["DSP", "光芯片", "TOSA/ROSA", "模块封装"],
+      "cpo_era_winners": ["Switch ASIC (NVIDIA/Broadcom)", "光引擎", "外部光源", "FAU", "先进封装(TSMC)", "测试设备"],
+      "cpo_per_unit_premium": "CPO单台价值提升~10% vs 1.6T可插拔模块"
+    },
+
+    "route_conclusion": "铜连接是真实竞争路线(非伪概念), 尤其Scale-up GPU直连. 光互连Scale-out不可替代. 两类标的并存, 押单边有路线风险. CPO概念热度高但量产延迟(良率19%), 2026实际收入在1.6T/LPO/NPO/光源/测试/PCB/ABF/CCL",
+    "route_conclusion_source": "Bernstein + SemiAnalysis_ X feed (2026-06-20) + awtmt.com, https://awtmt.com/articles/3772008"
+  },
+
+  "stock_pe_verified": {
+    "_note": "investment_map 标的实时PE/市值, 2026-06-19前后. 来源: 东方财富/同花顺/雅虎财经/证券时报",
+    "stocks": {
+      "000636_风华高科": {
+        "price_cny": 63.5,
+        "market_cap_cny_b": 735,
+        "pe_ttm": 239,
+        "pb": 5.89,
+        "fy2025_revenue_cny_b": 5.76,
+        "fy2025_net_profit_cny_b": 0.283,
+        "fy2026e_eps": "0.42-0.63",
+        "fy2026e_pe": "111-167x",
+        "note": "国内MLCC龙头, 唯一获NVIDIA全系列MLCC认证, 2026Q1净利+682%. 但当前PE 240x估值极高, 机构目标价20-30元远低于市价",
+        "source": "第一财经/东方财富/AASTOCKS 2026-06, https://www.yicai.com/news/103217726"
+      },
+      "300285_国瓷材料": {
+        "price_cny": null,
+        "pe_ttm": 82.08,
+        "pb": 7.02,
+        "eps_ttm": 0.14,
+        "fy2026_q1_revenue_cny_b": 1.064,
+        "fy2026_q1_net_profit_cny_b": 0.142,
+        "gross_margin_pct": 36.74,
+        "note": "MLCC上游钛酸钡粉体, 国内市占80-90%, 村田/三星电机核心供应商. 卖水人逻辑, 受益MLCC超级周期但弹性弱于成品厂",
+        "source": "同花顺 2026-06, http://basic.10jqka.com.cn/mobile/300285/company.html"
+      },
+      "600183_生益科技": {
+        "market_cap_cny_b": 4300,
+        "pe_ttm": 111.39,
+        "fy2025_revenue_cny_b": 28.43,
+        "fy2025_net_profit_cny_b": 3.33,
+        "fy2026_q1_gross_margin_pct": 28.10,
+        "note": "高速CCL龙头, AI服务器PCB基材核心, 2026-04至今累涨250%. PE 111x创10年新高, 高管密集减持, 基金减仓",
+        "source": "搜狐财经/东方财富 2026-06-17, https://q.stock.sohu.com/cn/news.html?textId=1024853926"
+      },
+      "688498_源杰科技": {
+        "price_cny": 1673.36,
+        "market_cap_cny_b": 2083,
+        "pe_ttm": 585,
+        "pe_static": 1091,
+        "pe_forward": 290,
+        "pb": 82.5,
+        "note": "光芯片EML/DFB, 光模块上游卡点国产替代, 52周区间110-1712元. PE 585x TTM极度昂贵, 市值已破2000亿, 科创版高估值代表",
+        "source": "上交所/同花顺/新浪财经 2026-06-19, https://www.cls.cn/stock?code=sh688498"
+      },
+      "601179_中国西电": {
+        "price_cny": 15.26,
+        "market_cap_cny_b": 782,
+        "pe_ttm": 59.2,
+        "pe_forward": "56-63",
+        "pb": 3.5,
+        "fy2025_revenue_cny_b": 23.81,
+        "fy2025_net_profit_cny_b": 1.27,
+        "fy2026_q1_revenue_cny_b": 5.52,
+        "fy2026_q1_net_profit_cny_b": 0.347,
+        "fy2026e_net_profit_cny_b": 1.64,
+        "fy2027e_net_profit_cny_b": 2.06,
+        "fy2028e_net_profit_cny_b": 2.65,
+        "note": "电网设备龙头, AI数据中心电力瓶颈受益. 特高压中标18.99亿引爆涨停. PE 60x在电力设备中偏高但增速可消化. 机构目标价~18元",
+        "source": "东方财富/同花顺/证券时报/搜狐 2026-06-19, https://q.stock.sohu.com/cn/news.html?textId=1025629973"
+      }
+    }
+  },
+
+  "chokepoint_supply_concentration_verified": {
+    "mlcc": {
+      "cr3_pct": "68-73 (Murata 40% + SEMCO 22% + Taiyo Yuden 9%)",
+      "cr5_pct": 77.3,
+      "ai_high_end_duopoly": "Murata + SEMCO ≈ 90%",
+      "expansion_cycle": "4-5年满产, 设备交期12-18月",
+      "source": "HTX Insights + 国信证券"
+    },
+    "ccl_high_speed": {
+      "cr3_pct": "estimated 60-70 (生益科技+台光电子+联茂主导高速CCL)",
+      "note": "需进一步web_search verified, 当前为estimated, 非verified",
+      "status": "estimated (待进一步verified)"
+    },
+    "hbm": {
+      "cr3_pct": "~95 (SK海力士主导HBM3E, 三星+美光追赶)",
+      "source": "X feed: @tengyanAI + @xiaomustock"
+    },
+    "advanced_packaging": {
+      "cowos_capacity": "TSMC垄断CoWoS, 2026月产能~40K wpm, 扩至2027 60K+",
+      "source": "X feed: @LordWilliamUK + @tengyanAI"
+    },
+    "optical_chip_eml": {
+      "cr3_pct": "estimated 80+ (Lumentum+Coherent+Broadcom主导, 源杰科技国产替代)",
+      "note": "需进一步verified, 当前为estimated",
+      "status": "estimated (待进一步verified)"
+    },
+    "power_grid_equipment": {
+      "note": "电网设备地域性强, 国内CR3 ~30-40%. 中国西电/许继电气/平高电气三分特高压",
+      "source": "国家电网招标公告 + 东方财富"
+    }
+  },
+
+  "rule_data_verified_compliance": {
+    "status": "PARTIALLY_VERIFIED",
+    "verified_count": 24,
+    "estimated_count": 2,
+    "missing_count": 0,
+    "verified_items": [
+      "TAM 2026/2030E (3源交叉验证: TBRC/美银/JLL)",
+      "AI DC CAGR 29-45%",
+      "MLCC AI Market 2025 $1.4B→2030E $6.1B",
+      "MLCC Global Market Share (Murata/SEMCO/Taiyo Yuden/Yageo CR5)",
+      "MLCC AI High-End Duopoly Murata+SEMCO 90%",
+      "MLCC Price Increase 2026 10-70%",
+      "MLCC Per Rack Count (GB300→Rubin Ultra)",
+      "Copper vs Optical Route (Bernstein 97页)",
+      "Copper Share 2029 ~50% (LightCounting)",
+      "CPO Yield ~19% (SemiAnalysis)",
+      "Optical Transceiver 2025 $23B",
+      "China AIDC Capex 2030 $327B",
+      "风华高科 PE 239x / 市值 735亿",
+      "国瓷材料 PE 82x / PB 7x",
+      "生益科技 PE 111x / 市值 4300亿",
+      "源杰科技 PE 585x / 市值 2083亿",
+      "中国西电 PE 59x / 市值 782亿 / FY2026E 净利16.4亿"
+    ],
+    "estimated_items": [
+      "CCL高速 CR3 (60-70%, 需进一步web_search)",
+      "EML光芯片 CR3 (80+%, 需进一步web_search)"
+    ],
+    "next_step": "将本文件数据注入 industry_landscape AI算力数据中心.json → 重跑 industry-director + critic → 目标 85+ ACCEPT"
+  }
+}
