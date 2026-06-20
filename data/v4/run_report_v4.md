@@ -1,88 +1,160 @@
 # v4 运行报告
 
-生成时间：2026-06-09T22:54:09Z
+生成时间：2026-06-20T15:33:25Z
 
-**单元总数**：41　🟢26 🟡15 🔴0 ⚪0 🔵0
+**单元总数**：76　🟢50 🟡26 🔴0 ⚪0 🔵0
 
-## 空壳产物（9）—— 跑了但无有效结论
-- `stock:000063`
-- `stock:002001`
-- `stock:002050`
-- `stock:002415`
-- `stock:002517`
-- `stock:01810`
-- `stock:09992`
-- `stock:603236`
-- `stock:603663`
-
-## 数据降级（12）—— 含 estimated/missing 证据或缺失上游
+## 空壳产物（39）—— 跑了但无有效结论
+- `alloc:portfolio`
+- `asset:alternative`
 - `asset:cash`
+- `asset:commodity`
 - `asset:equity`
+- `asset:fixed_income`
+- `asset:precious_metal`
 - `asset:real_estate`
+- `asset:unclassified`
+- `industry:AIoT安防`
+- `industry:互联网平台`
+- `industry:创新药+CXO`
+- `industry:化工必需消费`
+- `industry:可选消费`
+- `industry:新能源车EV供应链`
+- `industry:有色金属资源`
+- `industry:消费电子+IoT`
+- `industry:电力公用事业`
+- `plan:alternative`
+- `plan:cash`
+- `plan:commodity`
+- `plan:fixed_income`
+- `plan:precious_metal`
+- `plan:real_estate`
 - `stock:000063`
 - `stock:002001`
 - `stock:002050`
+- `stock:002156`
+- `stock:002326`
 - `stock:002415`
 - `stock:002517`
+- `stock:00700`
 - `stock:01810`
+- `stock:09988`
 - `stock:09992`
+- `stock:300308`
 - `stock:603236`
+- `stock:603259`
+- `stock:688981`
+
+## 数据降级（8）—— 含 estimated/missing 证据或缺失上游
+- `industry:半导体产业链`
+- `stock:002156`
+- `stock:002371`
+- `stock:09992`
+- `stock:600276`
 - `stock:603663`
+- `stock:688012`
+- `stock:688268`
 
 ## 全单元清单
-- 🟡待刷新 `alloc:equity_industries` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟢新鲜 `alloc:industry:互联网平台` v1
-- 🟢新鲜 `alloc:industry:人工智能算力` v1
-- 🟢新鲜 `alloc:industry:创新药` v1
-- 🟢新鲜 `alloc:industry:半导体` v1
-- 🟢新鲜 `alloc:industry:新能源车` v1
-- 🟢新鲜 `alloc:industry:有色资源` v1
-- 🟢新鲜 `alloc:industry:消费电子家电` v1
-- 🟢新鲜 `alloc:industry:电力公用事业` v1
-- 🟢新鲜 `alloc:portfolio` v2
-- 🟢新鲜 `asset:alternative` v2
-- 🟢新鲜 `asset:cash` v2 〔降级〕
-- 🟢新鲜 `asset:commodity` v2
-- 🟢新鲜 `asset:equity` v4 〔降级〕
-- 🟢新鲜 `asset:fixed_income` v3
-- 🟢新鲜 `asset:precious_metal` v2
-- 🟢新鲜 `asset:real_estate` v2 〔降级〕
-- 🟢新鲜 `asset:unclassified` v1
-- 🟡待刷新 `industry:互联网平台` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:人工智能算力` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:创新药` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:半导体` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:新能源车` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:有色资源` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:消费电子家电` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `industry:电力公用事业` v1
-    - 上游 alloc:portfolio 已更新至 v2（本单元基于 v1），结论可能过时；上游 asset:equity 已更新至 v4（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:alternative` v1
-    - 上游 asset:alternative 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:cash` v1
-    - 上游 asset:cash 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:commodity` v1
-    - 上游 asset:commodity 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:fixed_income` v1
-    - 上游 asset:fixed_income 已更新至 v3（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:precious_metal` v1
-    - 上游 asset:precious_metal 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟡待刷新 `plan:real_estate` v1
-    - 上游 asset:real_estate 已更新至 v2（本单元基于 v1），结论可能过时
-- 🟢新鲜 `stock:000063` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:002001` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:002050` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:002415` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:002517` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:01810` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:09992` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:603236` v1 〔降级〕 〔空壳〕
-- 🟢新鲜 `stock:603663` v1 〔降级〕 〔空壳〕
+- 🟢新鲜 `alloc:equity_industries` v4
+- 🟢新鲜 `alloc:portfolio` v7 〔空壳〕
+- 🟢新鲜 `asset:alternative` v4 〔空壳〕
+- 🟢新鲜 `asset:cash` v4 〔空壳〕
+- 🟢新鲜 `asset:commodity` v4 〔空壳〕
+- 🟢新鲜 `asset:equity` v6 〔空壳〕
+- 🟢新鲜 `asset:fixed_income` v5 〔空壳〕
+- 🟢新鲜 `asset:precious_metal` v4 〔空壳〕
+- 🟢新鲜 `asset:real_estate` v4 〔空壳〕
+- 🟢新鲜 `asset:unclassified` v3 〔空壳〕
+- 🟢新鲜 `industry:AIoT安防` v2 〔空壳〕
+- 🟢新鲜 `industry:AI算力数据中心` v6
+- 🟢新鲜 `industry:互联网平台` v2 〔空壳〕
+- 🟢新鲜 `industry:创新药+CXO` v2 〔空壳〕
+- 🟢新鲜 `industry:化工必需消费` v2 〔空壳〕
+- 🟢新鲜 `industry:半导体产业链` v8 〔降级〕
+- 🟢新鲜 `industry:可选消费` v2 〔空壳〕
+- 🟢新鲜 `industry:新能源车EV供应链` v2 〔空壳〕
+- 🟢新鲜 `industry:有色金属资源` v2 〔空壳〕
+- 🟢新鲜 `industry:消费电子+IoT` v2 〔空壳〕
+- 🟢新鲜 `industry:电力公用事业` v2 〔空壳〕
+- 🟢新鲜 `plan:alternative` v2 〔空壳〕
+- 🟢新鲜 `plan:cash` v2 〔空壳〕
+- 🟢新鲜 `plan:commodity` v2 〔空壳〕
+- 🟢新鲜 `plan:fixed_income` v2 〔空壳〕
+- 🟢新鲜 `plan:precious_metal` v2 〔空壳〕
+- 🟢新鲜 `plan:real_estate` v2 〔空壳〕
+- 🟡待刷新 `stock:000063` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:002001` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:002050` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:002156` v5 〔降级〕 〔空壳〕
+    - 已生成 6 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:002241` v1
+- 🟢新鲜 `stock:002326` vNone 〔空壳〕
+- 🟡待刷新 `stock:002371` v4 〔降级〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:002415` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:002517` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:00700` v2 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:01024` v1
+- 🟢新鲜 `stock:01211` v1
+- 🟡待刷新 `stock:01810` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:06160` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:06990` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:09988` v3 〔空壳〕
+    - 已生成 6 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:09992` v2 〔降级〕 〔空壳〕
+- 🟢新鲜 `stock:300033` v1
+- 🟡待刷新 `stock:300308` v9 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:300394` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:300428` v1
+- 🟡待刷新 `stock:300433` v2
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:300502` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:300750` v1
+- 🟢新鲜 `stock:300811` v1
+- 🟢新鲜 `stock:301031` v1
+- 🟢新鲜 `stock:301393` v1
+- 🟢新鲜 `stock:301608` v1
+- 🟡待刷新 `stock:600111` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:600183` v1
+- 🟡待刷新 `stock:600276` v2 〔降级〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:600873` v1
+- 🟡待刷新 `stock:600900` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:601899` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:601985` v1
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟡待刷新 `stock:603236` v5 〔空壳〕
+    - 已生成 6 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:603259` v1 〔空壳〕
+- 🟢新鲜 `stock:603501` v1
+- 🟡待刷新 `stock:603663` v2 〔降级〕
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:603979` v1
+- 🟢新鲜 `stock:605499` v1
+- 🟡待刷新 `stock:688012` v1 〔降级〕
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:688019` v2
+- 🟢新鲜 `stock:688092` v1
+- 🟡待刷新 `stock:688268` v1 〔降级〕
+    - 已生成 8 天，超过 TTL 5 天，建议刷新
+- 🟢新鲜 `stock:688379` v1
+- 🟢新鲜 `stock:688578` v1
+- 🟢新鲜 `stock:688786` v1
+- 🟡待刷新 `stock:688981` v3 〔空壳〕
+    - 已生成 7 天，超过 TTL 5 天，建议刷新
