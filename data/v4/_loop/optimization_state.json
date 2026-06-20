@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 12,
-    "last_run": "2026-06-19T09:00:00+00:00",
+    "iteration_count": 13,
+    "last_run": "2026-06-19T10:00:00+00:00",
     "phase": "apply",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 12 (LANDSCAPE-BREADTH): 产业链横向广度补强+landscape单跑, 修图vs我们漏12领域",
+    "_comment": "iter 13 (LANDSCAPE-FRONTEND): 产业链全景前端展示, 广度补强前后端闭环",
     "last_mine": "2026-06-19T14:01:21+00:00"
   },
   "active_hole": null,
@@ -811,6 +811,27 @@
       ],
       "honest_caveat": "改了流程要求(横向铺全), 但现有半导体产物仍是旧的9环节, 需本地重跑才会铺全15-25领域。未真跑验证AI是否真能穷举到图的广度水平——这依赖LLM执行质量。landscape单跑可低成本先验证广度。",
       "completed_at": "2026-06-19T09:00:00+00:00"
+    },
+    {
+      "id": "LANDSCAPE-FRONTEND-20260619-13",
+      "title": "产业链全景(landscape)有数据产出但前端无展示 — 横向广度补强只到后端,前端看不到",
+      "violated_practice": "前端展示必须跟上后端产出(同iter9/10前后端链断裂教训)",
+      "after_protocol": {
+        "backend": "build_industry_detail 透传 landscape(payload优先, 缺则 _load_industry_landscape 合并单跑文件)",
+        "frontend": "IndustryFullReport 加 §1.5 '🗺️产业链全景'章节: 按layer分组平铺细分领域卡片, 瓶颈红框高亮, 仿用户那张20格全景图; TOC+CONSUMED同步",
+        "type": "portfolioV4.ts 加 LandscapeSegment 类型",
+        "snapshot": "重build, landscape字段进快照(旧产物空数组占位, v-if优雅隐藏)"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(链路+UI)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "vue-tsc+build通过; TOC↔section一致; landscape字段进快照空数组占位前端不报错; 后端payload/单跑文件双源透传"
+        }
+      ],
+      "honest_caveat": "前端展示框架就绪, 但旧产物landscape=[]章节隐藏。需本地 ./run_v4.sh landscape industry:半导体产业链 (省token单跑)或refresh, 真实15-25细分领域才会平铺显示。未真跑验证AI铺全质量。",
+      "completed_at": "2026-06-19T10:00:00+00:00"
     }
   ],
   "stuck": [],
