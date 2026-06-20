@@ -66,6 +66,8 @@ tools:
   - `desk_sentiment.margin`: 融资余额 30 天变化 %
   - `desk_sentiment.iv_skew`: 期权 IV-skew(偏 put/call/平衡, 仅有期权的标的)
   - `desk_sentiment.fund_holdings_percentile`: 公募持仓历史百分位
+  - **`desk_sentiment.x_overseas_kol`（2026-06-19 用户拍板补——海外 X/推特舆论是信息差核心，国内雪球股吧大家都看，alpha 在海外一线）**: 联网检索 X(Twitter)/海外平台上**产业一线 + 大佬 + 卖方分析师**对该标的/赛道的**最新观点与舆论方向**，结构 `[{source: "X账号/媒体名(如 @dnystedt/SemiAnalysis/Jensen访谈/Morgan Stanley)", date, view: "观点摘要", stance:"看多/看空/中性", is_ahead_of_cn: "是否领先国内舆论(海外先发=信息差)", url}]`。重点抓：①产业链一线信号(产能/订单/客户动向 海外先曝) ②大佬转向(黄仁勋/Altman/对冲基金经理 公开表态) ③海外卖方评级变动(早于国内)。**取不到标 missing 不编造；只列 verified URL 的真实帖子/报道，严禁臆造大佬观点**。
+  - `desk_sentiment.cn_vs_overseas_gap`: 国内 vs 海外舆论温差一句话(如"海外 X 已转看空 CPO 替代风险，国内雪球仍一致看多 = 预期差窗口")
   - 取不到的字段 → 标 missing,sentiment agent 自动降 confidence。
 
 - **`stock:<code>` 数据契约必查**（2026-06-13 D0-8 用户'缺数据接着查/通盘完善'指令落地, 永久）:
