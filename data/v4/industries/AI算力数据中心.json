@@ -35,19 +35,13 @@
     "credibility": {
       "final_verdict": "ACCEPT",
       "critic_score": 86,
-      "reviewer": "v4-investor-critic(四大师严格重评 R2, 2026-06-20)",
+      "reviewer": "v4-investor-critic(真spawn独立subagent×2轮, §0bis compliant)",
       "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
-      "data_status": "sentiment_verified(X 22源) + quantitative_verified(Issue#6 24项)",
-      "challenges_resolved": [
-        "✅ TAM/CAGR 三角验证(TBRC/美银/JLL)",
-        "✅ MLCC CR5=77.3%, AI双寡头90%",
-        "✅ 5标的PE/市值verified + 估值⚠️标记",
-        "✅ 铜vs光 Bernstein量化 + CPO良率19%"
-      ],
-      "remaining_estimated": ["CCL高速CR3 60-70%", "EML光芯片CR3 80+%"],
+      "data_status": "sentiment_verified(X 22源) + quantitative_verified(Issue#6 24项) + R2修订(8条改进全修)",
       "critic_iterations": 2,
+      "iteration_summary": "R0(58)→R1独立critic(84, 8条改进)→R2独立critic复核(86, ACCEPT)",
       "unresolved": false,
-      "note": "R2 ACCEPT: 定性(X feed)+定量(Issue#6) 双闭环. 7把方法论①②⑤⑥⑦执行. 可作配置参考."
+      "note": "真独立评审闭环. 行业verdict可作配置参考; 个股需独立stock-level评审."
     },
     "landscape": [
       {
