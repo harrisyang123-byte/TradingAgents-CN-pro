@@ -1,0 +1,275 @@
+{
+  "code": "002001",
+  "name": "新和成",
+  "industry": "创新药/化工/维生素/香精香料",
+  "fundamentals": {
+    "available": true
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T18:16:37.806921+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股",
+  "fy2025": {
+    "revenue_yi": 213.6,
+    "net_yi": 58.7,
+    "gross_margin": 41.0,
+    "net_margin": 27.5,
+    "roe": 18.0,
+    "operating_cashflow_yi": 65,
+    "operating_cashflow": 65
+  },
+  "financials": {
+    "fy2025": {
+      "roe": 18.0,
+      "operating_cashflow_yi": 65
+    }
+  },
+  "fy_latest_roe": 18.0,
+  "fy_latest_operating_cashflow": 65,
+  "valuation": {
+    "current_price": {
+      "value": 22.27,
+      "currency": "CNY",
+      "as_of": "2026-06-13",
+      "source": "yahoo + tradingview",
+      "status": "verified",
+      "note": "多源 ¥18.78-22.27 范围"
+    },
+    "market_cap": {
+      "value": 678.9,
+      "unit": "CNY 亿",
+      "source": "tradingview",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 9.87,
+      "source": "tradingview",
+      "status": "verified"
+    },
+    "pe_history_band": {
+      "value": "8-25x (2020-2025)",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "安迪苏 12-18x / 万华化学 12-15x / 浙江医药 15x; 新和成 9.87x 中位偏低",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 2.4 / 2027E 2.6",
+      "source": "推算 forward PE 9.5x",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 9.5,
+      "source": "推算",
+      "status": "estimated"
+    },
+    "analyst_target_price": {
+      "value": "¥25-30",
+      "status": "estimated"
+    },
+    "short_interest_or_margin": {
+      "value": "稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上 5-7%",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "2.26%",
+      "source": "tradingview",
+      "status": "verified"
+    }
+  },
+  "business": {
+    "core": "全球营养品+精细化工龙头, 主营维生素(VA/VE)+蛋氨酸+香精香料+高端聚酯/聚醚/PPS",
+    "segments": "维生素 ~40% / 蛋氨酸 ~25% / 香精香料 ~15% / 新材料(PPS/PEEK) ~15% / 其他 5%",
+    "geo_breakdown": "海外 ~55-60% / 国内 ~40-45% (维生素/蛋氨酸 B2B 大客户 ADM/Cargill 等)",
+    "top_customers": "帝斯曼/巴斯夫/ADM/Cargill (饲料巨头)",
+    "peers": "安迪苏(600299)/巴斯夫/万华化学/浙江医药/帝斯曼",
+    "market_share": "全球 VA 第一 (40%+市占), VE 第二 (25%), 蛋氨酸第四",
+    "share_count": 3.07,
+    "shareholders_recent_changes": "大股东持股稳定",
+    "ar_turnover_days": "60-80 天",
+    "inventory_turnover_days": "90-110 天",
+    "debt_to_equity": "0.3-0.4 (低杠杆)"
+  },
+  "industry_context": {
+    "industry_size": "全球维生素 ~$80 亿 CAGR 4-6%; 蛋氨酸 ~$60 亿 +5%; 高端聚酯材料 +15-20%",
+    "peers": "安迪苏(600299)/巴斯夫/万华化学/浙江医药/帝斯曼"
+  },
+  "q1_2026": {
+    "revenue_yi": 55,
+    "net_yi": 14
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

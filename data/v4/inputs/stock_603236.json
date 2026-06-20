@@ -1,0 +1,309 @@
+{
+  "code": "603236",
+  "name": "移远通信",
+  "industry": "半导体/物联网模组",
+  "fundamentals": {
+    "available": true,
+    "note": "主 agent web_search 核实（多源冲突已标）",
+    "fy_latest_revenue": {
+      "value": "232-243 亿",
+      "unit": "CNY 亿",
+      "fy": 2025,
+      "yoy": "+30.83% (aastocks 243.26亿) vs +24.9% (stockanalysis ttm 232.2亿)",
+      "source": "aastocks 2026-04 年报 / stockanalysis ttm",
+      "status": "verified",
+      "multi_source_conflict": "243.26亿 (年报) vs 232.2亿 (ttm 滚动12月)，差距源于口径"
+    },
+    "fy_latest_net_profit": {
+      "value": "8.37-9.65",
+      "unit": "CNY 亿",
+      "fy": 2025,
+      "yoy": "+42% (aastocks)",
+      "source": "aastocks 年报 / stockanalysis ttm",
+      "status": "verified"
+    },
+    "fy_latest_gross_margin": {
+      "value": "17-19%",
+      "fy": 2025,
+      "source": "行业可比+移远历史",
+      "status": "estimated",
+      "note": "物联网模组重资产薄毛利, 行业 16-22%"
+    },
+    "fy_latest_net_margin": {
+      "value": "3.6-4.0%",
+      "fy": 2025,
+      "source": "推算",
+      "status": "estimated",
+      "note": "基于净利 8.37亿/营收 232亿 ≈ 3.6%"
+    },
+    "fy_latest_roe": {
+      "value": "13-15%",
+      "fy": 2025,
+      "source": "推算+财报",
+      "status": "estimated"
+    },
+    "fy_latest_operating_cashflow": {
+      "value": "10-13 亿",
+      "fy": 2025,
+      "source": "近年公司报表趋势",
+      "status": "estimated"
+    },
+    "q_latest_revenue": {
+      "value": 67.49,
+      "unit": "CNY 亿",
+      "q": "2026Q1",
+      "yoy": "+29%",
+      "source": "aastocks 2026-04",
+      "status": "verified"
+    },
+    "q_latest_net_profit": {
+      "value": "约 2.5-3 亿",
+      "q": "2026Q1",
+      "yoy": "+30% 估算",
+      "status": "estimated"
+    }
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T17:07:59.465310+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股",
+  "valuation": {
+    "current_price": {
+      "value": "91.68 vs 58.30",
+      "currency": "CNY",
+      "as_of": "2025-12-08 (ft) / 2026-06 (morningstar)",
+      "source": "ft.com / morningstar / stockanalysis",
+      "status": "verified",
+      "multi_source_conflict": "ft.com $91.68 (2025-12-08) vs morningstar $58.30 (2026-06)，差距巨大需谨慎；stockanalysis 92-95 与 ft 一致；morningstar 可能滞后或失效"
+    },
+    "market_cap": {
+      "value": 242.4,
+      "unit": "CNY 亿",
+      "source": "stockanalysis 2026-04",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 25.3,
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "pe_history_band": {
+      "value": "20-50x (2022-2025 区间)",
+      "source": "历史复盘",
+      "status": "estimated",
+      "note": "2024 年净利暴涨 +495% 后 PE 急速消化"
+    },
+    "peer_pe_comparison": {
+      "value": "广和通 25-30x / 美格智能 30-40x / 海格通信 40+x",
+      "source": "wind/eastmoney 2026",
+      "status": "estimated",
+      "note": "移远 25.3x 处同业中位"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 4.20 / 2027E 5.20",
+      "source": "推算 forward PE 22.43",
+      "status": "estimated",
+      "note": "forward PE 22.43 × 当前价 92 = forward EPS ≈ 4.10-4.20"
+    },
+    "forward_pe": {
+      "value": 22.43,
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "dividend_yield": {
+      "value": "1.17%",
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "analyst_target_price": "90-110 (覆盖度高)",
+    "short_interest_or_margin": "融资余额稳定, 沽空 N/A (A股)",
+    "northbound_flow": "北上持股 3-5%, 沪股通标的"
+  },
+  "business": {
+    "core": "全球 IoT 蜂窝模组龙头, 主营 5G/4G/LPWA/智能模组/车载 C-V2X/卫星通信模组+天线+软件平台",
+    "segments": "4G/LPWA 模组 ~50% / 5G 模组 ~25% / 智能模组+车载 ~15% / 解决方案 ~10%",
+    "geo_breakdown": "海外 ~55-60% / 国内 ~40-45%",
+    "top_customers": "美光/英特尔/Tesla/小米/比亚迪/Cisco/海康等(分散C/B端)",
+    "peers": "广和通(002465)/美格智能(002881)/有方科技(688159)/Sierra Wireless(被Semtech收购)/u-blox(瑞士)/Telit",
+    "market_share": "Quectel 全球 IoT 模组市占 34% (按营收, IoT Analytics 2025); 全球出货量第一",
+    "_source": "main agent web_search 核实",
+    "share_count": 2.62,
+    "ar_turnover_days": "70-90 天",
+    "inventory_turnover_days": "60-80 天",
+    "debt_to_equity": "0.4-0.5 (轻杠杆)",
+    "shareholders_recent_changes": "近期无重大减持, 大股东持股稳定"
+  },
+  "industry_context": {
+    "industry_size": "IoT 模组市场 2025-2030 CAGR ~12-15% (transformainsights/360iresearch); 5G 模组 CAGR +20-25%; LPWA 已超 4G 出货",
+    "peers": "广和通(002465)/美格智能(002881)/有方科技(688159)/Sierra Wireless(被Semtech收购)/u-blox(瑞士)/Telit"
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

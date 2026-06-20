@@ -1,0 +1,162 @@
+{
+  "asset_class": "cash",
+  "label": "现金及等价物",
+  "max_drill_depth": "holding_structure",
+  "ttl_days": 14,
+  "current_weight": 27.93,
+  "current_market_value": 332212.0,
+  "tradable": [],
+  "holding_only_exposure": 332212.0,
+  "holdings": [
+    {
+      "code": "",
+      "name": "活期存款",
+      "asset_class": "cash",
+      "tradable": false,
+      "weight": 27.93,
+      "market_value": 332212.0,
+      "instrument_type": "cash"
+    }
+  ],
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-09T14:32:47.514878+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "portfolio": "portfolio_file",
+    "macro": "unavailable"
+  },
+  "zero_holding": false
+}

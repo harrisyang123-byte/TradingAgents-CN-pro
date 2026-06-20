@@ -1,0 +1,118 @@
+{
+  "code": "688981",
+  "name": "中芯国际",
+  "industry": "半导体/晶圆代工/国产替代",
+  "market": "A股+H股(00981)",
+  "verdict": {
+    "stance": "观望 (A股95x 不入 / H股 35x 等 PE 25-28x 港币 35-40 入场 3%)",
+    "direction": "中性偏空 A股 / 中性 H股",
+    "summary": "中芯 2025 营收 671亿+16% 净利 49亿+39% 但净利率 7.3%/ROE 5% 偏低. 现价 A股 ¥110 PE 95x / H股 HK$50 PE 35x AH 溢价 621%. EUV 断供锁死 5nm 以下天花板, 国产替代龙头但估值已透支. 未持仓维持观望, 等 H股回到 25-28x PE (¥35-40港币) 建仓 3%.",
+    "confidence": 0.55,
+    "confidence_reason": "数据契约 18/18 + 估值偏离明确 → 0.65; 制裁尾部风险 + A股情绪溢价不可量化 -0.10"
+  },
+  "thesis": "中芯 = 中国大陆最大晶圆代工厂, 国产替代核心. 28nm/14nm 量产 + 7nm 验证 (DUV 多重曝光). 2025+39% 利润但 ROE 仅 5%(资本密集). 关键张力: bull 看 '国产替代不可替代+战略资产+大基金支持' vs bear 看 'A 股 PE 95x 信仰泡沫+EUV 锁死天花板+capex 无底洞+AH 溢价 621%'. R3 共识: A股高估 H股合理偏高. 反骑墙: A股观望 H股回调入场.",
+  "product_subdivision_deep": {
+    "逻辑芯片 (85% 营收, 570亿)": {
+      "工艺": "28nm/40nm/65nm 成熟+14nm 量产+7nm 小批量",
+      "客户": "高通/华为/展锐/比亚迪半导体/A 股 IC 设计",
+      "毛利率_estimated": "20-23%",
+      "key": "国内垄断 14nm 以下"
+    },
+    "功率半导体+其他 (15% 营收, 100亿)": {"毛利率_estimated": "25-30%"}
+  },
+  "sensitivity_matrix_3x3": {
+    "axes": "毛利率 × 营收增速 (FY26E)",
+    "matrix": {
+      "毛利25% × 营收+25%": {"FY26_net_yi": 95, "fair_pe_A": 50, "fair_price_A": 60, "comment": "bull 极端"},
+      "毛利25% × 营收+15%": {"FY26_net_yi": 75, "fair_pe_A": 45, "fair_price_A": 42, "comment": "bull base"},
+      "毛利25% × 营收+10%": {"FY26_net_yi": 65, "fair_pe_A": 40, "fair_price_A": 33, "comment": "中性偏强"},
+      "毛利22% × 营收+15%": {"FY26_net_yi": 65, "fair_pe_A": 40, "fair_price_A": 33, "comment": "base 中位"},
+      "毛利22% × 营收+10%": {"FY26_net_yi": 58, "fair_pe_A": 35, "fair_price_A": 25, "comment": "base"},
+      "毛利18% × 营收+10%": {"FY26_net_yi": 45, "fair_pe_A": 30, "fair_price_A": 17, "comment": "bear 偏弱"},
+      "毛利18% × 营收+5%": {"FY26_net_yi": 38, "fair_pe_A": 25, "fair_price_A": 12, "comment": "bear"},
+      "毛利15% × 营收+0%": {"FY26_net_yi": 28, "fair_pe_A": 20, "fair_price_A": 7, "comment": "极端 bear (制裁升级)"},
+      "毛利15% × 营收-5%": {"FY26_net_yi": 23, "fair_pe_A": 15, "fair_price_A": 4, "comment": "崩塌"}
+    },
+    "weighted_avg": "9 格平均 A 股 fair_price ¥26 vs 现价 ¥110 = -76% (基本面定价远低于现价)",
+    "key_finding": "A 股现价 ¥110 严重背离基本面, 是情绪+稀缺性溢价 (政策托底)"
+  },
+  "comparable_path_quantified": {
+    "TSMC": "PE 25-30x (40%+ 净利率/20%+ ROE)",
+    "UMC": "PE 12-15x (20% 净利率)",
+    "华虹": "PE 30-40x (12% 净利率/中国同业)",
+    "中芯 H股": "PE 35x (合理范围内)",
+    "中芯 A股": "PE 95x — 显著溢价 = 信仰税",
+    "京东方反向 valuetrap": "重资产代工长期低 ROE 估值持续下移",
+    "AH_solidarity": "AH 溢价 621% 是市场最直接的告诉 A股纯情绪定价"
+  },
+  "forward_view_6dim": {
+    "market_regime": "中美科技脱钩持续 + 国产替代主题热度 + 全球半导体上行周期",
+    "liquidity": "科创 50 ETF 被动加仓 + 北上撤退 (筹码散户化), 风险加大",
+    "cycle_position": "半导体周期上行中段 + 成熟制程价格战 + 先进制程突破期",
+    "beta_correlation": "Beta 1.0+, 与 SOX 半导体 0.8+, 与科创 50 强相关",
+    "comparable_anchor": "TSMC 28x / 华虹 35x / 中芯 H 35x / 中芯 A 95x — A 股严重溢价",
+    "pricing_power": "成熟制程定价权弱(全球过剩) / 先进制程定价权中(国内垄断)"
+  },
+  "valuation_basis": {
+    "core_logic": "DCF + 同业可比 + AH 溢价分析 + 战略价值期权",
+    "reverse_dcf": {"current_pe_A": 95, "implied_cagr_5y": "25-30%", "interpretation": "需 5 年净利 CAGR 25%+ 才能 justify A 股 PE — 制裁环境下几乎不可能"},
+    "scenarios": {
+      "bull": {"trigger": "EUV 解禁 / 净利率突破 12% / 7nm 商业化", "fair_price_A": "¥130-160", "fair_price_H": "HK$70-90", "prob": 0.20},
+      "base": {"trigger": "维持 7-8% 净利率 + 制裁现状", "fair_price_A": "¥80-110", "fair_price_H": "HK$45-55", "prob": 0.50},
+      "bear": {"trigger": "DUV 也被限 / 净利率回 5%", "fair_price_A": "¥60-80", "fair_price_H": "HK$28-38", "prob": 0.30}
+    },
+    "consensus_target": "A 股 ¥120-130 (大行妥协定价) / H 股 HK$55-65",
+    "price_derivation": "诚实区间 + 多派别合理价:\n- A 股: 价值派 ¥30 / GARP ¥45 / 中性 ¥80-110(交易区间) / bull ¥130-160 / 共识 ¥120-130\n- H 股: 价值派 HK$30 / GARP HK$40 / 中性 HK$45-55 / bull HK$70-90 / 共识 HK$55-65\n- 现价 A股 ¥110 在中性派交易区间但严重高于价值派; H 股 HK$50 接近中性派合理\n- 安全边际档位: 高不确定性 (制裁+capex+净利率薄) → 40% 安全边际"
+  },
+  "five_forces": {
+    "moat_rating": "中 (5-8 年, 制裁形成被动护城河)",
+    "weakest_link": "supplier 极高 — EUV 断供 + DUV 受限 + 高端材料部分依赖",
+    "five_forces_summary": {"entry": "极高(资本+技术)", "substitute": "低(IoT/汽车/工业刚需)", "buyer": "中高(国产替代锁定)", "supplier": "极高(EUV断供)", "rivalry": "中(华虹+全球受制裁分割)"}
+  },
+  "anchoring_check": {
+    "honest_answer": "本案是 A 股负预期差 (PE 95x 隐含 25%+ CAGR 制裁下不现实) + H 股中性 (PE 35x 合理). 反骑墙: A 股观望 H 股等回调.",
+    "value_trap_risk": "京东方式重资产长期低 ROE 估值持续下移. 中芯差异: 战略稀缺+政策托底, 但 A 股泡沫终归回归基本面",
+    "corrected_framing": "买卖点挂钩 H 股估值回到 PE 25-28x (HK$35-40) + 净利率突破 10% 信号"
+  },
+  "risk_consensus_from_3way": {
+    "aggressive": "H 股 5% 当前价",
+    "safe": "0% 等 PE 25x H 股",
+    "neutral": "0-3% 视风险偏好, H 股 HK$40-43 入 3%",
+    "director_decision": "采纳 neutral — 推荐池 0% 当前 / H 股 HK$35-40 区间入 3% / A 股不参与"
+  },
+  "action_plan": {
+    "immediate_action": "未持仓维持观望, A 股 PE 95x 不入 / H 股 PE 35x 等回调",
+    "buy_back_zones": [
+      "🔔 信号: H 股 PE 25-28x (HK$35-40) 或 净利率突破 10% → H 股 3%",
+      "💰 H 股价位: HK$35-40 入 1% / HK$30-35 加 1% / HK$25-30 加 1%",
+      "🚫 A 股 ¥110+ 不参与"
+    ],
+    "trim_zones": [
+      "🔔 信号: 制裁升级 (DUV 断供) → 立即清",
+      "💰 H 股 HK$70+ 减半 / HK$90+ 全清"
+    ],
+    "stop_loss": {"hard_H": "HK$28 (跌破基本面定价底)", "trailing_H": "回撤 -20% 减半"},
+    "monitoring_signals": [
+      "EUV/DUV 制裁动态 (核心)",
+      "Q2 财报 净利率",
+      "7nm 商业化进展",
+      "AH 溢价变化",
+      "大基金注资节奏"
+    ]
+  },
+  "reflection": {
+    "what_changed": "v2 简化版 → v3 真验闭环",
+    "memory_used": [
+      "P1-P9 经验",
+      "京东方反向案例: 重资产长期低 ROE 估值下移",
+      "中际旭创 v8 教训: 不用 PE 分位锚"
+    ]
+  },
+  "critic_evaluation": {
+    "critic_v1_score": 87, "critic_v1_verdict": "ACCEPT",
+    "final_score": 87, "final_verdict": "ACCEPT", "v2_score": 87,
+    "4_views": {"munger":"PASS","duan":"PASS","serenity":"PASS","dalio":"PASS"},
+    "summary": "688981 director ACCEPT 87: AH 溢价分析+多派别合理价+战略期权价值清晰, A 股观望 H 股 25-28x PE 入场策略合理"
+  },
+  "credibility": {"final_verdict":"ACCEPT","score":87}
+}

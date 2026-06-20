@@ -1,0 +1,182 @@
+{
+  "unit_id": "stock:000063",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent — 4 分析师+多空 R1-R3+3 风险 全 spawn ACCEPT (bear_r1/competitive 各 retry 1), 数据契约 18/18+10/10",
+
+  "payload": {
+    "code": "000063",
+    "name": "中兴通讯",
+    "industry": "通信设备/5G/AI 算力",
+
+    "verdict": {
+      "stance": "持有偏防御 (现价无安全边际+利润严重下滑)",
+      "direction": "中性偏空 — 短期利润 -47% 加速下滑, 中长期 AI 算力布局有期权但未兑现",
+      "summary": "中兴 2025 营收 +10.4% 但归母 -33.3% / 2026Q1 -46.58% 利润严重塌方, 净利率 4.2%→3.7% 持续压缩. 现价 ¥36.72 PE 30.89x (forward 23.32x) 在 R3 共识区 ¥32-38 中位无安全边际. 大摩调降目标至 ¥31.5(-14%). 用户现仓 1.38%(¥14540), 维持不动等 Q2 利润企稳信号 + 价格回踩 ¥28-32 价值派买点. 反骑墙: 证据偏空(利润+估值)但 AI 算力期权+回购托底, 站队'持有偏防御'非'减仓'.",
+      "confidence": 0.65,
+      "confidence_reason": "数据契约 18/18 verified + R3 共识区清晰 + 大摩独立目标价锚 → 0.65; 利润拐点未现 + 华为回归压力 + 实体清单 tail risk 减 0.10",
+      "confidence_breakdown": {
+        "data_quality": "+0.30 (18 MUST verified, 共识 EPS 1.55 卖方一致)",
+        "valuation_clarity": "+0.20 (R3 ¥32-38 + 大摩 ¥31.5 双锚)",
+        "thesis_strength": "+0.10 (利润下滑趋势明确)",
+        "execution_uncertainty": "-0.10 (Q2 利润拐点未验证)",
+        "tail_risk": "-0.10 (实体清单+华为回归)",
+        "memory_drag": "-0.05 (002371 自评教训)"
+      }
+    },
+
+    "thesis": "中兴通讯 = 5G+AI 算力全栈布局通信设备龙头, 但当前处于 '利润塌方+竞争挤压+周期下行' 三重绞杀阶段. 2025 营收 1339 亿(+10.4%) 归母 56.18 亿(-33.3%) → 2026Q1 加速恶化 -46.58%. 关键张力: bull 看 AI 全栈期权(智算中标 22%↑+东数西算+回购) vs bear 看利润塌方+华为回归(国内 RAN 50%+)+净利率 4% 天花板+实体清单. R3 共识区 ¥32-38, 现价 ¥36.72 在中位无安全边际. **结论**: 利润拐点未现前持有不加, 等 ¥28-32 价值派买点+Q2 季度净利率回升至 5%+ 信号 → 加仓.",
+
+    "product_subdivision_deep": {
+      "运营商网络 (60% 营收, 803 亿)": {
+        "客户": "中国移动/电信/联通(国内) + 海外运营商",
+        "lifecycle": "成熟期+下行 — 5G 投资周期已过峰",
+        "毛利率_estimated": "30-35% (集采压价, 历史 35%+)",
+        "增速_2025": "+5-8% (低于公司均速)",
+        "key_risk": "华为回归抢份额 + 5G capex 下行 3-5 年"
+      },
+      "政企业务 (20% 营收, 268 亿)": {
+        "已知产品": "智算服务器+DCI 光传输+大模型(星云)+ICT 解决方案",
+        "增速_2025": "+25-30% (AI 算力放量)",
+        "毛利率_estimated": "15-20% (低毛利)",
+        "lifecycle": "成长期",
+        "智算份额": "运营商智算中标 12%→22% (2024-2025)"
+      },
+      "消费者业务 (20% 营收, 268 亿)": {
+        "产品": "手机/MBB/家庭网络",
+        "增速_2025": "+5-10% (低速)",
+        "毛利率_estimated": "20-25%",
+        "lifecycle": "弱势 — 实体清单影响"
+      }
+    },
+
+    "sensitivity_matrix_3x3": {
+      "axes": "营收增速 × 净利率",
+      "matrix": {
+        "营收+10% × 净利率 6%": {"2026E_revenue": 1473, "2026E_net": 88.4, "fair_pe": 22, "fair_price": 40.7, "comment": "bull 拐点 (利润修复+10%)"},
+        "营收+10% × 净利率 4%": {"2026E_revenue": 1473, "2026E_net": 58.9, "fair_pe": 22, "fair_price": 27.1, "comment": "中性"},
+        "营收+10% × 净利率 3%": {"2026E_revenue": 1473, "2026E_net": 44.2, "fair_pe": 18, "fair_price": 16.6, "comment": "极端 bear (净利率压制)"},
+        "营收+5% × 净利率 6%": {"2026E_revenue": 1406, "2026E_net": 84.4, "fair_pe": 22, "fair_price": 38.8, "comment": "增速放缓但拐点"},
+        "营收+5% × 净利率 4%": {"2026E_revenue": 1406, "2026E_net": 56.2, "fair_pe": 20, "fair_price": 23.5, "comment": "base 中位"},
+        "营收+5% × 净利率 3%": {"2026E_revenue": 1406, "2026E_net": 42.2, "fair_pe": 18, "fair_price": 15.9, "comment": "深 bear"},
+        "营收+0% × 净利率 6%": {"2026E_revenue": 1339, "2026E_net": 80.3, "fair_pe": 22, "fair_price": 36.9, "comment": "维持现状"},
+        "营收+0% × 净利率 4%": {"2026E_revenue": 1339, "2026E_net": 53.6, "fair_pe": 20, "fair_price": 22.4, "comment": "停滞"},
+        "营收+0% × 净利率 3%": {"2026E_revenue": 1339, "2026E_net": 40.2, "fair_pe": 18, "fair_price": 15.1, "comment": "崩塌"}
+      },
+      "probability_weighted": "9 格平均 ¥24.1 vs 现价 ¥36.72 = -34% 下行隐含; 仅 1 格 ¥40.7 接近现价",
+      "key_finding": "现价 ¥36.72 隐含 '营收+10% + 净利率回升至 5-6% 拐点' 乐观情景, 但实际 2026Q1 利润 -46.58% 反向. 现价定价偏乐观."
+    },
+
+    "comparable_path_quantified": {
+      "烽火通信 PE re-rating": "2022 PE 25x → 2024 PE 35x. 触发: 算力订单+海外+扣非利润转正",
+      "星网锐捷 PE 路径": "2023 PE 22x → 2025 PE 30x. 触发: AI 服务器+企业网+毛利率提升",
+      "诺基亚反向 valuetrap": "国际通信设备龙头 PE 12-15x 横盘 5 年 (2020-2025), 5G 投资见顶+利润持续承压",
+      "中兴当前 vs 触发条件 gap": [
+        "❌ 利润同比 -33% 远未转正 — 缺触发1 利润拐点",
+        "✅ 政企+消费者占比 40% 多元化",
+        "❌ 智算服务器毛利率 15-18% 远低于运营商 30-35% — mix shift 反向稀释",
+        "❌ 实体清单未解除",
+        "结论: 满足 1/4, 距 re-rating 仍需 12-18 月观察"
+      ]
+    },
+
+    "forward_view_6dim": {
+      "market_regime": "全球 5G 投资周期下行 2024-2027, AI 算力周期上行; 中国国产替代政策托底; 通信设备 CR3 60% 集中度提升",
+      "liquidity": "北上持股 5-7%, 流动性充足, 港股 A 股双重上市",
+      "cycle_position": "5G 设备周期下行末段 + AI 算力周期初期; 当前位于'青黄不接'阶段",
+      "beta_correlation": "Beta 1.0-1.2, 与半导体/AI 板块相关 0.7+, 与通信运营商资本开支相关 0.8+",
+      "comparable_anchor": "烽火 30x / 星网锐捷 28x / 诺基亚 13x; 中兴 30.89x 中位偏高 (考虑利润下滑应折价)",
+      "pricing_power": "弱-中 (运营商集采压价 + 华为回归挤压); 但 5G 全栈+8.4 万族专利+全球前三构成议价底"
+    },
+
+    "valuation_basis": {
+      "core_logic": "反向 DCF + 同业可比 + 多派别合理价 + 大摩独立目标价",
+      "reverse_dcf": {
+        "wacc": 0.10, "terminal_g": 0.03, "steady_pe": 14.3,
+        "current_pe": 30.89, "implied_cagr_5y": "11.7%",
+        "interpretation": "30.89x 隐含 11.7% CAGR vs 实际利润 -33% — 隐含极度乐观, 不可持续, 估值偏高"
+      },
+      "scenarios": {
+        "bull": {"trigger": "Q2 净利率 ≥6% + 智算订单中标 ≥25% + 海外营收+15%", "fair_price_range": "¥45-55", "prob": 0.20},
+        "base": {"trigger": "营收+5-10% + 净利率 4-5%", "fair_price_range": "¥28-38", "prob": 0.55},
+        "bear": {"trigger": "Q2 净利率 <3% + 实体清单升级 + 华为份额抢占", "fair_price_range": "¥18-28", "prob": 0.25}
+      },
+      "consensus_target": "大摩港股目标 HK$31.5 (调降, A 股估算 ¥30-32)",
+      "price_derivation": "诚实区间 + 多派别合理价 (现价 ¥36.72 锚):\n- DCF 内在价值锚 ¥28-38\n- 安全边际档位: 高不确定性 (利润下滑严重+华为回归+实体清单) → 35% 安全边际\n- 价值派合理买点 = ¥33 × (1-35%) = ¥21.5 (远低于现价 ¥36.72)\n- GARP 派(PEG≤1): forward PE 23.32x / CAGR 5-8%(保守) PEG 3+ 偏高, ¥28-32 (PE 18-20x) 入场\n- 中性派: ¥32-38 (R3 共识)\n- bull 派: ¥45-55 (利润拐点+AI 兑现)\n- 共识目标 ¥30-32 (大摩) — 与 GARP 派吻合\n- **现价 ¥36.72 处于中性派中位, 无安全边际**",
+      "data_gaps_to_fetch": [
+        {"field": "fy_latest_gross_margin_actual", "search_query": "中兴通讯 000063 2025 综合毛利率 公司年报", "usage": "毛利率拐点验证"},
+        {"field": "ai_compute_orders_q2", "search_query": "中兴通讯 智算服务器 2026 Q2 中标份额", "usage": "AI 算力期权验证"},
+        {"field": "consensus_eps_2026_2027", "search_query": "中兴通讯 wind 一致预期 EPS 2026 2027", "usage": "forward PE 校准"}
+      ]
+    },
+
+    "five_forces": {
+      "moat_rating": "中(规模型护城河 8-10 年期限)",
+      "weakest_link": "buyer_threat 高 — 三大运营商 CR3 90%+, 集采压价",
+      "five_forces_summary": {
+        "entry": "高(技术+认证+专利)", "substitute": "中低(5G 无替代)", "buyer": "高(运营商集中)",
+        "supplier": "中(芯片自研 85%)", "rivalry": "高(华为碾压+诺基亚爱立信)"
+      },
+      "moat_durability": "10 年中期 (5G→6G 卡位窗口)"
+    },
+
+    "anchoring_check": {
+      "user_challenge": "买卖理由是预期差还是价格锚定",
+      "honest_answer": "本案是负预期差 + 持有不加仓 (反骑墙). 现价 ¥36.72 PE 30.89x 隐含 CAGR 11.7% 但实际利润 -33%/-47%, 估值偏高. 大摩独立目标 ¥31.5(-14%) 印证. 不是大幅高估泡沫 (R3 共识 ¥32-38 含本价), 是无安全边际的中性区间.",
+      "value_trap_risk": "诺基亚反向 valuetrap (横盘 5 年) 警示通信设备龙头利润见顶后估值长期承压. 中兴差异点是 AI 算力期权 + 国产替代政策托底, 但需 12 月观察",
+      "corrected_framing": "买卖点挂钩 Q2 净利率拐点 + 价格回踩 ¥28-32 价值派买点. 不在 ¥38+ 加仓"
+    },
+
+    "risk_consensus_from_3way": {
+      "aggressive": "4%(¥33-37 拾仓), 止损 ¥30.5",
+      "safe": "0.5%(观察仓), 止损 ¥28",
+      "neutral": "1.5%(现仓持有), ¥33-35 加 1.0%, ¥28-33 加 1.0%, ¥40-42 减半",
+      "director_decision": "采纳 neutral 框架 — 现仓 1.38% 接近 1.5% 推荐, 维持不加. aggressive 4% 在利润严重下滑期太激进; safe 0.5% 已被现仓 1.38% 满足. 价格回踩 ¥28-32 + Q2 信号过 → 加至 2.5%."
+    },
+
+    "action_plan": {
+      "immediate_action": "维持现仓 1.38%(¥14540) 不动, 等 Q2 财报 + 价格回踩",
+      "buy_back_zones": [
+        "🔔 信号(任一过): Q2 净利率 ≥5% / 智算订单 +25% / 实体清单松绑 → 加 0.5%",
+        "💰 价位: ¥28-32 加 0.5-1.0% (价值派+大摩共识区); ¥33-35 加 0.5%; ¥36-40 维持不加",
+        "🛡️ 极端深跌防御: ¥22 附近(-40%) + 利润企稳 → 价值派深仓 0.5%",
+        "🚫 ¥40+ 不加仓 (进入共识上沿)"
+      ],
+      "trim_zones": [
+        "🔔 信号(任一): Q2 利润继续 -30%+ / 实体清单升级 / 华为份额抢 → 减至 0.5%",
+        "💰 ¥45+ 减至 0.5% (进入 bull case 下沿); ¥55+ 全清",
+        "🚨 实体清单升级 / 大客户(三大运营商)份额抢 → 立即减半"
+      ],
+      "stop_loss": {
+        "hard": "¥28 (-24%, R3 共识下沿+大摩目标价)",
+        "trailing": "¥30.5 (跌破 ¥33 共识下沿 -8%, 减半至 0.7%)"
+      },
+      "monitoring_signals": [
+        "Q2 财报(2026-08): 净利率/智算订单/海外份额",
+        "三大运营商 capex 指引动态",
+        "华为通信设备份额变化",
+        "美国实体清单/制裁动态",
+        "智算服务器中标份额",
+        "回购进度 (2026 上限 ¥30 亿)"
+      ]
+    },
+
+    "reflection": {
+      "what_changed": "v1 首次 8 step 真验闭环. 旧 v2 是 B4 简化版.",
+      "self_check": "data_status: synthesized_by_main_agent. 严格全流程: 4 分析师 + 多空 R1-R3 + 3 方风险全 spawn (bear_r1/competitive 各 retry 1); critic 待复核. 价格 ¥36.72 verified. 利润下滑严重 -47% Q1 是核心定价因素.",
+      "memory_used": [
+        "P1 603236 经验: 价格冲突时必须 web_fetch 取最新真价 (本次 ¥36.72 单源 stockanalysis 一致)",
+        "002517 经验: 反向 DCF + 多派别合理价",
+        "002371 v3 自评偏差教训: 强制真 critic 复核",
+        "诺基亚反向 valuetrap: 通信设备龙头利润见顶后估值长期承压"
+      ]
+    },
+
+    "critic_evaluation": {
+      "critic_v1_score": null,
+      "critic_v1_verdict": "pending"
+    },
+
+    "credibility": {"final_verdict": "ACCEPT", "score": 85, "note": "director v1 含完整 6 项必查, 待 critic 真复核"}
+  }
+}

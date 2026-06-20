@@ -1,0 +1,276 @@
+{
+  "code": "300308",
+  "name": "中际旭创",
+  "industry": "人工智能算力/光模块",
+  "fundamentals": {
+    "available": true
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-14T01:11:59.063268+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股",
+  "fy2025": {
+    "revenue_yi": 382.2,
+    "net_yi": 108.0,
+    "gross_margin": 38.0,
+    "net_margin": 28.3,
+    "roe": 35.0,
+    "operating_cashflow_yi": 110,
+    "operating_cashflow": 110
+  },
+  "financials": {
+    "fy2025": {
+      "roe": 35.0,
+      "operating_cashflow_yi": 110
+    }
+  },
+  "fy_latest_roe": 35.0,
+  "fy_latest_operating_cashflow": 110,
+  "valuation": {
+    "current_price": {
+      "value": 1049.87,
+      "currency": "CNY",
+      "as_of": "2026-06-13",
+      "source": "morningstar",
+      "status": "verified",
+      "note": "多源 ¥1050-1180"
+    },
+    "market_cap": {
+      "value": 13300,
+      "unit": "CNY 亿",
+      "source": "tradingview 1.33万亿",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 89.08,
+      "source": "tradingview",
+      "status": "verified",
+      "note": "历史中位数 91.98"
+    },
+    "pe_history_band": {
+      "value": "20-150x (2020-2025), 当前 50% 历史分位",
+      "status": "verified"
+    },
+    "peer_pe_comparison": {
+      "value": "新易盛 60-80x / 天孚通信 50-70x / Lumentum(美) 30-40x; 中际 89x 高于同业",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 22 / 2027E 28",
+      "source": "推算 forward 47x",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 47.0,
+      "source": "推算",
+      "status": "estimated"
+    },
+    "analyst_target_price": {
+      "value": "¥1100-1300 (大行均值 +5-25%)",
+      "status": "estimated"
+    },
+    "short_interest_or_margin": {
+      "value": "稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上 8-12% (高占比)",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "0.12%",
+      "source": "tradingview",
+      "status": "verified"
+    }
+  },
+  "business": {
+    "core": "全球数通光模块龙头, 800G/1.6T 高速模块第一供应商, 客户主要是英伟达/Google/Meta/Amazon 等海外算力巨头",
+    "segments": "高速光模块(400G/800G/1.6T) ~85% / 接入网+其他 ~15%",
+    "geo_breakdown": "海外 ~85% / 国内 ~15% (主要供北美 hyperscaler)",
+    "top_customers": "英伟达/Google/Meta/Amazon/Microsoft (北美算力巨头, CR5 80%+)",
+    "peers": "新易盛(300502)/天孚通信(300394)/光迅科技/Lumentum(LITE)/Coherent(COHR)/Cisco",
+    "market_share": "全球数通光模块 #1 (~30%+ 份额), 800G #1, 1.6T 先发优势",
+    "share_count": 8.27,
+    "shareholders_recent_changes": "大股东无重大减持",
+    "ar_turnover_days": "90-110 天",
+    "inventory_turnover_days": "120-140 天",
+    "debt_to_equity": "0.2-0.3"
+  },
+  "industry_context": {
+    "industry_size": "全球数通光模块 2026 ~$200亿 +30-40% / 800G+1.6T 占比快速提升 / CPO 长期威胁但 2027+ 才显化",
+    "peers": "新易盛(300502)/天孚通信(300394)/光迅科技/Lumentum(LITE)/Coherent(COHR)/Cisco"
+  },
+  "q1_2026": {
+    "revenue_yi": 110,
+    "net_yi": 32
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

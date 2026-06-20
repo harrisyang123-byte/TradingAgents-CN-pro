@@ -1,0 +1,20 @@
+{
+  "code": "603663",
+  "name": "三祥新材",
+  "industry": "",
+  "fundamentals": {
+    "available": false,
+    "note": "未取到个股基本面，分析降级为 LLM 知识 + 可得行情",
+    "error": "No module named 'motor'"
+  },
+  "macro_context": {
+    "source": "degraded",
+    "data_availability": "unavailable",
+    "note": "未取到实时宏观数据，分析降级为「LLM 知识 + 可得行情」，相关结论 evidence 应标 estimated/missing",
+    "indicators": {}
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "code": "002156",
+  "name": "通富微电",
+  "industry": "半导体",
+  "as_of": "2026-06-13",
+  "data_status": "verified (核心) + estimated (推算) + missing (部分)",
+
+  "price": {
+    "current": 62.0,
+    "currency": "CNY",
+    "as_of": "2026-06-09",
+    "source": "Google Finance / aastocks 2026-06",
+    "status": "verified"
+  },
+  "shares_out_yi": {
+    "value": 15.176,
+    "source": "Reuters 2024",
+    "status": "verified (2024 数据,2025 配股需更新)",
+    "note": "2026 真实股本可能略高"
+  },
+  "market_cap_yi": {
+    "value": 940.91,
+    "calc": "62 × 15.176",
+    "status": "estimated"
+  },
+
+  "financials": {
+    "fy2024": {
+      "revenue_yi": 238.8,
+      "net_profit_yi": 6.78,
+      "yoy_revenue": 7.24,
+      "yoy_net": 299.90,
+      "source": "stockanalysis.com 2024 年报",
+      "status": "verified"
+    },
+    "fy2025": {
+      "revenue_yi": 279.21,
+      "net_profit_yi": 12.19,
+      "yoy_revenue": 16.92,
+      "yoy_net": 79.86,
+      "source": "公司 2025 年报 / aastocks",
+      "status": "verified"
+    },
+    "q1_2026": {
+      "revenue_yi": 74.82,
+      "net_profit_yi": 3.29,
+      "non_recurring_net_yi": 1.7,
+      "yoy_revenue": 22.80,
+      "yoy_net": 224.55,
+      "yoy_non_recurring": 64.78,
+      "non_recurring_share_pct": 48.3,
+      "source": "公司 2026Q1 季报 / aastocks 2026-04-29",
+      "status": "verified",
+      "note": "归母+224%含大量非经常性损益,扣非+64.78% 才是真实经营增速"
+    }
+  },
+
+  "valuation": {
+    "pe_ttm_estimated": {
+      "value": 60,
+      "calc": "市值 940 亿 / TTM 净利估算 ~15.5 亿(2025 12.19 + 2026Q1 增量)",
+      "status": "estimated"
+    },
+    "pe_excl_extra_2024": 42.69,
+    "pe_excl_extra_2024_year_earlier": 133.31,
+    "morningstar_premium_pct": 48,
+    "p_to_book": 2.02,
+    "p_to_sales_ttm": 1.23,
+    "source": "Reuters 2024 中后期数据,Morningstar 2026-04",
+    "status": "verified for 2024, possibly stale"
+  },
+
+  "ratings": {
+    "12_analysts_mean_2024": 1.67,
+    "rating_scale": "1=Buy, 5=Sell",
+    "morningstar_premium": "48% (高估)",
+    "data_freshness": "Reuters 2024,需 2026 卖方更新",
+    "status": "verified for 2024 / missing for 2026"
+  },
+
+  "shareholders": {
+    "national_chip_fund_phase1_reduction": {
+      "shares_sold_wan": 1072.54,
+      "pct_of_total_shares": 0.71,
+      "period": "2026-01-22 至 2026-05-07",
+      "method": "集中竞价",
+      "source": "公司公告 2026-05",
+      "status": "verified",
+      "implication": "国家集成电路产业投资基金一期国家队'获利了结'信号 — 中性偏负面;不是核心客户/竞争出走,是财务投资退出"
+    }
+  },
+
+  "business": {
+    "core_segments": ["半导体封测(主营)", "AMD CPU/GPU 主力代工方", "advanced packaging(2.5D/3D + Chiplet)"],
+    "amd_revenue_share_estimated": "60%+ (公司未明确披露,行业普遍认为是 AMD 第二大封测合作方,主要客户是 AMD CPU/GPU 全系列)",
+    "amd_mi300_role": {
+      "package_complexity": "13 chiplets, 3D-stacked, HBM3 (8 stacks), TSMC N5 + 6nm IODs, AMD 称 3.5D hybrid bond",
+      "competition": "Nvidia H200 用台积电 CoWoS — AMD MI300 的封测主要由 通富 + 长电 + 部分台积电 InFO 合作",
+      "implication": "MI300 系列出货放量直接拉动通富 advanced packaging 收入 / 利润率提升,是核心 AI 业绩驱动因子"
+    },
+    "peers": ["长电科技 600584(国内龙头,营收~365 亿)", "华天科技 002185(中等规模)", "晶方科技 603005(图像传感器封测)", "甬矽电子 688362(新势力)"]
+  },
+
+  "macro_context": {
+    "cpi_yoy_2026_05": 1.2,
+    "ppi_yoy_2026_05": 3.9,
+    "ppi_trend": "连续 3 月上行 (中东能源冲击)",
+    "core_cpi_yoy_2026_02": 1.8,
+    "implication": "PPI 反弹利好上游半导体材料 / 设备,封测处于产业链中游,部分受益(成本端略升 / 需求端利好);宏观利率温和宽松 LPR 维持稳定",
+    "source": "国家统计局 / SCIO 2026-06-11",
+    "status": "verified"
+  },
+
+  "industry_context": {
+    "package_industry_capex": "advanced packaging 全球资本开支 2026 加速 (HBM/CoWoS 缺口持续 18-24 个月)",
+    "ai_chip_outlook": "Nvidia H200/B200 + AMD MI300/MI325X 共同推动 advanced packaging 价量齐升",
+    "domestic_replacement": "国产 advanced packaging 在 国家集成电路产业投资基金二期 + 国务院 2025 半导体十四五 持续支持下加速",
+    "risks": ["美国 BIS 实体清单扩大风险", "AMD MI 系列出货低于预期", "HBM 国产替代节奏不及预期"],
+    "status": "verified (行业方向) + estimated (具体节奏)"
+  },
+
+  "missing_data": [
+    "2025/2026Q1 ROE / 毛利率 / 净利率 (Reuters 仅 2024 ROE 2.24%/ROI 3.63% 已过时)",
+    "2026 卖方一致预期 EPS (Reuters 2024 数据 12 analysts mean 1.67)",
+    "北上资金近 30 天持股变化",
+    "雪球 / 股吧情绪指数 (取数未命中)",
+    "封测行业 CR3 / CR5 集中度 (搜索未命中)",
+    "用户实际持股成本均价 (用户未提供,影响盈亏起点判断)"
+  ],
+
+  "key_drivers_summary": {
+    "positive": [
+      "AMD MI300/MI325X AI 芯片放量 — advanced packaging 价量齐升",
+      "2026Q1 营收+22.80% / 净利+224.55% 业绩持续超预期",
+      "国产 advanced packaging 替代 + 国家政策支持",
+      "PPI 反弹 + 宏观流动性温和宽松"
+    ],
+    "negative": [
+      "PE-TTM ~60x 远高于行业平均 (长电 ~30x / 华天 ~40x) — 估值偏热",
+      "扣非净利 +64.78% 远低于归母 +224.55% — 含大量非经常性损益(占归母 48%)",
+      "大基金一期 2026.01-05 减持 1072.54 万股 (0.71%) — 国家队获利了结",
+      "AMD 单客户依赖度高 — MI 系列出货波动是单点风险",
+      "HBM 国产替代节奏不及预期风险",
+      "美国 BIS 实体清单扩大风险"
+    ]
+  },
+
+  "user_holding": {
+    "current_value_yuan": 114440,
+    "weight_pct": 10.87,
+    "rank_in_portfolio": 1,
+    "note": "用户单一最大持仓,集中度风险显著"
+  }
+}

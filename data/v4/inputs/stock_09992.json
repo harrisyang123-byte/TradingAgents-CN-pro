@@ -1,0 +1,139 @@
+{
+  "code": "09992",
+  "name": "Pop Mart 泡泡玛特",
+  "industry": "潮玩/IP消费",
+  "market": "HK",
+  "as_of": "2026-06-13",
+  "data_status": "verified(核心财务) + estimated(PE/市值推算) + missing(部分运营)",
+
+  "price": {
+    "current_range": "HK$155-180",
+    "note": "多源时点冲突: CNBC 早期 HK$155.70 / stockanalysis 隐含当前 ~HK$180.4(target $218.13=+20.92%反推) / SimplyWall HK$183 区间. 取 HK$180 为主, 标注波动",
+    "status": "verified(区间) / estimated(精确点)",
+    "drawdown_from_aug_high": "从 2025年8月 历史高点跌近 60%, 市值蒸发 330 亿美元"
+  },
+
+  "financials": {
+    "fy2024": {"revenue_yi": 130.38, "net_profit_yi": 31.3, "source": "Reuters/年报", "status": "verified"},
+    "fy2025": {
+      "revenue_yi": 371.20,
+      "yoy_revenue_pct": 184.7,
+      "net_profit_attributable_yi": 127.8,
+      "yoy_net_pct": 308.0,
+      "adjusted_net_profit_yi": 130.8,
+      "yoy_adjusted_net_pct": 284.5,
+      "gross_profit_yi": 268.0,
+      "gross_margin_pct": 72.1,
+      "gross_margin_prev_pct": 66.8,
+      "operating_profit_yi": 169.0,
+      "operating_profit_yoy": "翻 4 倍+",
+      "dividend_rmb_per_share": 2.3817,
+      "dividend_hkd_per_share": 2.7248,
+      "source": "公司 2025 年报 / Reuters / gmw.cn / kr-asia 2026-03-25",
+      "status": "verified"
+    }
+  },
+
+  "ip_breakdown": {
+    "labubu_the_monsters_revenue_yi": 141.0,
+    "labubu_share_of_total_pct": 38,
+    "labubu_2025_h1_revenue_yi": 48.1,
+    "labubu_2025_h1_yoy_pct": 668,
+    "non_labubu_us_revenue_share_pct": 50,
+    "non_labubu_note": "COO 司德: 非 LABUBU 角色商品占美国总收入约 50%, 日韩东南亚非 LABUBU 占大部分 — 反驳过度依赖单一 IP 担忧",
+    "other_ips": ["SKULLPANDA", "DIMOO", "MOLLY", "CRYBABY", "Monster Family"],
+    "status": "verified",
+    "concern": "LABUBU(The Monsters) 占近 40% 营收, IP 多元化不足是核心市场担忧(2026-03 财报后暴跌主因)"
+  },
+
+  "q1_2026_operating": {
+    "total_revenue_yoy_pct": "75-80",
+    "china_yoy_pct": "100-105",
+    "asia_pacific_yoy_pct": "25-30",
+    "americas_yoy_pct": "55-60",
+    "europe_others_yoy_pct": "60-65",
+    "ecommerce_yoy_pct": 86,
+    "source": "公司 2026Q1 运营数据公告 / 多家大行",
+    "status": "verified",
+    "insight": "中国市场增长亮眼(+100-105%)但海外增速如期放缓(亚太仅+25-30%), 增长重心从海外回流国内 — 与 2025 海外驱动逻辑变化"
+  },
+
+  "valuation": {
+    "pe_ttm_estimated": "~17x (基于归母 127.8 亿 + 市值推算 ~2200 亿人民币)",
+    "pe_2026_forward_jiaoyin": "~14x (交银国际, 大幅下调盈利预测后)",
+    "pe_conflict_note": "⚠️ 多源冲突: 之前 v1 决策手册估 25-30x 偏高; 大行普遍认为股价已跌 60% 后 forward PE 仅 14-17x. 采信大行 14-17x(更新), 标注 v1 手册估算过时",
+    "morningstar_premium_pct": 26,
+    "status": "estimated(PE) / verified(大行口径)"
+  },
+
+  "sell_side_ratings_2026": {
+    "consensus": "29 analysts 平均 Buy, 12 个月目标 $218.13 (+20.92% vs 当前)",
+    "divergence_extreme": [
+      {"bank": "汇丰", "rating": "买入", "target_hkd": 379, "note": "上调(最乐观)"},
+      {"bank": "大摩", "rating": "下调营收盈利", "target_hkd": 247, "note": "2026-2028 销售增 13%/18%/16%"},
+      {"bank": "瑞银", "rating": "买入", "target_hkd": 237.5, "note": "海外业务疲软降盈测"},
+      {"bank": "交银国际", "rating": "买入", "target_hkd": 218.9, "note": "2026 PE 约 14 倍有安全边际, 全球化+IP平台化核心逻辑未变"},
+      {"bank": "中金", "rating": "跑赢行业", "target_hkd": 218, "note": "削盈测"},
+      {"bank": "美银", "rating": "-", "target_hkd": 170, "note": "料 Q1 营收+80%"},
+      {"bank": "德银", "rating": "沽售", "target_hkd": 140, "note": "估 Q1 海外销售环比缩 27%, 长下行周期+低利润率未被市场充分定价"},
+      {"bank": "Bernstein", "rating": "跑输大市", "target_hkd": "-", "note": "Q1 符预期但利润率与可持续性存疑"}
+    ],
+    "divergence_summary": "目标价区间 HK$140(德银沽售) - HK$379(汇丰买入) = 极端分歧 2.7 倍。多空核心分歧: LABUBU 周期能否延续 + 海外增速放缓 + 利润率可持续性",
+    "short_interest": "沽空比率 14-22% (高位), 显示空头活跃",
+    "status": "verified"
+  },
+
+  "macro_context": {
+    "cpi_yoy_2026_05": 1.2,
+    "ppi_yoy_2026_05": 3.9,
+    "ppi_impact": "PPI 上行 → 原材料及运输成本上行, 大行下调盈利预测的因素之一(对毛利率 72.1% 有压力)",
+    "consumer_environment": "中国消费温和复苏(CPI+1.2%), Z 世代潮玩消费力受宏观影响",
+    "status": "verified"
+  },
+
+  "business": {
+    "model": "盲盒/IP 潮玩, 自有 IP 矩阵 + 全球零售/机器人商店/电商 + 乐园",
+    "global_expansion": "海外占比 2025 超 40%(从 2024 的低基数快速放量), 北美/东南亚/欧洲扩张",
+    "moat_claim": "IP 创造+运营平台 + 全球渠道 + 会员粘性",
+    "peers": ["万代南梦宫(日)", "三丽鸥 Sanrio(日, Hello Kitty)", "乐高(私)", "美泰 Mattel(美)", "孩之宝 Hasbro(美)"],
+    "status": "verified"
+  },
+
+  "missing_data": [
+    "当前精确股价(区间 HK$155-180, 时点冲突)",
+    "总股本/精确市值",
+    "2026Q1 精确净利率(仅有营收增速)",
+    "存货周转(德银提'高库存'但无具体数字)",
+    "经营现金流",
+    "会员复购率/ARPU 具体数字",
+    "用户实际持股成本均价"
+  ],
+
+  "key_drivers_summary": {
+    "positive": [
+      "2025 营收+184.7%/净利+308% 历史最佳, 毛利率升至 72.1%",
+      "海外占比超 40% 全球化逻辑兑现",
+      "非 LABUBU 产品占美国收入 50% — IP 多元化好于市场担忧",
+      "2026Q1 中国+100-105% 国内市场强劲",
+      "29 analysts 平均 Buy 目标 +20.92%",
+      "forward PE 仅 14-17x(股价已跌 60%)估值不贵",
+      "高毛利(72.1%)+ 高分红 + 净现金"
+    ],
+    "negative": [
+      "LABUBU 占近 40% 营收, IP 依赖度高(单一 IP 生命周期风险)",
+      "从 2025年8月高点跌近 60%, 市值蒸发 330 亿美元 — 趋势走弱",
+      "海外增速放缓(亚太仅+25-30% vs 中国+100-105%)",
+      "德银沽售目标 140 警告'长下行周期+低利润率未被充分定价'",
+      "沽空比率 14-22% 高位",
+      "原材料+运输成本上行压制毛利率",
+      "卖方目标价极端分歧(HK$140-379, 2.7 倍)"
+    ]
+  },
+
+  "user_holding": {
+    "current_value_yuan": 36600,
+    "weight_pct": 3.48,
+    "rank_in_portfolio": 2,
+    "note": "用户第二大持仓, 最大港股/海外消费持仓"
+  }
+}

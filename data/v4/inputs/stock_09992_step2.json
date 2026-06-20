@@ -1,0 +1,34 @@
+{
+  "code": "09992",
+  "name": "Pop Mart 泡泡玛特",
+  "as_of": "2026-06-13",
+  "step": "step2_4analysts_complete",
+  "analyst_summaries": {
+    "financial": "2025 营收+185%/净利+308%/毛利率72.1%(奢侈品级)/经营利润率45.5%/ROE est>40%(低杠杆质量最优)。轻资产+预收现金+首次大额分红。警示: ①LABUBU 占 38% IP 集中度风险; ②34.4% 净利率含经营杠杆一次性释放, 长期稳态 28-32%; ③亚太+25-30% 预示海外正常化; ④库存主动提升+PPI 上行双重压力。missing: 经营现金流/存货周转",
+    "valuation": "forward PE 14x 隐含增速仅 13-18% vs Q1 实际+75-80% = 正预期差(市场过度线性外推'单一 IP 衰退=全公司衰退')。跌 60%+高沽空释放大部分悲观。同业对比 14x 接近无增长玩具公司(美泰/孩之宝)而非 IP 平台(三丽鸥 35-40x/万代 22-25x)。三情景: bull $280-350(25%)/base $200-250(45%)/bear $110-140(30%)。预期差: 正, 需 Q2 数据确认",
+    "sentiment": "舆情偏冷(-65), 从 8 月高点跌 60%, 沽空 14-22% 高位空头拥挤, 德银沽售。情绪 vs 基本面严重背离(情绪定价'增速断崖'但 Q1 仍+75%/国内+100%/净利率34%)。恐慌尾声而非初期, 逆向窗口可能打开但需催化。卖方分歧极大(德银140 vs 汇丰379, 2.7倍)波动率高",
+    "competitive": "护城河中上 + 中期 3-5 年期限。5 力: entry 低/substitute 高/buyer 极低/supplier 低/rivalry 中。weakest_link=substitute_threat(潮玩可选情绪消费切换成本近零+LABUBU 占40%集中度)。品类内壁垒近乎完美(4力皆优)但建在'情绪热度'流沙上。关键变量: IP矩阵化能否在LABUBU周期见顶前完成接力。崩塌信号: LABUBU连续2季环比降+无第二IP接力15%+/会员复购<40%/海外同店转负"
+  },
+  "key_data": {
+    "price_range": "HK$155-180",
+    "drawdown_from_high": "-60%",
+    "fy2025_revenue_yi": 371.2,
+    "fy2025_yoy_pct": 184.7,
+    "fy2025_net_yi": 127.8,
+    "fy2025_yoy_net_pct": 308,
+    "gross_margin_pct": 72.1,
+    "net_margin_pct": 34.4,
+    "labubu_share_pct": 38,
+    "overseas_share_pct": 40,
+    "q1_2026_total_yoy": "75-80%",
+    "q1_2026_china_yoy": "100-105%",
+    "q1_2026_asia_yoy": "25-30%",
+    "pe_ttm_estimated": 17,
+    "pe_2026_forward": 14,
+    "sell_side_consensus": "29 Buy 目标 $218(+20.92%)",
+    "sell_side_range": "德银140 - 汇丰379",
+    "short_interest": "14-22%",
+    "user_holding_value_yuan": 36600,
+    "user_holding_pct": 3.48
+  }
+}

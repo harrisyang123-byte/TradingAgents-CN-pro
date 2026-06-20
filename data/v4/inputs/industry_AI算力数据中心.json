@@ -1,0 +1,182 @@
+{
+  "industry": "AI算力数据中心",
+  "candidate_meta": null,
+  "vitality": {
+    "available": false,
+    "note": "未取到实时景气信号，行业分析降级为 LLM 知识 + 可得行情"
+  },
+  "related_holdings": [],
+  "valuation_inputs": {
+    "available": false,
+    "peer_valuation": [],
+    "peer_pe_median": null,
+    "peer_pe_range": null,
+    "discount_rate_anchor": {
+      "cn10y": null,
+      "lpr_5y": null
+    },
+    "fetch_tasks": [
+      {
+        "field": "industry_pe_percentile / leaders_forward_peg",
+        "search_query": "AI算力数据中心 行业 PE 估值分位 龙头 forward PEG 2026",
+        "source_hints": [
+          "东方财富行业板块PE",
+          "Wind/choice行业估值",
+          "券商行业深度研报"
+        ],
+        "usage": "7把尺第⑤尺 forward PEG 跨期对比；缺则 confidence 打折"
+      },
+      {
+        "field": "cn10y（折现率锚）",
+        "search_query": "中国10年期国债收益率 最新",
+        "source_hints": [
+          "中国债券信息网",
+          "东方财富债券"
+        ],
+        "usage": "推算行业合理 PE 中枢 / DCF 折现率基准"
+      }
+    ],
+    "note": "⚠️ 行业估值数据缺失（无关联个股 PE / 无折现率锚）——7把尺第⑤尺 forward PEG 无法执行，data-desk 须按 fetch_tasks 联网 web_search 补行业 PE 分位 + 龙头 forward PEG，缺则标 missing 不编造。"
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-20T01:19:28.820371+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "vitality": false,
+    "macro": "unavailable",
+    "valuation": false
+  }
+}

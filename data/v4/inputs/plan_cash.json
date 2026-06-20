@@ -1,0 +1,32 @@
+{
+  "asset_class": "cash",
+  "label": "现金及等价物",
+  "max_drill_depth": "holding_structure",
+  "ttl_days": 14,
+  "current_weight": 27.93,
+  "current_market_value": 332212.0,
+  "tradable": [],
+  "holding_only_exposure": 332212.0,
+  "holdings": [
+    {
+      "code": "",
+      "name": "活期存款",
+      "asset_class": "cash",
+      "tradable": false,
+      "weight": 27.93,
+      "market_value": 332212.0,
+      "instrument_type": "cash"
+    }
+  ],
+  "macro_context": {
+    "source": "degraded",
+    "data_availability": "unavailable",
+    "note": "未取到实时宏观数据，分析降级为「LLM 知识 + 可得行情」，相关结论 evidence 应标 estimated/missing",
+    "indicators": {}
+  },
+  "data_availability": {
+    "portfolio": "portfolio_file",
+    "macro": "unavailable"
+  },
+  "zero_holding": false
+}

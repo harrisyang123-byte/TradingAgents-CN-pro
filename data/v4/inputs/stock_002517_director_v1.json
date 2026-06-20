@@ -1,0 +1,107 @@
+{
+  "unit_id": "stock:002517",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent (director step) — 各分析师 spawn 全部 ACCEPT, 数据契约 18/18 verified, critic 待复核",
+
+  "payload": {
+    "code": "002517",
+    "name": "恺英网络",
+    "industry": "游戏",
+
+    "verdict": {
+      "stance": "持有观望(Q2 信号确认门控)",
+      "direction": "中性偏多 — 逆向预期差线索强但需 Q2 验证小程序非脉冲",
+      "summary": "PE 10x 隐含 5 年净利 CAGR -3%~+1%(衰退/零增长) vs Q1 实际 +50.65% 形成强正预期差; 净利率 35.8% 顶级水平+回购+增持; 但 weakest_link substitute_threat 高 + 传奇 IP 60% 集中度+小程序生命周期短是真实结构性风险。维持 3% 仓位观望, Q2 财报(2026-08)三信号同时满足后再加至 4%。",
+      "confidence": 0.62,
+      "confidence_reason": "MUST 18/18 verified 但 4 项 estimated(毛利率/ROE/经营现金流/分部营收), SHOULD 5/10 缺 → -0.10 折扣; 加 Q1 季节性低基数+小程序持续性未验证 → 实际 0.62"
+    },
+
+    "thesis": "002517 = 中等规模游戏代理+研发(53亿营收), 核心矛盾在'传奇 IP 60% 现金牛 vs 小程序游戏第二曲线接力'。市场以 PE 10x 给衰退定价(同业 12-25x 折价 20-40%), 但 Q1 归母 +50.65% yoy/+143.80% qoq 显示加速。反向 DCF 隐含 CAGR -3%~+1% vs 实际 +50% 缺口巨大, 是经典逆向预期差; 但 Q1 含 Q4 淡季基数 + 小程序生命周期 3-6 月不可线性外推, Q2 财报是关键验证窗口. 5 力 weakest_link=substitute(跨品类注意力争夺+IP老化) 决定护城河 3-5 年期限。",
+
+    "valuation_basis": {
+      "core_logic": "反向 DCF: PE 10x 在 WACC 9%+g 3% 下稳态 PE=14.3x, 当前 10x < 稳态 → 隐含 CAGR -3%~+1% 衰退; vs 实际 Q1+50% 预期差极大但需验证分母(2026E 净利 ~22-25 亿)能否兑现",
+      "method": "反向DCF + 同业可比 + 双锚情景",
+      "scenarios": {
+        "bull": {"trigger": "Q2 小程序流水环比 ≥-5% + 传奇衰退 < 10% + 净利率 ≥28%", "eps_2026": 1.0, "fair_pe": 22, "fair_price": "¥22 (forward EPS¥1.0×PE 22x 同业中枢)", "prob": 0.25},
+        "base": {"trigger": "Q2 部分信号触发, 增速从+50% 回落至 +20-30%", "eps_2026": 0.85, "fair_pe": 18, "fair_price": "¥15-18", "prob": 0.45},
+        "bear": {"trigger": "Q2 小程序环比 -30%+ 或传奇衰退 > 15%", "eps_2026": 0.7, "fair_pe": 11, "fair_price": "¥7-9 (大幅下杀)", "prob": 0.30}
+      },
+      "comparable": "同业: 三七互娱 14x/吉比特 16x/巨人 13x/完美 20x/世纪华通 25x; 恺英 10x 处底部, 折价 20-40% 反映品类集中度+治理折价(2018 年实控人事件)",
+      "price_derivation": "估值是诚实区间 + 档位安全边际:\n- 内在价值锚 ¥18 = 2025 EPS ¥0.81 × 同业中位 22x × 集中度折让-15% = ¥18\n- 安全边际档位: 中等不确定性(60%单一IP+小程序未验证) → 30% 安全边际\n- 价值派合理买点 = ¥18 × (1-30%) = ¥12.6\n- GARP 派(PEG≤1): forward PE 10x 已便宜, 信号触发后任意价\n- 中性派: ¥18-22 区间(共识区上沿)\n- 可选性价值: 盗墓笔记 IP 新游 + KingNet 海外, 含期权 ¥20-25\n- 概率加权: 22×0.25+17×0.45+8×0.30=22.55=$15.5(已扣bear尾部)",
+      "data_gaps_to_fetch": [
+        {"field": "fy_latest_gross_margin", "search_query": "恺英网络 002517 2025 综合毛利率 公司年报", "usage": "估值精度+净利率可持续性判断"},
+        {"field": "operating_cashflow", "search_query": "恺英网络 002517 2025 经营活动现金流量净额", "usage": "盈余质量(现金/净利比)"},
+        {"field": "revenue_breakdown_segments", "search_query": "恺英网络 2025 年报 分产品 营收占比 传奇 小程序", "usage": "SOTP 精度"},
+        {"field": "consensus_eps_2026_2027", "search_query": "恺英网络 卖方一致预期 EPS 2026 2027 wind", "usage": "forward PE 校准"}
+      ]
+    },
+
+    "five_forces": {
+      "moat_rating": "中(护城河 3-5 年期限)",
+      "weakest_link": "substitute_threat 高 — 跨品类注意力争夺(短视频/二次元) + 传奇 IP 60% 集中度",
+      "five_forces_summary": {
+        "entry": "低 — 资本壁垒低+IP 多家共享, 但运营 know-how 软壁垒",
+        "substitute": "高 — Z 世代不接盘+跨品类分流",
+        "buyer": "极低 — C 端散客+净利率 35.8% 实证定价权",
+        "supplier": "中 — 渠道抽成 30%+小程序绕开",
+        "rivalry": "中 — CR3 50% 集中但恺英中等规模避开主战场"
+      },
+      "moat_durability": "中期 3-5 年, 崩塌信号: 传奇衰退>30%/小程序连续 2 季环比负/净利率 < 28%/管理层离职",
+      "key_risk": "传奇老化 + 小程序不可持续 = 双重脆弱"
+    },
+
+    "anchoring_check": {
+      "user_challenge": "买卖理由是预期差还是价格锚定",
+      "honest_answer": "本案是预期差驱动: 反向 DCF 量化 PE 10x 隐含 CAGR -3%~+1% vs Q1 实际+50%, 缺口具体可量化, 不是'PE 低就买'锚定话术",
+      "the_real_risk": "但 002517 也有反向陷阱: 游戏股低 PE 是行业结构性偏见, 市场可能长期不纠错(价值陷阱). 这是 critic 应警惕的, 不能因 PE 低就盲目逆向",
+      "corrected_framing": "买卖点挂钩 Q2 信号(小程序环比+传奇衰退+净利率), 不挂钩 ¥X 价格. 盯基本面信号触发, 价格用作执行点位"
+    },
+
+    "risk_consensus_from_3way": {
+      "aggressive": "4.5% 仓位, 止损 ¥13(-29%), high tail risk(立即加+留 0.5% 弹药)",
+      "safe": "1.5% 仓位, 止损 ¥16, low tail risk(治理污点+IP 老化+小程序不可持续三重风险)",
+      "neutral": "3.0% 维持(用户现仓), Q2 验证后加至 4%; 硬止损 ¥13/跟踪 ¥16; ¥17-18 逆向 / ¥21-22 减/¥25+ 锁利",
+      "director_decision": "采纳 neutral 3.0% 维持 — Q2 是关键验证窗口, 现在加仓在数据未明前不对称风险偏负; 信号确认后才加至 4%。aggressive 4.5% 忽视 Q1 含季节性低基数+小程序生命周期短的真实风险; safe 1.5% 又过度反映治理历史污点(已 8 年, 折价已被市场充分定价 PE 10x 反映)"
+    },
+
+    "action_plan": {
+      "immediate_action": "维持当前 3.0%(¥29460) 不动, 等 Q2 财报(预计 2026-08-15 前后)",
+      "buy_back_zones": [
+        "🔔 信号(全过): Q2 小程序游戏季度营收环比 ≥ -5% + 传奇系列 yoy ≥ -10% + 整体净利率 ≥ 28% → 加至 4%",
+        "💰 价位: 信号触发后按 ¥18-22 分批加仓 (¥22=forward EPS¥1.0×同业中枢 PE 22x 公允; ¥18=回购硬底+¥14硬止损上沿安全边际)",
+        "🛡️ 防御位: 跌破 ¥17 + 沽空高位 + 基本面未恶化 → 逆向小注 0.5%(限制总仓 4%)"
+      ],
+      "trim_zones": [
+        "🔔 信号(任一): Q2 小程序环比 < -30% / 传奇 yoy < -15% / 净利率 < 28% → 减至 1.5%(与 safe 方案对齐)",
+        "💰 价位: ¥21-22 减至 2%(预期差充分 priced_in); ¥25+ 减至 1.5%(进入 bull case 上沿)"
+      ],
+      "stop_loss": {
+        "hard": "¥13(-29%, 跌破=传奇衰退+小程序证伪同时兑现, bear case 兑现, 全清)",
+        "trailing": "¥16(从入场后高点回撤 12% 触发减半至 1.5%)"
+      },
+      "monitoring_signals": [
+        "Q2 财报(2026-08): 小程序游戏季度营收环比 + 传奇系列 yoy + 整体净利率",
+        "盗墓笔记 IP 新游 Steam 上线流水(2026 H2)",
+        "买量 ROI 趋势 / 渠道抽成政策变化",
+        "管理层增持/回购实际执行进度",
+        "小程序游戏行业整体 DAU/CPM 趋势"
+      ]
+    },
+
+    "reflection": {
+      "what_changed": "v1 首次. 002517 上轮无 verdict, 本版 from scratch.",
+      "self_check": "data_status: synthesized_by_main_agent(主 agent 编排各 spawn); MUST 18/18 verified 但 4 项 estimated → confidence 0.62; data_gaps_to_fetch 4 项标 task 后续可补; 严格全流程: 4 分析师+多空 R1-R3+3 方风险全 spawn ACCEPT(bull_r2 失败 1 次重试 ACCEPT); critic 待 spawn 真复核",
+      "memory_used": [
+        "D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版强制 spawn critic 真复核",
+        "002156/09992 经验: 反向 DCF 量化是预期差核心, PE 比较是结果不是论据"
+      ]
+    },
+
+    "data_status_overall": {
+      "verified": ["2025/Q1 财务", "PE 10x", "净利率 35.8%", "回购公告", "同业 PE", "5 力分析"],
+      "estimated": ["毛利率 50-55%", "ROE ~25%", "经营现金流 18-20亿", "分部营收占比", "consensus EPS"],
+      "data_gaps_to_fetch": "4 项(见 valuation_basis), 主 agent 后续可补"
+    }
+  }
+}

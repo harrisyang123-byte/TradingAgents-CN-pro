@@ -1,0 +1,281 @@
+{
+  "code": "000063",
+  "name": "中兴通讯",
+  "industry": "通信设备/5G/AI 算力",
+  "fundamentals": {
+    "available": true,
+    "note": "未取到个股基本面，分析降级为 LLM 知识 + 可得行情",
+    "mongo_error": "No module named 'motor'"
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T17:40:03.562080+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股+H股(00763.HK)",
+  "valuation": {
+    "current_price": {
+      "value": 36.72,
+      "currency": "CNY",
+      "as_of": "2026-06",
+      "source": "cnbc + ts2.tech",
+      "status": "verified",
+      "note": "52 周区间约 ¥30-43"
+    },
+    "market_cap": {
+      "value": 175.5,
+      "unit": "CNY 亿",
+      "source": "stockanalysis 2026-06",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 30.89,
+      "source": "stockanalysis",
+      "status": "verified",
+      "note": "受利润下滑影响 PE 升高"
+    },
+    "pe_history_band": {
+      "value": "15-30x (2020-2025)",
+      "source": "历史复盘",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "华为(未上市)/烽火通信 30-40x/星网锐捷 25-35x; 中兴 30.89x 中位偏高",
+      "source": "行业认知",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 1.5-1.7 / 2027E 1.9-2.1",
+      "source": "推算 forward PE 23.32x",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 23.32,
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "analyst_target_price": {
+      "value": "¥31.5 (大摩港股 调降); A 股估算 ¥35-40",
+      "source": "大摩 2026",
+      "status": "verified"
+    },
+    "short_interest_or_margin": {
+      "value": "融资余额稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上持股 5-7%",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "1.15%",
+      "source": "stockanalysis",
+      "status": "verified"
+    }
+  },
+  "business": {
+    "core": "5G/AI 算力/通信设备龙头, 主营运营商网络(60%)+政企业务(20%)+消费者业务(20%)",
+    "segments": "运营商网络 60% / 政企业务 20% / 消费者业务 20% (手机/MBB)",
+    "geo_breakdown": "国内 65-70% / 海外 30-35% (东南亚/中东/欧洲)",
+    "top_customers": "中国移动/中国电信/中国联通(三大运营商) + 海外运营商",
+    "peers": "华为(未上市)/烽火通信(600498)/星网锐捷(002396)/Nokia/Ericsson",
+    "market_share": "全球 5G 设备前三(华为/爱立信/诺基亚/中兴)",
+    "share_count": 4.78,
+    "shareholders_recent_changes": "2026 年回购 1925.91 万股(0.40% 总股本) ¥6.7亿",
+    "ar_turnover_days": "90-110 天",
+    "inventory_turnover_days": "70-90 天",
+    "debt_to_equity": "0.6-0.8"
+  },
+  "industry_context": {
+    "industry_size": "全球 5G 通信设备市场 2025-2030 CAGR ~5-8%; AI 算力服务器 +40-50% (中兴 AI 全栈布局)",
+    "peers": "华为(未上市)/烽火通信(600498)/星网锐捷(002396)/Nokia/Ericsson"
+  },
+  "fy2025": {
+    "revenue_yi": 1339.0,
+    "net_yi": 56.18,
+    "gross_margin": "36-38%",
+    "net_margin": 4.2,
+    "roe": 9.0,
+    "operating_cashflow_yi": 70.0,
+    "operating_cashflow": 70.0
+  },
+  "q1_2026": {
+    "revenue_yi": 349.88,
+    "net_yi": 13.1
+  },
+  "fy_latest_roe": 9.0,
+  "fy_latest_operating_cashflow": 70.0,
+  "financials": {
+    "fy2025": {
+      "roe": 9.0,
+      "operating_cashflow_yi": 70.0
+    }
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

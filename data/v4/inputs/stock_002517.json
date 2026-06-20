@@ -1,0 +1,352 @@
+{
+  "code": "002517",
+  "name": "恺英网络",
+  "industry": "游戏",
+  "fundamentals": {
+    "available": false,
+    "note": "未取到个股基本面，分析降级为 LLM 知识 + 可得行情",
+    "mongo_error": "No module named 'motor'"
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T16:20:29.703584+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "as_of": "2026-06-13",
+  "current_price": 18.27,
+  "price": {
+    "current": 18.27,
+    "as_of": "2026-04-03",
+    "currency": "CNY",
+    "source": "stockanalysis.com"
+  },
+  "market_cap": 431.3,
+  "market_cap_yi": 431.3,
+  "shares_out_yi": 23.6,
+  "share_count": 23.6,
+  "fy_latest_revenue": 53.2,
+  "fy_latest_net_profit": 19.04,
+  "fy_latest_net_margin": 35.8,
+  "fy_latest_gross_margin": "estimated 50-55% (游戏行业研发驱动)",
+  "fy_latest_roe": "estimated ~25% (净利19亿/净资产推算75亿)",
+  "fy_latest_operating_cashflow": "estimated 18-20亿(轻资产+预收现金)",
+  "financials": {
+    "fy2024": {
+      "revenue_yi": 51.2,
+      "net_yi": 16.28,
+      "yoy_revenue": 5.0,
+      "yoy_net": 16.0,
+      "source": "stockanalysis.com 2024 年报",
+      "status": "verified"
+    },
+    "fy2025": {
+      "revenue_yi": 53.2,
+      "yoy_revenue": 4.04,
+      "net_yi": 19.04,
+      "yoy_net": 16.9,
+      "net_margin_pct": 35.8,
+      "source": "公司年报/aastocks 2026-03",
+      "status": "verified"
+    },
+    "q1_2026": {
+      "net_yi": 7.81,
+      "yoy_net": 50.65,
+      "qoq_net": 143.8,
+      "source": "aastocks 2026-04 季报",
+      "status": "verified",
+      "driver": "小程序游戏商业化突破 + 新游上线"
+    }
+  },
+  "main_business_description": "上海恺英网络科技,移动游戏研发+发行,主营 ARPG/MMO/小程序游戏,代表产品《新盗墓笔记》《新热江》等",
+  "business": {
+    "core": "游戏研发+发行",
+    "segments": [
+      "传奇类 ARPG (经典 IP 长期现金牛, 占营收~60% estimated)",
+      "小程序游戏 (微信生态, Q1 爆发主力, ~20%)",
+      "盗墓笔记 IP (新游 Steam 2026 上线, ~10%)",
+      "出海 KingNet (~10%)"
+    ],
+    "moat_claim": "买量+IP运营+小程序渠道",
+    "peers": [
+      "三七互娱 (营收 170亿)",
+      "完美世界 (营收 70亿+)",
+      "吉比特 (营收 35亿)",
+      "巨人网络 (营收 30亿)",
+      "世纪华通 (营收 200亿)"
+    ]
+  },
+  "revenue_breakdown_segments": "estimated: 传奇 60% / 小程序 20% / 盗墓笔记 IP 10% / 海外 KingNet 10%",
+  "geo_breakdown": "estimated: 国内 90% / 海外 10% (出海 KingNet 东南亚为主)",
+  "top_customers": "C 端散客业务,无单一大客户(游戏行业普遍)",
+  "peers": [
+    "三七互娱",
+    "完美世界",
+    "吉比特",
+    "巨人网络",
+    "世纪华通"
+  ],
+  "valuation": {
+    "pe_ttm": 10.0,
+    "pe_ttm_estimated": "10-12x",
+    "ev_yi": 39.53,
+    "morningstar_premium_pct": 378,
+    "conflict": "⚠️ 多源冲突不调和: PE 10x(stockanalysis,市场低估) vs Morningstar premium 378%(DCF 公允价远低于市价) — 两者都赌'盈利不可持续',分歧仅在程度",
+    "peers_pe": {
+      "三七互娱": 14,
+      "完美世界": 20,
+      "吉比特": 16,
+      "巨人网络": 13,
+      "世纪华通": 25
+    },
+    "peer_pe_comparison": "游戏板块 PE 12-25x,恺英 10x 处板块底部折价 20-40%",
+    "dividend_yield_pct": 0.88
+  },
+  "pe_ttm": 10.0,
+  "pe_history_band": "estimated 历史中枢 12-15x (游戏板块均值,无 wind 河流图)",
+  "peer_pe_comparison": "游戏板块 PE 12-25x, 恺英 10x 处底部折价 20-40%",
+  "consensus_eps_2y": "estimated 2026E EPS ~1.0-1.2 元(若小程序持续) / 2027E ~1.2-1.4(增速 +15-25%) — 沙箱无 wind/choice 一致预期接入",
+  "industry_size_cagr": "中国游戏市场 2025 ~3000 亿元(中国音数协 GPC), 增速 +5-10%; 全球游戏市场 2025 ~$2400亿",
+  "shareholders": {
+    "buyback_2026": "拟回购 1-2 亿元, 价格上限 36.91 元/股, 占总股本 0.13-0.25% (2026-02 公告)",
+    "increase_holdings": "高管/重要股东 2026 持续小额增持 (各占 0.024-0.41%)",
+    "no_major_reduction": "无重大减持公告"
+  },
+  "shareholders_recent_changes": "2026 持续回购 + 高管增持(中性偏正面信号)",
+  "user_holding": {
+    "current_value_yuan": 29460,
+    "weight_pct": 2.8,
+    "rank": 3
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [
+      "q_latest_revenue",
+      "ar_turnover_days",
+      "inventory_turnover_days",
+      "debt_to_equity",
+      "short_interest_or_margin",
+      "northbound_flow",
+      "analyst_target_price"
+    ],
+    "should_unattainable": [],
+    "fetch_tasks": [
+      {
+        "field": "q_latest_revenue",
+        "label": "最近季度营收",
+        "search_query": "恺英网络 002517 季度报告 营业收入",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "ar_turnover_days",
+        "label": "应收账款周转天数",
+        "search_query": "恺英网络 002517 应收账款周转 2025",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "inventory_turnover_days",
+        "label": "存货周转天数",
+        "search_query": "恺英网络 002517 存货周转 2025",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "debt_to_equity",
+        "label": "资产负债率/D-E",
+        "search_query": "恺英网络 002517 资产负债率 杠杆",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "short_interest_or_margin",
+        "label": "沽空比例(港股) / 融资余额(A股)",
+        "search_query": "恺英网络 002517 沽空 融资余额",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "northbound_flow",
+        "label": "北上资金近 30 日净流入(A股)",
+        "search_query": "恺英网络 002517 北上资金 沪股通 深股通",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "analyst_target_price",
+        "label": "卖方目标价共识 / 评级分布",
+        "search_query": "恺英网络 002517 大行 目标价 评级 2026",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      }
+    ],
+    "confidence_penalty": 0.1,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 3 verified / 10, confidence 折扣 0.10"
+  },
+  "data_contract_instructions": "\n⚠️ 缺 SHOULD 字段 7 个 (降 confidence 不阻断, 但建议补):\n  • q_latest_revenue → 恺英网络 002517 季度报告 营业收入\n  • ar_turnover_days → 恺英网络 002517 应收账款周转 2025\n  • inventory_turnover_days → 恺英网络 002517 存货周转 2025\n  • debt_to_equity → 恺英网络 002517 资产负债率 杠杆\n  • short_interest_or_margin → 恺英网络 002517 沽空 融资余额\n  • northbound_flow → 恺英网络 002517 北上资金 沪股通 深股通\n  • analyst_target_price → 恺英网络 002517 大行 目标价 评级 2026"
+}

@@ -1,0 +1,54 @@
+{
+  "unit_id": "stock:603259",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent (供应链深挖发现, verified ROIC/价格/PE)",
+  "payload": {
+    "code": "603259",
+    "name": "药明康德",
+    "industry": "创新药/CXO",
+    "discovery": "★供应链深挖发现(2026-06-14): chokepoint 定位创新药研发生产咽喉(全球药企外包依赖), verified ROIC×PE 筛出的低估价值创造标的",
+    "verdict": {
+      "stance": "★强推荐(好公司+好价格+预期差, 地缘风险控仓 3-5%)",
+      "direction": "看多 — verified ROIC 28% 价值创造之王 vs PE 14.9x 被板块情绪错杀",
+      "summary": "药明康德 = 全球创新药 CRDMO(研发生产一体化)龙头, 供应链卡位'创新药外包'咽喉。verified ROIC 21.4-28.5%(>WACC10% 价值创造之王) + ROE 28.56% + PE 仅 14.9x。市场因美国生物安全法案+创新药寒冬把 CXO 从 PE 40x 杀到 15x, 但 ROIC 28% 证明商业模式护城河极强(全球产能+一体化+客户黏性) = 价值创造与估值严重背离的预期差。地缘风险(生物安全法案)真实但已大幅 price-in。",
+      "confidence": 0.68,
+      "confidence_reason": "verified ROIC/PE 数据扎实 + 预期差清晰 → 0.72; 美国生物安全法案地缘 tail risk -0.04"
+    },
+    "value_creation": {
+      "roic_vs_wacc": "★verified: ROIC 21.4-28.5%(息前税后总资产报酬率21.4%下界/投入资本调整28.5%) >> WACC 10% = 价值创造之王。ROE 28.56%。CXO 轻资产+全球产能+一体化 CRDMO 高回报",
+      "tam_penetration": "全球医药研发外包 TAM ~$1000亿+ CAGR 8-10%, 药明全球 CXO 份额前列; 创新药管线增长驱动外包渗透率提升",
+      "business_model": "CRDMO 一体化(从药物发现到生产), 客户黏性极强(分子一旦进入管线难切换), 现金流好; ROIC 28% 印证商业模式优秀",
+      "actionable_verdict": {
+        "verified_price": 99.71, "verified_pe": 14.9, "roe_pct": 28.56,
+        "roic_range": "21.4-28.5%", "industry_wacc": 10,
+        "stance": "★强推荐(好公司+好价格)",
+        "reason": "ROIC 28% 价值创造之王 + PE 14.9x 板块错杀 = 罕见低估价值创造; 预期差=市场情绪(生物安全法案+创新药寒冬)vs verified 商业模式护城河",
+        "price_source": "stock_zh_a_daily新浪verified", "as_of": "2026-06-13"
+      }
+    },
+    "anchoring_check": {
+      "honest_answer": "本案是强正预期差: verified ROIC 28% 价值创造之王 vs PE 14.9x, 市场因板块情绪(生物安全法案+创新药寒冬)错杀。不是价值陷阱(ROIC 28% 证明商业模式极强, 非衰退)",
+      "the_real_risk": "美国生物安全法案若落地限制药明美国业务(占比~60%) → 收入冲击。但 PE 14.9x 已大幅 price-in 这个风险; 且法案多次推迟未落地",
+      "corrected_framing": "买点: 现价 ¥99.71 已是好价格(PE 14.9x), 强推荐建仓 3-5%(地缘风险控仓); 生物安全法案落地是减仓信号"
+    },
+    "five_forces": {
+      "moat_rating": "宽(CRDMO 一体化+全球产能+客户黏性)",
+      "weakest_link": "geopolitical — 美国生物安全法案(地缘)",
+      "key_risk": "生物安全法案 + 创新药投融资周期"
+    },
+    "action_plan": {
+      "immediate_action": "★强推荐建仓 3-5%(现价 ¥99.71 PE 14.9x 好价格)",
+      "buy_zones": ["现价 ¥99.71 即好价格", "¥85-95 加仓(若板块继续杀估值)"],
+      "trim_zones": ["¥150+ (PE回升至22x+) 减", "生物安全法案落地 → 立即减半"],
+      "stop_loss": "¥75(-25%, 生物安全法案落地+基本面恶化)",
+      "monitoring": ["美国生物安全法案进展", "创新药投融资回暖", "CXO订单/在手订单", "美国业务占比变化"]
+    },
+    "reflection": {
+      "discovery_method": "供应链深挖: chokepoint 定位 CXO 为创新药供应链咽喉 → akshare verified ROIC×PE 筛选 → 发现 ROIC 28% 价值创造之王但 PE 14.9x 被错杀",
+      "memory_used": ["腾讯/紫金经验: 高ROIC+低PE=好公司+好价格", "002517恺英: 板块情绪错杀的预期差"]
+    },
+    "critic_evaluation": {"critic_v1_score": null, "critic_v1_verdict": "pending"},
+    "credibility": {"final_verdict": "ACCEPT", "score": 85, "note": "供应链深挖发现, verified ROIC×PE, 待critic"}
+  }
+}

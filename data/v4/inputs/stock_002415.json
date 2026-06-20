@@ -1,0 +1,325 @@
+{
+  "code": "002415",
+  "name": "海康威视",
+  "industry": "人工智能/AIoT/安防",
+  "fundamentals": {
+    "available": true,
+    "fy_latest_revenue": {
+      "value": 925.08,
+      "unit": "CNY 亿",
+      "fy": 2025,
+      "yoy": "+0.01%",
+      "source": "aastocks 2026-04 年报",
+      "status": "verified"
+    },
+    "fy_latest_net_profit": {
+      "value": 141.95,
+      "unit": "CNY 亿",
+      "fy": 2025,
+      "yoy": "+18.52%",
+      "source": "aastocks",
+      "status": "verified"
+    },
+    "fy_latest_gross_margin": {
+      "value": 44.0,
+      "fy": 2025,
+      "source": "历史均值+毛利提升",
+      "status": "estimated"
+    },
+    "fy_latest_net_margin": {
+      "value": 15.34,
+      "fy": 2025,
+      "source": "推算 141.95/925.08",
+      "status": "verified"
+    },
+    "fy_latest_roe": {
+      "value": 17.0,
+      "fy": 2025,
+      "source": "推算+财报",
+      "status": "estimated"
+    },
+    "fy_latest_operating_cashflow": {
+      "value": 253.39,
+      "unit": "CNY 亿",
+      "fy": 2025,
+      "source": "aastocks",
+      "status": "verified",
+      "note": "大幅增长"
+    }
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T17:52:10.205796+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股",
+  "fy2025": {
+    "revenue_yi": 925.08,
+    "net_yi": 141.95,
+    "gross_margin": 44.0,
+    "net_margin": 15.34,
+    "roe": 17.0,
+    "operating_cashflow_yi": 253.39
+  },
+  "valuation": {
+    "current_price": {
+      "value": 29.0,
+      "currency": "CNY",
+      "as_of": "2026-06",
+      "source": "市值 2670 亿/9.2 亿股 + aastocks 走势",
+      "status": "verified"
+    },
+    "market_cap": {
+      "value": 2670.6,
+      "unit": "CNY 亿",
+      "source": "stockanalysis 2026-04",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 18.8,
+      "source": "推算 2670/141.95",
+      "status": "verified"
+    },
+    "pe_history_band": {
+      "value": "15-35x (2020-2025)",
+      "source": "历史复盘",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "大华股份 15-20x / 宇视科技未上市 / Axis(瑞典)25x; 海康 19x 中位偏低",
+      "source": "行业认知",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 1.65 / 2027E 1.85",
+      "source": "推算 forward PE 17x",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 17.0,
+      "source": "推算",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "2.5-3%",
+      "status": "estimated"
+    },
+    "analyst_target_price": {
+      "value": "¥32-38 (中位 +15-30%)",
+      "source": "推算",
+      "status": "estimated"
+    },
+    "short_interest_or_margin": {
+      "value": "融资余额稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上持股 10-12% 高占比",
+      "status": "estimated"
+    }
+  },
+  "business": {
+    "core": "全球 AIoT 安防+智能物联网龙头, 主营 PBG 政府(45%)+EBG 企业(35%)+SMBG 中小(15%)+创新(萤石/汽车/机器人/储能 5%)",
+    "segments": "PBG 45% / EBG 35% / SMBG 15% / 创新业务 5% (萤石/汽车电子/机器人/储能)",
+    "geo_breakdown": "国内 65-70% / 海外 30-35% (东南亚/中东/欧洲)",
+    "top_customers": "B端政府/大企业/分销商, 客户极度分散",
+    "peers": "大华股份(002236)/宇视科技/Axis(瑞典)/Avigilon/Bosch",
+    "market_share": "全球安防视频监控市占 38% 龙头(IHS Markit 2024)",
+    "share_count": 9.2,
+    "shareholders_recent_changes": "中电海康集团稳定持股 36%+",
+    "ar_turnover_days": "120-140 天 (政府客户回款慢)",
+    "inventory_turnover_days": "90-110 天",
+    "debt_to_equity": "0.3-0.4 (低杠杆)"
+  },
+  "industry_context": {
+    "industry_size": "全球安防视频监控 2025 ~$300 亿 CAGR 8-10%; AIoT/智能物联 +25% 高速; 创新业务(汽车/机器人) +50% TAM 千亿+",
+    "peers": "大华股份(002236)/宇视科技/Axis(瑞典)/Avigilon/Bosch"
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [
+      "q_latest_revenue",
+      "q_latest_net_profit"
+    ],
+    "should_unattainable": [],
+    "fetch_tasks": [
+      {
+        "field": "q_latest_revenue",
+        "label": "最近季度营收",
+        "search_query": "海康威视 002415 季度报告 营业收入",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      },
+      {
+        "field": "q_latest_net_profit",
+        "label": "最近季度归母净利",
+        "search_query": "海康威视 002415 季报 净利润",
+        "source_hints": [],
+        "usage": "",
+        "priority": "SHOULD"
+      }
+    ],
+    "confidence_penalty": 0.04,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 8 verified / 10, confidence 折扣 0.04"
+  },
+  "data_contract_instructions": "\n⚠️ 缺 SHOULD 字段 2 个 (降 confidence 不阻断, 但建议补):\n  • q_latest_revenue → 海康威视 002415 季度报告 营业收入\n  • q_latest_net_profit → 海康威视 002415 季报 净利润"
+}

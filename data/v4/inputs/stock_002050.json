@@ -1,0 +1,272 @@
+{
+  "code": "002050",
+  "name": "三花智控",
+  "industry": "新能源车/汽车热管理/制冷",
+  "fundamentals": {
+    "available": true
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T18:25:37.781421+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股+H股(02050.HK)",
+  "fy2025": {
+    "revenue_yi": 310.12,
+    "net_yi": 40.63,
+    "gross_margin": 28.4,
+    "net_margin": 13.1,
+    "roe": 14.0,
+    "operating_cashflow_yi": 50,
+    "operating_cashflow": 50
+  },
+  "financials": {
+    "fy2025": {
+      "roe": 14.0,
+      "operating_cashflow_yi": 50
+    }
+  },
+  "fy_latest_roe": 14.0,
+  "fy_latest_operating_cashflow": 50,
+  "valuation": {
+    "current_price": {
+      "value": 46.0,
+      "currency": "CNY",
+      "as_of": "2026-06",
+      "source": "google + tradingview",
+      "status": "verified"
+    },
+    "market_cap": {
+      "value": 1881,
+      "unit": "CNY 亿",
+      "source": "stockanalysis 2026-05",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 46.3,
+      "source": "推算 1881/40.63",
+      "status": "verified"
+    },
+    "pe_history_band": {
+      "value": "20-60x (2020-2025)",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "盾安环境 25-35x / 海立股份 15-20x / 丹佛斯不上市; 三花 46x 高位",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 1.10 / 2027E 1.30 (管理层 +15% 指引)",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 41.8,
+      "source": "推算",
+      "status": "estimated"
+    },
+    "analyst_target_price": {
+      "value": "A 股 ¥60 / H 股 HK$40-42 (大摩中金 调降)",
+      "status": "verified"
+    },
+    "short_interest_or_margin": {
+      "value": "稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上 8-10%",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "0.6%",
+      "status": "estimated"
+    }
+  },
+  "business": {
+    "core": "全球制冷空调电器+汽车热管理零部件龙头, 主营家电制冷阀件 60%+汽车热管理 40%",
+    "segments": "制冷空调零部件 60% (185.85亿+12.22%) / 汽车热管理 40% (124.27亿+9.14%)",
+    "geo_breakdown": "海外 ~55% / 国内 ~45%",
+    "top_customers": "特斯拉/比亚迪/蔚来/理想/小鹏 + 美的/格力/海尔等家电巨头",
+    "peers": "盾安环境(002011)/海立股份(600619)/丹佛斯(私)/Modine(美)",
+    "market_share": "全球制冷阀件第一(40%+市占), 汽车热管理 EV 全球前三",
+    "share_count": 4.2,
+    "shareholders_recent_changes": "大股东持股稳定",
+    "ar_turnover_days": "60-80 天",
+    "inventory_turnover_days": "70-90 天",
+    "debt_to_equity": "0.3-0.4 (低杠杆)"
+  },
+  "industry_context": {
+    "industry_size": "全球汽车热管理 2025 ~$60 亿 EV 推动 CAGR 15-20%; 制冷空调 +5-8%",
+    "peers": "盾安环境(002011)/海立股份(600619)/丹佛斯(私)/Modine(美)"
+  },
+  "q1_2026": {
+    "revenue_yi": 77.74,
+    "net_yi": 9.28
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

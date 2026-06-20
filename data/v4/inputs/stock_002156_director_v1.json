@@ -1,0 +1,101 @@
+{
+  "unit_id": "stock:002156",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent (director step) — 各分析师 spawn 已落 ACCEPT, director step 由主 agent 编排综合",
+  "payload": {
+    "code": "002156",
+    "name": "通富微电",
+    "industry": "半导体封测/advanced packaging",
+
+    "verdict": {
+      "stance": "适度减仓",
+      "direction": "中性偏空(短期)+ 中长期持有偏正(2-3年)",
+      "summary": "通富微电短期估值偏热(PE 60x)+ 高位脆弱+大基金减持+净利率结构性天花板,反骑墙站空方;但 AMD 排他绑定+先进封装产能紧张+ Q2-Q3 业绩催化是中长期支撑。建议从用户 10.87% 单一最大持仓减至 7%,释放 ¥45k 流动性配置其他低估标的。¥58 上方继续减,¥42-45 加仓区,硬止损 ¥38.5 防御尾部风险。",
+      "confidence": 0.72
+    },
+
+    "thesis": "002156 是'AI 算力周期受益的封测龙头',核心 alpha 来自 AMD MI300/MI325X/MI400 排他绑定 + advanced packaging 产能紧张 + 国产替代政策。但当前股价已 price-in 大部分多方逻辑(PE-TTM 60x 远高同业 25-40x, Morningstar premium 48%),多空辩论 R3 形成共识区间 ¥42-58。短期 weakest link buyer_power(AMD CR1 60%+) 决定净利率天花板 4-5%, 扣非 2.27% 的硬证据说明定价权不在通富。中长期(2027-2028) TSMC CoWoS 产能释放可能蚕食 AMD 高端订单, 护城河有 3-5 年期限。用户当前 10.87% 仓位过度集中, 与最大持仓+高估值+高杠杆+尾部风险构成不对称, 必须降至 7-8% 才符合组合 prudence。",
+
+    "reflection": {
+      "vs_prev_version": "本版为 v1, 无前置版本 (用户 9 只直接持股之前从未真正 8 step 跑过, 之前 002371/600276/300308 是样板分析非用户持仓)",
+      "self_check": "数据状态: 4 分析师 + 5 力 + 多空 R1-R3 全部 spawn ACCEPT (financial/valuation 重试 1 次成功, competitive/rivalry/risk_safe 各重试 1 次成功)。director step 由主 agent 编排综合 (模式 A 标准做法, 已标 synthesized_by_main_agent)。critic 待 spawn 验。诚实标注: PE-TTM 60x / market cap 940 亿 / shares 15.176 亿 全部为 estimated 推算 (Reuters 2024 数据, 2026 真实股本可能略变)。2026 卖方一致 EPS missing (Reuters 2024.12 数据已过时)。北上资金 / 雪球热度 / 经营现金流 / 应收账款周转 / 毛利率历史分位 全部 missing。",
+      "memory_used": ["D0-5 002371 主 agent 自评 84 vs 真 critic 68 偏差 16 分 → 本版强制 spawn critic 真复核, 不主 agent 自评", "信息全量铁律 → 多空辩论每轮塞入完整 4 分析师产出 + 上轮对手输出"]
+    },
+
+    "valuation_basis": {
+      "core_logic": "PE 60x 隐含长期复合增速 50%+, 实际短期高位减速 (2024+299% / 2025+79.86% / 2026Q1扣非+64.78%), 长期可持续性差",
+      "forward_eps_scenarios": {
+        "bear": "2027E EPS ~¥0.6-0.8 (净利率维持 2.27%) → forward PE 77-103x → 估值压缩至 35x → 公允价 ¥21-28",
+        "base": "2027E EPS ~¥1.0 (净利率改善至 4%) → forward PE 60x → 估值回归 45x → 公允价 ¥45",
+        "bull": "2027E EPS ~¥1.3-1.5 (净利率突破 5% + AMD MI400 放量) → forward PE 41-48x → 估值维持 60x → 公允价 ¥78-90"
+      },
+      "comparable": "封测同业 PE: 长电 30x / 华天 40x / 晶方 25x / 日月光-Amkor 15-25x. 002156 60x 溢价 50-100%, 仅在 AI 排他位置不可复制 + 净利率快速修复双重条件下可保持",
+      "method": "forward EPS × 目标 PE 倍数 + 同业可比交叉验证 + 三情景(bull/base/bear)"
+    },
+
+    "forward_view": {
+      "market_regime": "2026 H1 半导体板块 AI 主题持续高热, advanced packaging 是确定性赛道, 但板块 PE 已分化(龙头 60x+/二线 25-30x), 后续看业绩兑现",
+      "liquidity": "PPI+3.9% 连续 3 月上行 + LPR 维持稳定 + 美元-人民币汇率稳定 → 半导体板块流动性中性偏正",
+      "cycle": "AI 算力 capex 周期 2024-2027 处于上行期(NVIDIA H200/B200/AMD MI300/MI325X 持续放量), 2028+ 进入消化期",
+      "beta": "通富 vs 半导体板块 β ~1.3-1.5, 高 β 标的, 大盘下行风险大",
+      "comparable_path": "类比 2017-2018 联发科代工链(立讯 / 京东方) 估值修复路径: 当 ROE 从 4% → 12% 时 PE 通常从 60x → 25-30x (估值压缩快于 EPS 增长), 通富若不能在 2-3 年完成 ROE 跨越则估值下行风险大",
+      "pricing_power": "弱 — buyer_power AMD CR1 60%+ 是定价权决定者, 通富作为代工方仅能在产能紧张窗口期获取临时议价权(12-18 月)"
+    },
+
+    "sensitivity_matrix": {
+      "axes": ["AMD MI 系列 2026-2027 出货增速", "扣非净利率 2027 稳态"],
+      "matrix": {
+        "amd_50pct_yoy_x_margin_3pct": {"eps_2027": 0.7, "fair_pe": 35, "fair_price": 24.5},
+        "amd_50pct_yoy_x_margin_5pct": {"eps_2027": 1.05, "fair_pe": 45, "fair_price": 47.25},
+        "amd_50pct_yoy_x_margin_7pct": {"eps_2027": 1.4, "fair_pe": 55, "fair_price": 77},
+        "amd_100pct_yoy_x_margin_3pct": {"eps_2027": 0.95, "fair_pe": 35, "fair_price": 33.25},
+        "amd_100pct_yoy_x_margin_5pct": {"eps_2027": 1.4, "fair_pe": 45, "fair_price": 63},
+        "amd_100pct_yoy_x_margin_7pct": {"eps_2027": 1.85, "fair_pe": 55, "fair_price": 101.75},
+        "amd_neg10_yoy_x_margin_3pct": {"eps_2027": 0.45, "fair_pe": 30, "fair_price": 13.5},
+        "amd_neg10_yoy_x_margin_5pct": {"eps_2027": 0.7, "fair_pe": 40, "fair_price": 28},
+        "amd_neg10_yoy_x_margin_7pct": {"eps_2027": 0.95, "fair_pe": 50, "fair_price": 47.5}
+      },
+      "current_price": 62,
+      "implication": "矩阵 9 格中仅 3 格(amd_50%_x_margin_7% / amd_100%_x_margin_5-7%)能 justify ¥62+, 占 33% 概率。矩阵 6 格指向 ¥13.5-47.5(¥62 隐含 25-78% 下行)。这是 R3 共识区 ¥42-58 的数学基础。"
+    },
+
+    "five_forces_summary": {
+      "rating": "中(护城河 3-5 年期限)",
+      "weakest_link": "buyer_power(AMD CR1 60%+) — 扣非2.27% 远低同业~5% 是定价权不在通富的硬证据",
+      "moat_durability": "中期 3-5 年, 崩塌信号: TSMC CoWoS 产能利用率<70% / AMD 份额从 85% 降至<60% / 扣非连续 2 季<2% / 台海升级"
+    },
+
+    "risk_consensus_from_3way": {
+      "aggressive": "12% 仓位, 止损 ¥49, 接受 high tail risk",
+      "safe": "4% 仓位, 止损 ¥55, 拒绝 tail risk",
+      "neutral": "7% 仓位(分 2 批 2 周内减), 硬止损 ¥38.5/跟踪 ¥43, 加仓区 ¥42-44/¥38.5-40, 减仓区 ¥56-58/¥63-68",
+      "director_decision": "采纳 neutral 的 7% 仓位提议 — 折中 aggressive 进攻性与 safe 防御性。理由: weakest_link buyer_power + 估值偏热 → 不能 12% 激进; 但 advanced packaging 产能紧张+AMD 排他绑定真实 → 不必 4% 过度避险。7% 既保留景气弹性又压缩尾部风险敞口。"
+    },
+
+    "action_plan": {
+      "immediate_action": "本周(6/13-6/17): 减 2% (¥21k 市值, 当前价 ¥62 高位减), 仓位降至 8.8%",
+      "next_2_weeks": "(6/18-6/27): 完成第二批减 1.8% (¥19k), 仓位降至 7%",
+      "buy_back_zones": ["¥42-45 加仓区(回补至 8.5%)", "¥38.5-40 第二加仓区(仅在基本面未恶化时, 否则触发硬止损)"],
+      "trim_zones": ["¥58 上方继续减(降至 5.5%)", "¥65-68 进一步减(降至 3.5% 锁利)"],
+      "stop_loss": {
+        "hard": "¥38.5 — 跌破 2025Q4 平台底+MA120 + 共识区下沿, 触发无条件清仓至 2%",
+        "trailing": "¥43 — 从近期高点回撤 12% 触发, 减半至 3.5%; 反弹创新高则跟踪线上移"
+      },
+      "monitoring_signals": [
+        "扣非净利率 Q2/Q3 能否突破 3% 向 5% 靠拢 (buyer_power 松动信号)",
+        "AMD 在 TSMC CoWoS 投片量占比 (替代品蚕食速度)",
+        "通富非 AMD 客户营收占比 (当前<40%, 客户分散化进展)",
+        "ABF 国产替代进度 (深南/兴森量产时间表)",
+        "同业 advanced 毛利率趋势 (价格战预警)",
+        "国家集成电路产业投资基金二期是否开始减持"
+      ]
+    },
+
+    "data_status_overall": {
+      "verified": ["2024/2025/2026Q1 财务核心数据", "大基金一期减持公告", "Morningstar premium 48%", "PPI/CPI 2026-05", "Reuters 2024 中后期 ROE/D/E", "advanced packaging 行业方向"],
+      "estimated": ["PE-TTM 60x", "市值 940 亿", "客户集中度 AMD 60%+", "同业 PE 数字", "封测 CR3/CR5 数字", "TSMC CoWoS 产能数字"],
+      "missing": ["经营现金流 / capex / FCF 具体数字", "应收 / 存货 周转天数", "2025/2026 真实毛利率", "雪球热度 / 北上资金 / 融资余额", "2026 卖方一致 EPS", "用户实际持股成本均价"]
+    }
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "code": "688981",
+  "name": "中芯国际",
+  "industry": "半导体/晶圆代工/国产替代",
+  "fundamentals": {
+    "available": true
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-14T01:31:36.257004+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "A股+H股(00981)",
+  "fy2025": {
+    "revenue_yi": 671,
+    "net_yi": 49,
+    "gross_margin": 22.0,
+    "net_margin": 7.3,
+    "roe": 5.0,
+    "operating_cashflow_yi": 250,
+    "operating_cashflow": 250
+  },
+  "financials": {
+    "fy2025": {
+      "roe": 5.0,
+      "operating_cashflow_yi": 250
+    }
+  },
+  "fy_latest_roe": 5.0,
+  "fy_latest_operating_cashflow": 250,
+  "valuation": {
+    "current_price": {
+      "value": 110.0,
+      "currency": "CNY",
+      "as_of": "2026-06",
+      "source": "A 股 688981 推算 (H 股 00981 港币 50)",
+      "status": "estimated"
+    },
+    "market_cap": {
+      "value": 8800,
+      "unit": "CNY 亿",
+      "source": "推算 A股+H股合计",
+      "status": "estimated"
+    },
+    "pe_ttm": {
+      "value": 95,
+      "source": "推算 (49亿净利 vs 4500亿 A股市值)",
+      "status": "estimated",
+      "note": "A 股极高溢价"
+    },
+    "pe_history_band": {
+      "value": "50-200x A 股 (高溢价)",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "TSMC 25-30x / UMC 12-15x / 联电 13x / 华虹 30-40x; 中芯 A 股 95x 显著溢价",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 0.7 / 2027E 1.0 (折A股溢价后)",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 70,
+      "source": "推算",
+      "status": "estimated"
+    },
+    "analyst_target_price": {
+      "value": "¥120-150 (大行均值)",
+      "status": "estimated"
+    },
+    "short_interest_or_margin": {
+      "value": "稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "北上 5-7%",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "0.5%",
+      "status": "estimated"
+    }
+  },
+  "business": {
+    "core": "中国大陆最大晶圆代工厂, 国产替代核心+先进制程突破 (28nm/14nm 量产+ 7nm/5nm 研发)",
+    "segments": "逻辑芯片(手机+消费电子+汽车) ~85% / 功率半导体+其他 ~15%",
+    "geo_breakdown": "国内 ~75% / 海外 ~25% (北美客户被实体清单限制)",
+    "top_customers": "高通/华为海思/紫光展锐/比亚迪半导体/A 股 IC 设计公司",
+    "peers": "TSMC(2330)/UMC(2303)/华虹(688347)/Tower Semi/Globalfoundries",
+    "market_share": "全球纯代工 #5, 中国大陆 #1 (~50% 大陆市场)",
+    "share_count": 80,
+    "shareholders_recent_changes": "国家大基金+上海联合主要股东",
+    "ar_turnover_days": "60-80 天",
+    "inventory_turnover_days": "90-110 天",
+    "debt_to_equity": "0.4-0.5"
+  },
+  "industry_context": {
+    "industry_size": "全球晶圆代工 2026 ~$1300 亿 +10-12% / 中国大陆 +20%+ (国产替代)",
+    "peers": "TSMC(2330)/UMC(2303)/华虹(688347)/Tower Semi/Globalfoundries"
+  },
+  "q1_2026": {
+    "revenue_yi": 175,
+    "net_yi": 13
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}

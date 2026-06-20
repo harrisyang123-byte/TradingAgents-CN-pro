@@ -1,0 +1,107 @@
+{
+  "unit_id": "stock:603236",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent (director step) — 4 分析师 spawn ACCEPT, 多空 R1-R3 ACCEPT(bear_r3 retry 1), 3 方风险 ACCEPT, 数据契约 18/18 + SHOULD 10/10 全过, critic 待复核",
+
+  "payload": {
+    "code": "603236",
+    "name": "移远通信",
+    "industry": "半导体/物联网模组",
+
+    "verdict": {
+      "stance": "持有观望(价格冲突未消+Q2 信号未达)",
+      "direction": "中性偏多 — 龙头逻辑真实但当前定价已 price-in 大部分行业增速, 净利率 4% 天花板限弹性",
+      "summary": "全球 IoT 模组绝对龙头(34%市占), 2025 营收+30%/归母+42% 经营杠杆释放, 但价格多源冲突 ¥58.30(morningstar 2026-06) vs ¥91.68(ft.com 2025-12) 差异 57% 影响估值锚定; 净利率 3.6-4% 天花板+上游高通/展锐依赖+海外 55-60% 汇兑/地缘风险使利润弹性受限。共识区 ¥78-85, 用户现仓 1.48%(¥15540), 建议持有不加仓, 等 Q2 财报(2026-08)三信号 + 价格冲突解决后再决策。",
+      "confidence": 0.55,
+      "confidence_reason": "MUST 18/18 SHOULD 10/10 全 verified 但价格多源冲突 57% 差异未消解 → -0.10; Q1 季度净利估算+5G 模组放量节奏未验证 → -0.10; 当前 0.55"
+    },
+
+    "thesis": "移远 = 全球 IoT 模组龙头(34% 全球市占, IoT Analytics 2025), 主营 4G/LPWA(50%) + 5G(25%) + 智能模组车载(15%) + 解决方案(10%); 海外占 55-60% 占客户分散(特斯拉/小米/比亚迪/海康/Cisco). 2025 年营收 232-243 亿(+30.83%) 归母 8.37-9.65 亿(+42%) — 利润增速快于营收因高毛利品类(5G/车规)占比提升, 经营杠杆释放. 但 weakest_link=供应商 supplier(高通/展锐 turnkey 下沉威胁) + 净利率 3.6-4% 天花板 + 海外汇兑敞口 (人民币升 1% 利润 -15-20%) 共同约束盈利弹性. 反向 DCF: PE 25.3x 在 WACC 10%+g 3% 下隐含 5 年 CAGR ~12% 接近行业平均(IoT CAGR 12-15%), 当前定价合理偏中性, 不是逆向预期差大胜场.",
+
+    "valuation_basis": {
+      "core_logic": "反向 DCF + 同业可比 + 多派别合理价",
+      "reverse_dcf": {
+        "wacc": 0.10, "terminal_g": 0.03, "steady_pe": 14.3,
+        "current_pe": 25.3, "implied_cagr_5y": "~12%",
+        "interpretation": "12% 隐含增速 vs 行业平均 12-15% — 估值已 price-in 行业平均, 未给 5G/车规高增速溢价; 不是大幅低估也不是大幅高估"
+      },
+      "scenarios": {
+        "bull": {"trigger": "Q2 净利率 ≥5.5% + 5G+车规营收占比 ≥35% + 海外份额扩张", "fair_price": "¥98-115", "prob": 0.20},
+        "base": {"trigger": "Q2 营收增速维持 25-30% + 净利率 4-4.5% 稳定", "fair_price": "¥78-95", "prob": 0.45},
+        "bear": {"trigger": "Q2 净利率 <3% + ASP 下行加剧 / 高通展锐 turnkey 入场", "fair_price": "¥55-70", "prob": 0.35}
+      },
+      "comparable": "广和通 25-30x / 美格智能 30-40x / u-blox 国际对标; 移远 25.3x 处同业中位; 龙头溢价应给 28-32x 但被供应商风险+地缘风险折价",
+      "price_derivation": "诚实区间 + 多派别合理价(以 ¥75 中位为基准):\n- DCF 内在价值锚 ¥78-95 (base 区间)\n- 安全边际档位: 中等不确定性(供应商依赖+地缘+净利率薄+价格冲突未消) → 30% 安全边际\n- 价值派合理买点 = ¥85 × (1-30%) = ¥59.5 (与 morningstar ¥58.30 接近)\n- GARP 派(PEG≤1): forward PE 22.43x 对接 ~12% CAGR PEG ≈ 1.85 略高 → 等价格回落 ¥75 以下 (PE ~20x) 才入场\n- 中性派: ¥78-92 (R3 共识区间)\n- 概率加权: 105×0.20 + 86×0.45 + 62×0.35 = 81 (vs bull case 取价 ¥91.68 高 -12%, vs bear case 取价 ¥58.30 低 +40%)",
+      "data_gaps_to_fetch": [
+        {"field": "current_price_canonical", "search_query": "移远通信 603236 2026-06 当前股价 多源核实", "usage": "解决 morningstar ¥58 vs ft ¥91 多源冲突"},
+        {"field": "consensus_eps_2026", "search_query": "移远通信 卖方一致预期 EPS 2026 wind", "usage": "forward PE 校准"},
+        {"field": "fy_latest_gross_margin_actual", "search_query": "移远通信 603236 2025 综合毛利率 公司年报", "usage": "净利率拐点验证"}
+      ]
+    },
+
+    "five_forces": {
+      "moat_rating": "中(规模型护城河 8-10 年期限)",
+      "weakest_link": "supplier_threat 中高 — 高通/展锐基带芯片依赖, 历史曾有 turnkey 模组下沉尝试",
+      "five_forces_summary": {
+        "entry": "中(认证壁垒+SKU 万级)",
+        "substitute": "低(广域无线连接刚需)",
+        "buyer": "中(客户分散但模组标准化)",
+        "supplier": "中高(高通占采购 60%+)",
+        "rivalry": "中(广和通/美格分层竞争)"
+      },
+      "moat_durability": "10 年中期 — 全球 SKU+认证壁垒+龙头规模, 但模组本质是芯片下游不可避免商品化"
+    },
+
+    "anchoring_check": {
+      "user_challenge": "买卖理由是预期差还是价格锚定",
+      "honest_answer": "本案预期差不大(反向 DCF 隐含 12% 接近行业平均). 当前定价合理, 不是逆向价值机会; 也不是高估泡沫. 关键拷问: 多源价格冲突未消, 估值锚定本身有 +/- 30% 不确定性",
+      "the_real_risk": "价值陷阱低(IoT 模组结构性增长存在), 但'量增价跌'硬件代工陷阱真实存在; 以及 morningstar ¥58.30 若是真价则 PE 仅 15.9x 已 price-in 衰退-反而是机会, 反之 ¥91.68 已透支大部分增长",
+      "corrected_framing": "买卖点必须挂钩 Q2 信号(净利率+5G/车规占比+海外份额) + 价格冲突解决 双重门控. 当前持有不加仓"
+    },
+
+    "risk_consensus_from_3way": {
+      "aggressive": "4%(¥65-78 拾仓), 止损 ¥60(-30%) , high tail",
+      "safe": "1% 试探或观望, 止损 ¥75, low tail (高通/展锐+地缘+净利薄三重)",
+      "neutral": "2.5% 起步, ¥78-82 建仓, Q2 信号过加至 4%; hard ¥65 / trailing ¥75; ¥92+ 减半",
+      "director_decision": "采纳 neutral 但用户现仓仅 1.48% 远低于推荐的 2.5%, 不主动加仓: 1) 价格冲突未消, ¥58 vs ¥91 差 57% 估值锚不准 → 加仓时机风险大 2) Q2 财报(2026-08) 是关键验证窗口 — 净利率/5G占比/海外动态 3 信号 3) aggressive 4% 假设 Q2 兑现概率 >70% 但数据窗口未开 4) safe 1% 已被现仓 1.48% 满足"
+    },
+
+    "action_plan": {
+      "immediate_action": "持有现仓 1.48%(¥15540) 不动, 等 Q2 财报(预计 2026-08) + 价格冲突解决",
+      "buy_back_zones": [
+        "🔔 信号(全过): Q2 净利率 ≥5.5% + 5G+车规收入占比 ≥30% + 海外份额维持 → 加至 2.5%",
+        "💰 价位: ¥75 以下 (PE ~20x, 同业下沿 + 多派别共识) 分批加 0.5-1.0%",
+        "🛡️ 极端深跌防御: ¥58 附近(-37% if ¥91 真价 / 跌破 ¥55 则承认 bear case 兑现) — 非加仓但需评估清仓",
+        "🚫 不在 ¥85+ 主动加仓 (已进入 R3 共识区上沿)"
+      ],
+      "trim_zones": [
+        "🔔 任一信号: Q2 净利率 <3% / ASP 加速下行 / 高通展锐 turnkey 入场 → 减至 0.5%",
+        "💰 ¥92+ 减至 1.0% (进入 bull case 上沿) / ¥110+ 全清(进入 bull 极端价)",
+        "🚨 地缘黑天鹅(美国实体清单/印度禁令) → 立即减半"
+      ],
+      "stop_loss": {
+        "hard": "¥60 (跌破=bear case 兑现, 净利率破 3% + ASP 失控双重)",
+        "trailing": "¥75 (从 R3 共识下沿回撤 8% 触发减半)"
+      },
+      "monitoring_signals": [
+        "Q2 财报(2026-08): 净利率/5G+车规占比/海外份额 3 信号",
+        "价格冲突解决: ¥58 vs ¥91 真实最新价确认",
+        "5G 模组 RedCap 渗透率 / 车规模组定点项目落地",
+        "高通/展锐自有品牌模组动态 / turnkey 方案推广",
+        "美国实体清单 / 欧盟本地化要求 / 印度政策动态",
+        "人民币汇率 (升 1% 利润 -15-20%)"
+      ]
+    },
+
+    "reflection": {
+      "what_changed": "v1 首次. 移远 v2 是 B4 简化升级版(标 confidence=low '下次重跑深度'), 本版是首次 8 step 真验闭环.",
+      "self_check": "data_status: synthesized_by_main_agent. MUST 18/18 + SHOULD 10/10 verified 但价格多源冲突 57% 差异是核心缺口 → confidence 0.55. 严格全流程: 4 分析师+多空 R1-R3+3 方风险全 spawn ACCEPT(bear_r3 retry 1). critic 待真复核.",
+      "memory_used": [
+        "002517 经验: 反向 DCF + 安全边际档位 + 多派别合理价",
+        "002156/09992 经验: 信号+价格双标, 不锚定纯价格",
+        "data 铁律: 多源冲突标注不调和(cn10y 2.7%↔1.71% 教训)"
+      ]
+    }
+  }
+}

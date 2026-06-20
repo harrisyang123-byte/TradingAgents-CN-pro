@@ -1,0 +1,93 @@
+{
+  "unit_id": "stock:09992",
+  "as_of": "2026-06-13",
+  "version": 1,
+  "data_status": "synthesized_by_main_agent (director step) — 各分析师 spawn 全部 ACCEPT, director step 主 agent 编排综合, critic 待复核",
+  "payload": {
+    "code": "09992",
+    "name": "Pop Mart 泡泡玛特",
+    "industry": "潮玩/IP消费",
+    "market": "HK",
+
+    "verdict": {
+      "stance": "持有(略加仓)",
+      "direction": "中性偏多 — 逆向价值机会但需 Q2 数据确认",
+      "summary": "Pop Mart 当前 forward PE 14x 严重低估(同业无增长玩具公司倍数)一个 ROE>40%/毛利率72.1% 的全球 IP 平台。市场犯'LABUBU 见顶=平台见顶'的品类错配错误。跌 60%+沽空 14-22% 高位+情绪偏冷(-65) = 逆向窗口。但 weakest_link 是 substitute_threat(情绪消费切换成本近零+LABUBU 占 40% 集中度)。建议用户维持 3.48% 并在 HK$135-145 逆向窗口小幅加至 4%(不超 4% 上限因 IP 集中度)。",
+      "confidence": 0.62,
+      "confidence_reason": "forward PE 14x verified 偏低 + Q1+75-80% verified 强劲 = 正预期差证据扎实; 但 LABUBU 周期拐点不可预测 + 当前精确股价时点冲突 + 经营现金流/存货周转 missing → confidence 0.62"
+    },
+
+    "thesis": "Pop Mart = 全球 IP 平台(非单一潮玩品牌), 核心 alpha 来自 IP 矩阵化能力(Molly→PUCKY→Dimoo→SKULLPANDA→LABUBU 每 18-24 月轮转头部 IP) + 全球 DTC 渠道扩张(海外>40% 且欧美刚起步) + 供应链效率(21 天设计到上架) + 4000 万会员复购 50%+。市场当前犯'LABUBU 占 40%=单 IP 依赖=平台见顶'的错配, forward PE 14x 把它当无增长玩具公司(美泰/孩之宝)定价而非 IP 平台(三丽鸥 35-40x)。多空辩论 R3 共识区间 HK$135-180。weakest_link substitute_threat(情绪消费可选+切换近零) 决定护城河 3-5 年期限。关键变量: Q2-Q3 IP 接力能否在 LABUBU 周期见顶前完成。",
+
+    "reflection": {
+      "vs_prev_version": "v1, 无前置版本。但重要更正: 之前 v1 决策手册(planning/v4/investment-decision-2026-06-13.md)估 PE 25-30x 偏高 + 判断 Hold(估值满), 本次深跑发现 forward PE 仅 14-17x(交银/大行口径) + 正预期差, 结论从'估值满 Hold'修正为'逆向价值机会略加仓'。这是数据精度提升带来的判断更正。",
+      "self_check": "4 分析师 + 5 力 + 多空 R1-R3 + 3 方风险 全部 spawn ACCEPT, 无失败重试(本次 subagent 稳定)。director step 主 agent 编排(已标 synthesized_by_main_agent)。诚实标注: 当前股价 HK$155-180 区间(时点冲突 missing 精确点); PE-TTM 17x / forward 14x 为大行口径 estimated; 经营现金流/存货周转/会员复购精确值/用户成本均价 missing。",
+      "memory_used": [
+        "D0-5 002371 主 agent 自评偏差 16 分 → 本版强制 spawn critic 真复核",
+        "002156 经验: forward PE 与同业对比是估值核心锚 → 本版发现 Pop Mart 14x vs 同业的关键差异",
+        "v1 决策手册 PE 估算偏高教训 → 本版用大行口径校正, 诚实标注更正"
+      ]
+    },
+
+    "valuation_basis": {
+      "core_logic": "forward PE 14x 隐含增速 13-18%(大摩) vs Q1 实际+75-80% = 正预期差; 但需扣除低基数+开店一次性红利, 稳态有机增速可能 25-40%",
+      "forward_eps_scenarios": {
+        "bull": "2026 净利+45-55%, PE 修复至 25-30x → HK$220-280 (概率 25%)",
+        "base": "2026 净利+25-35%, PE 修复至 18-22x → HK$165-220 (概率 45%)",
+        "bear": "LABUBU 断崖+海外库存减值, 净利+5-10%, PE 压缩至 12-14x → HK$110-145 (概率 30%)"
+      },
+      "comparable": "同业 PE: 三丽鸥 35-40x(纯授权 IP 平台) / 万代南梦宫 22-25x / 美泰 15-18x / 孩之宝 18-20x. Pop Mart 14x 接近无增长玩具公司而非 IP 平台 — 市场已剥夺其 IP 生态溢价",
+      "method": "forward EPS × 目标 PE + 同业可比 + 三情景概率加权",
+      "probability_weighted_target": "220×0.25 + 192×0.45 + 127×0.30 = 55 + 86.4 + 38.1 = HK$179.5 (vs 当前 HK$155-180 = 持平至小幅上行)"
+    },
+
+    "forward_view": {
+      "market_regime": "港股消费板块 2026 风格分化, Pop Mart 从 8 月高点跌 60% 已脱离主升浪, 看业绩拐点",
+      "liquidity": "港股通南向资金回流 + 沽空 14-22% 高位(轧空潜力) + PPI+3.9% 对毛利率有压力",
+      "cycle": "潮玩品类增长周期 + LABUBU 单 IP 热度周期(18-24 月已近峰)双重叠加, 关键看 IP 矩阵接力",
+      "beta": "可选消费高 β + 港股高波动(日均 3-5%), 需求弹性大经济下行首当其冲",
+      "comparable_path": "类比 Funko(美国潮玩 2022 库存危机市值蒸发 80%) 警示欧美潮玩天花板; 类比三丽鸥(Hello Kitty 50 年长青)看 IP 平台天花板 — Pop Mart 在两者之间",
+      "pricing_power": "强(买方极低议价力, 营收+185% 同期毛利率升至 72.1% 硬证) 但建在情绪热度上, 热度退潮定价权空心化"
+    },
+
+    "five_forces_summary": {
+      "rating": "中上(护城河 3-5 年期限)",
+      "weakest_link": "substitute_threat(潮玩可选情绪消费+切换成本近零+LABUBU 占 40% 集中度) — 品类内 4 力皆优但建在情绪热度流沙上",
+      "moat_durability": "中期 3-5 年, 崩塌信号: LABUBU 连续 2 季环比降+无第二 IP 接力 15%+ / 会员复购<40% / 海外同店转负 / 设计师龙家升合约变化"
+    },
+
+    "risk_consensus_from_3way": {
+      "aggressive": "6% 仓位, 止损 HK$125, 接受 high tail risk(轧空燃料)",
+      "safe": "2% 仓位, 止损 HK$128, 拒绝 tail risk(单 IP 集中+可选消费弹性)",
+      "neutral": "4% 仓位(HK$135-142 逆向小加), 硬止损 HK$120/跟踪 HK$135, 减仓区 HK$175-180/190+",
+      "director_decision": "采纳 neutral 4% — 折中。forward PE 14x 偏低提供安全垫 + 逆向窗口 → 不必 safe 2% 过度防御; 但 LABUBU 40% 集中度 + 切换成本近零 + 可选消费弹性 → 不能 aggressive 6% 激进。4% 是 IP 集中度风险下的合理上限。"
+    },
+
+    "action_plan": {
+      "immediate_action": "维持当前 3.48% 不动(当前价 HK$155-180 在共识区间内, 非加仓也非减仓点)",
+      "buy_back_zones": ["HK$138-142 第一笔加 0.3%(沽空高位+情绪冰点逆向)", "HK$133-136 第二笔加 0.2%(接近共识下沿)"],
+      "trim_zones": ["HK$175-180 减 0.5% 锁利(接近共识上沿)", "HK$190+ 再减至 2.5%(超共识区间赔率恶化)"],
+      "stop_loss": {
+        "hard": "HK$120 — 跌破对应 forward PE ~10x, 市场彻底否定成长逻辑, 全清",
+        "trailing": "HK$135 — 从买入后高点回撤 15% 触发减半至 2%"
+      },
+      "monitoring_signals": [
+        "LABUBU 系列季度营收环比增速(预警: 连续 2 季负增长)",
+        "非 LABUBU IP 营收占比(目标: 2027 前第二 IP 达 15%+)",
+        "会员复购率(当前>50%, 预警<40%)",
+        "海外同店销售增速(验证全球化真增量 vs 开店红利)",
+        "东南亚渠道库存周转天数(德银警示)",
+        "沽空比率(突破 25% 暂停加仓; 回落<10% 轧空信号)",
+        "Q2 财报(7-8 月)整体增速能否维持 50%+",
+        "设计师龙家升合约状态"
+      ]
+    },
+
+    "data_status_overall": {
+      "verified": ["2025 营收/净利/毛利率/经营利润率", "Q1 2026 各区域运营增速", "LABUBU 占比 38%", "海外占比>40%", "29 analysts 目标 $218", "卖方分歧 HK$140-379", "沽空 14-22%", "首次大额分红"],
+      "estimated": ["当前精确股价(区间 HK$155-180)", "PE-TTM 17x / forward 14x(大行口径)", "ROE>40%", "存货周转 45-60 天", "净利率长期稳态 28-32%"],
+      "missing": ["当前精确股价时点", "总股本/精确市值", "2026Q1 精确净利率", "经营现金流", "会员复购率/ARPU 精确值", "用户实际持股成本均价"],
+      "confidence_impact": "LABUBU 周期拐点不可预测 + 股价时点冲突 + 现金流 missing → confidence 0.62"
+    }
+  }
+}

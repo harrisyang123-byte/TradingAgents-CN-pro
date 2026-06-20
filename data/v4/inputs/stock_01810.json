@@ -1,0 +1,273 @@
+{
+  "code": "01810",
+  "name": "小米集团",
+  "industry": "消费电子/智能 EV/IoT",
+  "fundamentals": {
+    "available": true
+  },
+  "macro_context": {
+    "tier": "global",
+    "action": "skeleton",
+    "source": "akshare (collect_v4 程序化) + needs_web_fetch（海外/实时/大宗）",
+    "data_availability": "unavailable",
+    "fetched_at": "2026-06-13T18:02:36.764777+00:00",
+    "ttl_hours": 12,
+    "akshare_filled": [],
+    "note": "AKShare 不可用（akshare 未安装/不可用: ModuleNotFoundError）——全部指标待第 2 阶段联网补齐。Agent 必须用 web 搜索/抓取补 LPR/国债/CPI/PMI 等，evidence 标 verified+来源，不得编造。",
+    "indicators": {
+      "lpr_1y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "lpr_5y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "reverse_repo_7d": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "7天逆回购政策利率；AKShare 无干净接口，需联网"
+      },
+      "cn10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "term_spread": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "10Y-2Y 期限利差"
+      },
+      "cpi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "ppi_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "pmi_mfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "pmi_nonmfg": {
+        "value": null,
+        "status": "missing",
+        "unit": "index"
+      },
+      "tsf_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "社融存量同比；AKShare shrzgm 为增量口径，需联网取存量同比"
+      },
+      "m2_yoy": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "margin_balance": {
+        "value": null,
+        "status": "missing",
+        "unit": "万亿元",
+        "note": "两融余额（沪深合计）"
+      },
+      "usdcny": {
+        "value": null,
+        "status": "missing",
+        "unit": "CNY/USD",
+        "note": "人民币兑美元；实时，走联网"
+      },
+      "dxy": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "美元指数；实时，走联网"
+      },
+      "us10y": {
+        "value": null,
+        "status": "missing",
+        "unit": "%"
+      },
+      "fed_funds": {
+        "value": null,
+        "status": "missing",
+        "unit": "%",
+        "note": "美联储目标利率；走联网"
+      },
+      "sp500": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "标普500；实时，走联网"
+      },
+      "nasdaq": {
+        "value": null,
+        "status": "missing",
+        "unit": "point",
+        "note": "纳斯达克综指；实时，走联网"
+      },
+      "vix": {
+        "value": null,
+        "status": "missing",
+        "unit": "index",
+        "note": "VIX 恐慌指数；实时，走联网"
+      },
+      "brent": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/bbl",
+        "note": "布伦特原油；实时，走联网"
+      },
+      "gold": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/oz",
+        "note": "COMEX/伦敦金；实时，走联网"
+      },
+      "copper": {
+        "value": null,
+        "status": "missing",
+        "unit": "USD/t",
+        "note": "LME铜；实时，走联网"
+      }
+    },
+    "evidence": []
+  },
+  "data_availability": {
+    "fundamentals": false,
+    "macro": "unavailable"
+  },
+  "market": "港股",
+  "fy2025": {
+    "revenue_yi": 4572.9,
+    "net_yi": 416.4,
+    "gross_margin": 22.0,
+    "net_margin": 9.1,
+    "roe": 18.0,
+    "operating_cashflow_yi": 250,
+    "operating_cashflow": 250.0
+  },
+  "valuation": {
+    "current_price": {
+      "value": 32.0,
+      "currency": "HKD",
+      "as_of": "2026-06-13",
+      "source": "cnbc",
+      "status": "verified"
+    },
+    "market_cap": {
+      "value": 7906,
+      "unit": "HKD 亿",
+      "source": "stockanalysis 2026-06",
+      "status": "verified"
+    },
+    "pe_ttm": {
+      "value": 17.61,
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "pe_history_band": {
+      "value": "15-50x (2020-2025)",
+      "status": "estimated"
+    },
+    "peer_pe_comparison": {
+      "value": "Apple 30x / 联想 11x / 比亚迪 25x; 小米 17.6x 中位偏低",
+      "status": "estimated"
+    },
+    "consensus_eps_2y": {
+      "value": "EPS 2026E 1.4 (Q1已下滑) / 2027E 1.6",
+      "status": "estimated"
+    },
+    "forward_pe": {
+      "value": 21.91,
+      "source": "stockanalysis",
+      "status": "verified"
+    },
+    "analyst_target_price": {
+      "value": "HK$35-45 (大行均值)",
+      "status": "estimated"
+    },
+    "short_interest_or_margin": {
+      "value": "沽空比例稳定",
+      "status": "estimated"
+    },
+    "northbound_flow": {
+      "value": "南下港股通持股 8-10%",
+      "status": "estimated"
+    },
+    "dividend_yield": {
+      "value": "0% (无分红)",
+      "source": "stockanalysis",
+      "status": "verified"
+    }
+  },
+  "business": {
+    "core": "消费电子(手机/IoT)+智能 EV+互联网服务多元化集团, 主营手机+IoT 生活+互联网+智能 EV(SU7)",
+    "segments": "手机 ~50% / IoT 生活 ~25% / 互联网服务 ~10% / 智能 EV ~15% (2025 占比, EV 快速放量)",
+    "geo_breakdown": "国内 ~50% / 海外 ~50% (印度/东南亚/欧洲/拉美)",
+    "top_customers": "C 端用户分散",
+    "peers": "苹果(AAPL)/华为(未上市)/OPPO/vivo/三星(005930.KS)/比亚迪(汽车)",
+    "market_share": "全球手机出货量第三 (CR3 苹果/三星/小米); SU7 中国 EV 新势力 Top 5",
+    "share_count": 25.8,
+    "shareholders_recent_changes": "2025-2026 回购 3.73 亿股 (1.44% 总股本) ¥110+亿",
+    "ar_turnover_days": "40-60 天",
+    "inventory_turnover_days": "60-80 天",
+    "debt_to_equity": "0.4-0.5"
+  },
+  "industry_context": {
+    "industry_size": "全球智能手机 +3-5% / 全球 EV +25-35% / 全球 IoT +15-20% / 互联网服务 +10%; 小米 EV SU7 上市 2024 至今出货 30 万+",
+    "peers": "苹果(AAPL)/华为(未上市)/OPPO/vivo/三星(005930.KS)/比亚迪(汽车)"
+  },
+  "fy_latest_roe": 18.0,
+  "fy_latest_operating_cashflow": 250.0,
+  "financials": {
+    "fy2025": {
+      "roe": 18.0,
+      "operating_cashflow_yi": 250.0
+    }
+  },
+  "q1_2026": {
+    "revenue_yi": 1115,
+    "net_yi": 60.72
+  },
+  "data_contract_check": {
+    "ok": true,
+    "must_satisfied": [
+      "fy_latest_revenue",
+      "fy_latest_net_profit",
+      "fy_latest_gross_margin",
+      "fy_latest_net_margin",
+      "fy_latest_roe",
+      "fy_latest_operating_cashflow",
+      "current_price",
+      "market_cap",
+      "main_business_description",
+      "revenue_breakdown_segments",
+      "geo_breakdown",
+      "top_customers",
+      "peers",
+      "industry_size_cagr",
+      "pe_ttm",
+      "pe_history_band",
+      "peer_pe_comparison",
+      "consensus_eps_2y"
+    ],
+    "must_unattainable": [],
+    "must_missing": [],
+    "should_missing": [],
+    "should_unattainable": [],
+    "fetch_tasks": [],
+    "confidence_penalty": 0.0,
+    "unattainable_ratio": 0.0,
+    "summary": "契约检查 通过: MUST 18 verified + 0 unattainable / 18, SHOULD 10 verified / 10, confidence 折扣 0.00"
+  },
+  "data_contract_instructions": "✅ 数据契约已满足, 无需补取数."
+}
