@@ -65,6 +65,7 @@ tools: ["Read", "Bash", "Grep"]
 | `刷新<任意单元>` / `refresh <unit>` | 同上，换命令 | `run_v4.sh refresh <unit-selector>` |
 | `重新评审<行业>` / `重评<行业>` / `recritic<行业>` / `<行业>只重跑critic` / `<行业>评审分数不对重跑` | `industry:<行业名>` | `run_v4.sh recritic industry:<行业名>` |
 | `重新评审<大类>` / `重评<大类>`（如 重评权益/重评固收） | `asset:<class>` | `run_v4.sh recritic asset:<class>` |
+| `<行业>全景` / `<行业>产业链全景` / `铺全<行业>细分领域` / `<行业>有哪些细分` | `industry:<行业名>` | `run_v4.sh landscape industry:<行业名>` |
 | `v4 状态` / `单元状态` / `看看哪些过期` | — | `run_v4.sh status --json` |
 | `v4 扫描` / `扫描过期` | — | `run_v4.sh scan --json` |
 | `跑全量 v4` / `v4 全量分析` / `全部分析` | 七大类+配比+非权益方案 | 见「全量分析序列」 |

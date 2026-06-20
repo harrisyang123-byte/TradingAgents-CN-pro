@@ -4,10 +4,12 @@
 // 用法: claude -p "运行 v4 编排器，Workflow 脚本 scripts/workflow-v4-advisor.js，
 //                  args 传 {verb:'analyze', selector:'asset:equity', user_id:'...'}"
 // args:
-//   verb       analyze | refresh | recritic
-//              recritic = 只重跑 critic 评审闭环(复用已落盘 director 产物, 跳过拆解/深挖/辩论, 省 token)；
-//                         用于"前面分析都对、只 critic 那步需用修复后代码重评"(如 Issue#5 score 解析修复后)。
-//                         支持 industry / asset 单元(个股走 mode-A)。
+//   verb       analyze | refresh | recritic | landscape
+//              recritic  = 只重跑 critic 评审闭环(复用已落盘 director 产物, 跳过拆解/深挖/辩论, 省 token)；
+//                          用于"前面分析都对、只 critic 那步需用修复后代码重评"(如 Issue#5 score 解析修复后)。
+//                          支持 industry / asset 单元(个股走 mode-A)。
+//              landscape = 只跑横向产业链全景铺全(穷举行业 15-25 个并列细分领域 + 粗判瓶颈, 省 token, 不跑深辩/不落信封)。
+//                          独立产出 industry_landscape_<name>.json。仅 industry。
 //   selector   单元选择器：asset:<class> | plan:<class> | alloc:portfolio |
 //              industry:<name> | alloc:equity_industries | stock:<code> | alloc:industry:<name>
 //   user_id    用户 ID
@@ -236,6 +238,40 @@ async function runCriticGate({ unitId, payloadFile, directorSchema, kind, readRe
   return lastVerdict || {};
 }
 
+// ── chokepoint 提示构造（横向铺全 + 纵向逆向工程，Step A 与 landscape 单跑共用） ──────────
+// 2026-06-19 广度补强：先横向穷举所有并列细分领域(防漏 PCB/CCL/高速连接 等)，再纵向深挖。
+function buildChokepointPrompt(name, packName) {
+  return (
+    `\n你是产业链瓶颈分析师(chokepoint analyst)。⚠️先读取 agents/advisor/v4-industry-chokepoint.md 应用三段法。Read ${p(packName)}、${p('inputs/data_macro.json')}。\n` +
+    `【第0段·横向铺全(防漏并列领域)】先以"一张产业链全景图"的标准，把行业「${name}」的**所有并列细分领域穷举铺全**——AI算力级行业应列 15-25 个(终端应用/系统整机/核心芯片/光互连/电连接/存储/供电散热/上游材料/设备/基础设施运营等各层都要覆盖)，列 <10 个=铺不够几乎必漏。每个细分给 segment/layer/role_in_industry/is_bottleneck(先粗判)/bottleneck_reason/representative_players，输出到 landscape 数组 + landscape_count。\n` +
+    `【第1+2段·纵向深挖】再从 landscape 里挑出真瓶颈(四维强的)做自下而上逆向工程：终端需求→系统级→部件级→关键器件→材料/设备级，每环节四维判定(不可替代/供给集中/产能刚性/价值卡位)+波特五力+替代路径+发现度(🔴已拥挤/🟡半发现/🟢未发现)。\n` +
+    `输出 JSON：{role:"chokepoint",industry:"${name}",` +
+    `landscape:[{segment,layer,role_in_industry,is_bottleneck,bottleneck_reason,representative_players:[]}],landscape_count,` +
+    `reverse_engineering_path:"拆解链描述",` +
+    `chokepoint_map:[{layer,node,irreplaceability,supply_concentration,capacity_rigidity,value_capture,` +
+    `substitution_risk,discovery_level,five_forces:{entry_threat,substitute_threat,buyer_power,supplier_power,internal_rivalry,moat_verdict},` +
+    `beneficiaries_a:[],beneficiaries_qdii:[],is_top:bool}],` +
+    `top_chokepoints:["四维最强的1-3个环节及理由"],evidence:[{claim,source,status}]}。${GROUNDING}`
+  );
+}
+
+// ── 单跑：横向产业链全景铺全（verb=landscape，独立产出 landscape，不跑后续深辩） ──────────
+async function runLandscape(name) {
+  const sn = safeName(name);
+  phase('行业研究部门');
+  log(`单跑产业链全景铺全：industry:${name}（只横向穷举细分领域 + 粗判瓶颈，不跑深辩/不落单元信封）`);
+  const packName = `inputs/industry_${sn}.json`;
+  const outFile = `industry_landscape_${sn}.json`;
+  const res = parseAgentJSON(await agent(
+    buildChokepointPrompt(name, packName) +
+    mkWriteInstr(outFile, 'landscape'),
+    { label: '产业链全景铺全', phase: '行业研究部门' }
+  ));
+  const lc = res.landscape_count || (Array.isArray(res.landscape) ? res.landscape.length : '?');
+  log(`✅ industry:${name} 全景铺全完成：${lc} 个细分领域 → ${p(outFile)}`);
+  return { status: 'done', unit_id: `industry:${name}`, mode: 'landscape', landscape_count: lc };
+}
+
 // ── 部门：行业研究（industry:<name>，FR-006 AC6.2） ──────────
 async function runIndustryDepartment(name) {
   const unitId = `industry:${name}`;
@@ -256,14 +292,7 @@ async function runIndustryDepartment(name) {
     log(`[${sn}] Step A: 产业链瓶颈拆解`);
     const chokepoint = parseAgentJSON(await agent(
       mkLockInstr(unitId) +
-      `\n你是产业链瓶颈分析师(chokepoint analyst)。Read ${p(packName)}、${p('inputs/data_macro.json')}。\n` +
-      `对行业「${name}」做自下而上逆向工程拆解：终端需求→系统级→部件级→关键器件→材料/设备级。\n` +
-      `每个环节用四维判定(不可替代性/供给集中度/产能刚性/价值卡位) + 波特五力 + 替代路径 + 市场发现度(🔴已拥挤/🟡半发现/🟢未发现)。\n` +
-      `输出 JSON：{role:"chokepoint",industry:"${name}",reverse_engineering_path:"拆解链描述",` +
-      `chokepoint_map:[{layer,node,irreplaceability,supply_concentration,capacity_rigidity,value_capture,` +
-      `substitution_risk,discovery_level,five_forces:{entry_threat,substitute_threat,buyer_power,supplier_power,internal_rivalry,moat_verdict},` +
-      `beneficiaries_a:[],beneficiaries_qdii:[],is_top:bool}],` +
-      `top_chokepoints:["四维最强的1-3个环节及理由"],evidence:[{claim,source,status}]}。${GROUNDING}` +
+      buildChokepointPrompt(name, packName) +
       mkWriteInstr(chFile, 'chokepoint'),
       { label: '瓶颈分析师', phase: '行业研究部门' }
     ));
@@ -499,6 +528,14 @@ async function main() {
     if (sel.type === 'industry') return recriticIndustry(sel.key);
     if (sel.type === 'asset') return recriticAsset(sel.key);
     throw new Error(`recritic 支持 industry / asset 单元（个股走 mode-A）；收到 ${sel.type}`);
+  }
+
+  // verb=landscape：只跑横向产业链全景铺全（独立单跑，省 token，不跑深辩/不落信封）
+  if (verb === 'landscape') {
+    if (sel.type !== 'industry') {
+      throw new Error(`landscape 单跑只支持 industry 单元；收到 ${sel.type}`);
+    }
+    return runLandscape(sel.key);
   }
 
   switch (sel.type) {

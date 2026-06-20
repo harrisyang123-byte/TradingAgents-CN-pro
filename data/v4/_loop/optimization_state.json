@@ -3,12 +3,12 @@
     "protocol_version": "1.0",
     "protocol_doc": "planning/v4/self-evolving-optimization-loop.md",
     "north_star": "让用户持久盈利——真执行超级投资人实践，而非看起来执行",
-    "iteration_count": 11,
-    "last_run": "2026-06-19T08:00:00+00:00",
-    "phase": "maintenance",
+    "iteration_count": 13,
+    "last_run": "2026-06-19T10:00:00+00:00",
+    "phase": "apply",
     "learning_rate": 1,
     "status": "running",
-    "_comment": "iter 11 (RERUN-ADVISOR): mine洞全是产物待重跑非流程无洞, 诚实进maintenance, 交付精准重跑顾问省token",
+    "_comment": "iter 13 (LANDSCAPE-FRONTEND): 产业链全景前端展示, 广度补强前后端闭环",
     "last_mine": "2026-06-19T14:01:21+00:00"
   },
   "active_hole": null,
@@ -785,6 +785,53 @@
       ],
       "honest_caveat": "本轮诚实结论: 没有流程无业务洞可填(系统规则层已完备)。这不是'没干活'而是'诚实判定基线已达, 不硬造洞刷commit'。真实投研质量提升需用户本地用LLM按重跑清单刷新产物——这超出本环境(无LLM)能力。重跑顾问是我能做的最有价值的事: 让本地重跑精准省token。",
       "completed_at": "2026-06-19T08:00:00+00:00"
+    },
+    {
+      "id": "LANDSCAPE-BREADTH-20260619-12",
+      "title": "产业链分析横向广度不足 — chokepoint只纵向逆向工程, 漏与主链并列的细分领域(图20只覆盖6)",
+      "violated_practice": "产业链全景=广度×深度; 只纵向钻一两条链会漏并列领域(PCB/CCL/高速连接/铜缆/OCS等真瓶颈)",
+      "discovery_evidence": {
+        "user_image": "AI算力20大细分全景图 vs 我们: 覆盖✓6 部分△2 漏✗12",
+        "missed_real_bottlenecks": "224G高速连接器/高速CCL(铜箔树脂电子布)/OCS光交换 都是真瓶颈, 我们完全没碰",
+        "root": "v4-industry-chokepoint 第1段'广度优先'实为纵向5层, 非横向穷举并列领域"
+      },
+      "after_protocol": {
+        "agent": "chokepoint 加第0段横向铺全(穷举15-25并列细分领域+粗判瓶颈)+landscape schema",
+        "workflow": "buildChokepointPrompt(Step A与landscape单跑共用)+runLandscape()+verb=landscape独立单跑",
+        "tooling": "run_v4.sh landscape + SKILL.md '<行业>全景'自然语言映射",
+        "single_run": "用户要求'也要可以单跑': verb=landscape 只铺全不深辩, 省token"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(链路一致性)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "bash/JS语法+端到端7点一致; Step A与单跑共用同一builder(广度补强对两路径同时生效无分叉)"
+        }
+      ],
+      "honest_caveat": "改了流程要求(横向铺全), 但现有半导体产物仍是旧的9环节, 需本地重跑才会铺全15-25领域。未真跑验证AI是否真能穷举到图的广度水平——这依赖LLM执行质量。landscape单跑可低成本先验证广度。",
+      "completed_at": "2026-06-19T09:00:00+00:00"
+    },
+    {
+      "id": "LANDSCAPE-FRONTEND-20260619-13",
+      "title": "产业链全景(landscape)有数据产出但前端无展示 — 横向广度补强只到后端,前端看不到",
+      "violated_practice": "前端展示必须跟上后端产出(同iter9/10前后端链断裂教训)",
+      "after_protocol": {
+        "backend": "build_industry_detail 透传 landscape(payload优先, 缺则 _load_industry_landscape 合并单跑文件)",
+        "frontend": "IndustryFullReport 加 §1.5 '🗺️产业链全景'章节: 按layer分组平铺细分领域卡片, 瓶颈红框高亮, 仿用户那张20格全景图; TOC+CONSUMED同步",
+        "type": "portfolioV4.ts 加 LandscapeSegment 类型",
+        "snapshot": "重build, landscape字段进快照(旧产物空数组占位, v-if优雅隐藏)"
+      },
+      "gate_history": [
+        {
+          "attempt": 1,
+          "score": "N/A(链路+UI)",
+          "verdict": "ACCEPT",
+          "key_acceptance": "vue-tsc+build通过; TOC↔section一致; landscape字段进快照空数组占位前端不报错; 后端payload/单跑文件双源透传"
+        }
+      ],
+      "honest_caveat": "前端展示框架就绪, 但旧产物landscape=[]章节隐藏。需本地 ./run_v4.sh landscape industry:半导体产业链 (省token单跑)或refresh, 真实15-25细分领域才会平铺显示。未真跑验证AI铺全质量。",
+      "completed_at": "2026-06-19T10:00:00+00:00"
     }
   ],
   "stuck": [],

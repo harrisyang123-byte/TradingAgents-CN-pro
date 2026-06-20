@@ -1647,6 +1647,7 @@
       "deepest_alpha": "ABF树脂(味之素 Ajinomoto Build-up Film)——CoWoS先进封装中硅中介层下方的ABF基板，其核心原材料ABF树脂由日本味之素以>90%全球份额近乎独家供应(estimated)。AI芯片面积持续增大(B200→Rubin→Vera chiplet面积不断增加)推升单芯片ABF用量，而CoWoS产能从75K→近200K wpm意味着ABF基板需求同步翻2.7倍——但ABF树脂的化工产线扩产周期(24-36月)比基板加工(18-24月)更长，味之素一家产能约束所有ABF基板加工厂。当'基板缺货→加紧扩产→树脂跟不上'的链条显现时，味之素的定价权将被重新定价。A股无ABF树脂纯正标的(深南电路002916仅基板加工)，味之素为日股。此链条ABF树脂份额/扩产周期/CoWoS→ABF需求推演均为llm_knowledge estimated。"
     }
   ],
+  "landscape": [],
   "investment_map": [
     {
       "chokepoint_node": "磷化铟(InP)衬底→EML芯片→光互连 上溯深钻",

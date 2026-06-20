@@ -25,6 +25,7 @@
 #   analyze   触发指定单元深度分析（仅跑命中单元，不连带重跑其它，AC4.4）
 #   refresh   强制失效并重跑指定单元（重绑最新上游指纹，AC5.4）
 #   recritic  仅重跑 critic 评审闭环（复用已落盘 director 产物，跳过拆解/深挖/辩论，省 token；industry / asset）
+#   landscape 仅跑横向产业链全景铺全（穷举该行业 15-25 个并列细分领域 + 粗判瓶颈，省 token，不跑深辩；仅 industry）
 #   status    列出全部单元状态（五色 + 版本 + 生成时间）
 #   scan      扫描过期/过时单元，仅置黄并提示（绝不自动重跑，AC4.2 / AC5.3）
 
@@ -69,6 +70,7 @@ usage() {
   ./run_v4.sh analyze  <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
   ./run_v4.sh refresh  <unit-selector> [--user-id <id>] [--portfolio-file <path>]
   ./run_v4.sh recritic <industry:名|asset:类> [--user-id <id>]  # 只重跑 critic 评审闭环(复用已落盘产物,省 token)
+  ./run_v4.sh landscape <industry:名>  [--user-id <id>]   # 只跑横向产业链全景铺全(穷举15-25细分领域+粗判瓶颈,省 token,不跑深辩)
   ./run_v4.sh status   [--user-id <id>] [--json]
   ./run_v4.sh scan     [--user-id <id>] [--json]
 
@@ -84,9 +86,9 @@ if [ -z "$COMMAND" ] || [ "$COMMAND" = "-h" ] || [ "$COMMAND" = "--help" ]; then
 fi
 shift || true
 
-# analyze/refresh/recritic 第二个位置参数是 selector
+# analyze/refresh/recritic/landscape 第二个位置参数是 selector
 case "$COMMAND" in
-    analyze|refresh|recritic)
+    analyze|refresh|recritic|landscape)
         if [ $# -gt 0 ] && [[ "${1:-}" != --* ]]; then
             SELECTOR="$1"
             shift
@@ -167,11 +169,12 @@ v4 子 Agent 定义在 .claude/agents/advisor/（v4-*.md）。
 }
 
 case "$COMMAND" in
-    analyze)  run_orchestrator analyze ;;
-    refresh)  run_orchestrator refresh ;;
-    recritic) run_orchestrator recritic ;;
-    status)   run_status status ;;
-    scan)     run_status scan ;;
+    analyze)   run_orchestrator analyze ;;
+    refresh)   run_orchestrator refresh ;;
+    recritic)  run_orchestrator recritic ;;
+    landscape) run_orchestrator landscape ;;
+    status)    run_status status ;;
+    scan)      run_status scan ;;
     *)
         echo "未知子命令: $COMMAND" >&2
         usage
