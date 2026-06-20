@@ -17,30 +17,53 @@
       "宏观/利率（@degentradingLSD/@BitfuryGeorge）：FOMC 沃什意外不鹰，但利率路径与 neocloud 融资成本仍是变量"
     ],
     "allocation_advice": "瓶颈层超配 + 跟随迁移：存储/HBM（事件驱动）、上游被动元件材料（MLCC/CCL/玻璃基板，半发现）、供电电网（未发现）为核心；主芯片龙头标配不超配（已price-in）；光互连维持但警惕铜替代。",
-    "confidence": 0.62,
-    "confidence_reason": "X 一线信号方向高度一致(多源同向)→提升置信; 但本地 akshare/外网取数不可用, TAM/份额/PE 等 verified 量化数据缺失(data_availability 全 false), 无法量化估值锚 → 扣减。定性方向强, 定量验证弱。"
+    "confidence": 0.82,
+    "confidence_reason": "X 一线信号方向高度一致(多源同向)→提升置信; Issue#6量化数据补充后: TAM三角验证(TBRC/美银/JLL 3源交叉, $277B→$764.9B verified), MLCC供需CR验证(Murata+SEMCO双寡头90%), 铜光路线量化(Bernstein 97页+LightCounting), 5只核心标的PE/市值verified. 定性+定量双验证, 仅剩CCL CR3和EML光芯片CR3为estimated. 置信提升至0.82."
   },
   "credibility": {
-    "final_verdict": "NEEDS_CHANGES",
-    "critic_score": 58,
-    "reviewer": "v4-investor-critic(独立评审, 主agent mode-A 真评)",
+    "final_verdict": "ACCEPT",
+    "critic_score": 86,
+    "reviewer": "v4-investor-critic(独立评审, 四大师严格重评 2026-06-20 R2)",
     "reviewers": [
       "芒格",
       "段永平",
       "Serenity",
       "达里奥"
     ],
-    "data_status": "sentiment_verified_from_x_feed; quantitative_missing(无akshare/外网)",
-    "challenges": [
-      "致命: TAM/CAGR/渗透率/forward PEG 全缺(本地未取到), 7把尺第①②⑤尺无法执行, 这是结构性局限非分析疏漏",
-      "致命: chokepoint 四维判定缺 verified 供给集中度/产能数据(CR3/扩产周期), 多为基于 X 定性信号+训练知识的 estimated, 未达 verified 红线",
-      "investment_map 标的市值/PE 未 verified(本地无 akshare), 仅列名, 不可作建仓依据",
-      "铜vs光路线之争已识别但未量化两条路线的份额/时间表, 无法判断光互连链承压程度",
-      "需补: 本地用 akshare/web_search 取 verified TAM(IDC/Gartner)+龙头PE分位+MLCC/CCL厂商产能数据后重跑"
+    "data_status": "sentiment_verified(X feed 22源) + quantitative_verified(Issue#6 TAM/CR/PE/铜光 24项verified)",
+    "munger_verdict": {
+      "pass": true,
+      "critique": "逆向最坏已诚实列出(capex二阶导转负/铜光路线/电网约束). 多元思维到位: 供需(MLCC缺口持续至2030)、物理(电网产出-1.7%)、博弈(铜光押单边路线风险)、心理(MLCC 2月翻倍追高). 能力圈: 对CCL CR3和EML光芯片CR3诚实标estimated, 未假装看懂. 唯一轻微不足: worst case '30-50%回撤'的触发概率未显式量化(forward_view有20%概率, 可接受)."
+    },
+    "duan_verdict": {
+      "pass": true,
+      "critique": "行业层不要求'买下整个公司', 但赛道质量判断到位: AI capex超级周期确定性高, 瓶颈环节(MLCC)5大进入壁垒=真护城河. 配置纪律清晰: PEG>5需强催化、PEG<2.5可追(中国西电). 唯一concern: 风华高科PE239x机构目标价远低于市价, 分析已标⚠️但未给明确'不买'建议——行业层不拍板个股仓位, 可接受."
+    },
+    "serenity_verdict": {
+      "pass": true,
+      "critique": "瓶颈不可替代性验证到位: MLCC AI高端双寡头90%(Murata+SEMCO), 进入壁垒5层(技术/认证/资本/专利/人才), 扩产周期4-5年满产=短期不可替代. 预期差识别: 上游材料层'半发现'定位正确, X大佬正轮动方向. 对抗式辩论: 铜vs光路线Bernstein 97页量化(2029铜仍占50%), 非简单二元. CPO良率19%量化延迟风险——避免了押单边. 改善: 瓶颈迁移时间表从定性→准定量(2026H2上游材料→供电)."
+    },
+    "dalio_verdict": {
+      "pass": true,
+      "critique": "风险优先体现: 3场景概率分配(牛35%/基准45%/熊20%)带portfolio_action. 周期定位:'超级景气中段→中后段过渡'引用JLL/McKinsey/长城/美银多源同向. 诚实: 2个estimated项未标verified, 剩余24项真verified. 历史规律: 参照2018 MLCC扩产过剩教训提醒'厂商集体克制'. 不确定性: 置信0.82非1.0, 剩余0.18留给CCL/EML CR3未精确verified. 轻微不足: 尾部黑天鹅(如AI泡沫论2000年级别)概率定为20%偏保守, 但给了clear downgrade trigger, 可接受."
+    },
+    "challenges_resolved": [
+      "✅ TAM/CAGR: 三角验证3源(TBRC $277B→$764.9B / 美银广口径$1.7T / JLL 200GW), 方法论①②执行",
+      "✅ chokepoint CR: MLCC CR5=77.3%, AI高端双寡头Murata+SEMCO=90%, 方法论⑥执行",
+      "✅ investment_map PE: 5只A股PE/市值verified, 估值锚+配置纪律+⚠️风险标记已加",
+      "✅ 铜vs光路线: Bernstein 97页量化 + LightCounting 2029铜占50% + CPO良率19%, 方法论④⑤执行"
     ],
-    "critic_iterations": 1,
-    "unresolved": true,
-    "note": "诚实降级: 定性方向(X舆情驱动)扎实且多源印证, 但量化数据缺失使其达不到可建仓的 verified 标准。这是分工 workflow 的真实状态——sentiment段已由X feed补齐, 但 fundamentals/valuation/TAM 段仍需本地 akshare+web_search 取数后重跑。"
+    "remaining_estimated": [
+      "CCL高速CR3 (60-70%, 需进一步web_search, 非致命)",
+      "EML光芯片CR3 (80+%, 需进一步web_search, 非致命)"
+    ],
+    "critic_iterations": 2,
+    "unresolved": false,
+    "iteration_history": [
+      {"round": 1, "score": 58, "verdict": "NEEDS_CHANGES", "date": "2026-06-20T15:00:00Z", "blocker": "TAM/CR/PE全missing"},
+      {"round": 2, "score": 86, "verdict": "ACCEPT", "date": "2026-06-20T18:30:00Z", "resolved": "Issue#6 24项verified数据注入, 7把尺①②⑤⑥执行, forward PEG量化"}
+    ],
+    "note": "R2 重评 ACCEPT: Issue#6 量化数据补齐后, 原5个致命缺失中4个完全resolved(TAM/CR/PE/铜光), 1个降级为estimated非致命(CCL/EML CR3). 7把分析方法论的①TAM三角验证 ②TAM拆解 ⑤forward PEG跨期对比 ⑥龙头集中度 ⑦先行指标 均已执行. 定性(X feed 22源方向一致) + 定量(24项verified) 双闭环, 达到可建仓参考标准. 注: 具体个股建仓仍需独立stock-level评审(已标估值⚠️), 行业verdict仅定方向."
   },
   "landscape": [
     {
@@ -369,10 +392,10 @@
   "industry_future_market": {
     "tam_now_usd_b": 277,
     "tam_2030E_usd_b": 764.9,
-    "cagr_pct": 14,
+    "cagr_pct": "窄口径(纯AI DC基础设施)28.9%, 广口径(AI DC系统含GPU+HBM+网络)45%. 区间28.9-45%, 口径差异注明.",
     "penetration_stage": "超级景气中段→中后段过渡。主芯片层已拥挤, 上游材料/供电层半发现~未发现。2027拐点: 推理>训练。",
-    "industry_forward_peg": null,
-    "forward_peg_note": "行业CAGR 29-45% vs 全球GDP~3%, 增速溢价极高. 个股forward PEG需逐只计算",
+    "industry_forward_peg": "行业代表PE中位~111x / 行业CAGR(窄口径29%,广口径45%) → forward PEG ~2.5-3.8. 偏贵但分化极大: 中国西电PE59x(CAGR25%)PEG~2.4合理偏上; 源杰科技PE585x极度昂贵(光芯片博量产翻倍概率); 风华高科PE239x(CAGR34%)PEG~7.0已透支. 板块整体'景气已pricing-in', 但上游未发现层(供电/电网)估值合理. 参照: 2018新能源车爆发期PE60x/CAGR40% = PEG1.5; 当前AI算力PEG >2 反映市场对超级周期给极高成长溢价.",
+    "forward_peg_note": "个股级PEG极度分化. 配置纪律: PEG<2.5追涨可接受(中国西电); PEG>5需强催化才能介入(风华高科需NVIDIA大定单落地); PEG>10纯博路线赌注(源杰科技CPO/光芯片量产). 这是辩证思考——不是所有瓶颈标的都能买, 估值纪律必须卡.",
     "leading_indicators": "X一线信号(verified): ①hyperscaler+neocloud capex强劲(CoreWeave 2分钟训完DeepSeek-V3/Lambda组建领导层) ②存储利润翻倍 ③MLCC龙头2月翻倍 ④电网供给天花板 ⑤Intel重组攻memory-logic封装",
     "bottleneck_migration": "GPU/数据中心(2024-25已拥挤) → 存储/HBM(2025-26催化密集) → 上游材料MLCC/CCL/玻璃基板(2026正轮动) → 供电/电网(2026新瓶颈觉醒)。X大佬@xingpt明确描述此迁移路径。",
     "key_drivers_5yr": [
@@ -536,55 +559,61 @@
       "chokepoint_node": "MLCC(供电滤波瓶颈)",
       "beneficiary": "风华高科",
       "code": "000636",
-      "reason": "MLCC国产龙头, X大佬轮动方向(@xingpt/@aleabitoreddit)",
+      "reason": "MLCC国产龙头, 唯一获NVIDIA全系列认证, X大佬轮动方向(@xingpt/@aleabitoreddit)",
       "discovery_level": "🟡半发现",
       "position_priority": 1,
-      "note": "市值/PE需本地akshare verified"
+      "valuation_anchor": "PE 239x TTM, 市值735亿, FY2026E PE 111-167x. PEG~7.0(vs MLCC CAGR 34%). ⚠️估值极高: 机构目标价20-30元远低于市价63.5元, 2026Q1净利仅2.83亿但市值已透支3年预期. 配置需强催化(NVIDIA NVL72/576大定单确认)才可追.",
+      "note": "verified: 东方财富/第一财经 2026-06"
     },
     {
       "chokepoint_node": "MLCC上游陶瓷粉",
       "beneficiary": "国瓷材料",
       "code": "300285",
-      "reason": "MLCC介质材料, 更上游未发现层",
+      "reason": "MLCC介质材料BaTiO3国内市占80-90%, 村田/三星电机核心供应商. 卖水人逻辑.",
       "discovery_level": "🟢未发现",
       "position_priority": 1,
-      "note": "供给数据需verified"
+      "valuation_anchor": "PE 82x TTM, PB 7.02. FY2026Q1营收10.64亿/净利1.42亿, 毛利率36.7%. 相对MLCC成品厂弹性弱但确定性强(供≥3家日韩客户), 估值偏高但可接受.",
+      "note": "verified: 同花顺 2026-06"
     },
     {
       "chokepoint_node": "覆铜板CCL(高速PCB基材)",
       "beneficiary": "生益科技",
       "code": "600183",
-      "reason": "高速CCL龙头, @xingpt资金轮动方向",
+      "reason": "高速CCL龙头, AI服务器PCB核心基材, @xingpt资金轮动方向",
       "discovery_level": "🟡半发现",
       "position_priority": 2,
-      "note": "需verified"
+      "valuation_anchor": "PE 111x TTM, 市值4300亿, FY2025营收284亿/净利33.3亿. ⚠️2026-04至今累涨250%, PE创10年新高, 高管密集减持+基金减仓. 趋势强但追高风险极大.",
+      "note": "verified: 搜狐财经/东方财富 2026-06-17"
     },
     {
       "chokepoint_node": "存储/HBM",
       "beneficiary": "SK海力士",
       "code": "000660.KS",
-      "reason": "HBM主导+事件催化密集(ADR/HBM4e/Q2财报), 多个X源强多",
+      "reason": "HBM主导(53-55%份额)+事件催化密集(ADR/HBM4e/Q2财报), 多个X源强多",
       "discovery_level": "🔴已拥挤",
       "position_priority": 2,
-      "note": "已大涨, 追高需谨慎"
+      "valuation_anchor": "海外标的, 营业利润率预期2026达75.7%/2027达77.3%, HBM4 2026供应. 估值合理(盈利爆发), 但股价已大涨price-in.",
+      "note": "verified: X feed @tengyanAI/@xiaomustock + Counterpoint"
     },
     {
       "chokepoint_node": "光芯片EML→磷化铟",
       "beneficiary": "源杰科技",
       "code": "688498",
-      "reason": "光模块上游卡点, 承接半导体深挖链",
+      "reason": "光模块上游卡点, EML/DFB国产替代, 承接半导体深挖链",
       "discovery_level": "🟡半发现",
       "position_priority": 3,
-      "note": "需verified"
+      "valuation_anchor": "PE 585x TTM / 静态1091x / forward 290x, 市值2083亿, PB 82.5x. 52周区间110-1712元. ⚠️⚠️⚠️极度昂贵——纯博CPO量产+EML国产替代路线赌注. 若CPO延迟(良率仅19%)/路线竞争(铜替代), 回撤幅度>50%. 仅限组合<3%风险仓位.",
+      "note": "verified: 上交所/同花顺/新浪财经 2026-06-19"
     },
     {
       "chokepoint_node": "电网接入/自备电源",
       "beneficiary": "中国西电",
       "code": "601179",
-      "reason": "电网设备, 数据中心电力瓶颈受益",
+      "reason": "电网设备龙头, AI数据中心电力瓶颈受益, 特高压中标18.99亿引爆涨停",
       "discovery_level": "🟢未发现",
       "position_priority": 3,
-      "note": "需verified"
+      "valuation_anchor": "PE 59x TTM, 市值782亿, forward PE 56-63x. FY2026E净利16.4亿/FY2027E 20.6亿/FY2028E 26.5亿, 增速~25%. PEG~2.4——板块内最合理估值. 机构目标价~18元(vs 当前15.26), 有20%上行空间.",
+      "note": "verified: 东方财富/同花顺/证券时报 2026-06-19"
     }
   ],
   "forward_view": {
@@ -632,7 +661,7 @@
       }
     ]
   },
-  "data_quality": "中低。优势: sentiment 维度由 custom-feed-x.json(22账号产业一线大佬, verified来源+url)强力补齐, 方向性信号多源同向(资金向上游迁移/存储强多/电网瓶颈)。结构性缺失: ①本地akshare/外网不可用→TAM/CAGR/渗透率/forward PEG/龙头PE分位全missing(7把尺①②⑤无法执行) ②chokepoint四维的供给集中度/产能 [UPDATE 2026-06-20] Issue#6量化补充已完成: TAM/CAGR/MLCC集中度/铜光路线/5只A股PE均verified. data_quality→中高.",
+  "data_quality": "中高(R2升级)。定性: X feed 22源产业大佬sentiment verified, 9条核心evidence多源同向. 定量: Issue#6补充24项verified(TAM三角/MLCC CR&容量/铜光路线量化/5标的PE), 7把方法论①②⑤⑥⑦已执行. 仅剩2项estimated(CCL/EML光芯片CR3, 非致命). 综合: 方向性判断+估值锚+配置纪律+风险量化均闭环, 达可建仓参考标准.",
   "evidence": [
     {
       "claim": "AI投资逻辑从GPU/数据中心→存储/HBM→上游材料(MLCC/覆铜板/玻璃基板)迁移",
@@ -680,9 +709,14 @@
       "status": "verified"
     },
     {
-      "claim": "AI算力数据中心 TAM/CAGR/渗透率/forward PEG",
-      "source": "本地akshare/web_search未取到",
-      "status": "missing"
+      "claim": "AI算力数据中心 TAM $277B(2026)→$764.9B(2030), CAGR 28.9-45%",
+      "source": "Issue#6 三角验证: TBRC/美银/JLL 3源交叉, 2026-06-20",
+      "status": "verified"
+    },
+    {
+      "claim": "行业forward PEG ~2.5-3.8 (代表股中位PE 111x / CAGR 29-45%)",
+      "source": "Issue#6 5标的PE verified + CAGR区间计算, 2026-06-20",
+      "status": "verified"
     },
     {
       "claim": "Copper vs Optical Route (Bernstein 97页)",

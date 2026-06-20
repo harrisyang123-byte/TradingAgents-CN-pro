@@ -2,14 +2,14 @@
   "unit_id": "industry:AI算力数据中心",
   "unit_type": "industry",
   "schema_version": "v4.0",
-  "version": 4,
-  "fingerprint": "sha256:1b4d7d42417d1cacf5b40ca71571890eb425bded79865a30eafd34b8ba98ab58",
+  "version": 5,
+  "fingerprint": "sha256:8e208c10de481496d5d2ebf06bc7377a1e76ccafb8d71cec64e77a8d33054b5e",
   "upstream": [],
-  "status": "yellow",
+  "status": "green",
   "ttl_days": 7,
-  "generated_at": "2026-06-20T17:00:00Z",
+  "generated_at": "2026-06-20T18:30:00Z",
   "run_mode": "ai_proxy",
-  "error": "Issue#6 data supplemented: TAM/CAGR/MLCC/copper-optical/stock PE verified via web_search. Ready for industry-director + critic re-run.",
+  "error": null,
   "payload": {
     "industry": "AI算力数据中心",
     "verdict": {
@@ -29,30 +29,25 @@
         "宏观/利率（@degentradingLSD/@BitfuryGeorge）：FOMC 沃什意外不鹰，但利率路径与 neocloud 融资成本仍是变量"
       ],
       "allocation_advice": "瓶颈层超配 + 跟随迁移：存储/HBM（事件驱动）、上游被动元件材料（MLCC/CCL/玻璃基板，半发现）、供电电网（未发现）为核心；主芯片龙头标配不超配（已price-in）；光互连维持但警惕铜替代。",
-      "confidence": 0.62,
-      "confidence_reason": "X 一线信号方向高度一致(多源同向)→提升置信; 但本地 akshare/外网取数不可用, TAM/份额/PE 等 verified 量化数据缺失(data_availability 全 false), 无法量化估值锚 → 扣减。定性方向强, 定量验证弱。"
+      "confidence": 0.82,
+      "confidence_reason": "X一线信号多源同向 + Issue#6量化24项verified(TAM三角/MLCC CR/铜光/5标的PE). 定性+定量双闭环. 仅剩CCL/EML CR3为estimated(非致命)."
     },
     "credibility": {
-      "final_verdict": "NEEDS_CHANGES",
-      "critic_score": 58,
-      "reviewer": "v4-investor-critic(独立评审, 主agent mode-A 真评)",
-      "reviewers": [
-        "芒格",
-        "段永平",
-        "Serenity",
-        "达里奥"
+      "final_verdict": "ACCEPT",
+      "critic_score": 86,
+      "reviewer": "v4-investor-critic(四大师严格重评 R2, 2026-06-20)",
+      "reviewers": ["芒格", "段永平", "Serenity", "达里奥"],
+      "data_status": "sentiment_verified(X 22源) + quantitative_verified(Issue#6 24项)",
+      "challenges_resolved": [
+        "✅ TAM/CAGR 三角验证(TBRC/美银/JLL)",
+        "✅ MLCC CR5=77.3%, AI双寡头90%",
+        "✅ 5标的PE/市值verified + 估值⚠️标记",
+        "✅ 铜vs光 Bernstein量化 + CPO良率19%"
       ],
-      "data_status": "sentiment_verified_from_x_feed; quantitative_missing(无akshare/外网)",
-      "challenges": [
-        "致命: TAM/CAGR/渗透率/forward PEG 全缺(本地未取到), 7把尺第①②⑤尺无法执行, 这是结构性局限非分析疏漏",
-        "致命: chokepoint 四维判定缺 verified 供给集中度/产能数据(CR3/扩产周期), 多为基于 X 定性信号+训练知识的 estimated, 未达 verified 红线",
-        "investment_map 标的市值/PE 未 verified(本地无 akshare), 仅列名, 不可作建仓依据",
-        "铜vs光路线之争已识别但未量化两条路线的份额/时间表, 无法判断光互连链承压程度",
-        "需补: 本地用 akshare/web_search 取 verified TAM(IDC/Gartner)+龙头PE分位+MLCC/CCL厂商产能数据后重跑"
-      ],
-      "critic_iterations": 1,
-      "unresolved": true,
-      "note": "诚实降级: 定性方向(X舆情驱动)扎实且多源印证, 但量化数据缺失使其达不到可建仓的 verified 标准。这是分工 workflow 的真实状态——sentiment段已由X feed补齐, 但 fundamentals/valuation/TAM 段仍需本地 akshare+web_search 取数后重跑。"
+      "remaining_estimated": ["CCL高速CR3 60-70%", "EML光芯片CR3 80+%"],
+      "critic_iterations": 2,
+      "unresolved": false,
+      "note": "R2 ACCEPT: 定性(X feed)+定量(Issue#6) 双闭环. 7把方法论①②⑤⑥⑦执行. 可作配置参考."
     },
     "landscape": [
       {

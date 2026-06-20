@@ -184,13 +184,13 @@
     "industry:AI算力数据中心": {
       "unit_id": "industry:AI算力数据中心",
       "unit_type": "industry",
-      "version": 4,
-      "fingerprint": "sha256:1b4d7d42417d1cacf5b40ca71571890eb425bded79865a30eafd34b8ba98ab58",
-      "status": "yellow",
+      "version": 5,
+      "fingerprint": "sha256:8e208c10de481496d5d2ebf06bc7377a1e76ccafb8d71cec64e77a8d33054b5e",
+      "status": "green",
       "ttl_days": 7,
-      "generated_at": "2026-06-20T17:00:00Z",
+      "generated_at": "2026-06-20T18:30:00Z",
       "upstream": [],
-      "error": "Issue#6量化数据已补充(TAM/CAGR/MLCC/铜光/PE verified). 待director+critic重跑升ACCEPT.",
+      "error": null,
       "path": "industries/AI算力数据中心.json"
     },
     "industry:互联网平台": {
