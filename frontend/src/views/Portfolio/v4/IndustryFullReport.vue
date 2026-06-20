@@ -88,6 +88,23 @@
             </div>
           </section>
 
+          <!-- §1.5 产业链全景（横向铺全并列细分领域，按层分组平铺，瓶颈高亮） -->
+          <section v-if="landscape.length" id="sec-landscape" class="ifr-section">
+            <h2 class="ifr-h2">🗺️ 产业链全景（{{ landscape.length }} 个细分领域 · 🔴=瓶颈）</h2>
+            <p class="ifr-appendix-desc">横向穷举本行业所有并列细分领域，红框=构成瓶颈（值得深挖），灰框=非瓶颈环节。</p>
+            <div v-for="(grp, layer) in landscapeByLayer" :key="layer" class="ifr-ls-layer">
+              <div class="ifr-ls-layer-name">{{ layer }}</div>
+              <div class="ifr-ls-grid">
+                <div v-for="(seg, i) in grp" :key="i" class="ifr-ls-card" :class="{ 'ifr-ls-bottleneck': seg.is_bottleneck }">
+                  <div class="ifr-ls-seg">{{ seg.is_bottleneck ? '🔴 ' : '' }}{{ seg.segment }}</div>
+                  <div class="ifr-ls-role">{{ seg.role_in_industry }}</div>
+                  <div v-if="seg.bottleneck_reason" class="ifr-ls-reason">{{ seg.bottleneck_reason }}</div>
+                  <div v-if="seg.representative_players?.length" class="ifr-ls-players">{{ seg.representative_players.join(' · ') }}</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- §2 产业链瓶颈地图 -->
           <section v-if="detail.chokepoint_map?.length" id="sec-chokepoint" class="ifr-section">
             <h2 class="ifr-h2">🔗 产业链瓶颈地图（{{ detail.chokepoint_map.length }} 环节）</h2>
@@ -385,6 +402,17 @@ const critChallenges = computed<string[]>(() => {
 const chokepointMap = computed<any[]>(() => (detail.value?.chokepoint_map as any[]) || [])
 const investmentMap = computed<any[]>(() => (detail.value?.investment_map as any[]) || [])
 const deepChains = computed<any[]>(() => (detail.value?.deep_chokepoint_chains as any[]) || [])
+const landscape = computed<any[]>(() => (detail.value?.landscape as any[]) || [])
+// 按 layer 分组平铺（瓶颈层优先展示），保留出现顺序
+const landscapeByLayer = computed<Record<string, any[]>>(() => {
+  const groups: Record<string, any[]> = {}
+  for (const seg of landscape.value) {
+    const layer = seg.layer || '其它'
+    if (!groups[layer]) groups[layer] = []
+    groups[layer].push(seg)
+  }
+  return groups
+})
 
 const hasFutureMarket = computed(() => Object.keys(ifm.value).length > 0)
 const hasForward = computed(() => {
@@ -417,6 +445,7 @@ const eviStat = computed(() => {
 // TOC
 const tocSections = computed(() => {
   const secs = [{ id: 'sec-verdict', icon: '📌', label: '行业裁决' }]
+  if (landscape.value.length) secs.push({ id: 'sec-landscape', icon: '🗺️', label: '产业链全景' })
   if (detail.value?.chokepoint_map?.length) secs.push({ id: 'sec-chokepoint', icon: '🔗', label: '瓶颈地图' })
   if (deepChains.value.length) secs.push({ id: 'sec-drill', icon: '⛏️', label: '瓶颈上溯深挖' })
   if (detail.value?.investment_map?.length) secs.push({ id: 'sec-invmap', icon: '🎯', label: '投资地图' })
@@ -451,7 +480,7 @@ function scrollTo(id: string) {
 // 完整数据附录：未被专题章节消费的字段
 const CONSUMED = new Set<string>([
   'industry', 'industry_unit', 'verdict', 'debate_rounds', 'chokepoint_map', 'top_chokepoints',
-  'deep_chokepoint_chains',
+  'deep_chokepoint_chains', 'landscape',
   'investment_map', 'industry_future_market', 'forward_view', 'evidence', 'data_quality', 'data_status',
   'credibility', 'reflection', 'stocks', 'stock_weights', 'intra_alloc_unit', 'analysts',
   'value_creation_industry', 'fund_recommendation', 'indirect_holdings',
@@ -667,6 +696,17 @@ watch(name, (n) => { if (n) load(n) }, { immediate: true })
 /* §10 Appendix */
 .ifr-appendix-desc { font-size: 13px; color: #909399; margin-bottom: 12px; }
 .ifr-appendix-key { font-weight: 600; color: #2c5364; font-size: 13.5px; }
+
+/* §1.5 产业链全景（按层平铺，仿全景图） */
+.ifr-ls-layer { margin-bottom: 16px; }
+.ifr-ls-layer-name { font-size: 13px; font-weight: 700; color: #2c5364; margin-bottom: 8px; padding-left: 4px; border-left: 3px solid #2c5364; }
+.ifr-ls-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.ifr-ls-card { background: #fafbfc; border: 1px solid #ebeef5; border-radius: 8px; padding: 10px 12px; }
+.ifr-ls-card.ifr-ls-bottleneck { background: #fff7f6; border: 1.5px solid #f5a3a0; }
+.ifr-ls-seg { font-size: 13.5px; font-weight: 700; color: #303133; margin-bottom: 4px; }
+.ifr-ls-role { font-size: 12px; color: #606266; line-height: 1.5; }
+.ifr-ls-reason { font-size: 11.5px; color: #a8071a; line-height: 1.5; margin-top: 4px; }
+.ifr-ls-players { font-size: 11.5px; color: #2c5364; margin-top: 6px; line-height: 1.5; }
 
 /* §2.5 瓶颈上溯深挖 */
 .ifr-drill { margin-bottom: 18px; padding: 12px 14px; background: #fafbfc; border: 1px solid #ebeef5; border-radius: 8px; }

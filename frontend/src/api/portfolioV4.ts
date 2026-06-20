@@ -375,6 +375,8 @@ export interface IndustryDetail {
   top_chokepoints?: string[]
   // 瓶颈递归上溯深挖链（2026-06-19）：表层瓶颈 → 逐层上游 → 最深未发现 alpha
   deep_chokepoint_chains?: DeepChokepointChain[]
+  // 产业链横向全景（2026-06-19 广度补强）：穷举并列细分领域
+  landscape?: LandscapeSegment[]
   // D0-2 投资地图：瓶颈环节→推荐个股→卡位排序
   investment_map?: InvestmentMapRow[]
   analysts?: Record<string, any>
@@ -529,6 +531,14 @@ export interface DeepChokepointChain {
   start?: string
   chain?: DeepDrillNode[]
   deepest_alpha?: string
+}
+export interface LandscapeSegment {
+  segment?: string
+  layer?: string
+  role_in_industry?: string
+  is_bottleneck?: boolean
+  bottleneck_reason?: string
+  representative_players?: string[]
 }
 
 export interface ChokepointNode {

@@ -528,6 +528,24 @@ def _load_industry_drill(name: str) -> List[Dict[str, Any]]:
     return out
 
 
+def _load_industry_landscape(name: str) -> List[Dict[str, Any]]:
+    """合并独立全景文件 data/v4/industry_landscape_<name>.json（landscape 单跑产出）。
+
+    产业链横向广度铺全（2026-06-19）：穷举行业并列细分领域。payload 内无 landscape 时回退此文件。
+    """
+    from pathlib import Path
+    safe = str(name).replace("/", "_").replace("\\", "_")
+    fp = Path(f"data/v4/industry_landscape_{safe}.json")
+    if not fp.exists():
+        return []
+    try:
+        raw = json.loads(fp.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    ls = raw.get("landscape")
+    return ls if isinstance(ls, list) else []
+
+
 def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[str, Any]:
     """Tab3 行业详情（AC8.3）：深辩报告 + 个股列表 + 行业内配比。"""
     ind_env = units.get(f"industry:{name}")
@@ -568,6 +586,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         "top_chokepoints": ind_payload.get("top_chokepoints", []),
         # 瓶颈递归上溯深挖链（2026-06-19）：payload 内优先，缺则合并独立 drill 文件
         "deep_chokepoint_chains": ind_payload.get("deep_chokepoint_chains") or _load_industry_drill(name),
+        # 产业链横向全景（穷举并列细分领域，2026-06-19 广度补强）：payload 内优先，缺则合并 landscape 单跑文件
+        "landscape": ind_payload.get("landscape") or _load_industry_landscape(name),
         # D0-2 产业链→个股连接（投资地图：瓶颈环节→推荐个股→卡位排序，实时同步个股最新评级）
         "investment_map": fresh_inv_map,
         "analysts": ind_payload.get("analysts", {}),
