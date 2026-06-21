@@ -596,6 +596,8 @@ def build_industry_detail(units: Dict[str, Dict[str, Any]], name: str) -> Dict[s
         # 前瞻视野（近端日历 + 中期路径 + 情景推演）+ 证据链 + 数据质量（独立完整报告页需要）
         "forward_view": ind_payload.get("forward_view", {}),
         "evidence": ind_payload.get("evidence", []),
+        # 行业层 X 舆情(sentiment stage, 2026-06-21 补齐 17-stage 对齐 §0bis): X feed KOL 一线信号结构化
+        "sentiment": ind_payload.get("sentiment", {}),
         "data_quality": ind_payload.get("data_quality", ""),
         "value_creation_industry": ind_payload.get("value_creation_industry", {}),
         "fund_recommendation": ind_payload.get("fund_recommendation", {}),

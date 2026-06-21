@@ -2140,6 +2140,7 @@
       "status": "estimated"
     }
   ],
+  "sentiment": {},
   "data_quality": "中高——核心产业数据(TAM/瓶颈结构/价格趋势/产能利用率/HBM市占率)均来自industry_半导体产业链.json的verified源(SIA/IDC/Gartner/WSTS/TrendForce/Counterpoint)。瓶颈分析来自industry_chokepoint_半导体产业链.json四维评分框架。ROIC/WACC数据来自industry_wacc.json和portfolio.json的AKShare verified。个股PE来自stock/*.json verified。3轮bull/bear辩论结论(industry_debate_半导体产业链.json)已纳入——辩论未改变产业方向判断但强化了对'估值定价效率'的审慎立场。结构性缺失：①data_macro.json不存在(宏观利率/GDP/PMI/社融/货币条件完全空白)；②valuation_inputs对象不存在→industry_forward_peg=null(无法计算估值锚)；③industry_drill_半导体产业链.json drills数组为空→deep_chokepoint_chains全部为基于chokepoint_map+llm_knowledge构造，深层节点的所有quantitative数据(supply_demand_gap/扩产周期/份额/价格)均为estimated(非verified)，置信度显著低于表层节点；④HBM 2026-2027 forward价格趋势无数据；⑤800VDC供电市场TAM或量产时间线无数据；⑥hyperscaler $700B capex融资结构/ROI可持续性无数据。这些缺失使分析置信度上限约为0.74。3轮独立评审(芒格/段永平/Serenity/达里奥)后critic_score=0, final_verdict=NEEDS_CHANGES——评审团判定行业分析经2轮修订仍未达专业水准，6项challenges未解决。",
   "value_creation_industry": {},
   "fund_recommendation": {},

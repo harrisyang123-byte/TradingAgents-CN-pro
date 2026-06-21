@@ -181,6 +181,71 @@
             </div>
           </section>
 
+          <!-- §3.5 X 一线舆情 (sentiment stage) -->
+          <section v-if="hasSentiment" id="sec-sentiment" class="ifr-section">
+            <h2 class="ifr-h2">📡 X 一线舆情（{{ senti.coverage?.accounts_analyzed || 0 }} 账号 · {{ senti.coverage?.posts_referenced || 0 }} 推文）
+              <span v-if="senti.sentiment_score" class="ifr-senti-score">情绪温度 {{ senti.sentiment_score }}</span>
+            </h2>
+            <p v-if="senti.sentiment_summary" class="ifr-senti-summary">{{ senti.sentiment_summary }}</p>
+
+            <!-- 方向共识 -->
+            <div v-if="senti.direction_consensus?.length" class="ifr-senti-block">
+              <div class="ifr-list-head">🧭 方向共识</div>
+              <div v-for="(c, i) in senti.direction_consensus" :key="i" class="ifr-senti-card">
+                <div class="ifr-senti-sig">
+                  <span class="ifr-senti-strength" :class="`ifr-st-${c.strength}`">{{ c.strength }}</span>
+                  {{ c.signal }}
+                </div>
+                <div class="ifr-senti-kols">{{ (c.supporting_kols || []).join(' · ') }}</div>
+                <p v-if="c.post_evidence" class="ifr-senti-ev">{{ c.post_evidence }}</p>
+              </div>
+            </div>
+
+            <!-- 分歧点 -->
+            <div v-if="senti.disagreements?.length" class="ifr-senti-block">
+              <div class="ifr-list-head">⚔️ KOL 分歧</div>
+              <div v-for="(d, i) in senti.disagreements" :key="i" class="ifr-senti-card ifr-senti-disagree">
+                <div class="ifr-senti-topic">{{ d.topic }}</div>
+                <div class="ifr-senti-sides">
+                  <div class="ifr-senti-bull"><b>多/A：</b>{{ d.bull_side?.view }} <span class="ifr-senti-kols">{{ (d.bull_side?.kols||[]).join(' ') }}</span></div>
+                  <div class="ifr-senti-bear"><b>空/B：</b>{{ d.bear_side?.view }} <span class="ifr-senti-kols">{{ (d.bear_side?.kols||[]).join(' ') }}</span></div>
+                </div>
+                <p v-if="d.our_read" class="ifr-senti-read">💡 {{ d.our_read }}</p>
+              </div>
+            </div>
+
+            <!-- 温度图谱 -->
+            <div v-if="senti.heat_map" class="ifr-senti-block">
+              <div class="ifr-list-head">🌡️ 发现度温度图谱</div>
+              <div class="ifr-heat-grid">
+                <div class="ifr-heat-col ifr-heat-hot">
+                  <div class="ifr-heat-h">🔴 已过热/price-in</div>
+                  <ul><li v-for="(x, i) in senti.heat_map.overheated_已price_in" :key="i">{{ x }}</li></ul>
+                </div>
+                <div class="ifr-heat-col ifr-heat-mid">
+                  <div class="ifr-heat-h">🟡 发现中</div>
+                  <ul><li v-for="(x, i) in senti.heat_map.discovering_半发现" :key="i">{{ x }}</li></ul>
+                </div>
+                <div class="ifr-heat-col ifr-heat-cold">
+                  <div class="ifr-heat-h">🟢 未发现</div>
+                  <ul><li v-for="(x, i) in senti.heat_map.undiscovered_未发现" :key="i">{{ x }}</li></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 催化日历 -->
+            <div v-if="senti.catalyst_calendar?.length" class="ifr-senti-block">
+              <div class="ifr-list-head">📅 X 提及催化日历</div>
+              <div v-for="(c, i) in senti.catalyst_calendar" :key="i" class="ifr-cal-item">
+                <div class="ifr-cal-when">{{ c.date }}</div>
+                <div class="ifr-cal-body">
+                  <div class="ifr-cal-event">{{ c.event }} <span class="ifr-senti-kols">{{ c.source_kol }}</span></div>
+                  <p class="ifr-cal-impact">{{ c.impact }}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <!-- §4 未来市场 7 把尺 -->
           <section v-if="hasFutureMarket" id="sec-future" class="ifr-section">
             <h2 class="ifr-h2">📐 未来市场（7 把辩证尺）</h2>
@@ -414,6 +479,11 @@ const landscapeByLayer = computed<Record<string, any[]>>(() => {
   return groups
 })
 
+const senti = computed<any>(() => detail.value?.sentiment || {})
+const hasSentiment = computed(() => {
+  const s = senti.value
+  return !!(s.sentiment_summary || s.direction_consensus?.length || s.heat_map)
+})
 const hasFutureMarket = computed(() => Object.keys(ifm.value).length > 0)
 const hasForward = computed(() => {
   const f = fv.value
@@ -449,6 +519,7 @@ const tocSections = computed(() => {
   if (detail.value?.chokepoint_map?.length) secs.push({ id: 'sec-chokepoint', icon: '🔗', label: '瓶颈地图' })
   if (deepChains.value.length) secs.push({ id: 'sec-drill', icon: '⛏️', label: '瓶颈上溯深挖' })
   if (detail.value?.investment_map?.length) secs.push({ id: 'sec-invmap', icon: '🎯', label: '投资地图' })
+  if (hasSentiment.value) secs.push({ id: 'sec-sentiment', icon: '📡', label: 'X 一线舆情' })
   if (hasFutureMarket.value) secs.push({ id: 'sec-future', icon: '📐', label: '未来市场' })
   if (hasForward.value) secs.push({ id: 'sec-forward', icon: '🔭', label: '前瞻推演' })
   if (debateRounds.value.length) secs.push({ id: 'sec-debate', icon: '⚔️', label: '多空辩论' })
@@ -481,7 +552,7 @@ function scrollTo(id: string) {
 const CONSUMED = new Set<string>([
   'industry', 'industry_unit', 'verdict', 'debate_rounds', 'chokepoint_map', 'top_chokepoints',
   'deep_chokepoint_chains', 'landscape',
-  'investment_map', 'industry_future_market', 'forward_view', 'evidence', 'data_quality', 'data_status',
+  'investment_map', 'sentiment', 'industry_future_market', 'forward_view', 'evidence', 'data_quality', 'data_status',
   'credibility', 'reflection', 'stocks', 'stock_weights', 'intra_alloc_unit', 'analysts',
   'value_creation_industry', 'fund_recommendation', 'indirect_holdings',
 ])
@@ -645,6 +716,33 @@ watch(name, (n) => { if (n) load(n) }, { immediate: true })
 .ifr-drivers { margin-top: 14px; }
 .ifr-drivers ol { padding-left: 22px; line-height: 1.9; font-size: 13px; color: #4e5969; }
 .ifr-fm-note { font-size: 12.5px; color: #874d00; background: #fff7e6; padding: 8px 12px; border-radius: 6px; margin-top: 10px; }
+
+/* §3.5 X 一线舆情 */
+.ifr-senti-score { font-size: 12px; font-weight: 600; color: #c0392b; background: #fdecea; padding: 2px 10px; border-radius: 10px; margin-left: 10px; }
+.ifr-senti-summary { font-size: 13.5px; line-height: 1.85; color: #303133; background: #f5f9ff; border-left: 3px solid #409eff; padding: 12px 14px; border-radius: 0 8px 8px 0; margin: 0 0 16px; }
+.ifr-senti-block { margin-top: 16px; }
+.ifr-senti-card { border: 1px solid #ebeef5; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+.ifr-senti-sig { font-size: 13.5px; font-weight: 600; color: #303133; line-height: 1.6; }
+.ifr-senti-strength { display: inline-block; padding: 1px 7px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-right: 6px; }
+.ifr-st-强 { background: #fef0f0; color: #f56c6c; }
+.ifr-st-中 { background: #fdf6ec; color: #e6a23c; }
+.ifr-st-弱 { background: #f4f4f5; color: #909399; }
+.ifr-senti-kols { font-size: 12px; color: #409eff; font-weight: 500; }
+.ifr-senti-ev { font-size: 12.5px; color: #606266; line-height: 1.7; margin: 6px 0 0; }
+.ifr-senti-disagree { border-left: 3px solid #e6a23c; }
+.ifr-senti-topic { font-size: 13.5px; font-weight: 700; color: #874d00; margin-bottom: 8px; }
+.ifr-senti-sides { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; line-height: 1.6; color: #4e5969; }
+.ifr-senti-bull { background: #f0f9eb; padding: 6px 10px; border-radius: 6px; }
+.ifr-senti-bear { background: #fef0f0; padding: 6px 10px; border-radius: 6px; }
+.ifr-senti-read { font-size: 12.5px; color: #2c5364; background: #f5f7fa; padding: 7px 10px; border-radius: 6px; margin: 8px 0 0; line-height: 1.6; }
+.ifr-heat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.ifr-heat-col { border-radius: 8px; padding: 12px; }
+.ifr-heat-hot { background: #fef0f0; border: 1px solid #fde2e2; }
+.ifr-heat-mid { background: #fdf6ec; border: 1px solid #faecd8; }
+.ifr-heat-cold { background: #f0f9eb; border: 1px solid #e1f3d8; }
+.ifr-heat-h { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.ifr-heat-col ul { padding-left: 18px; margin: 0; }
+.ifr-heat-col li { font-size: 12px; line-height: 1.7; color: #4e5969; margin-bottom: 4px; }
 
 /* §5 Forward */
 .ifr-cal-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed #f0f0f0; }

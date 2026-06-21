@@ -386,6 +386,8 @@ export interface IndustryDetail {
   forward_view?: ForwardView | Record<string, any> | null
   // 证据链（54 条 verified/estimated/missing）
   evidence?: any[]
+  // X 一线舆情 (sentiment stage, 2026-06-21 补齐 17-stage)
+  sentiment?: Record<string, any>
   // 数据质量说明
   data_quality?: string
   data_status?: string

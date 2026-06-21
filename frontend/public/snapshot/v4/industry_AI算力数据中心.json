@@ -1755,6 +1755,106 @@
   },
   "evidence": [
     {
+      "claim": "AI投资逻辑往上游转移,从GPU/数据中心→存储/HBM→玻璃基板/MLCC/覆铜板等上游材料和设备",
+      "source": "@xingpt (custom-feed-x.json, 2026-06-16)",
+      "status": "verified"
+    },
+    {
+      "claim": "MLCC瓶颈兑现:Taiyo Yuden +211.38%/Murata +155.43%/VSH +146.15%(两个月内);核心三主题Neoclouds(Energy)/Memory/Photonics",
+      "source": "@aleabitoreddit (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "公用电力产出-1.7%但CPI电价+5.9% y/y,电网供给天花板而非需求疲软;半导体IP指数+14%",
+      "source": "@SemiAnalysis_ (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "美国批准AI数据中心电网并网快速通道(FERC新政),利好前矿企$CIFR/$WULF;数据中心需自带电力并承担100%基础设施成本",
+      "source": "@blockspace (custom-feed-x.json, 2026-06-18)",
+      "status": "verified"
+    },
+    {
+      "claim": "SK海力士连日上涨~6%捏住45天HODL;7月催化ADR上市+HBM4e送样+7/23 Q2财报+ADR后分红回购",
+      "source": "@xiaomustock (custom-feed-x.json, 2026-06-19~20)",
+      "status": "verified"
+    },
+    {
+      "claim": "Apple因内存/存储芯片成本飙升计划涨价(Tim Cook),内存股与韩股大涨",
+      "source": "@firstadopter (custom-feed-x.json, 2026-06-20)",
+      "status": "verified"
+    },
+    {
+      "claim": "FOMC抛售中唯一抗跌且续创ATH的板块是neocloud,$NBIS连续ATHs;SK海力士盘中ATHs",
+      "source": "@degentradingLSD (custom-feed-x.json, 2026-06-17~18)",
+      "status": "verified"
+    },
+    {
+      "claim": "前SK海力士CEO李锡熙加入Intel负责先进封装;解读为memory-logic整合把HBM紧耦合到die作为foundry卖点",
+      "source": "@tengyanAI (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "陈立武的Intel梦之队组建完毕(台积电罗唯仁/三星韩升勋/前海力士李锡熙/ARM/高通副总裁)",
+      "source": "@tj_research (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "CoreWeave用8192张NVIDIA Blackwell Ultra 2分钟训完DeepSeek-V3 671B(MLPerf最快);6/30展示Vera Rubin NVL72",
+      "source": "@CoreWeave (custom-feed-x.json, 2026-06-18~19)",
+      "status": "verified"
+    },
+    {
+      "claim": "Compute从来不是商品,H100价格指数把成本搞错了,我们仍在underbuild",
+      "source": "@LambdaAPI (custom-feed-x.json, 2026-06-18)",
+      "status": "verified"
+    },
+    {
+      "claim": "投资者把AI网络看成铜vs光二元对立反复轮动是想多了,实际两者并非纯替代",
+      "source": "@SemiAnalysis_ (custom-feed-x.json, 2026-06-20)",
+      "status": "verified"
+    },
+    {
+      "claim": "Cerebras晶圆级Gemma4吞吐1500+ tokens/s(Haiku 4.5的15倍),但大模型400B+需跨wafer切分per-token成本对GPU无清晰优势",
+      "source": "@tengyanAI(引用@tessarasignals) (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "台积电$TSM/日月光$ASX大涨~7%,半导体设备AMAT/LRCX/AMKR 20天盈利30-40%已止盈;曾换仓ORCL→TSM规避ORCL盘后-10%",
+      "source": "@LordWilliamUK (custom-feed-x.json, 2026-06-17~18)",
+      "status": "verified"
+    },
+    {
+      "claim": "Oracle FY4Q26资本开支没放缓反而更清晰,AI云需求被坐实,'400亿融资=利空'是字面误读",
+      "source": "@xingpt (custom-feed-x.json, 2026-06-11)",
+      "status": "verified"
+    },
+    {
+      "claim": "存储利润翻倍SNDK目标继续上调;半导体成Mythos模型被禁后最大赢家",
+      "source": "@bboczeng (custom-feed-x.json, 2026-06-15)",
+      "status": "verified"
+    },
+    {
+      "claim": "$MSFT撤出与Oracle约30亿美元云基础设施合作,neocloud/前矿企能否接盘",
+      "source": "@blockspace (custom-feed-x.json, 2026-06-17~18)",
+      "status": "verified"
+    },
+    {
+      "claim": "美光和Intel明年可能达到十倍收益;海上数据中心大型货轮概念,中国船舶市值不及一个科创板AI半导体公司",
+      "source": "@yiqifacai (custom-feed-x.json, 2026-06-20)",
+      "status": "verified"
+    },
+    {
+      "claim": "中国先于马斯克AI1卫星一周成立首个空间计算产业创新中心(BUPT牵头)",
+      "source": "@SemiAnalysis_ (custom-feed-x.json, 2026-06-19)",
+      "status": "verified"
+    },
+    {
+      "claim": "把美光买回来HODL,美股强势股不要波段;A股有哪些AI标的可投(对A股AI兴趣回升)",
+      "source": "@bitfool1 (custom-feed-x.json, 2026-06-18~19)",
+      "status": "verified"
+    },
+    {
       "claim": "AI DC TAM 2026 $277B → 2030E $764.9B CAGR 28.9%",
       "source": "TBRC",
       "status": "verified"
@@ -1785,6 +1885,192 @@
       "status": "estimated"
     }
   ],
+  "sentiment": {
+    "sentiment_summary": "X一线产业大佬当前在AI算力数据中心上呈现明显的「上游迁移+电力封顶」主线共识,情绪偏热但未到顶。资金正从GPU/数据中心向上游存储(HBM/SK海力士)、封装(AMKR/日月光/Intel)、上游材料(MLCC/玻璃基板/覆铜板)迁移(@xingpt/@aleabitoreddit实证已暴涨)。电力供给天花板成新叙事(@SemiAnalysis_电网产出-1.7%但电价+5.9%、@blockspace FERC快速并网新政利好前矿企)。Neocloud是@degentradingLSD口中唯一抗跌板块($NBIS连续ATH)。最热催化:SK海力士ADR/HBM4e送样/Q2财报全集中下月。情绪温度7/10:存储+封装环节交易拥挤已部分price-in,电力/光子/上游材料仍在发现期。分歧:铜vs光路线、Cerebras晶圆级vs GPU。",
+    "direction_consensus": [
+      {
+        "signal": "AI投资逻辑沿产业链向上游迁移: GPU/数据中心→存储/HBM→上游材料(玻璃基板/MLCC/覆铜板)/设备",
+        "supporting_kols": [
+          "@xingpt",
+          "@aleabitoreddit",
+          "@LordWilliamUK"
+        ],
+        "post_evidence": "@xingpt: AI产业投资逻辑往上游转移; @aleabitoreddit: MLCC瓶颈喊出后Taiyo Yuden+211%/Murata+155%/VSH+146%(两个月内); @LordWilliamUK: 半导体设备AMAT/LRCX/AMKR 20天盈利30-40%",
+        "strength": "强"
+      },
+      {
+        "signal": "电力/电网成为AI数据中心新瓶颈与新政受益方向",
+        "supporting_kols": [
+          "@SemiAnalysis_",
+          "@blockspace"
+        ],
+        "post_evidence": "@SemiAnalysis_: 电力产出-1.7%但CPI电价+5.9% y/y,电网供给天花板; @blockspace: FERC新政批准AI数据中心电网并网快速通道,利好前矿企$CIFR/$WULF",
+        "strength": "强"
+      },
+      {
+        "signal": "存储/HBM/Korean equities是当前最强势赛道,捏住躺平",
+        "supporting_kols": [
+          "@xiaomustock",
+          "@firstadopter",
+          "@degentradingLSD",
+          "@bboczeng",
+          "@yiqifacai",
+          "@bitfool1"
+        ],
+        "post_evidence": "@xiaomustock: 海力士连日6点上涨捏住45天HODL; @firstadopter: Apple因内存成本飙升要涨价,内存股+韩股大涨; @bboczeng: 存储利润翻倍SNDK目标上调",
+        "strength": "强"
+      },
+      {
+        "signal": "Neocloud是抗跌龙头,GPU compute并非商品化",
+        "supporting_kols": [
+          "@degentradingLSD",
+          "@aleabitoreddit",
+          "@LambdaAPI",
+          "@CoreWeave"
+        ],
+        "post_evidence": "@degentradingLSD: FOMC抛售中唯一抗跌且续创ATH的就是neocloud $NBIS; @LambdaAPI: Compute从来不是商品,我们仍在underbuild; @CoreWeave: 8192张Blackwell Ultra 2分钟训完DeepSeek-V3",
+        "strength": "中"
+      },
+      {
+        "signal": "先进封装是Intel重组与foundry竞争的战略焦点(memory-logic整合)",
+        "supporting_kols": [
+          "@tengyanAI",
+          "@tj_research",
+          "@LordWilliamUK"
+        ],
+        "post_evidence": "@tengyanAI: 前SK海力士CEO李锡熙加入Intel管先进封装,memory-logic整合把HBM紧耦合到die; @tj_research: 陈立武Intel梦之队组建完毕",
+        "strength": "中"
+      }
+    ],
+    "disagreements": [
+      {
+        "topic": "AI网络: 铜 vs 光(CPO/Photonics)路线之争",
+        "bull_side": {
+          "kols": [
+            "@aleabitoreddit"
+          ],
+          "view": "Photonics是核心三主题之一,押注$SIVE等光子标的"
+        },
+        "bear_side": {
+          "kols": [
+            "@SemiAnalysis_"
+          ],
+          "view": "投资者把铜vs光看成二元对立、反复轮动是想多了,实际两者并非纯替代"
+        },
+        "our_read": "SemiAnalysis拆解'铜光二元对立'叙事本身(认为框架过简),未否定光子需求;与@aleabitoreddit的photonics押注不直接矛盾"
+      },
+      {
+        "topic": "晶圆级(Cerebras) vs GPU集群 推理经济性",
+        "bull_side": {
+          "kols": [
+            "@tessarasignals(被@tengyanAI引用)"
+          ],
+          "view": "Cerebras晶圆级Gemma4吞吐1500+ tokens/s,是Haiku 4.5的15倍"
+        },
+        "bear_side": {
+          "kols": [
+            "@tengyanAI"
+          ],
+          "view": "晶圆级只在中小模型有优势,大模型400B+需跨wafer切分,per-token成本对GPU无清晰优势"
+        },
+        "our_read": "@tengyanAI承认小模型SRAM优势但质疑大模型经济性,是对'GPU被颠覆'叙事的理性降温"
+      },
+      {
+        "topic": "Oracle财报: 资本开支上涨=利空 vs 利好",
+        "bull_side": {
+          "kols": [
+            "@xingpt"
+          ],
+          "view": "Oracle FY4Q26 capex没放缓反而更清晰,AI云需求被坐实"
+        },
+        "bear_side": {
+          "kols": [
+            "@LordWilliamUK"
+          ],
+          "view": "财报后$ORCL盘后大跌10%(提前换仓ORCL→TSM规避)"
+        },
+        "our_read": "需求层看多vs交易层规避,时间维度不同;但$MSFT撤出与Oracle 30亿云合作显示超大规模合作有变数"
+      }
+    ],
+    "catalyst_calendar": [
+      {
+        "date": "2026-07",
+        "event": "SK海力士美股ADR上市",
+        "source_kol": "@xiaomustock",
+        "impact": "ADR后承接市场放大+分红/回购,但已被反复预告price-in风险高"
+      },
+      {
+        "date": "2026-07",
+        "event": "SK海力士HBM4e送样",
+        "source_kol": "@xiaomustock",
+        "impact": "HBM技术领先验证"
+      },
+      {
+        "date": "2026-07-23",
+        "event": "SK海力士Q2财报",
+        "source_kol": "@xiaomustock",
+        "impact": "存储周期上行业绩确认窗口"
+      },
+      {
+        "date": "2026-06",
+        "event": "美光6.18财报",
+        "source_kol": "@xiaomustock",
+        "impact": "对海力士是可预测提振刺激"
+      },
+      {
+        "date": "2026-06-30",
+        "event": "CoreWeave展示NVIDIA Vera Rubin NVL72 cloud bring-up",
+        "source_kol": "@CoreWeave",
+        "impact": "下一代Rubin平台落地进度信号"
+      }
+    ],
+    "heat_map": {
+      "overheated_已price_in": [
+        "存储/HBM/SK海力士: 交易极度拥挤,ADR/HBM4e/Q2财报三催化集中下月已部分price-in (@xiaomustock/@degentradingLSD)",
+        "上游材料MLCC: Taiyo Yuden+211%/Murata+155%/VSH+146%已暴涨两个月 (@aleabitoreddit)",
+        "半导体设备(AMAT/LRCX/AMKR): 20天盈利30-40%已止盈部分 (@LordWilliamUK)"
+      ],
+      "discovering_半发现": [
+        "Neocloud: $NBIS连ATH但@LambdaAPI称仍underbuilding,需求叙事仍在重新定价",
+        "先进封装/Intel重组: memory-logic整合主题刚开始被讲述 (@tengyanAI/@tj_research)",
+        "玻璃基板/覆铜板: @xingpt点名'现在开始炒',相对MLCC更靠后"
+      ],
+      "undiscovered_未发现": [
+        "电力/电网供给天花板: 电力作为AI算力硬约束的资产化才刚起步 (@SemiAnalysis_/@blockspace)",
+        "太空算力: 中国先于马斯克AI1成立空间计算产业创新中心,完全未被定价 (@SemiAnalysis_)",
+        "海上数据中心/造船周期: 中国船舶市值不及一个科创板AI半导体公司 (@yiqifacai)"
+      ]
+    },
+    "falsification_from_kol": [
+      {
+        "signal": "SK海力士ADR 7月落地+随后分红/回购",
+        "source": "@xiaomustock",
+        "watch": "7月若ADR如期上市且承接放大→证实;再延期或无分红→证伪"
+      },
+      {
+        "signal": "电网是供给天花板而非需求疲软(产出-1.7%但电价+5.9%)",
+        "source": "@SemiAnalysis_",
+        "watch": "电力产出回升而电价回落→证伪供给约束论"
+      },
+      {
+        "signal": "FERC新政利好前矿企$CIFR/$WULF",
+        "source": "@blockspace",
+        "watch": "$CIFR已创$30 ATH(从$1-2)是早期验证"
+      },
+      {
+        "signal": "Cerebras晶圆级仅中小模型有优势",
+        "source": "@tengyanAI",
+        "watch": "看Cerebras是否公布400B+模型batched per-token成本对比"
+      }
+    ],
+    "sentiment_score": "7/10 (情绪温度非基本面;偏热未到顶——存储/HBM/MLCC/封装拥挤且催化集中下月已部分price-in,但电力/光子/上游材料/太空算力仍在发现期)",
+    "coverage": {
+      "accounts_analyzed": 21,
+      "posts_referenced": 38,
+      "ai_compute_relevant_posts": 31
+    },
+    "source_file": "data/v4/custom-feed-x.json (2026-06-20, 21账号108推文)"
+  },
   "data_quality": "中高. ①TAM verified 三源(TBRC/美银/JLL), CAGR verified, MLCC供给集中度 verified, 铜光路线 verified(Bernstein 97页), 5只A股 PE verified — 24项. ②CCL/EML CR3 仍 estimated 60-70%/80%+, 是关键盲区 — 2项. ③6只bull tier1-2标的中 3只(云南锗业/麦格米特/巨化)需独立 stock-level verified — 3项. ④2027 推理>训练拐点的结构性影响、CPO/LPO 良率突破节奏不可精确预测. 综合 verified 24/estimated 5/missing 0, 数据充分度 80%, 较 R2 显著提升但仍有盲区, confidence 0.78 反映此诚实.",
   "value_creation_industry": {},
   "fund_recommendation": {},
@@ -1841,7 +2127,7 @@
     "why_changed": "R2虽然 ACCEPT 86分但是是 director 自评 critic 闭环, 缺乏真对抗。本次是真独立 subagent 辩论闭环——chokepoint专员/future_market专员/bull专员/bear专员各自独立产出后, director只综合判断不参与论证。这种'物理隔离'确保 director 拿到的是真冲突的多源证据, 而非自己写的'内部独白'。结果: stance 从'结构性超配'微调为'结构性看多+配置纪律收紧', confidence 从0.82 降至 0.78, 不是因为基本面变差, 而是因为 (a) 看到了透支层 forward PEG 的 verified 硬数据 (b) 听到了 bear 关于流动性脆弱的成立论点 (c) 承认 CCL/EML CR3 estimated 是真实盲区. 这次的判断更可靠是因为它显式承认了'我不知道什么', 而不是过度自信.",
     "self_check": "诚实自查: ①是否落入'AI叙事新瓶'? — 本director承认 forward PEG 透支是 verified 事实, 没有用'AI不一样'合理化高估值, 而是建议⛔回避透支股. ②是否照抄R2? — 立场降档(超配→定向超配)、confidence下调 0.04, 标的池从 R2 的 6 只扩到 21 只完整覆盖三档发现度, 给出明确 ✅⚠️⛔ 动作, 不是抄. ③是否机械平均 bull-bear? — 不是. 我明示采信 bull 的 4 条/压低 1 条, 采信 bear 的 4 条/压低 3 条, 净结果是 bull 略胜但 bear 关键警示被吸收成 risks 和 downgrade_trigger. ④是否硬约束 Issue#6 verified PE? — 是. 风华239x/源杰585x/生益111x 在 investment_map 标记 ⛔, 不假装'未透支'. ⑤confidence 是否盲目>=0.85? — 没有, 0.78 反映 CCL/EML estimated 的真实盲区."
   },
-  "data_status": "",
+  "data_status": "refresh-fresh全流程 + sentiment stage(X feed 21账号108推文)已补齐 — 完整17-stage对齐§0bis",
   "intra_alloc_unit": {
     "unit_id": "alloc:industry:AI算力数据中心",
     "status": "gray",

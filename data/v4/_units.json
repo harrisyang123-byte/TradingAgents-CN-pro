@@ -185,7 +185,7 @@
       "unit_id": "industry:AI算力数据中心",
       "unit_type": "industry",
       "version": 6,
-      "fingerprint": "sha256:d54ec802880abf7d5be760c86090481b9ed2d942bc1dda89a1e35d9d777c11e7",
+      "fingerprint": "sha256:c6bfce9e1bee73fa650c7bb6fda1335f063a135a6d13da12bad28d57db9c0f14",
       "status": "green",
       "ttl_days": 7,
       "generated_at": "2026-06-20T22:00:00Z",
@@ -925,5 +925,5 @@
       "path": "allocation/portfolio.json"
     }
   },
-  "updated_at": "2026-06-21T01:53:41Z"
+  "updated_at": "2026-06-21T02:04:38Z"
 }
