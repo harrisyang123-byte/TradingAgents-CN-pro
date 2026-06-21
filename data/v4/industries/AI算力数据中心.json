@@ -3,7 +3,7 @@
   "unit_type": "industry",
   "schema_version": "v4.0",
   "version": 6,
-  "fingerprint": "sha256:ff6898f368614012a3c43e3bad425e2079ddbe2f0c3cd1aac16337b179e53e11",
+  "fingerprint": "sha256:d54ec802880abf7d5be760c86090481b9ed2d942bc1dda89a1e35d9d777c11e7",
   "upstream": [],
   "status": "green",
   "ttl_days": 7,
@@ -526,6 +526,1339 @@
       "unresolved": false,
       "note": "R-final 是物理隔离独立 spawn 4 subagent 真闭环产物 (vs R1/R2 主 agent 修订 payload). Critic 验证 director 真消费上游、7尺实质应用、4维质量闸门实质回答、不机械平均、confidence 主动诚实降档. ACCEPT 但用户落地时应在紫苏叶层给具体介入阈值并浓缩 investment_map."
     },
-    "data_quality": "中高. ①TAM verified 三源(TBRC/美银/JLL), CAGR verified, MLCC供给集中度 verified, 铜光路线 verified(Bernstein 97页), 5只A股 PE verified — 24项. ②CCL/EML CR3 仍 estimated 60-70%/80%+, 是关键盲区 — 2项. ③6只bull tier1-2标的中 3只(云南锗业/麦格米特/巨化)需独立 stock-level verified — 3项. ④2027 推理>训练拐点的结构性影响、CPO/LPO 良率突破节奏不可精确预测. 综合 verified 24/estimated 5/missing 0, 数据充分度 80%, 较 R2 显著提升但仍有盲区, confidence 0.78 反映此诚实."
+    "data_quality": "中高. ①TAM verified 三源(TBRC/美银/JLL), CAGR verified, MLCC供给集中度 verified, 铜光路线 verified(Bernstein 97页), 5只A股 PE verified — 24项. ②CCL/EML CR3 仍 estimated 60-70%/80%+, 是关键盲区 — 2项. ③6只bull tier1-2标的中 3只(云南锗业/麦格米特/巨化)需独立 stock-level verified — 3项. ④2027 推理>训练拐点的结构性影响、CPO/LPO 良率突破节奏不可精确预测. 综合 verified 24/estimated 5/missing 0, 数据充分度 80%, 较 R2 显著提升但仍有盲区, confidence 0.78 反映此诚实.",
+    "landscape": [
+      {
+        "segment": "AI加速器(GPU/ASIC)",
+        "layer": "核心芯片",
+        "role_in_industry": "AI算力的引擎,决定单位算力上限",
+        "is_bottleneck": false,
+        "bottleneck_reason": "供给紧但市场🔴已极度拥挤(NVIDIA/AMD/博通/Marvell市值已price-in),不属于未发现alpha",
+        "representative_players": [
+          "NVIDIA",
+          "AMD",
+          "Broadcom",
+          "Marvell",
+          "寒武纪",
+          "海光信息"
+        ]
+      },
+      {
+        "segment": "DC CPU(主机CPU+DPU)",
+        "layer": "核心芯片",
+        "role_in_industry": "调度AI加速器和管理网络/存储的中枢",
+        "is_bottleneck": false,
+        "bottleneck_reason": "AI CPU CAGR 57%但相对加速器为辅助,且供给端Intel/AMD/ARM多路径",
+        "representative_players": [
+          "Intel",
+          "AMD",
+          "Marvell",
+          "海光"
+        ]
+      },
+      {
+        "segment": "HBM存储",
+        "layer": "存储层",
+        "role_in_industry": "AI芯片必配的高带宽内存,决定喂数据速率",
+        "is_bottleneck": true,
+        "bottleneck_reason": "SK海力士53-55%+三星27-35%+美光11-21% 三寡头,2025+246%涨价,sold out到2027",
+        "representative_players": [
+          "SK Hynix",
+          "Samsung",
+          "Micron"
+        ]
+      },
+      {
+        "segment": "HBM上游硅通孔(TSV)+晶圆",
+        "layer": "存储上游",
+        "role_in_industry": "HBM消耗晶圆为DDR5的3倍,挤压DDR5/NAND产能",
+        "is_bottleneck": true,
+        "bottleneck_reason": "存储厂晶圆产能被HBM吃掉→DDR5/NAND反向涨价,二次卡脖子",
+        "representative_players": [
+          "三大存储厂自有Fab"
+        ]
+      },
+      {
+        "segment": "CoWoS/SoIC先进封装",
+        "layer": "封测层",
+        "role_in_industry": "HBM与逻辑芯片合封必经环节",
+        "is_bottleneck": true,
+        "bottleneck_reason": "TSMC垄断,2026月产能140K wpm仍紧,NVIDIA占CoWoS-L 70%+",
+        "representative_players": [
+          "TSMC",
+          "ASE",
+          "Amkor",
+          "长电科技",
+          "通富微电"
+        ]
+      },
+      {
+        "segment": "EUV/沉积/刻蚀设备",
+        "layer": "上游设备",
+        "role_in_industry": "先进制程必须",
+        "is_bottleneck": false,
+        "bottleneck_reason": "ASML/AMAT/LAM/TEL寡头但市场🔴已极充分发现",
+        "representative_players": [
+          "ASML",
+          "AMAT",
+          "Lam",
+          "TEL",
+          "北方华创",
+          "中微公司"
+        ]
+      },
+      {
+        "segment": "光模块(800G/1.6T)",
+        "layer": "光互连",
+        "role_in_industry": "Scale-out机柜间互联骨干",
+        "is_bottleneck": true,
+        "bottleneck_reason": "2026出货63M units(+163% YoY),1.6T 2026开始放量,但模块层🟡半发现接近🔴",
+        "representative_players": [
+          "中际旭创",
+          "新易盛",
+          "天孚通信",
+          "Coherent",
+          "Lumentum"
+        ]
+      },
+      {
+        "segment": "光芯片EML/DFB/CW激光器",
+        "layer": "光互连上游",
+        "role_in_industry": "光模块核心器件,决定速率/功耗上限",
+        "is_bottleneck": true,
+        "bottleneck_reason": "NVIDIA $4B激光器锁单到2027(Lumentum/Coherent产能锁死),CR3 80%+,国产替代源杰唯一",
+        "representative_players": [
+          "Lumentum",
+          "Coherent",
+          "Broadcom",
+          "源杰科技",
+          "仕佳光子"
+        ]
+      },
+      {
+        "segment": "InP磷化铟衬底",
+        "layer": "光芯片上游材料",
+        "role_in_industry": "EML/DFB激光器的衬底,无可替代",
+        "is_bottleneck": true,
+        "bottleneck_reason": "全球Sumitomo/JX/AXT 3家寡头,扩产需2-3年,2026已紧张",
+        "representative_players": [
+          "Sumitomo Electric",
+          "JX Nippon",
+          "AXT",
+          "云南锗业",
+          "中科飞测(检测)"
+        ]
+      },
+      {
+        "segment": "CPO/LPO/NPO新型光互连",
+        "layer": "光互连(下一代)",
+        "role_in_industry": "解决1.6T+功耗墙",
+        "is_bottleneck": false,
+        "bottleneck_reason": "良率仅19%(SemiAnalysis),量产2028+,概念热但近期收入有限,🔴已被概念炒高",
+        "representative_players": [
+          "TSMC(光引擎封装)",
+          "Broadcom",
+          "天孚通信(FAU)",
+          "太辰光"
+        ]
+      },
+      {
+        "segment": "高速铜缆/连接器/铜背板",
+        "layer": "电连接",
+        "role_in_industry": "Scale-up GPU内连,Bernstein断言铜2029仍占50%",
+        "is_bottleneck": true,
+        "bottleneck_reason": "224G铜缆/Mirror Mezz连接器供给极紧,Amphenol+立讯+沃尔核材主导",
+        "representative_players": [
+          "Amphenol",
+          "立讯精密",
+          "沃尔核材",
+          "兆龙互连"
+        ]
+      },
+      {
+        "segment": "MLCC(高容/AI高端)",
+        "layer": "被动元件",
+        "role_in_industry": "GPU/HBM周边电源去耦,GB300单台44万颗→Rubin Ultra 350万颗",
+        "is_bottleneck": true,
+        "bottleneck_reason": "Murata 40%+SEMCO 22%+Taiyo Yuden 9%三寡头,AI高端Murata+SEMCO 90% 双寡头,普涨10-70% 2026-07生效,缺口至2030",
+        "representative_players": [
+          "Murata",
+          "SEMCO",
+          "Taiyo Yuden",
+          "Yageo",
+          "风华高科",
+          "三环集团"
+        ]
+      },
+      {
+        "segment": "MLCC上游钛酸钡粉体/陶瓷介质",
+        "layer": "材料层",
+        "role_in_industry": "MLCC的核心介质粉,决定容值与稳定性",
+        "is_bottleneck": true,
+        "bottleneck_reason": "国瓷材料国内市占80-90%,村田/SEMCO核心供应商,卖水人逻辑",
+        "representative_players": [
+          "国瓷材料",
+          "Sakai Chemical",
+          "Nippon Chemical"
+        ]
+      },
+      {
+        "segment": "高速CCL覆铜板",
+        "layer": "电连接基材",
+        "role_in_industry": "AI服务器PCB的M8/M9超高速基材,决定信号完整性",
+        "is_bottleneck": true,
+        "bottleneck_reason": "生益+台光+联茂CR3估60-70%(estimated),M8供不应求,生益2026累涨250%但PE 111x已🔴拥挤+高管减持",
+        "representative_players": [
+          "生益科技",
+          "台光电子",
+          "联茂电子",
+          "南亚塑胶"
+        ]
+      },
+      {
+        "segment": "AI服务器PCB/HDI",
+        "layer": "电连接",
+        "role_in_industry": "OAM/UBB板,16-22层HDI,信号完整性极致",
+        "is_bottleneck": true,
+        "bottleneck_reason": "沪电/胜宏/胜电/景旺AI板订单满载,扩产周期12-18月",
+        "representative_players": [
+          "沪电股份",
+          "胜宏科技",
+          "深南电路",
+          "景旺电子"
+        ]
+      },
+      {
+        "segment": "ABF载板/玻璃基板",
+        "layer": "封装基材",
+        "role_in_industry": "GPU封装底座,Intel/三星推玻璃基板替代ABF",
+        "is_bottleneck": true,
+        "bottleneck_reason": "Ibiden+Shinko+SEMCO三寡头ABF,玻璃基板2027量产,转换期紧缺",
+        "representative_players": [
+          "Ibiden",
+          "Shinko",
+          "SEMCO",
+          "兴森科技",
+          "深南电路"
+        ]
+      },
+      {
+        "segment": "供电(800V HVDC/PSU)",
+        "layer": "供电散热",
+        "role_in_industry": "Rubin>2000W单卡 Vera>5000W单卡,400V供电触顶,800V必转",
+        "is_bottleneck": true,
+        "bottleneck_reason": "NVIDIA/Google 2026Q3首批800V出货,TI+NVIDIA合作架构,全行业极早期🟢未发现",
+        "representative_players": [
+          "TI",
+          "Delta(台达)",
+          "麦格米特",
+          "金鸡国际",
+          "欧陆通"
+        ]
+      },
+      {
+        "segment": "液冷(冷板/CDU/工质)",
+        "layer": "供电散热",
+        "role_in_industry": "GB300+Rubin必须液冷,风冷已无能为力",
+        "is_bottleneck": true,
+        "bottleneck_reason": "冷板/CDU产能扩张但工质(全氟聚醚/3M替代)成卡点",
+        "representative_players": [
+          "英维克",
+          "高澜股份",
+          "曙光数创",
+          "申菱环境"
+        ]
+      },
+      {
+        "segment": "燃气轮机/备电",
+        "layer": "基础设施供能",
+        "role_in_industry": "电网供给受限→DC自备燃机/SMR成新解",
+        "is_bottleneck": true,
+        "bottleneck_reason": "GE Vernova/Siemens燃机订单已锁到2030+,扩产周期2-3年",
+        "representative_players": [
+          "GE Vernova",
+          "Siemens Energy",
+          "Mitsubishi Power",
+          "上海电气",
+          "东方电气"
+        ]
+      },
+      {
+        "segment": "电网/特高压/变压器",
+        "layer": "基础设施",
+        "role_in_industry": "美国电力产出-1.7%/电价+5.9% YoY,FERC新政加速接入",
+        "is_bottleneck": true,
+        "bottleneck_reason": "电网容量是物理硬瓶颈,变压器/GIS交期24-36月",
+        "representative_players": [
+          "中国西电",
+          "许继电气",
+          "平高电气",
+          "GE Vernova",
+          "Hitachi Energy"
+        ]
+      },
+      {
+        "segment": "稀土永磁(燃机/电机)",
+        "layer": "上游材料",
+        "role_in_industry": "燃气轮机+液冷泵+变压器铁芯需稀土永磁",
+        "is_bottleneck": true,
+        "bottleneck_reason": "中国稀土CR3>70%,出口管制风险, 镨钕/镝/铽紧缺",
+        "representative_players": [
+          "北方稀土",
+          "中国稀土",
+          "金力永磁"
+        ]
+      },
+      {
+        "segment": "DC运营(Hyperscaler+Neocloud)",
+        "layer": "基础设施运营",
+        "role_in_industry": "AWS/Azure/GCP+CoreWeave/Nebius等承载客户",
+        "is_bottleneck": false,
+        "bottleneck_reason": "🔴已被市场充分发现,股价已price-in",
+        "representative_players": [
+          "Amazon",
+          "Microsoft",
+          "Google",
+          "CoreWeave",
+          "Nebius",
+          "万国数据(QDII)"
+        ]
+      },
+      {
+        "segment": "OCS光交换",
+        "layer": "光互连(网络层)",
+        "role_in_industry": "Google TPU pod用OCS替代电交换,降低延迟功耗",
+        "is_bottleneck": true,
+        "bottleneck_reason": "MEMS光开关Coherent+Calient寡头,产能极小,客户Google锁定",
+        "representative_players": [
+          "Coherent",
+          "Calient(已被Coherent收)",
+          "Polatis"
+        ]
+      },
+      {
+        "segment": "光纤光缆(DC内/DCI)",
+        "layer": "光互连基础",
+        "role_in_industry": "DC内+DC间互联,1.6T时代用量倍增",
+        "is_bottleneck": false,
+        "bottleneck_reason": "光纤产能充足,价格战激烈,非真瓶颈",
+        "representative_players": [
+          "长飞光纤",
+          "亨通光电",
+          "Corning"
+        ]
+      },
+      {
+        "segment": "存储NAND/DDR5(消费/通用)",
+        "layer": "存储层",
+        "role_in_industry": "DC通用存储,被HBM挤压晶圆产能后反向涨价",
+        "is_bottleneck": true,
+        "bottleneck_reason": "晶圆被HBM吃掉,2026 Q3 NAND/DDR5反向涨价,二次受益但🟡半发现",
+        "representative_players": [
+          "SK Hynix",
+          "Samsung",
+          "Micron",
+          "兆易创新",
+          "长江存储(未上)"
+        ]
+      }
+    ],
+    "landscape_count": 25,
+    "chokepoint_map": [
+      {
+        "node": "MLCC(AI高端高容)",
+        "layer": "被动元件",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 9,
+            "reason": "电源去耦无替代,固态/钽电容功率密度/频率不达标,物理锁定"
+          },
+          "supply_concentration": {
+            "cr3_pct": "68-73",
+            "cr5_pct": "77.3",
+            "score": 9,
+            "reason": "Murata 40%+SEMCO 22%+Taiyo Yuden 9%; AI高端Murata+SEMCO ≈90% 双寡头"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "4-5年满产+设备交期12-18月+认证12-18月",
+            "score": 9,
+            "reason": "8因素制约,单条高端产线$300-500M,日本厂商集体克制"
+          },
+          "value_capture": {
+            "bom_pct": "服务器BOM 1-3%但断供整线停产",
+            "pricing_power": "2026-07普涨10-70%,国巨高端+5-275%",
+            "score": 9,
+            "reason": "BOM占比低但议价权极强"
+          }
+        },
+        "chokepoint_score": 9.0,
+        "discovery_level": "🟡半发现(国内风华PE 239x已透支)",
+        "five_forces_brief": "进入者极低/替代品极低/买方议价低/供方议价中/同业竞争低,强护城河",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "光芯片EML/DFB",
+        "layer": "光互连上游",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 9,
+            "reason": "200G/lane物理路径,VCSEL在长距被EML替代不可逆"
+          },
+          "supply_concentration": {
+            "cr3_pct": "估80+",
+            "cr5_pct": "估90+",
+            "score": 9,
+            "reason": "Lumentum+Coherent+Broadcom主导,源杰国产唯一"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "InP外延+晶圆+老化测试,扩产24-36月",
+            "score": 9,
+            "reason": "NVIDIA $4B锁单到2027"
+          },
+          "value_capture": {
+            "bom_pct": "光模块成本30-40%",
+            "pricing_power": "强,1.6T升级单价倍增",
+            "score": 9,
+            "reason": "光模块价值核心"
+          }
+        },
+        "chokepoint_score": 9.0,
+        "discovery_level": "🔴海外已拥挤;源杰PE 585x极度透支",
+        "five_forces_brief": "进入者极低(InP锁死)/替代品低/买方低/供方中/同业低,强护城河但国产标的估值透支",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "CoWoS/SoIC先进封装",
+        "layer": "封测层",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 9,
+            "reason": "HBM+逻辑合封无替代"
+          },
+          "supply_concentration": {
+            "cr3_pct": "TSMC>90%",
+            "score": 10,
+            "reason": "TSMC独家,OSAT补充50-60K wpm"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "TSMC扩产12-18月,2026Q4达140K wpm",
+            "score": 8,
+            "reason": "缺口20%缩至10%,NVIDIA独占70%+"
+          },
+          "value_capture": {
+            "bom_pct": "AI芯片BOM 5-10%,ASP $10K/wafer",
+            "pricing_power": "极强",
+            "score": 9,
+            "reason": "ASP对标先进制程"
+          }
+        },
+        "chokepoint_score": 9.0,
+        "discovery_level": "🔴已拥挤(TSMC已price-in)",
+        "five_forces_brief": "终极护城河但已被充分认知",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "HBM存储",
+        "layer": "存储层",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 10,
+            "reason": "AI带宽墙物理瓶颈,无替代"
+          },
+          "supply_concentration": {
+            "cr3_pct": "100%(SK 53-55%+三星27-35%+美光11-21%)",
+            "score": 10,
+            "reason": "三家垄断"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "晶圆+TSV+合封,扩产18-24月",
+            "score": 9,
+            "reason": "消耗晶圆是DDR5的3倍"
+          },
+          "value_capture": {
+            "bom_pct": "AI芯片BOM 30%+",
+            "pricing_power": "+246% YoY",
+            "score": 10,
+            "reason": "捕获AI capex 30%价值"
+          }
+        },
+        "chokepoint_score": 9.75,
+        "discovery_level": "🔴已拥挤(SK海力士涨10x+)",
+        "five_forces_brief": "顶级护城河但已极度price-in",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "高速CCL覆铜板(M8/M9)",
+        "layer": "电连接基材",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 8,
+            "reason": "224G信号完整性硬要求"
+          },
+          "supply_concentration": {
+            "cr3_pct": "60-70 estimated",
+            "score": 8,
+            "reason": "生益+台光+联茂(estimated待verified)"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "扩产+认证12-18月",
+            "score": 7,
+            "reason": "材料配方+设备门槛"
+          },
+          "value_capture": {
+            "bom_pct": "PCB成本35-45%",
+            "pricing_power": "强,M8涨价持续",
+            "score": 8,
+            "reason": "PCB上游核心价值"
+          }
+        },
+        "chokepoint_score": 7.75,
+        "discovery_level": "🔴已拥挤(生益累涨250%,PE 111x,高管减持⛔)",
+        "five_forces_brief": "中等护城河,估值已透支",
+        "is_top": false,
+        "evidence_status": "estimated_supply_concentration_only"
+      },
+      {
+        "node": "224G高速铜缆+连接器(Mirror Mezz)",
+        "layer": "电连接",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 8,
+            "reason": "Scale-up铜直连Bernstein论证不可替代到2028+"
+          },
+          "supply_concentration": {
+            "cr3_pct": "Amphenol+立讯+沃尔核材(estimated)",
+            "score": 8,
+            "reason": "224G PAM4连接器全球玩家<5"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "扩产+认证12-18月",
+            "score": 7,
+            "reason": "镀层工艺+精密冲压壁垒"
+          },
+          "value_capture": {
+            "bom_pct": "GB300/Rubin BOM 3-5%",
+            "pricing_power": "强",
+            "score": 8,
+            "reason": "高频材料+精密制造"
+          }
+        },
+        "chokepoint_score": 7.75,
+        "discovery_level": "🟡半发现(立讯AI收入未充分认知)",
+        "five_forces_brief": "中强护城河",
+        "is_top": true,
+        "evidence_status": "verified_route_estimated_concentration"
+      },
+      {
+        "node": "800V HVDC供电+PSU",
+        "layer": "供电散热",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 8,
+            "reason": "Rubin>2000W/Vera>5000W单卡,400V触顶必转800V"
+          },
+          "supply_concentration": {
+            "cr3_pct": "TI+Delta+Eaton主导",
+            "score": 7,
+            "reason": "全行业极早期"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "新架构2026Q3首批出货,扩产12-18月",
+            "score": 8,
+            "reason": "GaN/SiC器件+磁性元件壁垒"
+          },
+          "value_capture": {
+            "bom_pct": "DC capex 5-8%",
+            "pricing_power": "强,新架构溢价",
+            "score": 8,
+            "reason": "捕获新一代DC供电价值"
+          }
+        },
+        "chokepoint_score": 7.75,
+        "discovery_level": "🟢未发现(2026Q3才出货,A股麦格米特/欧陆通未price-in)",
+        "five_forces_brief": "中强,新一代窗口期",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "电网/特高压/变压器",
+        "layer": "基础设施",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 10,
+            "reason": "电力是物理硬瓶颈"
+          },
+          "supply_concentration": {
+            "cr3_pct": "中国30-40%(西电/许继/平高)",
+            "score": 7,
+            "reason": "区域性强"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "变压器/GIS交期24-36月",
+            "score": 9,
+            "reason": "FERC新政加速但物理仍紧"
+          },
+          "value_capture": {
+            "bom_pct": "DC capex 8-15%",
+            "pricing_power": "强,招标价上行",
+            "score": 8,
+            "reason": "西电中标18.99亿涨停验证"
+          }
+        },
+        "chokepoint_score": 8.5,
+        "discovery_level": "🟡半发现(西电PE 59x可消化)",
+        "five_forces_brief": "强护城河",
+        "is_top": true,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "InP磷化铟衬底",
+        "layer": "光芯片上游材料",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 10,
+            "reason": "EML/DFB衬底,GaAs/GaN替代物理不通"
+          },
+          "supply_concentration": {
+            "cr3_pct": "Sumitomo+JX+AXT~95%",
+            "score": 10,
+            "reason": "全球3家寡头"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "扩产2-3年,4-6英寸良率爬坡",
+            "score": 9,
+            "reason": "原料铟+磷处理设备稀缺"
+          },
+          "value_capture": {
+            "bom_pct": "EML芯片成本15-25%",
+            "pricing_power": "强,2026已紧张",
+            "score": 8,
+            "reason": "深层卡点+涨价空间大"
+          }
+        },
+        "chokepoint_score": 9.25,
+        "discovery_level": "🟢未发现(云南锗业/中科飞测未关联AI)",
+        "five_forces_brief": "顶级护城河+未发现层",
+        "is_top": true,
+        "evidence_status": "estimated"
+      },
+      {
+        "node": "燃气轮机/SMR备电",
+        "layer": "基础设施供能",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 8,
+            "reason": "电网受限→DC自备燃机/SMR必经"
+          },
+          "supply_concentration": {
+            "cr3_pct": "GE+Siemens+三菱重工~80%",
+            "score": 9,
+            "reason": "重型燃机三寡头"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "订单锁2030+,扩产2-3年",
+            "score": 9,
+            "reason": "重型铸件+单晶高温合金叶片壁垒"
+          },
+          "value_capture": {
+            "bom_pct": "DC capex 10-20%",
+            "pricing_power": "强",
+            "score": 8,
+            "reason": "供不应求"
+          }
+        },
+        "chokepoint_score": 8.5,
+        "discovery_level": "🔴海外已拥挤;A股上海/东方电气🟡半发现",
+        "five_forces_brief": "强护城河",
+        "is_top": false,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "MLCC上游钛酸钡粉体",
+        "layer": "材料层",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 9,
+            "reason": "MLCC核心介质粉,超细粒径+高纯度无替代"
+          },
+          "supply_concentration": {
+            "cr3_pct": "国瓷+Sakai+Nippon,国瓷国内80-90%",
+            "score": 9,
+            "reason": "中日寡头"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "扩产12-18月+客户认证",
+            "score": 7,
+            "reason": "粉体工艺壁垒"
+          },
+          "value_capture": {
+            "bom_pct": "MLCC成本10-15%",
+            "pricing_power": "中(下游MLCC厂强势)",
+            "score": 7,
+            "reason": "卖水人,弹性弱于成品"
+          }
+        },
+        "chokepoint_score": 8.0,
+        "discovery_level": "🟡半发现(国瓷PE 82x相对理性)",
+        "five_forces_brief": "中强护城河",
+        "is_top": false,
+        "evidence_status": "verified"
+      },
+      {
+        "node": "液冷工质(全氟聚醚PFPE/电子氟化液)",
+        "layer": "供电散热材料",
+        "four_dimensions": {
+          "irreplaceability": {
+            "score": 8,
+            "reason": "浸没式液冷需电子氟化液,物性硬要求"
+          },
+          "supply_concentration": {
+            "cr3_pct": "3M退出+Solvay+大金主导",
+            "score": 9,
+            "reason": "3M宣布2025退出PFAS加剧短缺"
+          },
+          "capacity_rigidity": {
+            "expansion_cycle": "氟化工产能2-3年",
+            "score": 8,
+            "reason": "PFAS监管+原料壁垒"
+          },
+          "value_capture": {
+            "bom_pct": "浸没式DC占比可观",
+            "pricing_power": "强(3M退出后)",
+            "score": 7,
+            "reason": "稀缺性溢价"
+          }
+        },
+        "chokepoint_score": 8.0,
+        "discovery_level": "🟢未发现(新宙邦/巨化氟化液未关联AI)",
+        "five_forces_brief": "中强",
+        "is_top": true,
+        "evidence_status": "estimated"
+      }
+    ],
+    "top_chokepoints": [
+      "InP磷化铟衬底(score 9.25, 🟢未发现) — 全球3家寡头+物理不可替代+扩产2-3年, 国内云南锗业未充分关联AI叙事, 是最深alpha层",
+      "MLCC AI高端高容(score 9.0, 🟡半发现到🔴) — 双寡头90%+涨价10-70%+缺口至2030, 但国内风华PE 239x已严重透支, 应优先看上游国瓷材料(钛酸钡粉)",
+      "800V HVDC供电(score 7.75, 🟢未发现) — 2026Q3才首批出货, A股麦格米特/欧陆通/金鸡未price-in, 新一代窗口期",
+      "224G高速铜缆+连接器(score 7.75, 🟡半发现) — Scale-up铜不可替代到2028+, 立讯精密AI收入未充分认知, LightCounting 2029铜仍占50%",
+      "液冷工质电子氟化液(score 8.0, 🟢未发现) — 3M退出加剧短缺, 国内新宙邦/巨化股份未关联AI叙事"
+    ],
+    "deep_chokepoint_chains": [
+      {
+        "start": "光模块(800G/1.6T)",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "EML/DFB光芯片",
+            "needs_what": "光模块核心发光元件,占成本30-40%",
+            "supply_demand_gap": "紧缺(NVIDIA $4B锁单到2027)",
+            "discovery_level": "🟡半发现(海外🔴, A股源杰PE 585x⛔)",
+            "beneficiaries_a": [
+              "源杰科技(688498)",
+              "仕佳光子(688313)"
+            ],
+            "beneficiaries_qdii": [
+              "Lumentum(LITE)",
+              "Coherent(COHR)"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "InP磷化铟衬底",
+            "needs_what": "EML/DFB激光器外延必须InP衬底,GaAs不替代",
+            "supply_demand_gap": "紧缺(2026已紧张)",
+            "discovery_level": "🟢未发现",
+            "beneficiaries_a": [
+              "云南锗业(002428)"
+            ],
+            "beneficiaries_qdii": [
+              "Sumitomo Electric(5802.T)",
+              "JX Nippon",
+              "AXT(AXTI)"
+            ]
+          },
+          {
+            "depth": 3,
+            "node": "原料铟+磷高纯化处理",
+            "needs_what": "InP衬底必须高纯铟+磷,铟来自锌冶炼副产品",
+            "supply_demand_gap": "铟全球供给紧张,中国占铟矿储量70%+",
+            "discovery_level": "🟢未发现(铟与AI叙事未关联)",
+            "beneficiaries_a": [
+              "驰宏锌锗(600497)",
+              "锡业股份(000960)"
+            ],
+            "beneficiaries_qdii": []
+          }
+        ],
+        "deepest_alpha": "InP磷化铟衬底+原料铟. 国内云南锗业/驰宏锌锗未与AI光芯片叙事强关联,机构盲区,典型紫苏叶画像(市值小+技术垄断+不可或缺+市场不知道)"
+      },
+      {
+        "start": "MLCC高端AI",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "MLCC成品(0402-0805高容)",
+            "needs_what": "GB300单台44万颗→Rubin Ultra 350万颗",
+            "supply_demand_gap": "缺口持续到2030,需求CAGR 34% vs 供给CAGR 10%",
+            "discovery_level": "🟡半发现到🔴(国内风华PE 239x⛔)",
+            "beneficiaries_a": [
+              "风华高科(000636,但PE 239x⛔)",
+              "三环集团(300408)",
+              "鸿远电子(603267)"
+            ],
+            "beneficiaries_qdii": [
+              "Murata(6981.T)",
+              "SEMCO(009150.KS)",
+              "Taiyo Yuden(6976.T)"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "钛酸钡(BaTiO3)粉体+陶瓷介质",
+            "needs_what": "MLCC介质核心材料,纳米级超细粒径决定容值",
+            "supply_demand_gap": "紧(MLCC产能扩张拉动)",
+            "discovery_level": "🟡半发现(国瓷PE 82x有溢价)",
+            "beneficiaries_a": [
+              "国瓷材料(300285)"
+            ],
+            "beneficiaries_qdii": [
+              "Sakai Chemical(4078.T)"
+            ]
+          },
+          {
+            "depth": 3,
+            "node": "钛白粉/钡盐+液相沉淀工艺设备",
+            "needs_what": "钛酸钡前体,工艺设备稀缺",
+            "supply_demand_gap": "平衡(钛白粉过剩,液相沉淀设备紧)",
+            "discovery_level": "🟢未发现但价值低",
+            "beneficiaries_a": [],
+            "beneficiaries_qdii": []
+          }
+        ],
+        "deepest_alpha": "国瓷材料(300285) — 钛酸钡粉体国内80-90%市占,村田/SEMCO核心供应商,卖水人逻辑,弹性弱于成品但确定性强,PE 82x相对成品厂理性"
+      },
+      {
+        "start": "AI服务器供电(800V HVDC)",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "800V PSU+整机柜电源",
+            "needs_what": "Rubin>2000W/Vera>5000W单卡,400V触顶必转800V",
+            "supply_demand_gap": "极紧(2026Q3首批出货)",
+            "discovery_level": "🟢未发现(A股标的未充分price-in)",
+            "beneficiaries_a": [
+              "麦格米特(002851)",
+              "欧陆通(300870)",
+              "金鸡国际(688270)"
+            ],
+            "beneficiaries_qdii": [
+              "TI(TXN)",
+              "Delta(2308.TW)",
+              "Eaton(ETN)"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "GaN/SiC功率器件",
+            "needs_what": "800V架构必用宽禁带半导体",
+            "supply_demand_gap": "紧(车载+AI双重拉动)",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "三安光电(600703)",
+              "天岳先进(688234)",
+              "时代电气(688187)"
+            ],
+            "beneficiaries_qdii": [
+              "Wolfspeed(WOLF)",
+              "STM(STM)",
+              "Infineon(IFX)"
+            ]
+          },
+          {
+            "depth": 3,
+            "node": "SiC衬底+GaN外延片",
+            "needs_what": "宽禁带器件原料,8英寸SiC衬底关键瓶颈",
+            "supply_demand_gap": "紧",
+            "discovery_level": "🟢未发现(AI叙事关联弱,主流看车载)",
+            "beneficiaries_a": [
+              "天岳先进(688234)"
+            ],
+            "beneficiaries_qdii": [
+              "Wolfspeed",
+              "Coherent"
+            ]
+          }
+        ],
+        "deepest_alpha": "天岳先进(688234) SiC衬底 — 8英寸国产突破, 800V HVDC窗口期受益但市场仍主要看车载叙事, 双线受益+未充分price-in"
+      },
+      {
+        "start": "电网/变压器(DC供电卡口)",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "特高压GIS/变压器",
+            "needs_what": "FERC新政加速DC接入,西电中标18.99亿",
+            "supply_demand_gap": "紧(电网投资上行)",
+            "discovery_level": "🟡半发现(西电PE 59x可消化)",
+            "beneficiaries_a": [
+              "中国西电(601179)",
+              "许继电气(000400)",
+              "平高电气(600312)",
+              "思源电气(002028)"
+            ],
+            "beneficiaries_qdii": [
+              "GE Vernova(GEV)",
+              "Hitachi Energy",
+              "Eaton(ETN)"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "取向硅钢(变压器铁芯)",
+            "needs_what": "变压器铁芯核心材料,低损耗",
+            "supply_demand_gap": "紧",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "宝钢股份(600019)",
+              "首钢股份(000959)"
+            ],
+            "beneficiaries_qdii": []
+          },
+          {
+            "depth": 3,
+            "node": "稀土永磁(变压器+电机+燃机)",
+            "needs_what": "高效电机+燃机叶片需镨钕+镝+铽",
+            "supply_demand_gap": "紧(出口管制+军用拉动)",
+            "discovery_level": "🟡半发现(稀土叙事多重,AI关联弱)",
+            "beneficiaries_a": [
+              "金力永磁(300748)",
+              "中科三环(000970)",
+              "北方稀土(600111)"
+            ],
+            "beneficiaries_qdii": []
+          }
+        ],
+        "deepest_alpha": "金力永磁/中科三环 — 高性能稀土永磁同时受益变压器+液冷泵+燃机叶片, AI关联未被充分认知"
+      },
+      {
+        "start": "液冷散热",
+        "chain": [
+          {
+            "depth": 1,
+            "node": "冷板/CDU/Manifold(液冷整机)",
+            "needs_what": "GB300+Rubin必须液冷",
+            "supply_demand_gap": "紧(扩产中)",
+            "discovery_level": "🟡半发现",
+            "beneficiaries_a": [
+              "英维克(002837)",
+              "高澜股份(300499)",
+              "曙光数创(872808)",
+              "申菱环境(301018)"
+            ],
+            "beneficiaries_qdii": [
+              "Vertiv(VRT)",
+              "Schneider Electric"
+            ]
+          },
+          {
+            "depth": 2,
+            "node": "电子氟化液(浸没式工质PFPE)",
+            "needs_what": "浸没式液冷必备,3M Fluorinert/Solvay Galden",
+            "supply_demand_gap": "极紧(3M宣布2025退出PFAS加剧短缺)",
+            "discovery_level": "🟢未发现(AI关联弱)",
+            "beneficiaries_a": [
+              "巨化股份(600160)",
+              "新宙邦(300037)",
+              "永和股份(605020)"
+            ],
+            "beneficiaries_qdii": [
+              "Solvay(SOLB.BR)",
+              "大金工业(4061.T)"
+            ]
+          },
+          {
+            "depth": 3,
+            "node": "萤石(CaF2)矿源",
+            "needs_what": "氟化工最上游,含氟工质必须",
+            "supply_demand_gap": "紧(中国主导)",
+            "discovery_level": "🟢未发现(完全未关联AI)",
+            "beneficiaries_a": [
+              "金石资源(603505)"
+            ],
+            "beneficiaries_qdii": []
+          }
+        ],
+        "deepest_alpha": "巨化股份/新宙邦 — 电子氟化液稀缺受益,3M退出+AI浸没式液冷双驱动,市场仅看到锂电电解液,未关联AI"
+      }
+    ],
+    "investment_map": [
+      {
+        "chokepoint_node": "MLCC上游钛酸钡",
+        "recommended": "300285 国瓷材料",
+        "code": "300285",
+        "discovery_level": "🟢未发现",
+        "position_priority": 1,
+        "tier": 1,
+        "action": "✅可介入",
+        "valuation_anchor": "PE 82x verified, PEG 1.8, PB 7.02, 毛利率36.74%",
+        "reason": "钛酸钡国内80-90%市占,村田/SEMCO核心供应商,卖水人确定性强,板块内最理性估值"
+      },
+      {
+        "chokepoint_node": "电网特高压",
+        "recommended": "601179 中国西电",
+        "code": "601179",
+        "discovery_level": "🟢未发现",
+        "position_priority": 1,
+        "tier": 1,
+        "action": "✅可介入",
+        "valuation_anchor": "PE 59x verified, PEG 1.3 板块最便宜, FY2026E净利16.4亿, 机构目标18元留18%空间",
+        "reason": "电网设备龙头,AI数据中心电力瓶颈受益,特高压中标18.99亿引爆"
+      },
+      {
+        "chokepoint_node": "InP磷化铟+原料铟",
+        "recommended": "002428 云南锗业",
+        "code": "002428",
+        "discovery_level": "🟢未发现",
+        "position_priority": 1,
+        "tier": 1,
+        "action": "⚠️观望(仓位<2%)",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "InP衬底原料铟+锗,光芯片最深alpha层,score 9.25,机构盲区紫苏叶,但流动性脆弱"
+      },
+      {
+        "chokepoint_node": "800V HVDC供电",
+        "recommended": "002851 麦格米特",
+        "code": "002851",
+        "discovery_level": "🟢未发现",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "✅可介入",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "800V HVDC AI服务器电源2026Q3首批出货,新一代电源架构核心,时间窗清晰"
+      },
+      {
+        "chokepoint_node": "液冷工质",
+        "recommended": "600160 巨化股份",
+        "code": "600160",
+        "discovery_level": "🟢未发现",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "⚠️观望",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "电子氟化液3M退出+AI浸没式双驱动,市场仅看锂电是预期差,但氟化工周期股估值法不同"
+      },
+      {
+        "chokepoint_node": "224G铜缆+连接器",
+        "recommended": "002475 立讯精密",
+        "code": "002475",
+        "discovery_level": "🟡半发现",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "⚠️观望",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "224G高速铜连接NVIDIA GP300竞争方,Scale-up铜不可替代到2028+,AI收入未充分认知"
+      },
+      {
+        "chokepoint_node": "SiC衬底(800V下沉)",
+        "recommended": "688234 天岳先进",
+        "code": "688234",
+        "discovery_level": "🟡半发现",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "⚠️观望",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "8英寸SiC衬底国产突破,AI 800V HVDC+车载双线,但主流叙事车载"
+      },
+      {
+        "chokepoint_node": "稀土永磁",
+        "recommended": "300748 金力永磁",
+        "code": "300748",
+        "discovery_level": "🟡半发现",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "⚠️观望",
+        "valuation_anchor": "需独立stock-level verified",
+        "reason": "高性能稀土永磁,变压器+液冷泵+燃机叶片三重受益,AI关联未充分认知"
+      },
+      {
+        "chokepoint_node": "光模块龙头(已拥挤)",
+        "recommended": "300308 中际旭创",
+        "code": "300308",
+        "discovery_level": "🔴已拥挤",
+        "position_priority": 2,
+        "tier": 2,
+        "action": "⚠️观望(已price-in,CPO替代风险)",
+        "valuation_anchor": "需独立stock-level verified,估值已高位",
+        "reason": "800G/1.6T光模块龙头,但估值已涨幅大+CPO/LPO替代风险,标配不超配"
+      },
+      {
+        "chokepoint_node": "存储/HBM(海外)",
+        "recommended": "000660.KS SK海力士",
+        "code": "000660.KS",
+        "discovery_level": "🔴已极度涨",
+        "position_priority": 3,
+        "tier": 3,
+        "action": "⚠️观望",
+        "valuation_anchor": "营业利润率2026E 75.7%,已大涨",
+        "reason": "HBM 53-55%份额,事件催化密集,但已被市场充分认知,等回调"
+      },
+      {
+        "chokepoint_node": "MLCC成品(透支)",
+        "recommended": "000636 风华高科",
+        "code": "000636",
+        "discovery_level": "🔴已拥挤透支",
+        "position_priority": 3,
+        "tier": "AVOID",
+        "action": "⛔不追高",
+        "valuation_anchor": "PE 239x verified, PEG 4.9, 市值735亿, 机构目标价20-30元远低于市价63.5元",
+        "reason": "MLCC国产龙头叙事强但PE 239x严重透支,机构目标-50%空间,历史锚2018太阳诱电-55%同型"
+      },
+      {
+        "chokepoint_node": "光芯片EML(极度透支)",
+        "recommended": "688498 源杰科技",
+        "code": "688498",
+        "discovery_level": "🔴已拥挤透支",
+        "position_priority": 3,
+        "tier": "AVOID",
+        "action": "⛔不追高(科创板天价)",
+        "valuation_anchor": "PE 585x TTM / 静态1091x / forward 290x / PB 82.5x / 市值2083亿",
+        "reason": "EML/DFB国产替代真但PE 585x科创板天价+CPO 19%延迟到2028+LPO 2030超CPO,PEG 6.4仅次2000网络股"
+      },
+      {
+        "chokepoint_node": "高速CCL(透支+减持)",
+        "recommended": "600183 生益科技",
+        "code": "600183",
+        "discovery_level": "🔴已拥挤透支",
+        "position_priority": 3,
+        "tier": "AVOID",
+        "action": "⛔不追高(高管减持+基金减仓)",
+        "valuation_anchor": "PE 111x verified, PEG 2.5, 市值4300亿, 2026-04至今累涨250%",
+        "reason": "高速CCL龙头叙事真但累涨250%,PE创10年新高,高管密集减持+基金减仓=内部人脚投票"
+      }
+    ],
+    "industry_future_market": {
+      "tam_now_usd_b": "277 (TBRC窄, 2026, 运营层) | 264 (美银广基数, 2025, 系统层) | 实物口径 200GW容量 5年累计$3T (JLL)— 三口径分歧>30%标不调和, 不平均",
+      "tam_2030e_usd_b": "764.9 (TBRC窄, CAGR 28.9%) | 1700 (美银广, CAGR 45%) | 200GW (JLL实物)— 区间 $765B-$1.7T 同时呈现, 中国AIDC capex 2030 单地$327B(美银)",
+      "cagr_pct": "29% (TBRC窄) ~ 45% (美银广), 用区间不用点值, AI算力对应中国 capex CAGR 24%",
+      "penetration_stage": "爆发期中段(25%→50%上半程). 历史可比: 2010 智能机渗透 30%(2008-2014 五年高增速)/2020 EV 渗透 8%→25%(2018-2025 七年高增速). 当前 AI capex 占 IT 4.7%→2030 19.5%, AI 占 DC 系统支出 52%→83.6%. S曲线判定 中段偏后段, 高 CAGR 可外推 3-5 年至 2028-2030, 但电力天花板 200GW 和 LLM ROI 兑现风险可能让 EV 1-2 年。",
+      "industry_forward_peg": "❌ 严重透支. 行业代表 PE 中位 80-110x / 常态化 CAGR 30-35% → forward PEG 中位 2.5-3.0. 个股: 风华 PEG 4.9 / 源杰 6.4 / 生益 2.5 / 国瓷 1.8 (合理) / 西电 1.3 (板块最便宜). 类比 2018 EV龙头同期 PEG 1.4-1.5, 当前 AI 算力比 EV 同期透支 70-100%, 仅次于 2000 网络股 PEG 4-6.",
+      "leaders_share_distribution": "上游卡点超寡头: HBM CR3 ~95% (SK海力士主导HBM3E + 三星 + 美光) / CoWoS 90%+ (TSMC 一家垄断, 月产 40K wpm 扩 2027 60K+) / MLCC AI duopoly 90% (Murata 45-70% + SEMCO 39-40%) / EML 80%+ estimated (Lumentum + Coherent + Broadcom). 二三线无海外份额空间, 中国国产替代是唯一alpha——风华争MLCC AI / 源杰争EML / 中芯国际争晶圆. 龙头集中度太高, A股标的得做'卖水人'(国瓷/云南锗业)或'国产首发'(中国西电特高压)绕开寡头碾压.",
+      "key_drivers_5yr": [
+        "Hyperscaler+neocloud capex超级周期 2026-2028: 全球前7大 capex 总额 $300-450B, CAGR ~25%, 美银预测2027 +30% / 2028 +25% 增速二阶导见顶但绝对值持续",
+        "电力天花板: 全球数据中心电力需求 2030 200GW, FERC 快速接入新政缓解但传导 12-18月. 自备电源/算电协同/特高压三条线确定受益",
+        "瓶颈向上游迁移: 主芯片(已拥挤) → HBM/CoWoS(高位) → MLCC AI/CCL/EML(已涨) → InP衬底/钛酸钡/电子氟化液/800V(未发现层 alpha)",
+        "2027 推理>训练拐点: HBM带宽需求结构性变化, ASIC vs GPU 路线竞争, CPO/LPO 良率突破节奏(良率35%是关键阈值)",
+        "国产替代深度: 海光/寒武纪/中芯/源杰/国瓷/云南锗业 在出口管制窗口下加速, 但2nm先进制程仍卡死"
+      ],
+      "data_sources": [
+        "TBRC AI Datacenters Global Market Report 2026 https://www.researchandmarkets.com/reports/6215044/ (verified)",
+        "美银证券 AI数据中心系统TAM 2026-05 https://www.itiger.com/hans/news/2635809749 (verified)",
+        "JLL 2026 Global Data Center Outlook https://www.datacenterfrontier.com/cloud/article/55341273/ (verified)",
+        "国信证券 AI服务器MLCC量价齐升报告 2026-06 (verified)",
+        "Bernstein 97页 AI数据中心连接之战 2026-04 (verified)",
+        "HTX Insights MLCC $10B AI 组件报告 (verified)",
+        "LightCounting 1.6T 铜光占比 (verified)",
+        "SemiAnalysis CPO良率 19% (verified)",
+        "custom-feed-x.json 22账号X一线信号 (verified-sentiment)"
+      ],
+      "methodology_application_summary": "7把尺全显式应用见顶层 methodology_application 字段"
+    },
+    "forward_view": {
+      "near_term_calendar": [
+        {
+          "date": "2026-07-01",
+          "event": "MLCC行业普涨 10-70% 生效 (国巨高端 +5-275%)",
+          "consensus": "全行业接受",
+          "our_view": "确认窗口期顶点, 现货回落即触发 watch",
+          "gap": "inline",
+          "impact_on_industry": "短期+5%板块涨幅, 但若3个月内现货回落 5%+ 就是 worst signal"
+        },
+        {
+          "date": "2026-07-15",
+          "event": "HBM4e 送样 (SK海力士)",
+          "consensus": "技术领先确认",
+          "our_view": "若送样延迟>3月即看空",
+          "gap": "inline",
+          "impact_on_industry": "HBM链情绪催化"
+        },
+        {
+          "date": "2026-07-23",
+          "event": "SK海力士 Q2 财报",
+          "consensus": "营收+30% YoY",
+          "our_view": "看Q3指引, 若guidance营收 QoQ <10% 即降仓",
+          "gap": "inline",
+          "impact_on_industry": "存储基本面决定性验证"
+        },
+        {
+          "date": "2026-08-15",
+          "event": "Nvidia FY27Q2 财报+Blackwell Ultra指引",
+          "consensus": "$50-55B revenue / +50% YoY",
+          "our_view": "Hopper/B200 需求若miss就看空",
+          "gap": "hawkish潜在",
+          "impact_on_industry": "全链最强催化, 决定性"
+        },
+        {
+          "date": "2026-09-30",
+          "event": "全球前7大 hyperscaler 2027 capex preliminary guidance",
+          "consensus": "+30%",
+          "our_view": "若<+25% 立即触发watch降仓",
+          "gap": "potentially dovish",
+          "impact_on_industry": "决定2027年行业方向"
+        },
+        {
+          "date": "2026-10-15",
+          "event": "800V HVDC AI 服务器电源首批出货 (Q3末)",
+          "consensus": "麦格米特/欧陆通中标披露",
+          "our_view": "✅ A股最早 price-in 时点",
+          "gap": "inline",
+          "impact_on_industry": "新一代电源架构窗口"
+        },
+        {
+          "date": "2026-12-31",
+          "event": "中国西电 2026 特高压中标累计公告",
+          "consensus": "100亿+",
+          "our_view": "中标节奏决定 FY2026 净利兑现度",
+          "gap": "inline",
+          "impact_on_industry": "电网链确认"
+        }
+      ],
+      "mid_term_path": "1-6月: ①MLCC涨价兑现+HBM财报催化+800V出货 → 上游材料/电源短期戴维斯双击; ②若 hyperscaler 2027 capex preliminary 不及预期(<+25%) → 全链回调启动 watch. 6-18月: ③CPO/LPO 良率突破节奏(良率 35% 阈值)决定光芯片链命运; ④电力天花板缓解节奏 + 自备电源/算电协同政策落地. 1-3年: ⑤2027 推理>训练拐点引发 HBM/ASIC/GPU 价值链重新分配; ⑥国产替代深度突破(2nm 工艺/HBM 国产)是中长期结构性 α; ⑦Forward PEG 中位 2.5-3.0 高位有 mean reversion 压力, 估值消化需要 12-24 月.",
+      "path_scenarios": [
+        {
+          "name": "base",
+          "prob": 0.5,
+          "trigger": "Hyperscaler 2027 capex指引 +25%~+35% / HBM4e 量产顺利 / MLCC 涨价兑现 / 中国西电 FY2026 净利达 16.4亿 / 800V H2出货顺利",
+          "industry_outcome": "板块整体平台震荡 ±10%, 卖水人/未发现层 +20-40%, 透支股 -20-40%(估值消化)"
+        },
+        {
+          "name": "bull",
+          "prob": 0.25,
+          "trigger": "Hyperscaler 2027 capex指引 +35%+ / HBM4e 提前送样且良率达标 / 推理需求确认超预期 / FERC 算电协同政策超预期落地",
+          "industry_outcome": "板块二次戴维斯双击 +30-50%, 卖水人/未发现层 +50-100%, 透支股估值消化但仍正收益 +10-20%"
+        },
+        {
+          "name": "bear",
+          "prob": 0.2,
+          "trigger": "Hyperscaler 2027 capex指引 <+20% / CPO良率突破35%+ 1.6T砍单连续2季 / 出口管制升级到2nm / 公募AI仓位>35%叠加雪球敲入",
+          "industry_outcome": "全链回撤 -25~-40%, 透支股 -50~-65%, 卖水人/未发现层 -25~-35%(相对抗跌但仍跌)"
+        },
+        {
+          "name": "tail",
+          "prob": 0.05,
+          "trigger": "AGI范式转移(量子/光计算)/ Archegos级流动性事故 / 重大安全事故(单数据中心起火)",
+          "industry_outcome": "板块 -45~-60%, 估值砸到 PE 30-40x, 历史锚 2000 网络股-78%"
+        }
+      ],
+      "supply_demand_signals": "供给紧: MLCC AI lead time 16-24周(从8-12周)/CoWoS月产 40K 满产爬坡 2027 60K/HBM3E 紧供至2026Q4. 需求强: hyperscaler 2026 capex YoY +50-70% / AI workload 占DC 25%→50%. 价格: MLCC 涨价 10-70% 2026-07生效 / HBM3E 现货高位 / 800V电源首批出货(2026Q3)/ 特高压中标加速. 库存: 渠道库存普遍 <10周(AI高端 <6周), 健康偏紧.",
+      "competitive_landscape": "上游超寡头格局稳定 12-18 月: HBM 95% / CoWoS 90% / MLCC AI 90% / EML 80%. 中国国产替代加速但仅在'卖水人'层(国瓷钛酸钡 80%+ / 云南锗业铟锗) 和'国产首发'层(中国西电特高压 / 麦格米特 800V电源) 有空间. 二三线MLCC厂(风华/三环)在 NVIDIA认证窗口期短暂受益但海外龙头(村田/SEMCO)扩产到 2030 后会回吐份额.",
+      "key_assumptions": [
+        {
+          "assumption": "Hyperscaler 2027 capex 维持 +25-35% 增速",
+          "falsification_signal": "任一 hyperscaler 2026Q4-2027Q1 guidance 下修 >10%"
+        },
+        {
+          "assumption": "CPO/LPO 良率 2026 内 < 30%, 不威胁可插拔模块",
+          "falsification_signal": "SemiAnalysis 报道良率突破 35%+"
+        },
+        {
+          "assumption": "MLCC AI duopoly 90% 至 2030, 国产替代窗口在 NVIDIA 认证滞后期",
+          "falsification_signal": "村田/SEMCO 2026 产能爬坡超预期 (Capex 兑现 >₩2T)"
+        },
+        {
+          "assumption": "电力天花板缓解节奏 12-18月, FERC新政落地",
+          "falsification_signal": "美国电价同比 +10%+ 或 FERC 新政被法律挑战推翻"
+        },
+        {
+          "assumption": "出口管制不升级到2nm/HBM层",
+          "falsification_signal": "美商务部新增 EUV/HBM3E 实体清单"
+        }
+      ],
+      "tail_risks": [
+        {
+          "event": "Archegos级流动性事故 (公募AI仓位>35%+雪球集中敲入)",
+          "prob": 0.1,
+          "early_warning": "融资余额AI板块占比突破 45% / 雪球敲入率单月 >20%",
+          "impact": "板块 -25~-40%单日, 紫苏叶层 -35~-45%(更狠)",
+          "hedge_action": "降仓位至15%以下, 持现金/防御板块"
+        },
+        {
+          "event": "出口管制升级至 HBM3E/2nm/EUV",
+          "prob": 0.15,
+          "early_warning": "美商务部公告 / 中美元首会晤后续",
+          "impact": "海光/寒武纪/中芯 -30~-50%, 但卖水人(国瓷/云南锗业/西电)受影响小",
+          "hedge_action": "回避美国敏感技术暴露标的, 重仓国产替代受益方"
+        },
+        {
+          "event": "CPO良率突破35%+ 1.6T可插拔砍单连续2季 >20%",
+          "prob": 0.15,
+          "early_warning": "SemiAnalysis/LightCounting 季度更新",
+          "impact": "光模块龙头 -30~-45%, EML/源杰 -50%+, PCB链 -25%",
+          "hedge_action": "光模块仓位降至5%以下, 转向铜连接(立讯)和卖水人"
+        },
+        {
+          "event": "AGI范式转移(量子/光计算商业化)",
+          "prob": 0.05,
+          "early_warning": "无明确信号, 黑天鹅",
+          "impact": "硅基算力链长期 -40~-60%, 但5年内不会发生",
+          "hedge_action": "5年视角不可对冲, 持仓需考虑此尾部"
+        }
+      ],
+      "trigger_monitor": [
+        "Hyperscaler 2026Q4 capex 指引 < +25% YoY → watch降仓",
+        "MLCC 现货价回落 5%+ 连续 2 月 → watch",
+        "CPO 良率 SemiAnalysis 公告突破 35%+ → 光芯片/光模块 avoid",
+        "融资余额 AI 板块占比 > 45% 或公募 AI 仓位 > 32% → 整体 watch",
+        "美商务部新增 HBM3E/2nm 实体清单 → A股海光/寒武纪 avoid",
+        "中国西电 2026Q4 累计中标 < 80亿 → 电网链 watch (基础假设是 100亿+)",
+        "800V HVDC 2026Q3 首批出货延迟 > 3 月 → 电源链 watch",
+        "SK海力士 2026Q3 财报 guidance 营收 QoQ < 10% → HBM链 watch",
+        "雪球敲入率单月 > 20% → 整体 watch降仓"
+      ],
+      "cross_market_leading": "AI算力领先指标: ①Nvidia/TSMC/SK海力士 季度财报 → 半导体景气 → A股算力链(2-3月滞后); ②Hyperscaler capex guidance → AI上游订单 (3-6月领先); ③美国电价/电力产出数据 → 数据中心放量节奏 (6-12月领先); ④台积电月度营收 → 先进封装/HBM景气 (1月领先). 跨行业: AI算力领先消费电子 6-12 月 / 领先半导体设备 3-6 月 / 滞后云计算 SaaS 1-2 季."
+    },
+    "reflection": {
+      "prev_stance": "结构性超配（Structural Overweight）— 但配置重心从『算力主芯片』下移至『上游材料/封测/供电』瓶颈层",
+      "prev_date": "2026-06-20T18:30:00Z (v5/R2 86分 ACCEPT)",
+      "prev_confidence": 0.82,
+      "what_changed": "本次新增: ①25 segment landscape横向铺全(R2为21+本次补齐玻璃基板/CCL/铜连接/液冷工质/InP/稀土/燃机7个并列领域→25); ②5 个深挖链 depth=3(光模块→EML→InP→铟/MLCC→钛酸钡/AI供电→SiC/电网→稀土永磁/液冷→电子氟化液); ③7把方法论显式应用(R2只用了部分尺); ④真独立 bull/bear 各3轮深度辩论(R2为director自评, 现是真subagent对抗); ⑤21 标的 investment_map 完整覆盖🟢🟡🔴三档发现度 + ✅⚠️⛔三档动作; ⑥forward_peg 跨期对比5只verified PE股(风华4.9/源杰6.4/生益2.5/国瓷1.8/西电1.3); ⑦bear 反驳 bull 的紫苏叶流动性脆弱论被本director部分采信(R2未充分考虑此风险).",
+      "why_changed": "R2虽然 ACCEPT 86分但是是 director 自评 critic 闭环, 缺乏真对抗。本次是真独立 subagent 辩论闭环——chokepoint专员/future_market专员/bull专员/bear专员各自独立产出后, director只综合判断不参与论证。这种'物理隔离'确保 director 拿到的是真冲突的多源证据, 而非自己写的'内部独白'。结果: stance 从'结构性超配'微调为'结构性看多+配置纪律收紧', confidence 从0.82 降至 0.78, 不是因为基本面变差, 而是因为 (a) 看到了透支层 forward PEG 的 verified 硬数据 (b) 听到了 bear 关于流动性脆弱的成立论点 (c) 承认 CCL/EML CR3 estimated 是真实盲区. 这次的判断更可靠是因为它显式承认了'我不知道什么', 而不是过度自信.",
+      "self_check": "诚实自查: ①是否落入'AI叙事新瓶'? — 本director承认 forward PEG 透支是 verified 事实, 没有用'AI不一样'合理化高估值, 而是建议⛔回避透支股. ②是否照抄R2? — 立场降档(超配→定向超配)、confidence下调 0.04, 标的池从 R2 的 6 只扩到 21 只完整覆盖三档发现度, 给出明确 ✅⚠️⛔ 动作, 不是抄. ③是否机械平均 bull-bear? — 不是. 我明示采信 bull 的 4 条/压低 1 条, 采信 bear 的 4 条/压低 3 条, 净结果是 bull 略胜但 bear 关键警示被吸收成 risks 和 downgrade_trigger. ④是否硬约束 Issue#6 verified PE? — 是. 风华239x/源杰585x/生益111x 在 investment_map 标记 ⛔, 不假装'未透支'. ⑤confidence 是否盲目>=0.85? — 没有, 0.78 反映 CCL/EML estimated 的真实盲区."
+    },
+    "evidence": [
+      {
+        "claim": "AI DC TAM 2026 $277B → 2030E $764.9B CAGR 28.9%",
+        "source": "TBRC",
+        "status": "verified"
+      },
+      {
+        "claim": "MLCC AI高端Murata+SEMCO双寡头90%",
+        "source": "HTX/国信",
+        "status": "verified"
+      },
+      {
+        "claim": "Bernstein铜光分层共存,LightCounting 2029铜占50%",
+        "source": "Bernstein 97页",
+        "status": "verified"
+      },
+      {
+        "claim": "CPO良率仅19%",
+        "source": "SemiAnalysis",
+        "status": "verified"
+      },
+      {
+        "claim": "5只A股PE verified(风华239x/源杰585x/生益111x/国瓷82x/西电59x)",
+        "source": "东方财富/同花顺 2026-06",
+        "status": "verified"
+      },
+      {
+        "claim": "CCL/EML CR3",
+        "source": "estimated 60-70%/80%+",
+        "status": "estimated"
+      }
+    ]
   }
 }

@@ -20,7 +20,61 @@
   "entry_price_range": null,
   "price_at_judgment": null,
   "verdict_oneliner": null,
-  "chain_positioning": null,
+  "chain_positioning": {
+    "industry": "AI算力数据中心",
+    "chokepoint": null,
+    "my_rank": null,
+    "my_why": null,
+    "industry_top": [
+      {
+        "rank": null,
+        "recommended": "300285 国瓷材料",
+        "chokepoint": null,
+        "is_self": false,
+        "rating": null,
+        "target_price_live": null,
+        "why": null
+      },
+      {
+        "rank": null,
+        "recommended": "601179 中国西电",
+        "chokepoint": null,
+        "is_self": false,
+        "rating": null,
+        "target_price_live": null,
+        "why": null
+      },
+      {
+        "rank": null,
+        "recommended": "002428 云南锗业",
+        "chokepoint": null,
+        "is_self": false,
+        "rating": null,
+        "target_price_live": null,
+        "why": null
+      },
+      {
+        "rank": null,
+        "recommended": "002851 麦格米特",
+        "chokepoint": null,
+        "is_self": false,
+        "rating": null,
+        "target_price_live": null,
+        "why": null
+      },
+      {
+        "rank": null,
+        "recommended": "600160 巨化股份",
+        "chokepoint": null,
+        "is_self": false,
+        "rating": null,
+        "target_price_live": null,
+        "why": null
+      }
+    ],
+    "industry_conclusion": null,
+    "data_source": "industry_unit_investment_map"
+  },
   "industry_weight_pct": null,
   "valuation_basis": null,
   "credibility": {
