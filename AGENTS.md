@@ -98,7 +98,7 @@
 
 **为什么必要**: 输入精简意味着 subagent 看不到细节,论点空洞、数据引用流于形式、辩论沦为立场对撞。这是用户反复指出的"建议言之无物"根本原因之一。
 
-**输入消化铁律 (2026-06-17 iteration 3 落地, 自进化循环 DEBATE-20260618-03 active_hole)**: 给辩手 (bull/bear/risk-aggressive/safe/neutral 三层共 9 个 agent) 喂 5000-15000 字满血输入但**不配方法论钩子**消化 = "满血输入 + 浅薄输出" — 这是 §0ter 治"言之无物"的另一半未解的痛点。本轮新建 `skills/v4-debate-discipline/SKILL.md` 强制辩手开辩前必读, 输出 history 必含 ①点名反驳 ②数据分子 ③可证伪信号 + bull/bear 派别切入 narrative + methodology_used 数组 (反 Goodhart, 协议 Part 7 #10)。critic 6.6 升级为必查 skill cite narrative 真假 (随机抽 ≥2 项 how_used 看能否在 history 找到对应段落, 形式 cite = fatal_flaw)。**输入越满血, 越要配方法论钩子, 否则浅尝**。
+**输入消化铁律**: 满血输入 + 不配方法论钩子 = "满血输入 + 浅薄输出"。辩手(9 个)开辩前必读 `skills/v4-debate-discipline/SKILL.md`，输出 history 必含 ①点名反驳 ②数据分子 ③可证伪信号 + 派别 narrative + methodology_used 数组；critic 必查 skill cite narrative 真假(形式 cite = fatal_flaw)。**输入越满血，越要配方法论钩子。**
 
 ---
 
@@ -288,9 +288,15 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 
 本项目踩过的病根：**组件造好了但没插电**（函数实现完整却没有调用方）。改动涉及「新增能力」时，确认它真正接进了 `collect_v4.py → run_v4.sh → workflow-v4-advisor.js` 链路，grep 新函数的调用方，别留孤儿。例：行业 `chokepoint_map` 字段——既要瓶颈分析师产出，又要 director 整合透传、`build_industry_detail` 透传到快照、前端渲染，缺一环就「看不见」。
 
-### 9.1 ⚠️ 当前已知孤儿/半接通待办（2026-06-21）
+### 9.1 ✅ 行业层 X 舆情 sentiment 全链已固化（2026-06-21 闭环）
 
-- **行业层 X 舆情 sentiment**：透传链已通（`payload.sentiment` → `build_industry_detail`(v4_query.py) → 前端 `IndustryFullReport.vue §3.5`），数据也已手工补进 `industry:AI算力数据中心`。**但生产端缺两环**：① `workflow-v4-advisor.js` 行业流程没有 sentiment 的正规 Step；② `agents/advisor/` 没有行业层 sentiment agent（只有个股 `v4-stock-analyst-sentiment`）。**后果**：下次 `run_v4.sh analyze industry:xxx` 不会自动产出 X 舆情，需主 agent mode-A 手工补。**待固化**：新建 `v4-industry-sentiment.md` + workflow 加 Step B2(sentiment)，把临时方案接进引擎。
+行业层 X 舆情 sentiment 从"手工补"升级为 **workflow 正规 Step B2**，全链已通：
+- **生产端**：`v4-industry-sentiment.md`(专属 agent) + `workflow-v4-advisor.js` Step B2(读 `custom-feed-x.json` → 结构化 → 落 `industry_sentiment_<name>.json`，feed 缺则降级非阻塞)
+- **整合端**：director Read sentiment 文件 → 合并进 `payload.sentiment` + x_evidence 进 evidence
+- **透传端**：`build_industry_detail`(v4_query.py) → 前端 `IndustryFullReport.vue §3.5`
+- 至此行业层 = **7 stage**（A瓶颈/A2深挖/B未来市场/**B2舆情**/C辩论/D拍板/E评审），下次 `analyze industry:xxx` 自动产出 X 舆情，无需手工补。
+
+> 留存范例：此孤儿的"数据→透传→渲染→生产 stage"四环闭合过程是排查孤儿模式的标准样本——新增能力照此 grep 调用方逐环确认。
 
 ---
 
