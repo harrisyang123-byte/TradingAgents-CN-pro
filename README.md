@@ -43,7 +43,7 @@
    │    行业判go后触发 → Step1 chokepoint拆产业链定位最短木板(🟢未发现)
    │    → Step2 alpha-hunter 五因子模型纯演绎挖紫苏叶(小市值+技术垄断+不可或缺+市场不知道)
    │    → Step3 data-desk verified核实(卡位真实性+市值+催化剂, 禁演绎当verified)
-   │    → Step4 critic 6.14 五因子复核 → 通过的进个股8-step
+   │    → Step4 critic 五因子复核 → 通过的进个股8-step
    │    【与 market-scanner 横向财务硬筛互补: 纵向产业链 vs 横向全市场, MECE两条进攻路径】
    │
    ├ 行业间配比         alloc:equity_industries  (Σ ≤ equity_quota)
@@ -72,13 +72,13 @@
 | 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + **`v4-industry-future-market-analyst`** + `v4-industry-director` + `v4-industry-allocator` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+横向铺全25细分+递归上溯深挖+替代路径+发现度) + **★未来市场专职分析师**(TAM 当前/2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 7 把辩证尺) → 总监整合 chokepoint_map + 引用 industry_future_market。⚠️ **X 舆情 sentiment**(X feed KOL 一线信号)透传链已通、前端 §3.5 可见，但 workflow stage/专属 agent 待补(见 AGENTS.md §9.1) |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
 | 个股 | **4 分析师** `v4-stock-analyst-financial/competitive/valuation/sentiment` + **波特五力专项** `v4-stock-force-buyer/entry/rivalry/substitute/supplier` + **`v4-stock-valuation-engineer`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情雪球·股吧**) + **5 力专项 agent**(逐力深做 CR1/CR3/CR5/产能/上游) → **估值工程师**(forward 2-3年 EPS 推导链 + PE 分位 + 可比 PE 锚定 + 对面买家逻辑, 防目标价反复反转) → 多空 → **3 方风险辩论** → 总监预期差拍板 |
-| 个股·估值审计 | **`v4-stock-valuation-auditor`**(2026-06-14 拆分, 独立于 critic) | 专职审计 expert_valuation 推导链(6.12 推导链 7 项 + 6.13 成长股 5 项 + **反复反转检查**), 防 director 自我合理化 |
-| 进攻·选股 | **`v4-market-scanner`**(横向) + **`v4-alpha-hunter`**(纵向, 2026-06-15 重写为五因子模型) | **两条 MECE 进攻路径**: ① scanner 横向全市场硬指标扫描(ROIC>WACC / PE分位<30% / 增速>20%)逆向价值发现 → ② **瓶颈选股链**(alpha:bottleneck:<industry>): 景气行业→chokepoint拆产业链→hunter 用 **Serenity 五因子模型**(需求确定+供给受限+低关注度+价值可捕获+催化剂)纯演绎挖**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道) → data-desk verified核实 → critic 6.14 复核。**禁研报验证(研报=已知=高关注=反了), 靠专利/客户名单/产能地图/上游矿源碎片演绎** |
-| 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
-| 个股·风险辩论 | **`v4-stock-risk-aggressive/safe/neutral`**（3 方风险辩论，2026-06-13 加 D0-5）| **TradingAgents `risk_debaters` 对齐**: aggressive 攻保守/safe 攻激进/neutral 协调; 维度=仓位+止损+tail risk 不是方向(与 bull/bear 互补) |
-| 个股·舆情 | **`v4-stock-analyst-sentiment`**（新闻舆情分析师，2026-06-13 加 D0-5）| **TradingAgents `news_analyst+social_media_analyst` 对齐**: 5 维度(温度/新闻/一致预期偏差/资金面/情绪vs基本面背离); 是 director 的输入之一(非产物) |
-| 跨次记忆 | **memory 系统** `data/v4/_memory/<agent_id>.json` (2026-06-13 加 D0-5)| **TradingAgents `agent.memory` 对齐**: 跨股累积过往判断/错误模式/行为校准; bull/bear/director/critic 开辩前必读, 写 reflection 时追加 |
-| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES; **接入 v4_unit_cli.py write 编排** (NEEDS_CHANGES 直接 exit=4 拦截不让落盘); 必查项: 8 项深度 + 6.9 价值创造四问 + 6.10 PEG五大陷阱 + 6.11 行业未来市场 + 6.11.x 7 把辩证尺 + 6.12 个股推导链 + **6.13 成长股估值方法论(PE 分位/forward 多年/对面买家/错杀vs留意池/静态vs动态)** |
+| 个股·估值审计 | **`v4-stock-valuation-auditor`**(独立于 critic) | 专职审计 expert_valuation 推导链(推导链 7 项 + 成长股 5 项 + **反复反转检查**), 防 director 自我合理化 |
+| 进攻·选股 | **`v4-market-scanner`**(横向) + **`v4-alpha-hunter`**(纵向) | **两条 MECE 进攻路径**: ① scanner 横向全市场硬指标扫描(ROIC>WACC / PE分位<30% / 增速>20%)逆向价值发现 → ② **瓶颈选股链**(主 agent orchestrate 逻辑流, 非 CLI verb): 景气行业→chokepoint拆产业链→hunter 用 **Serenity 五因子模型**(需求确定+供给受限+低关注度+价值可捕获+催化剂)纯演绎挖**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道) → data-desk verified核实 → critic 复核。**禁研报验证(研报=已知=高关注=反了), 靠专利/客户名单/产能地图/上游矿源碎片演绎** |
+| 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
+| 个股·风险辩论 | **`v4-stock-risk-aggressive/safe/neutral`**（3 方风险辩论）| **TradingAgents `risk_debaters` 对齐**: aggressive 攻保守/safe 攻激进/neutral 协调; 维度=仓位+止损+tail risk 不是方向(与 bull/bear 互补) |
+| 个股·舆情 | **`v4-stock-analyst-sentiment`**（新闻舆情分析师）| **TradingAgents `news_analyst+social_media_analyst` 对齐**: 5 维度(温度/新闻/一致预期偏差/资金面/情绪vs基本面背离); 是 director 的输入之一(非产物) |
+| 跨次记忆 | **memory 系统** `data/v4/_memory/<agent_id>.json`| **TradingAgents `agent.memory` 对齐**: 跨股累积过往判断/错误模式/行为校准; bull/bear/director/critic 开辩前必读, 写 reflection 时追加 |
+| 质量闸门 | **`v4-investor-critic`** | 芒格/段永平/Serenity/达里奥 **四视角评审委员会**，拷问 verdict 输出 ACCEPT\|NEEDS_CHANGES; **接入 v4_unit_cli.py write 编排**(NEEDS_CHANGES 直接 exit=4 拦截不让落盘); 必查项含价值创造四问 / PEG 五大陷阱 / 行业未来市场 7 把辩证尺 / 个股估值推导链 / 成长股估值方法论。完整 rubric 见 `agents/advisor/v4-investor-critic.md` |
 | 元指导 | **`v4-chief-investment-officer`** | **首席投资官+投委会**视角，以"用户持久盈利"为锚审视整个系统方向(五维:可信/能用/连得上/会学/值得)，识别"假专业"与过度工程，给开发明确优先级 |
 
 > 全部分析角色 `tools:[Read]`、**只消费 data-desk 产出的输入包、绝不自己联网取数**；唯一带 `web_search`/`web_fetch` 的是 `v4-data-desk`。
@@ -104,7 +104,7 @@
 │  ┌────────────┐ ┌────────────────┐ ┌────────────┐ ┌────────────┐        │
 │  │ a 财务      │ │ b 竞争 + 五力深做│ │ c 估值     │ │ d 舆情      │       │
 │  │ analyst-   │ │ 整合者 +5 力专项 │ │ analyst-   │ │ sentiment  │       │
-│  │ financial  │ │ entry/substitute │ │ valuation  │ │ (D0-5 加)  │       │
+│  │ financial  │ │ entry/substitute │ │ valuation  │ │ sentiment  │       │
 │  │            │ │ /buyer/supplier  │ │            │ │ 5 维度:温度  │       │
 │  │ 毛利率/    │ │ /rivalry         │ │ PE/PB/DCF/ │ │ /新闻/一致预│       │
 │  │ ROE/财务   │ │ → competitive    │ │ 预期差三锚 │ │ 期/资金面/   │       │
@@ -117,12 +117,12 @@
 │  Step 3 ⚔️ 多空 N 轮辩论 (消费 4 分析师产出)                              │
 │  bull R1 → bear R1 → bull R2 → bear R2 → bull R3 → bear R3              │
 │  R3 终局: 双方诚实让步, 形成"方向"维度共识区 (target 区间, 概率分布)        │
-│  字数无限制 (D0-5 取消) + 辩论深度铁律 (点名反驳+数据分子+可证伪信号)        │
+│  字数无限制  + 辩论深度铁律 (点名反驳+数据分子+可证伪信号)        │
 └──────────────────────────────────┬──────────────────────────────────────┘
                                    │ 多空 R3 共识
                                    ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│  Step 4 ⚖️ 3 方风险辩论 (TradingAgents `risk_debaters` 对齐, D0-5 加)      │
+│  Step 4 ⚖️ 3 方风险辩论 (TradingAgents `risk_debaters` 对齐,)      │
 │  ┌────────────┐  ┌────────────┐  ┌────────────┐                          │
 │  │ aggressive │  │ safe       │  │ neutral    │                          │
 │  │ 攻保守     │  │ 攻激进     │  │ 协调双方   │                          │
@@ -169,9 +169,9 @@
 **架构特点**：
 - **MECE 分工**：4 分析师并列(财务/竞争+5力/估值/舆情)，不重叠不漏
 - **5+1 五力深做**（D 阶段）：5 力专项 agent + competitive 整合者交叉编织
-- **2 层辩论**（D0-5）：Step 3 多空辩论=方向维度 / Step 4 3 方风险辩论=执行维度，独立不重复
-- **跨次 memory**（D0-5）：bull/bear/director/critic 开辩前读 memory，写 reflection 时追加，跨股累积经验
-- **critic 接入编排**（D0-5）：NEEDS_CHANGES 强拦截，禁止"主 agent 自评"绕过
+- **2 层辩论**：Step 3 多空辩论=方向维度 / Step 4 3 方风险辩论=执行维度，独立不重复
+- **跨次 memory**：bull/bear/director/critic 开辩前读 memory，写 reflection 时追加，跨股累积经验
+- **critic 接入编排**：NEEDS_CHANGES 强拦截，禁止"主 agent 自评"绕过
 - **结果闭环**：reflection（对比上一版）+ historical_alpha（回测准确率）+ critic 评审
 
 ---
@@ -201,18 +201,18 @@ Step E  🎓 critic闸门 真 spawn v4-investor-critic 评审, <85或fatal→打
   - **纵向递归深挖（drillChokepoint）**：对 top 瓶颈逐层上溯（光模块→EML→InP→铟矿），**AI 自评估收敛层数**（到原料/物理瓶颈/已拥挤层即停），不写死深度，挖到"未发现层 alpha"。
 - **独立 critic 评审闭环**（`agents/advisor/v4-investor-critic.md`）：四视角(芒格/段永平/Serenity/达里奥)真 spawn 独立评委(**禁 director 自评内化**，cli 代码强制拦截 `synthesized_by_main_agent` 的 ACCEPT)。<85 分或有 fatal_flaw → 打回 director 修订(≤2轮)，R1→修订→R2，ACCEPT 才落盘。省 token 变体 `recritic` 只重跑此闭环。
 - **预期差选股理论 + 估值推导链**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**。三锚：隐含增速缺口/定价充分度/催化。**买点/目标价必须有 `valuation_basis` 推导链**（目标价=forward指标×目标倍数(对标谁)，买点=安全边际/PB/DCF），禁止拍脑袋。
-- **🌿 交易无人知晓的瓶颈 — Serenity 五因子模型**（`planning/v4/unknown-bottleneck-framework.md`，2026-06-15 用户拍板固化）：产业链上溯式投资，在确定性大主线(AI数据中心/人形机器人/800V直流供电)中找"缺了它整个产业链转不动"的**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道)，提早介入。**五因子同时满足**：需求确定+供给受限+低关注度+价值可捕获+催化剂。**致命铁律**：① 禁用研报验证瓶颈(研报=市场已知=高关注=价格已反映=没 alpha)，靠专利/客户名单/产能地图/上游矿源**碎片演绎推理**；② 低关注度是硬门槛(金枪鱼大腹如中际旭创降级)；③ 不因当前利润未兑现就淘汰(提早介入是灵魂，用价值可捕获+催化剂判时机)。落地为**瓶颈选股链** `alpha:bottleneck:<industry>`(主 agent orchestrate 的 N×M×K 扇出)。
-- **forward_view 前瞻视野**（A/B 测试 2 次验证 89/82 vs 52）：宏观从"回看"升级到"前瞻"——11 维（事件日历+一致预期+预期差+三情景+仓位/IV+假设证伪+尾部风险+跨市场领先+触发监控），触发监控用**绝对阈值**。三层 director 全部内化（不增 agent，A/B 测试证明）。
+- **🌿 交易无人知晓的瓶颈 — Serenity 五因子模型**（`planning/v4/unknown-bottleneck-framework.md`）：产业链上溯式投资，在确定性大主线(AI数据中心/人形机器人/800V直流供电)中找"缺了它整个产业链转不动"的**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道)，提早介入。**五因子同时满足**：需求确定+供给受限+低关注度+价值可捕获+催化剂。**致命铁律**：① 禁用研报验证瓶颈(研报=市场已知=高关注=价格已反映=没 alpha)，靠专利/客户名单/产能地图/上游矿源**碎片演绎推理**；② 低关注度是硬门槛(金枪鱼大腹如中际旭创降级)；③ 不因当前利润未兑现就淘汰(提早介入是灵魂，用价值可捕获+催化剂判时机)。落地为**瓶颈选股链** `alpha:bottleneck:<industry>`(主 agent orchestrate 的 N×M×K 扇出)。
+- **forward_view 前瞻视野**（A/B 测试验证）：宏观从"回看"升级到"前瞻"——11 维（事件日历+一致预期+预期差+三情景+仓位/IV+假设证伪+尾部风险+跨市场领先+触发监控），触发监控用**绝对阈值**。三层 director 全部内化（不增 agent，A/B 测试证明）。
 - **结果闭环反思 + 回测验证**（借鉴 TradingAgents）：director 开辩前读上一版 verdict → 输出 reflection；**`v4_replay.py` 回测器 + `historical_alpha`（判断价→实际涨跌算 hit/miss）+ `v4_quarterly_review.py` 季度复盘**，让系统对自己判断负责。critic 铁律0：上次判断 miss 必须回答"这次为何对"。
 - **四维质量闸门 + 反骑墙**：每层 director 内化芒格/段永平/Serenity/达里奥四视角（生意质量10年/逆向最坏/赔率周期/可执行止损/不确定性诚实）；证据势均力敌才中性，否则必须站队。
 
 **数据铁律**：分析 Agent 严禁自产价格/PE/市值/目标价数字，唯一来源 = data-desk 联网核实值（个股走 `stock_source.py`）；无则标 missing，绝不编造。
 
-**价值创造维度（2026-06-14 补全）**：判断"公司未来值多少钱"必答四问 — TAM 天花板+渗透率阶段 / ROIC vs WACC(创造还是毁灭价值,用 ROIC 不用被杠杆污染的 ROE) / 管理层资本配置 / 正向 DCF 三角验证。ROIC/FCF 等计算密集项用 AKShare verified 精算(A/B 测试证明主 agent 估算=拍脑袋),禁伪精确点值。
+**价值创造维度**：判断"公司未来值多少钱"必答四问 — TAM 天花板+渗透率阶段 / ROIC vs WACC(创造还是毁灭价值,用 ROIC 不用被杠杆污染的 ROE) / 管理层资本配置 / 正向 DCF 三角验证。ROIC/FCF 等计算密集项用 AKShare verified 精算,禁伪精确点值。
 
-**三维选股框架（2026-06-14 用户纠错"漏未来市场"后补全,永久铁律）**：买股票买的是未来,单维度会骗人 → **好公司(ROIC>WACC 价值创造) × 好价格(PE 合理) × 好未来(PEG/增速可持续/TAM 天花板)**,三维缺一不可。只看 ROIC+PE 是回看/当下,漏了未来市场会严重误判(实战中新易盛 ROIC50-66%+PE52.7 单看PE误判"贵",加未来维度 forward PEG<0.6 实为错杀;天孚 PEG2.16 实为透支)。
+**三维选股框架**：买股票买的是未来,单维度会骗人 → **好公司(ROIC>WACC 价值创造) × 好价格(PE 合理) × 好未来(PEG/增速可持续/TAM 天花板)**,三维缺一不可。只看 ROIC+PE 是回看/当下,漏了未来市场会严重误判(实战中新易盛 ROIC50-66%+PE52.7 单看PE误判"贵",加未来维度 forward PEG<0.6 实为错杀;天孚 PEG2.16 实为透支)。
 
-**行业层 7 把辩证分析尺(2026-06-14 用户拍板"除了网上取数也要有自己分析方法论"后固化,永久铁律)**：光有 verified 数字还不够, director/bull/bear 必须用方法论戳穿水分, verdict.summary 必须显式应用 ≥3 把尺, critic 6.11.x 必查:
+**行业层 7 把辩证分析尺**：光有 verified 数字还不够, director/bull/bear 必须用方法论戳穿水分, verdict.summary 必须显式应用 ≥3 把尺, critic 必查:
 - ① **TAM 三角验证**:同一指标 ≥3 独立来源(IDC/marketsandmarkets/Gartner/工信部),差异>30% 标分歧不调和(避免单源偏差)
 - ② **TAM 拆解还原**:把 TAM 拆成可验证因子(用户数×ARPU×渗透率/设备×单价×替换周期),反推合理性(如 AI光模块=$700B capex×65%服务器×4%光互连≈$18B 验证 $15.4B)
 - ③ **CAGR 久期检验**:用历史可比行业判断高增速持续年数(智能机 2008-2014 渗透 5%→50% 高增 6 年; EV 2018-2025 1%→25% 高增 7 年)
@@ -227,7 +227,7 @@ Step E  🎓 critic闸门 真 spawn v4-investor-critic 评审, <85或fatal→打
 - **何时新增 subagent**:仅当现有 agent 阵容无法承载的全新视角才新增。已有视角覆盖 → 改 .md(本次未来市场属此类)
 - **PEG 五大陷阱（critic 沉淀）**：①后视镜增速(历史≠未来,用 forward 常态增速) ②低基数幻觉(上年塌陷→本年恢复=虚高,如药明102%含创新药寒冬低基数) ③**周期伪装成长**(商品/周期品景气高点利润暴增→PEG极低→实为卖出信号,如紫金61.5%=金铜价高位,内生量增仅8-12%) ④增速质量不分(营收≠利润≠FCF,如工业富联增收不增利毛利3-5%) ⑤增速久期(PEG隐含增速永续,实际高增速仅2-3年,需久期折算)。
 - **修正公式**：修正PEG = PE / min(forward_2yr_CAGR, 行业天花板增速) × (3年/高增速持续年数)。周期股禁用 PEG,改用 PB+产能周期。
-- **数据源（2026-06-14 根治）**：价格走新浪源 `stock_zh_a_daily`(sh/sz前缀,稳定;东财 push2 实时端点间歇 RemoteDisconnected 反爬),财务/ROIC 走 `stock_financial_abstract`(新浪源稳定),净利/营收增速用财报 verified 算 PEG。
+- **数据源**：价格走新浪源 `stock_zh_a_daily`(sh/sz前缀,稳定;东财 push2 实时端点间歇 RemoteDisconnected 反爬),财务/ROIC 走 `stock_financial_abstract`(新浪源稳定),净利/营收增速用财报 verified 算 PEG。
 
 ---
 
@@ -237,7 +237,7 @@ Step E  🎓 critic闸门 真 spawn v4-investor-critic 评审, <85或fatal→打
 - **约束硬传递**：宏观 → 大类配比 equity_quota → 行业配比 → 个股配比，每层满足上游约束；上游变更只置黄软提醒。
 - **辩论驱动质量**：每层对立角色 + 总监拍板，避免单一视角确认偏误。
 - **MECE**：每一分钱落进恰好一个大类（含 unclassified 待穿透桶），不漏不重。
-- **子 Agent 而非 `llm.invoke()`**：所有 LLM 决策走 `agents/advisor/v4-*.md` + 编排器 `agent()`。
+- **子 Agent 而非 `llm.invoke`**：所有 LLM 决策走 `agents/advisor/v4-*.md` + 编排器 `agent`。
 
 ---
 
