@@ -277,7 +277,7 @@ async function runIndustryDepartment(name) {
   const unitId = `industry:${name}`;
   const sn = safeName(name);
   phase('行业研究部门');
-  log(`运行行业研究部门：${unitId}（chokepoint→深挖→future-market→辩论→总监→critic评审闭环）`);
+  log(`运行行业研究部门：${unitId}（chokepoint→深挖→future-market→X舆情→辩论→总监→critic评审闭环）`);
 
   const packName = `inputs/industry_${sn}.json`;
   const inputs = [p(packName), p('inputs/data_macro.json'), p('allocation/portfolio.json')];
@@ -333,11 +333,33 @@ ${JSON.stringify({ industry: name, drills }, null, 2)}`,
       { label: '未来市场分析师', phase: '行业研究部门' }
     ));
 
+    // ── Step B2: 行业 X 一线舆情 sentiment（消费 custom-feed-x.json，feed 缺则 agent 内部降级） ──
+    log(`[${sn}] Step B2: 行业 X 一线舆情`);
+    const stFile = `industry_sentiment_${sn}.json`;
+    const feedPath = p('custom-feed-x.json');
+    const sentiment = parseAgentJSON(await agent(
+      `你是行业 X 一线舆情分析师(v4-industry-sentiment)。⚠️先读取 agents/advisor/v4-industry-sentiment.md 应用其分析维度与铁律。\n` +
+      `先用 Read 尝试读 ${feedPath}（X feed 21+ 产业 KOL 推文）。⚠️若该文件不存在/为空，直接输出 {role:"industry_sentiment",industry:"${name}",sentiment_summary:"无 X feed 输入，本轮 sentiment 降级跳过",sentiment_score:null,direction_consensus:[],disagreements:[],catalyst_calendar:[],heat_map:{},falsification_from_kol:[],x_evidence:[],coverage:{accounts_analyzed:0,posts_referenced:0,ai_relevant_posts:0}} 并写文件，不要编造。\n` +
+      `若 feed 存在：再 Read ${p(packName)}、${p(chFile)}。对行业「${name}」做 X 舆情结构化：方向共识(多源同向)/KOL 分歧(对抗式)/催化日历/发现度温度图谱(🔴已price-in/🟡半发现/🟢未发现, 对接瓶颈 discovery_level)/可证伪信号。\n` +
+      `输出 JSON：{role:"industry_sentiment",industry:"${name}",sentiment_summary,sentiment_score,` +
+      `direction_consensus:[{signal,supporting_kols:[],post_evidence,strength}],` +
+      `disagreements:[{topic,bull_side:{kols:[],view},bear_side:{kols:[],view},our_read}],` +
+      `catalyst_calendar:[{date,event,source_kol,impact}],` +
+      `heat_map:{overheated_已price_in:[],discovering_半发现:[],undiscovered_未发现:[]},` +
+      `falsification_from_kol:[{signal,source,watch}],implication_for_director,` +
+      `x_evidence:[{claim,source,status}],coverage:{accounts_analyzed,posts_referenced,ai_relevant_posts}}。\n` +
+      `铁律：只提取 X feed 真实出现的内容(每条 x_evidence 标 @账号+日期), 禁训练知识编造；feed 存在时 x_evidence ≥10 条；多源同向才算强信号。${GROUNDING}` +
+      mkWriteInstr(stFile, 'sentiment'),
+      { label: 'X舆情分析师', phase: '行业研究部门' }
+    ));
+
     // ── Step C: Bull/Bear 3轮辩论 ──
     log(`[${sn}] Step C: 多空辩论`);
     const chokeSummary = JSON.stringify(chokepoint).slice(0, 3000);
     const futureSummary = JSON.stringify(futureMarket).slice(0, 2000);
-    const preContext = `\n\n【前置分析产出——产业链瓶颈结构】\n${chokeSummary}\n\n【前置分析产出——未来市场7把尺结论】\n${futureSummary}\n`;
+    const sentiSummary = sentiment && Object.keys(sentiment).length ? JSON.stringify(sentiment).slice(0, 1500) : '';
+    const preContext = `\n\n【前置分析产出——产业链瓶颈结构】\n${chokeSummary}\n\n【前置分析产出——未来市场7把尺结论】\n${futureSummary}\n` +
+      (sentiSummary ? `\n【前置分析产出——X一线舆情】\n${sentiSummary}\n` : '');
 
     const rounds = [];
     let lastBear = null;
@@ -380,13 +402,15 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
       `industry_future_market:{},` +
       `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority,chain_depth}],` +
       `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},` +
+      `sentiment:{sentiment_summary,sentiment_score,direction_consensus:[],disagreements:[],catalyst_calendar:[],heat_map:{},falsification_from_kol:[],coverage:{}},` +
       `data_quality,evidence:[]}`;
     // director 初稿（产出写入 payloadFile，评审闭环在 Step E）
     await agent(
       `你是行业研究部门总监。Read ${p(dbFile)}、${p(chFile)}、` +
-      `${p(fmFile)}、${p(drillFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
-      `综合：① 产业链瓶颈地图 ② 瓶颈递归深挖的上溯链(industry_drill：每个 top 瓶颈往上游钻出的更深紧缺环节) ③ 未来市场7把尺结论 ④ ${DEBATE_ROUNDS}轮多空辩论。\n` +
-      `拍板「${name}」的方向研判。输出必含 chokepoint_map + deep_chokepoint_chains + industry_future_market + investment_map。\n` +
+      `${p(fmFile)}、${p(drillFile)}、${p(stFile)}、${p(packName)}、${p('allocation/portfolio.json')}。\n` +
+      `综合：① 产业链瓶颈地图 ② 瓶颈递归深挖的上溯链(industry_drill：每个 top 瓶颈往上游钻出的更深紧缺环节) ③ 未来市场7把尺结论 ④ ${DEBATE_ROUNDS}轮多空辩论 ⑤ X 一线舆情(industry_sentiment：方向共识/分歧/发现度温度)。\n` +
+      `拍板「${name}」的方向研判。输出必含 chokepoint_map + deep_chokepoint_chains + industry_future_market + investment_map + sentiment(把 industry_sentiment 产出整体放进 payload.sentiment, 并把其 x_evidence 合并进顶层 evidence 数组优先展示)。\n` +
+      `★舆情用法：sentiment 的发现度温度图谱(🔴已price-in/🟡半发现/🟢未发现)要和瓶颈 discovery_level 交叉验证——X 大佬已反复追捧的环节别再当 alpha 推, 未发现层才是超额来源。\n` +
       `★特别要求：investment_map 不能只停在表层瓶颈(如"光模块制造")，必须把上溯链钻出的【更深、供需更紧、市场更未发现】的环节(如光模块→EML芯片→磷化铟衬底)也作为投资标的纳入，并标 discovery_level——这些深层环节才是还没被 price-in 的超额收益来源。\n` +
       directorSchema + `。${GROUNDING}` +
       `\n\n【产出落盘】用 Write 工具将上述完整 JSON 写入 ${payloadFile}（先 Bash: mkdir -p ${dataDir}）。本步骤先不写单元信封，等评审委员会通过后再落盘。`,
@@ -396,7 +420,7 @@ ${JSON.stringify({ industry: name, rounds }, null, 2)}`,
     // ── Step E: 独立 critic 评审闸门 + director 迭代闭环（真 spawn v4-investor-critic，禁自评） ──
     const verdict = await runCriticGate({
       unitId, payloadFile, directorSchema, kind: 'industry',
-      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(dbFile)}、${p(packName)}`,
+      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(stFile)}、${p(dbFile)}、${p(packName)}`,
       upstreamRefs, inputs,
     });
 
@@ -434,6 +458,7 @@ async function recriticIndustry(name) {
   const fmFile = `industry_future_market_${sn}.json`;
   const dbFile = `industry_debate_${sn}.json`;
   const drillFile = `industry_drill_${sn}.json`;
+  const stFile = `industry_sentiment_${sn}.json`;
   const unitFile = `industries/${sn}.json`;
   const payloadFile = p('_payload_tmp.json');
 
@@ -446,7 +471,9 @@ async function recriticIndustry(name) {
     `deep_chokepoint_chains:[{start,chain:[{depth,node,supply_demand_gap,expansion_cycle,global_players,pricing_power,discovery_level,beneficiaries_a:[],beneficiaries_qdii:[]}],deepest_alpha}],` +
     `industry_future_market:{},` +
     `investment_map:[{chokepoint_node,beneficiary,code,reason,discovery_level,position_priority,chain_depth}],` +
-    `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},data_quality,evidence:[]}`;
+    `forward_view:{near_term_calendar:[],mid_term_path,path_scenarios:[]},` +
+    `sentiment:{sentiment_summary,sentiment_score,direction_consensus:[],disagreements:[],catalyst_calendar:[],heat_map:{},falsification_from_kol:[],coverage:{}},` +
+    `data_quality,evidence:[]}`;
 
   try {
     // 取锁 + 从已落盘信封提取 payload 写入临时文件（critic gate 评审它）
@@ -460,7 +487,7 @@ async function recriticIndustry(name) {
     // 直接跑评审闭环（与正常流程同一函数，行为一致）
     const verdict = await runCriticGate({
       unitId, payloadFile, directorSchema, kind: 'industry',
-      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(dbFile)}、${p(packName)}`,
+      readRefs: `${p(chFile)}、${p(fmFile)}、${p(drillFile)}、${p(stFile)}、${p(dbFile)}、${p(packName)}`,
       upstreamRefs, inputs,
     });
 

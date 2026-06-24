@@ -78,7 +78,7 @@ tools: ["Read", "Bash", "Grep"]
 | `看看我的持仓` / `当前持仓` | — | 读取并展示 holdings.json |
 
 > **refresh vs recritic 怎么选**（省 token 关键）：
-> - **recritic**：前面分析（瓶颈拆解/深挖/未来市场/辩论）都对，只是 **critic 那一步**要重跑——典型场景：critic 代码 bug 修复后重评、对评审结论不满想重审。复用已落盘 director 产物，跳过 Step A-D，**省大量 token**。支持 `industry:` / `asset:` 单元（个股走 mode-A，不走此路径）。
+> - **recritic**：前面分析（瓶颈拆解/深挖/未来市场/X舆情/辩论）都对，只是 **critic 那一步**要重跑——典型场景：critic 代码 bug 修复后重评、对评审结论不满想重审。复用已落盘 director 产物，跳过 Step A-D（含 B2 sentiment），**省大量 token**。支持 `industry:` / `asset:` 单元（个股走 mode-A，不走此路径）。
 > - **refresh**：上游数据变了 / 想从头重做整个分析。全套重跑，贵。
 > - 用户说"重新评审/重评/评审分数不对/只重跑 critic"→ **recritic**；说"重跑/刷新/重新分析"→ **refresh**。拿不准时问一句。
 > - ⚠️ recritic 跑完务必 `python scripts/build_snapshot_v4.py` 同步前端（否则前端仍显示旧分数）。
