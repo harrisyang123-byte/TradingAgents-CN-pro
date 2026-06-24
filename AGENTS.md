@@ -69,7 +69,8 @@
 
 **禁止"为了快/避免 timeout/省 context"简化跑分析单元**。具体：
 
-- 5+1 五力 + 6 轮辩论 + 3 方风险 + sentiment + critic = **完整 17 个 stage,缺一不算"真单元"**
+- **个股层**完整链 = 5+1 五力 + 6 轮辩论 + 3 方风险 + sentiment + critic = **完整 17 个 stage,缺一不算"真单元"**（对应个股 15 个 agent）
+- **行业层**完整链 ≠ 17 stage，是另一套 **6 stage**：Step A(chokepoint 横向铺全25细分+纵向逆向) → A2(递归上溯深挖) → B(future-market 7把尺) → C(bull/bear 3轮) → D(director 拍板) → E(critic 评审闭环)。⚠️ 行业层 **X 舆情 sentiment 是第 7 个待补 stage**（透传已通、生产端 stage/agent 未固化，见 §9）。**大类层**：3视角分析 + bull/bear 3轮 + director + critic。各层 stage 数不同，别用"17"横贴所有层。
 - subagent failed 时**先重试 1 次**(换更小的 prompt 或拆 stage),第 2 次仍 fail 才主 agent 接管
 - **主 agent 接管的 stage 必须在 payload 里标 `data_status: "synthesized_by_main_agent"`** 让用户在前端可见
 - ⚠️ **critic stage 不适用"主 agent 接管豁免"(2026-06-19 loop 自查固化, 代码强制)**: critic 是质量闸门, 闸门自己被主 agent 合成 = 闸门失效。critic spawn 失败也**禁止**主 agent 扮演四大师自评打分——只能重试 spawn, 或如实落 red 信封(评审未完成)降级, 绝不标 `synthesized_by_main_agent` 后写 ACCEPT。`v4_unit_cli.py write` 已代码强制: critic 类字段标 `synthesized_by_main_agent` → ACCEPT 不算数, exit=4 阻断(与 final_verdict 校验同级)。
@@ -114,11 +115,15 @@
 ## 2. 触发命令（CLI，与 Web 分离）
 
 ```bash
-./scripts/run_v4.sh analyze <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
-./scripts/run_v4.sh refresh <unit-selector> ...   # 强制失效重跑，重绑最新上游指纹
-./scripts/run_v4.sh status [--json]               # 列全部单元五色状态
-./scripts/run_v4.sh scan   [--json]               # 仅置黄过期单元，绝不自动重跑
+./scripts/run_v4.sh analyze  <unit-selector> [--user-id <id>] [--portfolio-file <path>] [--full]
+./scripts/run_v4.sh refresh  <unit-selector> ...   # 强制失效重跑，重绑最新上游指纹
+./scripts/run_v4.sh recritic <unit-selector> ...   # 只重跑 critic 评审闭环，复用已落盘 director 产物，省 token（仅 industry/asset）
+./scripts/run_v4.sh landscape industry:<行业> ...  # 只跑横向产业链全景铺全（穷举 15-25 细分领域 + 粗判瓶颈，不落信封，仅 industry）
+./scripts/run_v4.sh status [--json]                # 列全部单元五色状态
+./scripts/run_v4.sh scan   [--json]                # 仅置黄过期单元，绝不自动重跑
 ```
+
+> ⚠️ **编排范围（2026-06-21 厘清，别再误解）**：JS 编排器 `workflow-v4-advisor.js` 当前**只实装 `industry` 分支**（`analyze`/`recritic`/`landscape`）+ `asset` 的 `recritic`。其余层（`asset/stock/plan/alloc` 的 `analyze`）走 **mode-A 主 agent 直跑**（见 §8），不经 JS 编排器——直接 `run_v4.sh analyze stock:xxx` 会抛 `暂未适配` 错。这是有意设计：个股/大类深链由当前会话 AI 读 agent .md 直跑，灵活且不需 claude CLI。
 
 ### 快捷指令 → 真实命令（v4 对话触发）
 
@@ -132,6 +137,8 @@
 | `行业内配比 <行业>` | `run_v4.sh analyze alloc:industry:<行业>` |
 | `<大类>投资方案` | `run_v4.sh analyze plan:<class>` |
 | `刷新<单元>` | `run_v4.sh refresh <unit-selector>` |
+| `重评/重新评审<行业或大类>` / `只重跑critic` / `评分不对重评` | `run_v4.sh recritic industry:<行业>` 或 `recritic asset:<class>` |
+| `铺全产业链/全景<行业>` / `<行业>有哪些细分` | `run_v4.sh landscape industry:<行业>` |
 | `v4 状态/扫描/报告/快照` | `status` / `scan` / `run_report_v4.py` / `build_snapshot_v4.py` |
 | `我的持仓是…/加一笔/卖了/看持仓` | AI 读写 `data/v4/_inputs/holdings.json` |
 
@@ -185,7 +192,7 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 
 ### 4.1 🌿 瓶颈选股链（自下而上进攻链，主 agent orchestrate，2026-06-15 新增）
 
-**触发**：行业研究部门判定某行业 `go`(景气)后, 对该行业跑 `alpha:bottleneck:<industry>`。这是与"自上而下配置链"互补的**自下而上进攻链**, 嵌在行业层判 go 之后、个股层之前。
+**触发**：行业研究部门判定某行业 `go`(景气)后, 对该行业启动瓶颈选股链。这是与"自上而下配置链"互补的**自下而上进攻链**, 嵌在行业层判 go 之后、个股层之前。⚠️ 注意：这是**主 agent orchestrate 的逻辑流程, 不是 CLI verb**——`run_v4.sh` 没有 `alpha`/`bottleneck` selector, 由主 agent 按下面 4 步分批 spawn 实现。
 
 **4 步流程(主 agent 必须分发 subagent, 单个 agent 研究不过来)**：
 1. **chokepoint 拆产业链** → spawn `v4-industry-chokepoint`: 逆向工程定位最短木板瓶颈环节 + discovery_level🟢未发现
@@ -208,9 +215,10 @@ python scripts/build_snapshot_v4.py          # （可选）前端静态快照 �
 |----|------|
 | 通用 | `v4-data-desk`——宏观 `macro_source.py`(AKShare 22 指标) + **A股个股 `stock_source.py`(股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**)** |
 | 大类 | `v4-asset-analyst-macro/flow/policy`(3视角) + `v4-asset-bull/bear`(多空3轮) + `v4-asset-director`(拍板) + **`v4-investor-critic`(独立评审闭环, <85或fatal→打回director修订≤2轮, ACCEPT才落盘; 2026-06-19 补齐——此前大类 pipeline 无 critic 却被 cli 强制 ACCEPT, 长期靠 --skip-critic 绕过=闸门形同虚设)** + `v4-allocation-director`(配比) |
-| 行业 | `v4-industry-chokepoint`(瓶颈拆解+**递归上溯深挖**) + `v4-industry-future-market-analyst`(7把尺) + `v4-industry-bull/bear`(多空3轮) + `v4-industry-director`(整合拍板) + **`v4-investor-critic`(独立评审闭环, <85或fatal→打回director修订≤2轮, ACCEPT才落盘)** + `v4-industry-allocator` |
-| 个股 | **`v4-stock-analyst-financial/competitive/valuation`(3分析师分队)** + `v4-stock-bull/bear` + `v4-stock-director`(预期差拍板) |
-| 质量闸门 | **`v4-investor-critic`**(芒格/段永平/Serenity/达里奥四视角评审,ACCEPT\|NEEDS_CHANGES;标准已内化进各层 director) |
+| 行业 | `v4-industry-chokepoint`(瓶颈拆解+**横向铺全25细分**+**递归上溯深挖**) + `v4-industry-future-market-analyst`(7把尺) + `v4-industry-bull/bear`(多空3轮) + `v4-industry-director`(整合拍板) + **`v4-investor-critic`(独立评审闭环, <85或fatal→打回director修订≤2轮, ACCEPT才落盘)** + `v4-industry-allocator`。⚠️ **行业层 X 舆情 sentiment**：透传链(payload→`build_industry_detail`→前端§3.5)2026-06-21 已通，但 **workflow 正规 stage + 专属 agent 待补**（当前靠主 agent mode-A 跑，见 §9 孤儿待办） |
+| 个股 | **4 分析师分队** `v4-stock-analyst-financial/competitive/valuation/sentiment` + **波特五力专项** `v4-stock-force-buyer/entry/rivalry/substitute/supplier` + `v4-stock-bull/bear` + **三方风险辩论** `v4-stock-risk-aggressive/neutral/safe` + **估值** `v4-stock-valuation-engineer`(推导)/`v4-stock-valuation-auditor`(审计) + `v4-stock-director`(预期差拍板) |
+| 选股/扫描 | `v4-market-scanner`(全市场 ROIC/PE/增速筛选) + `v4-alpha-hunter`(瓶颈环节未识别 alpha 深挖, 五因子纯演绎) |
+| 质量闸门 | **`v4-investor-critic`**(芒格/段永平/Serenity/达里奥四视角评审,ACCEPT\|NEEDS_CHANGES)。⚠️ **必须真 spawn 独立评审, 禁内化进 director 自评**(§0bis 代码强制, cli 拦截 synthesized_by_main_agent 的 ACCEPT) |
 | 元指导 | **`v4-chief-investment-officer`**(首席投资官+投委会,以"用户持久盈利"审视系统方向:可信/能用/连得上/会学/值得,识别假专业与过度工程) |
 
 **方法论 1 — Chokepoint 瓶颈 + 波特五力**（`planning/v4/chokepoint-framework.md`）：四维判定（不可替代/供给集中/产能刚性/价值卡位）定"卡不卡脖子" + **波特五力**（进入者/替代品/买方/供方/同业竞争）定"利润能否留住"(A/B验证加五力85 vs 78) + **市场发现度**。瓶颈→`investment_map`(推荐个股+卡位排序+为什么是它)落到"买什么"。
@@ -247,13 +255,13 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 
 7. **MECE 反偷懒铁律(2026-06-14 用户拍板防止借'少开 agent'偷懒)**: "少开 agent"原则不得作为偷懒借口。当某分析维度在现有 agent 阵容中无对应职责,**必须新建专门 subagent**, 而不是让现有 agent 凑合做(否则=草草敷衍)。
    - 判定**必须新建**: ① 某维度在现有阵容(allocator/bear/bull/chokepoint/director+critic+5力+sentiment+3风险辩论)中无 agent 职责对应; ② 现有 agent 兼做但质量明显不足(如 critic 兼 6.12 自查暴露 NEEDS_CHANGES 反复); ③ 主 agent 想为省时间兼做 → 触发本铁律禁主 agent 接管,必须 spawn
-   - 当前应新建(本会话暴露的): `v4-stock-valuation-auditor.md`(expert_valuation 推导链独立审计)/`v4-market-scanner.md`(全市场 ROIC/PE/增速筛选)/`v4-alpha-hunter.md`(未识别 alpha 深挖)
+   - **已新建并在用(本会话暴露的反偷懒缺口已补)**: `v4-stock-valuation-auditor.md`(expert_valuation 推导链独立审计)/`v4-stock-valuation-engineer.md`(估值推导)/`v4-market-scanner.md`(全市场 ROIC/PE/增速筛选)/`v4-alpha-hunter.md`(未识别 alpha 深挖) — 均已落地, 非 TODO
    - 详见 `planning/v4/project-master-prompt.md §3 反偷懒铁律`
-7. 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005）；约束链不满足只软提醒。
-8. 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4）。
-9. 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发。
-10. **景气度 × 安全边际 × 预期差**：景气定行业、瓶颈定环节、预期差定个股买卖、安全边际把关买点；估值约束只调权重/买点，不做准入否决（避免错过 AI 等成长赛道）。
-11. **市场覆盖分层**：A股个股直接（stock_source）、港股直接可投、海外（美股/欧股/台股）物理瓶颈标的通过 QDII/主题基金获取敞口；大类层把海外作为「全球配置」一整块敞口。
+8. 状态机 `v4_state.py` **只读、只报警、绝不触发重跑/改数值**（FR-005）；约束链不满足只软提醒。
+9. 落盘**覆盖式只动本单元** + `version+1`（原子写 临时文件→rename），不触碰其它单元（AC9.4）。
+10. 只读路由不得有「点即跑 LLM」的写接口；重计算只在本地 / AI 代跑触发。
+11. **景气度 × 安全边际 × 预期差**：景气定行业、瓶颈定环节、预期差定个股买卖、安全边际把关买点；估值约束只调权重/买点，不做准入否决（避免错过 AI 等成长赛道）。
+12. **市场覆盖分层**：A股个股直接（stock_source）、港股直接可投、**海外（美股/欧股/台股）物理瓶颈标的可经 `overseas_source.py`(yfinance/stooq) 直取 verified 行情/财务**, 或通过 QDII/主题基金获取敞口；大类层把海外作为「全球配置」一整块敞口。
 
 ---
 
@@ -279,6 +287,10 @@ payload 字段权威定义见 `chokepoint-framework.md §9`（`chokepoint_map`(�
 ## 9. 改 v4 要警惕的「孤儿模式」
 
 本项目踩过的病根：**组件造好了但没插电**（函数实现完整却没有调用方）。改动涉及「新增能力」时，确认它真正接进了 `collect_v4.py → run_v4.sh → workflow-v4-advisor.js` 链路，grep 新函数的调用方，别留孤儿。例：行业 `chokepoint_map` 字段——既要瓶颈分析师产出，又要 director 整合透传、`build_industry_detail` 透传到快照、前端渲染，缺一环就「看不见」。
+
+### 9.1 ⚠️ 当前已知孤儿/半接通待办（2026-06-21）
+
+- **行业层 X 舆情 sentiment**：透传链已通（`payload.sentiment` → `build_industry_detail`(v4_query.py) → 前端 `IndustryFullReport.vue §3.5`），数据也已手工补进 `industry:AI算力数据中心`。**但生产端缺两环**：① `workflow-v4-advisor.js` 行业流程没有 sentiment 的正规 Step；② `agents/advisor/` 没有行业层 sentiment agent（只有个股 `v4-stock-analyst-sentiment`）。**后果**：下次 `run_v4.sh analyze industry:xxx` 不会自动产出 X 舆情，需主 agent mode-A 手工补。**待固化**：新建 `v4-industry-sentiment.md` + workflow 加 Step B2(sentiment)，把临时方案接进引擎。
 
 ---
 

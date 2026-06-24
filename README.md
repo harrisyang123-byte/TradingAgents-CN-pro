@@ -66,12 +66,12 @@
 
 | 层 | 角色 | 职责 |
 |----|------|------|
-| 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**) |
+| 通用 | `v4-data-desk` | **唯一带联网工具**的取数台；宏观走 `macro_source.py`(AKShare 22 指标)、A股个股走 `stock_source.py`(AKShare 股价/市值/PE/PB/PE分位/财务/涨幅/**价值创造 verified ROIC·FCF·净利率**)、**海外(美股/港股)走 `overseas_source.py`(yfinance+stooq verified 行情/财务)** |
 | 大类 | `v4-asset-analyst-macro/flow/policy` + `v4-asset-bull/bear` + `v4-asset-director` | 3 视角分析师打底 → 多空 3 轮 → 总监拍板(reflection+反骑墙) |
 | 大类 | `v4-allocation-director` | 资产配比委员会，Σ=100% + 下传 equity_quota |
-| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + **`v4-industry-future-market-analyst`** + `v4-industry-director` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+逆向工程+替代路径+发现度) + **★未来市场专职分析师**(2026-06-14 拆分独立 agent: TAM 当前/2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 7 把辩证尺) → 总监整合 chokepoint_map + 引用 industry_future_market(下游个股 expert_valuation 上游锚定) |
+| 行业 | `v4-industry-bull/bear` + **`v4-industry-chokepoint`** + **`v4-industry-future-market-analyst`** + `v4-industry-director` + `v4-industry-allocator` | 景气多空 + **产业链瓶颈分析师**(Chokepoint 四维+横向铺全25细分+递归上溯深挖+替代路径+发现度) + **★未来市场专职分析师**(TAM 当前/2030E + CAGR + 渗透率阶段 + 行业 forward PEG + 龙头瓜分 + 7 把辩证尺) → 总监整合 chokepoint_map + 引用 industry_future_market。⚠️ **X 舆情 sentiment**(X feed KOL 一线信号)透传链已通、前端 §3.5 可见，但 workflow stage/专属 agent 待补(见 AGENTS.md §9.1) |
 | 行业 | `v4-industry-allocator` | 行业间配比(≤equity_quota) |
-| 个股 | **`v4-stock-analyst-financial/competitive/valuation`** + **`v4-stock-analyst-sentiment`** + **`v4-stock-valuation-engineer`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情**) → **估值工程师**(2026-06-14 拆分: forward 2-3年 EPS 推导链 + PE 分位计算 + 可比 PE 锚定 + 对面买家逻辑, 防目标价反复反转) → 多空 → **3 方风险辩论** → 总监预期差拍板 |
+| 个股 | **4 分析师** `v4-stock-analyst-financial/competitive/valuation/sentiment` + **波特五力专项** `v4-stock-force-buyer/entry/rivalry/substitute/supplier` + **`v4-stock-valuation-engineer`** + `v4-stock-bull/bear` + **`v4-stock-risk-aggressive/safe/neutral`** + `v4-stock-director` | **4 分析师并列**(财务/竞争/估值/**舆情雪球·股吧**) + **5 力专项 agent**(逐力深做 CR1/CR3/CR5/产能/上游) → **估值工程师**(forward 2-3年 EPS 推导链 + PE 分位 + 可比 PE 锚定 + 对面买家逻辑, 防目标价反复反转) → 多空 → **3 方风险辩论** → 总监预期差拍板 |
 | 个股·估值审计 | **`v4-stock-valuation-auditor`**(2026-06-14 拆分, 独立于 critic) | 专职审计 expert_valuation 推导链(6.12 推导链 7 项 + 6.13 成长股 5 项 + **反复反转检查**), 防 director 自我合理化 |
 | 进攻·选股 | **`v4-market-scanner`**(横向) + **`v4-alpha-hunter`**(纵向, 2026-06-15 重写为五因子模型) | **两条 MECE 进攻路径**: ① scanner 横向全市场硬指标扫描(ROIC>WACC / PE分位<30% / 增速>20%)逆向价值发现 → ② **瓶颈选股链**(alpha:bottleneck:<industry>): 景气行业→chokepoint拆产业链→hunter 用 **Serenity 五因子模型**(需求确定+供给受限+低关注度+价值可捕获+催化剂)纯演绎挖**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道) → data-desk verified核实 → critic 6.14 复核。**禁研报验证(研报=已知=高关注=反了), 靠专利/客户名单/产能地图/上游矿源碎片演绎** |
 | 个股·竞争深做 | **`v4-stock-force-entry/substitute/buyer/supplier/rivalry`**（5 力专项分析师，2026-06-13 拆分） | **每力深做+偏基本面**(buyer/supplier 用毛利率/成本数据论证),输出给 competitive 整合 agent 做交叉编织 |
@@ -85,7 +85,9 @@
 
 ---
 
-## 个股完整分析流程（架构图 — 8 step 真实编排器顺序）
+## 个股完整分析流程（架构图 — 8 step AI 直跑编排）
+
+> ℹ️ **编排方式说明**：个股 8-step 是**主 agent mode-A 直跑**的逻辑流程（当前会话 AI 读 `agents/advisor/v4-stock-*.md` 角色定义按序 spawn），**不是 JS 硬编码编排器**。JS 编排器 `workflow-v4-advisor.js` 目前只实装 **industry 分支**（见下方行业编排）。两者产出同构信封，前端无差异。
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -174,9 +176,30 @@
 
 ---
 
+## 行业完整分析流程（JS 编排器真实顺序 — `workflow-v4-advisor.js`）
+
+行业层是**唯一由 JS 编排器硬编码**的链路（`run_v4.sh analyze industry:<行业>`），实际 6 个 stage：
+
+```
+Step A  🔗 瓶颈拆解   chokepoint: 横向铺全 15-25 细分领域 + 纵向逆向工程四维判定
+Step A2 ⛏️ 递归深挖   drillChokepoint: 对 top 瓶颈逐层上溯, AI 自评估收敛层数(不写死)
+Step B  📐 未来市场   future-market: 7 把辩证尺(TAM三角/拆解/CAGR久期/渗透类比/forward PEG/龙头集中度/景气先行)
+Step C  ⚔️ 多空辩论   bull/bear 各 3 轮(满血输入 + 方法论钩子, 禁立场对撞口号)
+Step D  👔 总监拍板   director 整合, 不机械平均, 明示采信/压低
+Step E  🎓 critic闸门 真 spawn v4-investor-critic 评审, <85或fatal→打回 director 修订≤2轮, ACCEPT 才落盘
+```
+
+省 token 变体：`recritic`（只重跑 Step E，复用 A-D 产物）、`landscape`（只跑 Step A 横向铺全，不落信封）。
+⚠️ 行业层 **X 舆情 sentiment** 透传链已通（前端可见）但 workflow stage 待补，见 `AGENTS.md §9.1`。
+
+---
+
 ## 核心方法论
 
-- **Chokepoint 供应链瓶颈框架 + 波特五力**（`planning/v4/chokepoint-framework.md`，借鉴 Serenity）：自下而上逆向工程产业链，**四维判定**（不可替代/供给集中/产能刚性/价值卡位）定位"卡不卡脖子"，**波特五力**（进入者/替代品/买方/供方/同业竞争）判定"利润能否留住"，加 **市场发现度**。A/B 测试验证加五力 85 vs 78。混合分队：瓶颈分析师出骨架 → director 整合 chokepoint_map → **investment_map（瓶颈环节→推荐个股→卡位排序→为什么是它）** 落到"买什么"。
+- **Chokepoint 供应链瓶颈框架 + 波特五力**（`planning/v4/chokepoint-framework.md`，借鉴 Serenity）：自下而上逆向工程产业链，**四维判定**（不可替代/供给集中/产能刚性/价值卡位）定位"卡不卡脖子"，**波特五力**（进入者/替代品/买方/供方/同业竞争）判定"利润能否留住"，加 **市场发现度**。混合分队：瓶颈分析师出骨架 → director 整合 chokepoint_map → **investment_map（瓶颈环节→推荐个股→卡位排序→为什么是它）** 落到"买什么"。
+  - **横向铺全（landscape）**：穷举行业 15-25 个并列细分领域 + 粗判瓶颈，与纵向逆向工程构成 MECE 两条铺面路径，防漏 segment（如 PCB/CCL/MLCC/玻璃基板/铜连接并列）。可 `run_v4.sh landscape` 单跑。
+  - **纵向递归深挖（drillChokepoint）**：对 top 瓶颈逐层上溯（光模块→EML→InP→铟矿），**AI 自评估收敛层数**（到原料/物理瓶颈/已拥挤层即停），不写死深度，挖到"未发现层 alpha"。
+- **独立 critic 评审闭环**（`agents/advisor/v4-investor-critic.md`）：四视角(芒格/段永平/Serenity/达里奥)真 spawn 独立评委(**禁 director 自评内化**，cli 代码强制拦截 `synthesized_by_main_agent` 的 ACCEPT)。<85 分或有 fatal_flaw → 打回 director 修订(≤2轮)，R1→修订→R2，ACCEPT 才落盘。省 token 变体 `recritic` 只重跑此闭环。
 - **预期差选股理论 + 估值推导链**（`planning/v4/stock-selection-theory.md`）：**判断买卖看预期差（基本面将兑现 − 价格已 price-in），不看涨幅/PE 分位**。三锚：隐含增速缺口/定价充分度/催化。**买点/目标价必须有 `valuation_basis` 推导链**（目标价=forward指标×目标倍数(对标谁)，买点=安全边际/PB/DCF），禁止拍脑袋。
 - **🌿 交易无人知晓的瓶颈 — Serenity 五因子模型**（`planning/v4/unknown-bottleneck-framework.md`，2026-06-15 用户拍板固化）：产业链上溯式投资，在确定性大主线(AI数据中心/人形机器人/800V直流供电)中找"缺了它整个产业链转不动"的**紫苏叶**(小市值+技术垄断+不可或缺+市场不知道)，提早介入。**五因子同时满足**：需求确定+供给受限+低关注度+价值可捕获+催化剂。**致命铁律**：① 禁用研报验证瓶颈(研报=市场已知=高关注=价格已反映=没 alpha)，靠专利/客户名单/产能地图/上游矿源**碎片演绎推理**；② 低关注度是硬门槛(金枪鱼大腹如中际旭创降级)；③ 不因当前利润未兑现就淘汰(提早介入是灵魂，用价值可捕获+催化剂判时机)。落地为**瓶颈选股链** `alpha:bottleneck:<industry>`(主 agent orchestrate 的 N×M×K 扇出)。
 - **forward_view 前瞻视野**（A/B 测试 2 次验证 89/82 vs 52）：宏观从"回看"升级到"前瞻"——11 维（事件日历+一致预期+预期差+三情景+仓位/IV+假设证伪+尾部风险+跨市场领先+触发监控），触发监控用**绝对阈值**。三层 director 全部内化（不增 agent，A/B 测试证明）。
@@ -226,10 +249,10 @@
 | 前端 | Vue 3.5+ + Vite + Element Plus |
 | 数据库 | MongoDB + Redis（v4 前端可走静态快照，MongoDB 可选）|
 | v4 Agent | `agents/advisor/v4-*.md` 子 Agent，本会话 AI 直跑 或 `claude -p` 驱动 |
-| 数据源 | AKShare（A股宏观+个股，`macro_source.py`/`stock_source.py`）/ Tushare / BaoStock + 联网核实 |
+| 数据源 | AKShare（A股宏观+个股，`macro_source.py`/`stock_source.py`）/ **海外 `overseas_source.py`(yfinance+stooq, 美股/港股 verified)** / Tushare / BaoStock + 联网核实 |
 | 市场覆盖 | A股 / 港股 直接；海外（美股/欧股/台股）通过 QDII·主题基金间接 |
 
-> **市场覆盖边界**：A股个股直接（Scout/stock_source），港股直接可投，海外物理瓶颈标的（如 SOI 衬底/MBE 设备）通过 QDII/主题基金获取敞口。大类资产层把海外作为「全球配置」一整块敞口参与配比。
+> **市场覆盖边界**：A股个股直接（stock_source），港股直接可投，**海外（美股/港股）物理瓶颈标的可经 `overseas_source.py` 直取 verified 行情/财务**，或通过 QDII/主题基金获取敞口。大类资产层把海外作为「全球配置」一整块敞口参与配比。
 
 ---
 
@@ -259,7 +282,12 @@ tradingagents-cn/
 │   ├── stock_source.py              # AKShare A股个股硬数据（股价/市值/PE/财务/涨幅）
 │   ├── v4_unit_store.py / v4_query.py / asset_classes.py
 ├── app/routers/portfolio_v4.py      # v4 只读路由
-├── frontend/src/views/Portfolio/v4/ # v4 三层 Tab（大类/行业/个股 + 瓶颈地图）
+├── frontend/src/views/Portfolio/v4/ # v4 三层 Tab + 4 个完整报告页
+│   ├── HoldingsFullReport.vue       # 持仓总览完整报告
+│   ├── AssetFullReport.vue          # 大类完整报告
+│   ├── IndustryFullReport.vue       # 行业完整报告(全景/瓶颈/深挖/投资地图/X舆情§3.5/未来市场/前瞻)
+│   ├── StockFullReport.vue          # 个股完整报告
+│   └── report-shared.css            # 统一报告设计语言
 ├── planning/v4/                     # 设计真源（chokepoint-framework / stock-selection-theory / rerun-memory / backlog）
 ├── openspec/                        # 变更记录（OpenSpec changes）
 ├── docs/wiki/                       # 架构知识库
@@ -288,11 +316,15 @@ tradingagents-cn/
 ### 触发（CLI）
 
 ```bash
-./scripts/run_v4.sh analyze asset:equity --user-id <id> --portfolio-file data/v4/_inputs/holdings.json
-./scripts/run_v4.sh refresh <unit-selector> ...   # 强制失效重跑，重绑最新上游指纹
+./scripts/run_v4.sh analyze  asset:equity --user-id <id> --portfolio-file data/v4/_inputs/holdings.json
+./scripts/run_v4.sh refresh  <unit-selector> ...   # 强制失效重跑，重绑最新上游指纹
+./scripts/run_v4.sh recritic industry:<行业> ...   # 只重跑 critic 评审闭环, 复用已落盘 director 产物, 省 token（仅 industry/asset）
+./scripts/run_v4.sh landscape industry:<行业> ...  # 只跑横向产业链全景铺全(穷举 15-25 细分领域 + 粗判瓶颈, 不落信封, 仅 industry)
 ./scripts/run_v4.sh status            # 列全部单元五色状态
 ./scripts/run_v4.sh scan              # 仅置黄过期单元，绝不自动重跑
 ```
+
+> ⚠️ **编排范围**：`analyze` 当前 JS 编排器只实装 `industry`；`asset/stock/plan/alloc` 的 analyze 走 **mode-A 主 agent 直跑**（不经 JS 编排器）。`recritic` 支持 industry/asset，`landscape` 仅 industry。
 
 `unit-selector`：`asset:<class>` / `plan:<class>` / `alloc:portfolio` / `alloc:equity_industries` / `industry:<name>` / `stock:<code>` / `alloc:industry:<name>`。七大类 class：`equity / fixed_income / cash / commodity / precious_metal / real_estate / alternative`。
 
