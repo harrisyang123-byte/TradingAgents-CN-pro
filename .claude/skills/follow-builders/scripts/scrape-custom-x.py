@@ -5,6 +5,7 @@ Authenticated access = full timeline + unlocked accounts + proper timestamps.
 Outputs JSON compatible with follow-builders' feed-x.json format.
 """
 
+import argparse
 import json
 import time
 import sys
@@ -176,7 +177,63 @@ def scrape_user(page, username):
     return result
 
 
+def parse_batch(batch_str, total):
+    """Parse '2/3' → (start_idx, end_idx) for slicing sources list."""
+    try:
+        part, parts = batch_str.split("/")
+        part = int(part)
+        parts = int(parts)
+        if part < 1 or part > parts:
+            raise ValueError
+        chunk = (total + parts - 1) // parts  # ceiling division
+        start = (part - 1) * chunk
+        end = min(part * chunk, total)
+        return start, end
+    except Exception:
+        print(f"❌ --batch 格式错误，应为 'N/M'，例如 '1/2'", file=sys.stderr)
+        sys.exit(1)
+
+
+def merge_output(existing_path, new_results, batch_stats, batch_label):
+    """Merge batch results into existing output file (or create new)."""
+    if os.path.exists(existing_path):
+        with open(existing_path) as f:
+            existing = json.load(f)
+        existing_map = {e["username"]: e for e in existing.get("x", [])}
+        for entry in new_results:
+            existing_map[entry["username"]] = entry
+        merged_x = list(existing_map.values())
+        prev_stats = existing.get("stats", {})
+        merged_stats = {
+            "totalTweets": prev_stats.get("totalTweets", 0) + batch_stats["totalTweets"],
+            "newTweets": prev_stats.get("newTweets", 0) + batch_stats["newTweets"],
+            "sources": batch_stats["sourcesTotalAll"],
+            "sourcesWithContent": len(merged_x),
+            "sourcesBlocked": prev_stats.get("sourcesBlocked", 0) + batch_stats["sourcesBlocked"],
+            "lastBatch": batch_label,
+        }
+    else:
+        merged_x = new_results
+        merged_stats = {
+            "totalTweets": batch_stats["totalTweets"],
+            "newTweets": batch_stats["newTweets"],
+            "sources": batch_stats["sourcesTotalAll"],
+            "sourcesWithContent": len(merged_x),
+            "sourcesBlocked": batch_stats["sourcesBlocked"],
+            "lastBatch": batch_label,
+        }
+    return merged_x, merged_stats
+
+
 def main():
+    parser = argparse.ArgumentParser(description="Custom X feed scraper")
+    parser.add_argument(
+        "--batch",
+        default=None,
+        help="Run a subset of accounts, e.g. '1/2' = first half, '2/2' = second half",
+    )
+    args_parsed = parser.parse_args()
+
     from cloakbrowser import launch
 
     env = load_env(ENV_PATH)
@@ -187,9 +244,18 @@ def main():
         print("❌ 缺少 X auth_token / ct0，请检查 ~/.follow-builders/.env", file=sys.stderr)
         sys.exit(1)
 
-    sources = load_json(USER_CONFIG_PATH, {}).get("sources", DEFAULT_SOURCES)
+    all_sources = load_json(USER_CONFIG_PATH, {}).get("sources", DEFAULT_SOURCES)
     state = load_json(STATE_PATH, {"seenTweets": {}})
     seen = state["seenTweets"]
+
+    if args_parsed.batch:
+        start, end = parse_batch(args_parsed.batch, len(all_sources))
+        sources = all_sources[start:end]
+        batch_label = args_parsed.batch
+        print(f"🔢 Batch {batch_label}: accounts {start+1}–{end} of {len(all_sources)}", file=sys.stderr)
+    else:
+        sources = all_sources
+        batch_label = "full"
 
     print(f"🚀 CloakBrowser + auth ({len(sources)} accounts)...", file=sys.stderr)
     browser = launch(headless=True, humanize=True)
@@ -228,25 +294,39 @@ def main():
         if filtered:
             results.append(entry)
 
-        time.sleep(1.5)
+        time.sleep(3)  # 3s instead of 1.5s to reduce bot-detection risk
 
     browser.close()
     save_json(STATE_PATH, state)
 
-    output = {
-        "x": results,
-        "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "stats": {
+    if args_parsed.batch:
+        batch_stats = {
             "totalTweets": total,
             "newTweets": new,
-            "sources": len(sources),
-            "sourcesWithContent": len(results),
             "sourcesBlocked": blocked,
+            "sourcesTotalAll": len(all_sources),
         }
-    }
+        merged_x, merged_stats = merge_output(OUTPUT_PATH, results, batch_stats, batch_label)
+        output = {
+            "x": merged_x,
+            "generatedAt": datetime.now(timezone.utc).isoformat(),
+            "stats": merged_stats,
+        }
+    else:
+        output = {
+            "x": results,
+            "generatedAt": datetime.now(timezone.utc).isoformat(),
+            "stats": {
+                "totalTweets": total,
+                "newTweets": new,
+                "sources": len(all_sources),
+                "sourcesWithContent": len(results),
+                "sourcesBlocked": blocked,
+            },
+        }
 
     save_json(OUTPUT_PATH, output)
-    print(f"\n✅ {new} new / {total} total tweets, {len(results)} accounts, {blocked} blocked", file=sys.stderr)
+    print(f"\n✅ batch={batch_label} | {new} new / {total} total, {len(results)} accounts, {blocked} blocked", file=sys.stderr)
     print(json.dumps(output, ensure_ascii=False))
 
 
