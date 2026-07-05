@@ -1,0 +1,243 @@
+{
+  "industry": "AI产业链",
+  "generated_at": "2026-06-24",
+  "data_source": "X custom feed (36 accounts, 169 tweets, 2026-06-20~24)",
+  "overall": {
+    "score": 62,
+    "label": "中性偏多",
+    "bull_count": 11,
+    "bear_count": 5,
+    "neutral_count": 9,
+    "summary": "AI算力/大模型长期叙事强劲，但本周韩股熔断触发存储板块急跌、美联储潜在加息预期上升造成短期震动。机器人赛道景气度最高，Neocloud扩张持续，底部已现买点信号。"
+  },
+  "sub_sectors": [
+    {
+      "name": "存储/HBM",
+      "score": 45,
+      "label": "短空长多",
+      "signal": "SELL_SHORT_BUY_DIP",
+      "key_events": [
+        "韩国税改触发KOSPI熔断：三星/SK海力士单日-9%~-12%，DRAM ETF -12.6%，SOXL -22.98%",
+        "MU -11.8%，美光财报6月25日前后发布，8次财报中6次当天下跌",
+        "但分析师（@aleabitoreddit, @xiaomustock, @yiqifacai）一致认为是买入机会，MU成本200的持仓者无惧",
+        "Rubin Ultra HBM从16Hi降级到12Hi（@dylan522p披露），2026存储短缺主题不变",
+        "CXMT IPO筹备，挑战DRAM三巨头（@SemiAnalysis_）",
+        "Coatue CTEK基金持仓TOP10含三只HBM存储股（@firstadopter）"
+      ],
+      "risk": "韩国政治风险蔓延；美联储若加息3次，存储估值承压",
+      "opportunity": "MU财报后反弹窗口；HBM需求确定性强（AI推理暴涨）",
+      "stocks_mentioned": [
+        "MU",
+        "DRAM ETF",
+        "SK Hynix",
+        "Samsung",
+        "CXMT",
+        "SNDK"
+      ]
+    },
+    {
+      "name": "AI算力/数据中心",
+      "score": 78,
+      "label": "强多",
+      "signal": "BUY",
+      "key_events": [
+        "NVIDIA占TOP500超算81%，新系统中占89%（@nvidia官宣）",
+        "CoreWeave展示NVIDIA Vera Rubin NVL72，6月30日 @theCUBE直播",
+        "CoreWeave 8192 Blackwell Ultra GPUs训练DeepSeek-V3 671B仅2分钟（MLPerf记录）",
+        "Lambda CTO：计算从未是商品，2026年仍在underbuilding（@LambdaAPI）",
+        "CIFR考虑自建电力以满足超大规模算力需求（@bitfurygeorge）",
+        "NVIDIA Agent Toolkit + Nemotron模型发布，企业AI Agent基础设施完善",
+        "NAIRR科学计划：NVIDIA AI基础设施支持700+美国研究项目"
+      ],
+      "risk": "电力供应瓶颈；超大规模厂商CapEx放缓可能性",
+      "opportunity": "Blackwell Ultra/Vera Rubin升级周期；Neocloud扩张加速",
+      "stocks_mentioned": [
+        "NVDA",
+        "CRWV",
+        "NBIS",
+        "IREN",
+        "CIFR",
+        "LambdaAPI"
+      ]
+    },
+    {
+      "name": "Neocloud",
+      "score": 72,
+      "label": "多",
+      "signal": "BUY",
+      "key_events": [
+        "NBIS & CRWV纳入纳斯达克100指数，NVIDIA注资Nebius 20亿美元（@blockspace）",
+        "Nebius 80MW以色列数据中心：22MW Q3 2026 + 58MW至Q1 2027（@tengyanai）",
+        "Nebius目标2030年部署5GW",
+        "$NBIS在市场大跌时表现最强韧，'the leader of neoclouds'（@degentradinglsd）",
+        "IREN俄克拉荷马数据中心税务减免延迟，但项目仍存活（@blockspace）",
+        "大型对冲基金做多芯片、做空超大规模厂商的仓位结构（@firstadopter）"
+      ],
+      "risk": "拿地/电力许可延迟；估值高位获利了结压力",
+      "opportunity": "Nasdaq 100纳入后被动资金流入；NVIDIA直接投资背书",
+      "stocks_mentioned": [
+        "NBIS",
+        "CRWV",
+        "IREN",
+        "CIFR",
+        "CLSK"
+      ]
+    },
+    {
+      "name": "大模型/AI应用",
+      "score": 80,
+      "label": "强多",
+      "signal": "BUY",
+      "key_events": [
+        "Noam Shazeer加盟OpenAI，Sam Altman：'等了10年，值了'（@sama）",
+        "GPT-5.5-Cyber发布，SotA网络安全，OpenAI Daybreak安全计划（@OpenAI, @sama）",
+        "Claude Tags发布：Slack内置AI队友，Karpathy称'新范式'（@AnthropicAI, @karpathy）",
+        "Mistral OCR 4发布：支持170语言，含边框/置信度，已上SageMaker/Azure Foundry（@mistralai）",
+        "Claude Fable 5 = Mythos+安全，Karpathy评价'major-version-bump-deserving'（@karpathy）",
+        "智谱GLM-5.2被评测为与Anthropic Opus 4.8相当，价格六分之一（@bitfool1）",
+        "中国开源模型coding套餐：GLM-5.2/Qwen3.7Max第一梯队（@lianyanshe）",
+        "Anthropic经济研究：Claude Code规模化追踪框架发布（@AnthropicAI）",
+        "Google DeepMind与A24合作，Project Genie获戛纳AI Craft大奖（@GoogleDeepMind）"
+      ],
+      "risk": "开源模型持续压缩闭源模型价格差；AGI能力上限叙事（LeCun仍质疑）",
+      "opportunity": "企业级AI应用渗透提速；agentic AI成新增长极",
+      "stocks_mentioned": [
+        "OpenAI(未上市)",
+        "Anthropic(未上市)",
+        "MSFT",
+        "GOOG",
+        "Mistral(未上市)"
+      ]
+    },
+    {
+      "name": "机器人/具身智能",
+      "score": 85,
+      "label": "超强多",
+      "signal": "STRONG_BUY",
+      "key_events": [
+        "Unitree宣布上市，人形机器人67%毛利率，SemiAnalysis称'humanoid era is BOOMING'（@SemiAnalysis_）",
+        "美国国会提GUARD Act限制Unitree进入美国市场，但对国内机器人反向利多（@dylan522p）",
+        "Lambda发布3D-Belief：机器人对未观测空间的3D推理框架（@LambdaAPI）",
+        "Anthropic测试机器狗编程：Opus 4.7比去年最佳快20倍（@AnthropicAI）",
+        "HuggingFace成为机器人/视频AI数据存储最佳平台（@HuggingFace）"
+      ],
+      "risk": "地缘政治硬件管制；早期商业化节奏不确定",
+      "opportunity": "Unitree IPO带动板块估值重塑；国内人形机器人受益美国限制",
+      "stocks_mentioned": [
+        "Unitree(未上市)",
+        "HIRO",
+        "国内人形机器人链"
+      ]
+    },
+    {
+      "name": "半导体设备/材料",
+      "score": 60,
+      "label": "中性偏多",
+      "signal": "HOLD",
+      "key_events": [
+        "AMD Instinct MI450：Oracle部署5万张，Q3 2026上线，AMD替代叙事具体化（@tengyanai）",
+        "AMD在TOP500中占191台系统，含全球10最快中的4台（@AMD官宣）",
+        "AMD + Valve合作Steam Machine（@AMD），游戏GPU布局",
+        "Alibaba T-Head注册资本从3亿增至10亿人民币，>3x，从DAMO学院迁至平头哥上海（@SemiAnalysis_）",
+        "日本工业气体公司Nippon Sanso计划7月起氦气涨价30%+，影响芯片成本（@tengyanai）",
+        "XFAB获欧盟CHIPS法案1.274亿欧元用于德国MEMS晶圆厂（@aleabitoreddit）"
+      ],
+      "risk": "工业气体涨价推高制造成本；中国算力芯片自主化进程",
+      "opportunity": "AMD替代NVIDIA市场份额扩张；欧盟CHIPS补贴落地",
+      "stocks_mentioned": [
+        "AMD",
+        "TSM",
+        "XFAB",
+        "INTC",
+        "AMKR"
+      ]
+    },
+    {
+      "name": "量子计算",
+      "score": 68,
+      "label": "多",
+      "signal": "BUY_WATCH",
+      "key_events": [
+        "特朗普签署2项量子主导地位行政令：2030/2031后量子密码迁移新期限（@blockspace）",
+        "Trump公开称赞IBM CEO，IBM量子计划受政策加持（@lordwilliamuk）",
+        "量子安全是最高优先级，'hair on fire'（@blockspace引述安全专家）"
+      ],
+      "risk": "量子商业化时间线仍不确定",
+      "opportunity": "政策背书提前，IBM/量子主题短期催化",
+      "stocks_mentioned": [
+        "IBM",
+        "相关量子计算股"
+      ]
+    }
+  ],
+  "macro_risks": [
+    {
+      "risk": "美联储加息预期升温",
+      "severity": "HIGH",
+      "detail": "市场/机构预测2026年美联储可能加息3次；新主席沃什暗示重新定义通胀衡量标准；最早9月加息（@tj_research, @0xxsmart）。AI逻辑线>加息压力，但估值修复承压。"
+    },
+    {
+      "risk": "韩国政治风险溢出",
+      "severity": "MEDIUM",
+      "detail": "韩国税制改革引发KOSPI熔断，SK海力士/三星暴跌，DRAM ETF -12.6%。地缘政治叠加高杠杆，踩踏范围不可知（@lordwilliamuk）。"
+    },
+    {
+      "risk": "中美科技脱钩加速",
+      "severity": "MEDIUM",
+      "detail": "美国拟立法限制Unitree机器人硬件出口R&D，国会GUARD Act；反向利多国内机器人链（@dylan522p）。"
+    },
+    {
+      "risk": "AI基础设施回报率质疑",
+      "severity": "LOW",
+      "detail": "LeCun转发IBM CEO观点质疑AI基础设施建设数学；部分分析师认为泡沫（@ylecun）。但多数市场参与者认为AI ROI叙事成立。"
+    }
+  ],
+  "hot_signals": [
+    {
+      "signal": "MU财报催化剂",
+      "type": "EVENT",
+      "date": "2026-06-25",
+      "detail": "美光Q3 FY2026财报即将发布，历史上8次中6次当天下跌但长期牛；本次'存储爆发是2025年12月之后的事'——当前买点逻辑强",
+      "sentiment": "bull_after_dip"
+    },
+    {
+      "signal": "Unitree上市",
+      "type": "IPO",
+      "detail": "Unitree宣布上市，67%毛利率，SemiAnalysis专题播客，人形机器人商业化里程碑",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "NBIS+CRWV纳入Nasdaq100",
+      "type": "INDEX",
+      "detail": "Neocloud双龙头纳指100，被动资金流入+NVIDIA 20亿背书，关注跌后买点",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "Noam Shazeer加入OpenAI",
+      "type": "TALENT",
+      "detail": "Transformer原作者、Google Brain传奇Noam Shazeer加盟OpenAI，模型能力上限预期提升",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "韩股熔断后存储急跌",
+      "type": "RISK_EVENT",
+      "date": "2026-06-23",
+      "detail": "韩国税改引发KOSPI熔断，SOXL -23%，DRAM ETF -12.6%，短期恐慌but长期基本面不变",
+      "sentiment": "bearish_short_bullish_medium"
+    },
+    {
+      "signal": "AMD替代NVIDIA叙事落地",
+      "type": "INDUSTRY_SHIFT",
+      "detail": "Oracle部署5万张AMD MI450，TOP500 191台AMD系统，AMD alternative story 'getting more concrete'",
+      "sentiment": "bullish_AMD"
+    }
+  ],
+  "smart_money_posture": {
+    "summary": "大机构普遍做多芯片（HBM存储+算力）、做空超大规模厂商（hyperscalers）。Coatue CTEK基金HBM三连持仓。对冲基金做空油价（看好降息/软着陆）。",
+    "key_positions": [
+      "Long: MU/SKH/Samsung (HBM), NBIS/CRWV (neocloud), NVDA供应链",
+      "Short: 超大规模云厂商直接股票",
+      "Watch: AMD MI450 实验落地验证"
+    ]
+  }
+}

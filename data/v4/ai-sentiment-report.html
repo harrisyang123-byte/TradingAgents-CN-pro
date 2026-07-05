@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI产业链情绪报告 · 2026-06-24</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0a0a; color: #e8e8e8; }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+    border-bottom: 1px solid #222;
+    padding: 20px 24px;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .header-left { flex: 1; }
+  .header h1 { font-size: 18px; font-weight: 700; color: #fff; }
+  .header .sub { font-size: 12px; color: #666; margin-top: 2px; }
+  .header-stats { display: flex; gap: 20px; }
+  .hstat { text-align: center; }
+  .hstat .val { font-size: 20px; font-weight: 700; color: #fff; }
+  .hstat .lbl { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* ── Layout ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ── Overall Score ── */
+  .overall-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .score-ring {
+    position: relative;
+    width: 120px; height: 120px;
+    flex-shrink: 0;
+  }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .score-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .score-ring .score-num { font-size: 36px; font-weight: 800; color: #fff; }
+  .score-ring .score-lbl { font-size: 11px; color: #888; }
+  .overall-info h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .overall-info p { font-size: 14px; color: #aaa; line-height: 1.7; max-width: 620px; }
+  .bull-bear { display: flex; gap: 12px; margin-top: 14px; }
+  .bb-item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+  .bb-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── Section Title ── */
+  .section-title {
+    font-size: 13px; font-weight: 600; color: #666;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 32px 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: #222; }
+
+  /* ── Sub-sector Grid ── */
+  .sectors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .sector-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: border-color .2s, transform .15s;
+    cursor: pointer;
+  }
+  .sector-card:hover { border-color: #444; transform: translateY(-1px); }
+  .sector-card.expanded { border-color: #555; }
+  .sector-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .sector-score {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .sector-info h3 { font-size: 15px; font-weight: 700; color: #fff; }
+  .sector-info .signal { font-size: 11px; margin-top: 3px; font-weight: 600; letter-spacing: .5px; }
+  .sector-bar-wrap { height: 4px; background: #222; border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+  .sector-bar { height: 100%; border-radius: 2px; transition: width .6s ease; }
+  .sector-stocks { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .stock-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    background: #1a1a1a; border: 1px solid #333; color: #ccc;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .sector-events { display: none; }
+  .sector-card.expanded .sector-events { display: block; }
+  .event-item {
+    font-size: 12px; color: #999; line-height: 1.6;
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid #333;
+    margin-bottom: 6px;
+  }
+  .event-item em { color: #666; font-style: normal; }
+  .sector-risk-opp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .ro-box { background: #0d0d0d; border-radius: 8px; padding: 10px 12px; }
+  .ro-box .ro-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; }
+  .ro-box p { font-size: 12px; color: #888; line-height: 1.5; }
+  .ro-risk .ro-title { color: #f87171; }
+  .ro-opp .ro-title { color: #34d399; }
+  .expand-hint { font-size: 11px; color: #555; margin-top: 8px; text-align: right; }
+  .sector-card.expanded .expand-hint { display: none; }
+
+  /* ── Score colors ── */
+  .score-85 { background: rgba(52,211,153,.15); color: #34d399; }
+  .score-80 { background: rgba(52,211,153,.12); color: #34d399; }
+  .score-78 { background: rgba(74,222,128,.12); color: #4ade80; }
+  .score-72 { background: rgba(250,204,21,.1); color: #facc15; }
+  .score-68 { background: rgba(250,204,21,.1); color: #facc15; }
+  .score-62 { background: rgba(250,204,21,.08); color: #d4b428; }
+  .score-60 { background: rgba(251,146,60,.1); color: #fb923c; }
+  .score-45 { background: rgba(248,113,113,.1); color: #f87171; }
+
+  .bar-85, .bar-80, .bar-78 { background: #34d399; }
+  .bar-72, .bar-68, .bar-62 { background: #facc15; }
+  .bar-60 { background: #fb923c; }
+  .bar-45 { background: #f87171; }
+
+  .signal-STRONG_BUY { color: #34d399; }
+  .signal-BUY { color: #4ade80; }
+  .signal-BUY_WATCH { color: #facc15; }
+  .signal-HOLD { color: #fb923c; }
+  .signal-SELL_SHORT_BUY_DIP { color: #f87171; }
+
+  /* ── Hot Signals ── */
+  .signals-list { display: flex; flex-direction: column; gap: 10px; }
+  .signal-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .signal-type-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 5px; white-space: nowrap; flex-shrink: 0;
+    text-transform: uppercase; letter-spacing: .5px;
+    margin-top: 2px;
+  }
+  .badge-EVENT { background: rgba(99,102,241,.2); color: #818cf8; border: 1px solid rgba(99,102,241,.3); }
+  .badge-IPO { background: rgba(52,211,153,.15); color: #34d399; border: 1px solid rgba(52,211,153,.25); }
+  .badge-INDEX { background: rgba(250,204,21,.12); color: #facc15; border: 1px solid rgba(250,204,21,.2); }
+  .badge-TALENT { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.25); }
+  .badge-RISK_EVENT { background: rgba(248,113,113,.15); color: #f87171; border: 1px solid rgba(248,113,113,.25); }
+  .badge-INDUSTRY_SHIFT { background: rgba(168,85,247,.15); color: #c084fc; border: 1px solid rgba(168,85,247,.25); }
+  .signal-body h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+  .signal-body p { font-size: 13px; color: #888; line-height: 1.6; }
+  .signal-date { font-size: 11px; color: #555; margin-left: auto; flex-shrink: 0; }
+
+  /* sentiment indicator */
+  .senti-dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    margin-right: 5px; vertical-align: middle;
+  }
+  .senti-bull { background: #34d399; }
+  .senti-bear { background: #f87171; }
+  .senti-mixed { background: #facc15; }
+
+  /* ── Macro Risks ── */
+  .risks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .risk-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .risk-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .risk-sev { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .sev-HIGH { background: rgba(248,113,113,.2); color: #f87171; border: 1px solid rgba(248,113,113,.3); }
+  .sev-MEDIUM { background: rgba(250,204,21,.15); color: #facc15; border: 1px solid rgba(250,204,21,.25); }
+  .sev-LOW { background: rgba(74,222,128,.1); color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
+  .risk-card h4 { font-size: 14px; font-weight: 600; color: #fff; }
+  .risk-card p { font-size: 12px; color: #888; line-height: 1.65; }
+
+  /* ── Smart Money ── */
+  .smart-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .smart-card .sm-summary { font-size: 14px; color: #aaa; line-height: 1.7; margin-bottom: 16px; }
+  .positions-list { display: flex; flex-direction: column; gap: 8px; }
+  .pos-item {
+    font-size: 13px; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid;
+    line-height: 1.6;
+  }
+  .pos-long { background: rgba(52,211,153,.06); border-color: rgba(52,211,153,.2); color: #ccc; }
+  .pos-long::before { content: '▲ LONG '; color: #34d399; font-weight: 700; font-size: 11px; }
+  .pos-short { background: rgba(248,113,113,.06); border-color: rgba(248,113,113,.2); color: #ccc; }
+  .pos-short::before { content: '▼ SHORT '; color: #f87171; font-weight: 700; font-size: 11px; }
+  .pos-watch { background: rgba(250,204,21,.05); border-color: rgba(250,204,21,.15); color: #ccc; }
+  .pos-watch::before { content: '● WATCH '; color: #facc15; font-weight: 700; font-size: 11px; }
+
+  /* ── Data Source Note ── */
+  .source-note {
+    text-align: center; font-size: 12px; color: #444;
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid #1a1a1a;
+  }
+
+  /* ── Overall donut ring ── */
+  .ring-bg { fill: none; stroke: #222; stroke-width: 10; }
+  .ring-fill { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dasharray .8s ease; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>AI产业链 · 市场情绪报告</h1>
+    <div class="sub">数据来源：X Custom Feed · 36账号 · 169条推文 · 2026-06-20~24</div>
+  </div>
+  <div class="header-stats">
+    <div class="hstat"><div class="val" id="hBull">—</div><div class="lbl">多头信号</div></div>
+    <div class="hstat"><div class="val" id="hBear">—</div><div class="lbl">空头信号</div></div>
+    <div class="hstat"><div class="val" id="hNeutral">—</div><div class="lbl">中性观察</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Overall -->
+  <div class="overall-card" id="overallCard">
+    <div class="score-ring">
+      <svg viewBox="0 0 120 120" width="120" height="120">
+        <circle class="ring-bg" cx="60" cy="60" r="50"/>
+        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="50"
+          stroke="#facc15"
+          stroke-dasharray="0 314"
+          stroke-dashoffset="0"/>
+      </svg>
+      <div class="score-text">
+        <span class="score-num" id="overallScore">—</span>
+        <span class="score-lbl">综合情绪</span>
+      </div>
+    </div>
+    <div class="overall-info">
+      <h2 id="overallLabel">加载中…</h2>
+      <p id="overallSummary"></p>
+      <div class="bull-bear" id="bullBear"></div>
+    </div>
+  </div>
+
+  <!-- Sub-sectors -->
+  <div class="section-title">赛道分拆</div>
+  <div class="sectors-grid" id="sectorsGrid"></div>
+
+  <!-- Hot Signals -->
+  <div class="section-title">本周热点信号</div>
+  <div class="signals-list" id="signalsList"></div>
+
+  <!-- Macro Risks -->
+  <div class="section-title">宏观风险矩阵</div>
+  <div class="risks-grid" id="risksGrid"></div>
+
+  <!-- Smart Money -->
+  <div class="section-title">聪明钱仓位</div>
+  <div class="smart-card" id="smartCard"></div>
+
+  <div class="source-note" id="sourceNote"></div>
+</div>
+
+<script>
+// ── Inline data (embedded from JSON) ──
+const DATA = {
+  "industry": "AI产业链",
+  "generated_at": "2026-06-24",
+  "data_source": "X custom feed (36 accounts, 169 tweets, 2026-06-20~24)",
+  "overall": {
+    "score": 62,
+    "label": "中性偏多",
+    "bull_count": 11,
+    "bear_count": 5,
+    "neutral_count": 9,
+    "summary": "AI算力/大模型长期叙事强劲，但本周韩股熔断触发存储板块急跌、美联储潜在加息预期上升造成短期震动。机器人赛道景气度最高，Neocloud扩张持续，底部已现买点信号。"
+  },
+  "sub_sectors": [
+    {
+      "name": "机器人/具身智能",
+      "score": 85,
+      "label": "超强多",
+      "signal": "STRONG_BUY",
+      "key_events": [
+        "Unitree宣布上市，人形机器人67%毛利率，SemiAnalysis称'humanoid era is BOOMING'",
+        "美国国会提GUARD Act限制Unitree进入美国市场，但对国内机器人反向利多",
+        "Lambda发布3D-Belief：机器人对未观测空间的3D推理框架",
+        "Anthropic测试机器狗编程：Opus 4.7比去年最佳快20倍",
+        "HuggingFace成为机器人/视频AI数据存储最佳平台"
+      ],
+      "risk": "地缘政治硬件管制；早期商业化节奏不确定",
+      "opportunity": "Unitree IPO带动板块估值重塑；国内人形机器人受益美国限制",
+      "stocks_mentioned": ["Unitree(未上市)", "HIRO", "国内人形链"]
+    },
+    {
+      "name": "大模型/AI应用",
+      "score": 80,
+      "label": "强多",
+      "signal": "BUY",
+      "key_events": [
+        "Noam Shazeer加盟OpenAI，Sam Altman：'等了10年，值了'",
+        "GPT-5.5-Cyber发布，SotA网络安全，OpenAI Daybreak安全计划",
+        "Claude Tags发布：Slack内置AI队友，Karpathy称'新范式'",
+        "Mistral OCR 4发布：支持170语言，含边框/置信度，上架SageMaker/Azure Foundry",
+        "Claude Fable 5 = Mythos+安全，Karpathy评价'major-version-bump-deserving'",
+        "智谱GLM-5.2被评测与Anthropic Opus 4.8相当，价格六分之一",
+        "Google DeepMind与A24合作，Project Genie获戛纳AI Craft大奖"
+      ],
+      "risk": "开源模型持续压缩闭源价格差；AGI能力上限叙事",
+      "opportunity": "企业级AI应用渗透提速；agentic AI成新增长极",
+      "stocks_mentioned": ["MSFT", "GOOG", "OpenAI(未上市)", "Anthropic(未上市)"]
+    },
+    {
+      "name": "AI算力/数据中心",
+      "score": 78,
+      "label": "强多",
+      "signal": "BUY",
+      "key_events": [
+        "NVIDIA占TOP500超算81%，新系统中占89%",
+        "CoreWeave展示NVIDIA Vera Rubin NVL72，6月30日 @theCUBE直播",
+        "CoreWeave 8192 Blackwell Ultra GPUs训练DeepSeek-V3 671B仅2分钟（MLPerf记录）",
+        "Lambda CTO：计算从未是商品，2026年仍在underbuilding",
+        "CIFR考虑自建电力以满足超大规模算力需求",
+        "NVIDIA Agent Toolkit + Nemotron模型发布，企业AI Agent基础设施完善",
+        "NAIRR科学计划：NVIDIA AI基础设施支持700+美国研究项目"
+      ],
+      "risk": "电力供应瓶颈；超大规模厂商CapEx放缓可能性",
+      "opportunity": "Blackwell Ultra/Vera Rubin升级周期；Neocloud扩张加速",
+      "stocks_mentioned": ["NVDA", "CRWV", "NBIS", "IREN", "CIFR", "LambdaAPI"]
+    },
+    {
+      "name": "Neocloud",
+      "score": 72,
+      "label": "多",
+      "signal": "BUY",
+      "key_events": [
+        "NBIS & CRWV纳入纳斯达克100指数，NVIDIA注资Nebius 20亿美元",
+        "Nebius 80MW以色列数据中心：22MW Q3 2026 + 58MW至Q1 2027",
+        "Nebius目标2030年部署5GW",
+        "$NBIS在市场大跌时表现最强韧，'the leader of neoclouds'",
+        "IREN俄克拉荷马数据中心税务减免延迟，但项目仍存活",
+        "大型对冲基金做多芯片、做空超大规模厂商的仓位结构"
+      ],
+      "risk": "拿地/电力许可延迟；估值高位获利了结压力",
+      "opportunity": "Nasdaq 100纳入后被动资金流入；NVIDIA直接投资背书",
+      "stocks_mentioned": ["NBIS", "CRWV", "IREN", "CIFR", "CLSK"]
+    },
+    {
+      "name": "量子计算",
+      "score": 68,
+      "label": "多",
+      "signal": "BUY_WATCH",
+      "key_events": [
+        "特朗普签署2项量子主导地位行政令：2030/2031后量子密码迁移新期限",
+        "Trump公开称赞IBM CEO，IBM量子计划受政策加持",
+        "量子安全是最高优先级，'hair on fire'（安全专家引述）"
+      ],
+      "risk": "量子商业化时间线仍不确定",
+      "opportunity": "政策背书提前，IBM/量子主题短期催化",
+      "stocks_mentioned": ["IBM", "相关量子计算股"]
+    },
+    {
+      "name": "半导体设备/材料",
+      "score": 60,
+      "label": "中性偏多",
+      "signal": "HOLD",
+      "key_events": [
+        "AMD Instinct MI450：Oracle部署5万张，Q3 2026上线，AMD替代叙事具体化",
+        "AMD在TOP500中占191台系统，含全球10最快中的4台",
+        "Alibaba T-Head注册资本从3亿增至10亿人民币，从DAMO迁至平头哥上海",
+        "日本工业气体公司Nippon Sanso计划7月起氦气涨价30%+，影响芯片成本",
+        "XFAB获欧盟CHIPS法案1.274亿欧元用于德国MEMS晶圆厂"
+      ],
+      "risk": "工业气体涨价推高制造成本；中国算力芯片自主化进程",
+      "opportunity": "AMD替代NVIDIA市场份额扩张；欧盟CHIPS补贴落地",
+      "stocks_mentioned": ["AMD", "TSM", "XFAB", "INTC", "AMKR"]
+    },
+    {
+      "name": "存储/HBM",
+      "score": 45,
+      "label": "短空长多",
+      "signal": "SELL_SHORT_BUY_DIP",
+      "key_events": [
+        "韩国税改触发KOSPI熔断：三星/SK海力士单日-9%~-12%，DRAM ETF -12.6%，SOXL -22.98%",
+        "MU -11.8%，美光财报6月25日前后发布，历史8次中6次当天下跌",
+        "但分析师一致认为是买入机会，MU成本200的持仓者无惧",
+        "Rubin Ultra HBM从16Hi降级到12Hi（@dylan522p披露），2026存储短缺主题不变",
+        "CXMT IPO筹备，挑战DRAM三巨头",
+        "Coatue CTEK基金持仓TOP10含三只HBM存储股"
+      ],
+      "risk": "韩国政治风险蔓延；美联储若加息3次，存储估值承压",
+      "opportunity": "MU财报后反弹窗口；HBM需求确定性强（AI推理暴涨）",
+      "stocks_mentioned": ["MU", "DRAM ETF", "SK Hynix", "Samsung", "CXMT", "SNDK"]
+    }
+  ],
+  "hot_signals": [
+    {
+      "signal": "MU财报催化剂",
+      "type": "EVENT",
+      "date": "2026-06-25",
+      "detail": "美光Q3 FY2026财报即将发布，历史上8次中6次当天下跌但长期牛；本次'存储爆发是2025年12月之后的事'——当前买点逻辑强",
+      "sentiment": "bull_after_dip"
+    },
+    {
+      "signal": "Unitree上市",
+      "type": "IPO",
+      "date": null,
+      "detail": "Unitree宣布上市，67%毛利率，SemiAnalysis专题播客，人形机器人商业化里程碑",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "NBIS+CRWV纳入Nasdaq100",
+      "type": "INDEX",
+      "date": null,
+      "detail": "Neocloud双龙头纳指100，被动资金流入+NVIDIA 20亿背书，关注跌后买点",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "Noam Shazeer加入OpenAI",
+      "type": "TALENT",
+      "date": null,
+      "detail": "Transformer原作者、Google Brain传奇Noam Shazeer加盟OpenAI，模型能力上限预期提升",
+      "sentiment": "bullish"
+    },
+    {
+      "signal": "韩股熔断后存储急跌",
+      "type": "RISK_EVENT",
+      "date": "2026-06-23",
+      "detail": "韩国税改引发KOSPI熔断，SOXL -23%，DRAM ETF -12.6%，短期恐慌but长期基本面不变",
+      "sentiment": "bearish_short_bullish_medium"
+    },
+    {
+      "signal": "AMD替代NVIDIA叙事落地",
+      "type": "INDUSTRY_SHIFT",
+      "date": null,
+      "detail": "Oracle部署5万张AMD MI450，TOP500 191台AMD系统，AMD alternative story 'getting more concrete'",
+      "sentiment": "bullish_AMD"
+    }
+  ],
+  "macro_risks": [
+    {
+      "risk": "美联储加息预期升温",
+      "severity": "HIGH",
+      "detail": "市场/机构预测2026年美联储可能加息3次；新主席沃什暗示重新定义通胀衡量标准；最早9月加息。AI逻辑线>加息压力，但估值修复承压。"
+    },
+    {
+      "risk": "韩国政治风险溢出",
+      "severity": "MEDIUM",
+      "detail": "韩国税制改革引发KOSPI熔断，SK海力士/三星暴跌，DRAM ETF -12.6%。地缘政治叠加高杠杆，踩踏范围不可知。"
+    },
+    {
+      "risk": "中美科技脱钩加速",
+      "severity": "MEDIUM",
+      "detail": "美国拟立法限制Unitree机器人硬件出口R&D，国会GUARD Act；反向利多国内机器人链。"
+    },
+    {
+      "risk": "AI基础设施回报率质疑",
+      "severity": "LOW",
+      "detail": "LeCun转发IBM CEO观点质疑AI基础设施建设数学；部分分析师认为泡沫。但多数市场参与者认为AI ROI叙事成立。"
+    }
+  ],
+  "smart_money_posture": {
+    "summary": "大机构普遍做多芯片（HBM存储+算力）、做空超大规模厂商（hyperscalers）。Coatue CTEK基金HBM三连持仓。对冲基金做空油价（看好降息/软着陆）。",
+    "key_positions": [
+      "Long: MU/SKH/Samsung (HBM), NBIS/CRWV (neocloud), NVDA供应链",
+      "Short: 超大规模云厂商直接股票",
+      "Watch: AMD MI450 实验落地验证"
+    ]
+  }
+};
+
+// ── Score → color class ──
+function scoreClass(s) {
+  if (s >= 83) return 'score-85';
+  if (s >= 79) return 'score-80';
+  if (s >= 76) return 'score-78';
+  if (s >= 70) return 'score-72';
+  if (s >= 65) return 'score-68';
+  if (s >= 60) return 'score-62';
+  if (s >= 55) return 'score-60';
+  return 'score-45';
+}
+function barClass(s) {
+  if (s >= 78) return 'bar-85';
+  if (s >= 68) return 'bar-72';
+  if (s >= 58) return 'bar-60';
+  return 'bar-45';
+}
+
+// ── Sentiment → dot ──
+function sentiDot(s) {
+  if (!s) return '';
+  if (s.includes('bear')) return '<span class="senti-dot senti-bear"></span>';
+  if (s.includes('mixed') || s.includes('short')) return '<span class="senti-dot senti-mixed"></span>';
+  return '<span class="senti-dot senti-bull"></span>';
+}
+
+// ── Render ──
+function render() {
+  const d = DATA;
+
+  // Header stats
+  document.getElementById('hBull').textContent = d.overall.bull_count;
+  document.getElementById('hBear').textContent = d.overall.bear_count;
+  document.getElementById('hNeutral').textContent = d.overall.neutral_count;
+
+  // Overall ring
+  const circumference = 2 * Math.PI * 50; // ~314
+  const filled = (d.overall.score / 100) * circumference;
+  const ring = document.getElementById('ringFill');
+  const scoreColor = d.overall.score >= 70 ? '#facc15' : d.overall.score >= 55 ? '#fb923c' : '#f87171';
+  ring.setAttribute('stroke', scoreColor);
+  setTimeout(() => {
+    ring.setAttribute('stroke-dasharray', `${filled} ${circumference - filled}`);
+  }, 100);
+
+  document.getElementById('overallScore').textContent = d.overall.score;
+  document.getElementById('overallLabel').textContent = d.overall.label;
+  document.getElementById('overallSummary').textContent = d.overall.summary;
+  document.getElementById('bullBear').innerHTML = `
+    <div class="bb-item"><span class="bb-dot" style="background:#34d399"></span>${d.overall.bull_count} 多头信号</div>
+    <div class="bb-item"><span class="bb-dot" style="background:#f87171"></span>${d.overall.bear_count} 空头信号</div>
+    <div class="bb-item"><span class="bb-dot" style="background:#888"></span>${d.overall.neutral_count} 中性观察</div>
+  `;
+
+  // Sub-sectors
+  const grid = document.getElementById('sectorsGrid');
+  d.sub_sectors.forEach((sec, i) => {
+    const card = document.createElement('div');
+    card.className = 'sector-card';
+
+    const eventsHtml = sec.key_events.map(e =>
+      `<div class="event-item">${e}</div>`
+    ).join('');
+
+    const stocksHtml = sec.stocks_mentioned.map(s =>
+      `<span class="stock-tag">${s}</span>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="sector-header">
+        <div class="sector-score ${scoreClass(sec.score)}">${sec.score}</div>
+        <div class="sector-info">
+          <h3>${sec.name}</h3>
+          <div class="signal signal-${sec.signal}">${sec.signal.replace(/_/g,' ')}</div>
+        </div>
+      </div>
+      <div class="sector-bar-wrap">
+        <div class="sector-bar ${barClass(sec.score)}" style="width:${sec.score}%"></div>
+      </div>
+      <div class="sector-stocks">${stocksHtml}</div>
+      <div class="expand-hint">点击展开事件详情 ▸</div>
+      <div class="sector-events">
+        <div style="font-size:12px;color:#666;font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">本周关键事件</div>
+        ${eventsHtml}
+        <div class="sector-risk-opp">
+          <div class="ro-box ro-risk"><div class="ro-title">风险</div><p>${sec.risk}</p></div>
+          <div class="ro-box ro-opp"><div class="ro-title">机会</div><p>${sec.opportunity}</p></div>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+
+    grid.appendChild(card);
+  });
+
+  // Hot signals
+  const sigList = document.getElementById('signalsList');
+  d.hot_signals.forEach(sig => {
+    const div = document.createElement('div');
+    div.className = 'signal-card';
+
+    const sentDot = sentiDot(sig.sentiment);
+
+    div.innerHTML = `
+      <div class="signal-type-badge badge-${sig.type}">${sig.type.replace('_',' ')}</div>
+      <div class="signal-body">
+        <h4>${sentDot}${sig.signal}</h4>
+        <p>${sig.detail}</p>
+      </div>
+      ${sig.date ? `<div class="signal-date">${sig.date}</div>` : ''}
+    `;
+    sigList.appendChild(div);
+  });
+
+  // Macro risks
+  const risksGrid = document.getElementById('risksGrid');
+  d.macro_risks.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'risk-card';
+    div.innerHTML = `
+      <div class="risk-header">
+        <span class="risk-sev sev-${r.severity}">${r.severity}</span>
+        <h4>${r.risk}</h4>
+      </div>
+      <p>${r.detail}</p>
+    `;
+    risksGrid.appendChild(div);
+  });
+
+  // Smart money
+  const sm = d.smart_money_posture;
+  const posHtml = sm.key_positions.map(p => {
+    const cls = p.startsWith('Long') ? 'pos-long' : p.startsWith('Short') ? 'pos-short' : 'pos-watch';
+    const text = p.replace(/^(Long|Short|Watch): /, '');
+    return `<div class="pos-item ${cls}">${text}</div>`;
+  }).join('');
+  document.getElementById('smartCard').innerHTML = `
+    <p class="sm-summary">${sm.summary}</p>
+    <div class="positions-list">${posHtml}</div>
+  `;
+
+  // Source note
+  document.getElementById('sourceNote').textContent = d.data_source + ' · Generated ' + d.generated_at;
+}
+
+render();
+</script>
+</body>
+</html>

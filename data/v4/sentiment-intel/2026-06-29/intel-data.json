@@ -1,0 +1,188 @@
+{
+  "as_of": "2026-06-29T15:30:00+08",
+  "data_availability": {
+    "market_temp": "available",
+    "sector_heat": "available",
+    "concept_themes": "available",
+    "kol_feed": "partial",
+    "a_share_popularity": "available",
+    "cross_market": "available"
+  },
+  "market_temp": {
+    "ups": 2468,
+    "downs": 2933,
+    "flats": 125,
+    "limit_ups": 107,
+    "limit_downs": 89,
+    "total_stocks": 5526,
+    "turnover_yi": 35385,
+    "turnover_5d_avg_yi": null,
+    "indices": {
+      "sh_sse": {"price": 4073.90, "change_pct": 1.16},
+      "sz_szse": {"price": 15812.87, "change_pct": 0.19},
+      "sz_chinext": {"price": 4216.70, "change_pct": 0.54}
+    },
+    "note": "涨跌家数/成交额 from akshare.stock_zh_a_spot(); 指数 from stock_zh_index_spot_em() proxy拒绝连接, 改用 web_search (中国金融网/QQ新闻/每经); limit_ups=107 from akshare.stock_zt_pool_em() (正式涨停池), limit_downs=89 为 stock_zh_a_spot() 中涨跌幅<= -9.5% 的股票数（含科创板/创业板超10%跌停, 口径大于正式跌停池）"
+  },
+  "sector_heat": {
+    "industry_top10": [
+      {"name": "生物制品", "change_pct": 7.43, "net_inflow_yi": 18.10, "lead_stock": "禾元生物", "lead_pct": 20.00},
+      {"name": "医疗服务", "change_pct": 6.11, "net_inflow_yi": 18.00, "lead_stock": "百奥赛图", "lead_pct": 20.00},
+      {"name": "化学制药", "change_pct": 5.88, "net_inflow_yi": 58.56, "lead_stock": "新赣江", "lead_pct": 30.00},
+      {"name": "中药", "change_pct": 3.70, "net_inflow_yi": 9.25, "lead_stock": "太极集团", "lead_pct": 10.03},
+      {"name": "医疗器械", "change_pct": 3.52, "net_inflow_yi": 9.30, "lead_stock": "科莱瑞迪", "lead_pct": 211.65},
+      {"name": "半导体", "change_pct": 2.74, "net_inflow_yi": 128.63, "lead_stock": "神工股份", "lead_pct": 20.00},
+      {"name": "养殖业", "change_pct": 2.39, "net_inflow_yi": 1.46, "lead_stock": "巨星农牧", "lead_pct": 9.98},
+      {"name": "医药商业", "change_pct": 2.37, "net_inflow_yi": 2.19, "lead_stock": "华人健康", "lead_pct": 4.73},
+      {"name": "保险", "change_pct": 2.19, "net_inflow_yi": 2.18, "lead_stock": "中国太保", "lead_pct": 3.24},
+      {"name": "美容护理", "change_pct": 2.04, "net_inflow_yi": 1.05, "lead_stock": "丸美生物", "lead_pct": 10.02}
+    ],
+    "industry_bottom5": [
+      {"name": "非金属材料", "change_pct": -4.76},
+      {"name": "元件", "change_pct": -3.89},
+      {"name": "消费电子", "change_pct": -3.12},
+      {"name": "通信设备", "change_pct": -3.03},
+      {"name": "通信服务", "change_pct": -2.45}
+    ],
+    "fund_inflow_top5": [
+      {"name": "半导体", "net_inflow_yi": 128.63},
+      {"name": "化学制药", "net_inflow_yi": 58.56},
+      {"name": "电子化学品", "net_inflow_yi": 32.78},
+      {"name": "电池", "net_inflow_yi": 28.70},
+      {"name": "生物制品", "net_inflow_yi": 18.10}
+    ],
+    "source": "akshare.stock_board_industry_summary_ths()"
+  },
+  "concept_themes": {
+    "limit_up_industry_distribution": [
+      {"industry": "化学制药", "count": 13},
+      {"industry": "半导体", "count": 7},
+      {"industry": "通用设备", "count": 6},
+      {"industry": "化学制品", "count": 5},
+      {"industry": "中药II", "count": 5},
+      {"industry": "一般零售", "count": 4},
+      {"industry": "计算机设备", "count": 4},
+      {"industry": "医疗器械", "count": 4},
+      {"industry": "生物制品", "count": 3},
+      {"industry": "医疗服务", "count": 3}
+    ],
+    "top_consecutive_boards": [
+      {"name": "威派格", "consecutive": 3, "industry": "专用设备"}
+    ],
+    "consecutive_board_distribution": {
+      "1连板": 98,
+      "2连板": 8,
+      "3连板": 1
+    },
+    "max_consecutive": 3,
+    "hot_concepts_of_day": ["医药生物", "创新药", "半导体", "白酒", "养殖"],
+    "total_limit_up": 107,
+    "source": "akshare.stock_zt_pool_em(date='20260629')"
+  },
+  "kol_feed": {
+    "source_file": "data/v4/custom-feed-x.json",
+    "feed_freshness_h": 99,
+    "accounts_analyzed": 0,
+    "posts_referenced": 0,
+    "scraper_status": "running at write time (19/37 accounts completed)",
+    "feed_quality": "stale -- existing feed is ~99h old with 0 posts; scraper initiated but not yet complete at write time",
+    "direction_consensus": [],
+    "disagreements": [],
+    "catalyst_calendar": [],
+    "heat_map": {
+      "overheated": [],
+      "discovering": [],
+      "undiscovered": []
+    },
+    "top_posts": [],
+    "note": "Feed 过期（>99h, 0 条推文内容），scraper 已启动但采集未完成（19/37 accounts 完成）。kol_feed 维度标记为 partial。建议 scraper 完成后重新运行 Data Agent 更新此维度。"
+  },
+  "a_share_popularity": {
+    "xueqiu_hot_tweet_top10": [
+      {"name": "比亚迪", "heat": 100833},
+      {"name": "贵州茅台", "heat": 97670},
+      {"name": "赛力斯", "heat": 72568},
+      {"name": "格力电器", "heat": 40368},
+      {"name": "胜宏科技", "heat": 32352},
+      {"name": "新易盛", "heat": 32320},
+      {"name": "招商银行", "heat": 32296},
+      {"name": "寒武纪", "heat": 32010},
+      {"name": "药明康德", "heat": 30788},
+      {"name": "宁德时代", "heat": 29978}
+    ],
+    "xueqiu_hot_follow_top10": [
+      {"name": "贵州茅台", "heat": 3666710},
+      {"name": "中国平安", "heat": 3112363},
+      {"name": "招商银行", "heat": 2872162},
+      {"name": "格力电器", "heat": 2572442},
+      {"name": "比亚迪", "heat": 2376843},
+      {"name": "万科A", "heat": 2207379},
+      {"name": "伊利股份", "heat": 2195425},
+      {"name": "五粮液", "heat": 2069279},
+      {"name": "兴业银行", "heat": 2043735},
+      {"name": "恒瑞医药", "heat": 2018014}
+    ],
+    "eastmoney_hot_concepts": [
+      {"concept": "白酒", "heat": 10822},
+      {"concept": "PCB", "heat": 3917},
+      {"concept": "半导体概念", "heat": 3069},
+      {"concept": "华为概念", "heat": 1667},
+      {"concept": "新能源车", "heat": 1573},
+      {"concept": "刀片电池", "heat": 1451},
+      {"concept": "字节概念", "heat": 878},
+      {"concept": "特斯拉", "heat": 407},
+      {"concept": "电商概念", "heat": 389},
+      {"concept": "超级品牌", "heat": 155}
+    ],
+    "source": "akshare.stock_hot_tweet_xq(symbol='最热门') + stock_hot_follow_xq(symbol='最热门') + stock_hot_keyword_em()"
+  },
+  "cross_market": {
+    "us_market": {
+      "dow_jones": {"name": "道琼斯工业", "close": 51876.11, "change_pct": -0.09},
+      "sp500": {"name": "标普500", "close": 7354.02, "change_pct": -0.05},
+      "nasdaq": {"name": "纳斯达克", "close": 25297.62, "change_pct": -0.24},
+      "sox_philly": {"name": "费城半导体", "close": 13203.57, "change_pct": -5.29},
+      "vix": {"close": 20.19},
+      "key_tech": [
+        {"name": "微软", "close": 372.97, "change_pct": 5.71},
+        {"name": "苹果", "close": 283.78, "change_pct": 3.14},
+        {"name": "英伟达", "close": 192.53, "change_pct": -1.64},
+        {"name": "超威半导体", "close": 521.58, "change_pct": -2.06}
+      ],
+      "note": "美股数据为上周五 6/26 收盘（6/27-28 周末休市）。key_tech from akshare.stock_us_famous_spot_em(); 指数数据 from web_search (华西证券/中国时报/fxstreet); VIX=20.19 (6/26 美国周五收盘)"
+    },
+    "commodities": {
+      "brent": {"price": 73.89, "unit": "USD/bbl", "note": "6/29 亚洲盘中, 日内涨1%, 中东地缘紧张"},
+      "wti": {"price": 70.77, "unit": "USD/bbl", "note": "6/29 亚洲盘中, 日内涨2%"},
+      "gold": {"price": 4060, "unit": "USD/oz", "note": "6/29 盘中, 承压于强势美元, 较年内高点回吐约25%"},
+      "copper_lme": {"price": 13317, "unit": "USD/ton", "note": "LME 最新报价, 较历史高点14527跌约8.5%"}
+    },
+    "fx": {
+      "dxy": 101.35,
+      "usdcnh": 6.80,
+      "usdcny_mid": 6.8175,
+      "us10y": 4.38
+    },
+    "source": "akshare.stock_us_famous_spot_em() + web_search (中国时报/华西证券/fxstreet/Tradeweb/东方财富)"
+  },
+  "acquisition_audit": {
+    "python_path": ".venv/bin/python3",
+    "akshare_available": true,
+    "fetch_tasks": [
+      {"dim": "market_temp", "method": "akshare.stock_zh_a_spot() + web_search(指数)", "status": "success", "note": "涨跌家数/成交额 from akshare; 指数点位 akshare proxy 拒绝, 降级 web_search"},
+      {"dim": "sector_heat", "method": "akshare.stock_board_industry_summary_ths()", "status": "success", "note": "完整 TOP10/BOTTOM5/FUND_TOP5, 含涨跌幅+净流入+领涨股"},
+      {"dim": "concept_themes", "method": "akshare.stock_zt_pool_em(date='20260629')", "status": "success", "note": "107只涨停, 行业分布/连板分布完备"},
+      {"dim": "kol_feed", "method": "scrape-custom-x.py (37 accounts)", "status": "partial", "note": "Feed 99h过期+0条推文; scraper 已启动但未完成 (19/37)"},
+      {"dim": "a_share_popularity", "method": "akshare.stock_hot_tweet_xq() + stock_hot_follow_xq() + stock_hot_keyword_em()", "status": "success", "note": "雪球讨论/关注TOP10 + 东财15个热门概念热度值"},
+      {"dim": "cross_market", "method": "akshare.stock_us_famous_spot_em() + web_search", "status": "success", "note": "美股科技股 from akshare; 指数/大宗/汇率/美债 from web_search"}
+    ],
+    "downgrade_used": [
+      "market_temp 指数点位 >> web_search (stock_zh_index_spot_em 和 stock_zh_a_spot 均无法通过代码匹配获取三大指数)",
+      "kol_feed >> scraper 运行中但未完成, 该维度标记 partial",
+      "cross_market 美股指数ETF (SPY/QQQ/SOX) >> akshare stock_us_famous_spot_em 未返回这些条目, 降级 web_search",
+      "cross_market 大宗/汇率/美债 >> 无 akshare 直接接口, 全程 web_search"
+    ],
+    "missing_dimensions": ["kol_feed (partial -- 无可用推文数据, scraper 未完成)"],
+    "overall_data_quality": "partial"
+  }
+}

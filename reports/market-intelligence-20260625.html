@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>市场情报推演 · 2026-06-25</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1a1f2e;
+    --border: #252b3d;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --red: #ef4444;
+    --orange: #f97316;
+    --yellow: #eab308;
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --cyan: #06b6d4;
+    --accent: #6366f1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #0d0f14 0%, #141728 50%, #0d1420 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header h1 { font-size: 20px; font-weight: 600; color: #fff; }
+  .header .meta { color: var(--muted); font-size: 12px; }
+  .header .pulse {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--green);
+  }
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .card h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #fff; }
+  mb-16 { margin-bottom: 16px; }
+
+  /* Macro temperature bar */
+  .temp-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .temp-bar .score-row {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 8px;
+  }
+  .score-num { font-size: 48px; font-weight: 800; color: var(--orange); line-height: 1; }
+  .score-label { font-size: 22px; font-weight: 600; color: #fff; }
+  .score-sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .bar-track {
+    height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 12px 0;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #f97316, #ef4444);
+    border-radius: 4px;
+    transition: width 1s;
+  }
+  .bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+  /* Theme heatmap */
+  .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .theme-card {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .theme-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 8px 8px 0 0;
+  }
+  .theme-card.hot::before { background: var(--red); }
+  .theme-card.warm::before { background: var(--orange); }
+  .theme-card.neutral::before { background: var(--muted); }
+  .theme-card.cool::before { background: var(--blue); }
+  .theme-name { font-size: 12px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .theme-score { font-size: 24px; font-weight: 800; margin-bottom: 2px; }
+  .theme-card.hot .theme-score { color: var(--red); }
+  .theme-card.warm .theme-score { color: var(--orange); }
+  .theme-card.neutral .theme-score { color: var(--muted); }
+  .theme-card.cool .theme-score { color: var(--blue); }
+  .theme-tag { font-size: 10px; color: var(--muted); }
+  .theme-delta {
+    font-size: 11px; margin-top: 6px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+
+  /* Signal cards */
+  .signal-list { display: flex; flex-direction: column; gap: 8px; }
+  .signal-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+  }
+  .signal-item.bull { border-left-color: var(--green); }
+  .signal-item.bear { border-left-color: var(--red); }
+  .signal-item.watch { border-left-color: var(--yellow); }
+  .signal-item.info { border-left-color: var(--blue); }
+  .signal-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .signal-text { font-size: 13px; line-height: 1.5; }
+  .signal-text strong { color: #fff; }
+  .signal-source { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Chain inference */
+  .chain { display: flex; flex-direction: column; gap: 0; }
+  .chain-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .chain-step:last-child { border-bottom: none; }
+  .chain-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .chain-body { flex: 1; }
+  .chain-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+  .chain-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .chain-arrow {
+    text-align: center; color: var(--border); font-size: 16px;
+    padding: 2px 0;
+  }
+
+  /* Divergence table */
+  .div-table { width: 100%; border-collapse: collapse; }
+  .div-table th {
+    text-align: left; font-size: 11px; color: var(--muted);
+    padding: 6px 8px; border-bottom: 1px solid var(--border);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .div-table td {
+    padding: 10px 8px; border-bottom: 1px solid var(--border);
+    font-size: 13px; vertical-align: top;
+  }
+  .div-table tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block; padding: 2px 7px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .tag-red { background: rgba(239,68,68,0.15); color: var(--red); }
+  .tag-yellow { background: rgba(234,179,8,0.15); color: var(--yellow); }
+  .tag-blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .tag-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+  .tag-orange { background: rgba(249,115,22,0.15); color: var(--orange); }
+
+  /* Event timeline */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 6px; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .tl-item { position: relative; padding: 0 0 16px 16px; }
+  .tl-dot {
+    position: absolute; left: -14px; top: 4px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+  .tl-dot.red { background: var(--red); }
+  .tl-dot.orange { background: var(--orange); }
+  .tl-dot.green { background: var(--green); }
+  .tl-dot.yellow { background: var(--yellow); }
+  .tl-time { font-size: 11px; color: var(--muted); }
+  .tl-title { font-size: 13px; font-weight: 600; color: #fff; margin: 2px 0; }
+  .tl-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* Implication matrix */
+  .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .matrix-cell {
+    padding: 14px; background: var(--surface2);
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .matrix-cell h4 { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .matrix-cell.confirmed h4 { color: var(--green); }
+  .matrix-cell.diverge h4 { color: var(--yellow); }
+  .matrix-cell.structural h4 { color: var(--purple); }
+  .matrix-cell.watch h4 { color: var(--orange); }
+  .matrix-cell ul { padding-left: 14px; }
+  .matrix-cell li { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+
+  /* Quantitative summary */
+  .quant-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .quant-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; text-align: center;
+  }
+  .quant-val { font-size: 20px; font-weight: 800; color: #fff; }
+  .quant-val.up { color: var(--green); }
+  .quant-val.down { color: var(--red); }
+  .quant-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Scenario section */
+  .scenario { display: flex; flex-direction: column; gap: 10px; }
+  .scenario-item {
+    padding: 14px; background: var(--surface2);
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .scenario-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .scenario-title { font-size: 13px; font-weight: 600; color: #fff; }
+  .prob-badge {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+  }
+  .prob-high { background: rgba(34,197,94,0.2); color: var(--green); }
+  .prob-mid { background: rgba(234,179,8,0.2); color: var(--yellow); }
+  .prob-low { background: rgba(239,68,68,0.2); color: var(--red); }
+  .scenario-body { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .scenario-trigger { margin-top: 6px; font-size: 11px; color: var(--accent); }
+
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+
+  /* footnote */
+  .footnote {
+    text-align: center; color: var(--muted); font-size: 11px;
+    padding: 24px 0; border-top: 1px solid var(--border); margin-top: 32px;
+  }
+
+  /* Highlight box */
+  .highlight-box {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
+    font-size: 13px; line-height: 1.7;
+  }
+  .highlight-box .hl-title {
+    font-weight: 700; color: var(--accent); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>市场情报推演 · AI 产业链全局视图</h1>
+    <div class="meta">数据截止 2026-06-25 09:00 · 来源：X/Twitter KOL ×103 · 东财热榜 · 雪球讨论 · 行业评分库</div>
+  </div>
+  <div class="pulse"><div class="pulse-dot"></div> 多路信号同步分析</div>
+</div>
+
+<div class="container">
+
+  <!-- MACRO TEMPERATURE -->
+  <div class="temp-bar mb-16">
+    <div class="score-row">
+      <div class="score-num">65</div>
+      <div>
+        <div class="score-label">市场情绪指数 · 中性偏多</div>
+        <div class="score-sub">三路信号加权合成 · AI 产业链为主要驱动力</div>
+      </div>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width: 65%"></div>
+    </div>
+    <div class="bar-labels">
+      <span>0 · 极度悲观</span>
+      <span>50 · 中性</span>
+      <span>100 · 极度乐观</span>
+    </div>
+  </div>
+
+  <!-- QUANT STATS -->
+  <div class="mb-24">
+    <div class="section-title">今日关键数值</div>
+    <div class="quant-grid">
+      <div class="quant-card">
+        <div class="quant-val up">+41.46B</div>
+        <div class="quant-label">MU实际营收 (USD)</div>
+      </div>
+      <div class="quant-card">
+        <div class="quant-val up">+15.2%</div>
+        <div class="quant-label">MU营收 vs 预期超出</div>
+      </div>
+      <div class="quant-card">
+        <div class="quant-val">103</div>
+        <div class="quant-label">KOL新推文 (今日)</div>
+      </div>
+      <div class="quant-card">
+        <div class="quant-val up">117</div>
+        <div class="quant-label">算力概念A股热度 (第一)</div>
+      </div>
+      <div class="quant-card">
+        <div class="quant-val down">-12.6%</div>
+        <div class="quant-label">DRAM ETF (韩股)</div>
+      </div>
+      <div class="quant-card">
+        <div class="quant-val up">+10%</div>
+        <div class="quant-label">康宁 (GLW) 单日涨幅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME HEATMAP -->
+  <div class="mb-24">
+    <div class="section-title">板块热度雷达 · 8大主题</div>
+    <div class="theme-grid">
+      <div class="theme-card hot">
+        <div class="theme-name">先进封装 / CoWoS</div>
+        <div class="theme-score">92</div>
+        <div class="theme-tag">全球+中国双共振</div>
+        <div class="theme-delta up">↑ 强劲升温 · 大摩2027产能报告触发</div>
+      </div>
+      <div class="theme-card hot">
+        <div class="theme-name">机器人 / 具身智能</div>
+        <div class="theme-score">85</div>
+        <div class="theme-tag">超强多 · Unitree深度报告</div>
+        <div class="theme-delta up">↑ 持续升温 · 中国叙事主导</div>
+      </div>
+      <div class="theme-card hot">
+        <div class="theme-name">AI算力 / 数据中心</div>
+        <div class="theme-score">78</div>
+        <div class="theme-tag">A股热度第一 · underbuilding共识</div>
+        <div class="theme-delta up">↑ 强多 · Lambda/CoreWeave数据强化</div>
+      </div>
+      <div class="theme-card warm">
+        <div class="theme-name">大模型 / AI应用</div>
+        <div class="theme-score">80</div>
+        <div class="theme-tag">强多 · 中美AI竞争升温</div>
+        <div class="theme-delta up">↑ 升温 · Anthropic-Qwen蒸馏指控</div>
+      </div>
+      <div class="theme-card warm">
+        <div class="theme-name">光通信 / 光模块</div>
+        <div class="theme-score">72</div>
+        <div class="theme-tag">A股独热 · 康宁+10%溢出</div>
+        <div class="theme-delta up">↑ 升温 · NVIDIA供应链扩展</div>
+      </div>
+      <div class="theme-card neutral">
+        <div class="theme-name">半导体设备 / 材料</div>
+        <div class="theme-score">60</div>
+        <div class="theme-tag">中性偏多 · 静候需求传导</div>
+        <div class="theme-delta" style="color:var(--muted)">→ 平温 · 无突发催化</div>
+      </div>
+      <div class="theme-card neutral">
+        <div class="theme-name">消费电子</div>
+        <div class="theme-score">52</div>
+        <div class="theme-tag">中性 · 无独立催化</div>
+        <div class="theme-delta" style="color:var(--muted)">→ 平温 · AI手机端待观察</div>
+      </div>
+      <div class="theme-card cool">
+        <div class="theme-name">存储 / HBM</div>
+        <div class="theme-score">45</div>
+        <div class="theme-tag">短空长多 · 韩股熔断</div>
+        <div class="theme-delta down">↓ 短冷 · 但MU财报确认中期多</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-24">
+
+    <!-- KEY EVENT TIMELINE -->
+    <div class="card">
+      <h3>关键事件时间线</h3>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-time">美股盘后 (前日)</div>
+          <div class="tl-title">美光财报重大超预期</div>
+          <div class="tl-body">Revenue $41.46B vs 预期$35.8B (+15.8%)；EPS $25.11 vs $20.78；Q4指引$49-51B远超预期$43B。SCA长协承诺$100B作为下限，预计"远高于此"。AI存储需求被定性为结构性转变。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot orange"></div>
+          <div class="tl-time">研究报告发布 (近日)</div>
+          <div class="tl-title">大摩 CoWoS 2027产能分配报告</div>
+          <div class="tl-body">AMD增幅最大，其次Marvell、联发科、GUC。台积电先进封装成为整个AI产业链最稀缺的物理资源，价格壁垒确立。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-time">亚洲盘 (今日)</div>
+          <div class="tl-title">韩国股市存储板块熔断</div>
+          <div class="tl-body">三星 -9%，SK Hynix -12%；DRAM ETF -12.6%。背景：SK Hynix 美国上市筹集$290亿引发获利盘恐慌。KOL一致判断为情绪性错杀，中线多逻辑未被破坏。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot yellow"></div>
+          <div class="tl-time">近日</div>
+          <div class="tl-title">Anthropic 指控 Qwen 蒸馏前沿模型</div>
+          <div class="tl-body">称阿里旗下Qwen通过2800万次交互蒸馏，中美AI技术博弈话题再次升温。可能引发监管与估值层面的双向影响。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot green"></div>
+          <div class="tl-time">近日</div>
+          <div class="tl-title">NBIS & CRWV 纳入纳斯达克100</div>
+          <div class="tl-body">AI基础设施公司进入主流指数，被动资金强制建仓，Neocloud板块获机构背书。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot green"></div>
+          <div class="tl-time">近日</div>
+          <div class="tl-title">NVIDIA 注资 Nebius $20亿</div>
+          <div class="tl-body">继续构建AI算力生态护城河。康宁(GLW)同日+10%，玻璃基板/光纤供应链获溢出资金关注。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot orange"></div>
+          <div class="tl-time">近日</div>
+          <div class="tl-title">Unitree 人形机器人深度报告</div>
+          <div class="tl-body">SemiAnalysis 发布：中国Scaling Law + 地缘政治 + 人形机器人in the wild三条叙事融合，机器人赛道热度达85/100。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL LIST -->
+    <div class="card">
+      <h3>多空信号汇总</h3>
+      <div class="signal-list">
+        <div class="signal-item bull">
+          <div class="signal-icon">📈</div>
+          <div>
+            <div class="signal-text"><strong>AI存储需求"结构性转变"获季报级确认</strong>——MU SCA长协$100B+，不再是短周期修复，而是多年合同。</div>
+            <div class="signal-source">来源：美光Q3财报 + KOL @xiaomustock @degentradingLSD</div>
+          </div>
+        </div>
+        <div class="signal-item bull">
+          <div class="signal-icon">📈</div>
+          <div>
+            <div class="signal-text"><strong>CoWoS产能成为AI算力瓶颈的核心叙事被机构报告背书</strong>——大摩2027分配报告等于给市场画出了"稀缺性路线图"。</div>
+            <div class="signal-source">来源：摩根士丹利研究报告 + @xingpt</div>
+          </div>
+        </div>
+        <div class="signal-item bull">
+          <div class="signal-icon">📈</div>
+          <div>
+            <div class="signal-text"><strong>A股算力概念热度117（全市场第一）</strong>——境内资金与全球叙事形成共振，不存在认知差，说明信息已充分传导。</div>
+            <div class="signal-source">来源：东财热门关键词 09:00</div>
+          </div>
+        </div>
+        <div class="signal-item bull">
+          <div class="signal-icon">🤖</div>
+          <div>
+            <div class="signal-text"><strong>机器人叙事从"炒预期"到"in the wild实证"</strong>——Unitree实物机器人运行视频+SemiAnalysis深度报告，叙事质量升级。</div>
+            <div class="signal-source">来源：SemiAnalysis + @xingpt</div>
+          </div>
+        </div>
+        <div class="signal-item bear">
+          <div class="signal-icon">📉</div>
+          <div>
+            <div class="signal-text"><strong>韩国存储股单日熔断 -9~12%</strong>——短期情绪冲击，但KOL共识是"情绪性错杀 = 买点"。A股DRAM链反向涨停，境内外出现结构性分叉。</div>
+            <div class="signal-source">来源：韩股盘面 + @firstadopter @degentradingLSD</div>
+          </div>
+        </div>
+        <div class="signal-item bear">
+          <div class="signal-icon">⚠️</div>
+          <div>
+            <div class="signal-text"><strong>Rubin Ultra HBM从16Hi降级到12Hi</strong>——NVIDIA成本优化动作，对HBM供应商单位价值是微弱负信号。但出货量可能补偿。</div>
+            <div class="signal-source">来源：KOL @degentradingLSD</div>
+          </div>
+        </div>
+        <div class="signal-item watch">
+          <div class="signal-icon">🔍</div>
+          <div>
+            <div class="signal-text"><strong>Anthropic vs Qwen蒸馏指控</strong>——若演变为监管行动或出口管制，将影响中国AI公司的技术获取通道。目前处于"观察"阶段。</div>
+            <div class="signal-source">来源：X多位KOL转发</div>
+          </div>
+        </div>
+        <div class="signal-item info">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-text"><strong>Nancy Pelosi 买入 INTC March 2027 call</strong>——传统"政治智慧资金"布局英特尔，暗示可能有芯片制造政策性支持预期。UBER同步买入（AI应用消费端）。</div>
+            <div class="signal-source">来源：公开持仓披露 + KOL @xiaomustock</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAUSALITY CHAIN -->
+  <div class="mb-24">
+    <div class="section-title">传导链推演 · 核心逻辑闭环</div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>链路 A · MU财报 → AI先进封装需求闭环</h3>
+        <div class="chain">
+          <div class="chain-step">
+            <div class="chain-num">1</div>
+            <div class="chain-body">
+              <div class="chain-title">美光 AI 存储需求确认</div>
+              <div class="chain-desc">SCA长协 $100B 下限 + Q4指引 $49-51B，HBM/AI存储不是短周期，是3-5年合同级需求。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">2</div>
+            <div class="chain-body">
+              <div class="chain-title">HBM 需求 → CoWoS/先进封装需求</div>
+              <div class="chain-desc">HBM芯片必须通过CoWoS/SoIC封装集成进GPU，存储需求每增加一单位，封装需求同步增加。台积电先进封装成为稀缺物理约束。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">3</div>
+            <div class="chain-body">
+              <div class="chain-title">大摩2027产能报告 → AMD受益最大</div>
+              <div class="chain-desc">AMD在2027 CoWoS产能分配中增幅最大，意味着AMD GPU出货量将显著提速，与NVIDIA竞争格局改变。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">4</div>
+            <div class="chain-body">
+              <div class="chain-title">AMD 产能扩张 → 中国代工厂受益</div>
+              <div class="chain-desc">AMD先进封装代工厂（中国大陆）获得直接订单传导。这是跨越地缘政治边界的"技术必需性"需求。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">5</div>
+            <div class="chain-body">
+              <div class="chain-title">A 股先进封装板块情绪共振</div>
+              <div class="chain-desc">长电科技+9.9%、太极实业+10%、华天科技+3.1%。境内资金完成信息接收并快速定价。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>链路 B · 韩股熔断 → 境内外信号分叉</h3>
+        <div class="chain">
+          <div class="chain-step">
+            <div class="chain-num">1</div>
+            <div class="chain-body">
+              <div class="chain-title">SK Hynix 宣布美国上市筹集 $290亿</div>
+              <div class="chain-desc">大规模再融资计划通常引发获利盘抛售——不是因为基本面变差，而是"稀释"预期 + 流动性转移。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">2</div>
+            <div class="chain-body">
+              <div class="chain-title">韩国存储股单日 -9~12%</div>
+              <div class="chain-desc">三星、SK Hynix 同步暴跌，带动 DRAM ETF -12.6%。情绪扩散至整个存储板块。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">3</div>
+            <div class="chain-body">
+              <div class="chain-title">分叉点：A股DRAM链反向涨停</div>
+              <div class="chain-desc">江波龙+8.3%、德明利+6.9%。推演：境内投资者将韩股下跌解读为"竞争对手削弱 + 国产替代机会"，与境外资金理解方向相反。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">4</div>
+            <div class="chain-body">
+              <div class="chain-title">KOL 共识：短空长多，等待买点</div>
+              <div class="chain-desc">全球KOL一致认为基本面（MU财报）未被破坏，韩股跌是情绪性错杀。中期逻辑：AI应用→算力→存储需求三角形完整。</div>
+            </div>
+          </div>
+          <div class="chain-step">
+            <div class="chain-num">5</div>
+            <div class="chain-body">
+              <div class="chain-title">结论推演</div>
+              <div class="chain-desc">韩股存储熔断可能在未来1-2周内出现技术性反弹，而全球 HBM 需求曲线向上未变。两个市场最终将重新收敛。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVERGENCE ANALYSIS -->
+  <div class="mb-24">
+    <div class="card">
+      <h3>全球 vs A股 信号分叉矩阵</h3>
+      <table class="div-table">
+        <tr>
+          <th>主题</th>
+          <th>全球 (X KOL) 信号</th>
+          <th>A股/港股 信号</th>
+          <th>分叉类型</th>
+          <th>推演结论</th>
+        </tr>
+        <tr>
+          <td><strong>先进封装</strong></td>
+          <td>大摩报告 + MU财报双重背书，稀缺性叙事强烈</td>
+          <td>长电/太极涨停，热度共振，快速定价</td>
+          <td><span class="tag tag-green">完全共振</span></td>
+          <td>全球信息已充分传导至A股，无套利空间，但趋势延续性强</td>
+        </tr>
+        <tr>
+          <td><strong>AI算力</strong></td>
+          <td>underbuilding共识，Blackwell算力密度数据，Neocloud扩张</td>
+          <td>热度第一（117），算力概念强势</td>
+          <td><span class="tag tag-green">完全共振</span></td>
+          <td>共识成熟，短期情绪已充分，需等待基本面数据支撑下一波</td>
+        </tr>
+        <tr>
+          <td><strong>存储 / HBM</strong></td>
+          <td>韩股熔断 -12%，KOL视为买点</td>
+          <td>A股DRAM链涨停 +8%（反向）</td>
+          <td><span class="tag tag-yellow">方向分叉</span></td>
+          <td>两个市场对同一事件解读相反：境外是"恐慌"，境内是"机会"。分叉终将收敛，但方向需持续观察</td>
+        </tr>
+        <tr>
+          <td><strong>光通信</strong></td>
+          <td>康宁+10%（NVIDIA生态），玻璃基板话题有热度</td>
+          <td>新易盛/中际旭创37k+雪球讨论量持续高温</td>
+          <td><span class="tag tag-blue">A股领先</span></td>
+          <td>A股光模块已先于全球信号定价，可能反映更强的在地信息优势或过度追涨</td>
+        </tr>
+        <tr>
+          <td><strong>机器人</strong></td>
+          <td>Unitree报告，"中国机器人in the wild"，SemiAnalysis背书</td>
+          <td>罗博特科27k雪球讨论，机器人概念持续热</td>
+          <td><span class="tag tag-green">完全共振</span></td>
+          <td>中国机器人叙事已被全球顶级研究机构认可，具备持续性而非炒概念</td>
+        </tr>
+        <tr>
+          <td><strong>中国 AI</strong></td>
+          <td>Anthropic指控Qwen蒸馏，中美AI博弈升温</td>
+          <td>寒武纪42k雪球，AI叙事持续</td>
+          <td><span class="tag tag-orange">情绪对立</span></td>
+          <td>境外负面叙事（监管风险）vs 境内正面情绪（自主可控），短期可能出现估值震荡</td>
+        </tr>
+        <tr>
+          <td><strong>英特尔 / 传统半导体</strong></td>
+          <td>Pelosi买入INTC call，政策性支持预期</td>
+          <td>无相关热度</td>
+          <td><span class="tag tag-purple">境外独有</span></td>
+          <td>政策资金布局信号通常领先市场6-12个月，美国半导体制造政策性支持可能成为未来叙事</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- IMPLICATION MATRIX -->
+  <div class="mb-24">
+    <div class="section-title">数据推演 · 结构性含义</div>
+    <div class="matrix">
+      <div class="matrix-cell confirmed">
+        <h4>✅ 已确认 · 结构性多头逻辑</h4>
+        <ul>
+          <li>AI 存储需求从短周期转为长合同，MU SCA 协议确认</li>
+          <li>CoWoS 先进封装成为 AI 产业链的物理瓶颈，稀缺性确立</li>
+          <li>机器人从实验室到实地运行，叙事质量从"预期"升级为"实证"</li>
+          <li>纳指100 AI 权重集中化趋势加速，NBIS/CRWV纳入</li>
+          <li>算力 underbuilding 在 Lambda/CoreWeave 数据中获实证</li>
+        </ul>
+      </div>
+      <div class="matrix-cell diverge">
+        <h4>⚠️ 需跟踪 · 信号分歧点</h4>
+        <ul>
+          <li>存储：HBM需求强 vs SKH美上市引发的短期供给侧恐慌</li>
+          <li>HBM规格：Rubin Ultra 降级12Hi节省成本，但出货量补偿不确定</li>
+          <li>中国AI：Qwen蒸馏指控若演变为监管，技术获取通道受限</li>
+          <li>A股 vs 全球存储分叉：两个市场解读相反，分叉不可持续</li>
+          <li>光通信A股领先全球：是信息优势还是情绪过热？</li>
+        </ul>
+      </div>
+      <div class="matrix-cell structural">
+        <h4>🔮 深层推演 · 结构性变化</h4>
+        <ul>
+          <li>台积电先进封装定价权强化——不只是代工，是系统集成核心</li>
+          <li>AMD CoWoS分配增幅最大，GPU市场双寡头格局确立加速</li>
+          <li>中国封装厂通过"技术必需性"绕过地缘限制获AMD订单</li>
+          <li>Pelosi INTC布局：美国制造回流叙事可能重燃（6-12个月视野）</li>
+          <li>算力不是商品（Lambda CTO）——定价权在卖方，毛利将持续扩张</li>
+        </ul>
+      </div>
+      <div class="matrix-cell watch">
+        <h4>📌 关键变量 · 未来48小时</h4>
+        <ul>
+          <li>MU 美股盘前涨幅能否延续——决定全球存储情绪能否修复</li>
+          <li>韩股三星/SKH 是否出现反弹——决定"错杀买点"判断是否正确</li>
+          <li>A股先进封装板块能否连续性——长电/太极能否再次涨停</li>
+          <li>Anthropic-Qwen 事件有无官方回应——决定中美AI博弈烈度</li>
+          <li>算力概念 A股热度117能否维持或突破——决定短期情绪持续性</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO ANALYSIS -->
+  <div class="mb-24">
+    <div class="grid-2">
+      <div class="card">
+        <h3>情景推演 · 三种市场走向</h3>
+        <div class="scenario">
+          <div class="scenario-item">
+            <div class="scenario-header">
+              <div class="scenario-title">情景 A · AI算力共识继续强化</div>
+              <div class="prob-badge prob-high">概率 50%</div>
+            </div>
+            <div class="scenario-body">MU财报超预期的信息被充分消化后，市场注意力转向AMD/NVIDIA Q2业绩预告。CoWoS稀缺性叙事持续，先进封装板块维持高热度。存储端韩股恐慌消退，A股与全球信号重新收敛。</div>
+            <div class="scenario-trigger">触发信号：MU盘前+5%以上 / AMD正面表述 / 韩股反弹确认</div>
+          </div>
+          <div class="scenario-item">
+            <div class="scenario-header">
+              <div class="scenario-title">情景 B · 情绪高位震荡，等待基本面兑现</div>
+              <div class="prob-badge prob-mid">概率 35%</div>
+            </div>
+            <div class="scenario-body">算力热度维持但进入消化期，A股先进封装前期涨幅需要时间整固。存储分叉持续存在，资金在多个子板块间轮动（光通信→机器人→算力循环）。缺乏新的量级催化剂。</div>
+            <div class="scenario-trigger">触发信号：MU涨幅低于预期 / A股先进封装高开低走 / 成交量萎缩</div>
+          </div>
+          <div class="scenario-item">
+            <div class="scenario-header">
+              <div class="scenario-title">情景 C · 中美AI博弈引发情绪冲击</div>
+              <div class="prob-badge prob-low">概率 15%</div>
+            </div>
+            <div class="scenario-body">Anthropic-Qwen指控升级为正式监管或出口管制扩大，中国AI公司估值受压。叠加韩股存储跌势蔓延，短期风险偏好下降，A股算力概念热度急速回落。</div>
+            <div class="scenario-trigger">触发信号：监管官方声明 / 新增出口管制清单 / 韩股继续熔断</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>衍生推论 · 数据未直接说出的话</h3>
+        <div class="highlight-box">
+          <div class="hl-title">推论 1 · 台积电是本轮AI周期的核心定价者</div>
+          CoWoS产能被大摩量化为"2027年最稀缺物理资源"，这意味着台积电对先进封装的定价权将进一步集中。历史上，半导体周期的超额利润最终沉淀在具有物理瓶颈的环节。
+        </div>
+        <div class="highlight-box">
+          <div class="hl-title">推论 2 · A股先进封装可能透支了部分预期</div>
+          算力热度117+封装板块多支涨停，说明境内资金已充分消化全球信息。短期情绪宣泄后，需要基本面订单数据（Q2业绩预告）支撑下一波行情。
+        </div>
+        <div class="highlight-box">
+          <div class="hl-title">推论 3 · 机器人叙事质量跃升是最被低估的信号</div>
+          从"工厂焊接机器人"到"Unitree in the wild"，叙事层次提升意味着TAM（总可寻址市场）被重新定义。这类叙事质量变化在早期往往被低估。
+        </div>
+        <div class="highlight-box">
+          <div class="hl-title">推论 4 · 存储板块出现跨市场套利机会窗口</div>
+          韩股-12% vs A股DRAM+8%，同一产业链两个市场定价严重分叉，历史上此类极端分叉通常在2-4周内收敛。方向取决于哪个市场的解读框架更接近真实需求。
+        </div>
+        <div class="highlight-box">
+          <div class="hl-title">推论 5 · INTC Pelosi布局 = 美国半导体制造政策预热信号</div>
+          Pelosi的call购买有明确的时间戳（2027年3月），与可能的政策周期高度吻合。这是一个6-12个月视野的前瞻信号，当前市场未充分讨论。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA SOURCES SUMMARY -->
+  <div class="mb-24">
+    <div class="section-title">数据源质量评估</div>
+    <div class="grid-3">
+      <div class="card">
+        <h3>X / Twitter KOL · 103条推文</h3>
+        <div class="signal-list">
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>高价值</strong>：机构报告第一手解读（大摩CoWoS、MU财报）、实时盘面数据（韩股熔断百分比）</div>
+            </div>
+          </div>
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>信息差来源</strong>：全球KOL与A股投资者认知分叉（存储熔断解读）、政治资金动向（Pelosi）</div>
+            </div>
+          </div>
+          <div class="signal-item watch">
+            <div class="signal-icon">!</div>
+            <div>
+              <div class="signal-text"><strong>需甄别</strong>：存在观点偏多的选择性偏差；大V之间存在回声室效应</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>东财热榜 · 人气榜 · 千股千评</h3>
+        <div class="signal-list">
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>高价值</strong>：算力热度117代表境内散户资金的实时关注焦点，资金流向的领先指标</div>
+            </div>
+          </div>
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>千股千评分</strong>：量化情绪与机构参与度双维度，是A股专属的微观信号</div>
+            </div>
+          </div>
+          <div class="signal-item watch">
+            <div class="signal-icon">!</div>
+            <div>
+              <div class="signal-text"><strong>滞后性</strong>：热度榜通常反映昨日信息，不具备预测性；涨停后热度更高（倒果为因）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>雪球讨论量 · AI行业评分库</h3>
+        <div class="signal-list">
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>高价值</strong>：雪球以机构投资者和高净值群体为主，讨论质量高于东财；AI评分库提供跨时间可比基准</div>
+            </div>
+          </div>
+          <div class="signal-item info">
+            <div class="signal-icon">✓</div>
+            <div>
+              <div class="signal-text"><strong>机器人热度85/100</strong>：评分体系的历史最高段位之一，非常规信号</div>
+            </div>
+          </div>
+          <div class="signal-item watch">
+            <div class="signal-icon">!</div>
+            <div>
+              <div class="signal-text"><strong>覆盖范围</strong>：讨论量集中在主流大票（茅台/比亚迪），中小市值覆盖不充分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footnote">
+  市场情报推演报告 · 2026-06-25 · 数据来源：X/Twitter KOL × 103条 | 东财热榜 | 雪球讨论 | AI产业评分库<br>
+  本报告为数据驱动的推演分析，不构成投资建议。所有结论均为基于公开信息的推理，不代表任何机构观点。
+</div>
+
+</body>
+</html>

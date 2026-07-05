@@ -1,0 +1,146 @@
+{
+  "as_of": "2026-06-29T15:30:00+08",
+  "data_date": "2026-06-29",
+  "sentiment_index": 52,
+  "sentiment_label": "中性偏谨慎",
+  "dominant_narrative": "韩股熔断冲击存储链、费半暴跌5.3%引发全球芯片估值重定价，A股医药防御轮动与半导体资金逆势流入形成内部分化，市场等待MU财报确认AI需求成色",
+  "key_numbers": [
+    {"label": "费城半导体单日跌幅", "value": "-5.29%", "vs_expect": "上周五(6/26)收盘"},
+    {"label": "A股半导体资金净流入", "value": "128.63亿", "rank": "全行业第1"},
+    {"label": "涨停/跌停比", "value": "107/89", "note": "涨停107家 vs 跌停89家"},
+    {"label": "VIX波动率", "value": "20.19", "note": "中性偏高区间"},
+    {"label": "上综/深成/创业板", "value": "+1.16%/+0.19%/+0.54%", "note": "A股温和反弹"},
+    {"label": "化学制药涨停家数", "value": "13", "note": "全行业最多"}
+  ],
+  "heat_map": [
+    {"name": "医药生物/创新药", "score": 88, "trend": "强劲升温", "signal": "生物制品+7.43%行业涨幅第一，化学制药13家涨停，资金净流入58.56亿"},
+    {"name": "半导体/先进封装", "score": 72, "trend": "内热外冷", "signal": "净流入128.63亿全行业第一，7家涨停；但费半上周五-5.29%，形成内外分叉"},
+    {"name": "AI算力/数据中心", "score": 65, "trend": "承压待消化", "signal": "KOL共识underbuilding叙事未破，但费半暴跌+存储链恐慌短期压制"},
+    {"name": "存储/HBM", "score": 40, "trend": "短期急冷", "signal": "韩股熔断DRAM ETF -12.6%+MU盘前-11.8%，KOL视为恐慌性买点分歧巨大"},
+    {"name": "中药/消费医疗", "score": 68, "trend": "升温", "signal": "中药+3.70%，医疗器械+3.52%，防御轮动逻辑明显"},
+    {"name": "白酒/消费", "score": 62, "trend": "回暖", "signal": "东财白酒热度10822全概念第一，茅台雪球关注366万"},
+    {"name": "新能源车/电池", "score": 58, "trend": "平温", "signal": "电池净流入28.70亿，比亚迪雪球热度10万居首"},
+    {"name": "机器人/具身智能", "score": 55, "trend": "持续发酵", "signal": "Unitree IPO+美国GUARD法案争议+SemiAnalysis深度报告持续催化"},
+    {"name": "消费电子", "score": 28, "trend": "降温", "signal": "-3.12%行业倒数第三，无独立催化，被存储链拖累"},
+    {"name": "通信设备/光模块", "score": 32, "trend": "降温", "signal": "-3.03%行业跌幅，NV降价小作文被KOL辟谣但情绪已受损"}
+  ],
+  "signal_list": [
+    {"direction": "bull", "content": "A股半导体逆势吸金128.63亿，全行业第一，境内资金逢低布局意图明确", "source": "行业板块资金流 + 7家涨停", "strength": "强"},
+    {"direction": "bull", "content": "医药生物板块全面爆发：生物制品+7.43%+化学制药13家涨停+创新药概念共振", "source": "行业涨跌+涨停分布", "strength": "强"},
+    {"direction": "bull", "content": "Oracle部署50,000 AMD MI450 GPU，AMD替代NVIDIA叙事获得实质进展", "source": "KOL @tengyanAI", "strength": "中"},
+    {"direction": "bull", "content": "阿里平头哥注册资本从3亿增至10亿(>3x)，中国芯片自主加速", "source": "KOL @SemiAnalysis_", "strength": "中"},
+    {"direction": "bear", "content": "费城半导体指数上周五暴跌-5.29%，全球芯片估值重定价进行中", "source": "美股行情 + 跨市场数据", "strength": "强"},
+    {"direction": "bear", "content": "韩国KOSPI触发熔断，DRAM ETF单日-12.6%，SK Hynix -12.35%，Samsung -9.6%", "source": "KOL @aleabitoreddit + @LordWilliamUK + @degentradingLSD", "strength": "强"},
+    {"direction": "bear", "content": "MU盘前-11.8%，存储板块恐慌蔓延至美股全半导体链", "source": "KOL @aleabitoreddit 盘点", "strength": "中"},
+    {"direction": "bear", "content": "对冲基金布伦特原油净空头达$180亿(10年新高)，大宗商品需求悲观信号", "source": "KOL @KobeissiLetter", "strength": "中"},
+    {"direction": "watch", "content": "美联储加息预期升温：BofA/彭博推3次加息叙事，沃什暗示通胀衡量方法可改", "source": "KOL @TJ_Research + @aleaborteddit", "strength": "中"},
+    {"direction": "watch", "content": "MU Q3财报窗口(6/25盘后) — 存储需求'结构性转变'是否获季报级确认", "source": "KOL consensus (@tengyanAI/@xiaomustock/@degentradingLSD)", "strength": "高"},
+    {"direction": "info", "content": "智谱GLM-5.2能力追近Opus 4.8，价格仅1/6，中国开源模型竞争力持续提升", "source": "KOL @bitfool1 + @swyx", "strength": "中"},
+    {"direction": "info", "content": "特朗普签署量子优势行政令，IBM获公开称赞，量子计算政策周期启动", "source": "KOL @LordWilliamUK + @blockspace", "strength": "弱"}
+  ],
+  "divergence_matrix": [
+    {
+      "theme": "存储/HBM产业链",
+      "global_signal": "韩股熔断DRAM -12.6% + 费半-5.29% + MU盘前-11.8%，全球恐慌性抛售",
+      "cn_signal": "A股半导体净流入128.63亿全行业第一+7家涨停，境内资金逆势做多",
+      "type": "方向分叉",
+      "inference": "同一产业链两个市场定价严重对立。KOL @aleaborteddit/@xiaomustock视暴跌为买点，KOL @degentradingLSD认为反弹将被压制等MU财报。历史上此类极端分叉通常在2-4周内收敛，收敛方向取决于MU财报+后续AI需求数据。"
+    },
+    {
+      "theme": "医药生物/防御轮动",
+      "global_signal": "美股无明显医药催化，全球资金聚焦AI芯片估值消化",
+      "cn_signal": "生物制品+7.43%+化学制药13家涨停+医疗服务+6.11%，A股医药全面爆发",
+      "type": "A股领先",
+      "inference": "A股医药行情独立于全球信号，疑似防御性轮动+创新药政策预期+低估值修复三重驱动。是否为持续性主线还是短期避险轮动，需观察后续资金持续性。"
+    },
+    {
+      "theme": "AI算力/数据中心长期叙事",
+      "global_signal": "KOL consensus: underbuilding共识未破，Lambda/Nebius/CoreWeave持续扩张，Oracle部署5万AMD GPU",
+      "cn_signal": "A股算力概念(PCB/半导体/华为)保持热度但未创新高，涨停集中在半导体制造端",
+      "type": "完全共振(底层逻辑)",
+      "inference": "全球AI基础设施建设的长期叙事未被颠覆，短期费半暴跌是估值消化而非叙事破产。A股半导体资金逆势流入佐证这一判断。"
+    },
+    {
+      "theme": "机器人/具身智能",
+      "global_signal": "Unitree被美国列为军事公司+GUARD法案推进+SemiAnalysis深度覆盖+Lambda 3D-Belief研究",
+      "cn_signal": "通用设备6家涨停，但无独立的机器人概念大面积涨停",
+      "type": "境外独有",
+      "inference": "全球机器人叙事持续升温(Unitree IPO+SemiAnalysis专题)，但A股机器人概念尚未形成独立板块效应，仍散布在通用设备/自动化子板块中。"
+    },
+    {
+      "theme": "中国AI大模型竞争力",
+      "global_signal": "GLM-5.2对标Opus 4.8(价格1/6)，港股智谱vs Minimax走势分化，swyx称'world's undisputed top open model'",
+      "cn_signal": "雪球寒武纪热度32010，但大模型概念未进入东财热榜前10",
+      "type": "情绪对立(局部)",
+      "inference": "KOL圈对中国开源模型评价极高，但A股散户/游资情绪尚未完全定价这一变化。智谱IPO(Zai, HK$120)后的市场表现将成为风向标。"
+    }
+  ],
+  "transmission_chain": [
+    {
+      "chain_name": "韩国税改恐慌 -> 韩股熔断 -> 全球存储链重定价 -> A股半导体分叉",
+      "steps": [
+        {"num": 1, "title": "韩国税改论坛触发恐慌", "desc": "6月23日上午，韩国多党派联合参与税制改革论坛，主张所得税综合主义转型。市场担忧资本利得税改革冲击高杠杆的韩股市场。"},
+        {"num": 2, "title": "KOSPI触发熔断 -> 存储双雄暴跌", "desc": "韩国股市高杠杆结构放大恐慌，三星电子-9.6%、SK Hynix -12.35%。DRAM ETF单日-12.6%。KOL @LordWilliamUK 称之为韩国小作文引发的踩踏。"},
+        {"num": 3, "title": "恐慌传导至美股半导体链", "desc": "费城半导体指数-5.29%，MU -11.8%, MRVL -8.3%, NVDA -1.64%。KOL @aleaborteddit 盘点SOXL -22.98%, KORU -32.06%。恐慌从存储扩散至全半导体链。"},
+        {"num": 4, "title": "加息叙事叠加放大恐慌", "desc": "BofA/彭博推3次加息叙事，KOL @TJ_Research 推测最早9月加息。KOL @aleaborteddit 质疑BS narratives off no newly material macroeconomic data。"},
+        {"num": 5, "title": "A股出现方向分叉", "desc": "A股半导体逆势净流入128.63亿全行业第一+7家涨停 vs 费半-5.29%。境内资金将全球恐慌视为布局窗口，分叉等待MU财报后收敛。"}
+      ]
+    },
+    {
+      "chain_name": "AI建设叙事 -> AMD替代NV叙事加速 -> Oracle部署 -> 中国代工链受益",
+      "steps": [
+        {"num": 1, "title": "AI基础设施underbuilding共识稳固", "desc": "KOL @LambdaAPI CTO称Compute was never a commodity + were still underbuilding。Nebius 80MW以色列+CoreWeave Rubin NVL72展示。"},
+        {"num": 2, "title": "AMD替代叙事获得实质里程碑", "desc": "Oracle部署50,000 AMD MI450 GPU(Q3 2026启动)。KOL @tengyanAI: AMD's NVIDIA alternative story is getting more concrete。AMD在Top500中191套系统。"},
+        {"num": 3, "title": "AMD产能扩张 -> 封测代工需求增加", "desc": "AMD先进封装需求将随GPU出货量提升而增加。阿里平头哥注册资本从3亿增至10亿(>3x)，中国芯片设计/制造生态加速。"},
+        {"num": 4, "title": "A股半导体制造端持续受益", "desc": "半导体净流入128.63亿+7家涨停。虽然消费电子-3.12%/通信设备-3.03%被存储链拖累，但制造端资金韧性显示长期逻辑未被动摇。"}
+      ]
+    }
+  ],
+  "catalyst_calendar": [
+    {"date": "2026-06-25", "event": "美光(MU) Q3 FY2026财报 (盘后)", "impact": "high", "source": "KOL consensus + @tengyanAI预览"},
+    {"date": "2026-06-26", "event": "美国PCE通胀数据公布", "impact": "high", "source": "KOL @xingpt + 加息叙事背景"},
+    {"date": "2026-06-29", "event": "YC Startup School Paris", "impact": "low", "source": "@garrytan"},
+    {"date": "2026-06-30", "event": "CoreWeave on theCUBE (Rubin NVL72展示)", "impact": "medium", "source": "@CoreWeave"},
+    {"date": "2026-07初", "event": "NVIDIA Q2业绩预告窗口", "impact": "high", "source": "KOL consensus"},
+    {"date": "2026-07-01", "event": "日本氦气涨价30%+ (半导体材料成本)", "impact": "medium", "source": "@tengyanAI + DigiTimes"},
+    {"date": "2026-07-10", "event": "OpenAI DevDay 2026 申请截止", "impact": "low", "source": "@OpenAI"},
+    {"date": "2026-08-01~02", "event": "Agentic AI Summit @ UC Berkeley (Lambda白金赞助)", "impact": "medium", "source": "@LambdaAPI"},
+    {"date": "2026-09-29", "event": "OpenAI DevDay 2026 (旧金山)", "impact": "medium", "source": "@OpenAI"}
+  ],
+  "scenarios": [
+    {
+      "name": "情景A · MU财报确认AI存储需求，分叉收敛于多方",
+      "probability": "40%",
+      "body": "MU Q3财报AI存储收入超预期+Q4指引强劲，验证结构性转变叙事。韩股恐慌消退反弹，费半修复。A股半导体资金持续流入，先进封装/存储链共振上行。医药轮动降温，资金回流科技主线。",
+      "trigger": "MU盘后+5%以上 / Q4指引>$49B / HBM相关收入表述积极 / 韩股次日反弹确认"
+    },
+    {
+      "name": "情景B · 分叉持续，市场进入震荡消化期",
+      "probability": "40%",
+      "body": "MU财报好坏参半(存储ASP压力vs AI需求增长)，市场无法形成一致方向。A股半导体与全球存储链分叉持续2-4周。医药防御+半导体制造双主线轮动。等待7月NVDA业绩预告提供下一催化剂。",
+      "trigger": "MU财报符合预期无惊喜 / 韩股横盘不反弹 / A股半导体高开低走 / 成交量萎缩"
+    },
+    {
+      "name": "情景C · 恐慌升级，加息+存储双杀",
+      "probability": "20%",
+      "body": "MU财报miss+PCE超预期强化加息叙事，韩股继续下探。费半跌破关键支撑，全球AI估值重定价从存储扩散至全链。A股半导体虽韧性较强但难以独善其身，医药防御成唯一避风港。",
+      "trigger": "MU财报miss / PCE超预期 / 韩股继续熔断 / VIX突破25 / 美10Y突破4.5%"
+    }
+  ],
+  "implications": [
+    {"title": "存储链的韩股-A股分叉是当前市场最核心的定价矛盾", "body": "韩股DRAM -12.6% vs A股半导体+128.63亿净流入，同一产业链上两个市场的定价逻辑完全相反。这不是谁对谁错的问题，而是两个市场在交易不同的时间维度——韩股在price in短期税改恐慌+高杠杆踩踏，A股在price in AI存储中长期需求。MU财报是收敛的催化剂。推断：分叉大概率在2周内开始收敛。"},
+    {"title": "医药生物板块的爆发可能不是简单的防御轮动", "body": "生物制品+7.43%+化学制药13家涨停的力度超出了典型的避险轮动范畴。结合创新药审批加速预期+低估值+港股AI大模型分化(医疗AI应用前景)，医药可能正在形成独立的进攻逻辑。推断：如果医药资金流入持续3天以上，应将其从轮动升级为主线候选。"},
+    {"title": "加息叙事目前是故事而非事实，但故事本身就能驱动市场", "body": "KOL @aleaborteddit 指出3次加息叙事off no newly material macroeconomic data。KOL @TJ_Research 推测最早9月加息但强调AI逻辑线大于加息。关键点：PCE(6/26)是加息叙事的第一个可证伪节点。推断：如果PCE符合预期，加息叙事会快速退潮，芯片反弹会很猛烈。"},
+    {"title": "AMD的NVIDIA替代故事正在从可能变成正在发生", "body": "Oracle 5万MI450部署(Q3 2026)+Top500 191套系统+Steam Machine合作，AMD在多个维度获得实质进展。KOL @tengyanAI 的判断getting more concrete值得重视。推断：AMD生态成熟度仍然是关键制约，但方向已不可逆，2026H2是AMD产业链的关键验证窗口。"},
+    {"title": "中国开源模型的竞争力跃升是2026年最被低估的慢变量", "body": "GLM-5.2对标Opus 4.8(价格1/6)+swyx称worlds undisputed top open model+港股智谱估值重定价。这不是短期交易信号，而是6-12个月的产业结构变化信号。推断：中国AI软件层的估值折价将在2026H2-2027H1逐步收窄。"}
+  ],
+  "data_quality": {
+    "available_market_temp": "available — A股涨跌/涨停/指数完备，指数点位通过web_search降级获取",
+    "available_sector_heat": "available — 行业TOP10/BOTTOM5/FUND_TOP5完整，含涨跌幅+净流入+领涨股",
+    "available_concept_themes": "available — 107只涨停+行业分布+连板分布+东财热门概念+雪球热度完备",
+    "partial_kol_feed": "partial — 直接使用data/v4/custom-feed-x.json(约99h前生成，36 accounts/~292 tweets)。Scraper未完成(19/37)。Feed新鲜度~4天(6/22-24)，涵盖韩股熔断/费半暴跌/KOL reaction/MU财报前预期，核心信号可提取但缺失6/25-29的更新。无催化剂日历数据，日历从feed文本中手工提取",
+    "available_a_share_popularity": "available — 雪球讨论TOP10+关注TOP10+东财15个热门概念热度值",
+    "available_cross_market": "available — 美股指数/科技股/VIX/大宗/汇率/美债，部分通过web_search降级获取",
+    "overall": "partial — 5/6维度可用，kol_feed维度使用~4天前的stale feed但信号仍可提取，缺失近4日KOL更新"
+  }
+}
